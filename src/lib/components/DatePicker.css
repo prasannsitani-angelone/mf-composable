@@ -1,0 +1,17 @@
+.numInputWrapper {
+	pointer-events: none;
+}
+.flatpickr-current-month {
+	font-size: 18px;
+	font-weight: 700;
+}
+.flatpickr-current-month input.cur-year {
+	font-size: 18px;
+	font-weight: 700;
+}
+.flatpickr-calendar {
+	padding: 32px;
+}
+.flatpickr-months {
+	position: relative;
+}
