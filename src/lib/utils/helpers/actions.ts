@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * The return type of an action.
  */
@@ -83,3 +84,4 @@ export const useActions = <Node extends HTMLElement, Arr extends Array<ActionLik
 		}
 	};
 };
+/* eslint-enable @typescript-eslint/no-explicit-any */

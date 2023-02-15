@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { IInputStore } from '$lib/types/IInputStore';
 import { writable } from 'svelte/store';
 
@@ -44,3 +45,4 @@ export function createFieldValidator(...validators: any[]) {
 		action
 	};
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */

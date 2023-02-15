@@ -6,7 +6,6 @@
 	import { page } from '$lib/stores/PageStore.js';
 	import { appStore } from '$lib/stores/SparkStore';
 	import type { LayoutData } from './$types';
-	import { onMount } from 'svelte';
 	import { useFetch } from '$lib/utils/useFetch';
 	import { tokenStore } from '$lib/stores/TokenStore';
 
@@ -19,13 +18,6 @@
 	// Update store with Spark headers
 	appStore.updateStore({ ...data.sparkHeaders });
 	tokenStore.updateStore({ ...data.tokenStore });
-	// onMount(() => {
-	// 	useFetch('https://www.google.com', {
-	// 		headers: {
-	// 			'x-requestid': 'ansk'
-	// 		}
-	// 	});
-	// });
 </script>
 
 <div class="flex-no-wrap flex h-full w-full flex-col bg-gray-100">

@@ -1,6 +1,5 @@
 import type { SparkStore } from '$lib/stores/SparkStore';
 import type { TokenStore } from '$lib/stores/TokenStore';
-import useFetch from '$lib/utils/useFetch';
 import type { LayoutServerLoad } from './$types';
 
 const sparkHeadersList: Array<keyof SparkStore> = [
@@ -44,11 +43,6 @@ export const load = (async ({ request, fetch }) => {
 		userToken: '',
 		guestToken: ''
 	};
-
-	const data = await fetch(
-		'https://support-web-mf-uat.angelbroking.com/api/link?employeeCode=E12345&limit=5&offset=0'
-	);
-	const dummy = data.json();
 
 	if (isGuest === 'true') {
 		tokenStore.guestToken = authToken;
