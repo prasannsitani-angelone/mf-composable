@@ -11,7 +11,10 @@ const config = {
 		adapter: adapter({
 			precompress: true
 		}),
-		alias: { 'lib/': './src/routes/lib/' }
+		paths: {
+			base: '/mutual-funds'
+		},
+		alias: { 'lib/': './src/routes/lib/', 'components/': './src/routes/lib/components' }
 	}
 };
 

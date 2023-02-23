@@ -1,5 +1,7 @@
 import getAuthToken from '$lib/server/getAuthToken';
+import { profileStore } from '$lib/stores/ProfileStore';
 import { tokenStore } from '$lib/stores/TokenStore';
+import { userStore } from '$lib/stores/UserStore';
 import type { WMSCookie } from '$lib/types/IWMSCookie';
 import type { Handle, HandleFetch } from '@sveltejs/kit';
 import { parse } from 'cookie-es';
@@ -30,6 +32,13 @@ export const handle = (async ({ event, resolve }) => {
 
 export const handleFetch = (({ event, request, fetch }) => {
 	// Set Auth token for Server api calls
-	request.headers.set('authToken', event.request.headers.get('authToken') || '');
+	const userType = userStore.userType();
+	const accountType = profileStore.accountType();
+	const authToken = event.request.headers.get('authToken');
+	console.log(authToken);
+	request.headers.set('authorization', `Bearer ${authToken}`);
+	request.headers.set('userType', userType);
+	request.headers.set('accountType', accountType);
+
 	return fetch(request);
 }) satisfies HandleFetch;

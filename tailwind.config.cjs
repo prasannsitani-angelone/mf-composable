@@ -64,6 +64,6 @@ module.exports = {
 				12: '0.12'
 			}
 		}
-	},
-	plugins: []
+	}
+	// plugins: [require("daisyui")]
 };

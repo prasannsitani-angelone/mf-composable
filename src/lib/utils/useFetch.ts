@@ -1,20 +1,31 @@
-import { PUBLIC_SGB_CORE_BASE_URL } from '$env/static/public';
+import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+import { profileStore } from '$lib/stores/ProfileStore';
+import { appStore } from '$lib/stores/SparkStore';
+import { tokenStore } from '$lib/stores/TokenStore';
+import { userStore } from '$lib/stores/UserStore';
+import { v4 as uuidv4 } from 'uuid';
 
 const defaultOptions = {
 	method: 'GET',
 	headers: {
 		accept: 'application/json',
-		'X-Source': 'sovereign-gold-bonds',
-		'x-requestid': 'ansk'
+		'X-Source': 'mutualfunds',
+		'content-type': 'application/json'
 	}
 };
 
-export const useFetch = (url: string, options: RequestInit = {}) => {
-	return fetch(PUBLIC_SGB_CORE_BASE_URL + url, {
+export const useFetch = (url: string, options: RequestInit = {}, fetchServer: any = null) => {
+	const baseFetch = fetchServer || fetch;
+	return baseFetch(PUBLIC_MF_CORE_BASE_URL + url, {
 		...defaultOptions,
 		...options,
 		headers: {
 			...defaultOptions?.headers,
+			'X-Platform': appStore.platform(),
+			'X-Request-Id': uuidv4(),
+			authorization: `Bearer ${tokenStore.activeToken()}`,
+			userType: `${userStore.userType()}`,
+			accountType: `${profileStore.accountType()}`,
 			...options?.headers
 		}
 	});

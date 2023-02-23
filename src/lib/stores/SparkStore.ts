@@ -35,6 +35,9 @@ function Store() {
 				return { ...s, ...newStore };
 			});
 		},
+		platform: () => {
+			return sparkStore.platform.toLowerCase();
+		},
 		isSparkAndroidUser: () => {
 			return sparkStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID;
 		},

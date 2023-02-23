@@ -1,7 +1,9 @@
 import type { SparkStore } from '$lib/stores/SparkStore';
 import type { TokenStore } from '$lib/stores/TokenStore';
 import type { LayoutServerLoad } from './$types';
-
+import { base } from '$app/paths';
+import type { User } from '$lib/types/IUserType';
+import type { UserProfile } from '$lib/types/IUserProfile';
 const sparkHeadersList: Array<keyof SparkStore> = [
 	'platform',
 	'platformversion',
@@ -49,8 +51,27 @@ export const load = (async ({ request, fetch }) => {
 	} else {
 		tokenStore.userToken = authToken;
 	}
+
+	const userData = async () => {
+		const res = await fetch(`${base}/api/user`, {});
+		const user: User = await res.json();
+		return {
+			...user
+		};
+	};
+
+	const profileData = async () => {
+		const res = await fetch(`${base}/api/profile`, {});
+		const resData = await res.json();
+		const { data }: { data: UserProfile } = resData;
+		return {
+			...data
+		};
+	};
 	return {
 		sparkHeaders,
-		tokenStore
+		tokenStore,
+		user: await userData(),
+		profile: await profileData()
 	};
 }) satisfies LayoutServerLoad;
