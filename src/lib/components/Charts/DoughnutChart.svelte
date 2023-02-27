@@ -13,7 +13,7 @@
 	export let chartOptions = {};
 	export let tooltipLength = 50;
 	export let chartParentId = 'doughnut-chart-parent';
-	export let chartClass = ''
+	export let chartClass = '';
 
 	$: options = merge(
 		{
