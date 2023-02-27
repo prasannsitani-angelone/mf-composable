@@ -38,6 +38,7 @@
 	export let data = {};
 	export let chartOptions = {};
 	export let tooltipSymbol = '';
+	export let chartClass = '';
 
 	const formatDate = (navDate) => {
 		navDate = navDate.split(',');
@@ -249,5 +250,5 @@
 </script>
 
 <div class="relative">
-	<Line id={chartId} {data} {width} {height} {plugins} {options} />
+	<Line id={chartId} {data} {width} {height} {plugins} {options} class={chartClass} />
 </div>

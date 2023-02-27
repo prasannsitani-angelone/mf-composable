@@ -11,6 +11,7 @@
 	export let chartPlugins = [];
 	export let data = {};
 	export let chartOptions = {};
+	export let chartClass = '';
 
 	$: plugins = merge(
 		[
@@ -119,5 +120,5 @@
 </script>
 
 <div class="relative">
-	<Doughnut id={chartId} {data} {width} {height} {plugins} {options} />
+	<Doughnut id={chartId} {data} {width} {height} {plugins} {options} class={chartClass} />
 </div>
