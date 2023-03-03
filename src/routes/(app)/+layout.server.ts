@@ -1,6 +1,6 @@
 import type { SparkStore } from '$lib/stores/SparkStore';
 import type { TokenStore } from '$lib/stores/TokenStore';
-import type { LayoutServerLoad } from './$types';
+import type { LayoutServerLoad } from '../$types';
 import { base } from '$app/paths';
 import type { User } from '$lib/types/IUserType';
 import type { UserProfile } from '$lib/types/IUserProfile';

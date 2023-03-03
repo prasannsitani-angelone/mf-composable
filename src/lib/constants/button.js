@@ -10,5 +10,9 @@ export const BUTTON_STYLE = new Map([
 	[
 		'outlined',
 		new Map([['primary', 'bg-white hover:bg-white border border-blue-primary text-blue-primary']])
+	],
+	[
+		'text',
+		new Map([['primary', 'text-sm font-semibold text-blue-primary p-0']])
 	]
 ]);
