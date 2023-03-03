@@ -4,8 +4,12 @@ import type { PageLoad } from './$types';
 
 export const load = (async ({ fetch }) => {
 	const res = await useFetch(`/schemes/searchDashboard?options=true`, {}, fetch);
-	const discoverFund: DiscoverFund = await res.json();
-	console.log(discoverFund);
+	let discoverFund: DiscoverFund;
+	if (res.ok) {
+		discoverFund = await res.json();
+		console.log(discoverFund);
+	}
+
 	return {
 		homePage: discoverFund
 	};

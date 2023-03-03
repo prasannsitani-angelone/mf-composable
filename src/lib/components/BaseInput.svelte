@@ -11,9 +11,9 @@
 		input: '',
 		error: 'border-red-500',
 		container: '',
-        parent: '',
+		parent: ''
 	};
-	export let value: String;
+	export let value: string;
 	export let error = false;
 	export let filterChar = (event: InputEvent) => undefined;
 	export let onChange = () => undefined;
@@ -22,14 +22,14 @@
 
 	const onInput = (event: InputEvent) => {
 		filterChar(event);
-        onChange(event.target.value);
+		onChange(event.target.value);
 	};
 
-    const handleEnter = (event) => {
-        if(event.keyCode === '13'){
-            onSubmit()
-        }
-    }
+	const handleEnter = (event) => {
+		if (event.keyCode === '13') {
+			onSubmit();
+		}
+	};
 </script>
 
 <div class={classes.parent}>
@@ -42,7 +42,7 @@
 		<div class="flex w-full flex-col justify-center">
 			<label class={`mb-0.5 text-sm font-medium text-black-title ${classes.label}`} for={id}
 				>{heading}
-            </label>
+			</label>
 			<input
 				{id}
 				{value}

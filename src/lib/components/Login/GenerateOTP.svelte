@@ -10,7 +10,7 @@
 
 	let error = '';
 	let mobileNumber = '';
-	let buttonDisabled: boolean = false;
+	let buttonDisabled = false;
 	let isLoading = false;
 
 	const generateOTPFunc = (mobileNumber: string, otpResend = false) => {
@@ -30,45 +30,45 @@
 
 	const clearError = () => {
 		error = '';
-	}
+	};
 
 	const onMobileNumberChange = (value: string) => {
-		clearError()
+		clearError();
 		mobileNumber = value;
 	};
 
 	const showLoading = () => {
-		isLoading = true
-	}
+		isLoading = true;
+	};
 
 	const stopLoading = () => {
-		isLoading = false
-	}
+		isLoading = false;
+	};
 
 	const onSubmit = async () => {
 		if (buttonDisabled) {
 			return;
 		}
-		clearError()
-		try{
-			showLoading()
-			const response = await generateOTPFunc(mobileNumber)
-			const data = await response.json()
-			const status = response.status
+		clearError();
+		try {
+			showLoading();
+			const response = await generateOTPFunc(mobileNumber);
+			const data = await response.json();
+			const status = response.status;
 			if (status === 200 && data?.data?.is_guest_user) {
-				error = 'User is not registered with us'
+				error = 'User is not registered with us';
 			} else if (status === 200) {
-			    onSuccess(mobileNumber, data?.data?.request_id)
-				mobileNumber = ''
+				onSuccess(mobileNumber, data?.data?.request_id);
+				mobileNumber = '';
 			} else if (status !== 200) {
-			    error = data?.message || 'Unknown Error. Please Contact Field Support'
+				error = data?.message || 'Unknown Error. Please Contact Field Support';
 			} else {
-				error = 'Unknown Error. Please Contact Field Support'
+				error = 'Unknown Error. Please Contact Field Support';
 			}
-		} catch(e){
-			error = 'Unknown Error. Please Contact Field Support'
+		} catch (e) {
+			error = 'Unknown Error. Please Contact Field Support';
 		} finally {
-			stopLoading()
+			stopLoading();
 		}
 	};
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let svgClass = ''
+	export let svgClass = '';
 </script>
 
 <div role="status">

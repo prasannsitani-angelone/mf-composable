@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { intervalToDuration } from 'date-fns';
-    import { onDestroy, onMount } from 'svelte';
-	
-    import OtpIcon from '$lib/images/icons/OTPIcon.svelte';
+	import { onDestroy, onMount } from 'svelte';
+
+	import OtpIcon from '$lib/images/icons/OTPIcon.svelte';
 	import { filterNumber } from '$lib/utils/helpers/filters';
 	import { useFetch } from '$lib/utils/useFetch';
 
-    import Button from '../Button.svelte';
+	import Button from '../Button.svelte';
 	import BaseInput from '../BaseInput.svelte';
 
 	export let heading = '';
@@ -22,7 +22,7 @@
 	let otpInterval = null;
 	let otpTimerDisplay = '';
 	let buttonDisabled = false;
-	let reqId = requestID
+	let reqId = requestID;
 
 	const setOTPTimer = () => {
 		otpInterval = setInterval(() => {
@@ -50,12 +50,12 @@
 	};
 
 	const showLoading = () => {
-		isLoading = true
-	}
+		isLoading = true;
+	};
 
 	const stopLoading = () => {
-		isLoading = false
-	}
+		isLoading = false;
+	};
 
 	const onOTPChange = (value) => {
 		clearError();
@@ -88,7 +88,7 @@
 		}
 		clearError();
 		try {
-			showLoading()
+			showLoading();
 			const response = await validateOTPFunc();
 			const data = await response.json();
 			const status = response.status;
@@ -105,11 +105,11 @@
 		} catch (e) {
 			error = 'Unknown Error. Please Contact Field Support';
 		} finally {
-			stopLoading()
+			stopLoading();
 		}
 	};
 
-    const generateOTPFunc = () => {
+	const generateOTPFunc = () => {
 		return useFetch('api/generateLoginOTP', {
 			method: 'POST',
 			body: JSON.stringify({
@@ -129,23 +129,23 @@
 			clearInterval(otpInterval);
 		}
 		otpTimerInSec = 30;
-		setOTPTimer()
-		clearError()
-        try{
-			const response = await generateOTPFunc()
-			const data = await response.json()
-			const status = response.status
+		setOTPTimer();
+		clearError();
+		try {
+			const response = await generateOTPFunc();
+			const data = await response.json();
+			const status = response.status;
 			if (status === 200 && data?.data?.is_guest_user) {
-				error = 'User is not registered with us'
-			} else if(status === 200) {
-                reqId = data?.data?.request_id
+				error = 'User is not registered with us';
+			} else if (status === 200) {
+				reqId = data?.data?.request_id;
 			} else if (status !== 200) {
-			    error = data?.message || 'Unknown Error. Please Contact Field Support'
-			} else if(!status) {
-				error = 'Unknown Error. Please Contact Field Support'
+				error = data?.message || 'Unknown Error. Please Contact Field Support';
+			} else if (!status) {
+				error = 'Unknown Error. Please Contact Field Support';
 			}
-		} catch(e){
-			error = 'Unknown Error. Please Contact Field Support'
+		} catch (e) {
+			error = 'Unknown Error. Please Contact Field Support';
 		}
 	};
 
@@ -203,9 +203,7 @@
 							{otpTimerDisplay}
 						</div>
 					{:else}
-						<Button variant="text" onClick={resendOTP}>
-							Resend OTP
-						</Button>
+						<Button variant="text" onClick={resendOTP}>Resend OTP</Button>
 					{/if}
 				</div>
 			</div>
