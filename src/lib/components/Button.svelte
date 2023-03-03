@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { BUTTON_STYLE } from '$lib/constants/button.js';
 	import type { SvelteComponent } from 'svelte';
-	let variant: 'contained' | 'outlined' = 'contained';
+	let variant: 'contained' | 'outlined' | 'text' = 'contained';
 	let color: 'primary' | 'secondary' | 'greenBuy' = 'primary';
 	let style = '';
 	let clazz = '';
