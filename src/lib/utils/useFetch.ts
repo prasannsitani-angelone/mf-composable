@@ -1,4 +1,3 @@
-import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { profileStore } from '$lib/stores/ProfileStore';
 import { appStore } from '$lib/stores/SparkStore';
 import { tokenStore } from '$lib/stores/TokenStore';
@@ -16,7 +15,7 @@ const defaultOptions = {
 
 export const useFetch = (url: string, options: RequestInit = {}, fetchServer: any = null) => {
 	const baseFetch = fetchServer || fetch;
-	return baseFetch(PUBLIC_MF_CORE_BASE_URL + url, {
+	return baseFetch(url, {
 		...defaultOptions,
 		...options,
 		headers: {
