@@ -1,6 +1,6 @@
 <script>
 	import Link from '../Link.svelte';
-	import Table from '../Table.svelte';
+	import Table from '../Table/Table.svelte';
 
 	let tableData;
 
