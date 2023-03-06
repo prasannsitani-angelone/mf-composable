@@ -17,8 +17,6 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"prepare": "husky install",
-		"storybook": "storybook dev -p 6006",
-		"build-storybook": "storybook build",
 	    "postinstall": "patch-package"
 	},
 	"devDependencies": {
