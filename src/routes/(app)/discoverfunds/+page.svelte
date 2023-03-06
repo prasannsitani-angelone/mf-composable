@@ -10,7 +10,7 @@
 		return `/explorefunds/${option.name?.split(' ').join('-').toLowerCase()}?id=${option.id}`;
 	};
 	onMount(() => {
-		console.log(data.homePage.searchOption);
+		console.log(data.homePage?.searchOption);
 	});
 </script>
 
