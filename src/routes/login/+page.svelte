@@ -5,6 +5,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import OverlayLoading from '$lib/components/OverlayLoading.svelte';
+	import LoginCarousel from '$lib/components/Login/LoginCarousel.svelte';
 
 	const screen_enum = {
 		GENERATE_OTP: 'GENERATE_OTP',
@@ -52,11 +53,12 @@
 	};
 </script>
 
-<section>
+<section class="bg-white h-full">
 	{#if isLoading}
 		<OverlayLoading />
 	{:else}
 		<div class="flex h-full w-full flex-1 flex-col md:flex-row">
+			<LoginCarousel />
 			<div class="border-b border-grey-line sm:border-l" />
 			{#if screen === screen_enum.GENERATE_OTP}
 				<GenerateOTP onSuccess={onGenerateOTPSuccess} />
