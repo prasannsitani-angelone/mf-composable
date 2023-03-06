@@ -35,7 +35,7 @@ export const handleFetch = (({ event, request, fetch }) => {
 	const userType = userStore.userType();
 	const accountType = profileStore.accountType();
 	const authToken = event.request.headers.get('authToken');
-	
+
 	request.headers.set('authorization', `Bearer ${authToken}`);
 	request.headers.set('userType', userType);
 	request.headers.set('accountType', accountType);

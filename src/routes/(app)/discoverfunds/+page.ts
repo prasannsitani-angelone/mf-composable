@@ -4,9 +4,13 @@ import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
 
 export const load = (async ({ fetch }) => {
-	const res = await useFetch(`${PUBLIC_MF_CORE_BASE_URL}/schemes/searchDashboard?options=true`, {}, fetch);
+	const res = await useFetch(
+		`${PUBLIC_MF_CORE_BASE_URL}/schemes/searchDashboard?options=true`,
+		{},
+		fetch
+	);
 	let discoverFund: DiscoverFund;
-	console.log(res)
+	console.log(res);
 	if (res.ok) {
 		discoverFund = await res.json();
 		console.log(discoverFund);
