@@ -27,3 +27,4 @@ WORKDIR /app
 
 ENTRYPOINT [ "node" ]
 CMD ["build/index.js"]
+
