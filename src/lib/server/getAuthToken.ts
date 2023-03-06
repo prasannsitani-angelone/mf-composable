@@ -4,7 +4,6 @@ import { JWT_SYMMETRIC_KEY } from '$env/static/private';
 
 const getAuthToken = async (userId: string) => {
 	try {
-		console.log(JWT_SYMMETRIC_KEY);
 		const token = jwt.sign(
 			{
 				userData: {

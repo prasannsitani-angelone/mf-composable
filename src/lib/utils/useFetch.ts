@@ -15,7 +15,6 @@ const defaultOptions = {
 
 export const useFetch = (url: string, options: RequestInit = {}, fetchServer: any = null) => {
 	const baseFetch = fetchServer || fetch;
-	console.log(tokenStore.activeToken());
 	return baseFetch(url, {
 		...defaultOptions,
 		...options,
