@@ -4,9 +4,11 @@
 </script>
 
 {#if browser}
-	<Carousel arrows={false} autoplay={true} autoplayDuration={2000}>
+	<Carousel arrows={false} autoplay={true} pauseOnFocus={true}  autoplayDuration={2000}>
 		<slot />
 	</Carousel>
+{:else}
+      <slot />
 {/if}
 
 

@@ -53,11 +53,11 @@
 	};
 </script>
 
-<section class="bg-white h-full">
+<section class="bg-white min-h-full">
 	{#if isLoading}
 		<OverlayLoading />
 	{:else}
-		<div class="flex h-full w-full flex-1 flex-col md:flex-row">
+		<div class="flex min-h-screen w-full flex-1 flex-col md:flex-row">
 			<LoginCarousel />
 			<div class="border-b border-grey-line sm:border-l" />
 			{#if screen === screen_enum.GENERATE_OTP}
