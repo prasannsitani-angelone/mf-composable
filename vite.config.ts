@@ -9,6 +9,9 @@ const config: UserConfig = {
 	server: {
 		port: 3000,
 		strictPort: false
+	},
+	optimizeDeps: {
+		include: ['lodash.get', 'lodash.isequal', 'lodash.clonedeep']
 	}
 };
 
