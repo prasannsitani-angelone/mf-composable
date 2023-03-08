@@ -1,11 +1,9 @@
-<script>
+<script lang="ts">
 	let clazz = '';
 
-	export { clazz };
+	export { clazz as class };
 </script>
 
-<th
-	class={`w-[60%] border-b border-grey-line pl-5 pt-4 pb-4 pr-6 text-center font-medium text-grey-body ${clazz}`}
->
+<th class={`w-[60%] border-b bg-white pl-5 pt-4 pb-4 pr-6 font-medium  ${clazz}`}>
 	<slot />
 </th>
