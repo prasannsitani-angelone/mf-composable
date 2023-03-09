@@ -2,7 +2,6 @@ import type { SparkStore } from '$lib/stores/SparkStore';
 import type { TokenStore } from '$lib/stores/TokenStore';
 import type { LayoutServerLoad } from '../$types';
 import { base } from '$app/paths';
-import type { User } from '$lib/types/IUserType';
 import type { UserProfile } from '$lib/types/IUserProfile';
 const sparkHeadersList: Array<keyof SparkStore> = [
 	'platform',
@@ -36,31 +35,21 @@ const getSparkHeaders = (headers: Headers) => {
 	return sparkHeaders;
 };
 
-export const load = (async ({ request, fetch }) => {
+export const load = (async ({ request, fetch, locals }) => {
 	const sparkHeaders: SparkStore = getSparkHeaders(request.headers);
-
-	const authToken = request.headers.get('authToken') || '';
-	const isGuest = request.headers.get('isGuest');
-	const tokenStore: TokenStore = {
-		userToken: '',
+	const token = locals.token || '';
+	const refreshtoken = locals.refreshToken || '';
+	const isGuest = locals.isGuest;
+	const tokenObj: TokenStore = {
+		userToken: {
+			NTAccessToken: '',
+			NTRefreshToken: ''
+		},
 		guestToken: ''
 	};
+	let profileData = {};
 
-	if (isGuest === 'true') {
-		tokenStore.guestToken = authToken;
-	} else {
-		tokenStore.userToken = authToken;
-	}
-
-	const userData = async () => {
-		const res = await fetch(`${base}/api/user`, {});
-		const user: User = await res.json();
-		return {
-			...user
-		};
-	};
-
-	const profileData = async () => {
+	const getProfileData = async () => {
 		const res = await fetch(`${base}/api/profile`, {});
 		const resData = await res.json();
 		const { data }: { data: UserProfile } = resData;
@@ -68,10 +57,20 @@ export const load = (async ({ request, fetch }) => {
 			...data
 		};
 	};
+
+	if (isGuest === 'true') {
+		tokenObj.guestToken = token;
+	} else {
+		profileData = await getProfileData();
+		tokenObj.userToken = {
+			NTAccessToken: token,
+			NTRefreshToken: refreshtoken
+		};
+	}
+
 	return {
 		sparkHeaders,
-		tokenStore,
-		user: await userData(),
-		profile: await profileData()
+		profile: profileData,
+		tokenObj
 	};
 }) satisfies LayoutServerLoad;
