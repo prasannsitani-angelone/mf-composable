@@ -56,6 +56,6 @@
 	</article>
 	<TrendingFunds tableData={data?.homePage?.weeklyTopSchemes} />
 </article>
-<article>
+<article class="hidden sm:block">
 	<StartNewInvestment />
 </article>
