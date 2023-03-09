@@ -5,6 +5,7 @@
 	"scripts": {
 		"dev": "vite dev",
 		"dev:uat": "cp .env.uat .env && vite dev",
+		"dev:cug": "cp .env.cug .env && JWT_SYMMETRIC_KEY=db3a62b2-45f6-4b6c-a74b-80ce27491bb7 vite dev",
 		"build": "vite build",
 		"build:uat": "cp .env.uat .env && vite build",
 		"build:cug": "cp .env.cug .env && vite build",
@@ -17,7 +18,7 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"prepare": "husky install",
-	    "postinstall": "patch-package"
+		"postinstall": "patch-package"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",

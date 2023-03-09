@@ -53,7 +53,7 @@
 	};
 </script>
 
-<section class="bg-white min-h-full">
+<section class="min-h-full bg-white">
 	{#if isLoading}
 		<OverlayLoading />
 	{:else}

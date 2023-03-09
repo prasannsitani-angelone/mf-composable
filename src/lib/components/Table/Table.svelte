@@ -5,7 +5,7 @@
 </script>
 
 <div class="overflow-x-auto">
-	<table class="table w-full">
+	<table class="hover table w-full">
 		<!-- head -->
 		<slot name="thead">
 			<THead>
