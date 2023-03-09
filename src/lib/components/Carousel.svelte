@@ -13,10 +13,7 @@
 		let:pagesCount
 		let:showPage
 	>
-		<div
-			slot="dots"
-			class="swiper-pagination"
-		>
+		<div slot="dots" class="swiper-pagination">
 			{#each Array(pagesCount) as _, index (index)}
 				<div
 					class={`swiper-pagination-bullet swiper-bullet ${
@@ -40,7 +37,7 @@
 	}
 	.swiper-pagination-bullet {
 		border-radius: 50%;
-		background: #CCC;
+		background: #ccc;
 		cursor: pointer;
 	}
 	.swiper-bullet {

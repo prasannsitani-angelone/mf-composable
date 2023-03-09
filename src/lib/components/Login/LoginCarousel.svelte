@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { base } from '$app/paths';
+	import { base } from '$app/paths';
 	import Carousel from '../Carousel.svelte';
 
 	const carouselItems = [
@@ -25,8 +25,12 @@
 	<img src={`${base}/images/AngelOneLogo.webp`} class="mb-6 w-36 md:mb-14" alt="Angelone logo" />
 	<Carousel>
 		{#each carouselItems as item}
-			<div class="flex flex-col items-center mb-2">
-				<img src={item.imageSrc} class="mb-12 flex flex-row justify-center md:mb-36" alt={item.heading} />
+			<div class="mb-2 flex flex-col items-center">
+				<img
+					src={item.imageSrc}
+					class="mb-12 flex flex-row justify-center md:mb-36"
+					alt={item.heading}
+				/>
 				<div class="flex w-11/12 flex-col text-center">
 					<div class="mb-2 text-xl font-semibold text-black-title">
 						{item.heading}
