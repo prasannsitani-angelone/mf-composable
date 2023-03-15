@@ -11,7 +11,7 @@
 <!-- <section class="p-2 pl-4 text-center md:p-5"> -->
 <DesktopHeader />
 <DeviceDetector showInDevice="web" />
-<DeviceDetector showInDevice="mobile">
+<!-- <DeviceDetector showInDevice="mobile">
 	<article class="flex flex-col items-center justify-around py-[6px] md:hidden">
 		<section class="flex w-full items-center justify-between">
 			<article>
@@ -47,5 +47,5 @@
 			{/if}
 		</section>
 	</article>
-</DeviceDetector>
+</DeviceDetector> -->
 <!-- </section> -->

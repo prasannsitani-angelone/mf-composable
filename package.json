@@ -5,6 +5,7 @@
 	"scripts": {
 		"dev": "vite dev",
 		"dev:uat": "cp .env.uat .env && vite dev",
+		"dev:cug": "cp .env.cug .env && vite dev",
 		"build": "vite build",
 		"build:uat": "cp .env.uat .env && vite build",
 		"build:cug": "cp .env.cug .env && vite build",
