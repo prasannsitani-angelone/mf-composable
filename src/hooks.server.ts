@@ -22,7 +22,9 @@ export const handle = (async ({ event, resolve }) => {
 		...event.locals,
 		token,
 		refreshToken,
-		isGuest: isAuthenticatedUser ? 'false' : 'true'
+		isGuest: isAuthenticatedUser ? 'false' : 'true',
+		userType: cookie['UserType'],
+		accountType: cookie['AccountType']
 	};
 	const response = await resolve(event);
 
