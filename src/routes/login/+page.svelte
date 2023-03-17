@@ -25,7 +25,7 @@
 		screen = screen_enum.VERIFY_OTP;
 	};
 
-	const storeUserCookie = (userToken: Object) => {
+	const storeUserCookie = (userToken: object) => {
 		setUserTokenInCookie(userToken);
 		tokenStore.updateStore({
 			userToken

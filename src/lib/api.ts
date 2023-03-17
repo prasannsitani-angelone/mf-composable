@@ -43,8 +43,8 @@ async function send({
 
 	if (token) {
 		opts.headers['authorization'] = `Bearer ${token}`;
-		opts.headers['usertype'] = locals.userType;
-		opts.headers['accounttype'] = locals.accountType;
+		opts.headers['usertype'] = locals.userType || '';
+		opts.headers['accounttype'] = locals.accountType || '';
 	}
 	const baseUrl = isAbsoluteUrl(path) ? path : `${base}/${path}`;
 

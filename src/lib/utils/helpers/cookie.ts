@@ -1,4 +1,4 @@
-export const setCookie = (cname: string, cvalue: string, options?: Object) => {
+export const setCookie = (cname: string, cvalue: string, options?: object) => {
 	let expires = '';
 	let ss = '';
 	let secureFlag = '';
@@ -19,8 +19,8 @@ export const setCookie = (cname: string, cvalue: string, options?: Object) => {
 };
 
 export const getCookie = (cname: string) => {
-	let name = cname + '=';
-	let ca = document.cookie.split(';');
+	const name = cname + '=';
+	const ca = document.cookie.split(';');
 	for (let i = 0; i < ca.length; i++) {
 		let c = ca[i];
 		while (c.charAt(0) == ' ') {

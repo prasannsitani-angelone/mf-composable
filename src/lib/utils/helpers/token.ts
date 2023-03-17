@@ -10,7 +10,7 @@ export const decryptToken = (token: string | null, tokenEncryptionPassPhrase: st
 	return null;
 };
 
-export const encryptToken = (token: Object | null, tokenEncryptionPassPhrase: string) => {
+export const encryptToken = (token: object | null, tokenEncryptionPassPhrase: string) => {
 	if (token) {
 		const result = AES.encrypt(JSON.stringify(token), tokenEncryptionPassPhrase).toString();
 		return result;
@@ -18,7 +18,7 @@ export const encryptToken = (token: Object | null, tokenEncryptionPassPhrase: st
 	return null;
 };
 
-export const setUserTokenInCookie = (token: Object) => {
+export const setUserTokenInCookie = (token: object) => {
 	if (token) {
 		const encryptedToken = encryptToken(token, '@nge|$p@rk2021');
 		setCookie('ABUserCookie', encryptedToken, {
