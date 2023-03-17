@@ -36,7 +36,7 @@ const getSparkHeaders = (headers: Headers) => {
 	return sparkHeaders;
 };
 
-export const load = (async ({ request, fetch, locals, cookies }) => {
+export const load = (async ({ url, request, fetch, locals, cookies }) => {
 	const sparkHeaders: SparkStore = getSparkHeaders(request.headers);
 	const token = locals.token || '';
 	const refreshtoken = locals.refreshToken || '';
@@ -48,11 +48,15 @@ export const load = (async ({ request, fetch, locals, cookies }) => {
 		},
 		guestToken: ''
 	};
-	let profileData = {};
+	let profileData: UserProfile = {
+		clientId: '',
+		userType: '',
+		dpNumber: ''
+	};
 
 	const getProfileData = async () => {
-		const profilData = await get(`http://127.0.0.1:3000/mutual-funds-v2/api/profile`, locals);
-		const { data }: { data: UserProfile } = profilData;
+		const profileData = await get(`${url.origin}${base}/api/profile`, locals);
+		const { data }: { data: UserProfile } = profileData;
 		return {
 			...data
 		};
@@ -64,13 +68,12 @@ export const load = (async ({ request, fetch, locals, cookies }) => {
 		cookies.set('AccountType', 'D')
 	} else {
 		profileData = await getProfileData();
-		console.log(profileData)
 		tokenObj.userToken = {
 			NTAccessToken: token,
 			NTRefreshToken: refreshtoken
 		};
-		cookies.set('UserType', profileData.userType)
-		cookies.set('AccountType', "D")
+		cookies.set('UserType', profileData?.userType)
+		cookies.set('AccountType', profileData?.dpNumber ? "D" : "P")
 	}
 
 	return {
