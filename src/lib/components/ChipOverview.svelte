@@ -2,11 +2,13 @@
 	let categoryName = '';
 	let subCategoryName = '';
 	let reInvestmentPlan = '';
-
-	export { categoryName, subCategoryName, reInvestmentPlan };
+	let clazz = '';
+	export { categoryName, subCategoryName, reInvestmentPlan, clazz as class };
 </script>
 
-<div class="flex  items-center text-[10px] text-sm font-medium text-grey-body sm:border-none">
+<div
+	class={`flex  items-center text-[10px] text-sm font-medium text-grey-body sm:border-none ${clazz}`}
+>
 	<!-- <slot name="categoryNameIcon" /> -->
 	{#if categoryName}
 		<span class="mr-2 truncate ">{categoryName}</span>

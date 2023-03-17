@@ -22,6 +22,11 @@ const profileData = async (authtoken: string) => {
 
 export const handle = (async ({ event, resolve }) => {
 	const cookie: WMSCookie = parse(event.request.headers.get('cookie') || '');
+	// console.log(event.cookies.set('BGVVVV','XYZZZ',{
+	// 	httpOnly:true
+	// }))
+	// console.log('in Handle', cookie);
+
 	let isAuthenticatedUser = true;
 	let authtoken = event.request.headers.get('authtoken') || cookie['ABUserCookie'] || '';
 
@@ -40,6 +45,7 @@ export const handle = (async ({ event, resolve }) => {
 
 	if (isAuthenticatedUser) {
 		response.headers.set('set-cookie', `ABUserCookie=${authtoken}`);
+		response.headers.set('set-cookie', `BGVVVV=XYZZZ; HttpOnly`);
 	} else {
 		response.headers.set('set-cookie', `ABGuestCookie=${authtoken}`);
 	}
@@ -49,13 +55,7 @@ export const handle = (async ({ event, resolve }) => {
 
 // export const handleFetch = (({ event, request, fetch }) => {
 // 	// Set Auth token for Server api calls
-// 	const userType = userStore.userType();
-// 	const accountType = profileStore.accountType();
-// 	const authToken = event.request.headers.get('authToken');
-
-// 	request.headers.set('authorization', `Bearer ${authToken}`);
-// 	request.headers.set('userType', userType);
-// 	request.headers.set('accountType', accountType);
+// 	console.log("In handleFetch")
 
 // 	return fetch(request);
 // }) satisfies HandleFetch;
