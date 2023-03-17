@@ -59,8 +59,7 @@ export const load = (async ({ url, request, locals, cookies }) => {
 			NTRefreshToken: refreshToken
 		};
 	}
-
-	if (!localProfileData) {
+	if (!localProfileData.clientId && isGuest !== 'true') {
 		localProfileData = await useProfileFetch(url.origin, locals);
 		cookies.set('UserType', localProfileData?.userType);
 		cookies.set('AccountType', localProfileData?.dpNumber ? 'D' : 'P');

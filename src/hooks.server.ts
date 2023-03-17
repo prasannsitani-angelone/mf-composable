@@ -3,7 +3,7 @@ import type { UserProfile } from '$lib/types/IUserProfile';
 import type { WMSCookie } from '$lib/types/IWMSCookie';
 import { getUserTokenFromCookie } from '$lib/utils/helpers/token';
 import { useProfileFetch } from '$lib/utils/useProfileFetch';
-import type { Handle } from '@sveltejs/kit';
+import type { Handle, HandleFetch } from '@sveltejs/kit';
 import { parse } from 'cookie-es';
 
 export const handle = (async ({ event, resolve }) => {
@@ -49,3 +49,13 @@ export const handle = (async ({ event, resolve }) => {
 
 	return response;
 }) satisfies Handle;
+export const handleFetch = (async ({ event, request, fetch }) => {
+	const authtoken = event.request.headers.get('authToken') || '';
+	const { userType = '', accountType = '' } = event.locals;
+
+	request.headers.set('userType', userType);
+	request.headers.set('accountType', accountType);
+	request.headers.set('authorization', `Bearer ${authtoken}`);
+
+	return fetch(request);
+}) satisfies HandleFetch;
