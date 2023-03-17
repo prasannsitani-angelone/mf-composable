@@ -6,7 +6,7 @@
 	import { page } from '$app/stores';
 	import OverlayLoading from '$lib/components/OverlayLoading.svelte';
 	import LoginCarousel from '$lib/components/Login/LoginCarousel.svelte';
-
+	import { setUserTokenInCookie } from '$lib/utils/helpers/token';
 	const screen_enum = {
 		GENERATE_OTP: 'GENERATE_OTP',
 		VERIFY_OTP: 'VERIFY_OTP'
@@ -25,7 +25,8 @@
 		screen = screen_enum.VERIFY_OTP;
 	};
 
-	const storeUserCookie = (userToken) => {
+	const storeUserCookie = (userToken: object) => {
+		setUserTokenInCookie(userToken);
 		tokenStore.updateStore({
 			userToken
 		});

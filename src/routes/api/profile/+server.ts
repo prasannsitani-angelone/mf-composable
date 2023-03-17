@@ -6,12 +6,12 @@ interface ProfileData {
 	data: UserProfile;
 }
 export const GET = (async ({ request }) => {
-	const authtoken = request.headers.get('authtoken');
+	const authorization = request.headers.get('authorization');
 	const userUrl = `${MF_PROFILE_BASE_URL}/profile`;
 
 	const res = await fetch(userUrl, {
 		headers: {
-			authorization: `Bearer ${authtoken}`
+			authorization
 		}
 	});
 

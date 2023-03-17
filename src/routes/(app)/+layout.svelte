@@ -6,17 +6,18 @@
 	import { appStore } from '$lib/stores/SparkStore';
 	import type { LayoutData } from './$types';
 	import { tokenStore } from '$lib/stores/TokenStore';
-	import { userStore } from '$lib/stores/UserStore';
 	import { profileStore } from '$lib/stores/ProfileStore';
+	import { onMount } from 'svelte';
 
 	export let data: LayoutData;
 	// Update store with Spark headers
-	const { sparkHeaders, tokenStore: token, user, profile } = data;
+	const { sparkHeaders, tokenObj, profile } = data;
 	// Update store with Spark headers
-	appStore.updateStore({ ...sparkHeaders });
-	tokenStore.updateStore({ ...token });
-	userStore.updateStore({ ...user });
-	profileStore.updateStore({ ...profile });
+	onMount(() => {
+		tokenStore.updateStore({ ...tokenObj });
+		appStore.updateStore({ ...sparkHeaders });
+		profileStore.updateStore({ ...profile });
+	});
 </script>
 
 <div class="flex-no-wrap flex h-full w-full flex-col bg-gray-100">
