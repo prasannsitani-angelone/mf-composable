@@ -4,8 +4,11 @@
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import ArqRatingIcon from '$lib/images/icons/ArqRatingIcon.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	import { getContext } from 'svelte';
+	import { SCHEME_DETAILS_KEY } from '../constants';
 	import NavCharts from './NavCharts.svelte';
-	let schemeDetails: SchemeDetails;
+
+	const { getSchemeDetails } = getContext(SCHEME_DETAILS_KEY);
 
 	function oneDayReturn(scheme: SchemeDetails) {
 		const { navValue, previousNavValue } = scheme;
@@ -13,7 +16,7 @@
 		return (((navValue - previousNavValue) / previousNavValue) * 100).toFixed(2);
 	}
 
-	export { schemeDetails };
+	const schemeDetails = getSchemeDetails();
 </script>
 
 <article class="sm-scroll-margin lg:scroll-margin mt-2 rounded-lg pt-1 sm:pt-2 lg:mt-5">
