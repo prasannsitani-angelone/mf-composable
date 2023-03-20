@@ -12,7 +12,8 @@ module.exports = {
 				black: {
 					title: '#2A394E',
 					DEFAULT: '#000',
-					neutral: '#1D1E20'
+					neutral: '#1D1E20',
+					key: '#181F29'
 				},
 				blue: {
 					primary: '#3F5BD9',

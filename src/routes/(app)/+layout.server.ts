@@ -1,9 +1,9 @@
 import type { SparkStore } from '$lib/stores/SparkStore';
 import type { TokenStore } from '$lib/stores/TokenStore';
 import type { LayoutServerLoad } from '../$types';
-import { base } from '$app/paths';
-import type { User } from '$lib/types/IUserType';
 import type { UserProfile } from '$lib/types/IUserProfile';
+
+import { useProfileFetch } from '$lib/utils/useProfileFetch';
 const sparkHeadersList: Array<keyof SparkStore> = [
 	'platform',
 	'platformversion',
@@ -36,42 +36,38 @@ const getSparkHeaders = (headers: Headers) => {
 	return sparkHeaders;
 };
 
-export const load = (async ({ request, fetch }) => {
+export const load = (async ({ url, request, locals, cookies }) => {
 	const sparkHeaders: SparkStore = getSparkHeaders(request.headers);
-
-	const authToken = request.headers.get('authToken') || '';
-	const isGuest = request.headers.get('isGuest');
-	const tokenStore: TokenStore = {
-		userToken: '',
+	const { isGuest, userType, accountType, profileData, token = '', refreshToken = '' } = locals;
+	const tokenObj: TokenStore = {
+		userToken: {
+			NTAccessToken: '',
+			NTRefreshToken: ''
+		},
 		guestToken: ''
 	};
+	let localProfileData: UserProfile = profileData;
+
+	cookies.set('UserType', userType);
+	cookies.set('AccountType', accountType);
 
 	if (isGuest === 'true') {
-		tokenStore.guestToken = authToken;
+		tokenObj.guestToken = token;
 	} else {
-		tokenStore.userToken = authToken;
+		tokenObj.userToken = {
+			NTAccessToken: token,
+			NTRefreshToken: refreshToken
+		};
+	}
+	if (!localProfileData.clientId && isGuest !== 'true') {
+		localProfileData = await useProfileFetch(url.origin, locals);
+		cookies.set('UserType', localProfileData?.userType);
+		cookies.set('AccountType', localProfileData?.dpNumber ? 'D' : 'P');
 	}
 
-	const userData = async () => {
-		const res = await fetch(`${base}/api/user`, {});
-		const user: User = await res.json();
-		return {
-			...user
-		};
-	};
-
-	const profileData = async () => {
-		const res = await fetch(`${base}/api/profile`, {});
-		const resData = await res.json();
-		const { data }: { data: UserProfile } = resData;
-		return {
-			...data
-		};
-	};
 	return {
 		sparkHeaders,
-		tokenStore,
-		user: await userData(),
-		profile: await profileData()
+		profile: localProfileData,
+		tokenObj
 	};
 }) satisfies LayoutServerLoad;

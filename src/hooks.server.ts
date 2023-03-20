@@ -1,24 +1,10 @@
-import { MF_PROFILE_BASE_URL } from '$env/static/private';
 import getAuthToken from '$lib/server/getAuthToken';
-import { profileStore } from '$lib/stores/ProfileStore';
-import { userStore } from '$lib/stores/UserStore';
 import type { UserProfile } from '$lib/types/IUserProfile';
 import type { WMSCookie } from '$lib/types/IWMSCookie';
+import { getUserTokenFromCookie } from '$lib/utils/helpers/token';
+import { useProfileFetch } from '$lib/utils/useProfileFetch';
 import type { Handle, HandleFetch } from '@sveltejs/kit';
 import { parse } from 'cookie-es';
-
-const profileData = async (authtoken: string) => {
-	const res = await fetch(`${MF_PROFILE_BASE_URL}/profile`, {
-		headers: {
-			authorization: `Bearer ${authtoken}`
-		}
-	});
-	const resData = await res.json();
-	const { data }: { data: UserProfile } = resData;
-	return {
-		...data
-	};
-};
 
 export const handle = (async ({ event, resolve }) => {
 	const cookie: WMSCookie = parse(event.request.headers.get('cookie') || '');
@@ -28,34 +14,54 @@ export const handle = (async ({ event, resolve }) => {
 	// console.log('in Handle', cookie);
 
 	let isAuthenticatedUser = true;
-	let authtoken = event.request.headers.get('authtoken') || cookie['ABUserCookie'] || '';
+	const ABUserCookie = getUserTokenFromCookie(cookie['ABUserCookie']);
+	let token = event.request.headers.get('authtoken') || ABUserCookie?.NTAccessToken || '';
+	const refreshToken =
+		event.request.headers.get('refreshtoken') || ABUserCookie?.NTRefreshToken || '';
+	let userType = cookie['UserType'];
+	let accountType = cookie['AccountType'];
+	const isGuest = isAuthenticatedUser ? 'false' : 'true';
+	let profileData: UserProfile = {
+		clientId: '',
+		userType: '',
+		dpNumber: ''
+	};
 
-	if (!authtoken) {
+	if (!token) {
 		// TODO: Check if Guest token is in Cookie
-		authtoken = await getAuthToken('guest');
+		token = await getAuthToken('guest');
 		isAuthenticatedUser = false;
-	} else {
-		const profile: UserProfile = await profileData(authtoken);
-		event.locals = { ...event.locals, profile };
 	}
-	event.locals = { ...event.locals, token: authtoken };
-	event.request.headers.set('authToken', authtoken);
-	event.request.headers.set('isGuest', isAuthenticatedUser ? 'false' : 'true');
-	const response = await resolve(event);
+	if (!userType && isGuest) {
+		userType = 'B2C';
+		accountType = 'D';
+	} else if (!userType) {
+		profileData = await useProfileFetch(event.url.origin, {});
+		userType = profileData?.userType;
+		accountType = profileData?.dpNumber ? 'D' : 'P';
+	}
 
-	if (isAuthenticatedUser) {
-		response.headers.set('set-cookie', `ABUserCookie=${authtoken}`);
-		response.headers.set('set-cookie', `BGVVVV=XYZZZ; HttpOnly`);
-	} else {
-		response.headers.set('set-cookie', `ABGuestCookie=${authtoken}`);
-	}
+	event.locals = {
+		...event.locals,
+		token,
+		refreshToken,
+		isGuest,
+		userType,
+		accountType,
+		profileData
+	};
+	const response = await resolve(event);
 
 	return response;
 }) satisfies Handle;
+export const handleFetch = (async ({ event, request, fetch }) => {
+	const authtoken = event.request.headers.get('authToken') || '';
+	const { userType = '', accountType = '' } = event.locals;
 
-// export const handleFetch = (({ event, request, fetch }) => {
-// 	// Set Auth token for Server api calls
-// 	console.log("In handleFetch")
 
-// 	return fetch(request);
-// }) satisfies HandleFetch;
+	request.headers.set('userType', userType);
+	request.headers.set('accountType', accountType);
+	request.headers.set('authorization', `Bearer ${authtoken}`);
+
+	return fetch(request);
+}) satisfies HandleFetch;
