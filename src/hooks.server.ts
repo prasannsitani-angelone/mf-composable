@@ -8,6 +8,11 @@ import { parse } from 'cookie-es';
 
 export const handle = (async ({ event, resolve }) => {
 	const cookie: WMSCookie = parse(event.request.headers.get('cookie') || '');
+	// console.log(event.cookies.set('BGVVVV','XYZZZ',{
+	// 	httpOnly:true
+	// }))
+	// console.log('in Handle', cookie);
+
 	let isAuthenticatedUser = true;
 	const ABUserCookie = getUserTokenFromCookie(cookie['ABUserCookie']);
 	let token = event.request.headers.get('authtoken') || ABUserCookie?.NTAccessToken || '';

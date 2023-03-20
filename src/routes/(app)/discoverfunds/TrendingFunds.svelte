@@ -9,6 +9,7 @@
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import ChipOverview from '$components/ChipOverview.svelte';
 	import ChipArqRating from '$components/ChipArqRating.svelte';
+	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 
 	const trendingTable = {
 		col: ['Funds', '3Y return', 'Min SIP Invetsments']
@@ -34,7 +35,14 @@
 			{#each tableData as schemes}
 				<tr class="hover"
 					><Th class="w-[30%]">
-						<Link class="flex items-start justify-between">
+						<Link
+							to={`/schemes/${normalizeFundName(
+								schemes?.schemeName,
+								schemes?.isin,
+								schemes?.schemeCode
+							)}`}
+							class="flex items-start justify-between"
+						>
 							<SchemeLogo src={schemes?.logoUrl} alt={schemes?.schemeName} />
 							<div class="m-0 mr-auto flex flex-col">
 								<ChipOverview

@@ -15,7 +15,6 @@
 </script>
 
 {#await data?.api?.homePage}
-	<!-- <InvestmentSkeletonLoader /> -->
 	<div>Loading</div>
 {:then schemeData}
 	<article>
@@ -56,7 +55,6 @@
 						<RightIcon class="ml-3" stroke="#3F5BD9" />
 					</Link>
 				</div>
-				<!-- {JSON.stringify(schemeData)} -->
 			</footer>
 		</article>
 	</article>

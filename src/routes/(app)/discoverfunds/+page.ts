@@ -17,6 +17,7 @@ export const load = (async ({ fetch, parent }) => {
 		const res = await fetch(url, {
 			headers
 		});
+
 		if (res.ok) {
 			const discoverFundData = await res.json();
 			console.log(discoverFundData);
@@ -27,6 +28,7 @@ export const load = (async ({ fetch, parent }) => {
 			return {};
 		}
 	};
+
 	return {
 		api: {
 			homePage: browser ? getSchemeData() : await getSchemeData()
