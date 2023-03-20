@@ -58,7 +58,6 @@ export const handleFetch = (async ({ event, request, fetch }) => {
 	const authtoken = event.request.headers.get('authToken') || '';
 	const { userType = '', accountType = '' } = event.locals;
 
-
 	request.headers.set('userType', userType);
 	request.headers.set('accountType', accountType);
 	request.headers.set('authorization', `Bearer ${authtoken}`);
