@@ -9,18 +9,17 @@
 	import NavCharts from './NavCharts.svelte';
 
 	const { getSchemeDetails } = getContext(SCHEME_DETAILS_KEY);
+	const schemeDetails: SchemeDetails = getSchemeDetails();
 
 	function oneDayReturn(scheme: SchemeDetails) {
 		const { navValue, previousNavValue } = scheme;
 
 		return (((navValue - previousNavValue) / previousNavValue) * 100).toFixed(2);
 	}
-
-	const schemeDetails = getSchemeDetails();
 </script>
 
 <article class="sm-scroll-margin lg:scroll-margin mt-2 rounded-lg pt-1 sm:pt-2 lg:mt-5">
-	<section class="rounded-lg bg-white p-4 pt-1 shadow-csm sm:p-6 sm:pt-1">
+	<section class="rounded-lg bg-white p-4  shadow-csm sm:p-6 sm:pt-1">
 		<header>
 			<ChipOverview
 				class="mb-2"
