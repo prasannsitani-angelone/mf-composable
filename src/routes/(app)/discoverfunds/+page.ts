@@ -10,17 +10,15 @@ export const load = (async ({ fetch, parent }) => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/searchDashboard?options=true`;
 
 		const headers = {
-			userType: `${profileStore.userType()}`,
+			userType: `${profileStore?.userType()}`,
 			accountType: `${profileStore?.accountType()}`,
-			authorization: `Bearer ${tokenStore.activeToken()}`
+			authorization: `Bearer ${tokenStore?.activeToken()}`
 		};
 		const res = await fetch(url, {
 			headers
 		});
-
 		if (res.ok) {
 			const discoverFundData = await res.json();
-			console.log(discoverFundData);
 			return {
 				...discoverFundData
 			};
