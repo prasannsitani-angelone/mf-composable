@@ -12,5 +12,7 @@
 	export let data: PageData;
 </script>
 
-<FundOverview />
-<LockInPeriod />
+<article class="sm-scroll-margin lg:scroll-margin mt-2 rounded-lg pt-1 sm:pt-2 lg:mt-5">
+	<FundOverview />
+	<LockInPeriod />
+</article>

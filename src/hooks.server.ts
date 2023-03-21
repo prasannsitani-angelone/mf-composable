@@ -8,10 +8,6 @@ import { parse } from 'cookie-es';
 
 export const handle = (async ({ event, resolve }) => {
 	const cookie: WMSCookie = parse(event.request.headers.get('cookie') || '');
-	// console.log(event.cookies.set('BGVVVV','XYZZZ',{
-	// 	httpOnly:true
-	// }))
-	// console.log('in Handle', cookie);
 
 	let isAuthenticatedUser = true;
 	const ABUserCookie = getUserTokenFromCookie(cookie['ABUserCookie']);
@@ -20,11 +16,10 @@ export const handle = (async ({ event, resolve }) => {
 		event.request.headers.get('refreshtoken') || ABUserCookie?.NTRefreshToken || '';
 	let userType = cookie['UserType'];
 	let accountType = cookie['AccountType'];
-	const isGuest = isAuthenticatedUser ? 'false' : 'true';
 	let profileData: UserProfile = {
 		clientId: '',
-		userType: '',
-		dpNumber: ''
+		userType: 'B2C',
+		dpNumber: 'D'
 	};
 
 	if (!token) {
@@ -32,6 +27,9 @@ export const handle = (async ({ event, resolve }) => {
 		token = await getAuthToken('guest');
 		isAuthenticatedUser = false;
 	}
+
+	const isGuest = isAuthenticatedUser ? 'false' : 'true';
+
 	if (!userType && isGuest) {
 		userType = 'B2C';
 		accountType = 'D';
@@ -40,7 +38,6 @@ export const handle = (async ({ event, resolve }) => {
 		userType = profileData?.userType;
 		accountType = profileData?.dpNumber ? 'D' : 'P';
 	}
-
 	event.locals = {
 		...event.locals,
 		token,
@@ -55,12 +52,11 @@ export const handle = (async ({ event, resolve }) => {
 	return response;
 }) satisfies Handle;
 export const handleFetch = (async ({ event, request, fetch }) => {
-	const authtoken = event.request.headers.get('authToken') || '';
-	const { userType = '', accountType = '' } = event.locals;
+	const { userType = '', accountType = '', token } = event.locals;
 
 	request.headers.set('userType', userType);
 	request.headers.set('accountType', accountType);
-	request.headers.set('authorization', `Bearer ${authtoken}`);
+	request.headers.set('authorization', `Bearer ${token}`);
 
 	return fetch(request);
 }) satisfies HandleFetch;

@@ -5,7 +5,6 @@
 	import THead from '$components/Table/THead.svelte';
 	import Th from '$components/Table/TH.svelte';
 	import TBody from '$components/Table/TBody.svelte';
-	import { onMount } from 'svelte';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import ChipOverview from '$components/ChipOverview.svelte';
 	import ChipArqRating from '$components/ChipArqRating.svelte';
@@ -15,9 +14,7 @@
 		col: ['Funds', '3Y return', 'Min SIP Invetsments']
 	};
 	let tableData: Array<WeeklyTopSchemesEntity>;
-	onMount(() => {
-		console.log(tableData);
-	});
+
 	export { tableData };
 </script>
 

@@ -57,9 +57,8 @@
 				</div>
 			</footer>
 		</article>
+		<TrendingFunds tableData={schemeData?.weeklyTopSchemes} />
 	</article>
-
-	<TrendingFunds tableData={schemeData?.weeklyTopSchemes} />
 {/await}
 
 <article class="hidden sm:block">

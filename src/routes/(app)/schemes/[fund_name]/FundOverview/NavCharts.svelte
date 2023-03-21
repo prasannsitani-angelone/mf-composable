@@ -4,7 +4,7 @@
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { MFCommonHeader } from '$lib/utils';
-	import { getContext, onMount } from 'svelte';
+	import { getContext, onMount, tick } from 'svelte';
 	import { SCHEME_DETAILS_KEY, tags } from '../constants';
 	import type { LineChartData, NavDetails } from '../types';
 
@@ -70,6 +70,7 @@
 		selectedMonth = month;
 	};
 	onMount(async () => {
+		await tick();
 		selectNavDuration();
 	});
 </script>
