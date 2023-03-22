@@ -2,15 +2,14 @@
 	import Button from '$components/Button.svelte';
 	import LineChart from '$components/Charts/LineChart.svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
-	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	import type { SchemeDetails, SchemeDetailsContext } from '$lib/types/ISchemeDetails';
 	import { MFCommonHeader } from '$lib/utils';
 	import { getContext, onMount, tick } from 'svelte';
 	import { SCHEME_DETAILS_KEY, tags } from '../constants';
 	import type { LineChartData, NavDetails } from '../types';
 
 	let selectedMonth = 36;
-	const { getSchemeDetails } = getContext(SCHEME_DETAILS_KEY);
-	const schemeDetails: SchemeDetails = getSchemeDetails();
+	const { getSchemeDetails } = getContext<SchemeDetailsContext>(SCHEME_DETAILS_KEY);
 
 	let lineData = {};
 	const lineChartOptions = {
@@ -69,9 +68,11 @@
 		fillChartData(lineChartData);
 		selectedMonth = month;
 	};
+	let schemeDetails: SchemeDetails;
 	onMount(async () => {
 		await tick();
-		selectNavDuration();
+		schemeDetails = await getSchemeDetails();
+		selectNavDuration(36);
 	});
 </script>
 

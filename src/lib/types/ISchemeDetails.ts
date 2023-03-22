@@ -52,7 +52,7 @@ export interface SchemeDetails {
 	crisilRating: number;
 	morningstarRating: number;
 	valueResearchRating: number;
-	fundManagerInfo?: FundManagerInfoEntity[] | null;
+	fundManagerInfo: FundManagerInfoEntity[];
 	riskoMeterCode: number;
 	riskoMeterValue: string;
 	amcInfoUrl: string;
@@ -72,4 +72,14 @@ export interface SchemeDetails {
 	maximumRedeemAmount: number;
 	taxImplications: TaxImplication[];
 	additionalPurchaseAmount: number;
+}
+
+export interface SchemeHoldings {
+	companyName: string;
+	percentageHold: number;
+}
+
+export interface SchemeDetailsContext {
+	getSchemeDetails: () => Promise<SchemeDetails>;
+	getHoldingData: () => Promise<SchemeHoldings>;
 }
