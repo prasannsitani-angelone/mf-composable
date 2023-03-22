@@ -5,7 +5,6 @@
 	import type { PageData } from './$types';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import StartNewInvestment from './StartNewInvestment.svelte';
-	import InvestmentsStories from './InvestmentsStories.svelte';
 
 	export let data: PageData;
 	const getNavigationPath = (option: SearchOptionsEntity) => {
