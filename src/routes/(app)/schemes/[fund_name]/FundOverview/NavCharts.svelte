@@ -10,7 +10,6 @@
 
 	let selectedMonth = 36;
 	const { getSchemeDetails } = getContext(SCHEME_DETAILS_KEY);
-	const schemeDetails: SchemeDetails = getSchemeDetails();
 
 	let lineData = {};
 	const lineChartOptions = {
@@ -69,9 +68,11 @@
 		fillChartData(lineChartData);
 		selectedMonth = month;
 	};
+	let schemeDetails: SchemeDetails;
 	onMount(async () => {
 		await tick();
-		selectNavDuration();
+		schemeDetails = await getSchemeDetails();
+		selectNavDuration(36);
 	});
 </script>
 

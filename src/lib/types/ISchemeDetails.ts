@@ -52,7 +52,7 @@ export interface SchemeDetails {
 	crisilRating: number;
 	morningstarRating: number;
 	valueResearchRating: number;
-	fundManagerInfo?: FundManagerInfoEntity[] | null;
+	fundManagerInfo: FundManagerInfoEntity[];
 	riskoMeterCode: number;
 	riskoMeterValue: string;
 	amcInfoUrl: string;
