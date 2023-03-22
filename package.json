@@ -64,6 +64,7 @@
 		"svelte-chartjs": "3.1.2",
 		"svelte-device-detector": "^0.2.2",
 		"svelte-flatpickr": "^3.3.1",
+		"svelte-video-player": "^1.2.5",
 		"uuid": "^9.0.0"
 	}
 }

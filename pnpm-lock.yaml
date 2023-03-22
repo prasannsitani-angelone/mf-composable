@@ -36,6 +36,7 @@ specifiers:
   svelte-check: ^3.0.1
   svelte-device-detector: ^0.2.2
   svelte-flatpickr: ^3.3.1
+  svelte-video-player: ^1.2.5
   tailwindcss: 3.2.7
   tslib: ^2.4.1
   typescript: ^4.9.3
@@ -55,6 +56,7 @@ dependencies:
   svelte-chartjs: 3.1.2_ojwxrefj4rbbcloly7f4kymkqq
   svelte-device-detector: 0.2.2
   svelte-flatpickr: 3.3.2_svelte@3.57.0
+  svelte-video-player: 1.2.5
   uuid: 9.0.0
 
 devDependencies:
@@ -2397,6 +2399,10 @@ packages:
       svelte: 3.57.0
       typescript: 4.9.5
     dev: true
+
+  /svelte-video-player/1.2.5:
+    resolution: {integrity: sha512-iImQY6qnEEE0fngq9aANKMKDD2knTBcsyTLKHc3hyZ/nj/ZExwBAJ7MbxlOnyLpSKzZA1KaSSaqKXeTRWZOOlw==}
+    dev: false
 
   /svelte/3.57.0:
     resolution: {integrity: sha512-WMXEvF+RtAaclw0t3bPDTUe19pplMlfyKDsixbHQYgCWi9+O9VN0kXU1OppzrB9gPAvz4NALuoca2LfW2bOjTQ==}

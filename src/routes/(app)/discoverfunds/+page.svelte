@@ -5,6 +5,7 @@
 	import type { PageData } from './$types';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import StartNewInvestment from './StartNewInvestment.svelte';
+	import InvestmentsStories from './InvestmentsStories.svelte';
 
 	export let data: PageData;
 	const getNavigationPath = (option: SearchOptionsEntity) => {
@@ -18,6 +19,7 @@
 	<div>Loading</div>
 {:then schemeData}
 	<article>
+		<!-- <InvestmentsStories /> -->
 		<article class="mt-2 max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:mt-0">
 			<header class="flex flex-col p-6 pb-5">
 				<h1 class="text-lg font-medium text-black-title">Discover Mutual Funds</h1>
