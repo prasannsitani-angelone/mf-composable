@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	import type { SchemeDetails, SchemeHoldings } from '$lib/types/ISchemeDetails';
 	import { setContext } from 'svelte';
 	import type { PageData } from './$types';
 	import { SCHEME_DETAILS_KEY } from './constants';
@@ -12,6 +12,11 @@
 		getSchemeDetails: async (): Promise<SchemeDetails> => {
 			const schemeData: SchemeDetails = await data.api.schemeData;
 			return schemeData;
+		},
+		getHoldingData: async (): Promise<Array<SchemeHoldings>> => {
+			const holdingData: Array<SchemeHoldings> = await data.api.holdingData;
+
+			return holdingData;
 		}
 	});
 

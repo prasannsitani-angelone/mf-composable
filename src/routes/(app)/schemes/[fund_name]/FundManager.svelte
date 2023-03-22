@@ -1,11 +1,11 @@
 <script lang="ts">
 	import UserIcon from '$lib/images/icons/UserIcon.svelte';
 
-	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	import type { SchemeDetails, SchemeDetailsContext } from '$lib/types/ISchemeDetails';
 	import { getContext } from 'svelte';
 	import { SCHEME_DETAILS_KEY } from './constants';
 
-	let { getSchemeDetails } = getContext(SCHEME_DETAILS_KEY);
+	let { getSchemeDetails } = getContext<SchemeDetailsContext>(SCHEME_DETAILS_KEY);
 	// const schemeDetails: SchemeDetails = getSchemeDetails();
 
 	const fundManagerInitials = (name = '') => {

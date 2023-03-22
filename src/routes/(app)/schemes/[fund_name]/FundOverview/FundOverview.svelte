@@ -3,14 +3,14 @@
 	import ChipOverview from '$components/ChipOverview.svelte';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import ArqRatingIcon from '$lib/images/icons/ArqRatingIcon.svelte';
-	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	import type { SchemeDetails, SchemeDetailsContext } from '$lib/types/ISchemeDetails';
 	import { getContext } from 'svelte';
 	import { SCHEME_DETAILS_KEY } from '../constants';
 	import NavCharts from './NavCharts.svelte';
 
-	const { getSchemeDetails } = getContext(SCHEME_DETAILS_KEY);
+	const { getSchemeDetails } = getContext<SchemeDetailsContext>(SCHEME_DETAILS_KEY);
 
-	function oneDayReturn(scheme: SchemeDetails) {
+	function oneDayReturn(scheme: SchemeDetails): string {
 		const { navValue, previousNavValue } = scheme;
 
 		return (((navValue - previousNavValue) / previousNavValue) * 100).toFixed(2);

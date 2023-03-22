@@ -73,3 +73,13 @@ export interface SchemeDetails {
 	taxImplications: TaxImplication[];
 	additionalPurchaseAmount: number;
 }
+
+export interface SchemeHoldings {
+	companyName: string;
+	percentageHold: number;
+}
+
+export interface SchemeDetailsContext {
+	getSchemeDetails: () => Promise<SchemeDetails>;
+	getHoldingData: () => Promise<SchemeHoldings>;
+}

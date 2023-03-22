@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from '$components/Button.svelte';
 	import SchemeInformationIcon from '$lib/images/icons/SchemeInformationIcon.svelte';
-	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	import type { SchemeDetails, SchemeDetailsContext } from '$lib/types/ISchemeDetails';
 	import { getContext } from 'svelte';
 	import { SCHEME_DETAILS_KEY } from '../constants';
 	import BasicInformation from './BasicInformation.svelte';
@@ -9,7 +9,7 @@
 	import RiskInvolved from './RiskInvolved.svelte';
 	import TaxImplications from './TaxImplications.svelte';
 
-	let { getSchemeDetails } = getContext(SCHEME_DETAILS_KEY);
+	let { getSchemeDetails } = getContext<SchemeDetailsContext>(SCHEME_DETAILS_KEY);
 </script>
 
 {#await getSchemeDetails()}

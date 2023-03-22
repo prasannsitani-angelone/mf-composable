@@ -2,12 +2,11 @@
 	import LockInIcon from '$lib/images/icons/LockInIcon.svelte';
 	import MinLumpSumIcon from '$lib/images/icons/MinLumpSumIcon.svelte';
 	import PiggyBankIcon from '$lib/images/icons/PiggyBankIcon.svelte';
-	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	import type { SchemeDetails, SchemeDetailsContext } from '$lib/types/ISchemeDetails';
 	import { getContext } from 'svelte';
 	import { SCHEME_DETAILS_KEY } from './constants';
 
-	let { getSchemeDetails } = getContext(SCHEME_DETAILS_KEY);
-	// const schemeDetails: SchemeDetails = await getSchemeDetails();
+	let { getSchemeDetails } = getContext<SchemeDetailsContext>(SCHEME_DETAILS_KEY);
 </script>
 
 {#await getSchemeDetails()}
