@@ -9,18 +9,6 @@
 	import LockInPeriod from './LockInPeriod.svelte';
 	import SchemeInformation from './SchemeInformation/SchemeInformation.svelte';
 
-	setContext(SCHEME_DETAILS_KEY, {
-		getSchemeDetails: async (): Promise<SchemeDetails> => {
-			const schemeData: SchemeDetails = await data.api.schemeData;
-			return schemeData;
-		},
-		getHoldingData: async (): Promise<Array<SchemeHoldings>> => {
-			const holdingData: Array<SchemeHoldings> = await data.api.holdingData;
-
-			return holdingData;
-		}
-	});
-
 	export let data: PageData;
 </script>
 
@@ -28,10 +16,10 @@
 	<div>Loading</div>
 {:then schemedata}
 	<article class="sm-scroll-margin lg:scroll-margin mt-2 rounded-lg pt-1 sm:pt-2 lg:mt-5">
-		<FundOverview />
-		<LockInPeriod />
-		<SchemeInformation />
-		<FundManager />
-		<FundHoldings />
+		<FundOverview schemeDetails={schemedata} />
+		<LockInPeriod schemeDetails={schemedata} />
+		<SchemeInformation schemeDetails={schemedata} />
+		<FundManager schemeDetails={schemedata} />
+		<FundHoldings schemeDetails={schemedata} />
 	</article>
 {/await}

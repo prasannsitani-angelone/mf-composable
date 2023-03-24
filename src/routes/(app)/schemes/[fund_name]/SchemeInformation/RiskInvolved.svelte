@@ -1,14 +1,10 @@
 <script lang="ts">
 	import Riskometer from '$components/Charts/Riskometer.svelte';
 	import RiskometerIcon from '$lib/images/icons/RiskometerIcon.svelte';
-	import type { SchemeDetails, SchemeDetailsContext } from '$lib/types/ISchemeDetails';
-	import { getContext } from 'svelte';
-	import { SCHEME_DETAILS_KEY } from '../constants';
-	let { getSchemeDetails } = getContext<SchemeDetailsContext>(SCHEME_DETAILS_KEY);
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+
 	let schemeDetails: SchemeDetails;
-	(async function () {
-		schemeDetails = await getSchemeDetails();
-	})();
+
 	const riskoMeterColor = ['#5EC4B6', '#6DA160', '#D7AE45', '#EFBD61', '#F6895A', '#F65E5A'];
 
 	const riskometerData = {
@@ -36,6 +32,8 @@
 		]
 	};
 	$: borderColor = riskoMeterColor[schemeDetails?.riskoMeterCode];
+
+	export { schemeDetails };
 </script>
 
 <section class="border-b p-4">

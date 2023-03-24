@@ -1,10 +1,9 @@
 <script lang="ts">
 	import DoughnutChart from '$components/Charts/DoughnutChart.svelte';
-	import type { SchemeDetailsContext } from '$lib/types/ISchemeDetails';
-	import { getContext } from 'svelte';
-	import { SCHEME_DETAILS_KEY } from '../constants';
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 
-	let { getHoldingData } = getContext<SchemeDetailsContext>(SCHEME_DETAILS_KEY);
+	let schemeDetails: SchemeDetails;
+
 	const doughnutData = {
 		labels: ['REC Ltd.', 'ABC Ltd.', 'DEF Ltd.', 'XYZ Ltd.', 'NOV Ltd.', 'DEC Ltd.'],
 		datasets: [
@@ -33,13 +32,12 @@
 			}
 		}
 	};
+	export { schemeDetails };
 </script>
 
-{#await getHoldingData() then holdings}
-	<DoughnutChart
-		data={doughnutData}
-		chartOptions={doughnutChartOptions}
-		tooltipLength={50}
-		chartClass="w-48 h-48 m-auto mt-2"
-	/>
-{/await}
+<DoughnutChart
+	data={doughnutData}
+	chartOptions={doughnutChartOptions}
+	tooltipLength={50}
+	chartClass="w-48 h-48 m-auto mt-2"
+/>
