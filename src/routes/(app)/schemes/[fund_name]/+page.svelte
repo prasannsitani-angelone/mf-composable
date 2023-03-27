@@ -20,6 +20,8 @@
 		<LockInPeriod schemeDetails={schemedata} />
 		<SchemeInformation schemeDetails={schemedata} />
 		<FundManager schemeDetails={schemedata} />
-		<FundHoldings schemeDetails={schemedata} />
+		{#await data?.api?.holdingData then fundHoldingData}
+			<FundHoldings {fundHoldingData} />
+		{/await}
 	</article>
 {/await}

@@ -1,8 +1,14 @@
 <script lang="ts">
 	import DoughnutChart from '$components/Charts/DoughnutChart.svelte';
+	import Table from '$components/Table/Table.svelte';
+	import TBody from '$components/Table/TBody.svelte';
+	import Th from '$components/Table/TH.svelte';
+	import Tr from '$components/Table/TR.svelte';
+	import THead from '$components/Table/THead.svelte';
+	import FundHoldingIcon from '$lib/images/icons/FundHoldingIcon.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 
-	let schemeDetails: SchemeDetails;
+	let fundHoldingData: SchemeDetails;
 
 	const doughnutData = {
 		labels: ['REC Ltd.', 'ABC Ltd.', 'DEF Ltd.', 'XYZ Ltd.', 'NOV Ltd.', 'DEC Ltd.'],
@@ -32,12 +38,41 @@
 			}
 		}
 	};
-	export { schemeDetails };
+	export { fundHoldingData };
 </script>
 
-<DoughnutChart
-	data={doughnutData}
-	chartOptions={doughnutChartOptions}
-	tooltipLength={50}
-	chartClass="w-48 h-48 m-auto mt-2"
-/>
+<article class="mt-4 max-w-4xl rounded-lg bg-white pb-4 text-sm shadow-csm">
+	<header class="mb-6 border border-b border-grey-line">
+		<section
+			class="flex cursor-pointer items-center justify-between p-4 text-lg hover:text-blue-800 md:px-6 md:py-5"
+		>
+			<section class="flex items-center">
+				<div class="flex h-12 w-12 items-center justify-center rounded-full bg-grey">
+					<FundHoldingIcon />
+				</div>
+				<h2 class="ml-3 flex items-center text-left font-medium text-black-title">
+					<span> Fund Holdings</span>
+				</h2>
+			</section>
+		</section>
+	</header>
+	<DoughnutChart
+		data={doughnutData}
+		chartOptions={doughnutChartOptions}
+		tooltipLength={50}
+		chartClass="w-48 h-48 m-auto mt-2"
+	/>
+
+	<section class="mt-9 px-6">
+		{JSON.stringify(fundHoldingData)}
+		<Table class="border border-grey-line">
+			<THead slot="thead" class="border-t border-grey-line">
+				<Th>Top Holding</Th>
+				<Th class="text-right">Allocation</Th>
+			</THead>
+			<TBody slot="tbody">
+				<Tr />
+			</TBody>
+		</Table>
+	</section>
+</article>
