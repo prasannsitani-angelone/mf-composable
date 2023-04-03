@@ -8,8 +8,8 @@
 	export { clazz as class };
 </script>
 
-<div class="overflow-x-auto">
-	<table class={`hover table w-full ${clazz}`}>
+<div class="overflow-x-hidden">
+	<table class={`table w-full table-fixed border-collapse text-sm [&_th]:first:relative ${clazz}`}>
 		<!-- head -->
 		<slot name="thead">
 			<THead>

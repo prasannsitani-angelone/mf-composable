@@ -10,8 +10,6 @@
 	const getNavigationPath = (option: SearchOptionsEntity) => {
 		return `/explorefunds/${option.name?.split(' ').join('-').toLowerCase()}?id=${option.id}`;
 	};
-
-	// const tableData =
 </script>
 
 {#await data?.api?.homePage}

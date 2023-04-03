@@ -6,18 +6,59 @@
 	import Tr from '$components/Table/TR.svelte';
 	import THead from '$components/Table/THead.svelte';
 	import FundHoldingIcon from '$lib/images/icons/FundHoldingIcon.svelte';
-	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	import type { SchemeHoldings } from '$lib/types/ISchemeDetails';
+	import { onMount } from 'svelte';
 
-	let fundHoldingData: SchemeDetails;
+	let fundHoldingData: Array<SchemeHoldings>;
+	const graphColor = ['#F9BA4D', '#4BD9EA', '#581DBE', '#1EC7B6', '#F65E5A', '#3F5BD9'];
+
+	$: topHoldingSummary = [];
+	const doughnutChartOptions = {
+		plugins: {
+			tooltipLine: {
+				heading: '15,120',
+				subHeading: 'Crores'
+			}
+		}
+	};
+	const setTableData = (holdings: SchemeHoldings[]) => {
+		if (!holdings?.length) {
+			return [];
+		}
+		let topHolding = holdings
+			.sort((a, b) => (a.percentageHold > b.percentageHold ? -1 : 1))
+			.slice(0, 5);
+		const topHoldingPercentage = topHolding.reduce((prevVal, currentVal) => {
+			return prevVal + currentVal.percentageHold;
+		}, 0);
+		const otherHoldingsPercentage = (100 - topHoldingPercentage).toFixed(2);
+		topHolding = topHolding.map((holding, index) => {
+			holding.colurCode = graphColor[index];
+			return holding;
+		});
+		topHolding = [
+			...topHolding,
+			{
+				companyName: 'Others',
+				percentageHold: otherHoldingsPercentage,
+				colurCode: graphColor[graphColor.length - 1]
+			}
+		];
+		//   table.rows = topHolding
+		//   tableAllholdings.rows = holdings.sort((a, b) => a.percentageHold > b.percentageHold ? -1 : 1).slice(6, holdings.length - 1)
+
+		return topHolding;
+	};
+	topHoldingSummary = setTableData(fundHoldingData);
 
 	const doughnutData = {
 		labels: ['REC Ltd.', 'ABC Ltd.', 'DEF Ltd.', 'XYZ Ltd.', 'NOV Ltd.', 'DEC Ltd.'],
 		datasets: [
 			{
-				backgroundColor: ['#F9BA4D', '#4BD9EA', '#581DBE', '#1EC7B6', '#F65E5A', '#3F5BD9'],
-				hoverBackgroundColor: ['#F9BA4D', '#4BD9EA', '#581DBE', '#1EC7B6', '#F65E5A', '#3F5BD9'],
-				hoverBorderColor: ['#F9BA4D', '#4BD9EA', '#581DBE', '#1EC7B6', '#F65E5A', '#3F5BD9'],
-				data: [25, 15, 15, 10, 5, 30],
+				backgroundColor: graphColor,
+				hoverBackgroundColor: graphColor,
+				hoverBorderColor: graphColor,
+				data: topHoldingSummary,
 				cutout: '70%',
 				borderRadius: 0,
 				borderWidth: 2, // can make responsive
@@ -30,14 +71,6 @@
 		]
 	};
 
-	const doughnutChartOptions = {
-		plugins: {
-			tooltipLine: {
-				heading: '15,120',
-				subHeading: 'Crores'
-			}
-		}
-	};
 	export { fundHoldingData };
 </script>
 
@@ -64,7 +97,7 @@
 	/>
 
 	<section class="mt-9 px-6">
-		{JSON.stringify(fundHoldingData)}
+		<!-- {JSON.stringify(fundHoldingData)} -->
 		<Table class="border border-grey-line">
 			<THead slot="thead" class="border-t border-grey-line">
 				<Th>Top Holding</Th>
