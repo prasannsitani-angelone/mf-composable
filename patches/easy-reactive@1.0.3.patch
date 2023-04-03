@@ -1,16 +1,16 @@
-diff --git a/node_modules/easy-reactive/main.js b/node_modules/easy-reactive/main.js
-index 7d969de..8771166 100644
---- a/node_modules/easy-reactive/main.js
-+++ b/node_modules/easy-reactive/main.js
+diff --git a/main.js b/main.js
+index 7d969dee7c4a35763793975c3cbf683f1245f97b..8771166ba934900e33c62392ef7f2695d5cefb4f 100644
+--- a/main.js
++++ b/main.js
 @@ -1,3 +1,3 @@
 -import { simplyReactive } from './src/simply-reactive'
 +import { simplyReactive } from './src/simply-reactive.js'
  
  export { simplyReactive as default }
-diff --git a/node_modules/easy-reactive/src/simply-reactive.js b/node_modules/easy-reactive/src/simply-reactive.js
-index 3273228..88f9a03 100644
---- a/node_modules/easy-reactive/src/simply-reactive.js
-+++ b/node_modules/easy-reactive/src/simply-reactive.js
+diff --git a/src/simply-reactive.js b/src/simply-reactive.js
+index 3273228710314f5f3e3cb7217d70aaed17478e7e..88f9a0383daa1396d7eeba368b692e49039b4cb2 100644
+--- a/src/simply-reactive.js
++++ b/src/simply-reactive.js
 @@ -1,8 +1,8 @@
  import get from 'lodash.get'
  import cloneDeep from 'lodash.clonedeep'
@@ -22,10 +22,10 @@ index 3273228..88f9a03 100644
  
  export function simplyReactive(entities, options) {
    const data = get(entities, 'data', {})
-diff --git a/node_modules/easy-reactive/src/utils/subscription.js b/node_modules/easy-reactive/src/utils/subscription.js
-index 3e37f69..7f32633 100644
---- a/node_modules/easy-reactive/src/utils/subscription.js
-+++ b/node_modules/easy-reactive/src/utils/subscription.js
+diff --git a/src/utils/subscription.js b/src/utils/subscription.js
+index 3e37f69f46b31678f79f6df23426c6f664e64457..7f326332e1350ae5157269f6833d48dd5d2fbe02 100644
+--- a/src/utils/subscription.js
++++ b/src/utils/subscription.js
 @@ -1,4 +1,4 @@
 -import { getDepNames, getUpdatedDeps, depsAreEqual } from './object'
 +import { getDepNames, getUpdatedDeps, depsAreEqual } from './object.js'
