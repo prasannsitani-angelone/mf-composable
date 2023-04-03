@@ -26,7 +26,7 @@
 		<THead slot="thead" class="border-t">
 			<Th class="text-start">Funds</Th>
 			<Th class="text-center">3Y return</Th>
-			<Th>Min SIP Invetsments</Th>
+			<Th class="pl-0">Min SIP Invetsments</Th>
 		</THead>
 		<TBody slot="tbody">
 			{#each tableData || [] as schemes}
