@@ -22,7 +22,7 @@
 	<header class="flex flex-col p-6">
 		<h2 class="text-lg font-medium text-black-title">Popular With Other Investors</h2>
 	</header>
-	<Table>
+	<Table class="hidden sm:block">
 		<THead slot="thead" class="border-t">
 			<Th class="text-start">Funds</Th>
 			<Th class="text-center">3Y return</Th>
