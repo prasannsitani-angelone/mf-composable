@@ -26,7 +26,7 @@
 </script>
 
 <article class="mt-4 max-w-4xl rounded-lg bg-white pb-4 text-sm shadow-csm">
-	<header class="mb-6 border border-b border-grey-line">
+	<header class="border border-b border-grey-line">
 		<section
 			class="flex cursor-pointer items-center justify-between p-4 text-lg hover:text-blue-800 md:px-6 md:py-5"
 		>
@@ -43,7 +43,7 @@
 	</header>
 	<section>
 		<Table>
-			<THead slot="thead" class="border-t">
+			<THead slot="thead">
 				<Th class="text-star w-3/5  sm:w-2/3">Funds</Th>
 				<Th class="text-center opacity-0 sm:opacity-100">ARQ Rating</Th>
 				<Th class="cursor-pointer !pl-0 text-left sm:!pl-5 sm:text-center">

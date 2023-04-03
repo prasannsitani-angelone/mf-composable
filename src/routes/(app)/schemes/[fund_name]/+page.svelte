@@ -9,6 +9,7 @@
 	import LockInPeriod from './LockInPeriod.svelte';
 	import SchemeInformation from './SchemeInformation/SchemeInformation.svelte';
 	import SimilarFunds from './SimilarFunds/SimilarFunds.svelte';
+	import OtherFundsByAMC from './OtherFundsByAMC/OtherFundsByAMC.svelte';
 
 	export let data: PageData;
 </script>
@@ -26,6 +27,7 @@
 		{/await}
 		{#await data?.api?.comparisons then comparisons}
 			<SimilarFunds similarFunds={comparisons?.otherScheme || []} />
+			<OtherFundsByAMC sameAmcScheme={comparisons?.sameAmcScheme} />
 		{/await}
 	</article>
 {/await}
