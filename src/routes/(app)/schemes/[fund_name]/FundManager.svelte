@@ -33,7 +33,7 @@
 	</header>
 	<section class="origin-top transition duration-100">
 		<article class="px-6">
-			{#each schemeDetails?.fundManagerInfo as fundManager}
+			{#each schemeDetails?.fundManagerInfo || [] as fundManager}
 				<section class="flex items-center rounded border border-grey-line px-4 py-3">
 					<div
 						class="mr-3 flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-csm"

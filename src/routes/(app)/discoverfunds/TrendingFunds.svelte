@@ -22,14 +22,14 @@
 	<header class="flex flex-col p-6">
 		<h2 class="text-lg font-medium text-black-title">Popular With Other Investors</h2>
 	</header>
-	<Table>
+	<Table class="hidden sm:block">
 		<THead slot="thead" class="border-t">
 			<Th class="text-start">Funds</Th>
 			<Th class="text-center">3Y return</Th>
-			<Th>Min SIP Invetsments</Th>
+			<Th class="pl-0">Min SIP Invetsments</Th>
 		</THead>
 		<TBody slot="tbody">
-			{#each tableData as schemes}
+			{#each tableData || [] as schemes}
 				<tr class="hover"
 					><Th class="w-[30%]">
 						<Link

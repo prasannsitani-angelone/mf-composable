@@ -2,10 +2,14 @@
 	import TBody from './TBody.svelte';
 	import Th from './TH.svelte';
 	import THead from './THead.svelte';
+
+	let clazz = '';
+
+	export { clazz as class };
 </script>
 
-<div class="overflow-x-auto">
-	<table class="hover table w-full">
+<div class="overflow-x-hidden">
+	<table class={`table w-full table-fixed border-collapse text-sm [&_th]:first:relative ${clazz}`}>
 		<!-- head -->
 		<slot name="thead">
 			<THead>
