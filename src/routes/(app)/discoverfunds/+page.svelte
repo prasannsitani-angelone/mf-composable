@@ -22,7 +22,7 @@
 				<h1 class="text-lg font-medium text-black-title">Discover Mutual Funds</h1>
 			</header>
 			<section class="flex flex-wrap items-center justify-center px-4 sm:px-6">
-				{#each schemeData?.searchOptions as option}
+				{#each schemeData?.searchOptions || [] as option}
 					<article
 						class="group mr-0 flex basis-1/3 cursor-pointer items-center justify-center rounded-lg bg-white py-4 hover:bg-grey sm:justify-start sm:pl-6"
 					>

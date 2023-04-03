@@ -29,7 +29,7 @@
 			<Th>Min SIP Invetsments</Th>
 		</THead>
 		<TBody slot="tbody">
-			{#each tableData as schemes}
+			{#each tableData || [] as schemes}
 				<tr class="hover"
 					><Th class="w-[30%]">
 						<Link

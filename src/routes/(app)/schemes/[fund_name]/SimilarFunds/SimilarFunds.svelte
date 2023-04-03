@@ -61,7 +61,7 @@
 				</Th>
 			</THead>
 			<TBody slot="tbody">
-				{#each similarFunds as funds}
+				{#each similarFunds || [] as funds}
 					<Tr class="border-b border-grey-line">
 						<Td class=""
 							><a
