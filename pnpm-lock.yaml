@@ -1,10 +1,5 @@
 lockfileVersion: 5.4
 
-patchedDependencies:
-  easy-reactive@1.0.3:
-    hash: gvxhgf5fpflt5s4ywitfsp4a6e
-    path: patches/easy-reactive@1.0.3.patch
-
 specifiers:
   '@playwright/test': ^1.28.1
   '@sveltejs/adapter-auto': 2.0.0
@@ -39,6 +34,7 @@ specifiers:
   svelte-check: ^3.0.1
   svelte-device-detector: ^0.2.2
   svelte-flatpickr: ^3.3.1
+  svelte-range-slider-pips: ^2.1.1
   svelte-video-player: ^1.2.5
   tailwindcss: 3.2.7
   tslib: ^2.4.1
@@ -58,6 +54,7 @@ dependencies:
   svelte-chartjs: 3.1.2_ojwxrefj4rbbcloly7f4kymkqq
   svelte-device-detector: 0.2.2
   svelte-flatpickr: 3.3.2_svelte@3.57.0
+  svelte-range-slider-pips: 2.1.1
   svelte-video-player: 1.2.5
   uuid: 9.0.0
 
@@ -1051,14 +1048,13 @@ packages:
       esutils: 2.0.3
     dev: true
 
-  /easy-reactive/1.0.3_gvxhgf5fpflt5s4ywitfsp4a6e:
+  /easy-reactive/1.0.3:
     resolution: {integrity: sha512-ZB5HZNF3pmrrL+tNodtEeGp17LwmbHi2zRVYZWcM7FXSXVQkKw13RYyEURcaZCyVMY37kxTZA1q71pheJHKxUA==}
     dependencies:
       lodash.clonedeep: 4.5.0
       lodash.get: 4.4.2
       lodash.isequal: 4.5.0
     dev: true
-    patched: true
 
   /ecdsa-sig-formatter/1.0.11:
     resolution: {integrity: sha512-nagl3RYrbNv6kQkeJIpt6NJZy8twLB/2vtz6yN9Z4vRKHN4/QZJIEbqohALSgwKdnksuY3k5Addp5lg8sVoVcQ==}
@@ -2150,7 +2146,7 @@ packages:
   /svelte-carousel/1.0.24:
     resolution: {integrity: sha512-qz82cuq4912Yr61voMwpOoGjKuNCX7t8i11RME+WBzCFuYmk5l5H1d/FvFiomIcMgeQw/n0xFo4YppjsdDtunA==}
     dependencies:
-      easy-reactive: 1.0.3_gvxhgf5fpflt5s4ywitfsp4a6e
+      easy-reactive: 1.0.3
     dev: true
 
   /svelte-chartjs/3.1.2_ojwxrefj4rbbcloly7f4kymkqq:
@@ -2260,6 +2256,10 @@ packages:
       svelte: 3.57.0
       typescript: 4.9.5
     dev: true
+
+  /svelte-range-slider-pips/2.1.1:
+    resolution: {integrity: sha512-fLkhfnyEc4uMOCZCl8IPyC0e9lujrjqdSyrKw28Y8j99YUPZR+pHnSxde7PqhM0ST6eyO4ugh2nFnLZTIoG9aQ==}
+    dev: false
 
   /svelte-video-player/1.2.5:
     resolution: {integrity: sha512-iImQY6qnEEE0fngq9aANKMKDD2knTBcsyTLKHc3hyZ/nj/ZExwBAJ7MbxlOnyLpSKzZA1KaSSaqKXeTRWZOOlw==}

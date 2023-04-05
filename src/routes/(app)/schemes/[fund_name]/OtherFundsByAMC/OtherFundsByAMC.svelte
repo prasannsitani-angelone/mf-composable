@@ -11,7 +11,7 @@
 	import THead from '$components/Table/THead.svelte';
 	import Tr from '$components/Table/TR.svelte';
 	import OtherFundsIcon from '$lib/images/icons/OtherFundsIcon.svelte';
-	import SimilarFundsIcon from '$lib/images/icons/SimilarFundsIcon.svelte';
+	import RightArrow from '$lib/images/icons/RightArrow.svelte';
 	import { returnYearTableChangeColumn, yearlyReturnMap, type TableColumnToggle } from '$lib/utils';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 
@@ -49,8 +49,10 @@
 			<Table>
 				<THead slot="thead">
 					<tr class="border-x border-t border-x-grey-line">
-						<Th class="text-star w-2/3  sm:w-2/3">Funds</Th>
-						<Th class="flex cursor-pointer justify-end !pl-0 text-left sm:!pl-5 sm:text-center">
+						<Th class="text-star w-2/3  sm:w-4/5">Funds</Th>
+						<Th
+							class="flex cursor-pointer justify-end !pl-0 !pr-0 text-left sm:!pl-5 sm:!pr-5 sm:text-center"
+						>
 							<Button
 								class="flex items-center bg-white !pl-0 align-middle !text-grey-body hover:bg-white sm:pl-5 sm:!pr-0"
 								onClick={sortTable}
@@ -67,8 +69,8 @@
 				</THead>
 				<TBody slot="tbody">
 					{#each sameAmcScheme?.schemeInfo || [] as schemes}
-						<Tr class="border-x border-b border-grey-line border-x-grey-line">
-							<Td class=""
+						<Tr class="border-x border-b border-grey-line border-x-grey-line ">
+							<Td class="!pr-0"
 								><a
 									class="block w-full overflow-hidden text-ellipsis whitespace-pre-wrap"
 									href={normalizeFundName(schemes.schemeName, schemes.isin, schemes.schemeCode)}
@@ -104,7 +106,12 @@
 									</Link>
 								</a></Td
 							>
-							<Td class="text-right"><span>{schemes[currentYearFilter.field]}</span></Td>
+							<Td class="!pr-2 sm:!pr-5"
+								><div class="flex items-end justify-end">
+									<span>{schemes[currentYearFilter.field]} %</span>
+									<RightArrow />
+								</div>
+							</Td>
 						</Tr>
 					{/each}
 				</TBody>

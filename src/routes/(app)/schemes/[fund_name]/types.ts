@@ -38,3 +38,17 @@ export interface SameAmcScheme {
 	amcName: string;
 	schemeInfo?: OtherSchemeEntityOrSchemeInfoEntity[] | null;
 }
+
+export interface TopHoldingSummary {
+	label: Array<string>;
+	data: Array<number>;
+}
+
+export interface Tags {
+	label: string;
+	months: number;
+	timeScale: string;
+	returnPeriod: string;
+	bmReturnPeriod: string;
+	text: string;
+}
