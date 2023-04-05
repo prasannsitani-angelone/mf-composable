@@ -7,12 +7,19 @@
 	import THead from '$components/Table/THead.svelte';
 	import FundHoldingIcon from '$lib/images/icons/FundHoldingIcon.svelte';
 	import type { SchemeHoldings } from '$lib/types/ISchemeDetails';
-	import { onMount } from 'svelte';
+	import { generateGraphDataset } from '../helper';
+	import type { TopHoldingSummary } from '../types';
+	import Td from '$components/Table/TD.svelte';
+
+	interface TopHolding extends SchemeHoldings {
+		colorCode?: string;
+		percentageHold: number;
+	}
 
 	let fundHoldingData: Array<SchemeHoldings>;
 	const graphColor = ['#F9BA4D', '#4BD9EA', '#581DBE', '#1EC7B6', '#F65E5A', '#3F5BD9'];
 
-	$: topHoldingSummary = [];
+	$: topHoldingSummary = <TopHoldingSummary>(<unknown>[]);
 	const doughnutChartOptions = {
 		plugins: {
 			tooltipLine: {
@@ -25,15 +32,15 @@
 		if (!holdings?.length) {
 			return [];
 		}
-		let topHolding = holdings
+		let topHolding: TopHolding[] = holdings
 			.sort((a, b) => (a.percentageHold > b.percentageHold ? -1 : 1))
 			.slice(0, 5);
 		const topHoldingPercentage = topHolding.reduce((prevVal, currentVal) => {
 			return prevVal + currentVal.percentageHold;
 		}, 0);
-		const otherHoldingsPercentage = (100 - topHoldingPercentage).toFixed(2);
+		const otherHoldingsPercentage = parseFloat((100 - topHoldingPercentage).toFixed(2));
 		topHolding = topHolding.map((holding, index) => {
-			holding.colurCode = graphColor[index];
+			holding.colorCode = graphColor[index];
 			return holding;
 		});
 		topHolding = [
@@ -41,24 +48,22 @@
 			{
 				companyName: 'Others',
 				percentageHold: otherHoldingsPercentage,
-				colurCode: graphColor[graphColor.length - 1]
+				colorCode: graphColor[graphColor.length - 1]
 			}
 		];
-		//   table.rows = topHolding
-		//   tableAllholdings.rows = holdings.sort((a, b) => a.percentageHold > b.percentageHold ? -1 : 1).slice(6, holdings.length - 1)
 
 		return topHolding;
 	};
-	topHoldingSummary = setTableData(fundHoldingData);
-
+	const schemeTopHolding = setTableData(fundHoldingData);
+	topHoldingSummary = generateGraphDataset(schemeTopHolding) || { label: [], data: [] };
 	const doughnutData = {
-		labels: ['REC Ltd.', 'ABC Ltd.', 'DEF Ltd.', 'XYZ Ltd.', 'NOV Ltd.', 'DEC Ltd.'],
+		labels: topHoldingSummary.label,
 		datasets: [
 			{
 				backgroundColor: graphColor,
 				hoverBackgroundColor: graphColor,
 				hoverBorderColor: graphColor,
-				data: topHoldingSummary,
+				data: topHoldingSummary.data,
 				cutout: '70%',
 				borderRadius: 0,
 				borderWidth: 2, // can make responsive
@@ -97,14 +102,28 @@
 	/>
 
 	<section class="mt-9 px-6">
-		<!-- {JSON.stringify(fundHoldingData)} -->
 		<Table class="border border-grey-line">
 			<THead slot="thead" class="border-t border-grey-line">
-				<Th>Top Holding</Th>
+				<Th class="w-3/5">Top Holding</Th>
 				<Th class="text-right">Allocation</Th>
 			</THead>
 			<TBody slot="tbody">
-				<Tr />
+				{#each schemeTopHolding as holdings}
+					<Tr>
+						<Td>
+							<div class="flex items-center">
+								<div
+									class="mr-2 h-[6px] w-[6px] rounded-full"
+									style={`background-color:${holdings.colorCode}`}
+								/>
+								<div>
+									{holdings.companyName}
+								</div>
+							</div>
+						</Td>
+						<Td class="text-right">{holdings.percentageHold}%</Td>
+					</Tr>
+				{/each}
 			</TBody>
 		</Table>
 	</section>

@@ -10,6 +10,7 @@ specifiers:
   '@sveltejs/adapter-auto': 2.0.0
   '@sveltejs/adapter-node': 1.2.3
   '@sveltejs/kit': 1.12.0
+  '@types/svelte-range-slider-pips': ^2.0.0
   '@typescript-eslint/eslint-plugin': ^5.45.0
   '@typescript-eslint/parser': ^5.45.0
   autoprefixer: ^10.4.13
@@ -39,6 +40,7 @@ specifiers:
   svelte-check: ^3.0.1
   svelte-device-detector: ^0.2.2
   svelte-flatpickr: ^3.3.1
+  svelte-range-slider-pips: ^2.1.1
   svelte-video-player: ^1.2.5
   tailwindcss: 3.2.7
   tslib: ^2.4.1
@@ -58,6 +60,7 @@ dependencies:
   svelte-chartjs: 3.1.2_ojwxrefj4rbbcloly7f4kymkqq
   svelte-device-detector: 0.2.2
   svelte-flatpickr: 3.3.2_svelte@3.57.0
+  svelte-range-slider-pips: 2.1.1
   svelte-video-player: 1.2.5
   uuid: 9.0.0
 
@@ -65,6 +68,7 @@ devDependencies:
   '@playwright/test': 1.32.1
   '@sveltejs/adapter-auto': 2.0.0_@sveltejs+kit@1.12.0
   '@sveltejs/kit': 1.12.0_svelte@3.57.0+vite@4.2.1
+  '@types/svelte-range-slider-pips': 2.0.0
   '@typescript-eslint/eslint-plugin': 5.57.0_x4rubgibnu7ujqspfqdeho4yiu
   '@typescript-eslint/parser': 5.57.0_ip5up2nocltd47wbnuyybe5dxu
   autoprefixer: 10.4.14_postcss@8.4.21
@@ -542,6 +546,12 @@ packages:
 
   /@types/semver/7.3.13:
     resolution: {integrity: sha512-21cFJr9z3g5dW8B0CVI9g2O9beqaThGQ6ZFBqHfwhzLDKUxaqTIy3vnfah/UPkfOiF2pLq+tGz+W8RyCskuslw==}
+    dev: true
+
+  /@types/svelte-range-slider-pips/2.0.0:
+    resolution: {integrity: sha512-+Yq3xwyI0ViGZKdrsNpM8Wqa0wCnSBKc8NcRfYGiu22kVJ3Xr0gfiZATWMzZ2mryt/tQR8QgH2B782ogrZS1aw==}
+    dependencies:
+      svelte: 3.57.0
     dev: true
 
   /@typescript-eslint/eslint-plugin/5.57.0_x4rubgibnu7ujqspfqdeho4yiu:
@@ -2260,6 +2270,10 @@ packages:
       svelte: 3.57.0
       typescript: 4.9.5
     dev: true
+
+  /svelte-range-slider-pips/2.1.1:
+    resolution: {integrity: sha512-fLkhfnyEc4uMOCZCl8IPyC0e9lujrjqdSyrKw28Y8j99YUPZR+pHnSxde7PqhM0ST6eyO4ugh2nFnLZTIoG9aQ==}
+    dev: false
 
   /svelte-video-player/1.2.5:
     resolution: {integrity: sha512-iImQY6qnEEE0fngq9aANKMKDD2knTBcsyTLKHc3hyZ/nj/ZExwBAJ7MbxlOnyLpSKzZA1KaSSaqKXeTRWZOOlw==}

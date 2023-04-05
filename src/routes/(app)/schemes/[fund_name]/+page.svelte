@@ -10,6 +10,7 @@
 	import SchemeInformation from './SchemeInformation/SchemeInformation.svelte';
 	import SimilarFunds from './SimilarFunds/SimilarFunds.svelte';
 	import OtherFundsByAMC from './OtherFundsByAMC/OtherFundsByAMC.svelte';
+	import ReturnEstimator from './ReturnEstimator/ReturnEstimator.svelte';
 
 	export let data: PageData;
 </script>
@@ -20,6 +21,7 @@
 	<article class="sm-scroll-margin lg:scroll-margin mt-2 rounded-lg pt-1 sm:pt-2 lg:mt-5">
 		<FundOverview schemeDetails={schemedata} />
 		<LockInPeriod schemeDetails={schemedata} />
+		<ReturnEstimator />
 		<SchemeInformation schemeDetails={schemedata} />
 		<FundManager schemeDetails={schemedata} />
 		{#await data?.api?.holdingData then fundHoldingData}

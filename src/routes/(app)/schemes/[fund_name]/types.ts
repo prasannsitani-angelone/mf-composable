@@ -38,3 +38,8 @@ export interface SameAmcScheme {
 	amcName: string;
 	schemeInfo?: OtherSchemeEntityOrSchemeInfoEntity[] | null;
 }
+
+export interface TopHoldingSummary {
+	label: Array<string>;
+	data: Array<number>;
+}
