@@ -4,10 +4,17 @@
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { MFCommonHeader } from '$lib/utils';
-	import { onMount, tick } from 'svelte';
+	import { createEventDispatcher, onMount, tick } from 'svelte';
 	import { tags } from '../constants';
 	import type { LineChartData, NavDetails } from '../types';
 
+	const dispatch = createEventDispatcher();
+
+	function chartRangeChange(month: number) {
+		dispatch('chartRangeChange', {
+			text: month
+		});
+	}
 	let selectedMonth = 36;
 
 	let schemeDetails: SchemeDetails;
@@ -68,10 +75,10 @@
 
 		fillChartData(lineChartData);
 		selectedMonth = month;
+		chartRangeChange(month);
 	};
 	onMount(async () => {
 		await tick();
-
 		selectNavDuration(36);
 	});
 

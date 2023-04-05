@@ -1,8 +1,5 @@
 <script lang="ts">
-	import type { SchemeDetails, SchemeHoldings } from '$lib/types/ISchemeDetails';
-	import { setContext } from 'svelte';
 	import type { PageData } from './$types';
-	import { SCHEME_DETAILS_KEY } from './constants';
 	import FundHoldings from './FundHoldings/FundHoldings.svelte';
 	import FundManager from './FundManager.svelte';
 	import FundOverview from './FundOverview/FundOverview.svelte';

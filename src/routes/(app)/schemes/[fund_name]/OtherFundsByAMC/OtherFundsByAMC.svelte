@@ -12,7 +12,6 @@
 	import Tr from '$components/Table/TR.svelte';
 	import OtherFundsIcon from '$lib/images/icons/OtherFundsIcon.svelte';
 	import RightArrow from '$lib/images/icons/RightArrow.svelte';
-	import SimilarFundsIcon from '$lib/images/icons/SimilarFundsIcon.svelte';
 	import { returnYearTableChangeColumn, yearlyReturnMap, type TableColumnToggle } from '$lib/utils';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 

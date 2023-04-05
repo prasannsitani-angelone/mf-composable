@@ -1,7 +1,8 @@
 <script lang="ts">
 	import Button from '$components/Button.svelte';
+	import CalenderIcon from '$lib/images/icons/CalenderIcon.svelte';
 	import ReturnEstimatorIcon from '$lib/images/icons/ReturnEstimatorIcon.svelte';
-
+	import RangeSlider from 'svelte-range-slider-pips';
 	$: currentCalculatorMode = 'SIP';
 
 	const changeCalculatorMode = (mode: string) => {
@@ -61,6 +62,7 @@
 						<div>5000</div>
 					</div>
 				</div>
+				<RangeSlider values={[50]} pips />
 			</div>
 			<div class="mt-11">
 				<div class="mb-5 flex justify-between">
@@ -73,9 +75,51 @@
 						<div>24 Y</div>
 					</div>
 				</div>
-
+				<RangeSlider values={[50]} pips />
 				<div class="mt-4 flex justify-between text-xs text-grey-body">
 					<span>1Y</span><span>30Y</span>
+				</div>
+			</div>
+			<div
+				class="mt-6 mb-9 flex h-9 justify-center rounded bg-grey align-middle text-base text-grey-body"
+			>
+				<span class="text-xs leading-9"
+					><span> When you invest </span><span class="font-bold text-black-title">
+						₹<span>30,000</span></span
+					><span> every month for the next </span><span class="font-bold text-black-title"
+						>6 year<span>s</span></span
+					></span
+				>
+			</div>
+			<div class="rounded border border-grey-line p-4">
+				<div class="pb-5">
+					<div class="mb-3 flex justify-between text-sm font-medium text-grey-body">
+						<div>
+							<p>Your Investment</p>
+							<p class="text-xl text-black-title">₹<span>21,60,000</span></p>
+						</div>
+						<div>
+							<p class="text-right">Gain</p>
+							<div class="flex items-center justify-center">
+								<p class="text-green-buy">585.69%</p>
+								<p class="ml-1 text-xl text-black-title">₹<span>1,26,50,925</span></p>
+							</div>
+						</div>
+					</div>
+					<div>
+						<RangeSlider values={[50]} pips />
+					</div>
+				</div>
+				<div class="flex justify-center bg-green-buy/[0.12] py-3">
+					<div
+						class="mr-2 flex h-9 w-9 items-center justify-center rounded-full bg-green-buy sm:h-12 sm:w-12"
+					>
+						<CalenderIcon />
+					</div>
+					<div>
+						<div class="text-sm font-normal text-grey-body">Maturity Amount</div>
+						<div class="text-2xl font-medium text-black-title">₹<span>1,48,10,925</span></div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -83,4 +127,12 @@
 </article>
 
 <style>
+	:global(body) {
+		--range-range: orange;
+		--range-range-inactive: orange;
+		--range-handle-focus: orange;
+		--range-handle-inactive: orange;
+		--range-pip-in-range: orange;
+		--range-pip-in-range-text: orange;
+	}
 </style>
