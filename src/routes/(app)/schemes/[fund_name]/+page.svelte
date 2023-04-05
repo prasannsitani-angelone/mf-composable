@@ -8,6 +8,8 @@
 	import FundOverview from './FundOverview/FundOverview.svelte';
 	import LockInPeriod from './LockInPeriod.svelte';
 	import SchemeInformation from './SchemeInformation/SchemeInformation.svelte';
+	import SimilarFunds from './SimilarFunds/SimilarFunds.svelte';
+	import OtherFundsByAMC from './OtherFundsByAMC/OtherFundsByAMC.svelte';
 
 	export let data: PageData;
 </script>
@@ -20,6 +22,12 @@
 		<LockInPeriod schemeDetails={schemedata} />
 		<SchemeInformation schemeDetails={schemedata} />
 		<FundManager schemeDetails={schemedata} />
-		<FundHoldings schemeDetails={schemedata} />
+		{#await data?.api?.holdingData then fundHoldingData}
+			<FundHoldings {fundHoldingData} />
+		{/await}
+		{#await data?.api?.comparisons then comparisons}
+			<SimilarFunds similarFunds={comparisons?.otherScheme || []} />
+			<OtherFundsByAMC sameAmcScheme={comparisons?.sameAmcScheme} />
+		{/await}
 	</article>
 {/await}

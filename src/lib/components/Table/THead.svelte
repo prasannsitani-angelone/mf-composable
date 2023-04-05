@@ -5,7 +5,5 @@
 </script>
 
 <thead class={`${clazz}`}>
-	<tr>
-		<slot />
-	</tr>
+	<slot />
 </thead>

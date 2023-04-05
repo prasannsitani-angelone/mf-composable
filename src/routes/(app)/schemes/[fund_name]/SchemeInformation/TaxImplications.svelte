@@ -3,7 +3,7 @@
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 
 	let schemeDetails: SchemeDetails;
-
+	const taxImplications = schemeDetails.taxImplications || [];
 	export { schemeDetails };
 </script>
 
@@ -20,10 +20,10 @@
 			<div class="h-4 w-4 rounded-full border-4 border-green-buy" />
 			<div class="ml-2">
 				<h4 class="mb-1 text-sm text-grey-body">
-					{schemeDetails?.taxImplications[0]?.header}
+					{taxImplications[0]?.header}
 				</h4>
 				<h5 class="text-sm font-medium text-black-title">
-					{schemeDetails?.taxImplications[0]?.value}
+					{taxImplications[0]?.value}
 				</h5>
 			</div>
 		</div>
@@ -34,10 +34,10 @@
 			<div class="h-4 w-4 rounded-full border-4 border-green-buy" />
 			<div class="ml-2">
 				<h4 class="mb-1 text-sm text-grey-body">
-					{schemeDetails?.taxImplications[1]?.header}
+					{taxImplications[1]?.header}
 				</h4>
 				<h5 class="text-sm font-medium text-black-title">
-					{schemeDetails?.taxImplications[1]?.value}
+					{taxImplications[1]?.value}
 				</h5>
 			</div>
 		</div>

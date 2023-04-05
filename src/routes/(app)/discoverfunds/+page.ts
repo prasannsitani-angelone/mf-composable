@@ -17,13 +17,17 @@ export const load = (async ({ fetch, parent }) => {
 		const res = await fetch(url, {
 			headers
 		});
+
 		if (res.ok) {
 			const discoverFundData = await res.json();
 			return {
 				...discoverFundData
 			};
 		} else {
-			return {};
+			return {
+				searchOptions: [],
+				weeklyTopSchemes: []
+			};
 		}
 	};
 
