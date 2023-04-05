@@ -8,7 +8,6 @@ import type { PageLoad } from './$types';
 export const load = (async ({ fetch, parent }) => {
 	const getSchemeData = async () => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/searchDashboard?options=true`;
-
 		const headers = {
 			userType: `${profileStore?.userType()}`,
 			accountType: `${profileStore?.accountType()}`,

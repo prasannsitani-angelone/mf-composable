@@ -51,7 +51,7 @@ export const load = (async ({ url, request, locals, cookies }) => {
 	cookies.set('UserType', userType);
 	cookies.set('AccountType', accountType);
 
-	if (isGuest === 'true') {
+	if (isGuest) {
 		tokenObj.guestToken = token;
 	} else {
 		tokenObj.userToken = {
@@ -59,7 +59,7 @@ export const load = (async ({ url, request, locals, cookies }) => {
 			NTRefreshToken: refreshToken
 		};
 	}
-	if (!localProfileData.clientId && isGuest !== 'true') {
+	if (!localProfileData.clientId && !isGuest) {
 		localProfileData = await useProfileFetch(url.origin, locals);
 		cookies.set('UserType', localProfileData?.userType);
 		cookies.set('AccountType', localProfileData?.dpNumber ? 'D' : 'P');
