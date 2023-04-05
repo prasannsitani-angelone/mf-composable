@@ -27,7 +27,7 @@
 							</div>
 						{:else}
 							<PiggyBankIcon disabled={true} />
-							<div class="ml-2 flex justify-center ">
+							<div class="ml-2 flex justify-center">
 								<span class="text-center text-xs font-medium">
 									This fund does not support SIP Investment
 								</span>
@@ -49,7 +49,7 @@
 							</div>
 						{:else}
 							<MinLumpSumIcon disabled={true} />
-							<div class="ml-2 flex justify-center ">
+							<div class="ml-2 flex justify-center">
 								<span class="text-center text-xs font-medium">
 									This fund does not support One-Time Investment
 								</span>

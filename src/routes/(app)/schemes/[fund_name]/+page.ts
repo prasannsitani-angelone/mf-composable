@@ -25,7 +25,6 @@ export const load = (async ({ fetch, params }) => {
 		const res = await fetch(url, {
 			headers
 		});
-
 		const holdingData: Array<SchemeHoldings> = await res.json();
 
 		return holdingData;

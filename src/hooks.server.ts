@@ -14,7 +14,7 @@ export const handle = (async ({ event, resolve }) => {
 	let token = event.request.headers.get('authtoken') || ABUserCookie?.NTAccessToken || '';
 	const refreshToken =
 		event.request.headers.get('refreshtoken') || ABUserCookie?.NTRefreshToken || '';
-	let userType = cookie['UserType'];
+	let userType = cookie['UserType'] === 'undefined' ? null : cookie['UserType'];
 	let accountType = cookie['AccountType'];
 	let profileData: UserProfile = {
 		clientId: '',
@@ -28,16 +28,17 @@ export const handle = (async ({ event, resolve }) => {
 		isAuthenticatedUser = false;
 	}
 
-	const isGuest = isAuthenticatedUser ? 'false' : 'true';
-
+	const isGuest = isAuthenticatedUser ? false : true;
 	if (!userType && isGuest) {
 		userType = 'B2C';
 		accountType = 'D';
 	} else if (!userType) {
 		profileData = await useProfileFetch(event.url.origin, {});
+		console.log('profiledata call');
 		userType = profileData?.userType;
 		accountType = profileData?.dpNumber ? 'D' : 'P';
 	}
+
 	event.locals = {
 		...event.locals,
 		token,
@@ -47,6 +48,7 @@ export const handle = (async ({ event, resolve }) => {
 		accountType,
 		profileData
 	};
+
 	const response = await resolve(event);
 
 	return response;

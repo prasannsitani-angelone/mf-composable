@@ -30,7 +30,7 @@
 		<div
 			class="absolute left-2 top-11 h-9 w-[1.5px] -translate-x-1/2 -translate-y-1/2 bg-grey-line"
 		/>
-		<div class="relative flex ">
+		<div class="relative flex">
 			<div class="h-4 w-4 rounded-full border-4 border-green-buy" />
 			<div class="ml-2">
 				<h4 class="mb-1 text-sm text-grey-body">

@@ -18,7 +18,7 @@
 	export { schemeDetails };
 </script>
 
-<section class="rounded-lg bg-white p-4  shadow-csm sm:p-6">
+<section class="rounded-lg bg-white p-4 shadow-csm sm:p-6">
 	<header>
 		<ChipOverview
 			class="mb-2"

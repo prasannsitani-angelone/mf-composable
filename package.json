@@ -4,6 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
+		"dev-debug": "cp .env.uat .env && NODE_OPTIONS=--inspect ./node_modules/.bin/vite dev",
 		"dev:uat": "cp .env.uat .env && vite dev",
 		"dev:cug": "cp .env.cug .env && vite dev",
 		"build": "vite build",
