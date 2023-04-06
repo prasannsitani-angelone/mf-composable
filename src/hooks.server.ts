@@ -53,7 +53,6 @@ export const handle = (async ({ event, resolve }) => {
 
 	return response;
 }) satisfies Handle;
-
 export const handleFetch = (async ({ event, request, fetch }) => {
 	const { userType = '', accountType = '', token } = event.locals;
 

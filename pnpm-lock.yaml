@@ -29,7 +29,7 @@ specifiers:
   react: ^18.2.0
   react-dom: ^18.2.0
   svelte: 3.57.0
-  svelte-carousel: 1.0.24
+  svelte-carousel: 1.0.25
   svelte-chartjs: 3.1.2
   svelte-check: ^3.0.1
   svelte-device-detector: ^0.2.2
@@ -80,7 +80,7 @@ devDependencies:
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   svelte: 3.57.0
-  svelte-carousel: 1.0.24
+  svelte-carousel: 1.0.25
   svelte-check: 3.1.4_sd5d5bwhwct4qrvp7ra4wv5wou
   tailwindcss: 3.2.7_postcss@8.4.21
   tslib: 2.5.0
@@ -1048,8 +1048,8 @@ packages:
       esutils: 2.0.3
     dev: true
 
-  /easy-reactive/1.0.3:
-    resolution: {integrity: sha512-ZB5HZNF3pmrrL+tNodtEeGp17LwmbHi2zRVYZWcM7FXSXVQkKw13RYyEURcaZCyVMY37kxTZA1q71pheJHKxUA==}
+  /easy-reactive/1.0.4:
+    resolution: {integrity: sha512-dFVouegPctMf6XT5si+sRByBWUQE30n99TW0Y45Y7mccmNsbSl4uXA2sBGI8zCDZqXjhb8ouA3wVVhSSGpXk5Q==}
     dependencies:
       lodash.clonedeep: 4.5.0
       lodash.get: 4.4.2
@@ -2143,10 +2143,10 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  /svelte-carousel/1.0.24:
-    resolution: {integrity: sha512-qz82cuq4912Yr61voMwpOoGjKuNCX7t8i11RME+WBzCFuYmk5l5H1d/FvFiomIcMgeQw/n0xFo4YppjsdDtunA==}
+  /svelte-carousel/1.0.25:
+    resolution: {integrity: sha512-vR/AbGYwlh3fgWaB5PJg+iqZFvoVCJq4JWdmlXvPtdG9TLlKJWBcoiKlMZt3MnFF7AqNW46tOH/O+uVMWQzyWQ==}
     dependencies:
-      easy-reactive: 1.0.3
+      easy-reactive: 1.0.4
     dev: true
 
   /svelte-chartjs/3.1.2_ojwxrefj4rbbcloly7f4kymkqq:

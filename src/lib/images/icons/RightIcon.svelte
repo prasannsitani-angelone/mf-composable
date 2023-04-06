@@ -1,12 +1,14 @@
 <script>
 	let clazz = '';
-	let stroke = '';
-	export { clazz as class, stroke };
+	let stroke = '#C2C6CC';
+	let height = '16';
+	let width = '17';
+	export { clazz as class, stroke, height, width };
 </script>
 
 <svg
-	width="16"
-	height="17"
+	{width}
+	{height}
 	viewBox="0 0 16 17"
 	fill="none"
 	xmlns="http://www.w3.org/2000/svg"

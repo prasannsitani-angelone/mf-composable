@@ -1,12 +1,14 @@
-<script>
+<script lang="ts">
 	let clazz = '';
 
 	export { clazz as class };
+	export let width = '16';
+	export let height = '14';
 </script>
 
 <svg
-	width="16"
-	height="14"
+	{width}
+	{height}
 	viewBox="0 0 16 14"
 	fill="none"
 	xmlns="http://www.w3.org/2000/svg"

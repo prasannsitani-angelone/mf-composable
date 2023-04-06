@@ -3,8 +3,8 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
+		"dev-debug": "NODE_OPTIONS=--inspect ./node_modules/.bin/vite dev",
 		"dev": "vite dev",
-		"dev-debug": "cp .env.uat .env && NODE_OPTIONS=--inspect ./node_modules/.bin/vite dev",
 		"dev:uat": "cp .env.uat .env && vite dev",
 		"dev:cug": "cp .env.cug .env && vite dev",
 		"build": "vite build",

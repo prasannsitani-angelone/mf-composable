@@ -1,9 +1,9 @@
-<script>
+<script lang="ts">
 	import DoughnutChart from '$lib/components/Charts/DoughnutChart.svelte';
 	import LineChart from '$lib/components/Charts/LineChart.svelte';
 	import Riskometer from '$lib/components/Charts/Riskometer.svelte';
 
-	const getTime = (years, month = 0, date = new Date()) => {
+	const getTime = (years: number, month = 0, date = new Date()) => {
 		date.setFullYear(date.getFullYear() - years);
 		date.setMonth(date.getMonth() - month);
 		return date;
@@ -101,7 +101,8 @@
 	};
 </script>
 
-<div>
+<section>Portfolio page goes here!!</section>
+<section>
 	<LineChart data={lineData} chartOptions={lineChartOptions} chartClass="w-full h-64 relative" />
 	<DoughnutChart
 		data={doughnutData}
@@ -110,4 +111,4 @@
 		chartClass="w-48 h-48 m-auto mt-2"
 	/>
 	<Riskometer data={riskometerData} chartClass="!w-64 !h-32" />
-</div>
+</section>
