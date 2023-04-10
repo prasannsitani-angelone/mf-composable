@@ -5,23 +5,24 @@ import HoldingIcon from '$lib/images/icons/HoldingIcon.svelte';
 import OrdersBottomNavbarActiveIcon from '$lib/images/icons/OrdersBottomNavbarActiveIcon.svelte';
 import OrdersBottomNavbarInactiveIcon from '$lib/images/icons/OrdersBottomNavbarInactiveIcon.svelte';
 import { base } from '$app/paths';
+import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 
-export const BOTTOM_NAVBARS = [
+export const BOTTOM_NAVBARS = (scheme = '', host = '') => [
 	{
 		label: 'Discover',
-		path: `${base}/discoverfunds`,
+		path: `${getNavigationBaseUrl(base, scheme, host)}/discoverfunds`,
 		icon: HomeIcon,
 		activeIcon: HomeActiveIcon
 	},
 	{
 		label: 'Investments',
-		path: `${base}/investments`,
+		path: `${getNavigationBaseUrl(base, scheme, host)}/investments`,
 		icon: HoldingIcon,
 		activeIcon: HoldingActiveIcon
 	},
 	{
 		label: 'Orders',
-		path: '/orders/orderspage',
+		path: `${getNavigationBaseUrl(base, scheme, host)}/orders/orderspage`,
 		icon: OrdersBottomNavbarInactiveIcon,
 		activeIcon: OrdersBottomNavbarActiveIcon
 	}

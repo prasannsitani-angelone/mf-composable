@@ -38,7 +38,7 @@ const getSparkHeaders = (headers: Headers) => {
 
 export const load = (async ({ url, request, locals, cookies }) => {
 	const sparkHeaders: SparkStore = getSparkHeaders(request.headers);
-	const { isGuest, userType, accountType, profileData, token = '', refreshToken = '' } = locals;
+	const { isGuest, userType, accountType, profileData, scheme, host, token = '', refreshToken = '' } = locals;
 	const tokenObj: TokenStore = {
 		userToken: {
 			NTAccessToken: '',
@@ -68,6 +68,8 @@ export const load = (async ({ url, request, locals, cookies }) => {
 	return {
 		sparkHeaders,
 		profile: localProfileData,
-		tokenObj
+		tokenObj,
+		scheme,
+		host
 	};
 }) satisfies LayoutServerLoad;

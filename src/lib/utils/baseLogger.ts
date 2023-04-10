@@ -1,4 +1,5 @@
 import type { AnalyticMsgObj, LogMsgObj, Config, State } from '$lib/types/IBaseLogger';
+import { isDevMode } from '$lib/utils/helpers/dev';
 
 export const LOG_LEVELS_ENUM = {
 	info: 'info',
@@ -13,7 +14,7 @@ class BaseLogger {
 			logs: [],
 			batchSize: 1,
 			logLevel: LOG_LEVELS_ENUM.debug,
-			isDev: process.env.NODE_ENV === 'development',
+			isDev: isDevMode(),
 			enabled: false,
 			baseUrl: '',
 			url: '',

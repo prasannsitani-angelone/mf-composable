@@ -1,8 +1,13 @@
 <script lang="ts">
 	import { base } from '$app/paths';
 	import Link from './Link.svelte';
+	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
+	import { getContext } from 'svelte';
+	import type { AppContext } from '$lib/types/IAppContext';
 
 	const logoUrl = `${base}/images/AngelOneLogo.webp`;
+
+	const appContext: AppContext = getContext('app')
 </script>
 
 <section class="p-2 pl-4 text-center md:p-5">
@@ -13,10 +18,10 @@
 				<img src={logoUrl} alt="Angel One Logo" width="127" height="51" />
 			</Link>
 		</div>
-		<Link to="/discoverfunds">
+		<Link to={`${getNavigationBaseUrl('', appContext.scheme, appContext.host)}/discoverfunds`}>
 			<div class="hidden cursor-pointer uppercase md:block">Discover</div>
 		</Link>
-		<Link to="/investments">
+		<Link to={`${getNavigationBaseUrl('', appContext.scheme, appContext.host)}/investments`}>
 			<div class="mr-4 hidden cursor-pointer uppercase md:block">INVESTMENTS</div>
 		</Link>
 		<div class="w-full md:w-2/5" />

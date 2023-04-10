@@ -1,6 +1,7 @@
 import getAuthToken from '$lib/server/getAuthToken';
 import type { UserProfile } from '$lib/types/IUserProfile';
 import type { WMSCookie } from '$lib/types/IWMSCookie';
+import { isDevMode } from '$lib/utils/helpers/dev';
 import { getUserTokenFromCookie } from '$lib/utils/helpers/token';
 import { useProfileFetch } from '$lib/utils/useProfileFetch';
 import type { Handle, HandleFetch } from '@sveltejs/kit';
@@ -21,6 +22,8 @@ export const handle = (async ({ event, resolve }) => {
 		userType: 'B2C',
 		dpNumber: 'D'
 	};
+	const scheme = event.request.headers.get('x-forwarded-proto') || (isDevMode() ? 'http' : 'https')
+	const host = event.request.headers.get('x-forwarded-host') || event.request.headers.get('host')
 
 	if (!token) {
 		// TODO: Check if Guest token is in Cookie
@@ -46,7 +49,9 @@ export const handle = (async ({ event, resolve }) => {
 		isGuest,
 		userType,
 		accountType,
-		profileData
+		profileData,
+		scheme,
+		host
 	};
 
 	const response = await resolve(event);
