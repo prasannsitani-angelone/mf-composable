@@ -39,7 +39,7 @@
 
 	<slot name="button">
 		<Button
-			class="mt-5 w-52 rounded border !border-blue-primary py-4 text-center text-sm font-semibold  !text-blue-primary active:opacity-95"
+			class="mt-5 w-52 cursor-pointer rounded border !border-blue-primary py-4 text-center text-sm font-semibold  !text-blue-primary active:opacity-95"
 			onClick={onButtonClick}
 			variant="outlined"
 		>
