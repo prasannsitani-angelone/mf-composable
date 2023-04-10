@@ -6,7 +6,7 @@
 	import PortfolioCard from '$components/PortfolioCards/PortfolioCard.svelte';
 	import InvestmentOrders from './InvestmentOrders.svelte';
 
-	import TrendingFunds from '../../discoverfunds/TrendingFunds.svelte';
+	import TrendingFunds from '../../discoverfunds/TrendingFunds/TrendingFunds.svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;

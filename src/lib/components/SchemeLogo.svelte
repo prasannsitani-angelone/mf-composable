@@ -6,7 +6,7 @@
 </script>
 
 <div
-	class="mr-3 flex h-12 w-12 shrink-0 items-center rounded-full border border-grey-line shadow-csm group-hover:bg-white"
+	class={`mr-3 flex h-12 w-12 shrink-0 items-center rounded-full border border-grey-line shadow-csm group-hover:bg-white ${$$props.class}`}
 >
 	<img {src} loading={lazy} width="48" height="48" {alt} />
 </div>

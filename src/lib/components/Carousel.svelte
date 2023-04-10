@@ -52,4 +52,7 @@
 		opacity: 1 !important;
 		width: 16px !important;
 	}
+	.swiper-pagination {
+		margin-top: 16px;
+	}
 </style>

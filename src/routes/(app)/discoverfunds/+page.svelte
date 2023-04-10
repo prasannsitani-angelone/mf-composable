@@ -1,5 +1,5 @@
 <script lang="ts">
-	import TrendingFunds from './TrendingFunds.svelte';
+	import TrendingFunds from './TrendingFunds/TrendingFunds.svelte';
 	import Link from '$lib/components/Link.svelte';
 	import type { SearchOptionsEntity } from '$lib/types/IDiscoverFunds';
 	import type { PageData } from './$types';
