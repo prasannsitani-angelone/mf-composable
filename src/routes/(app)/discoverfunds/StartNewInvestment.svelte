@@ -4,7 +4,7 @@
 </script>
 
 <aside
-	class="sticky -top-2 flex flex-col items-center justify-center rounded-lg bg-white p-3 pt-6 shadow-clg"
+	class="sticky -top-14 flex flex-col items-center justify-center rounded-lg bg-white p-3 pt-6 shadow-clg"
 >
 	<img
 		src={`${base}/images/StartNewMutualFund.webp`}

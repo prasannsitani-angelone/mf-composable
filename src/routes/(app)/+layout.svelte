@@ -27,7 +27,7 @@
 	</header>
 
 	<main
-		class="scroll-lock m-auto flex w-full max-w-8xl flex-grow justify-center overflow-auto px-2 py-2"
+		class="scroll-lock m-auto flex w-full max-w-8xl flex-grow justify-center overflow-auto px-2 py-2 pt-3 pb-2 sm:px-0 sm:pt-14"
 	>
 		<section
 			class={`${

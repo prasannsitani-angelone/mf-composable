@@ -6,7 +6,17 @@
 
 	import Table from '$components/Table/Table.svelte';
 	import SchemeCard from '$components/SchemeCard.svelte';
+	import { returnYearTableChangeColumn, yearlyReturnMap, type TableColumnToggle } from '$lib/utils';
+	import Td from '$components/Table/TD.svelte';
 	let tableData: Array<WeeklyTopSchemesEntity>;
+
+	let currentYearFilter: TableColumnToggle = {
+		label: '3Y Return',
+		field: 'returns3yr'
+	};
+	const sortTable = () => {
+		currentYearFilter = returnYearTableChangeColumn(currentYearFilter.field, yearlyReturnMap);
+	};
 
 	export { tableData };
 </script>
@@ -14,17 +24,19 @@
 <Table class="hidden sm:block">
 	<THead slot="thead" class="border-t">
 		<Th class="text-start">Funds</Th>
-		<Th class="text-center">3Y return</Th>
-		<Th class="pl-0">Min SIP Invetsments</Th>
+		<Th class="text-center" sortable isHorizontalSort={true} on:initSort={sortTable}
+			>{currentYearFilter.label}</Th
+		>
+		<Th class="!pl-0">Min SIP Invetsments</Th>
 	</THead>
 	<TBody slot="tbody">
 		{#each tableData || [] as schemes}
 			<tr class="hover"
-				><Th class="w-[30%]">
+				><Td class="w-[30%]">
 					<SchemeCard {schemes} />
-				</Th>
-				<Th class="text-center">{schemes?.returns3yr}%</Th>
-				<Th class="text-center">{schemes?.minSipAmount}</Th></tr
+				</Td>
+				<Td class="text-center">{schemes[currentYearFilter.field]}%</Td>
+				<Td class="text-center">{schemes?.minSipAmount}</Td></tr
 			>
 		{/each}
 	</TBody>
