@@ -30,8 +30,9 @@
 		class="scroll-lock m-auto flex w-full max-w-8xl flex-grow justify-center overflow-auto px-2 py-2"
 	>
 		<section
-			class={`w-full lg:grid lg:grid-cols-[66%_34%] lg:gap-5 xl:w-4/5 ${
-				$appPage.data?.layoutConfig?.layoutClass || ''
+			class={`${
+				$appPage.data?.layoutConfig?.layoutClass ||
+				'w-full lg:grid lg:grid-cols-[66%_34%] lg:gap-5 xl:w-4/5'
 			}`}
 		>
 			<slot />
