@@ -51,7 +51,7 @@ class BaseLogger {
 		}
 		const { url, baseUrl } = this._state;
 		const options = {
-			body: this._state.getLogsBody(logs),
+			body: JSON.stringify(this._state.getLogsBody(logs)),
 			method: 'POST',
 			headers: this._state.getHeaders()
 		};

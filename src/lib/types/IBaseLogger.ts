@@ -1,6 +1,6 @@
 export interface LogMsgObj {
 	type: string;
-	params: any;
+	params?: any;
 }
 
 export interface AnalyticMsgObj {
