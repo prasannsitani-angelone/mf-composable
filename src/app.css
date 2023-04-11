@@ -35,3 +35,11 @@ input:focus {
 /* .numInputWrapper{
     pointer-events: none;
 } */
+
+/* Riskometer slider config */
+.track {
+	height: 6px !important;
+}
+/* .slider-disabled > .track{
+	height: 12px !important;
+} */

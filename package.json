@@ -52,6 +52,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@bulatdashiev/svelte-slider": "^1.0.3",
 		"@sveltejs/adapter-node": "1.2.3",
 		"chart.js": "4.2.1",
 		"chartjs-adapter-date-fns": "3.0.0",
@@ -62,7 +63,6 @@
 		"svelte-chartjs": "3.1.2",
 		"svelte-device-detector": "^0.2.2",
 		"svelte-flatpickr": "^3.3.1",
-		"svelte-range-slider-pips": "^2.1.1",
 		"svelte-video-player": "^1.2.5",
 		"uuid": "^9.0.0"
 	}

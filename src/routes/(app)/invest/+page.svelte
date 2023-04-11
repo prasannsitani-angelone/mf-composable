@@ -1,7 +1,6 @@
 <script lang="ts">
 	import NumPad from '$components/Keyboard/NumPad.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
-
 	let amount = '';
 	$: amountVal = amount?.length ? `₹${addCommasToAmountString(amount)}` : '';
 	let maximumAmountLimit = 999999999;

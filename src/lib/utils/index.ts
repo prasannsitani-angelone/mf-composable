@@ -48,3 +48,15 @@ export const returnYearTableChangeColumn = (col: string, allColumns: Array<Table
 	const nextColumn = allColumns[nextColumnIndex];
 	return nextColumn;
 };
+
+export const formatDate = (epochDate: Date) => {
+	if (!epochDate) {
+		return '';
+	}
+	const date = new Date(epochDate);
+	const day = date.getDate();
+	const month = date.toLocaleString('default', { month: 'short' });
+	const year = date.getFullYear();
+
+	return `${month} ${day} ${year}`;
+};

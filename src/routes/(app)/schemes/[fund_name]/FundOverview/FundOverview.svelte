@@ -4,6 +4,7 @@
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import ArqRatingIcon from '$lib/images/icons/ArqRatingIcon.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	import { formatDate } from '$lib/utils';
 	import { tags } from '../constants';
 	import type { Tags } from '../types';
 
@@ -25,15 +26,17 @@
 	let returnPeriod: keyof Tags;
 	$: returnPeriod = selectedTag[0].returnPeriod;
 	$: oneDayReturnClass = 'text-green-buy ';
-
+	$: oneDayReturnSuffix = '';
 	function oneDayReturn(scheme: SchemeDetails): string {
 		const { navValue, previousNavValue } = scheme || {};
 		const oneDReturn = ((navValue - previousNavValue) / previousNavValue) * 100;
 
 		if (oneDReturn <= 0) {
 			oneDayReturnClass = 'text-red-sell';
+			oneDayReturnSuffix = '-';
 		} else {
 			oneDayReturnClass = 'text-green-buy ';
+			oneDayReturnSuffix = '+';
 		}
 		return oneDReturn.toFixed(2);
 	}
@@ -86,13 +89,15 @@
 		<div class="mt-9 flex justify-between">
 			<div class="flex flex-col">
 				<span class="mr-1 text-sm font-medium text-grey-body sm:text-sm"
-					>NAV on {schemeDetails?.navDate}</span
+					>NAV on {formatDate(schemeDetails?.navDate)}</span
 				><span class="mr-1 text-lg text-black-title">{schemeDetails?.navValue}</span>
 			</div>
 			<div class="flex flex-col">
 				<span class="text-sm font-medium text-grey-body ${oneDayReturnClass}">
 					1D Returns
-				</span><span class={`${oneDayReturnClass}`}>{oneDayReturn(schemeDetails)}%</span>
+				</span><span class={`${oneDayReturnClass}`}
+					>{oneDayReturnSuffix}{oneDayReturn(schemeDetails)}%</span
+				>
 			</div>
 		</div>
 	</section>

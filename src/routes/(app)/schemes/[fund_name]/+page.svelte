@@ -18,7 +18,7 @@
 	<article class="sm-scroll-margin lg:scroll-margin mt-2 rounded-lg pt-1 sm:pt-2 lg:mt-5">
 		<FundOverview schemeDetails={schemedata} />
 		<LockInPeriod schemeDetails={schemedata} />
-		<ReturnEstimator />
+		<ReturnEstimator returns3yr={schemedata?.returns3yr} categoryName={schemedata?.categoryName} />
 		<SchemeInformation schemeDetails={schemedata} />
 		<FundManager schemeDetails={schemedata} />
 		{#await data?.api?.holdingData then fundHoldingData}

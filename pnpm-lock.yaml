@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@bulatdashiev/svelte-slider': ^1.0.3
   '@playwright/test': ^1.28.1
   '@sveltejs/adapter-auto': 2.0.0
   '@sveltejs/adapter-node': 1.2.3
@@ -44,6 +45,7 @@ specifiers:
   vitest: ^0.25.3
 
 dependencies:
+  '@bulatdashiev/svelte-slider': 1.0.3
   '@sveltejs/adapter-node': 1.2.3_@sveltejs+kit@1.12.0
   chart.js: 4.2.1
   chartjs-adapter-date-fns: 3.0.0_rid3rx6orfiwps7kg2r43n6mvu
@@ -89,6 +91,10 @@ devDependencies:
   vitest: 0.25.8
 
 packages:
+
+  /@bulatdashiev/svelte-slider/1.0.3:
+    resolution: {integrity: sha512-GkVyqIjzQnqy0FQIm8wqRLIOFQBQ/Ewd381Y7KwABsSwiSu0eMYO0/8s4q/wlMDDb2/+U66rXlalaUokUfw8Vg==}
+    dev: false
 
   /@esbuild/android-arm/0.17.14:
     resolution: {integrity: sha512-0CnlwnjDU8cks0yJLXfkaU/uoLyRf9VZJs4p1PskBr2AlAHeEsFEwJEo0of/Z3g+ilw5mpyDwThlxzNEIxOE4g==}

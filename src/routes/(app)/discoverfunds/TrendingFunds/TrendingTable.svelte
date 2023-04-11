@@ -36,7 +36,7 @@
 					<SchemeCard {schemes} />
 				</Td>
 				<Td class="text-center">{schemes[currentYearFilter.field]}%</Td>
-				<Td class="text-center">{schemes?.minSipAmount}</Td></tr
+				<Td class="text-center">₹{schemes?.minSipAmount}</Td></tr
 			>
 		{/each}
 	</TBody>

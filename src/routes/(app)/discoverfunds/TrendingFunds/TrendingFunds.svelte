@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { WeeklyTopSchemesEntity } from '$lib/types/IDiscoverFunds';
 
-	import Carousel from '$components/Carousel.svelte';
 	import TrendingTable from './TrendingTable.svelte';
 	import TrendingCarousel from './TrendingCarousel.svelte';
 
