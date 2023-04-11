@@ -3,6 +3,7 @@ import type { UserProfile } from '$lib/types/IUserProfile';
 import type { WMSCookie } from '$lib/types/IWMSCookie';
 import { isDevMode } from '$lib/utils/helpers/dev';
 import { getUserTokenFromCookie } from '$lib/utils/helpers/token';
+import Logger from '$lib/utils/logger';
 import { useProfileFetch } from '$lib/utils/useProfileFetch';
 import type { Handle, HandleFetch } from '@sveltejs/kit';
 import { parse } from 'cookie-es';
@@ -22,8 +23,8 @@ export const handle = (async ({ event, resolve }) => {
 		userType: 'B2C',
 		dpNumber: 'D'
 	};
-	const scheme = event.request.headers.get('x-forwarded-proto') || (isDevMode() ? 'http' : 'https')
-	const host = event.request.headers.get('x-forwarded-host') || event.request.headers.get('host')
+	const scheme = event.request.headers.get('x-forwarded-proto') || (isDevMode() ? 'http' : 'https');
+	const host = event.request.headers.get('x-forwarded-host') || event.request.headers.get('host');
 
 	if (!token) {
 		// TODO: Check if Guest token is in Cookie
@@ -64,6 +65,17 @@ export const handleFetch = (async ({ event, request, fetch }) => {
 	request.headers.set('userType', userType);
 	request.headers.set('accountType', accountType);
 	request.headers.set('authorization', `Bearer ${token}`);
+
+	Logger.debug({
+		type: 'Network request',
+		params: {
+			url: request.url,
+			opts: {
+				method: request.method,
+				headers: Object.fromEntries(request.headers)
+			}
+		}
+	});
 
 	return fetch(request);
 }) satisfies HandleFetch;

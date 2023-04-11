@@ -5,6 +5,7 @@ import { tokenStore } from '$lib/stores/TokenStore';
 import { userStore } from '$lib/stores/UserStore';
 import { v4 as uuidv4 } from 'uuid';
 import { hydrate } from './helpers/hydrated';
+import Logger from '$lib/utils/logger';
 
 const defaultOptions = {
 	method: 'GET',
@@ -23,6 +24,17 @@ if (browser) {
 		// request interceptor starts
 		// request interceptor ends
 		config.headers['X-Request-Id'] = uuidv4();
+		// logging request
+		if (!resource.toString().includes('logging')) {
+			Logger.debug({
+				type: 'Network request',
+				params: {
+					url: resource,
+					opts: config
+				}
+			});
+		}
+
 		const response = await originalFetch(resource, config);
 
 		// response interceptor here
@@ -30,9 +42,9 @@ if (browser) {
 	};
 }
 
-export const useFetch = (url: string, options: RequestInit = {}, fetchServer: any = null) => {
+export const useFetch = async (url: string, options: RequestInit = {}, fetchServer: any = null) => {
 	const baseFetch = hydrate ? fetch : fetchServer;
-	return baseFetch(url, {
+	const opts = {
 		...defaultOptions,
 		...options,
 		headers: {
@@ -43,5 +55,39 @@ export const useFetch = (url: string, options: RequestInit = {}, fetchServer: an
 			accountType: `${profileStore.accountType()}`,
 			...options?.headers
 		}
-	});
+	};
+	try {
+		const res = await baseFetch(url, opts);
+		const data = await res.json();
+		if (res.ok) {
+			Logger.info({
+				type: 'Network Response Success',
+				params: {
+					url,
+					opts,
+					response: data
+				}
+			});
+		} else {
+			Logger.error({
+				type: 'Network Response Error',
+				params: {
+					url,
+					opts,
+					response: data
+				}
+			});
+		}
+		return { ok: res.ok, status: res.status, data };
+	} catch (e) {
+		Logger.error({
+			type: 'Network Request Error',
+			params: {
+				url,
+				opts,
+				error: e.toString()
+			}
+		});
+		throw e;
+	}
 };

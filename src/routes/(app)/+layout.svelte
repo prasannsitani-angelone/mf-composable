@@ -8,11 +8,12 @@
 	import type { LayoutData } from './$types';
 	import { tokenStore } from '$lib/stores/TokenStore';
 	import { profileStore } from '$lib/stores/ProfileStore';
-	import { onMount, setContext } from 'svelte';
+	import { getContext, onMount, setContext } from 'svelte';
+	import type { AppContext } from '$lib/types/IAppContext';
 
 	export let data: LayoutData;
 	// Update store with Spark headers
-	const { sparkHeaders, tokenObj, profile, scheme, host } = data;
+	const { sparkHeaders, tokenObj, profile } = data;
 	// Update store with Spark headers
 	onMount(() => {
 		tokenStore.updateStore({ ...tokenObj });
@@ -20,10 +21,7 @@
 		profileStore.updateStore({ ...profile });
 	});
 
-	setContext('app', {
-      scheme,
-	  host
-	})
+	const appContext: AppContext = getContext('app');
 </script>
 
 <div class="flex-no-wrap flex h-full w-full flex-col bg-gray-100">
@@ -45,7 +43,7 @@
 	</main>
 	{#if $page.showBottomNavigation}
 		<footer>
-			<BottomNavigation navs={BOTTOM_NAVBARS(scheme, host)} />
+			<BottomNavigation navs={BOTTOM_NAVBARS(appContext.scheme, appContext.host)} />
 		</footer>
 	{/if}
 </div>

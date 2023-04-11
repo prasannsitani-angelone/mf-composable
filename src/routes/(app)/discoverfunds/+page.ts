@@ -11,7 +11,7 @@ export const load = (async ({ fetch, parent }) => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/searchDashboard?options=true`;
 		const res = await useFetch(url, {}, fetch);
 		if (res.ok) {
-			const discoverFundData = await res.json();
+			const discoverFundData = res.data;
 			return {
 				...discoverFundData
 			};

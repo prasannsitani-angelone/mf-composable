@@ -1,4 +1,4 @@
 export interface AppContext {
-    host: string,
-    scheme: string,
+	host: string;
+	scheme: string;
 }

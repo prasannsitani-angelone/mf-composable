@@ -7,7 +7,7 @@
 
 	const logoUrl = `${base}/images/AngelOneLogo.webp`;
 
-	const appContext: AppContext = getContext('app')
+	const appContext: AppContext = getContext('app');
 </script>
 
 <section class="p-2 pl-4 text-center md:p-5">

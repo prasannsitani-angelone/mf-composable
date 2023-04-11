@@ -12,7 +12,7 @@ export const load = (async ({ fetch, params }) => {
 	const getSchemeData = async () => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/${schemeCode}`;
 		const res = await useFetch(url, {}, fetch);
-		const schemeData: SchemeDetails = await res.json();
+		const schemeData: SchemeDetails = res.data;
 
 		return schemeData;
 	};
@@ -20,7 +20,7 @@ export const load = (async ({ fetch, params }) => {
 	const getFundHoldings = async () => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/holdings`;
 		const res = await useFetch(url, {}, fetch);
-		const holdingData: Array<SchemeHoldings> = await res.json();
+		const holdingData: Array<SchemeHoldings> = res.data;
 
 		return holdingData;
 	};
@@ -28,7 +28,7 @@ export const load = (async ({ fetch, params }) => {
 	const getFundComparisonsData = async () => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/comparisons`;
 		const res = await useFetch(url, {}, fetch);
-		const holdingData: FundComparisons = await res.json();
+		const holdingData: FundComparisons = res.data;
 
 		return holdingData;
 	};

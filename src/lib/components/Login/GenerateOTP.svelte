@@ -53,7 +53,7 @@
 		try {
 			showLoading();
 			const response = await generateOTPFunc(mobileNumber);
-			const data = await response.json();
+			const data = response.data;
 			const status = response.status;
 			if (status === 200 && data?.data?.is_guest_user) {
 				error = 'User is not registered with us';
