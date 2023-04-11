@@ -1,3 +1,5 @@
+import type { OrdersSummary } from './IInvestments';
+
 export interface orderItem {
 	orderId: number;
 	transactionType: string;
@@ -46,4 +48,9 @@ export interface StatusHistoryTypes {
 	failed: boolean;
 	status: string;
 	timeStamp: number;
+}
+
+export interface IOrdersResponse {
+	summary: OrdersSummary;
+	orders: orderItem[];
 }

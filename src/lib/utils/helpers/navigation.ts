@@ -1,4 +1,3 @@
-import { browser } from '$app/environment';
 import { PUBLIC_ENV_NAME } from '$env/static/public';
 import { isDevMode } from '$lib/utils/helpers/dev';
 

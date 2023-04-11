@@ -31,15 +31,9 @@
 					title="Your investments will show up here. Explore funds and place an order to get started"
 				/>
 			</article>
-			{#await data.api.homePage}
-				<div class="Loading">...Loading</div>
-			{:then schemeData}
-				{#if schemeData?.weeklyTopSchemes}
-					<TrendingFunds tableData={schemeData?.weeklyTopSchemes} />
-				{/if}
-			{:catch error}
-				<p style="color: red">Error Ocurred!!!!</p>
-			{/await}
+			{#if data?.schemeData?.weeklyTopSchemes}
+				<TrendingFunds tableData={data.schemeData.weeklyTopSchemes} />
+			{/if}
 		{/if}
 	{:catch error}
 		<div>Got An error!!!</div>

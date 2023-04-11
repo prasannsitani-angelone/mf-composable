@@ -31,8 +31,7 @@
 		data,
 		titleStyle
 	};
-
-	let showBody = true;
+	$: showBody = disableCollapse;
 
 	/**
 	 * toggleAccordionCardContent: Function to toggle Accordion Card body
@@ -111,9 +110,9 @@
 
 	<section
 		class="origin-top transition duration-100"
-		class:-translate-y-10={showBody}
-		class:max-h-0={showBody}
-		class:overflow-hidden={showBody}
+		class:-translate-y-10={!showBody}
+		class:max-h-0={!showBody}
+		class:overflow-hidden={!showBody}
 	>
 		<slot name="accordionBody">
 			<section>

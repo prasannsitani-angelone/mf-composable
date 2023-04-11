@@ -8,6 +8,10 @@ export const BUTTON_STYLE = new Map([
 		])
 	],
 	[
+		'transparent',
+		new Map([['primary', 'bg-transparent hover:bg-transparent text-sm text-blue-primary']])
+	],
+	[
 		'outlined',
 		new Map([['primary', 'bg-white hover:bg-white border border-blue-primary text-blue-primary']])
 	],

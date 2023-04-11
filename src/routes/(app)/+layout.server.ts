@@ -4,6 +4,8 @@ import type { LayoutServerLoad } from '../$types';
 import type { UserProfile } from '$lib/types/IUserProfile';
 
 import { useProfileFetch } from '$lib/utils/useProfileFetch';
+import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+import { useFetch } from '$lib/utils/useFetch';
 const sparkHeadersList: Array<keyof SparkStore> = [
 	'platform',
 	'platformversion',
@@ -15,6 +17,22 @@ const sparkHeadersList: Array<keyof SparkStore> = [
 	'closecta',
 	'deviceosversion'
 ];
+
+const getSchemeData = async (fetch) => {
+	const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/searchDashboard?options=true`;
+	const res = await useFetch(url, {}, fetch);
+	if (res.ok) {
+		const discoverFundData = res.data;
+		return {
+			...discoverFundData
+		};
+	} else {
+		return {
+			searchOptions: [],
+			weeklyTopSchemes: []
+		};
+	}
+};
 
 const getSparkHeaders = (headers: Headers) => {
 	const sparkHeaders: SparkStore = {
@@ -36,7 +54,7 @@ const getSparkHeaders = (headers: Headers) => {
 	return sparkHeaders;
 };
 
-export const load = (async ({ url, request, locals, cookies }) => {
+export const load = (async ({ url, request, locals, cookies, fetch }) => {
 	const sparkHeaders: SparkStore = getSparkHeaders(request.headers);
 	const { isGuest, userType, accountType, profileData, token = '', refreshToken = '' } = locals;
 	const tokenObj: TokenStore = {
@@ -64,10 +82,11 @@ export const load = (async ({ url, request, locals, cookies }) => {
 		cookies.set('UserType', localProfileData?.userType);
 		cookies.set('AccountType', localProfileData?.dpNumber ? 'D' : 'P');
 	}
-
+	const schemeData = await getSchemeData(fetch);
 	return {
 		sparkHeaders,
 		profile: localProfileData,
-		tokenObj
+		tokenObj,
+		schemeData
 	};
 }) satisfies LayoutServerLoad;
