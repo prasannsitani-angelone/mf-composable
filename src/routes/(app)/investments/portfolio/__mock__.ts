@@ -9,11 +9,11 @@ export const lineData = {
 			getTime(0),
 			getTime(1),
 			getTime(2),
-			getTime(2, 4),
-			getTime(3),
 			getTime(3),
 			getTime(4),
-			getTime(4)
+			getTime(5),
+			getTime(6),
+			getTime(7)
 		],
 		datasets: [
 			{
@@ -92,4 +92,76 @@ export const riskometerData = {
 			borderWidth: 0
 		}
 	]
+};
+
+export const holdingsSummary = {
+	status: 'success',
+	data: {
+		summary: {
+			currentValue: 5852.7983,
+			investedValue: 5699.7269,
+			returnsValue: 153.0714,
+			returnsAbsolutePer: 2.69,
+			xirr: 99.5552798,
+			returns1MonthPer: 0,
+			returns3MonthPer: 0,
+			returns6MonthPer: 0,
+			returns1YearPer: 0,
+			returns3YearPer: 0,
+			totalSips: 0,
+			totalLumpsums: 0,
+			previousDayReturns: 23.5384,
+			previousDayReturnPercentage: 0.4,
+			shortTermGain: 0,
+			longTermGain: 0
+		},
+		folioHoldings: null,
+		distributions: null
+	}
+};
+
+export const months6 = {
+	status: 'success',
+	data: {
+		summary: {},
+		chart: [
+			{ value: 5852.7983, timestamp: 1680998400000 },
+			{ value: 5852.7983, timestamp: 1680912000000 },
+			{ value: 5852.7983, timestamp: 1680825600000 },
+			{ value: 5829.2599, timestamp: 1680739200000 },
+			{ value: 5843.2235, timestamp: 1680652800000 },
+			{ value: 5819.1805, timestamp: 1680566400000 },
+			{ value: 5819.1805, timestamp: 1680480000000 },
+			{ value: 5819.1805, timestamp: 1680393600000 },
+			{ value: 5819.1805, timestamp: 1580307200000 },
+			{ value: 5748.0236, timestamp: 1480220800000 },
+			{ value: 605.9606, timestamp: 1380134400000 },
+			{ value: 611.2137, timestamp: 1280048000000 }
+		],
+		folioHoldings: null,
+		distributions: null
+	}
+};
+
+export const months3 = {
+	status: 'success',
+	data: {
+		summary: {},
+		chart: [
+			{ value: 5852.7983, timestamp: 1680998400000 },
+			{ value: 5852.7983, timestamp: 1680912000000 },
+			{ value: 5852.7983, timestamp: 1680825600000 },
+			{ value: 5829.2599, timestamp: 1680739200000 },
+			{ value: 5843.2235, timestamp: 1680652800000 },
+			{ value: 5819.1805, timestamp: 1680566400000 },
+			{ value: 5819.1805, timestamp: 1680480000000 },
+			{ value: 5819.1805, timestamp: 1680393600000 },
+			{ value: 5819.1805, timestamp: 1680307200000 },
+			{ value: 5748.0236, timestamp: 1680220800000 },
+			{ value: 605.9606, timestamp: 1680134400000 },
+			{ value: 611.2137, timestamp: 1680048000000 }
+		],
+		folioHoldings: null,
+		distributions: null
+	}
 };

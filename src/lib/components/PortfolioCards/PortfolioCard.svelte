@@ -7,7 +7,8 @@
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import Link from '$components/Link.svelte';
-	import { MFCommonHeader } from '$lib/utils';
+	// import { MFCommonHeader } from '$lib/utils';
+	import { useFetch } from '$lib/utils/useFetch';
 
 	// import { viewPortfolioAnalysisAnalytics } from '@/analytics/investment/investment'
 
@@ -48,15 +49,11 @@
 		await tick();
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings?summary=true`;
 
-		const headers = MFCommonHeader();
-
 		try {
-			const res = await fetch(url, {
-				headers
-			});
+			const res = await useFetch(url, {}, fetch);
 
 			if (res?.ok) {
-				const summaryData = await res.json();
+				const summaryData = await res.data;
 				investmentSummary = summaryData?.data?.summary || {};
 			} else {
 				investmentSummary = {};

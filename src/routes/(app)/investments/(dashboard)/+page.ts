@@ -8,9 +8,8 @@ export const load = (async ({ fetch }) => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings`;
 
 		const res = await useFetch(url, {}, fetch);
-
 		if (res?.ok) {
-			const investmentData = await res.json();
+			const investmentData = res.data;
 			return {
 				...investmentData
 			};

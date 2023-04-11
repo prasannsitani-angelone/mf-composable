@@ -1,0 +1,74 @@
+<script lang="ts">
+	import { createEventDispatcher } from 'svelte';
+	import LineChart from '$lib/components/Charts/LineChart.svelte';
+	import Button from '$components/Button.svelte';
+	import { lineChartSchema as schema } from './config';
+	import { tags } from '../../schemes/[fund_name]/constants';
+	import type { Tags } from '../../schemes/[fund_name]/types';
+
+	let selectionTags: Tags[];
+	$: selectionTags = tags.splice(0, 5);
+
+	const dispatch = createEventDispatcher();
+
+	type OnTagSelectionFunction = (months: number) => void;
+
+	export let data: string[];
+	export let label: number[];
+	export let showGraphTags: boolean;
+	export let onTagSelection: OnTagSelectionFunction = () => '';
+	export let selectedTag = '6M';
+
+	$: lineData = {
+		data: {
+			labels: label,
+			datasets: [
+				{
+					...schema.data.datasets[0],
+					data: data
+				}
+			]
+		},
+		options: schema.options
+	};
+
+	const changeTag = (tag: Tags) => {
+		selectedTag = tag.label;
+		if (typeof onTagSelection === 'function') {
+			onTagSelection(tag.months);
+		}
+		dispatch('portfolioChartTagChange', tag);
+	};
+</script>
+
+<div>
+	<LineChart
+		data={lineData.data}
+		chartOptions={lineData.options}
+		chartClass="w-full h-64 relative"
+		tooltipSymbol="₹"
+	/>
+	{#if showGraphTags}
+		<section class="mt-1 flex justify-center">
+			<section
+				class="max-w-10 scrollbar-hide flex w-full flex-row gap-2 overflow-x-auto bg-white sm:gap-4 lg:max-w-fit"
+			>
+				{#each selectionTags as tag (tag.months)}
+					<Button variant="text" class="cursor-pointer !p-0" onClick={() => changeTag(tag)}>
+						<div class="mx-1 flex flex-col items-center justify-between font-medium lg:mb-4">
+							<span
+								class={`pb-4 text-center text-sm md:pb-0 ${
+									selectedTag === tag.label
+										? 'border-b-2 border-blue-primary text-blue-primary md:border-b-0'
+										: 'text-grey-body'
+								}`}
+							>
+								{tag.label} Returns
+							</span>
+						</div>
+					</Button>
+				{/each}
+			</section>
+		</section>
+	{/if}
+</div>

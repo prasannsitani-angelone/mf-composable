@@ -12,7 +12,7 @@
 	export { title, onBackClick };
 </script>
 
-<div class="mt-3 hidden lg:flex">
+<div class={`mt-3 hidden lg:flex ${$$props.class || ''}`}>
 	<Button onClick={handleBackArrowClick} variant="text" class="!p-0">
 		<LeftArrowIcon class="mr-4 cursor-pointer" />
 	</Button>

@@ -8,8 +8,13 @@
 	import { getDateTimeString } from '$lib/utils/helpers/date';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { onMount } from 'svelte';
-	import { MFCommonHeader } from '$lib/utils';
-	import type { OrdersSummary, ProtfolioData, ProtfolioDataEntity } from '$lib/types/IInvestments';
+	import { useFetch } from '$lib/utils/useFetch';
+	import type {
+		OrdersSummary,
+		ProtfolioData,
+		ProtfolioDataEntity,
+		OrdersResponse
+	} from '$lib/types/IInvestments';
 
 	let ordersSummary: OrdersSummary = {
 		totalFailedOrders: 0,
@@ -22,6 +27,10 @@
 	const handleFooterClick = () => {
 		// TODO: Add redirection on footer click
 	};
+
+	function hasPassedAllChecks(dRes: { ok: any; data: { status: string; data: { orders: any } } }) {
+		return dRes.ok && dRes.data?.status === 'success' && Array.isArray(dRes?.data?.data?.orders);
+	}
 
 	const handleCardToggleEvent = () => {
 		// TODO: Implement the analytics
@@ -71,53 +80,36 @@
 	onMount(async () => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/orders`;
 
-		const headers = MFCommonHeader();
-
 		try {
-			const res = await fetch(url + '?summary=true', {
-				headers
-			});
+			const res = await useFetch(url + '?summary=true', {}, fetch);
 
 			if (res?.ok) {
-				const summaryData = await res.json();
+				const summaryData = await res.data;
 
 				ordersSummary = summaryData.data.summary;
-				let failedOrders: [] | Promise<Response> = [];
-				let inProgressOrders: [] | Promise<Response> = [];
-				let upcomingOrders: [] | Promise<Response> = [];
+				let failedOrders: [] | Promise<OrdersResponse> = [];
+				let inProgressOrders: [] | Promise<OrdersResponse> = [];
+				let upcomingOrders: [] | Promise<OrdersResponse> = [];
 				if (ordersSummary.totalFailedOrders > 0) {
-					failedOrders = fetch(url + '?status=ORDER_REJECTED', {
-						headers
-					});
+					failedOrders = useFetch(url + '?status=ORDER_REJECTED', {}, fetch);
 				}
 				if (ordersSummary.totalProcessingOrders > 0) {
-					inProgressOrders = fetch(url + '?status=ORDER_PROCESSING', {
-						headers
-					});
+					inProgressOrders = useFetch(url + '?status=ORDER_PROCESSING', {}, fetch);
 				}
 				if (ordersSummary.totalScheduledOrders > 0) {
-					upcomingOrders = fetch(url + '?status=ORDER_SCHEDULED', {
-						headers
-					});
+					upcomingOrders = useFetch(url + '?status=ORDER_SCHEDULED', {}, fetch);
 				}
 
 				Promise.all([failedOrders, inProgressOrders, upcomingOrders])
 					.then((res: any[]) => {
-						return Promise.all([
-							res[0][Symbol.toStringTag] === 'Response' ? res[0].json() : res[0],
-							res[1][Symbol.toStringTag] === 'Response' ? res[1].json() : res[1],
-							res[2][Symbol.toStringTag] === 'Response' ? res[2].json() : res[2]
-						]);
-					})
-					.then((data) => {
-						protfolioData.failed.orders = Array.isArray(data[0]?.data?.orders)
-							? data[0]?.data?.orders
+						protfolioData.failed.orders = hasPassedAllChecks(res[0])
+							? res[0]?.data?.data?.orders
 							: [];
-						protfolioData.inProgress.orders = Array.isArray(data[1]?.data?.orders)
-							? data[1]?.data?.orders
+						protfolioData.inProgress.orders = hasPassedAllChecks(res[1])
+							? res[1]?.data?.data?.orders
 							: [];
-						protfolioData.upComing.orders = Array.isArray(data[2]?.data?.orders)
-							? data[2]?.data?.orders
+						protfolioData.upComing.orders = hasPassedAllChecks(res[2])
+							? res[2]?.data?.data?.orders
 							: [];
 					})
 					.catch(() => {

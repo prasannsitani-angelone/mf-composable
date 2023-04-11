@@ -93,3 +93,34 @@ export interface OrdersEntity {
 	settlementType: string;
 	toSettlementType: string;
 }
+
+export interface FolioSummaryTypes {
+	averageNav: number;
+	currentNav: number;
+	currentValue: number;
+	datasource: string;
+	folioNumbers: string[];
+	investedValue: number;
+	investmentAllowed: boolean;
+	isin: string;
+	logoUrl: string;
+	minimumRedeemAmount: number;
+	nextSipDate: number;
+	redemableAmount: number;
+	redemptionAllowed: boolean;
+	returnsAbsolutePer: number;
+	returnsValue: number;
+	schemeCode: string;
+	schemeName: string;
+	schemePlan: string;
+	settlementType: string;
+	sipEnabled: boolean;
+	totalUnitsAllocated: number;
+	xirrPer: number;
+}
+
+export interface OrdersResponse {
+	ok: boolean;
+	status: number;
+	data: { data: OrdersEntity; status: string };
+}
