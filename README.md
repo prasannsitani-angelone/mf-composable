@@ -36,3 +36,17 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+
+##Debugging
+
+To Debug the server side files with breakpoints/debuggers statement, follow these steps:
+
+1. Run this command:
+
+   ```bash
+   npm run dev-debug
+   ```
+
+2. Open the chrome developer tools
+3. On the top left of chrome developer tool window, you will find a green color node icon. Click on that
+4. Clicking on the node icon will open a new debugger window. You will find all your server side breakpoints, debuggers getting executed here. All the server file's console statement output can also be seen in the console tab of this debugger window.
