@@ -9,10 +9,15 @@
 	import Dashboard from './OrdersDashboard/Dashboard.svelte';
 	import type { OrdersSummary } from '$lib/types/IInvestments';
 	import TabSelection from './TabSelection/TabSelection.svelte';
-	let activeTab = 'ORDERS';
+	import SipDashboard from './SipBook/SipDashboard.svelte';
+	import type { ISipBookData } from '$lib/types/ISipType';
+	import { page } from '$app/stores';
+
+	const sipbook = $page.url.searchParams.get('sipbook');
+	let activeTab = sipbook ? 'SIPBOOK' : 'ORDERS';
 	let inProgressOrders: orderItem[];
 	let failedOrders: orderItem[];
-	let sipBookData: any;
+	let sipBookData: ISipBookData;
 	let ordersSummary: OrdersSummary;
 	let ordersDataFetched = false;
 	let sipBookDataFetched = false;
@@ -67,9 +72,11 @@
 			return;
 		}
 
-		await useFetch(sipUrl + '?InvestmentType=SIP').then(({ data }) => {
-			sipBookData = data?.value?.data;
-		});
+		await useFetch(sipUrl + '?InvestmentType=SIP')
+			.then((res) => res.data)
+			.then(({ data }: { data: ISipBookData }) => {
+				sipBookData = data;
+			});
 
 		sipBookDataFetched = true;
 	};
@@ -96,10 +103,14 @@
 <article>
 	<!-- Tab Selection -->
 	<TabSelection {activeTab} {handleTabSelection} />
-	<section class="mt-0 py-16">
+	<section class="mt-0 pt-12 pb-8">
 		<!-- Orders Dashboard Page -->
 		{#if activeTab === 'ORDERS'}
 			<Dashboard {ordersSummary} {ordersDataFetched} {inProgressOrders} {failedOrders} {data} />
+		{/if}
+		<!-- Sip Dashboard -->
+		{#if activeTab === 'SIPBOOK' && sipBookDataFetched}
+			<SipDashboard {sipBookData} {data} />
 		{/if}
 	</section>
 </article>

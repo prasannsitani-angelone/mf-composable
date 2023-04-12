@@ -1,5 +1,6 @@
 import { profileStore } from '$lib/stores/ProfileStore';
 import { tokenStore } from '$lib/stores/TokenStore';
+import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 
 export interface TableColumnToggle {
 	label: string;
@@ -59,4 +60,23 @@ export const formatDate = (epochDate: Date) => {
 	const year = date.getFullYear();
 
 	return `${month} ${day} ${year}`;
+};
+
+export const getBankLogoUrl = (
+	bankDetails: BankDetailsEntity[] | null,
+	bankAccountNumber: string
+) => {
+	if (!bankDetails) {
+		return '';
+	}
+
+	let bankLogoUrl = '';
+
+	bankDetails?.forEach((item) => {
+		if (item?.accNO === bankAccountNumber) {
+			bankLogoUrl = item?.bankLogo;
+		}
+	});
+
+	return bankLogoUrl;
 };

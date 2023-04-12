@@ -8,10 +8,28 @@
 	import isInvestmentAllowed from '$lib/utils/isInvestmentAllowed';
 	import OrderCardFooter from '../../../investments/(dashboard)/OrderCardComponents/OrderCardFooter.svelte';
 	import { profileStore } from '$lib/stores/ProfileStore';
+	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+	import { useFetch } from '$lib/utils/useFetch';
+	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	let ordersSummary: OrdersSummary;
 	let failedOrders: orderItem[];
+	let schemeDetails: SchemeDetails;
 	const FailedPortofolioData = {
 		title: 'Failed'
+	};
+
+	const handleFooterClick = async (e: CustomEvent) => {
+		const orderItem: orderItem = e.detail;
+		const schemeUrl = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${orderItem?.isin}`;
+		const schemeResponse = await useFetch(schemeUrl);
+		if (schemeResponse.ok) {
+			schemeDetails = schemeResponse?.data;
+			// TODO: to handle the invest page navigation
+			const reRouteUrl = `${base}/schemes/invest`;
+			goto(reRouteUrl);
+		}
 	};
 	const userType = profileStore.userType();
 	export { ordersSummary, failedOrders };
@@ -48,7 +66,7 @@
 						/>
 						<OrderCardBody {item} />
 						{#if isInvestmentAllowed(userType, item?.schemePlan) && item?.paymentStatus === 'failure' && item?.investmentType !== 'XSIP'}
-							<OrderCardFooter {item} />
+							<OrderCardFooter {item} on:buttonCta={handleFooterClick} />
 						{/if}
 					</article>
 				{/each}

@@ -4,7 +4,7 @@
 
 	interface dataObj {
 		logoUrl: string;
-		categoryName: string;
+		categoryName?: string;
 		subcategoryName?: string;
 		schemeName?: string;
 		arqRating?: number;

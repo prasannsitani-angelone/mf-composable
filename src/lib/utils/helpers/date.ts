@@ -121,3 +121,13 @@ export const getDateDiffInDays = (futureDate: Date, currentDate: Date = new Date
 
 	return Math.floor((futureUTCDate - currentUTCDate) / _MS_PER_DAY);
 };
+
+export const getTimestampDaysDifference = (
+	timeStamp1: number = Date.now(),
+	timeStamp2: number = Date.now()
+) => {
+	const difference = timeStamp1 - timeStamp2;
+	const daysDifference = Math.floor(difference / 1000 / 60 / 60 / 24);
+
+	return daysDifference;
+};
