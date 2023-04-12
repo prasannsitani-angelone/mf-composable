@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import { onMount, tick } from 'svelte';
+	import { createEventDispatcher, onMount, tick } from 'svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import GainArrowIcon from '$lib/images/icons/GainArrowIcon.svelte';
 	import LossArrowIcon from '$lib/images/icons/LossArrowIcon.svelte';
@@ -7,29 +7,14 @@
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import Link from '$components/Link.svelte';
-	// import { MFCommonHeader } from '$lib/utils';
 	import { useFetch } from '$lib/utils/useFetch';
+	import type { InvestmentSummary } from '$lib/types/IInvestments';
 
 	// import { viewPortfolioAnalysisAnalytics } from '@/analytics/investment/investment'
 
-	interface InvestmentSummary {
-		currentValue?: number;
-		investedValue?: number;
-		returnsValue?: number;
-		returnsAbsolutePer?: number;
-		xirr?: number;
-		returns1MonthPer?: number;
-		returns3MonthPer?: number;
-		returns6MonthPer?: number;
-		returns1YearPer?: number;
-		returns3YearPer?: number;
-		totalSips?: number;
-		totalLumpsums?: number;
-		previousDayReturns?: number;
-		previousDayReturnPercentage?: number;
-		shortTermGain?: number;
-		longTermGain?: number;
-	}
+	const dispatch = createEventDispatcher<{
+		portfolidataReceived: { investmentSummary: InvestmentSummary };
+	}>();
 
 	const viewPortfolioAnalysisAnalyticsFunc = () => {
 		// TODO: Add analytics code
@@ -48,9 +33,10 @@
 	onMount(async () => {
 		await tick();
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings?summary=true`;
-
+		console.log('Start Portfolio');
 		try {
 			const res = await useFetch(url, {}, fetch);
+			console.log('End Portfolio');
 
 			if (res?.ok) {
 				const summaryData = await res.data;
@@ -61,6 +47,9 @@
 		} catch (e) {
 			investmentSummary = {};
 		}
+		dispatch('portfolidataReceived', {
+			investmentSummary
+		});
 	});
 </script>
 

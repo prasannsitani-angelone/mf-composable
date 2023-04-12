@@ -124,3 +124,22 @@ export interface OrdersResponse {
 	status: number;
 	data: { data: OrdersEntity; status: string };
 }
+
+export interface InvestmentSummary {
+	currentValue?: number;
+	investedValue?: number;
+	returnsValue?: number;
+	returnsAbsolutePer?: number;
+	xirr?: number;
+	returns1MonthPer?: number;
+	returns3MonthPer?: number;
+	returns6MonthPer?: number;
+	returns1YearPer?: number;
+	returns3YearPer?: number;
+	totalSips?: number;
+	totalLumpsums?: number;
+	previousDayReturns?: number;
+	previousDayReturnPercentage?: number;
+	shortTermGain?: number;
+	longTermGain?: number;
+}
