@@ -53,6 +53,10 @@ input:focus {
 .track {
 	height: 6px !important;
 }
+.track > .progress {
+	height: 6px !important;
+	width: auto !important;
+}
 /* .slider-disabled > .track{
 	height: 12px !important;
 } */
