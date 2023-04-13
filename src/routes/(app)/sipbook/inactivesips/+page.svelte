@@ -4,12 +4,12 @@
 	import type { IInactiveSip } from '$lib/types/ISipType';
 	import { getDateTimeString } from '$lib/utils/helpers/date';
 	import isInvestmentAllowed from '$lib/utils/isInvestmentAllowed';
-	import SipCard from '../../orders/orderspage/SipBook/SipCard.svelte';
+	import SipCard from '../../orders/orderspage/sipbook/SipCard.svelte';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import type { PageData } from './$types';
-	import InActiveSipLoader from '$components/Loaders/InActiveSipLoader.svelte';
+	import SipCardLoader from '$components/Loaders/SipCardLoader.svelte';
 
 	const userType = profileStore.userType();
 
@@ -23,7 +23,7 @@
 </script>
 
 {#await data?.api?.getInactiveSipData}
-	<InActiveSipLoader />
+	<SipCardLoader />
 {:then inactiveSips}
 	<article class="mx-2 mt-0 pt-2">
 		{#if inactiveSips?.length}

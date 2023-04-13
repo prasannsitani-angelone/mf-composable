@@ -2,7 +2,7 @@
 	import Button from '$components/Button.svelte';
 	const activeTabClass = 'border-b-[3px] rounded-none text-blue-primary pb-5 border-blue-primary';
 	const inactiveTabClass = 'text-grey-body rounded-none  pb-5 border-b-[3px] border-white';
-	let handleTabSelection: (tab: string) => void;
+	let handleTabSelection: () => void;
 	let activeTab: string;
 	export { handleTabSelection, activeTab };
 </script>
@@ -14,7 +14,7 @@
 		<Button
 			variant="transparent"
 			class={`!px-0 !pt-0 ${activeTab === 'ORDERS' ? activeTabClass : inactiveTabClass}`}
-			onClick={() => handleTabSelection('ORDERS')}
+			onClick={handleTabSelection}
 		>
 			Orders
 		</Button>
@@ -22,7 +22,7 @@
 		<Button
 			variant="transparent"
 			class={`!px-0 !pt-0 ${activeTab === 'SIPBOOK' ? activeTabClass : inactiveTabClass}`}
-			onClick={() => handleTabSelection('SIPBOOK')}
+			onClick={handleTabSelection}
 		>
 			SIPs
 		</Button>

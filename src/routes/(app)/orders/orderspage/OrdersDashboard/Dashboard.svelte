@@ -6,11 +6,10 @@
 	import type { PageData } from '../../../../$types';
 	import NoOrdersPage from './NoOrdersPage.svelte';
 	let ordersSummary: OrdersSummary;
-	let ordersDataFetched = false;
 	let inProgressOrders: orderItem[];
 	let failedOrders: orderItem[];
 	let data: PageData;
-	export { ordersSummary, ordersDataFetched, inProgressOrders, failedOrders, data };
+	export { ordersSummary, inProgressOrders, failedOrders, data };
 </script>
 
 {#if ordersSummary?.totalProcessingOrders || ordersSummary?.totalFailedOrders}
@@ -18,6 +17,6 @@
 		<InProgress {ordersSummary} {inProgressOrders} />
 		<FailedOrders {ordersSummary} {failedOrders} />
 	</article>
-{:else if ordersDataFetched}
+{:else}
 	<NoOrdersPage {data} />
 {/if}
