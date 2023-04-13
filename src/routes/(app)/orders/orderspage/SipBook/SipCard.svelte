@@ -13,7 +13,7 @@
 	let sipCount = 0;
 	let alertSleeveText: string;
 	let sip: ISip;
-	let bankLogo: string;
+	let bankLogo = '';
 	let isUpcomingSip = false;
 	let isCurrentDateEqualToT3Date = false;
 	let inactiveSip = false;
