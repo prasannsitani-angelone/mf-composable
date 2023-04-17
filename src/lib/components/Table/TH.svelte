@@ -8,7 +8,8 @@
 	let isHorizontalSort = false;
 	let sortField = '';
 	let wrapperClass = '';
-	export { clazz as class, sortable, isHorizontalSort, sortField, wrapperClass };
+	let thStyle = '';
+	export { clazz as class, sortable, isHorizontalSort, sortField, wrapperClass, thStyle };
 	let sortType = '';
 
 	const initiateSort = () => {
@@ -23,6 +24,7 @@
 
 <th
 	class={`border-b border-grey-line bg-white pl-5 pt-4 pb-4 pr-6 font-medium text-grey-body ${clazz}`}
+	style={thStyle}
 >
 	{#if sortable}
 		<Button

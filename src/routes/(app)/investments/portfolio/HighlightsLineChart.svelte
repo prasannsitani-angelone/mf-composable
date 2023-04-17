@@ -3,11 +3,11 @@
 	import LineChart from '$lib/components/Charts/LineChart.svelte';
 	import Button from '$components/Button.svelte';
 	import { lineChartSchema as schema } from './config';
-	import { tags } from '../../schemes/[fund_name]/constants';
-	import type { Tags } from '../../schemes/[fund_name]/types';
+	import { tags } from '$lib/constants/tags';
+	import type { Tags } from '$lib/types/ITags';
 
-	let selectionTags: Tags[];
-	$: selectionTags = tags.splice(0, 5);
+	let selectionTags: Tags[] = [];
+	$: selectionTags = tags.slice(0, 5);
 
 	const dispatch = createEventDispatcher();
 

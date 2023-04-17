@@ -5,8 +5,8 @@
 	import ArqRatingIcon from '$lib/images/icons/ArqRatingIcon.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { formatDate } from '$lib/utils';
-	import { tags } from '../constants';
-	import type { Tags } from '../types';
+	import { tags } from '$lib/constants/tags';
+	import type { Tags } from '$lib/types/ITags';
 
 	import NavCharts from './NavCharts.svelte';
 

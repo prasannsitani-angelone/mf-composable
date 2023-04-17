@@ -3,7 +3,8 @@
 	import { createEventDispatcher } from 'svelte';
 	import type { SvelteComponent } from 'svelte';
 	let Icon: typeof SvelteComponent | null = null;
-	let handleCTAClick = () => '';
+	type HandleCTAClickFunction = () => string | Promise<void>;
+	let handleCTAClick: HandleCTAClickFunction = () => '';
 	let textForButton = '';
 	let heading = '';
 	let contentLine = '';

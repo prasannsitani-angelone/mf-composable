@@ -5,7 +5,7 @@
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { MFCommonHeader } from '$lib/utils';
 	import { createEventDispatcher, onMount, tick } from 'svelte';
-	import { tags } from '../constants';
+	import { tags } from '$lib/constants/tags';
 	import type { LineChartData, NavDetails } from '../types';
 
 	const dispatch = createEventDispatcher();
