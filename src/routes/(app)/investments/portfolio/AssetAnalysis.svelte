@@ -12,8 +12,8 @@
 	import AssetAnalysisIcon from '$lib/images/icons/AssetAnalysisIcon.svelte';
 	export let distributions: Array<DistributionType>;
 	export let summary: FolioSummaryTypes;
+	export let deviceType;
 
-	// import { checkIfMobileDevice } from "@/utils/helpers";
 	// import {
 	//   equityDebtTabSwitchAnalytics,
 	//   marketCapShowCompaniesCtaAnalytics,
@@ -554,95 +554,101 @@
 			{#if showEquityDebt === 'EQUITY'}
 				<section>
 					<!-- TODO: Check for mobile device - if="!isMobileDevice ? true : showIndexedChartForMobile === 0" -->
-					<GraphTableChart
-						type="marketCap"
-						parentId="marketCapsDistributionChart"
-						subLabel="Market Cap"
-						nameColumnHeader="Market Cap"
-						nameColumnHeaderForFunds="Equity Funds"
-						footerText="Holdings"
-						currentValue={equityTotalAmount}
-						chartsData={marketCapsChartData}
-						{graphColors}
-						filterTypes={marketCapsFilterTypes}
-						filteredData={marketCapsFilteredData}
-						selectedFilterIndex={selectedMarketCapFilterIndex}
-						showColor={true}
-						showCompaniesFooter={true}
-						viewMoreFooter={true}
-						showFundsFilterTable={showFundsFilterTable === 'marketCap'}
-						on:filterChange={handleFilterChange}
-						on:toggleFilterTable={(type) => handleToggleFilterTable(type)}
-					/>
-
+					{#if deviceType?.isMobile ? showIndexedChartForMobile === 0 : true}
+						<GraphTableChart
+							type="marketCap"
+							parentId="marketCapsDistributionChart"
+							subLabel="Market Cap"
+							nameColumnHeader="Market Cap"
+							nameColumnHeaderForFunds="Equity Funds"
+							footerText="Holdings"
+							currentValue={equityTotalAmount}
+							chartsData={marketCapsChartData}
+							{graphColors}
+							filterTypes={marketCapsFilterTypes}
+							filteredData={marketCapsFilteredData}
+							selectedFilterIndex={selectedMarketCapFilterIndex}
+							showColor={true}
+							showCompaniesFooter={true}
+							viewMoreFooter={true}
+							showFundsFilterTable={showFundsFilterTable === 'marketCap'}
+							on:filterChange={handleFilterChange}
+							on:toggleFilterTable={(type) => handleToggleFilterTable(type)}
+						/>
+					{/if}
 					<!-- TODO: Check for mobile device - if="!isMobileDevice ? true : showIndexedChartForMobile === 1" -->
-					<GraphTableChart
-						type="sector"
-						parentId="sectorsDistributionChart"
-						subLabel="Sectors"
-						nameColumnHeader="Sectors"
-						nameColumnHeaderForFunds="Sectors"
-						footerText="Companies"
-						currentValue={equityTotalAmount}
-						chartsData={sectorsChartData}
-						{graphColors}
-						filterTypes={sectorsFilterTypes}
-						filteredData={sectorsFilteredData}
-						selectedFilterIndex={selectedSectorFilterIndex}
-						showColor={true}
-						showCompaniesFooter={true}
-						viewMoreFooter={true}
-						showFundsFilterTable={showFundsFilterTable === 'sector'}
-						on:filterChange={handleFilterChange}
-						on:toggleFilterTable={(type) => handleToggleFilterTable(type)}
-					/>
+					{#if deviceType?.isMobile ? showIndexedChartForMobile === 1 : true}
+						<GraphTableChart
+							type="sector"
+							parentId="sectorsDistributionChart"
+							subLabel="Sectors"
+							nameColumnHeader="Sectors"
+							nameColumnHeaderForFunds="Sectors"
+							footerText="Companies"
+							currentValue={equityTotalAmount}
+							chartsData={sectorsChartData}
+							{graphColors}
+							filterTypes={sectorsFilterTypes}
+							filteredData={sectorsFilteredData}
+							selectedFilterIndex={selectedSectorFilterIndex}
+							showColor={true}
+							showCompaniesFooter={true}
+							viewMoreFooter={true}
+							showFundsFilterTable={showFundsFilterTable === 'sector'}
+							on:filterChange={handleFilterChange}
+							on:toggleFilterTable={(type) => handleToggleFilterTable(type)}
+						/>
+					{/if}
 				</section>
 			{/if}
 			{#if showEquityDebt === 'DEBT'}
 				<section>
 					<!-- TODO: Check for mobile device - if="!isMobileDevice ? true : showIndexedChartForMobile === 0" -->
-					<GraphTableChart
-						type="instrument"
-						parentId="instrumentsDistributionChart"
-						subLabel="Instruments"
-						nameColumnHeader="Instrument Type"
-						nameColumnHeaderForFunds="Issuer name"
-						footerText="Holdings"
-						currentValue={debtTotalAmount}
-						chartsData={instrumentsChartData}
-						{graphColors}
-						filterTypes={instrumentsFilterTypes}
-						filteredData={instrumentsFilteredData}
-						selectedFilterIndex={selectedInstrumentFilterIndex}
-						showColor={true}
-						showCompaniesFooter={true}
-						viewMoreFooter={true}
-						showFundsFilterTable={showFundsFilterTable === 'instrument'}
-						on:filterChange={handleFilterChange}
-						on:toggleFilterTable={(type) => handleToggleFilterTable(type)}
-					/>
-
+					{#if deviceType?.isMobile ? showIndexedChartForMobile === 0 : true}
+						<GraphTableChart
+							type="instrument"
+							parentId="instrumentsDistributionChart"
+							subLabel="Instruments"
+							nameColumnHeader="Instrument Type"
+							nameColumnHeaderForFunds="Issuer name"
+							footerText="Holdings"
+							currentValue={debtTotalAmount}
+							chartsData={instrumentsChartData}
+							{graphColors}
+							filterTypes={instrumentsFilterTypes}
+							filteredData={instrumentsFilteredData}
+							selectedFilterIndex={selectedInstrumentFilterIndex}
+							showColor={true}
+							showCompaniesFooter={true}
+							viewMoreFooter={true}
+							showFundsFilterTable={showFundsFilterTable === 'instrument'}
+							on:filterChange={handleFilterChange}
+							on:toggleFilterTable={(type) => handleToggleFilterTable(type)}
+						/>
+					{/if}
 					<!-- TODO: Check for mobile device - if="!isMobileDevice ? true : showIndexedChartForMobile === 1" -->
-					<GraphTableChart
-						type="rating"
-						parentId="ratingsDistributionChart"
-						subLabel="Ratings"
-						nameColumnHeader="Ratings"
-						nameColumnHeaderForFunds="Sectors"
-						footerText="Companies"
-						currentValue={debtTotalAmount}
-						chartsData={ratingsChartData}
-						{graphColors}
-						filterTypes={ratingsFilterTypes}
-						filteredData={ratingsFilteredData}
-						selectedFilterIndex={selectedRatingFilterIndex}
-						showColor={true}
-						showCompaniesFooter={true}
-						viewMoreFooter={true}
-						showFundsFilterTable={showFundsFilterTable === 'rating'}
-						on:filterChange={handleFilterChange}
-						on:toggleFilterTable={(type) => handleToggleFilterTable(type)}
-					/>
+					{#if deviceType?.isMobile ? showIndexedChartForMobile === 1 : true}
+						<GraphTableChart
+							type="rating"
+							parentId="ratingsDistributionChart"
+							subLabel="Ratings"
+							nameColumnHeader="Ratings"
+							nameColumnHeaderForFunds="Sectors"
+							footerText="Companies"
+							currentValue={debtTotalAmount}
+							chartsData={ratingsChartData}
+							{graphColors}
+							filterTypes={ratingsFilterTypes}
+							filteredData={ratingsFilteredData}
+							selectedFilterIndex={selectedRatingFilterIndex}
+							showColor={true}
+							showCompaniesFooter={true}
+							viewMoreFooter={true}
+							showFundsFilterTable={showFundsFilterTable === 'rating'}
+							on:filterChange={handleFilterChange}
+							on:toggleFilterTable={(type) => handleToggleFilterTable(type)}
+						/>
+					{/if}
 				</section>
 			{/if}
 		</section>

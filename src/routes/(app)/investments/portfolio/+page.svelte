@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ErrorView from '$components/ErrorView.svelte';
+	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import PortfolioEmptyIcon from '$lib/images/icons/PortfolioEmptyIcon.svelte';
 	import HoldingsOverview from './HoldingsOverview.svelte';
@@ -23,6 +24,7 @@
 		}
 	];
 	export let data: PageData;
+	$: deviceType = $page.data.deviceType;
 	let chartData = data.api?.chartData?.chart || [];
 
 	$: ChartDataToSend = chartData;
@@ -57,6 +59,7 @@
 			<AssetAnalysis
 				summary={response.summaryData.summary}
 				distributions={response.distributionData.distributions}
+				{deviceType}
 			/>
 		</section>
 	{:else}
