@@ -64,7 +64,7 @@
 	};
 </script>
 
-<article>
+<article class={$$props?.class}>
 	<div class="flex flex-wrap items-center justify-evenly bg-white">
 		{#each keys as key, index}
 			<button
