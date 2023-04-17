@@ -36,9 +36,11 @@ specifiers:
   svelte-device-detector: ^0.2.2
   svelte-flatpickr: ^3.3.1
   svelte-video-player: ^1.2.5
+  sveltekit-device-detector: ^1.0.0
   tailwindcss: 3.2.7
   tslib: ^2.4.1
   typescript: ^4.9.3
+  ua-parser-js: ^1.0.35
   uuid: ^9.0.0
   vite: ^4.0.0
   vitest: ^0.25.3
@@ -56,6 +58,8 @@ dependencies:
   svelte-device-detector: 0.2.2
   svelte-flatpickr: 3.3.2_svelte@3.57.0
   svelte-video-player: 1.2.5
+  sveltekit-device-detector: 1.0.0_svelte@3.57.0
+  ua-parser-js: 1.0.35
   uuid: 9.0.0
 
 devDependencies:
@@ -2269,6 +2273,15 @@ packages:
     resolution: {integrity: sha512-WMXEvF+RtAaclw0t3bPDTUe19pplMlfyKDsixbHQYgCWi9+O9VN0kXU1OppzrB9gPAvz4NALuoca2LfW2bOjTQ==}
     engines: {node: '>= 8'}
 
+  /sveltekit-device-detector/1.0.0_svelte@3.57.0:
+    resolution: {integrity: sha512-rsV5igpLaA2n9BWvDWaciCKL1tISWapkjDCsMUYPtSEboUrAi2/YTOUDjh6dOTCmMIAYCzRR2xlKFx+Xz4gpKw==}
+    peerDependencies:
+      svelte: ^3.54.0
+    dependencies:
+      svelte: 3.57.0
+      ua-parser-js: 1.0.35
+    dev: false
+
   /tailwindcss/3.2.7_postcss@8.4.21:
     resolution: {integrity: sha512-B6DLqJzc21x7wntlH/GsZwEXTBttVSl1FtCzC8WP4oBc/NKef7kaax5jeihkkCEWc831/5NDJ9gRNDK6NEioQQ==}
     engines: {node: '>=12.13.0'}
@@ -2379,6 +2392,10 @@ packages:
 
   /ua-parser-js/0.7.34:
     resolution: {integrity: sha512-cJMeh/eOILyGu0ejgTKB95yKT3zOenSe9UGE3vj6WfiOwgGYnmATUsnDixMFvdU+rNMvWih83hrUP8VwhF9yXQ==}
+    dev: false
+
+  /ua-parser-js/1.0.35:
+    resolution: {integrity: sha512-fKnGuqmTBnIE+/KXSzCn4db8RTigUzw1AN0DmdU6hJovUTbYJKyqj+8Mt1c4VfRDnOVJnENmfYkIPZ946UrSAA==}
     dev: false
 
   /undici/5.21.0:

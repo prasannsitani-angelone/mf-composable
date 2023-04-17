@@ -6,9 +6,12 @@ import { getUserTokenFromCookie } from '$lib/utils/helpers/token';
 import Logger from '$lib/utils/logger';
 import { useProfileFetch } from '$lib/utils/useProfileFetch';
 import type { Handle, HandleFetch } from '@sveltejs/kit';
+import { sequence } from '@sveltejs/kit/hooks';
 import { parse } from 'cookie-es';
+import { handleDeviecDetector } from 'sveltekit-device-detector';
+const deviceDetector = handleDeviecDetector({});
 
-export const handle = (async ({ event, resolve }) => {
+const handler = (async ({ event, resolve }) => {
 	const cookie: WMSCookie = parse(event.request.headers.get('cookie') || '');
 
 	let isAuthenticatedUser = true;
@@ -80,3 +83,5 @@ export const handleFetch = (async ({ event, request, fetch }) => {
 
 	return fetch(request);
 }) satisfies HandleFetch;
+
+export const handle = sequence(deviceDetector, handler);

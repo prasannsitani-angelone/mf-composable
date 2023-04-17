@@ -1,10 +1,12 @@
 import type { LayoutServerLoad } from './(app)/$types';
 
 export const load = (async ({ locals }) => {
-	const { scheme, host } = locals;
+	// Device type will be available in PageData across the app
+	const { scheme, host, deviceType } = locals;
 
 	return {
 		scheme,
-		host
+		host,
+		deviceType
 	};
 }) satisfies LayoutServerLoad;

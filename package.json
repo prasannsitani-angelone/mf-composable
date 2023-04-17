@@ -64,6 +64,8 @@
 		"svelte-device-detector": "^0.2.2",
 		"svelte-flatpickr": "^3.3.1",
 		"svelte-video-player": "^1.2.5",
+		"sveltekit-device-detector": "^1.0.0",
+		"ua-parser-js": "^1.0.35",
 		"uuid": "^9.0.0"
 	}
 }
