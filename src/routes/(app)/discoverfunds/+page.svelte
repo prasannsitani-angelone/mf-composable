@@ -5,8 +5,9 @@
 	import ExploreScheme from './ExploreScheme/ExploreScheme.svelte';
 	import PortfolioCard from '$components/PortfolioCards/PortfolioCard.svelte';
 	import type { InvestmentSummary } from '$lib/types/IInvestments';
-
+	import { page } from '$app/stores';
 	$: showPortfoliocard = true;
+	$: deviceType = $page.data.deviceType;
 
 	const onPortfolioDataReceived = (
 		event: CustomEvent<{ investmentSummary: InvestmentSummary }>
@@ -22,8 +23,9 @@
 
 <article>
 	<!-- <InvestmentsStories /> -->
-	{#if showPortfoliocard}
-		<div class=" sm:hidden">
+
+	{#if showPortfoliocard && deviceType?.isMobile}
+		<div>
 			<PortfolioCard discoverPage={true} on:portfolidataReceived={onPortfolioDataReceived} />
 		</div>
 	{/if}
@@ -33,10 +35,12 @@
 	<TrendingFunds tableData={data?.schemeData?.weeklyTopSchemes} />
 </article>
 
-<article class="hidden sm:block">
-	{#if showPortfoliocard}
-		<PortfolioCard discoverPage={true} on:portfolidataReceived={onPortfolioDataReceived} />
-	{:else}
-		<StartNewInvestment />
-	{/if}
-</article>
+{#if deviceType?.isBrowser}
+	<article>
+		{#if showPortfoliocard}
+			<PortfolioCard discoverPage={true} on:portfolidataReceived={onPortfolioDataReceived} />
+		{:else}
+			<StartNewInvestment />
+		{/if}
+	</article>
+{/if}
