@@ -15,7 +15,7 @@
 
 {#if ordersSummary?.totalProcessingOrders && inProgressOrders?.length}
 	<AccordianCardComponent
-		class="mt-2 max-w-4xl rounded-lg bg-white text-sm text-black-title shadow-csm lg:mt-4"
+		class="!mt-0 max-w-4xl rounded-lg bg-white text-sm text-black-title shadow-csm lg:mt-4"
 		data={InProgressPortofolioData}
 		titleFontSize="text-base"
 		titleStyle="ml-1"

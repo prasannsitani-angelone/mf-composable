@@ -1,10 +1,10 @@
-import { browser } from '$app/environment';
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import type { OrdersSummary } from '$lib/types/IInvestments';
 import type { IOrdersResponse, orderItem } from '$lib/types/IOrderItem';
 import { hydrate } from '$lib/utils/helpers/hydrated';
 import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
+import OrderTabSelection from './TabSelection/OrderTabSelection.svelte';
 
 export const load = (async ({ fetch }) => {
 	let ordersSummary: OrdersSummary;
@@ -52,6 +52,11 @@ export const load = (async ({ fetch }) => {
 
 	return {
 		// We are uisng hydrate here, because if we use browser and  as we are awaiting for promise.allSettled the hydrate gets updated because of which we see difference in CSR and SSR so API gets called again in client side
+		layoutConfig: {
+			title: 'All Orders',
+			component: OrderTabSelection,
+			showBottomNavigation: true
+		},
 		api: {
 			getOrdersData: hydrate ? getOrdersData() : await getOrdersData()
 		}

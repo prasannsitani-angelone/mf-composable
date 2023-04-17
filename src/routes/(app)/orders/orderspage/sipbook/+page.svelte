@@ -14,8 +14,7 @@
 </script>
 
 <article>
-	<TabSelection activeTab="SIPBOOK" {handleTabSelection} />
-	<section class="mt-0 pt-12 pb-8">
+	<section class="mt-0">
 		{#await data?.api?.getSipBookData}
 			<SipDashboardLoader />
 		{:then sipBookData}

@@ -23,8 +23,9 @@ export const load = (async ({ fetch }) => {
 			investment: browser ? getInvestmentData() : await getInvestmentData()
 		},
 		layoutConfig: {
-			layoutClass:
-				'w-full lg:grid lg:grid-cols-[66%_34%] lg:gap-5 xl:w-4/5 max-sm:flex max-sm:flex-col-reverse max-sm:overflow-auto max-sm:self-baseline'
+			title: 'Investment Dashboard',
+			showBottomNavigation: true,
+			layoutType: 'TWO_COLUMN_REVERSE'
 		}
 	};
 }) satisfies PageLoad;

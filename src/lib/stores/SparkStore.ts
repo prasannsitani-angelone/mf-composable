@@ -11,6 +11,8 @@ export interface SparkStore {
 	deviceid: string;
 	closecta: string;
 	deviceosversion: string;
+	isSparkAndroidUser: () => boolean;
+	isSparkIOSUser: () => boolean;
 }
 
 const initalStore: SparkStore = {
@@ -22,7 +24,13 @@ const initalStore: SparkStore = {
 	guest: null,
 	deviceid: '',
 	closecta: '',
-	deviceosversion: ''
+	deviceosversion: '',
+	isSparkAndroidUser: () => {
+		return false;
+	},
+	isSparkIOSUser: () => {
+		return false;
+	}
 };
 function Store() {
 	const { subscribe, update } = writable(initalStore);
@@ -43,7 +51,8 @@ function Store() {
 		},
 		isSparkIOSUser: () => {
 			return sparkStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS;
-		}
+		},
+		closecta: () => sparkStore.closecta
 	};
 }
 

@@ -13,8 +13,7 @@
 </script>
 
 <article>
-	<TabSelection activeTab="ORDERS" {handleTabSelection} />
-	<section class="mt-0 pt-12 pb-8">
+	<section class="mt-0">
 		{#await data?.api?.getOrdersData}
 			Loading/./.........
 		{:then ordersData}

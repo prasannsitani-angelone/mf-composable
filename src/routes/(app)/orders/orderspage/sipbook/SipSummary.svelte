@@ -7,7 +7,7 @@
 </script>
 
 <section
-	class="mb-2 mt-2 rounded-lg bg-gradient-to-r from-blue-900 via-blue-800 to-blue-primary pt-6 pb-4 text-white md:mt-0 lg:p-6"
+	class="mb-2 rounded-lg bg-gradient-to-r from-blue-900 via-blue-800 to-blue-primary pt-6 pb-4 text-white md:mt-0 lg:p-6"
 >
 	<article class="flex items-center justify-between">
 		<section class="flex-1 text-center">

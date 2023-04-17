@@ -1,15 +1,14 @@
 <script lang="ts">
 	import { page as appPage } from '$app/stores';
-	import Header from '$lib/components/Header.svelte';
-	import BottomNavigation from '$lib/components/BottomNavigation.svelte';
-	import { BOTTOM_NAVBARS } from '$lib/constants/navItems';
-	import { page } from '$lib/stores/PageStore.js';
 	import { appStore } from '$lib/stores/SparkStore';
 	import type { LayoutData } from './$types';
 	import { tokenStore } from '$lib/stores/TokenStore';
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import { getContext, onMount, setContext } from 'svelte';
 	import type { AppContext } from '$lib/types/IAppContext';
+	import Default from '$lib/layouts/Default.svelte';
+	import TwoColumn from '$lib/layouts/TwoColumn.svelte';
+	import TwoColumnReverse from '$lib/layouts/TwoColumnReverse.svelte';
 
 	export let data: LayoutData;
 	// Update store with Spark headers
@@ -24,26 +23,16 @@
 	const appContext: AppContext = getContext('app');
 </script>
 
-<div class="flex-no-wrap flex h-full w-full flex-col bg-gray-100">
-	<header class="flex-shrink-0 bg-white">
-		<Header />
-	</header>
-
-	<main
-		class="scroll-lock m-auto flex w-full max-w-8xl flex-grow justify-center overflow-auto px-2 py-2 pt-3 pb-2 sm:px-0 sm:pt-14"
-	>
-		<section
-			class={`${
-				$appPage.data?.layoutConfig?.layoutClass ||
-				'w-full lg:grid lg:grid-cols-[66%_34%] lg:gap-5 xl:w-4/5'
-			}`}
-		>
-			<slot />
-		</section>
-	</main>
-	{#if $page.showBottomNavigation}
-		<footer>
-			<BottomNavigation navs={BOTTOM_NAVBARS(appContext.scheme, appContext.host)} />
-		</footer>
-	{/if}
-</div>
+{#if $appPage.data?.layoutConfig?.layoutType === 'TWO_COLUMN'}
+	<TwoColumn>
+		<slot />
+	</TwoColumn>
+{:else if $appPage.data?.layoutConfig?.layoutType === 'TWO_COLUMN_REVERSE'}
+	<TwoColumnReverse>
+		<slot />
+	</TwoColumnReverse>
+{:else}
+	<Default>
+		<slot />
+	</Default>
+{/if}

@@ -44,7 +44,7 @@
 	};
 </script>
 
-<section class="max-w-4xl rounded-lg bg-white text-sm shadow-csm max-sm:mt-4">
+<section class="max-w-4xl rounded-lg bg-white text-sm shadow-csm">
 	<header class="flex flex-col p-4 md:p-6">
 		<h2 class="text-lg font-medium text-black-title">Your Investments</h2>
 	</header>

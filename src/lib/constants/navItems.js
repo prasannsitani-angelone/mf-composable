@@ -1,7 +1,7 @@
-import HomeIcon from '$lib/images/icons/HomeIcon.svelte';
-import HomeActiveIcon from '$lib/images/icons/HomeActiveIcon.svelte';
-import HoldingActiveIcon from '$lib/images/icons/HoldingActiveIcon.svelte';
-import HoldingIcon from '$lib/images/icons/HoldingIcon.svelte';
+import DiscoverIcon from '$lib/images/icons/DiscoverIcon.svelte';
+import DiscoverActiveIcon from '$lib/images/icons/DiscoverActiveIcon.svelte';
+import RupeeInCircleActiveIcon from '$lib/images/icons/RupeeInCircleActiveIcon.svelte';
+import RupeeInCircleIcon from '$lib/images/icons/RupeeInCircleIcon.svelte';
 import OrdersBottomNavbarActiveIcon from '$lib/images/icons/OrdersBottomNavbarActiveIcon.svelte';
 import OrdersBottomNavbarInactiveIcon from '$lib/images/icons/OrdersBottomNavbarInactiveIcon.svelte';
 import { base } from '$app/paths';
@@ -11,14 +11,14 @@ export const BOTTOM_NAVBARS = (scheme = '', host = '') => [
 	{
 		label: 'Discover',
 		path: `${getNavigationBaseUrl(base, scheme, host)}/discoverfunds`,
-		icon: HomeIcon,
-		activeIcon: HomeActiveIcon
+		icon: DiscoverIcon,
+		activeIcon: DiscoverActiveIcon
 	},
 	{
 		label: 'Investments',
 		path: `${getNavigationBaseUrl(base, scheme, host)}/investments`,
-		icon: HoldingIcon,
-		activeIcon: HoldingActiveIcon
+		icon: RupeeInCircleIcon,
+		activeIcon: RupeeInCircleActiveIcon
 	},
 	{
 		label: 'Orders',

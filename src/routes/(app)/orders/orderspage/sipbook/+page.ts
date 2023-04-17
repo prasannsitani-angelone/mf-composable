@@ -2,6 +2,7 @@ import { browser } from '$app/environment';
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
+import SipTabSelection from '../TabSelection/SipTabSelection.svelte';
 
 export const load = (async ({ fetch }) => {
 	const getSipBookData = async () => {
@@ -15,6 +16,11 @@ export const load = (async ({ fetch }) => {
 	};
 
 	return {
+		layoutConfig: {
+			title: 'All Orders',
+			component: SipTabSelection,
+			showBottomNavigation: true
+		},
 		api: {
 			getSipBookData: browser ? getSipBookData() : await getSipBookData()
 		}

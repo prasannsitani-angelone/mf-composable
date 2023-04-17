@@ -7,7 +7,7 @@
 	export { handleTabSelection, activeTab };
 </script>
 
-<section class="fixed top-[3.4rem] left-0 w-full border-b">
+<section class="left-0 w-full border-b">
 	<article
 		class="flex items-center justify-evenly bg-white px-6 pt-5 text-center text-sm font-semibold"
 	>

@@ -33,6 +33,10 @@ export const load = (async ({ fetch, params }) => {
 		return holdingData;
 	};
 	return {
+		layoutConfig: {
+			title: 'Fund Details',
+			showBackIcon: true
+		},
 		api: {
 			schemeData: browser ? getSchemeData() : await getSchemeData(),
 			holdingData: browser ? getFundHoldings() : await getFundHoldings(),

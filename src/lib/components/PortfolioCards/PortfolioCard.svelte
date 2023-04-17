@@ -54,7 +54,7 @@
 </script>
 
 <article
-	class="mb-2 mt-2 rounded-lg bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 pt-6 pb-4 text-white md:mt-0 lg:p-6"
+	class="mb-2 rounded-lg bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 pt-6 pb-4 text-white md:mt-2 lg:mt-0 lg:p-6"
 >
 	<section class="mx-4 flex items-center justify-between lg:mx-0">
 		<article class="flex flex-col items-start">

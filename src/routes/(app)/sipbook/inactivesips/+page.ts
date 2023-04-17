@@ -15,6 +15,10 @@ export const load = (async ({ fetch }) => {
 	};
 
 	return {
+		layoutConfig: {
+			title: 'Inactive SIPs',
+			showBackIcon: true
+		},
 		api: {
 			getInactiveSipData: browser ? getInactiveSipData() : await getInactiveSipData()
 		}

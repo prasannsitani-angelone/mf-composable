@@ -25,7 +25,7 @@
 {#await data?.api?.getInactiveSipData}
 	<SipCardLoader />
 {:then inactiveSips}
-	<article class="mx-2 mt-0 pt-2">
+	<article>
 		{#if inactiveSips?.length}
 			<section>
 				{#each inactiveSips as sip (sip?.sipId)}

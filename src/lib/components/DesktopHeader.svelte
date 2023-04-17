@@ -4,9 +4,20 @@
 	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 	import { getContext } from 'svelte';
 	import type { AppContext } from '$lib/types/IAppContext';
+	import { page } from '$app/stores';
 
 	const logoUrl = `${base}/images/AngelOneLogo.webp`;
-
+	const activePageTabClass =
+		'py-4 hover:text-blue-primary text-blue-primary lg:border-b-2 border-blue-primary';
+	const inactivePageTabClass = 'py-4 hover:text-blue-primary lg:border-b-2 border-white';
+	const discoverFundsTabClass = $page.url?.pathname?.includes('/discoverfunds')
+		? activePageTabClass
+		: $page.url?.pathname?.includes('/explorefunds')
+		? activePageTabClass
+		: inactivePageTabClass;
+	const myInvestmentsTabClass = $page.url?.pathname?.includes('/investments')
+		? activePageTabClass
+		: inactivePageTabClass;
 	const appContext: AppContext = getContext('app');
 </script>
 
@@ -19,10 +30,14 @@
 			</Link>
 		</div>
 		<Link to={`${getNavigationBaseUrl('', appContext.scheme, appContext.host)}/discoverfunds`}>
-			<div class="hidden cursor-pointer uppercase md:block">Discover</div>
+			<div class={`hidden cursor-pointer uppercase md:block ${discoverFundsTabClass}`}>
+				Discover
+			</div>
 		</Link>
 		<Link to={`${getNavigationBaseUrl('', appContext.scheme, appContext.host)}/investments`}>
-			<div class="mr-4 hidden cursor-pointer uppercase md:block">INVESTMENTS</div>
+			<div class={`mr-4 hidden cursor-pointer uppercase md:block ${myInvestmentsTabClass}`}>
+				INVESTMENTS
+			</div>
 		</Link>
 		<div class="w-full md:w-2/5" />
 	</article>
