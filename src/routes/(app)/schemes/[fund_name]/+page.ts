@@ -35,7 +35,8 @@ export const load = (async ({ fetch, params }) => {
 	return {
 		layoutConfig: {
 			title: 'Fund Details',
-			showBackIcon: true
+			showBackIcon: true,
+			layoutType: 'TWO_COLUMN'
 		},
 		api: {
 			schemeData: browser ? getSchemeData() : await getSchemeData(),

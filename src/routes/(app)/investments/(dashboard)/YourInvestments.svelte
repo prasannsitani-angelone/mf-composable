@@ -45,7 +45,7 @@
 </script>
 
 <section class="max-w-4xl rounded-lg bg-white text-sm shadow-csm">
-	<header class="flex flex-col p-4 md:p-6">
+	<header class="flex flex-col p-4 md:px-6 md:py-5">
 		<h2 class="text-lg font-medium text-black-title">Your Investments</h2>
 	</header>
 	<Table>
