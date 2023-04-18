@@ -1,9 +1,10 @@
 import jwt from 'jsonwebtoken';
 const HS256 = 'HS256';
-import { JWT_SYMMETRIC_KEY } from '$env/static/private';
-
+import { env } from '$env/dynamic/private';
 const getAuthToken = async (userId: string) => {
 	try {
+		const JWT_SYMMETRIC_KEY = env.JWT_SYMMETRIC_KEY || '';
+
 		const token = jwt.sign(
 			{
 				userData: {

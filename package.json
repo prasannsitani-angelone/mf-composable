@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev-debug": "cp .env.uat .env && NODE_OPTIONS=--inspect ./node_modules/.bin/vite dev",
 		"dev": "vite dev",
-		"dev:uat": "cp .env.uat .env && vite dev",
+		"dev:uat": "cp .env.uat .env && JWT_SYMMETRIC_KEY=aAJALJFLJLSLFJ@##@!12123a vite dev",
 		"dev:cug": "cp .env.cug .env && vite dev",
 		"build": "vite build",
 		"build:uat": "cp .env.uat .env && vite build",
