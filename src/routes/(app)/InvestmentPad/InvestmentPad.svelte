@@ -1,26 +1,34 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import Button from '$components/Button.svelte';
 	import NumPad from '$components/Keyboard/NumPad.svelte';
 	import CalendarSmallIcon from '$lib/images/icons/CalendarSmallIcon.svelte';
 	import CheckboxCheckedIcon from '$lib/images/icons/CheckboxCheckedIcon.svelte';
 	import CheckboxUncheckedIcon from '$lib/images/icons/CheckboxUncheckedIcon.svelte';
-	// import type { SchemeDetails } from '$lib/types/ISchemeDetails';
-	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
-	import { onMount } from 'svelte';
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	import { addCommasToAmountString, formatAmount } from '$lib/utils/helpers/formatAmount';
+	import TabNotSupported from './OrderPadComponents/TabNotSupported.svelte';
+	import { getDateSuperscript } from '$lib/utils/helpers/date';
 
-	// eslint-disable-next-line
-	// export let schemeData: SchemeDetails;
+	export let schemeData: SchemeDetails;
+	export let fromInvestmentDetailsPage: boolean;
 
-	let maximumAmountLimit = 999999999;
+	const sipPrefillAmount = 100;
+	const lumpsumPrefillAmount = 100;
+	const maximumAmountLimit = 999999999;
 
-	// eslint-disable-next-line
+	let activeTab = 'SIP';
 	let amount = '';
+	let calendarDate = 4;
+	let sipAllowedDaysArray = schemeData?.sipAllowedDays?.split(',') || [];
+
 	$: amountVal = amount?.length ? `₹${addCommasToAmountString(amount)}` : '';
-	$: activeTab = 'SIP';
-	$: calendarDate = 4;
 	$: dateSuperscript = 'th';
 	$: errorMessage = '';
 	$: firstSipPayment = true;
+	$: redirectedFrom = '';
+	$: showTabNotSupported = false;
+	$: tabNotSupportedType = '';
 
 	const toggleFirstSipPayment = () => {
 		firstSipPayment = !firstSipPayment;
@@ -34,61 +42,88 @@
 			errorMessage = '';
 		}
 
-		// if (activeTab?.value === 'SIP') {
-		// 	if (parseInt(amount.value) < props?.schemeDetails?.minSipAmount) {
-		// 		errorMessage.value = 'Min SIP Amount: ₹' + (addCommasToAmountString((props?.schemeDetails?.minSipAmount)?.toString()) || props?.schemeDetails?.minSipAmount)
-		// 	} else if (parseInt(amount.value) > props?.schemeDetails?.sipMaxAmount) {
-		// 		errorMessage.value = 'Max SIP Amount: ₹' + (addCommasToAmountString((props?.schemeDetails?.sipMaxAmount)?.toString()) || props?.schemeDetails?.sipMaxAmount)
-		// 	} else if (parseInt(parseInt(amount.value) % props?.schemeDetails?.sipMultiplierAmount)) {
-		// 		errorMessage.value = `Please invest in multiples of ₹${props?.schemeDetails?.sipMultiplierAmount}`
-		// 	} else {
-		// 		errorMessage.value = ''
-		// 	}
-		// } else if (activeTab?.value === 'ONETIME') {
-		// 	if ((redirectedFrom !== 'INVESTMENT_DETAILS' && !props?.fromInvestmentDetailsPage) && (parseInt(amount.value) < props?.schemeDetails?.minLumpsumAmount)) {
-		// 		errorMessage.value = 'Min Investment Amount: ₹' + (addCommasToAmountString((props?.schemeDetails?.minLumpsumAmount)?.toString()) || props?.schemeDetails?.minLumpsumAmount)
-		// 	} else if ((redirectedFrom === 'INVESTMENT_DETAILS' || props?.fromInvestmentDetailsPage) && (parseInt(amount.value) < props?.schemeDetails?.additionalPurchaseAmount)) {
-		// 		errorMessage.value = 'Min Investment Amount: ₹' + (addCommasToAmountString((props?.schemeDetails?.additionalPurchaseAmount)?.toString()) || props?.schemeDetails?.additionalPurchaseAmount)
-		// 	} else if (props?.schemeDetails?.lumpsumMaxAmount > 0 && parseInt(amount.value) > props?.schemeDetails?.lumpsumMaxAmount) {
-		// 		errorMessage.value = 'Max Investment Amount: ₹' + (addCommasToAmountString((props?.schemeDetails?.lumpsumMaxAmount)?.toString()) || props?.schemeDetails?.lumpsumMaxAmount)
-		// 	} else if (parseInt(parseInt(amount.value) % props?.schemeDetails?.lumpsumMultiplierAmount)) {
-		// 		errorMessage.value = `Please invest in multiples of ₹${props?.schemeDetails?.lumpsumMultiplierAmount}`
-		// 	} else {
-		// 		errorMessage.value = ''
-		// 	}
-		// }
+		if (activeTab === 'SIP') {
+			if (parseInt(amount) < schemeData?.minSipAmount) {
+				errorMessage =
+					'Min SIP Amount: ₹' +
+					(addCommasToAmountString(schemeData?.minSipAmount?.toString()) ||
+						schemeData?.minSipAmount);
+			} else if (parseInt(amount) > schemeData?.sipMaxAmount) {
+				errorMessage =
+					'Max SIP Amount: ₹' +
+					(addCommasToAmountString(schemeData?.sipMaxAmount?.toString()) ||
+						schemeData?.sipMaxAmount);
+			} else if (parseInt(parseInt(amount) % schemeData?.sipMultiplierAmount)) {
+				errorMessage = `Please invest in multiples of ₹${schemeData?.sipMultiplierAmount}`;
+			} else {
+				errorMessage = '';
+			}
+		} else if (activeTab === 'ONETIME') {
+			if (
+				redirectedFrom !== 'INVESTMENT_DETAILS' &&
+				!fromInvestmentDetailsPage &&
+				parseInt(amount) < schemeData?.minLumpsumAmount
+			) {
+				errorMessage =
+					'Min Investment Amount: ₹' +
+					(addCommasToAmountString(schemeData?.minLumpsumAmount?.toString()) ||
+						schemeData?.minLumpsumAmount);
+			} else if (
+				(redirectedFrom === 'INVESTMENT_DETAILS' || fromInvestmentDetailsPage) &&
+				parseInt(amount) < schemeData?.additionalPurchaseAmount
+			) {
+				errorMessage =
+					'Min Investment Amount: ₹' +
+					(addCommasToAmountString(schemeData?.additionalPurchaseAmount?.toString()) ||
+						schemeData?.additionalPurchaseAmount);
+			} else if (
+				schemeData?.lumpsumMaxAmount > 0 &&
+				parseInt(amount) > schemeData?.lumpsumMaxAmount
+			) {
+				errorMessage =
+					'Max Investment Amount: ₹' +
+					(addCommasToAmountString(schemeData?.lumpsumMaxAmount?.toString()) ||
+						schemeData?.lumpsumMaxAmount);
+			} else if (parseInt(parseInt(amount) % schemeData?.lumpsumMultiplierAmount)) {
+				errorMessage = `Please invest in multiples of ₹${schemeData?.lumpsumMultiplierAmount}`;
+			} else {
+				errorMessage = '';
+			}
+		}
 	};
 
 	const handleShowTabNotSupported = () => {
-		// if (activeTab?.value === 'SIP') {
-		// 	showTabNotSupported.value = props?.schemeDetails?.isSipAllowed !== 'Y'
-		// 	tabNotSupportedType.value = 'SIP'
-		// } else if (activeTab?.value === 'ONETIME') {
-		// 	showTabNotSupported.value = props?.schemeDetails?.isLumpsumAllowed !== 'Y'
-		// 	tabNotSupportedType.value = 'One time'
-		// }
+		if (activeTab === 'SIP') {
+			showTabNotSupported = schemeData?.isSipAllowed !== 'Y';
+			tabNotSupportedType = 'SIP';
+		} else if (activeTab === 'ONETIME') {
+			showTabNotSupported = schemeData?.isLumpsumAllowed !== 'Y';
+			tabNotSupportedType = 'One time';
+		}
 	};
 
 	const setDefaultSipDate = () => {
-		// let areAllDaysAllowed = true
-		// for (let i = 1; i <= 28; i++) {
-		// 	if (parseInt(sipAllowedDaysArray?.value[i - 1]) !== i) {
-		// 		areAllDaysAllowed = false
-		// 	}
-		// }
-		// if (areAllDaysAllowed) {
-		// 	calendarDate.value = 4
-		// } else if (sipAllowedDaysArray?.value?.length) {
-		// 	calendarDate.value = parseInt(sipAllowedDaysArray?.value[0])
-		// } else {
-		// 	calendarDate.value = 1
-		// }
-		// dateSuperscript.value = getDateSuperscript(calendarDate.value)
+		let areAllDaysAllowed = true;
+		for (let i = 1; i <= 28; i++) {
+			if (parseInt(sipAllowedDaysArray[i - 1]) !== i) {
+				areAllDaysAllowed = false;
+			}
+		}
+
+		if (areAllDaysAllowed) {
+			calendarDate = 4;
+		} else if (sipAllowedDaysArray?.length) {
+			calendarDate = parseInt(sipAllowedDaysArray[0]);
+		} else {
+			calendarDate = 1;
+		}
+		dateSuperscript = getDateSuperscript(calendarDate);
 	};
 
 	setDefaultSipDate();
 
 	const setNextSipDate = () => {
+		// TODO: Add logic when calendar is integrated
 		// const now = new Date()
 		// const month = getSIPMonthBasedOnDate(calendarDate?.value, now, firstSipPayment?.value ? 30 : 10)
 		// calendarMonth.value = new Date(now?.getFullYear(), month, 0)
@@ -99,83 +134,71 @@
 	setNextSipDate();
 
 	const onInputChange = () => {
-		// TODO: pass amount: string in this function
-		// let formattedValue = e.target.value
-		// inputValue.value = formattedValue
-		// formattedValue = formatAmount(formattedValue) // trim, remove alphabets and remove leading zeroes
-		// inputValue.value = addCommasToAmountString(formattedValue) // get amount string with commas in INR currency format
-		// if (inputValue?.value?.length >= 1) {
-		// 	inputValue.value = '₹' + inputValue?.value
-		// }
-		// amount.value = formattedValue
-		// updatePaymentMode()
-		// setErrorMessage()
+		amount = formatAmount(amount); // trim, remove alphabets and remove leading zeroes
+
+		setErrorMessage();
 	};
 
-	$: onInputChange(amount);
+	$: onInputChange();
 
 	const prefillParamsData = () => {
+		// TODO
 		// if (investmentType) {
-		// 	activeTab.value = investmentType === 'LUMPSUM' ? 'ONETIME' : 'SIP'
+		// 	activeTab = investmentType === 'LUMPSUM' ? 'ONETIME' : 'SIP'
 		// }
 		// if (investmentAmount) {
-		// 	inputValue.value = `₹${addCommasToAmountString(parseInt(investmentAmount)?.toFixed(0))}`
-		// 	amount.value = parseInt(investmentAmount)?.toFixed(0)
+		// 	amount = parseInt(investmentAmount)?.toFixed(0)
 		// 	setErrorMessage()
 		// }
 		// if (typeof ftp === 'boolean') {
-		// 	firstSipPayment.value = ftp
+		// 	firstSipPayment = ftp
 		// }
 		// if (sipDate) {
-		// 	calendarDate.value = sipDate
-		// 	dateSuperscript.value = getDateSuperscript(sipDate)
+		// 	calendarDate = sipDate
+		// 	dateSuperscript = getDateSuperscript(sipDate)
 		// 	setNextSipDate()
 		// }
-		// if (skipOrderPad && (ftp || activeTab.value === 'ONETIME')) {
-		// 	showChangePaymentModeSection.value = ff.value === 'lf'
-		// 	showChangePaymentModeModal.value = ff.value === 'mf'
+		// if (skipOrderPad && (ftp || activeTab === 'ONETIME')) {
+		// 	showChangePaymentModeSection = ff === 'lf'
+		// 	showChangePaymentModeModal = ff === 'mf'
 		// }
 	};
 
 	prefillParamsData();
 
-	const prefillAmount = (tab: string) => {
-		if (tab === 'ONETIME') {
-			amount = '5000';
-		} else {
-			amount = '1000';
+	const prefillAmount = () => {
+		if (activeTab === 'SIP') {
+			if (schemeData?.minSipAmount > sipPrefillAmount) {
+				amount = schemeData?.minSipAmount?.toFixed(0);
+			} else {
+				amount = sipPrefillAmount?.toFixed(0);
+			}
+		} else if (activeTab === 'ONETIME') {
+			if (
+				redirectedFrom !== 'INVESTMENT_DETAILS' &&
+				!fromInvestmentDetailsPage &&
+				schemeData?.minLumpsumAmount > lumpsumPrefillAmount
+			) {
+				amount = schemeData?.minLumpsumAmount?.toFixed(0);
+			} else if (
+				(redirectedFrom === 'INVESTMENT_DETAILS' || fromInvestmentDetailsPage) &&
+				schemeData?.additionalPurchaseAmount > lumpsumPrefillAmount
+			) {
+				amount = schemeData?.additionalPurchaseAmount?.toFixed(0);
+			} else {
+				amount = lumpsumPrefillAmount?.toFixed(0);
+			}
 		}
-
-		// if (activeTab?.value === 'SIP') {
-		// 	if (props?.schemeDetails?.minSipAmount > sipPrefillAmount) {
-		// 		inputValue.value = `₹${addCommasToAmountString(props?.schemeDetails?.minSipAmount?.toFixed(0))}`
-		// 		amount.value = props?.schemeDetails?.minSipAmount?.toFixed(0)
-		// 	} else {
-		// 		inputValue.value = `₹${addCommasToAmountString(sipPrefillAmount?.toFixed(0))}`
-		// 		amount.value = sipPrefillAmount?.toFixed(0)
-		// 	}
-		// } else if (activeTab?.value === 'ONETIME') {
-		// 	if ((redirectedFrom !== 'INVESTMENT_DETAILS' && !props?.fromInvestmentDetailsPage) && (props?.schemeDetails?.minLumpsumAmount > lumpsumPrefillAmount)) {
-		// 		inputValue.value = `₹${addCommasToAmountString(props?.schemeDetails?.minLumpsumAmount?.toFixed(0))}`
-		// 		amount.value = props?.schemeDetails?.minLumpsumAmount?.toFixed(0)
-		// 	} else if ((redirectedFrom === 'INVESTMENT_DETAILS' || props?.fromInvestmentDetailsPage) && (props?.schemeDetails?.additionalPurchaseAmount > lumpsumPrefillAmount)) {
-		// 		inputValue.value = `₹${addCommasToAmountString(props?.schemeDetails?.additionalPurchaseAmount?.toFixed(0))}`
-		// 		amount.value = props?.schemeDetails?.additionalPurchaseAmount?.toFixed(0)
-		// 	} else {
-		// 		inputValue.value = `₹${addCommasToAmountString(lumpsumPrefillAmount?.toFixed(0))}`
-		// 		amount.value = lumpsumPrefillAmount?.toFixed(0)
-		// 	}
-		// }
 	};
 
-	prefillAmount(activeTab);
+	prefillAmount();
 
 	const switchTabs = (val: string) => {
 		if (val !== activeTab) {
 			amount = '';
 			activeTab = val;
 
-			prefillAmount(val);
+			prefillAmount();
 			setErrorMessage();
 			handleShowTabNotSupported();
 		}
@@ -301,6 +324,12 @@
 		</article>
 	{/if}
 
+	{#if showTabNotSupported}
+		<div class="pb-1">
+			<TabNotSupported {tabNotSupportedType} />
+		</div>
+	{/if}
+
 	<!-- Footer section for Mobile layout (PaymentMode/StartSipDate + TnC + Submit + Numpad) -->
 	<article class="mx-3 mt-4 block md:block">
 		<section class="fixed inset-0 top-auto">
@@ -326,11 +355,11 @@
 				<!-- TODO: add disabled logic for logInState, profileStore isError, showTabNotSupported as well -->
 				<Button
 					class={`bottom-0 my-3 h-12 w-full rounded ${
-						!amount?.length || !!errorMessage?.length
+						!amount?.length || !!errorMessage?.length || showTabNotSupported
 							? 'cursor-default bg-grey-line text-grey-disabled active:opacity-100'
 							: 'bg-blue-primary'
 					}`}
-					disabled={!amount?.length || !!errorMessage?.length}
+					disabled={!amount?.length || !!errorMessage?.length || showTabNotSupported}
 					onClick={handleInvestClick}
 				>
 					{activeTab === 'SIP' ? 'START SIP' : 'PAY NOW'}

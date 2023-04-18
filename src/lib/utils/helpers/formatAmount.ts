@@ -62,3 +62,23 @@ export const getAmountUnit = (amount: number) => {
 
 	return '';
 };
+
+/**
+ * formatAmount: This function is to format amount string.
+ *
+ * This function trims the string for any leading or trailing spaces.
+ * Then remove alphabets (if any).
+ * And finally remove leading zeroes from the amount string.
+ *
+ * @param {string} amount
+ * @returns {string} formattedAmount
+ */
+export const formatAmount = (amount: string) => {
+	// formattedAmount: trim, retain only numeric characters and remove leading zeroes
+	const formattedAmount = amount
+		?.trim() // trim
+		?.replace(/[^0-9]/g, '') // remove alphabets (to save only numeric characters)
+		?.replace(/^0+/, ''); // remove leading zeroes
+
+	return formattedAmount;
+};

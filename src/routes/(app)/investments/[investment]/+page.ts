@@ -18,6 +18,11 @@ export const load = (async ({ fetch, params }) => {
 		return schemeData;
 	};
 	return {
+		layoutConfig: {
+			title: 'Order Pad',
+			showBackIcon: true,
+			layoutType: 'TWO_COLUMN'
+		},
 		api: {
 			schemeData: browser ? getSchemeData() : await getSchemeData()
 		}
