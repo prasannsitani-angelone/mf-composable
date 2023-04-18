@@ -1,3 +1,5 @@
+import type { SchemeHoldings } from '$lib/types/ISchemeDetails';
+
 export interface NavDetails {
 	navValue: number;
 	navDate: string;
@@ -51,4 +53,9 @@ export interface Tags {
 	returnPeriod: string;
 	bmReturnPeriod: string;
 	text: string;
+}
+
+export interface TopHolding extends SchemeHoldings {
+	colorCode?: string;
+	percentageHold: number;
 }

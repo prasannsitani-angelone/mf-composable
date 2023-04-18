@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import FundHoldings from './FundHoldings/FundHoldings.svelte';
-	import FundManager from './FundManager.svelte';
+	import FundManager from './FundManager/FundManager.svelte';
 	import FundOverview from './FundOverview/FundOverview.svelte';
-	import LockInPeriod from './LockInPeriod.svelte';
+	import LockInPeriod from './LockInPeriod/LockInPeriod.svelte';
 	import SchemeInformation from './SchemeInformation/SchemeInformation.svelte';
 	import SimilarFunds from './SimilarFunds/SimilarFunds.svelte';
 	import OtherFundsByAMC from './OtherFundsByAMC/OtherFundsByAMC.svelte';

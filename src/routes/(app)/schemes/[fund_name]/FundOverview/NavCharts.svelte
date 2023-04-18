@@ -15,9 +15,25 @@
 			text: month
 		});
 	}
-	let selectedMonth = 36;
 
 	let schemeDetails: SchemeDetails;
+	$: selectedMonth = (function () {
+		const returnOrder = [
+			'returns3yr',
+			'returns1yr',
+			'returns6Month',
+			'returns3Month',
+			'returns1Month'
+		];
+		let month = 0;
+		returnOrder.forEach((order) => {
+			if (!month && schemeDetails[order]) {
+				const returns = tags.filter((tag) => tag.returnPeriod === order);
+				month = returns[0].months;
+			}
+		});
+		return month;
+	})();
 
 	let lineData = {};
 	const lineChartOptions = {
@@ -77,9 +93,10 @@
 		selectedMonth = month;
 		chartRangeChange(month);
 	};
+
 	onMount(async () => {
 		await tick();
-		selectNavDuration(36);
+		selectNavDuration(selectedMonth);
 	});
 
 	export { schemeDetails };
@@ -95,8 +112,13 @@
 					selectedMonth === tag.months ? '!border-blue-primary !text-blue-primary' : ''
 				} noselect flex h-5 w-9 cursor-pointer flex-row items-center justify-center rounded-sm border border-grey-line bg-white  p-0 py-[2px] text-xs font-semibold !text-grey-body active:opacity-70 sm:h-6 sm:w-11 sm:text-sm sm:font-medium`}
 				onClick={() => selectNavDuration(tag.months)}
+				disabled={!schemeDetails[tag.returnPeriod]}
 			>
-				{tag.label}
+				{#if schemeDetails[tag.returnPeriod]}
+					{tag.label}
+				{:else}
+					-
+				{/if}
 			</Button>
 		{/each}
 	</section>

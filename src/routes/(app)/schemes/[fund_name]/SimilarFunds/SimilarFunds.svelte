@@ -70,7 +70,7 @@
 								>{funds.schemeName}</a
 							></Td
 						>
-						<Td class="flex items-center justify-center border-none">
+						<Td class="border-none">
 							<ChipArqRating arqRating={funds.arqRating} />
 						</Td>
 						<Td class="text-center"><span>{funds[currentYearFilter.field]}</span></Td>

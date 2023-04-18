@@ -1,20 +1,16 @@
 <script lang="ts">
+	import Button from '$components/Button.svelte';
 	import DoughnutChart from '$components/Charts/DoughnutChart.svelte';
-	import Table from '$components/Table/Table.svelte';
-	import TBody from '$components/Table/TBody.svelte';
-	import Th from '$components/Table/TH.svelte';
-	import Tr from '$components/Table/TR.svelte';
-	import THead from '$components/Table/THead.svelte';
+	import DownArrowIcon from '$lib/images/icons/DownArrowIcon.svelte';
 	import FundHoldingIcon from '$lib/images/icons/FundHoldingIcon.svelte';
+	import UpArrowIcon from '$lib/images/icons/UpArrowIcon.svelte';
 	import type { SchemeHoldings } from '$lib/types/ISchemeDetails';
 	import { generateGraphDataset } from '../helper';
-	import type { TopHoldingSummary } from '../types';
-	import Td from '$components/Table/TD.svelte';
+	import type { TopHolding, TopHoldingSummary } from '../types';
+	import HoldingTable from './HoldingTable.svelte';
 
-	interface TopHolding extends SchemeHoldings {
-		colorCode?: string;
-		percentageHold: number;
-	}
+	$: showAllHoldings = false;
+	let remaningHoldings: TopHolding[];
 
 	let fundHoldingData: Array<SchemeHoldings>;
 	const graphColor = ['#F9BA4D', '#4BD9EA', '#581DBE', '#1EC7B6', '#F65E5A', '#3F5BD9'];
@@ -32,9 +28,14 @@
 		if (!holdings?.length) {
 			return [];
 		}
-		let topHolding: TopHolding[] = holdings
-			.sort((a, b) => (a.percentageHold > b.percentageHold ? -1 : 1))
-			.slice(0, 5);
+		let sortedHoldings: TopHolding[] = holdings.sort((a, b) =>
+			a.percentageHold > b.percentageHold ? -1 : 1
+		);
+
+		let topHolding = sortedHoldings.slice(0, 5);
+
+		remaningHoldings = sortedHoldings?.slice(5, sortedHoldings.length);
+
 		const topHoldingPercentage = topHolding.reduce((prevVal, currentVal) => {
 			return prevVal + currentVal.percentageHold;
 		}, 0);
@@ -56,6 +57,7 @@
 	};
 	const schemeTopHolding = setTableData(fundHoldingData);
 	topHoldingSummary = generateGraphDataset(schemeTopHolding) || { label: [], data: [] };
+
 	const doughnutData = {
 		labels: topHoldingSummary.label,
 		datasets: [
@@ -102,29 +104,28 @@
 	/>
 
 	<section class="mt-9 px-6">
-		<Table class="border border-grey-line">
-			<THead slot="thead" class="border-t border-grey-line">
-				<Th class="w-3/5">Top Holding</Th>
-				<Th class="text-right">Allocation</Th>
-			</THead>
-			<TBody slot="tbody">
-				{#each schemeTopHolding as holdings}
-					<Tr>
-						<Td>
-							<div class="flex items-center">
-								<div
-									class="mr-2 h-[6px] w-[6px] rounded-full"
-									style={`background-color:${holdings.colorCode}`}
-								/>
-								<div>
-									{holdings.companyName}
-								</div>
-							</div>
-						</Td>
-						<Td class="text-right">{holdings.percentageHold}%</Td>
-					</Tr>
-				{/each}
-			</TBody>
-		</Table>
+		<HoldingTable topHolding holdings={schemeTopHolding} />
+		{#if showAllHoldings}
+			<section class="mt-7">
+				<h5 class="mb-4">Other Holdings</h5>
+
+				<HoldingTable holdings={remaningHoldings} />
+			</section>
+		{/if}
 	</section>
+
+	<footer class="mt-5 flex items-center justify-center px-6">
+		<Button
+			class="uppercase"
+			variant="transparent"
+			endAdornment={showAllHoldings ? UpArrowIcon : DownArrowIcon}
+			onClick={() => (showAllHoldings = !showAllHoldings)}
+		>
+			{#if !showAllHoldings}
+				Show all
+			{:else}
+				Hide All
+			{/if}
+		</Button>
+	</footer>
 </article>

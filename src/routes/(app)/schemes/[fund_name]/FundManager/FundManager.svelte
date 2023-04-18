@@ -13,6 +13,12 @@
 				?.join('') || ''
 		);
 	};
+	const getStartDate = (date: Date = new Date()) => {
+		const month = new Date(date).toLocaleString('default', { month: 'short' });
+		const year = new Date(date).getFullYear();
+
+		return `${month} ${year}`;
+	};
 	export { schemeDetails };
 </script>
 
@@ -50,6 +56,10 @@
 						<h3 class="text-sm font-medium text-black-title sm:text-base">
 							{fundManager?.name}
 						</h3>
+						<h4 class="text-xs font-medium text-grey-body sm:text-sm">
+							<span>Fund Manager since </span>
+							{getStartDate(fundManager?.startDate)}
+						</h4>
 					</div>
 				</section>
 			{/each}

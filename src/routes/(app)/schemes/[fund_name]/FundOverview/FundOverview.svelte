@@ -9,6 +9,7 @@
 	import type { Tags } from '$lib/types/ITags';
 
 	import NavCharts from './NavCharts.svelte';
+	import RocketIcon from '$lib/images/icons/RocketIcon.svelte';
 
 	let schemeDetails: SchemeDetails;
 	let selectedTag: Tags[];
@@ -42,7 +43,7 @@
 	}
 	const handleChartRangeChange = (event: { detail: { text: number } }) => {
 		const selectedMonth: number = event?.detail?.text;
-
+		console.log('handleChartRangeChange', selectedMonth);
 		selectedTag = tags.filter((val) => val.months === selectedMonth);
 
 		console.log(selectedTag);
@@ -84,13 +85,14 @@
 			</div>
 		</div>
 	</header>
-	<section>
+
+	<section class="mb-5">
 		<NavCharts {schemeDetails} on:chartRangeChange={handleChartRangeChange} />
 		<div class="mt-9 flex justify-between">
 			<div class="flex flex-col">
 				<span class="mr-1 text-sm font-medium text-grey-body sm:text-sm"
 					>NAV on {formatDate(schemeDetails?.navDate)}</span
-				><span class="mr-1 text-lg text-black-title">{schemeDetails?.navValue}</span>
+				><span class="mr-1 text-lg text-black-title">₹{schemeDetails?.navValue?.toFixed(2)}</span>
 			</div>
 			<div class="flex flex-col">
 				<span class="text-sm font-medium text-grey-body ${oneDayReturnClass}">
@@ -101,8 +103,9 @@
 			</div>
 		</div>
 	</section>
+
 	<footer class="flex items-center justify-center border-t border-t-grey-line pt-5">
-		<!-- <RocketIcon /> -->
+		<RocketIcon />
 		<span class="ml-5 text-xs font-medium text-black-title sm:text-sm">
 			Launched in November 2013
 			<span class="text-sm font-normal text-grey-body"> (Age - 9 years)</span></span
