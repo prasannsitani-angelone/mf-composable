@@ -6,7 +6,7 @@
 </script>
 
 <article
-	class={`bg-yellow-background flex items-center justify-center rounded p-3 ${nudgeClasses}`}
+	class={`flex items-center justify-center rounded bg-yellow-background p-3 ${nudgeClasses}`}
 >
 	<slot name="nudgeIcon" />
 

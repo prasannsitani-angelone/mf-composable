@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { createEventDispatcher, onMount, onDestroy } from 'svelte';
-	const dispatch = createEventDispatcher();
-	const backDropClicked = () => dispatch('backdropclicked');
+	import { onMount, onDestroy } from 'svelte';
 
 	export let clazz = '';
 
@@ -30,7 +28,6 @@
 
 <div
 	class={`fixed inset-0 z-60 flex w-full flex-col items-center justify-end bg-black-title/80 sm:justify-center ${clazz}`}
-	on:click|self={backDropClicked}
 >
 	<slot />
 </div>

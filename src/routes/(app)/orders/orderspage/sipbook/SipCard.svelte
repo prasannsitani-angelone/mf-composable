@@ -11,7 +11,7 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	let sipCount = 0;
-	let alertSleeveText: string;
+	let alertSleeveText = '';
 	let sip: ISip;
 	let bankLogo = '';
 	let isUpcomingSip = false;
@@ -82,7 +82,7 @@
 	<!-- Header section -->
 	{#if sip?.isSipPaymentNudge}
 		<section
-			class="border-yellow-primary to-yellow-primary/10 flex items-center justify-between rounded-t-lg border-l-4 bg-gradient-to-r from-white py-2 px-3.5 font-medium text-black"
+			class="flex items-center justify-between rounded-t-lg border-l-4 border-yellow-primary bg-gradient-to-r from-white to-yellow-primary/10 py-2 px-3.5 font-medium text-black"
 		>
 			<article class="flex items-center">
 				<OctagonalYellowWarningIcon class="mr-3.5" />
@@ -144,7 +144,7 @@
 			<slot name="sipCardDetailsRightSection">
 				{#if sip?.isSipPaymentNudge}
 					<article class="flex-1 text-right">
-						<div class="text-red-errorDark text-[11px] font-medium">SIP Date</div>
+						<div class="text-[11px] font-medium text-red-errorDark">SIP Date</div>
 						<div class="text-base font-medium text-black-title">
 							{getDateTimeString(sip?.sipPaymentDate, 'DATE', true)}
 						</div>
@@ -164,7 +164,7 @@
 		{#if sip?.isSipPaymentNudge}
 			<section class="px-3 pt-2 pb-1">
 				<Button
-					class="flex h-12 items-center justify-center rounded"
+					class="flex h-12 w-full items-center justify-center rounded"
 					onClick={(e) => handleClick(e, true)}
 				>
 					{sipCount > 1 ? 'VIEW PENDING SIPs' : 'PAY NOW'}

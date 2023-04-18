@@ -1,15 +1,26 @@
 <script lang="ts">
-	import { BUTTON_STYLE } from '$lib/constants/button.js';
+	import { BUTTON_STYLE } from '$lib/constants/button';
 	import type { SvelteComponent } from 'svelte';
-	let variant: 'contained' | 'outlined' | 'text' | 'transparent' = 'contained';
-	let color: 'primary' | 'secondary' | 'greenBuy' = 'primary';
+	let variant: 'contained' | 'outlined' | 'transparent' = 'contained';
+	let color: 'primary' | 'secondary' | 'success' = 'primary';
 	let style = '';
 	let clazz = '';
+	let sizeClass: string;
+	let size: 'lg' | 'md' | 'sm' | 'xs' = 'md';
 	let disabled = false;
 	let type: 'button' | 'submit' | 'reset' | null | undefined = 'button';
 	let onClick: svelte.JSX.MouseEventHandler<HTMLButtonElement> | null = null;
 	let startAdornment: typeof SvelteComponent | null = null;
 	let endAdornment: typeof SvelteComponent | null = null;
+	if (size === 'lg') {
+		sizeClass = 'btn-lg';
+	} else if (size === 'xs') {
+		sizeClass = 'btn-xs';
+	} else if (size === 'sm') {
+		sizeClass = 'btn-sm';
+	} else {
+		sizeClass = 'btn-md';
+	}
 	export {
 		clazz as class,
 		variant,
@@ -19,13 +30,16 @@
 		endAdornment,
 		disabled,
 		onClick,
-		type
+		type,
+		size
 	};
 </script>
 
 <button
 	{type}
-	class={`${BUTTON_STYLE?.get(variant)?.get(color)} rounded py-1.5 px-4 ${clazz}`}
+	class={`btn border-0 text-sm font-semibold capitalize disabled:bg-opacity-50 ${BUTTON_STYLE?.get(
+		variant
+	)?.get(color)} ${clazz} ${sizeClass} rounded`}
 	{style}
 	{disabled}
 	on:click={onClick}

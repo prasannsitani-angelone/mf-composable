@@ -37,13 +37,16 @@ module.exports = {
 				red: {
 					sell: '#F65E5A',
 					error: '#FEECEB',
-					tint: '#FDD8D7'
+					tint: '#FDD8D7',
+					errorDark: '#D64D4D'
 				},
 				white: {
 					DEFAULT: '#FFFFFF'
 				},
 				yellow: {
-					secondary: '#F9BA4D'
+					primary: '#F9BA4D',
+					secondary: '#F9BA4D',
+					background: '#FEF7EA'
 				}
 			},
 			spacing: {

@@ -28,11 +28,11 @@
 >
 	{#if sortable}
 		<Button
+			variant="transparent"
 			class={`!m-auto flex items-center !p-0 !text-xs !font-medium text-grey-body ${
 				wrapperClass || ''
 			}`}
 			onClick={initiateSort}
-			variant="text"
 		>
 			<slot />
 			<THSorting {isHorizontalSort} />

@@ -54,7 +54,7 @@
 				class="max-w-10 scrollbar-hide flex w-full flex-row gap-2 overflow-x-auto bg-white sm:gap-4 lg:max-w-fit"
 			>
 				{#each selectionTags as tag (tag.months)}
-					<Button variant="text" class="cursor-pointer !p-0" onClick={() => changeTag(tag)}>
+					<Button variant="transparent" class="cursor-pointer !p-0" onClick={() => changeTag(tag)}>
 						<div class="mx-1 flex flex-col items-center justify-between font-medium lg:mb-4">
 							<span
 								class={`pb-4 text-center text-sm md:pb-0 ${

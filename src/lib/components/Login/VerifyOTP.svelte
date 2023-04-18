@@ -203,7 +203,7 @@
 							{otpTimerDisplay}
 						</div>
 					{:else}
-						<Button variant="text" onClick={resendOTP}>Resend OTP</Button>
+						<Button variant="transparent" onClick={resendOTP}>Resend OTP</Button>
 					{/if}
 				</div>
 			</div>

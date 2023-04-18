@@ -1,0 +1,143 @@
+<script lang="ts">
+	import AccordianCardComponent from '$components/Accordian/AccordianCardComponent.svelte';
+	import { getDateTimeString } from '$lib/utils/helpers/date';
+	import DownArrowLargeIcon from '$lib/images/icons/DownArrowLargeIcon.svelte';
+	import type { ISipOrderHistory } from '$lib/types/ISipType';
+	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
+	import { base } from '$app/paths';
+	import SipTransactions from './SipTransactions.svelte';
+	let sipId: number;
+	let sipOrderHistory: Array<ISipOrderHistory>;
+	let sipCreatedTs: number;
+	let disableCollapse = false;
+	let hideFooter = false;
+	let maxTxnShowCount = 0;
+	let fullPageList = false;
+	const SipHistoryData = {
+		title: 'SIP History'
+	};
+
+	interface txnItem {
+		title: string;
+		subTitle: string;
+		status: string;
+	}
+
+	let successfulTxns = 0;
+	let failedTxns = 0;
+	let transactionItems: Array<txnItem> = [];
+	let sipHistoryExpanded = false;
+
+	const setTxnCounts = () => {
+		const transactionList: Array<txnItem> = [];
+		sipOrderHistory?.forEach((item) => {
+			if (item?.orderStatus?.toUpperCase() === 'VALID') {
+				successfulTxns++;
+			} else if (item?.orderStatus?.toUpperCase() === 'INVALID') {
+				failedTxns++;
+			}
+
+			const statusObj = {
+				title: `${
+					item?.orderStatus?.toUpperCase() === 'VALID' ? 'Success' : 'Failed'
+				}: ${getDateTimeString(item?.orderCompletionTs, 'DATE', true)}`,
+				subTitle: item?.Message,
+				status: item?.orderStatus?.toUpperCase() === 'VALID' ? 'SUCCESS' : 'FAILED'
+			};
+
+			transactionList.push(statusObj);
+		});
+
+		transactionItems = transactionList;
+	};
+
+	const goToSipHistory = () => {
+		goto(`${base}/${sipId}-history`);
+	};
+
+	const handleSipHistoryToggle = () => {
+		sipHistoryExpanded = !sipHistoryExpanded;
+	};
+
+	onMount(() => {
+		setTxnCounts();
+	});
+
+	export { sipId, sipOrderHistory, sipCreatedTs, hideFooter, maxTxnShowCount, fullPageList };
+</script>
+
+<article>
+	<AccordianCardComponent
+		data={SipHistoryData}
+		titleFontSize="text-base"
+		{disableCollapse}
+		class="mt-2 rounded-lg bg-white text-sm font-medium text-black-title shadow-csm"
+		on:cardToggled={handleSipHistoryToggle}
+	>
+		<svelte:fragment slot="accordionHeader">
+			<section class="p-4">
+				<slot name="headerTitle">
+					<article class="mb-6 flex items-baseline justify-between">
+						<article class="flex items-baseline">
+							<div class="mr-2 text-base">SIP History</div>
+							{#if transactionItems?.length}
+								<div class="text-xs text-grey-body">
+									(Last {transactionItems?.length} months)
+								</div>
+							{/if}
+						</article>
+						{#if transactionItems?.length}
+							<DownArrowLargeIcon
+								class={`transition duration-200 ${sipHistoryExpanded ? 'rotate-180' : 'rotate-0'}`}
+							/>
+						{/if}
+					</article>
+				</slot>
+
+				<article>
+					<div class="flex items-center font-medium">
+						<span
+							class="mr-1 flex h-5 w-5 items-center justify-center rounded-full bg-green-buy bg-opacity-10 text-xs text-green-buy"
+							class:px-1.5={successfulTxns}
+						>
+							{successfulTxns}
+						</span>
+						<span class="mr-2 text-sm text-grey-body"> Successful </span>
+
+						<span
+							class="mr-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-sell bg-opacity-10 text-xs text-red-sell"
+							class:px-1.5={failedTxns}
+						>
+							{failedTxns}
+						</span>
+						<span class="text-sm text-grey-body"> Failed </span>
+					</div>
+				</article>
+
+				<div class="mt-5 rounded bg-grey px-4 py-2 text-center text-xs font-medium text-grey-body">
+					SIP was created on <span class="font-semibold text-black-title"
+						>{getDateTimeString(sipCreatedTs, 'DATE', true)}</span
+					>
+				</div>
+			</section>
+		</svelte:fragment>
+
+		<svelte:fragment slot="accordionBody">
+			{#if transactionItems?.length}
+				<section class="border-t">
+					<SipTransactions
+						class="mt-2 rounded-lg py-2.5"
+						items={transactionItems}
+						{hideFooter}
+						maxTxnShowCount={maxTxnShowCount || transactionItems?.length}
+						dynamicHeight={fullPageList}
+						handleFooterClick={goToSipHistory}
+					/>
+				</section>
+			{:else}
+				<span />
+			{/if}
+		</svelte:fragment>
+	</AccordianCardComponent>
+</article>
