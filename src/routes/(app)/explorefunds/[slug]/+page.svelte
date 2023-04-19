@@ -42,8 +42,10 @@
 	<h1 class="hidden pb-6 text-lg font-medium text-black-title sm:mt-3 md:block">
 		Explore Mutual Funds
 	</h1>
-	<section class="rounded-lg shadow-csm md:bg-white md:pt-3">
-		<header class="mb-2 bg-white pt-3 pb-5 md:mb-0 md:pt-0 lg:px-6">
+	<section
+		class="ml-[calc(50%-50vw)] w-screen rounded-lg shadow-csm sm:ml-0 sm:w-full md:bg-white md:pt-4"
+	>
+		<header class="-mt-2 mb-2 bg-white pb-5 md:mb-0 lg:px-6">
 			<SearchOptionHeader {exploreFundsNavigation} />
 		</header>
 		<section>

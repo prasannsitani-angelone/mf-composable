@@ -24,7 +24,7 @@
 
 <Table class="hidden sm:block">
 	<THead slot="thead" class="border-t">
-		<Th class="text-start">Funds</Th>
+		<Th class="w-8/12 text-start">Funds</Th>
 		<Th class="w-full !p-0 text-center" sortable isHorizontalSort={true} on:initSort={sortTable}
 			>{currentYearFilter.label}</Th
 		>

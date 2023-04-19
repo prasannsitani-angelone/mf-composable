@@ -22,7 +22,7 @@
 	{/if}
 	<div class="m-0 mr-auto flex flex-col">
 		<ChipOverview categoryName={schemes?.categoryName} subCategoryName={schemes?.subcategoryName} />
-		<h3 class="text-base font-medium text-black-title sm:text-sm">
+		<h3 class="whitespace-normal text-base font-medium text-black-title sm:text-sm">
 			{schemes?.schemeName}
 		</h3>
 		<div class="mt-1 flex">

@@ -6,6 +6,8 @@ import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 export interface TableColumnToggle {
 	label: string;
 	field: string;
+	prefix?: string;
+	suffix?: string;
 }
 
 export const MFCommonHeader = () => {
@@ -17,6 +19,33 @@ export const MFCommonHeader = () => {
 
 	return headers;
 };
+
+export const exploreMutualFundMap: Array<TableColumnToggle> = [
+	{
+		label: '3Y Return',
+		field: 'returns3yr',
+		suffix: '%',
+		prefix: ''
+	},
+	{
+		label: '5Y Return',
+		field: 'returns5yr',
+		suffix: '%',
+		prefix: ''
+	},
+	{
+		label: 'Current NAV',
+		field: 'navValue',
+		prefix: '₹',
+		suffix: ''
+	},
+	{
+		label: 'Min SIP amount',
+		field: 'minSipAmount',
+		prefix: '₹',
+		suffix: ''
+	}
+];
 
 export const yearlyReturnMap: Array<TableColumnToggle> = [
 	{
