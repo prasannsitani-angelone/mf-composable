@@ -6,6 +6,7 @@
 	import DesktopHeader from './DesktopHeader.svelte';
 	import { userStore } from '$lib/stores/UserStore';
 	import { page } from '$app/stores';
+	import { base } from '$app/paths';
 	$: pageMetaData = $page?.data?.layoutConfig;
 </script>
 
@@ -49,7 +50,7 @@
 				</article>
 				{#if pageMetaData?.showSearchIcon}
 					<article class="flex pr-4">
-						<a href="/search">
+						<a href={`${base}/search`}>
 							<SearchDarkIcon class="ml-2 mt-1 h-6 w-6 cursor-pointer" />
 						</a>
 					</article>
@@ -57,9 +58,9 @@
 			</section>
 		</article>
 	</section>
-	{#if pageMetaData?.component}
-		<svelte:component this={pageMetaData.component} />
-	{/if}
 {:else}
 	<DesktopHeader />
+{/if}
+{#if pageMetaData?.component}
+	<svelte:component this={pageMetaData.component} />
 {/if}

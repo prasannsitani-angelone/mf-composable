@@ -2,7 +2,6 @@ import { browser } from '$app/environment';
 import { profileStore } from '$lib/stores/ProfileStore';
 import { appStore } from '$lib/stores/SparkStore';
 import { tokenStore } from '$lib/stores/TokenStore';
-import { userStore } from '$lib/stores/UserStore';
 import { v4 as uuidv4 } from 'uuid';
 import { hydrate } from './helpers/hydrated';
 import Logger from '$lib/utils/logger';
@@ -51,7 +50,7 @@ export const useFetch = async (url: string, options: RequestInit = {}, fetchServ
 			...defaultOptions?.headers,
 			'X-Platform': appStore.platform(),
 			authorization: `Bearer ${tokenStore.activeToken()}`,
-			userType: `${userStore.userType()}`,
+			userType: `${profileStore.userType()}`,
 			accountType: `${profileStore.accountType()}`,
 			...options?.headers
 		}
