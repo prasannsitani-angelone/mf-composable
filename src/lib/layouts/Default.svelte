@@ -15,7 +15,7 @@
 	</header>
 	<main class="scroll-lock w-full flex-grow overflow-auto px-2 py-2 lg:pb-20">
 		<section class="m-auto flex max-w-8xl flex-wrap justify-center">
-			<section class={`xl:w-4/5' w-full lg:pt-3`}>
+			<section class={`w-full lg:pt-3 xl:w-4/5`}>
 				<slot />
 			</section>
 		</section>

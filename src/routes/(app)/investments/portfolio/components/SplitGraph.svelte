@@ -70,8 +70,9 @@
 			prepChartOptions = prepChartOptions;
 		}
 	};
-
-	graphData(holding);
+	$: {
+		graphData(holding);
+	}
 </script>
 
 <div id={parentId} class="relative rounded-lg py-2 px-3 lg:border">

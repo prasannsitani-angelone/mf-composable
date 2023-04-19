@@ -1,0 +1,66 @@
+<script lang="ts">
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
+	import RightIcon from '$lib/images/icons/RightIcon.svelte';
+	import ResultItem from '$components/Autocomplete/ResultItem.svelte';
+	import isInvestmentAllowed from '$lib/utils/isInvestmentAllowed';
+	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
+	import HoldingsOverview from '../portfolio/HoldingsOverview.svelte';
+	export let holdings;
+	export let chartData;
+	export let ordersData;
+	export let schemeDetails;
+
+	// TODO: Uncomment  and implement below section with proper user type
+	// $: isInvestmentNotAllowed = isInvestmentAllowed(userType, holdings?.schemePlan);
+	$: isInvestmentNotAllowed = false;
+	$: {
+		console.log(' --------- page --------- ', $page),
+			console.log(' --------- schemeDetails --------- ', schemeDetails);
+		console.log(' --------- isInvestmentNotAllowed --------- ', isInvestmentNotAllowed);
+	}
+	const handleSchemeCardClick = () => {
+		if (isInvestmentNotAllowed || !schemeDetails) {
+			return;
+		}
+		// TODO: Analytics
+		// fundCardClickAnalyticsFunc();
+
+		goto(
+			`../schemes/${normalizeFundName(holdings?.schemeName, holdings?.isin, holdings?.schemeCode)}`
+		);
+	};
+</script>
+
+<section>
+	<article class="mt-2 lg:mt-0">
+		<ResultItem
+			class={`mb-2 rounded-lg bg-white p-4 shadow-csm md:px-6 md:py-5 ${
+				!isInvestmentNotAllowed && schemeDetails ? 'cursor-pointer' : ''
+			}`}
+			data={schemeDetails}
+			schemeName={holdings?.schemeName}
+			logoUrl={holdings?.logoUrl}
+			categoryName={holdings?.schemePlan}
+			subcategoryName={holdings?.sipEnabled ? 'SIP' : 'ONE-TIME'}
+			titleStyle="ml-1 text-sm lg:text-lg font-medium text-black-title"
+			categoryStyle="mx-1 font-medium"
+			subCategoryStyle="ml-1 font-medium"
+			on:click={handleSchemeCardClick}
+		>
+			<svelte.fragment slot="ratingSection">
+				<span />
+			</svelte.fragment>
+			<svelte.fragment slot="returns">
+				{#if !isInvestmentNotAllowed && schemeDetails}
+					<span>
+						<RightIcon />
+					</span>
+				{/if}
+			</svelte.fragment>
+		</ResultItem>
+	</article>
+	<HoldingsOverview folioSummary={holdings} chartDataList={chartData.chart} showGraphTags={false} />
+	<article>First Table</article>
+	<article>Second Table</article>
+</section>

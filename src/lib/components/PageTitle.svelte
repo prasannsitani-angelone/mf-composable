@@ -12,8 +12,8 @@
 	export { title, onBackClick };
 </script>
 
-<div class={`mt-3 hidden lg:flex ${$$props.class || ''}`}>
-	<Button onClick={handleBackArrowClick} variant="transparent" class="!p-0">
+<div class={`mt-3 hidden items-center lg:flex ${$$props.class || ''}`}>
+	<Button size="xs" onClick={handleBackArrowClick} variant="transparent" class="!p-0">
 		<LeftArrowIcon class="mr-4 cursor-pointer" />
 	</Button>
 

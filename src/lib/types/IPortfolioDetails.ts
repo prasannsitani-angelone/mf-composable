@@ -71,3 +71,22 @@ export interface GraphTableChartTypes {
 	viewMoreFooter: boolean;
 	showFundsFilterTable: boolean;
 }
+
+export interface ChartAndTableEntities {
+	type: string;
+	parentId: string;
+	subLabel: string;
+	nameColumnHeader: string;
+	nameColumnHeaderForFunds: string;
+	footerText: string;
+	currentValue: number;
+	chartsData: Array<TableDataTypes>;
+	filterTypes: string[];
+	filteredData: Array<CompaniesTableObject>;
+	selectedFilterIndex: number;
+}
+
+export interface ChartAndTable {
+	EQUITY: ChartAndTableEntities[];
+	DEBT: ChartAndTableEntities[];
+}

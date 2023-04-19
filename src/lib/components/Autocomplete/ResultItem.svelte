@@ -24,10 +24,12 @@
 	export let logoStyle = '';
 </script>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <article
 	class={`flex p-3 lg:p-4 ${
 		itemStyle ? itemStyle : 'items-center justify-between border-b lg:border-none'
 	} ${$$props.class || ''}`}
+	on:click
 >
 	<section class={`flex pr-8 ${itemStyle ? itemStyle : 'items-center'}`}>
 		<slot name="schemeLogo">

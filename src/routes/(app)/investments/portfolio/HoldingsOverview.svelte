@@ -25,9 +25,9 @@
 
 <article>
 	<Card
-		class="
+		class={`
             border-0 border-grey-line pb-0 text-lg
-            md:px-6 md:pt-5 "
+            md:px-6 md:pt-5 ${folioSummary?.sipEnabled ? 'max-sm:pb-4' : ''}`}
 	>
 		<section>
 			<PortfolioHighlights data={folioSummary} />
@@ -44,7 +44,7 @@
 		<!-- This section is not visible on portfolio details page as the data doesnot have "sipEnabled" kry. -->
 		{#if folioSummary?.sipEnabled}
 			<section
-				class="mx-4 flex items-end justify-center rounded bg-grey py-2.5 text-sm font-medium text-black-title lg:mx-0 lg:bg-inherit lg:py-5"
+				class="flex items-end justify-center rounded bg-grey py-2.5 text-sm font-medium text-black-title lg:mx-0 lg:bg-inherit lg:py-5"
 			>
 				<CalendarTickIcon class="mr-3" />
 				<div>

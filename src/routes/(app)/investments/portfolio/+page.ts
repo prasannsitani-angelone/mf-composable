@@ -28,7 +28,8 @@ export const load = (async ({ fetch }) => {
 	return {
 		api: browser ? getPortfolio() : await getPortfolio(),
 		layoutConfig: {
-			layoutClass: 'w-full xl:w-4/5'
+			title: 'Portfolio Analysis',
+			showBackIcon: true
 		}
 	};
 }) satisfies PageLoad;

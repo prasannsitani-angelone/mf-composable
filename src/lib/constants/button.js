@@ -16,7 +16,7 @@ export const BUTTON_STYLE = new Map([
 			],
 			[
 				'secondary',
-				'bg-white hover:bg-white !border border-cyan-500 hover:border-cyan-500 text-cyan-500'
+				'bg-white hover:bg-white !border border-grey-line hover:border-grey-line text-grey-line'
 			],
 			[
 				'success',
