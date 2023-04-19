@@ -10,7 +10,7 @@
 	$: yearsReturnSlider = currentCalculatorMode ? [5, 30] : [5, 30];
 	$: amountReturnSlider = currentCalculatorMode ? [5000, 10000] : [5000, 1000000];
 	$: capitalGain = 0;
-	// $:matuarityAmount = 0;
+
 	$: totalInvestment = 0;
 	$: gainLossPercentage = 0;
 	$: maxAmountSlider = currentCalculatorMode === 'SIP' ? 100000 : 1000000;
@@ -82,19 +82,13 @@
 		<div class="mt-6 px-4 pb-9 lg:px-20">
 			<div class="flex h-10 gap-4">
 				<Button
-					class={`w-full  rounded !py-0 !text-sm !font-medium uppercase ${
-						currentCalculatorMode === 'SIP'
-							? '!bg-blue-primary !text-white'
-							: 'border border-grey-line !bg-white !text-black-title'
-					}`}
+					variant={`${currentCalculatorMode === 'SIP' ? 'contained' : 'outlined'}`}
+					class={`flex-grow basis-0 rounded !py-0 !text-sm !font-medium uppercase`}
 					onClick={() => changeCalculatorMode('SIP')}>SIP</Button
 				>
 				<Button
-					class={`w-full  rounded !py-0 !text-sm !font-medium uppercase  ${
-						currentCalculatorMode === 'OneTime'
-							? '!bg-blue-primary !text-white'
-							: 'border border-grey-line !bg-white !text-black-title'
-					}`}
+					variant={`${currentCalculatorMode === 'OneTime' ? 'contained' : 'outlined'}`}
+					class={` flex-grow basis-0 rounded !py-0 !text-sm !font-medium uppercase `}
 					onClick={() => changeCalculatorMode('OneTime')}>One-Time</Button
 				>
 			</div>
