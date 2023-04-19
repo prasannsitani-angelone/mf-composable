@@ -30,9 +30,9 @@
 		</div>
 	{/if}
 	<article class="mt-2 max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:mt-0">
-		<ExploreScheme searchOptions={data?.schemeData?.searchOptions} />
+		<ExploreScheme searchOptions={data?.searchDashboardData?.searchOptions} />
 	</article>
-	<TrendingFunds tableData={data?.schemeData?.weeklyTopSchemes} />
+	<TrendingFunds tableData={data?.searchDashboardData?.weeklyTopSchemes} />
 </article>
 
 {#if deviceType?.isBrowser}

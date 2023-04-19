@@ -18,7 +18,7 @@ const sparkHeadersList: Array<keyof SparkStore> = [
 	'deviceosversion'
 ];
 
-const getSchemeData = async (fetch) => {
+const getsearchDashboardData = async (fetch) => {
 	const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/searchDashboard?options=true`;
 	const res = await useFetch(url, {}, fetch);
 	if (res.ok) {
@@ -82,11 +82,11 @@ export const load = (async ({ url, request, locals, cookies, fetch }) => {
 		cookies.set('UserType', localProfileData?.userType);
 		cookies.set('AccountType', localProfileData?.dpNumber ? 'D' : 'P');
 	}
-	const schemeData = await getSchemeData(fetch);
+	const searchDashboardData = await getsearchDashboardData(fetch);
 	return {
 		sparkHeaders,
 		profile: localProfileData,
 		tokenObj,
-		schemeData
+		searchDashboardData
 	};
 }) satisfies LayoutServerLoad;

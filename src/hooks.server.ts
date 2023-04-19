@@ -41,7 +41,6 @@ const handler = (async ({ event, resolve }) => {
 		accountType = 'D';
 	} else if (!userType) {
 		profileData = await useProfileFetch(event.url.origin, {});
-		console.log('profiledata call');
 		userType = profileData?.userType;
 		accountType = profileData?.dpNumber ? 'D' : 'P';
 	}

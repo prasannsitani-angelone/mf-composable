@@ -2,10 +2,8 @@
 	import Link from '$components/Link.svelte';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import type { SearchOptionsEntity } from '$lib/types/IDiscoverFunds';
+	import { getExploreFundsNavigationPath } from '$lib/utils';
 	let searchOptions: SearchOptionsEntity[];
-	const getNavigationPath = (option: SearchOptionsEntity) => {
-		return `/explorefunds/${option.name?.split(' ').join('-').toLowerCase()}?id=${option.id}`;
-	};
 
 	export { searchOptions };
 </script>
@@ -18,7 +16,10 @@
 		<article
 			class="group mr-0 flex basis-1/3 cursor-pointer items-center justify-center rounded-lg bg-white py-4 hover:bg-grey sm:justify-start sm:pl-6"
 		>
-			<Link to={getNavigationPath(option)} class="flex flex-col items-center lg:flex-row">
+			<Link
+				to={getExploreFundsNavigationPath(option)}
+				class="flex flex-col items-center lg:flex-row"
+			>
 				<div
 					class="flex h-9 w-9 items-center justify-center rounded-full border p-2 group-hover:bg-white lg:h-14 lg:w-14"
 				>

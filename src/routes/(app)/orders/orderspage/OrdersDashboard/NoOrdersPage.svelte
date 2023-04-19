@@ -14,17 +14,21 @@
 
 <article class="mt-2">
 	<NoOrders title="You don't have any orders currently" />
-	{#if data?.schemeData?.weeklyTopSchemes}
-		<TrendingFunds tableData={data.schemeData.weeklyTopSchemes} {classes} title="Popular Funds">
+	{#if data?.searchDashboardData?.weeklyTopSchemes}
+		<TrendingFunds
+			tableData={data.searchDashboardData.weeklyTopSchemes}
+			{classes}
+			title="Popular Funds"
+		>
 			<footer class="mt-3 border-t border-grey-line py-5" slot="footer">
 				<div
 					class=" flex cursor-pointer items-center justify-center text-sm font-semibold uppercase text-blue-primary"
 				>
 					<Link
-						to={`/explorefunds/${data?.schemeData?.searchOptions[0]?.name
+						to={`/explorefunds/${data?.searchDashboardData?.searchOptions[0]?.name
 							?.split(' ')
 							.join('-')
-							.toLowerCase()}?id=${data?.schemeData?.searchOptions[0]?.id}`}
+							.toLowerCase()}?id=${data?.searchDashboardData?.searchOptions[0]?.id}`}
 						class="flex items-center"
 					>
 						<span class="uppercase">explore funds</span>

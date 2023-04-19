@@ -1,5 +1,6 @@
 import { profileStore } from '$lib/stores/ProfileStore';
 import { tokenStore } from '$lib/stores/TokenStore';
+import type { SearchOptionsEntity } from '$lib/types/IDiscoverFunds';
 import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 
 export interface TableColumnToggle {
@@ -79,4 +80,8 @@ export const getBankLogoUrl = (
 	});
 
 	return bankLogoUrl;
+};
+
+export const getExploreFundsNavigationPath = (option: SearchOptionsEntity) => {
+	return `/explorefunds/${option.name?.split(' ').join('-').toLowerCase()}?id=${option.id}`;
 };

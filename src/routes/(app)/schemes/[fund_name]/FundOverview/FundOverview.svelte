@@ -43,10 +43,7 @@
 	}
 	const handleChartRangeChange = (event: { detail: { text: number } }) => {
 		const selectedMonth: number = event?.detail?.text;
-		console.log('handleChartRangeChange', selectedMonth);
 		selectedTag = tags.filter((val) => val.months === selectedMonth);
-
-		console.log(selectedTag);
 	};
 	export { schemeDetails };
 </script>

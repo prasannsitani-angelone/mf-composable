@@ -30,9 +30,9 @@
 					title="Your investments will show up here. Explore funds and place an order to get started"
 				/>
 			</article>
-			{#if data?.schemeData?.weeklyTopSchemes}
+			{#if data?.searchDashboardData?.weeklyTopSchemes}
 				<TrendingFunds
-					tableData={data.schemeData.weeklyTopSchemes}
+					tableData={data.searchDashboardData.weeklyTopSchemes}
 					title="Popular Funds"
 					classes={{ container: '!pb-0 mb-4', header: 'max-sm:pb-0' }}
 				>
@@ -42,10 +42,10 @@
 								class=" flex cursor-pointer items-center justify-center text-sm font-semibold uppercase text-blue-primary"
 							>
 								<Link
-									to={`/explorefunds/${data.schemeData.searchOptions[0]?.name
+									to={`/explorefunds/${data.searchDashboardData.searchOptions[0]?.name
 										?.split(' ')
 										.join('-')
-										.toLowerCase()}?id=${data.schemeData.searchOptions[0]?.id || ''}`}
+										.toLowerCase()}?id=${data.searchDashboardData.searchOptions[0]?.id || ''}`}
 									class="flex items-center"
 								>
 									<span class="uppercase">explore funds</span>

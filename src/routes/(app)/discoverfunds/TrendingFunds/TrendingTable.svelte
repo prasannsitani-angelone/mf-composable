@@ -8,6 +8,7 @@
 	import SchemeCard from '$components/SchemeCard.svelte';
 	import { returnYearTableChangeColumn, yearlyReturnMap, type TableColumnToggle } from '$lib/utils';
 	import Td from '$components/Table/TD.svelte';
+	import Tr from '$components/Table/TR.svelte';
 	let tableData: Array<WeeklyTopSchemesEntity>;
 
 	let currentYearFilter: TableColumnToggle = {
@@ -31,12 +32,12 @@
 	</THead>
 	<TBody slot="tbody">
 		{#each tableData || [] as schemes}
-			<tr class="hover"
+			<Tr class="hover"
 				><Td class="w-[30%]">
 					<SchemeCard {schemes} />
 				</Td>
 				<Td class="text-center">{schemes[currentYearFilter.field]}%</Td>
-				<Td class="text-center">₹{schemes?.minSipAmount}</Td></tr
+				<Td class="text-center">₹{schemes?.minSipAmount}</Td></Tr
 			>
 		{/each}
 	</TBody>

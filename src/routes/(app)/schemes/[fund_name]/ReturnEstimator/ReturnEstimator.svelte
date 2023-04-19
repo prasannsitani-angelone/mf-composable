@@ -17,7 +17,6 @@
 	$: capitalGainSlider = (capitalGain / matuarityAmount()) * 100;
 
 	$: matuarityAmount = function calculateReturn() {
-		console.log(currentCalculatorMode, yearsReturnSlider[0], amountReturnSlider[0]);
 		const selectedYear = yearsReturnSlider[0];
 		const investedAmount = amountReturnSlider[0];
 

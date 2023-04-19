@@ -20,10 +20,10 @@
 	</div>
 
 	<Link
-		to={`/explorefunds/${data?.schemeData?.searchOptions[0]?.name
+		to={`/explorefunds/${data?.searchDashboardData?.searchOptions[0]?.name
 			?.split(' ')
 			.join('-')
-			.toLowerCase()}?id=${data?.schemeData?.searchOptions[0]?.id}`}
+			.toLowerCase()}?id=${data?.searchDashboardData?.searchOptions[0]?.id}`}
 	>
 		<div
 			class="mt-5 w-52 cursor-default rounded border border-blue-primary bg-white py-4 text-center text-sm font-semibold text-blue-primary active:opacity-95 md:cursor-pointer"

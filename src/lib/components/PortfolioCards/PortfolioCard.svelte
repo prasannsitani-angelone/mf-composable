@@ -33,10 +33,8 @@
 	onMount(async () => {
 		await tick();
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings?summary=true`;
-		console.log('Start Portfolio');
 		try {
 			const res = await useFetch(url, {}, fetch);
-			console.log('End Portfolio');
 
 			if (res?.ok) {
 				const summaryData = await res.data;
