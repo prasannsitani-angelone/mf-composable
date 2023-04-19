@@ -6,10 +6,13 @@
 	import isInvestmentAllowed from '$lib/utils/isInvestmentAllowed';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import HoldingsOverview from '../portfolio/HoldingsOverview.svelte';
-	export let holdings;
-	export let chartData;
-	export let ordersData;
-	export let schemeDetails;
+	import FolioSummary from './FolioSummary.svelte';
+	import type { FolioHoldingType, ChartData, OrdersData } from '$lib/types/IInvestments';
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	export let holdings: FolioHoldingType;
+	export let chartData: ChartData;
+	export let ordersData: OrdersData;
+	export let schemeDetails: SchemeDetails;
 
 	// TODO: Uncomment  and implement below section with proper user type
 	// $: isInvestmentNotAllowed = isInvestmentAllowed(userType, holdings?.schemePlan);
@@ -61,6 +64,6 @@
 		</ResultItem>
 	</article>
 	<HoldingsOverview folioSummary={holdings} chartDataList={chartData.chart} showGraphTags={false} />
-	<article>First Table</article>
+	<FolioSummary folioDetails={holdings} />
 	<article>Second Table</article>
 </section>

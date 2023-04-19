@@ -13,10 +13,6 @@ export const load = (async ({ fetch, params }) => {
 	const getSchemeData = () => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/${schemeCode}`;
 		return useFetch(url, {}, fetch);
-		// debugger;
-		// const schemeData: SchemeDetails = res.data;
-
-		// return schemeData;
 	};
 
 	const getHoldingsData = () => {

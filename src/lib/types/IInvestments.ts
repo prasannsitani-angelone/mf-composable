@@ -143,3 +143,80 @@ export interface InvestmentSummary {
 	shortTermGain?: number;
 	longTermGain?: number;
 }
+
+export interface FolioObject {
+	folioNumber: string;
+	isin: string;
+	schemeCode: string;
+	redemableAmount: number;
+	redemableUnits: number;
+	blockedAmount: number;
+	blockedunits: number;
+	mobileNo: string;
+	email: string;
+	rta: string;
+	dpFlag: string;
+	pledgedUnits: number;
+	unitsUnderProcess: number;
+	amountUnderProcess: number;
+	currentDayPledgedUnits: number;
+	roundedOff: boolean;
+}
+export interface FolioHoldingType {
+	schemeCode: string;
+	isin: string;
+	schemeName: string;
+	settlementType: string;
+	logoUrl: string;
+	schemePlan: string;
+	sipEnabled: boolean;
+	currentValue: number;
+	investedValue: number;
+	returnsValue: number;
+	returnsAbsolutePer: number;
+	xirrPer: number;
+	totalUnitsAllocated: number;
+	averageNav: number;
+	currentNav: number;
+	folioNumbers: Array<string>;
+	nextSipDate: number;
+	investmentAllowed: boolean;
+	redemptionAllowed: boolean;
+	redemableAmount: number;
+	datasource: string;
+	nfoScheme: string;
+	minimumRedeemAmount: number;
+	redeemMultiplier: number;
+	folioHoldings: Array<FolioObject>;
+	switchFlag: string;
+	stpFlag: string;
+	swpFlag: string;
+}
+
+export interface CharDataEntity {
+	value: number;
+	timestamp: number;
+}
+export interface ChartData {
+	chart: CharDataEntity[];
+	summary: InvestmentSummary;
+}
+
+export interface OrdersData {
+	orders: OrdersEntity[];
+	summary: OrdersSummary;
+}
+
+type ColRenderFn = (data: FolioObject) => string;
+
+export interface FolioTableColumn {
+	label: string;
+	field: keyof FolioObject | string;
+	tdClass?: string;
+	thWrapperClass?: string;
+	tdRender?: ColRenderFn;
+}
+export interface FolioTableData {
+	columns: FolioTableColumn[];
+	rows: FolioObject[];
+}

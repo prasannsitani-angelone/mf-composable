@@ -10,12 +10,10 @@
 
 	export let data: PageData;
 	$: holdingsData = data.api?.holdingsData || {};
-	$: chartData = data.api?.chartData || { chart: [] };
-	$: ordersData = data.api?.ordersData || { orders: [] };
+	$: chartData = Object.keys(data.api?.chartData).length > 0 ? data.api?.chartData : { chart: [] };
+	$: ordersData =
+		Object.keys(data.api?.ordersData).length > 0 ? data.api?.ordersData : { orders: [] };
 	$: schemeData = data?.api?.schemeData || {};
-	$: {
-		console.log('PageData ----------------- ', data);
-	}
 
 	$: breadCrumbs = [
 		{
@@ -52,7 +50,7 @@
 
 		<!-- Right Side -->
 		<article class="rounded-lg bg-white text-black-title">
-			<InvestmentPad {schemeData} fromInvestmentDetailsPage />
+			<!-- <InvestmentPad {schemeData} fromInvestmentDetailsPage /> -->
 		</article>
 	{:else}
 		<section class="col-span-full">
@@ -65,10 +63,4 @@
 			/>
 		</section>
 	{/if}
-	<!-- {#await data?.api?.schemeData}
-	<div>Loading</div>
-{:then schemeData}
-	<article class="rounded-lg bg-white text-black-title">
-		<InvestmentPad {schemeData} fromInvestmentDetailsPage />
-	</article>-->
 {/await}
