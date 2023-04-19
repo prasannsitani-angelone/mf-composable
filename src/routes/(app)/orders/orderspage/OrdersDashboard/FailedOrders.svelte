@@ -13,12 +13,19 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	import { page } from '$app/stores';
+	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
+	import { encodeObject } from '$lib/utils/helpers/object';
+	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
+	import type { AppContext } from '$lib/types/IAppContext';
+	import { getContext } from 'svelte';
 	let ordersSummary: OrdersSummary;
 	let failedOrders: orderItem[];
 	let schemeDetails: SchemeDetails;
 	const FailedPortofolioData = {
 		title: 'Failed'
 	};
+	const appContext: AppContext = getContext('app');
 
 	const handleFooterClick = async (e: CustomEvent) => {
 		const orderItem: orderItem = e.detail;
@@ -26,9 +33,22 @@
 		const schemeResponse = await useFetch(schemeUrl);
 		if (schemeResponse.ok) {
 			schemeDetails = schemeResponse?.data;
-			// TODO: to handle the invest page navigation
-			const reRouteUrl = `${base}/schemes/invest`;
-			goto(reRouteUrl);
+			// TODO: To change the navigation after the proper release
+			const reRouteUrl = $page?.data?.isBrowser ? 'schemes' : 'schemes/invest';
+			const path = `${reRouteUrl}/${normalizeFundName(
+				schemeDetails?.schemeName,
+				schemeDetails?.isin,
+				schemeDetails?.schemeCode
+			)}`;
+			const params = encodeObject({
+				orderId: orderItem?.orderId,
+				pgTxnId: orderItem?.pgTxnId,
+				investmentType: orderItem?.investmentType,
+				investmentAmount: orderItem?.amount
+			});
+			goto(
+				`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/${path}?params=${params}`
+			);
 		}
 	};
 	const userType = profileStore.userType();

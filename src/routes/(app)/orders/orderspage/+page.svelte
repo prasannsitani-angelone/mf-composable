@@ -7,7 +7,7 @@
 <article>
 	<section class="mt-0">
 		{#await data?.api?.getOrdersData}
-			Loading/./.........
+			Loading..........
 		{:then ordersData}
 			<Dashboard
 				ordersSummary={ordersData?.ordersSummary}

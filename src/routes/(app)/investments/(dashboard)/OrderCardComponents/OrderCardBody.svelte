@@ -4,6 +4,10 @@
 	// import DateFns from '@/utils/asyncDateFns'
 	import type { orderItem } from '$lib/types/IOrderItem';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
+	import { base } from '$app/paths';
+	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
+	import type { AppContext } from '$lib/types/IAppContext';
+	import { getContext } from 'svelte';
 	// import { orderCardClickAnalytics } from '$lib/analytics/orders/orders';
 
 	// await DateFns.init()
@@ -12,6 +16,7 @@
 	export let item: orderItem;
 	let investmentTypeText = '';
 	let transactionTypeText = '';
+	const appContext: AppContext = getContext('app');
 
 	const setInvestmentTypeText = () => {
 		if (item?.investmentType === 'LUMPSUM') {
@@ -74,7 +79,9 @@
 	const handleBodyClick = () => {
 		if (item?.status !== 'ORDER_SCHEDULED') {
 			orderCardAnalytics();
-			goto(`./orders/${item?.orderId}`, { replaceState: false });
+			goto(
+				`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/orders/${item?.orderId}`
+			);
 		}
 	};
 </script>

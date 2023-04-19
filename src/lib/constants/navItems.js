@@ -22,7 +22,7 @@ export const BOTTOM_NAVBARS = (scheme = '', host = '') => [
 	},
 	{
 		label: 'Orders',
-		path: `${getNavigationBaseUrl(base, scheme, host)}/orders/orderspage`,
+		path: `${base}/orders/orderspage`,
 		icon: OrdersBottomNavbarInactiveIcon,
 		activeIcon: OrdersBottomNavbarActiveIcon
 	}

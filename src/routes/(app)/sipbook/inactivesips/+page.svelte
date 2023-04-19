@@ -10,13 +10,26 @@
 	import { base } from '$app/paths';
 	import type { PageData } from './$types';
 	import SipCardLoader from '$components/Loaders/SipCardLoader.svelte';
+	import { page } from '$app/stores';
+	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
+	import { encodeObject } from '$lib/utils/helpers/object';
+	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
+	import type { AppContext } from '$lib/types/IAppContext';
+	import { getContext } from 'svelte';
 
 	const userType = profileStore.userType();
-
+	const appContext: AppContext = getContext('app');
 	const redirectToOrderPad = (sip: IInactiveSip) => {
-		// TODO: to handle order pad navigation
-		const reRouteUrl = `${base}/schemes/invest`;
-		goto(reRouteUrl);
+		// TODO: To change the navigation after the proper release
+		const reRouteUrl = $page?.data?.isBrowser ? 'schemes' : 'schemes/invest';
+		const path = `${reRouteUrl}/${normalizeFundName(sip?.schemeName, sip?.Isin, sip?.schemeCode)}`;
+		const params = encodeObject({
+			investmentType: 'SIP',
+			investmentAmount: sip?.installmentAmount
+		});
+		goto(
+			`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/${path}?params=${params}`
+		);
 	};
 
 	export let data: PageData;

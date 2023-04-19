@@ -10,6 +10,14 @@
 	import type { ISip } from '$lib/types/ISipType';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
+	import { page } from '$app/stores';
+	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
+	import { encodeObject } from '$lib/utils/helpers/object';
+	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
+	import type { AppContext } from '$lib/types/IAppContext';
+	import { getContext, onMount } from 'svelte';
+	import DateFns from '$lib/utils/asyncDateFns';
+
 	let sipCount = 0;
 	let alertSleeveText = '';
 	let sip: ISip;
@@ -23,7 +31,7 @@
 		sip?.nextSipDueDate - timezoneOffset * 60 * 1000,
 		Date.now()
 	);
-
+	const appContext: AppContext = getContext('app');
 	isUpcomingSip = daysLeft <= 4 && daysLeft >= -1;
 	const setAlertSleeveText = () => {
 		const currentDate = new Date()?.getDate(); // current date
@@ -42,9 +50,29 @@
 		}
 	};
 	const handleSipPaymentClick = (isCta: boolean) => {
+		// TODO: To change the navigation after the proper release
 		if (isCta) {
-			const reRouteUrl = '/schemes/invest';
-			goto(reRouteUrl);
+			const reRouteUrl = $page?.data?.isBrowser ? 'schemes' : 'schemes/invest';
+			const path = `${reRouteUrl}/${normalizeFundName(
+				sip?.schemeName,
+				sip?.isin,
+				sip?.schemeCode
+			)}`;
+			const { format } = DateFns.DateFns;
+			const params = encodeObject({
+				investmentType: 'SIP',
+				investmentAmount: sip?.installmentAmount,
+				sipDate: new Date(sip?.sipPaymentDate)?.getDate(),
+				ftp: true,
+				skipOrderPad: true,
+				redirectedFrom: 'SIP_PAYMENTS',
+				sipId: sip?.sipId,
+				sipRegistrationNumber: sip?.sipRegistrationNo,
+				sipDueDate: format(new Date(sip?.sipPaymentDate), 'yyyy-MM-dd')
+			});
+			goto(
+				`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/${path}?params=${params}`
+			);
 		} else if (!isCta) {
 			goto(`${base}/sipbook/${sip?.sipId}`);
 		}
@@ -61,7 +89,7 @@
 		if (sipCount) {
 			if (sipCount > 1) {
 				if (isCta) {
-					goto(`/orders/orderspage?sipbook='true'`);
+					goto(`${base}/orders/orderspage/sipbook`);
 				}
 			} else if (sipCount === 1) {
 				handleSipPaymentClick(isCta);
@@ -70,6 +98,10 @@
 			handleSipPaymentClick(isCta);
 		}
 	};
+
+	onMount(async () => {
+		await DateFns.init();
+	});
 	setAlertSleeveText();
 	export { sip, sipCount, bankLogo, inactiveSip };
 </script>

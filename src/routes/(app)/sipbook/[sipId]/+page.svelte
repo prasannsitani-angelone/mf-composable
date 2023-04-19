@@ -146,7 +146,7 @@
 						variant="transparent"
 						class={`bottom-0  w-full ${
 							sipData?.isSipInprocess
-								? '!cursor-not-allowed !border !border-solid border-grey-disabled !bg-white !text-grey-disabled'
+								? 'pointer-events-none !cursor-not-allowed !border !border-solid border-grey-disabled !bg-white !text-grey-disabled'
 								: ''
 						}`}
 						onClick={toggleShowCancelSipActionModal}
