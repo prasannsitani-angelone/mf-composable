@@ -131,3 +131,26 @@ export const getTimestampDaysDifference = (
 
 	return daysDifference;
 };
+
+export const getNextMonthDate = (
+	dateTs: number,
+	dateTimeType = 'DATE',
+	shortMonthName = false,
+	dateSuperScript = false
+) => {
+	const currentMonthDate = new Date(dateTs);
+	currentMonthDate.setMonth(currentMonthDate.getMonth() + 1);
+	const dateTimeObj = getDateTimeProperties(currentMonthDate.getTime());
+	const { month, monthShort, year, hours, minutes, amPm } = dateTimeObj || {};
+
+	let { date } = dateTimeObj || {};
+
+	if (dateSuperScript) {
+		const dateSuffix = getDateSuperscript(parseInt(date));
+		date = date + dateSuffix;
+	}
+
+	return dateTimeType === 'DATETIME'
+		? `${date} ${shortMonthName ? monthShort : month} ${year}, ${hours}:${minutes} ${amPm}`
+		: `${date} ${shortMonthName ? monthShort : month} ${year}`;
+};

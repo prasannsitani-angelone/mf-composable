@@ -53,7 +53,7 @@
 	};
 
 	const goToSipHistory = () => {
-		goto(`${base}/${sipId}-history`);
+		goto(`${base}/sipbook/${sipId}-history`);
 	};
 
 	const handleSipHistoryToggle = () => {
@@ -64,7 +64,15 @@
 		setTxnCounts();
 	});
 
-	export { sipId, sipOrderHistory, sipCreatedTs, hideFooter, maxTxnShowCount, fullPageList };
+	export {
+		sipId,
+		sipOrderHistory,
+		sipCreatedTs,
+		hideFooter,
+		maxTxnShowCount,
+		fullPageList,
+		disableCollapse
+	};
 </script>
 
 <article>
