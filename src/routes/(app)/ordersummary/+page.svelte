@@ -203,7 +203,7 @@
 					{schemeCardItems}
 					clazz="mt-2 shadow-csm"
 				/>
-				{#if firstTimePayment}
+				{#if firstTimePayment && orderData?.data?.data?.paymentStatus !== 'pending'}
 					<OrderStatusCard {statusHistoryItems} clazz="!mt-2" />
 				{/if}
 				{#if emandateBankDetails && isSIPOrder}

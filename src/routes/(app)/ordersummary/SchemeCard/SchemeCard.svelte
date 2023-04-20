@@ -26,7 +26,7 @@
 				<div class="mb-1 text-xs font-medium text-grey-body sm:text-sm">{item.title}</div>
 				<div
 					class={`text-sm font-medium text-black-title sm:text-base ${
-						index === schemeCardItems.length - 1 ? 'text-right' : 'text-left'
+						index === schemeCardItems.length - 1 && index > 0 ? 'text-right' : 'text-left'
 					}`}
 				>
 					{item.value}
