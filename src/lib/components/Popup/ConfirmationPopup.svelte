@@ -11,7 +11,7 @@
 
 <Modal {closeModal} {isModalOpen}>
 	<section
-		class="animate-bottomTransition flex w-screen flex-col rounded-t-2xl rounded-b-none bg-white shadow-csm md:w-120 md:animate-none md:rounded-lg"
+		class="flex w-screen flex-col rounded-t-2xl rounded-b-none bg-white shadow-csm md:w-120 md:rounded-lg"
 	>
 		<div class="flex items-center justify-between px-4 pt-6 pb-4 md:py-6 md:px-8">
 			<span class="text-lg font-normal text-black-title md:text-xl">{title}</span>

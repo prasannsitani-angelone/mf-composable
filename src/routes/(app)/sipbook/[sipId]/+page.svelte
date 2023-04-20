@@ -17,7 +17,7 @@
 	import { base } from '$app/paths';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
-	import ConfirmatonPopup from '$components/Popup/ConfirmatonPopup.svelte';
+	import ConfirmationPopup from '$components/Popup/ConfirmationPopup.svelte';
 	import { getDateTimeProperties, getNextMonthDate } from '$lib/utils/helpers/date';
 	const bankDetails = profileStore?.bankAccounts();
 	let showCancelSipActionModal = false;
@@ -157,7 +157,7 @@
 			</article>
 
 			<!-- CANCEL MODAL -->
-			<ConfirmatonPopup
+			<ConfirmationPopup
 				closeModal={toggleShowCancelSipActionModal}
 				isModalOpen={showCancelSipActionModal}
 				confirm={handleCancelSip}
@@ -166,7 +166,7 @@
 			/>
 
 			<!-- SKIP MODAL -->
-			<ConfirmatonPopup
+			<ConfirmationPopup
 				closeModal={toggleShowSkipModal}
 				isModalOpen={showSkipModal}
 				confirm={handleSkipSip}
@@ -183,7 +183,7 @@
 						>
 					</p>
 				</svelte:fragment>
-			</ConfirmatonPopup>
+			</ConfirmationPopup>
 
 			<!-- CANCEL MODAL SUCCESS FAILURE POPUPS -->
 			<ResultPopup

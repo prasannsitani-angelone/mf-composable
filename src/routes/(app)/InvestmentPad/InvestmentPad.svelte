@@ -5,10 +5,18 @@
 	import CalendarSmallIcon from '$lib/images/icons/CalendarSmallIcon.svelte';
 	import CheckboxCheckedIcon from '$lib/images/icons/CheckboxCheckedIcon.svelte';
 	import CheckboxUncheckedIcon from '$lib/images/icons/CheckboxUncheckedIcon.svelte';
-	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { addCommasToAmountString, formatAmount } from '$lib/utils/helpers/formatAmount';
 	import TabNotSupported from './OrderPadComponents/TabNotSupported.svelte';
-	import { getDateSuperscript } from '$lib/utils/helpers/date';
+	import {
+		getDateSuperscript,
+		getSIPMonthBasedOnDate,
+		getSIPYearBasedOnDate
+	} from '$lib/utils/helpers/date';
+	import CalendarComponent from '$components/Calendar/CalendarComponent.svelte';
+	import NextSipDate from '$components/Calendar/NextSipDate.svelte';
+	import Modal from '$components/Modal.svelte';
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	import type { dateArrayTypes } from '$lib/types/Calendar/ICalendar';
 
 	export let schemeData: SchemeDetails;
 	export let fromInvestmentDetailsPage: boolean;
@@ -19,16 +27,36 @@
 
 	let activeTab = 'SIP';
 	let amount = '';
-	let calendarDate = 4;
-	let sipAllowedDaysArray = schemeData?.sipAllowedDays?.split(',') || [];
+	let showCalendar = false;
+	let sipAllowedDaysArray = schemeData?.sipAllowedDays?.trim()?.split(',') || [];
+	let dateSuperscript = 'th';
+	let tempDateSuperscript = 'th';
+	let calendarDate = new Date(schemeData?.sipDate)?.getDate();
+	let calendarMonth = new Date(schemeData?.sipDate)?.toLocaleString('default', { month: 'short' });
+	let calendarYear = new Date(schemeData?.sipDate)?.getFullYear();
+	let tempCalendarDate = calendarDate;
+	let tempCalendarMonth = calendarMonth;
+	let tempCalendarYear = calendarYear;
 
 	$: amountVal = amount?.length ? `₹${addCommasToAmountString(amount)}` : '';
-	$: dateSuperscript = 'th';
 	$: errorMessage = '';
 	$: firstSipPayment = true;
 	$: redirectedFrom = '';
 	$: showTabNotSupported = false;
 	$: tabNotSupportedType = '';
+
+	let dateArray: Array<dateArrayTypes> = [{ value: 1, disabled: false }];
+
+	$: {
+		dateArray.pop();
+
+		for (let i = 1; i <= 28; i++) {
+			dateArray.push({
+				value: i,
+				disabled: (sipAllowedDaysArray || []).findIndex((d: string) => parseInt(d) === i) === -1
+			});
+		}
+	}
 
 	const toggleFirstSipPayment = () => {
 		firstSipPayment = !firstSipPayment;
@@ -123,12 +151,12 @@
 	setDefaultSipDate();
 
 	const setNextSipDate = () => {
-		// TODO: Add logic when calendar is integrated
-		// const now = new Date()
-		// const month = getSIPMonthBasedOnDate(calendarDate?.value, now, firstSipPayment?.value ? 30 : 10)
-		// calendarMonth.value = new Date(now?.getFullYear(), month, 0)
-		// 	?.toLocaleString('default', { month: 'short' })
-		// calendarYear.value = getSIPYearBasedOnDate(calendarDate?.value, now, firstSipPayment?.value ? 30 : 10)
+		const now = new Date();
+		const month = getSIPMonthBasedOnDate(calendarDate, now, firstSipPayment ? 30 : 10);
+		calendarMonth = new Date(now?.getFullYear(), month, 0)?.toLocaleString('default', {
+			month: 'short'
+		});
+		calendarYear = getSIPYearBasedOnDate(calendarDate, now, firstSipPayment ? 30 : 10);
 	};
 
 	setNextSipDate();
@@ -215,6 +243,36 @@
 	onMount(() => {
 		handleShowTabNotSupported();
 	});
+
+	const toggleCalendar = () => {
+		showCalendar = !showCalendar;
+
+		tempCalendarDate = calendarDate;
+		tempCalendarMonth = calendarMonth;
+		tempCalendarYear = calendarYear;
+		dateSuperscript = getDateSuperscript(tempCalendarDate);
+	};
+
+	const handleDateSelect = (value: unknown) => {
+		tempCalendarDate = value?.detail;
+		tempDateSuperscript = getDateSuperscript(tempCalendarDate);
+
+		const now = new Date();
+		const month = getSIPMonthBasedOnDate(tempCalendarDate, now, firstSipPayment ? 30 : 10);
+		tempCalendarMonth = new Date(now?.getFullYear(), month, 0)?.toLocaleString('default', {
+			month: 'short'
+		});
+
+		tempCalendarYear = getSIPYearBasedOnDate(tempCalendarDate, now, firstSipPayment ? 30 : 10);
+	};
+
+	const handleDateChange = (value: unknown) => {
+		calendarDate = value?.detail;
+		dateSuperscript = getDateSuperscript(calendarDate);
+
+		setNextSipDate();
+		toggleCalendar();
+	};
 </script>
 
 <article class="rounded-lg bg-white text-black-title">
@@ -272,9 +330,7 @@
 				<!-- TODO: add calendar date selection functionality -->
 				<section
 					class="flex items-center justify-between rounded border border-gray-200 md:cursor-pointer"
-					on:click={() => {
-						// add logic
-					}}
+					on:click={toggleCalendar}
 					on:keypress={() => {
 						// add logic
 					}}
@@ -333,6 +389,10 @@
 	<!-- Footer section for Mobile layout (PaymentMode/StartSipDate + TnC + Submit + Numpad) -->
 	<article class="mx-3 mt-4 block md:block">
 		<section class="fixed inset-0 top-auto">
+			{#if activeTab === 'SIP' && !firstSipPayment}
+				<NextSipDate {calendarDate} {calendarMonth} {calendarYear} />
+			{/if}
+
 			<article class="bg-white px-4 pt-3">
 				<!-- TnC Section -->
 				<article class="flex items-center justify-center">
@@ -369,4 +429,39 @@
 			<NumPad bind:number={amount} maxNumberLimit={maximumAmountLimit} />
 		</section>
 	</article>
+
+	{#if showCalendar}
+		<Modal isModalOpen={showCalendar} on:backdropclicked={toggleCalendar}>
+			<CalendarComponent
+				visible={showCalendar}
+				title={'Select SIP Instalment Date'}
+				heading={'CONFIRM'}
+				showClose={true}
+				showSubmit={true}
+				{dateArray}
+				defaultValue={calendarDate}
+				on:submit={handleDateChange}
+				on:dateSelect={handleDateSelect}
+				on:close={toggleCalendar}
+				class="z-60 sm:w-120"
+			>
+				<svelte:fragment slot="dateSlot">
+					<NextSipDate
+						calendarDate={tempCalendarDate}
+						calendarMonth={tempCalendarMonth}
+						calendarYear={tempCalendarYear}
+					/>
+				</svelte:fragment>
+
+				<svelte:fragment slot="footer">
+					<section class="hidden flex-row justify-center rounded-b-lg bg-gray-50 py-4 px-8 md:flex">
+						<p class="text-center text-sm font-light text-grey-body">
+							It is the day on which the amount payable towards your SIP order becomes due. The day
+							on which SIP instalments are paid is called SIP day.
+						</p>
+					</section>
+				</svelte:fragment>
+			</CalendarComponent>
+		</Modal>
+	{/if}
 </article>

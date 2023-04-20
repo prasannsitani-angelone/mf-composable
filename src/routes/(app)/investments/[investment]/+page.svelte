@@ -5,7 +5,7 @@
 	import ErrorView from '$components/ErrorView.svelte';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import LeftSideView from './LeftSideView.svelte';
-	import InvestmentPad from '../../InvestmentPad/InvestmentPad.svelte';
+	// import InvestmentPad from '../../InvestmentPad/InvestmentPad.svelte';
 	import type { PageData } from '../$types';
 
 	export let data: PageData;

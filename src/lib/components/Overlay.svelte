@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 
-	export let clazz = '';
-
 	onMount(() => {
 		stopPageScrolling();
 	});
@@ -27,7 +25,7 @@
 </script>
 
 <div
-	class={`fixed inset-0 z-60 flex w-full flex-col items-center justify-end bg-black-title/80 sm:justify-center ${clazz}`}
+	class={`fixed inset-0 z-60 flex w-full flex-col items-center justify-end bg-black-title/80 sm:justify-center ${$$props?.class}`}
 >
 	<slot />
 </div>

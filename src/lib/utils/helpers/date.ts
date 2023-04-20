@@ -154,3 +154,66 @@ export const getNextMonthDate = (
 		? `${date} ${shortMonthName ? monthShort : month} ${year}, ${hours}:${minutes} ${amPm}`
 		: `${date} ${shortMonthName ? monthShort : month} ${year}`;
 };
+
+/**
+ * getSIPMonthIncrementBasedOnDate: Get next sip date month increment factor
+ *
+ * @param calendarDate
+ * @param date
+ * @returns
+ */
+export const getSIPMonthIncrementBasedOnDate = (
+	calendarDate: number,
+	date: Date = new Date(),
+	bufferDays = 30
+) => {
+	const daysInCurrentMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(); // Total number of days in the ongoing month
+	let monthIncrementFactor = 1; // default value is 1 (for current month)
+
+	if (bufferDays >= 30) {
+		if (calendarDate + daysInCurrentMonth - date?.getDate() >= bufferDays) {
+			monthIncrementFactor += 1; // next month
+		} else {
+			monthIncrementFactor += 2; // next to next month
+		}
+	} else {
+		if (calendarDate < date?.getDate()) {
+			if (calendarDate + daysInCurrentMonth - date?.getDate() > bufferDays) {
+				monthIncrementFactor += 1; // next month
+			} else {
+				monthIncrementFactor += 2; // next to next month
+			}
+		} else if (calendarDate - date?.getDate() <= bufferDays) {
+			monthIncrementFactor += 1; // next month
+		}
+	}
+
+	return monthIncrementFactor;
+};
+
+export const getSIPMonthBasedOnDate = (
+	calendarDate: number,
+	date: Date = new Date(),
+	bufferDays = 30
+) => {
+	return date?.getMonth() + getSIPMonthIncrementBasedOnDate(calendarDate, date, bufferDays);
+};
+
+export const getSIPYearBasedOnDate = (
+	calendarDate: number,
+	date: Date = new Date(),
+	bufferDays = 30
+) => {
+	const month = getSIPMonthBasedOnDate(calendarDate, date, bufferDays);
+	return month > 12 ? date.getFullYear() + 1 : date.getFullYear();
+};
+
+export const getCompleteSIPDateBasedonDD = (
+	calendarDate: number,
+	date: Date = new Date(),
+	bufferDays = 30
+) => {
+	const month = getSIPMonthBasedOnDate(calendarDate, date, bufferDays) - 1;
+	const year = date?.getFullYear();
+	return new Date(year, month, calendarDate);
+};

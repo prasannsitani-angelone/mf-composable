@@ -30,7 +30,7 @@
 
 <Modal {isModalOpen} {closeModal}>
 	<div
-		class={`animate-bottomTransition flex flex-col items-center justify-between overflow-y-auto bg-white shadow-clg sm:w-120 sm:animate-none sm:rounded-lg ${$$props.class}`}
+		class={`flex flex-col items-center justify-between overflow-y-auto bg-white shadow-clg sm:w-120 sm:rounded-lg ${$$props.class}`}
 	>
 		<slot name="popupHeader">
 			{#if popupType?.toUpperCase() === STATUS_ARR?.SUCCESS}
