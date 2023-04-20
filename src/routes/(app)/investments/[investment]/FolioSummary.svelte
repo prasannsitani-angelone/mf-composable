@@ -1,8 +1,5 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import UnitsAllocatedIcon from '$lib/images/icons/UnitsAllocatedIcon.svelte';
-	import CurrentNavIcon from '$lib/images/icons/CurrentNavIcon.svelte';
-	import AverageNavIcon from '$lib/images/icons/AverageNavIcon.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import Card from '$components/Card.svelte';
 	import { md } from '$lib/constants/screenDimensions';

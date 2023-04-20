@@ -47,6 +47,9 @@ module.exports = {
 					primary: '#F9BA4D',
 					secondary: '#F9BA4D',
 					background: '#FEF7EA'
+				},
+				purple: {
+					primary: '#581DBE'
 				}
 			},
 			spacing: {

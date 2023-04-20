@@ -7,6 +7,7 @@
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import HoldingsOverview from '../portfolio/HoldingsOverview.svelte';
 	import FolioSummary from './FolioSummary.svelte';
+	import TransactionHistory from './TransactionHistory.svelte';
 	import type { FolioHoldingType, ChartData, OrdersData } from '$lib/types/IInvestments';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	export let holdings: FolioHoldingType;
@@ -14,16 +15,12 @@
 	export let ordersData: OrdersData;
 	export let schemeDetails: SchemeDetails;
 
-	// TODO: Uncomment  and implement below section with proper user type
-	// $: isInvestmentNotAllowed = isInvestmentAllowed(userType, holdings?.schemePlan);
-	$: isInvestmentNotAllowed = false;
-	$: {
-		console.log(' --------- page --------- ', $page),
-			console.log(' --------- schemeDetails --------- ', schemeDetails);
-		console.log(' --------- isInvestmentNotAllowed --------- ', isInvestmentNotAllowed);
-	}
+	const userType = $page.data?.profile?.userType || '';
+
+	$: isInvestmentNotAllowed = !isInvestmentAllowed(userType, holdings?.schemePlan);
+
 	const handleSchemeCardClick = () => {
-		if (isInvestmentNotAllowed || !schemeDetails) {
+		if (isInvestmentNotAllowed) {
 			return;
 		}
 		// TODO: Analytics
@@ -65,5 +62,9 @@
 	</article>
 	<HoldingsOverview folioSummary={holdings} chartDataList={chartData.chart} showGraphTags={false} />
 	<FolioSummary folioDetails={holdings} />
-	<article>Second Table</article>
+	<TransactionHistory
+		transactionList={ordersData.orders}
+		class={isInvestmentNotAllowed ? 'mb-36' : ''}
+	/>
+	<!-- TODO: Add the complete class condition for TransactionHistory - (isInvestmentNotAllowed || withdrawDisableText?.length) && 'mb-36' -->
 </section>
