@@ -6,6 +6,7 @@
 	import PortfolioCard from '$components/PortfolioCards/PortfolioCard.svelte';
 	import InvestmentOrders from './InvestmentOrders.svelte';
 	import Link from '$components/Link.svelte';
+	import InvestmentDashboardLoader from './Loaders/InvestmentDashboardLoader.svelte';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 
 	import TrendingFunds from '../../discoverfunds/TrendingFunds/TrendingFunds.svelte';
@@ -16,7 +17,7 @@
 
 <section>
 	{#await data.api.investment}
-		Loading...............................!!
+		<InvestmentDashboardLoader />
 	{:then response}
 		{#if response && response.status === 'success' && Array.isArray(response.data.holdings) && response.data.holdings.length > 0}
 			<!-- Show Users investment if exist -->

@@ -5,52 +5,77 @@
 	import ErrorView from '$components/ErrorView.svelte';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import LeftSideView from './LeftSideView.svelte';
+	import InvestmentDetailsLoader from './components/InvestmentDetailsLoader.svelte';
 	// import InvestmentPad from '../../InvestmentPad/InvestmentPad.svelte';
 	import type { PageData } from '../$types';
+	import type { FolioHoldingType, ChartData, OrdersData } from '$lib/types/IInvestments';
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 
 	export let data: PageData;
-	$: holdingsData = data.api?.holdingsData || {};
-	$: chartData = Object.keys(data.api?.chartData).length > 0 ? data.api?.chartData : { chart: [] };
-	$: ordersData =
-		Object.keys(data.api?.ordersData).length > 0 ? data.api?.ordersData : { orders: [] };
-	$: schemeData = data?.api?.schemeData || {};
 
-	$: breadCrumbs = [
-		{
-			text: 'Home',
-			href: '/'
-		},
-		{
-			text: 'Your Investments',
-			href: '/investments'
-		},
-		{
-			text: `${holdingsData?.schemeName}`,
-			href: `/investments/${normalizeFundName(
-				holdingsData?.schemeName,
-				holdingsData?.isin,
-				holdingsData?.schemeCode
-			)}`
-		}
-	];
+	interface BreadcrumbType {
+		text: string;
+		href: string;
+	}
+	let breadCrumbs: BreadcrumbType[];
+	$: breadCrumbs = [];
+
+	async function setPageData(
+		data: Promise<{
+			holdingsData: FolioHoldingType;
+			chartData: ChartData;
+			ordersData: OrdersData;
+			schemeData: SchemeDetails;
+		}>
+	) {
+		const result = await data;
+
+		breadCrumbs = [
+			{
+				text: 'Home',
+				href: '/'
+			},
+			{
+				text: 'Your Investments',
+				href: '/investments'
+			},
+			{
+				text: `${result?.holdingsData?.schemeName}`,
+				href: `/investments/${normalizeFundName(
+					result?.holdingsData?.schemeName,
+					result?.holdingsData?.isin,
+					result?.holdingsData?.schemeCode
+				)}`
+			}
+		];
+	}
+
+	$: {
+		setPageData(data.api?.allResponse);
+	}
 
 	const handleErrorNavigation = () => goto('/');
 </script>
 
-{#await data.api?.holdingsData}
-	<div>Loading ............</div>
-{:then holdingsData}
-	{#if holdingsData && Object.keys(holdingsData)?.length > 0}
+{#await data.api.allResponse}
+	<InvestmentDetailsLoader />
+{:then res}
+	{#if res.holdingsData && Object.keys(res.holdingsData)?.length > 0}
 		<!-- Left Side -->
 		<section>
 			<Breadcrumbs items={breadCrumbs} class="my-4 hidden items-center justify-start md:flex" />
 
-			<LeftSideView holdings={holdingsData} {chartData} {ordersData} schemeDetails={schemeData} />
+			<LeftSideView
+				holdings={res.holdingsData}
+				chartData={res.chartData}
+				ordersData={res.ordersData}
+				schemeDetails={res.schemeData}
+			/>
 		</section>
 
 		<!-- Right Side -->
 		<article class="rounded-lg bg-white text-black-title">
-			<!-- <InvestmentPad {schemeData} fromInvestmentDetailsPage /> -->
+			<!-- <InvestmentPad {res.schemeData} fromInvestmentDetailsPage /> -->
 		</article>
 	{:else}
 		<section class="col-span-full">

@@ -46,7 +46,7 @@ export const load = (async ({ fetch, params }) => {
 	};
 
 	return {
-		api: browser ? getPageData() : await getPageData(),
+		api: { allResponse: browser ? getPageData() : await getPageData() },
 		layoutConfig: {
 			title: 'Investment Details',
 			showBackIcon: true,

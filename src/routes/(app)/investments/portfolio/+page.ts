@@ -26,7 +26,7 @@ export const load = (async ({ fetch }) => {
 	};
 
 	return {
-		api: browser ? getPortfolio() : await getPortfolio(),
+		api: { allResponse: browser ? getPortfolio() : await getPortfolio() },
 		layoutConfig: {
 			title: 'Portfolio Analysis',
 			showBackIcon: true

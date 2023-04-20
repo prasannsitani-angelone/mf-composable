@@ -6,10 +6,12 @@
 	import AssetAnalysis from './AssetAnalysis.svelte';
 	import PageTitle from '$components/PageTitle.svelte';
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
+	import InvestmentPortfolioLoader from './components/InvestmentPortfolioLoader.svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import type { PageData } from './$types';
-	import type { Tag } from '$lib/types/IPortfolioDetails';
+	import type { Tag, ChartDataType, DistributionType } from '$lib/types/IPortfolioDetails';
+	import type { FolioSummaryTypes } from '$lib/types/IInvestments';
 
 	const handleErrorNavigation = () => goto('/');
 	const breadCrumbs = [
@@ -23,9 +25,32 @@
 		}
 	];
 	export let data: PageData;
-	let chartData = data.api?.chartData?.chart || [];
 
+	let chartData: ChartDataType[];
+	$: chartData = [];
 	$: ChartDataToSend = chartData;
+
+	type ChartDataResponseObj = {
+		chart: ChartDataType[];
+	};
+
+	type DistributionDataResponseObj = {
+		distributions: DistributionType[];
+	};
+	async function setPageData(
+		data: Promise<{
+			chartData: ChartDataResponseObj;
+			summaryData: FolioSummaryTypes;
+			distributionData: DistributionDataResponseObj;
+		}>
+	) {
+		const result = await data;
+		chartData = result?.chartData?.chart || [];
+	}
+
+	$: {
+		setPageData(data.api?.allResponse);
+	}
 
 	const updateLineChart = async (data: { detail: Tag }) => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings?chart=true&months=${data.detail.months}`;
@@ -39,8 +64,8 @@
 	};
 </script>
 
-{#await data.api}
-	Loading...............................!!
+{#await data.api.allResponse}
+	<InvestmentPortfolioLoader />
 {:then response}
 	{#if response.summaryData.summary}
 		<section>
