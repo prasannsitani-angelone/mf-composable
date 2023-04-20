@@ -30,7 +30,8 @@ export const load = async ({ fetch, url }) => {
 	return {
 		api: hydrate ? getAPIData() : await getAPIData(),
 		layoutConfig: {
-			layoutType: 'FULL_HEIGHT_WITHOUT_PADDING'
+			layoutType: 'FULL_HEIGHT_WITHOUT_PADDING',
+			title: 'Order Summary'
 		}
 	};
 };
