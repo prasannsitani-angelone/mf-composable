@@ -9,6 +9,7 @@
 	import Default from '$lib/layouts/Default.svelte';
 	import TwoColumn from '$lib/layouts/TwoColumn.svelte';
 	import TwoColumnReverse from '$lib/layouts/TwoColumnReverse.svelte';
+	import FullHeightWithoutPadding from '$lib/layouts/FullHeightWithoutPadding.svelte';
 
 	export let data: LayoutData;
 	// Update store with Spark headers
@@ -31,6 +32,10 @@
 	<TwoColumnReverse>
 		<slot />
 	</TwoColumnReverse>
+{:else if $appPage.data?.layoutConfig?.layoutType === 'FULL_HEIGHT_WITHOUT_PADDING'}
+	<FullHeightWithoutPadding>
+		<slot />
+	</FullHeightWithoutPadding>
 {:else}
 	<Default>
 		<slot />

@@ -39,6 +39,11 @@ function CreateStore() {
 			const primaryBankAccountIndex = this.primaryBankAccountIndex();
 			return accounts?.[primaryBankAccountIndex]?.accNO;
 		},
+		getBankDetailsByAccountNumber(accNO: string) {
+			return bankDetails?.find((bankAccount) => {
+				return accNO === bankAccount.accNO;
+			});
+		},
 		accountType() {
 			if (!clientId) {
 				return 'D';
