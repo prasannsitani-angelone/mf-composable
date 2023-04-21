@@ -20,7 +20,7 @@ const handler = (async ({ event, resolve }) => {
 	const refreshToken =
 		event.request.headers.get('refreshtoken') || ABUserCookie?.NTRefreshToken || '';
 	let userType = cookie['UserType'] === 'undefined' ? null : cookie['UserType'];
-	let accountType = cookie['AccountType'];
+	let accountType = cookie['AccountType'] || null;
 	let profileData: UserProfile = {
 		clientId: '',
 		userType: 'B2C',
@@ -39,9 +39,9 @@ const handler = (async ({ event, resolve }) => {
 	if (!userType && isGuest) {
 		userType = 'B2C';
 		accountType = 'D';
-	} else if (!userType) {
-		profileData = await useProfileFetch(event.url.origin, {});
-		userType = profileData?.userType;
+	} else if (!userType && !event.request.url.includes('/api/profile')) {
+		profileData = await useProfileFetch(event.url.origin, token, fetch);
+		userType = profileData?.userType || null;
 		accountType = profileData?.dpNumber ? 'D' : 'P';
 	}
 
@@ -64,10 +64,10 @@ const handler = (async ({ event, resolve }) => {
 
 export const handleFetch = (async ({ event, request, fetch }) => {
 	const { userType = '', accountType = '', token } = event.locals;
-
 	request.headers.set('userType', userType);
 	request.headers.set('accountType', accountType);
 	request.headers.set('authorization', `Bearer ${token}`);
+	request.headers.set('authtoken', token);
 
 	Logger.debug({
 		type: 'Network request',

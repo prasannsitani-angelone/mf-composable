@@ -9,7 +9,10 @@ declare global {
 		// interface Error {}
 		interface Locals {
 			deviceType: DevicePayload;
-			host: string;
+			host: string | null;
+			userType: string | null;
+			accountType: string | null;
+			token: string | null;
 		}
 		interface PageData {
 			deviceType: DevicePayload;

@@ -1,0 +1,1 @@
+type FetchType = typeof fetch;
