@@ -3,9 +3,19 @@
 	import { isAbsoluteUrl } from '$lib/utils/helpers/url';
 	let to: string;
 	let clazz = '';
-	export { to, clazz as class };
+	let disableRedirect = false;
+	export { to, clazz as class, disableRedirect };
+	function onLinkClick(e: MouseEvent & { currentTarget: EventTarget & HTMLAnchorElement }) {
+		if (disableRedirect) {
+			e.preventDefault();
+		}
+	}
 </script>
 
-<a href={isAbsoluteUrl(to) ? to : `${base}${to}`} class={`${clazz}`}>
+<a
+	on:click={(e) => onLinkClick(e)}
+	href={isAbsoluteUrl(to) ? to : `${base}${to}`}
+	class={`${clazz}`}
+>
 	<slot />
 </a>

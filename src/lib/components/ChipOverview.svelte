@@ -1,27 +1,27 @@
 <script lang="ts">
-	let categoryName = '';
-	let subCategoryName = '';
-	let reInvestmentPlan = '';
+	let headingPrimary = '';
+	let headingSecondary = '';
+	let headingTertiary = '';
 	let clazz = '';
-	export { categoryName, subCategoryName, reInvestmentPlan, clazz as class };
+	export { headingPrimary, headingSecondary, headingTertiary, clazz as class };
 </script>
 
 <div
-	class={`flex  items-center text-[10px] text-sm font-medium text-grey-body sm:border-none ${clazz}`}
+	class={`flex  items-center text-[10px] font-medium text-grey-body sm:mb-1 sm:border-none sm:pb-0 sm:text-xs ${clazz}`}
 >
 	<slot name="categoryNameIcon" />
-	{#if categoryName}
-		<span class="mr-2 truncate text-[10px] sm:text-base">{categoryName}</span>
+	{#if headingPrimary}
+		<span class="mr-2 truncate">{headingPrimary}</span>
 	{/if}
-	{#if categoryName && subCategoryName}
+	{#if headingPrimary && headingSecondary}
 		<span class="mr-2 h-1 w-1 rounded bg-grey-body" />
 	{/if}
-	{#if subCategoryName}
-		<span class="mr-2 truncate text-[10px] sm:text-base">{subCategoryName}</span>
+	{#if headingSecondary}
+		<span class="mr-2 truncate">{headingSecondary}</span>
 	{/if}
 
-	{#if reInvestmentPlan}
+	{#if headingTertiary}
 		<span class="mr-2 h-1 w-1 rounded bg-grey-body" />
-		<span class="mr-5 truncate text-[10px] sm:text-base"> {reInvestmentPlan}</span>
+		<span class="mr-5 truncate"> {headingTertiary}</span>
 	{/if}
 </div>

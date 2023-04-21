@@ -9,6 +9,7 @@
 	import TBody from '$components/Table/TBody.svelte';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import ChipOverview from '$components/ChipOverview.svelte';
+	import SchemeCard from '$components/SchemeCard.svelte';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 
@@ -78,13 +79,20 @@
 			{#each tableDataToDisplay as schemes}
 				<tr class="hover cursor-pointer" on:click={() => handleRowClick(schemes)}
 					><Td class="w-[40%] whitespace-normal max-sm:w-[70%] max-sm:pr-1 max-sm:pl-4">
-						<div class="flex items-start justify-between">
-							<SchemeLogo src={schemes?.logoUrl} alt={schemes?.schemeName} />
-							<div class="m-0 mr-auto flex flex-col">
+						<SchemeCard
+							{schemes}
+							class="items-center"
+							preventRedirectOnSchemeClick={true}
+							redirectUrl={`/investments/${normalizeFundName(
+								schemes?.schemeName,
+								schemes?.isin,
+								schemes?.schemeCode
+							)}`}
+							><svelte:fragment slot="chip-overview">
 								<ChipOverview
 									class="mb-1 border-b-0 pb-0 sm:text-xs"
-									categoryName={schemes?.sipEnabled ? 'SIP Active' : ''}
-									subCategoryName={schemes?.schemePlan && schemes?.schemePlan?.length
+									headingPrimary={schemes?.sipEnabled ? 'SIP Active' : ''}
+									headingSecondary={schemes?.schemePlan && schemes?.schemePlan?.length
 										? schemes?.schemePlan
 										: ''}
 								>
@@ -94,13 +102,9 @@
 										{/if}
 									</svelte:fragment>
 								</ChipOverview>
-								<h4 class="text-sm font-medium text-black-title">
-									<div>
-										{schemes?.schemeName}
-									</div>
-								</h4>
-							</div>
-						</div>
+							</svelte:fragment>
+							<svelte:fragment slot="rating"><span /></svelte:fragment></SchemeCard
+						>
 					</Td>
 					<Td class="text-center max-sm:pl-1 max-sm:pr-4 max-sm:text-right"
 						><div class="text-black-title">

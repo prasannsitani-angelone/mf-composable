@@ -52,9 +52,9 @@
 	<header>
 		<ChipOverview
 			class="mb-2"
-			categoryName={schemeDetails?.categoryName}
-			subCategoryName={schemeDetails?.subcategoryName}
-			reInvestmentPlan={schemeDetails?.reInvestmentPlan}
+			headingPrimary={schemeDetails?.categoryName}
+			headingSecondary={schemeDetails?.subcategoryName}
+			headingTertiary={schemeDetails?.reInvestmentPlan}
 		/>
 		<div class="mb-6 flex items-start justify-between sm:items-center lg:mt-6">
 			<SchemeLogo src={schemeDetails?.logoUrl} alt={schemeDetails?.schemeName} />

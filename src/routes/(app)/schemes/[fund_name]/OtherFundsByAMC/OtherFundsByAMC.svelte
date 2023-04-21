@@ -86,8 +86,8 @@
 										<SchemeLogo src={schemes?.logoUrl} alt={schemes?.schemeName} />
 										<div class="m-0 mr-auto flex flex-col">
 											<ChipOverview
-												categoryName={schemes?.categoryName}
-												subCategoryName={schemes?.subcategoryName}
+												headingPrimary={schemes?.categoryName}
+												headingSecondary={schemes?.subcategoryName}
 											/>
 											<h3
 												class="block w-full whitespace-pre-wrap text-base font-medium text-black-title sm:text-sm"
