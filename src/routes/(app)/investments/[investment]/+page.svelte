@@ -74,9 +74,10 @@
 		</section>
 
 		<!-- Right Side -->
-		<article class="rounded-lg bg-white text-black-title">
-			<!-- <InvestmentPad {res.schemeData} fromInvestmentDetailsPage /> -->
-		</article>
+		<!-- <InvestmentPad
+			schemeData={res.schemeData}
+			fromInvestmentDetailsPage
+		/> -->
 	{:else}
 		<section class="col-span-full">
 			<ErrorView

@@ -1,7 +1,6 @@
 import { browser } from '$app/environment';
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { useFetch } from '$lib/utils/useFetch';
-import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 import type { PageLoad } from './$types';
 
 export const load = (async ({ fetch, params }) => {
