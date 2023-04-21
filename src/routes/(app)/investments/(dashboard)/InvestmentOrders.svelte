@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import AccordianCardComponent from '$components/Accordian/AccordianCardComponent.svelte';
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import HeaderComponent from './OrderCardComponents/OrderCardHeader.svelte';
@@ -6,6 +7,8 @@
 	import FooterComponent from './OrderCardComponents/OrderCardFooter.svelte';
 	import isInvestmentAllowed from '$lib/utils/isInvestmentAllowed';
 	import { getDateTimeString } from '$lib/utils/helpers/date';
+	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
+	import { encodeObject } from '$lib/utils/helpers/object';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { onMount } from 'svelte';
 	import { useFetch } from '$lib/utils/useFetch';
@@ -13,7 +16,8 @@
 		OrdersSummary,
 		ProtfolioData,
 		ProtfolioDataEntity,
-		OrdersResponse
+		OrdersResponse,
+		OrdersEntity
 	} from '$lib/types/IInvestments';
 
 	let ordersSummary: OrdersSummary = {
@@ -24,8 +28,33 @@
 
 	const userType = profileStore.userType();
 
-	const handleFooterClick = () => {
-		// TODO: Add redirection on footer click
+	/**
+	 * handleFooterCtaClick: Function to redirect user to payments page for the particular order.
+	 *
+	 */
+	const handleFooterClick = async (e: { detail: OrdersEntity }) => {
+		//TODO: Analytics
+		//   failedOrdersRetryCtaClickAnalytics()
+		const orderItem = e.detail || {};
+		const schemeUrl = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${orderItem?.isin}`;
+		const res = await useFetch(schemeUrl, {}, fetch);
+		let schemeDetails = res.data;
+
+		//TODO: This redirect to be revisited post order pad implementation to handle retry link
+		const reRouteUrl = './schemes';
+		const encodedQuery = encodeObject({
+			orderId: orderItem?.orderId,
+			pgTxnId: orderItem?.pgTxnId,
+			investmentType: orderItem?.investmentType,
+			investmentAmount: orderItem?.amount
+		});
+
+		let redirectPath = `${reRouteUrl}/${normalizeFundName(
+			schemeDetails?.schemeName,
+			schemeDetails?.isin,
+			schemeDetails?.schemeCode
+		)}?params=${encodedQuery}`;
+		goto(redirectPath);
 	};
 
 	function hasPassedAllChecks(dRes: { ok: any; data: { status: string; data: { orders: any } } }) {
