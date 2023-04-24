@@ -19,7 +19,7 @@
 	import { useFetch } from '$lib/utils/useFetch';
 	import ConfirmationPopup from '$components/Popup/ConfirmationPopup.svelte';
 	import { getDateTimeProperties, getNextMonthDate } from '$lib/utils/helpers/date';
-	const bankDetails = profileStore?.bankAccounts();
+	$: bankDetails = $profileStore?.bankDetails;
 	let showCancelSipActionModal = false;
 	let showSuccessModal = false;
 	let showFailureModal = false;

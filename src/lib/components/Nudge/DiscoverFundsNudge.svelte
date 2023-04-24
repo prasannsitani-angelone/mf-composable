@@ -4,10 +4,14 @@
 	import { goto } from '$app/navigation';
 	import Button from '$components/Button.svelte';
 	import type { INudge } from '$lib/types/INudge';
+	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
+	import type { AppContext } from '$lib/types/IAppContext';
+	import { getContext } from 'svelte';
 	let nudge: INudge;
+	const appContext: AppContext = getContext('app');
 	const navigateToPage = () => {
-		if (nudge.link) {
-			goto(nudge.link);
+		if (nudge?.link) {
+			goto(`${getNavigationBaseUrl('', appContext.scheme, appContext.host)}/${nudge.link}`);
 		}
 	};
 	export { nudge };
@@ -37,7 +41,7 @@
 	<Button
 		variant="transparent"
 		class="flex w-full cursor-pointer flex-row items-center justify-end whitespace-nowrap border-t border-grey-line px-3 py-4 !pr-0 text-sm font-semibold text-blue-primary hover:border-grey-line active:opacity-75 sm:border-t-0 sm:px-0 sm:py-0"
-		on:click={navigateToPage}
+		onClick={navigateToPage}
 	>
 		<span class="mr-3 sm:mr-4">{nudge?.linkHeading}</span>
 		<RightIcon stroke="#3F5BD9" />

@@ -1,11 +1,6 @@
 <script>
-	import TabSelection from './TabSelection.svelte';
-	import { goto } from '$app/navigation';
-	import { base } from '$app/paths';
-
-	const handleTabSelection = () => {
-		goto(`${base}/orders/orderspage/sipbook`, { replaceState: true });
-	};
+	import { ordersTab } from '$lib/constants/tab';
+	import Tab from '$lib/components/Tab.svelte';
 </script>
 
-<TabSelection activeTab="ORDERS" {handleTabSelection} />
+<Tab activeTab="Orders" tabs={ordersTab} />
