@@ -4,7 +4,6 @@
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import { getBankLogoUrl } from '$lib/utils';
 	import SipBankDetails from '../SipDetails/SipBankDetails.svelte';
-	import SipDate from '../SipDetails/SipDate.svelte';
 	import SipDetailsBasic from '../SipDetails/SipDetailsBasic.svelte';
 	import SipHistory from '../SipDetails/SipHistory.svelte';
 	import SipSchedule from '../SipDetails/SipSchedule.svelte';
@@ -90,12 +89,14 @@
 	Loading...
 {:then sipData}
 	{#if sipData}
-		<article class="mb-20">
+		<article class="mb-36">
 			<SipDetailsBasic
 				sipId={sipData?.sipId}
 				schemeName={sipData?.schemeName}
 				schemePlan={sipData?.schemePlan}
 				logoUrl={sipData?.logoUrl}
+				isin={sipData?.isin}
+				schemeCode={sipData?.schemeCode}
 			/>
 			<SipSchedule
 				amount={sipData?.installmentAmount}
@@ -112,17 +113,12 @@
 				/>
 			{/if}
 
-			{#if sipData?.sipOrderHistory?.length}
-				<SipHistory
-					sipId={sipData?.sipId}
-					sipOrderHistory={sipData?.sipOrderHistory}
-					sipCreatedTs={sipData?.createdTs}
-					maxTxnShowCount={maxTransactionsCap}
-				/>
-			{/if}
-			{#if !sipData?.sipOrderHistory?.length && !sipData?.firstOrderToday && sipData?.createdTs}
-				<SipDate sipCreatedTs={sipData?.createdTs} />
-			{/if}
+			<SipHistory
+				sipId={sipData?.sipId}
+				sipOrderHistory={sipData?.sipOrderHistory}
+				sipCreatedTs={sipData?.createdTs}
+				maxTxnShowCount={maxTransactionsCap}
+			/>
 			{#if sipData?.isSipInprocess}
 				<NudgeComponent
 					nudgeText="You cannot cancel SIP as your SIP order is already in progress."

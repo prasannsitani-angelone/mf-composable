@@ -7,6 +7,7 @@
 	import { onMount } from 'svelte';
 	import { base } from '$app/paths';
 	import SipTransactions from './SipTransactions.svelte';
+	import SipDate from './SipDate.svelte';
 	let sipId: number;
 	let sipOrderHistory: Array<ISipOrderHistory>;
 	let sipCreatedTs: number;
@@ -86,7 +87,7 @@
 		<svelte:fragment slot="accordionHeader">
 			<section class="p-4">
 				<slot name="headerTitle">
-					<article class="mb-6 flex items-baseline justify-between">
+					<article class="flex items-baseline justify-between">
 						<article class="flex items-baseline">
 							<div class="mr-2 text-base">SIP History</div>
 							{#if transactionItems?.length}
@@ -101,6 +102,9 @@
 							/>
 						{/if}
 					</article>
+					<div class="mb-5 text-xs font-medium text-grey-body">
+						SIP ID: {Math?.abs(sipId)}
+					</div>
 				</slot>
 
 				<article>
@@ -128,6 +132,7 @@
 						>{getDateTimeString(sipCreatedTs, 'DATE', true)}</span
 					>
 				</div>
+				<SipDate {sipCreatedTs} />
 			</section>
 		</svelte:fragment>
 
