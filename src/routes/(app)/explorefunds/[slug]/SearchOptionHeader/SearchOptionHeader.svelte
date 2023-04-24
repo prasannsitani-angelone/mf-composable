@@ -27,7 +27,9 @@
 	export { toggleTaxSavingModal };
 </script>
 
-<header class="-mt-2 mb-2 ml-[calc(50%-50vw)] w-screen bg-white pb-5 md:mb-0 lg:px-6">
+<header
+	class="-mt-2 mb-2 ml-[calc(50%-50vw)] w-screen bg-white pb-5 sm:ml-0 sm:w-full md:mb-0 lg:px-6"
+>
 	<SearchOptionTableHeader {exploreFundsNavigation} />
 
 	{#if isTaxSavingFund}

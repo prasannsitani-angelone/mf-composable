@@ -13,7 +13,7 @@
 	export { exploreFundsNavigation };
 </script>
 
-<section class="scrollbar-hide flex w-full gap-2 overflow-x-scroll">
+<section class="scrollbar-hide flex w-full gap-2 overflow-x-scroll sm:pt-3">
 	{#each exploreFundsNavigation as nav}
 		{@const isActive = `${$page.url.pathname}${$page.url.search}` === `${base}${nav.href}`}
 		<Link

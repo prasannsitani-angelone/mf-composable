@@ -32,9 +32,7 @@
 
 	<SearchOptionHeader {toggleTaxSavingModal} />
 
-	<section
-		class="ml-[calc(50%-50vw)] w-screen rounded-lg shadow-csm sm:ml-0 sm:w-full md:bg-white md:pt-4"
-	>
+	<section class="ml-[calc(50%-50vw)] w-screen shadow-csm sm:ml-0 sm:w-full md:bg-white md:pt-4">
 		<section>
 			{#await data?.api?.searchOption}
 				Loading...
