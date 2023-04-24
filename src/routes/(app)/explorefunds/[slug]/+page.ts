@@ -27,6 +27,7 @@ export const load = (async ({ fetch, url }) => {
 			showSearchIcon: true,
 			showBackIcon: true,
 			layoutType: 'DEFAULT'
-		}
+		},
+		pageID
 	};
 }) satisfies PageLoad;

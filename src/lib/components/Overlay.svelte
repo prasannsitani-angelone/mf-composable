@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { onMount, onDestroy } from 'svelte';
 
 	onMount(() => {
@@ -6,7 +7,9 @@
 	});
 
 	onDestroy(() => {
-		resumePageScrolling();
+		if (browser) {
+			resumePageScrolling();
+		}
 	});
 
 	const stopPageScrolling = () => {

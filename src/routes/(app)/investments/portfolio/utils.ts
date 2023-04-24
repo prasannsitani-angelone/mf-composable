@@ -10,8 +10,6 @@ export const generateGraphDataset = (holdings: TableDataTypes[]) => {
 	);
 	const topHolding = sortedHolding?.slice(0, topHoldingLength);
 
-	let topHoldingPercentage = 0;
-
 	topHolding?.forEach((holding) => {
 		topHoldingPercentage += holding.percentageHold;
 	});

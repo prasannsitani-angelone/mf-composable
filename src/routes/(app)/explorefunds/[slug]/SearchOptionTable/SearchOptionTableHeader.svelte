@@ -2,7 +2,6 @@
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
 
-	import Button from '$components/Button.svelte';
 	import Link from '$components/Link.svelte';
 	import type { ExploreFundNavItem } from '../../types';
 

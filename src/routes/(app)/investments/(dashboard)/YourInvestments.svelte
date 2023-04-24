@@ -7,7 +7,6 @@
 	import Th from '$components/Table/TH.svelte';
 	import Td from '$components/Table/TD.svelte';
 	import TBody from '$components/Table/TBody.svelte';
-	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import ChipOverview from '$components/ChipOverview.svelte';
 	import SchemeCard from '$components/SchemeCard.svelte';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';

@@ -3,9 +3,7 @@
 	import TrendingTable from './TrendingTable.svelte';
 	import TrendingCarousel from './TrendingCarousel.svelte';
 	let title = 'Popular With Other Investors';
-	const trendingTable = {
-		col: ['Funds', '3Y return', 'Min SIP Invetsments']
-	};
+
 	let tableData: Array<WeeklyTopSchemesEntity>;
 	let classes = {
 		header: '',

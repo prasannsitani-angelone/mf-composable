@@ -45,10 +45,6 @@
 			id: 'abcd-6'
 		}
 	];
-
-	const openStory = () => {
-		alert(1);
-	};
 </script>
 
 <article class="flex overflow-scroll bg-white py-3 px-4">

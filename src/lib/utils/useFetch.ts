@@ -42,7 +42,6 @@ if (browser) {
 }
 
 export const useFetch = async (url: string, options: RequestInit = {}, fetchServer: FetchType) => {
-	console.log(fetchServer);
 	const baseFetch = hydrate ? fetch : fetchServer;
 	const opts = {
 		...defaultOptions,

@@ -1,1 +1,1 @@
-type FetchType = typeof fetch;
+export type FetchType = typeof fetch;

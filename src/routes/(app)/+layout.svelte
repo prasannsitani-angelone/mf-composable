@@ -4,7 +4,7 @@
 	import type { LayoutData } from './$types';
 	import { tokenStore } from '$lib/stores/TokenStore';
 	import { profileStore } from '$lib/stores/ProfileStore';
-	import { getContext, onMount, setContext } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 	import type { AppContext } from '$lib/types/IAppContext';
 	import Default from '$lib/layouts/Default.svelte';
 	import TwoColumn from '$lib/layouts/TwoColumn.svelte';
