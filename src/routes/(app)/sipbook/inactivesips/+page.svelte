@@ -9,7 +9,7 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import type { PageData } from './$types';
-	import SipCardLoader from '$components/Loaders/SipCardLoader.svelte';
+	import SipCardLoader from './SipCardLoader.svelte';
 	import { page } from '$app/stores';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { encodeObject } from '$lib/utils/helpers/object';

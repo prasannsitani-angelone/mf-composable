@@ -1,7 +1,7 @@
 <script lang="ts">
 	import SipDashboard from './SipDashboard.svelte';
 	import type { PageData } from './$types';
-	import SipDashboardLoader from '$components/Loaders/SipDashboardLoader.svelte';
+	import SipDashboardLoader from './SipDashboardLoader.svelte';
 	export let data: PageData;
 </script>
 

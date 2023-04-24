@@ -18,6 +18,7 @@
 	import { useFetch } from '$lib/utils/useFetch';
 	import ConfirmationPopup from '$components/Popup/ConfirmationPopup.svelte';
 	import { getDateTimeProperties, getNextMonthDate } from '$lib/utils/helpers/date';
+	import SipDetailLoader from './SipDetailLoader.svelte';
 	$: bankDetails = $profileStore?.bankDetails;
 	let showCancelSipActionModal = false;
 	let showSuccessModal = false;
@@ -86,7 +87,7 @@
 </script>
 
 {#await data?.api?.getSipData}
-	Loading...
+	<SipDetailLoader />
 {:then sipData}
 	{#if sipData}
 		<article class="mb-36">
