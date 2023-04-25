@@ -10,7 +10,7 @@ export interface AnalyticMsgObj {
 	event_name: string;
 	event_property: string | null;
 	event_id: string;
-	event_metadata: any;
+	event_metadata?: any;
 }
 
 export interface Config {

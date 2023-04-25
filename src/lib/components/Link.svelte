@@ -1,14 +1,17 @@
 <script lang="ts">
 	import { base } from '$app/paths';
 	import { isAbsoluteUrl } from '$lib/utils/helpers/url';
+	import { createEventDispatcher } from 'svelte';
 	let to: string;
 	let clazz = '';
 	let disableRedirect = false;
+	const dispatch = createEventDispatcher();
 	export { to, clazz as class, disableRedirect };
 	function onLinkClick(e: MouseEvent & { currentTarget: EventTarget & HTMLAnchorElement }) {
 		if (disableRedirect) {
 			e.preventDefault();
 		}
+		dispatch('linkClicked');
 	}
 </script>
 

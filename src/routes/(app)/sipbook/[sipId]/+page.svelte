@@ -19,6 +19,14 @@
 	import ConfirmationPopup from '$components/Popup/ConfirmationPopup.svelte';
 	import { getDateTimeProperties, getNextMonthDate } from '$lib/utils/helpers/date';
 	import SipDetailLoader from './SipDetailLoader.svelte';
+	import {
+		cancelSipButtonClickAnalytics,
+		sipCancelConfirmationModalOpenAnalytics,
+		sipCancelFailureModalRetryButtonClickAnalytics,
+		sipCancelledFailureModalOpenAnalytics,
+		sipCancelledSuccessModalDoneButtonClickAnalytics,
+		sipCancelledSuccessModalOpenAnalytics
+	} from '$lib/analytics/sipbook/sipbook';
 	$: bankDetails = $profileStore?.bankDetails;
 	let showCancelSipActionModal = false;
 	let showSuccessModal = false;
@@ -30,10 +38,20 @@
 
 	const toggleShowCancelSipActionModal = () => {
 		showCancelSipActionModal = !showCancelSipActionModal;
+		if (showCancelSipActionModal) {
+			cancelSipButtonClickAnalytics();
+			sipCancelConfirmationModalOpenAnalytics({
+				value:
+					'Cancelling will stop ALL your upcoming investments in this SIP, Proceed to Cancel? (YES CANCEL)/(NO)'
+			});
+		}
 	};
 
 	const toggleShowSuccessModal = () => {
 		showSuccessModal = !showSuccessModal;
+		if (showSuccessModal) {
+			sipCancelledSuccessModalOpenAnalytics();
+		}
 	};
 
 	const toggleSkipSuccessModal = () => {
@@ -46,6 +64,11 @@
 
 	const toggleShowFailureModal = () => {
 		showFailureModal = !showFailureModal;
+		if (showFailureModal) {
+			sipCancelledFailureModalOpenAnalytics({
+				value: 'We could not cancel your SIP due to technical error, Please try again.'
+			});
+		}
 	};
 
 	const toggleShowSkipModal = () => {
@@ -76,10 +99,12 @@
 
 	const handleFailureModalCta = () => {
 		toggleShowFailureModal();
+		sipCancelFailureModalRetryButtonClickAnalytics();
 	};
 
 	const handleSuccessModalCta = () => {
 		toggleShowSuccessModal();
+		sipCancelledSuccessModalDoneButtonClickAnalytics();
 		goto(`${base}/orders/orderspage/sipbook`);
 	};
 

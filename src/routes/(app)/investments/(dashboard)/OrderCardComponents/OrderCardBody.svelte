@@ -8,6 +8,8 @@
 	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 	import type { AppContext } from '$lib/types/IAppContext';
 	import { getContext } from 'svelte';
+	import DateFns from '$lib/utils/asyncDateFns';
+	import { orderCardClickAnalytics } from '$lib/analytics/orders/orders';
 	// import { orderCardClickAnalytics } from '$lib/analytics/orders/orders';
 
 	// await DateFns.init()
@@ -43,7 +45,6 @@
 	setInvestmentTypeText();
 	setTransactionTypeText();
 
-	/** 
 	const getOrderStatusString = (item: { status: string; paymentStatus: string }) => {
 		let orderStatus = 'Created';
 
@@ -60,20 +61,20 @@
 
 		return orderStatus;
 	};
-    */
 
 	const orderCardAnalytics = () => {
 		// TODO: Analytics Code
-		// const eventMetaData = {
-		// 	FundName: item?.schemeName,
-		// 	Order: item?.investmentType,
-		// 	Type: item?.transactionType,
-		// 	Amount: item?.amount,
-		// 	Date: format(new Date(item?.createdTs), 'dd/MM/yyyy'),
-		// 	OrderStatus: getOrderStatusString(item)
-		// };
-		//
-		// orderCardClickAnalytics(eventMetaData);
+		const { format } = DateFns.DateFns;
+		const eventMetaData = {
+			FundName: item?.schemeName,
+			Order: item?.investmentType,
+			Type: item?.transactionType,
+			Amount: item?.amount,
+			Date: format(new Date(item?.createdTs), 'dd/MM/yyyy'),
+			OrderStatus: getOrderStatusString(item)
+		};
+
+		orderCardClickAnalytics(eventMetaData);
 	};
 
 	const handleBodyClick = () => {

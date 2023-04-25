@@ -17,6 +17,7 @@
 	import type { AppContext } from '$lib/types/IAppContext';
 	import { getContext, onMount } from 'svelte';
 	import DateFns from '$lib/utils/asyncDateFns';
+	import { sipCardClickAnalytics } from '$lib/analytics/sipbook/sipbook';
 
 	let sipCount = 0;
 	let alertSleeveText = '';
@@ -78,10 +79,25 @@
 		}
 	};
 
+	const sipCardClickAnalyticsFunc = () => {
+		const eventMetaData = {
+			FundName: sip?.schemeName,
+			SIPSchedule: {
+				InstallmentAmount: sip?.installmentAmount,
+				NextSIPPayment: getDateTimeString(sip?.nextSipDueDate, 'DATE', true)
+			},
+			BankDetails: {
+				BankName: sip?.bankName,
+				BankAccountNumber: sip?.accountNo
+			}
+		};
+		sipCardClickAnalytics(eventMetaData);
+	};
+
 	const handleClick = (event: any, isCta = false) => {
 		// TODO: to handle during details page
 		event.stopPropagation();
-
+		sipCardClickAnalyticsFunc();
 		if (inactiveSip) {
 			return;
 		}

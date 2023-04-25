@@ -6,15 +6,21 @@
 	import type { INudge } from '$lib/types/INudge';
 	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 	import type { AppContext } from '$lib/types/IAppContext';
-	import { getContext } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 	let nudge: INudge;
+	let impressionEvent: () => void;
+	let clickEvent: () => void;
 	const appContext: AppContext = getContext('app');
+	onMount(() => {
+		impressionEvent?.();
+	});
 	const navigateToPage = () => {
+		clickEvent?.();
 		if (nudge?.link) {
-			goto(`${getNavigationBaseUrl('', appContext.scheme, appContext.host)}/${nudge.link}`);
+			goto(`${getNavigationBaseUrl('', appContext.scheme, appContext.host)}${nudge.link}`);
 		}
 	};
-	export { nudge };
+	export { nudge, impressionEvent, clickEvent };
 </script>
 
 <article

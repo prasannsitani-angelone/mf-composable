@@ -19,6 +19,7 @@
 	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 	import type { AppContext } from '$lib/types/IAppContext';
 	import { getContext } from 'svelte';
+	import { failedOrdersRetryCtaClickAnalytics } from '$lib/analytics/orders/orders';
 	let ordersSummary: OrdersSummary;
 	let failedOrders: orderItem[];
 	let schemeDetails: SchemeDetails;
@@ -28,6 +29,7 @@
 	const appContext: AppContext = getContext('app');
 
 	const handleFooterClick = async (e: CustomEvent) => {
+		failedOrdersRetryCtaClickAnalytics();
 		const orderItem: orderItem = e.detail;
 		const schemeUrl = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${orderItem?.isin}`;
 		const schemeResponse = await useFetch(schemeUrl);

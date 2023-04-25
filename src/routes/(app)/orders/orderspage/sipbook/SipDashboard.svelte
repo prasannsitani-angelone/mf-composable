@@ -10,7 +10,15 @@
 	import SipSummary from './SipSummary.svelte';
 	import { useFetch } from '$lib/utils/useFetch';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
-	import type { ISip, ISipBookData, ISipBookSummary } from '$lib/types/ISipType';
+	import type { IDueSips, ISip, ISipBookData, ISipBookSummary } from '$lib/types/ISipType';
+	import {
+		inactiveSipsButtonClickAnalytics,
+		sipPaymentDueNudgeImpressionAnalytics,
+		sipbookDashboardScreenOpenAnalytics
+	} from '$lib/analytics/sipbook/sipbook';
+	import { getDateTimeString } from '$lib/utils/helpers/date';
+	import DateFns from '$lib/utils/asyncDateFns';
+	import { nudgeClick, nudgeImpression } from '$lib/analytics/DiscoverFunds';
 
 	const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips`;
 	let showInactiveSipsCta = false;
@@ -48,10 +56,51 @@
 			});
 	};
 
+	const handleInactiveSipsClick = () => {
+		inactiveSipsButtonClickAnalytics();
+	};
+
 	onMount(async () => {
 		await Promise.allSettled([getNudges(), getSipbookSummary()]);
 	});
 
+	const sipPaymentDueNudgeImpressionAnalyticsFunc = () => {
+		let dueSips: IDueSips[];
+		const { format } = DateFns.DateFns;
+		paymentDueSips?.forEach((sip) => {
+			dueSips.push({
+				FundName: sip?.schemeName,
+				Amount: sip?.installmentAmount,
+				SipPaymentDue: sip?.installmentAmount,
+				SipDate: format(new Date(sip?.sipPaymentDate), 'dd-MMM-yyyy'),
+				PayBefore: format(new Date(sip?.sipAmountPayTillDate), 'dd-MMM-yyyy')
+			});
+		});
+		const eventMetaData = {
+			dueSips
+		};
+		sipPaymentDueNudgeImpressionAnalytics(eventMetaData);
+	};
+
+	const sipbookDashboardScreenOpenAnalyticsFunc = () => {
+		const eventMetaData = {
+			ActiveSIPs: sipBookData?.sips?.length,
+			MonthlySIPTotal: sipBookData?.bookOverView?.totalSipInstallmentAmount,
+			SipList: sipBookData?.sips?.map((sip) => ({
+				FundName: sip?.schemeName,
+				Amount: sip?.installmentAmount,
+				NextSIPDate: getDateTimeString(sip?.nextSipDueDate, 'DATE', true)
+			}))
+		};
+		sipbookDashboardScreenOpenAnalytics(eventMetaData);
+	};
+
+	onMount(() => {
+		sipbookDashboardScreenOpenAnalyticsFunc();
+	});
+	$: if (paymentDueSips.length) {
+		sipPaymentDueNudgeImpressionAnalyticsFunc();
+	}
 	export { sipBookData, data };
 </script>
 
@@ -73,7 +122,12 @@
 						<section class="mb-2">
 							{#each nudgeData || [] as nudge, idx (idx)}
 								{#if nudge?.nudgesType === 'mandate'}
-									<DiscoverFundsNudge {nudge} class="mt-2 sm:mt-4" />
+									<DiscoverFundsNudge
+										{nudge}
+										clickEvent={nudgeClick}
+										impressionEvent={nudgeImpression}
+										class="mt-2 sm:mt-4"
+									/>
 								{/if}
 							{/each}
 						</section>
@@ -88,7 +142,12 @@
 						<section class="mb-2">
 							{#each nudgeData || [] as nudge, idx (idx)}
 								{#if nudge?.nudgesType === 'mandate'}
-									<DiscoverFundsNudge {nudge} class="mt-2 sm:mt-4" />
+									<DiscoverFundsNudge
+										{nudge}
+										clickEvent={nudgeClick}
+										impressionEvent={nudgeImpression}
+										class="mt-2 sm:mt-4"
+									/>
 								{/if}
 							{/each}
 						</section>
@@ -97,7 +156,7 @@
 			</section>
 
 			<!-- Inactive SIPs CTA section -->
-			<Link to="/sipbook/inactivesips">
+			<Link to="/sipbook/inactivesips" on:linkClicked={handleInactiveSipsClick}>
 				{#if showInactiveSipsCta}
 					<section class="mt-8 cursor-default text-center text-sm font-semibold text-blue-primary">
 						INACTIVE SIPs

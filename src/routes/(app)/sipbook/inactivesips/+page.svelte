@@ -16,11 +16,13 @@
 	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 	import type { AppContext } from '$lib/types/IAppContext';
 	import { getContext } from 'svelte';
+	import { restartSipButtonClickAnalytics } from '$lib/analytics/sipbook/sipbook';
 
 	const userType = profileStore.userType();
 	const appContext: AppContext = getContext('app');
 	const redirectToOrderPad = (sip: IInactiveSip) => {
 		// TODO: To change the navigation after the proper release
+		restartSipButtonClickAnalyticsFunc(sip);
 		const reRouteUrl = $page?.data?.isBrowser ? 'schemes' : 'schemes/invest';
 		const path = `${reRouteUrl}/${normalizeFundName(sip?.schemeName, sip?.Isin, sip?.schemeCode)}`;
 		const params = encodeObject({
@@ -30,6 +32,16 @@
 		goto(
 			`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/${path}?params=${params}`
 		);
+	};
+
+	const restartSipButtonClickAnalyticsFunc = (sip: IInactiveSip) => {
+		const eventMetaData = {
+			sipId: sip?.sipId,
+			schemeName: sip?.schemeName,
+			installmentAmount: sip?.installmentAmount,
+			cancellationDate: getDateTimeString(sip?.cancelledTs, 'DATE', true)
+		};
+		restartSipButtonClickAnalytics(eventMetaData);
 	};
 
 	export let data: PageData;

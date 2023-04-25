@@ -2,12 +2,13 @@
 	import InvalidUrl from '$components/Error/InvalidUrl.svelte';
 	import SipHistory from '../SipDetails/SipHistory.svelte';
 	import type { PageData } from './$types';
+	import SipHistoryLoader from './SipHistoryLoader.svelte';
 
 	export let data: PageData;
 </script>
 
 {#await data?.api?.getSipData}
-	Loading...
+	<SipHistoryLoader />
 {:then sipData}
 	{#if sipData}
 		<section class="m-2">

@@ -1,6 +1,8 @@
 import { browser } from '$app/environment';
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+import { sipHistoryScreenOpenAnalytics } from '$lib/analytics/sipbook/sipbook';
 import type { ISip } from '$lib/types/ISipType';
+import { getDateTimeString } from '$lib/utils/helpers/date';
 import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
 
@@ -9,8 +11,20 @@ export const load = (async ({ fetch, params }) => {
 	let sipData: ISip;
 	const getSipData = async () => {
 		const res = await useFetch(sipUrl + '?history=true', {}, fetch);
-		if (res.ok) {
-			return res?.data?.data;
+		if (res.ok && res?.data?.data) {
+			const { sipId, sipOrderHistory } = res.data.data;
+			const eventMetaData = {
+				SIPId: sipId,
+				SIPHistory: sipOrderHistory?.map(
+					(item: { orderCompletionTs: number; orderStatus: string; Message: any }) => ({
+						OrderCompletionDate: getDateTimeString(item?.orderCompletionTs, 'DATE', true),
+						Status: item?.orderStatus?.toUpperCase() === 'VALID' ? 'Success' : 'Failed',
+						Message: item?.Message
+					})
+				)
+			};
+			sipHistoryScreenOpenAnalytics(eventMetaData);
+			return res.data.data;
 		}
 		return sipData;
 	};
