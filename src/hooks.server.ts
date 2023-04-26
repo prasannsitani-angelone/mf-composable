@@ -1,8 +1,7 @@
 import getAuthToken from '$lib/server/getAuthToken';
 import type { UserProfile } from '$lib/types/IUserProfile';
-import type { WMSCookie } from '$lib/types/IWMSCookie';
 import { isDevMode } from '$lib/utils/helpers/dev';
-import { getUserTokenFromCookie } from '$lib/utils/helpers/token';
+import { getUserCookieName, getUserTokenFromCookie } from '$lib/utils/helpers/token';
 import Logger from '$lib/utils/logger';
 import { useProfileFetch } from '$lib/utils/useProfileFetch';
 import type { Handle, HandleFetch } from '@sveltejs/kit';
@@ -12,10 +11,10 @@ import { handleDeviecDetector } from 'sveltekit-device-detector';
 const deviceDetector = handleDeviecDetector({});
 
 const handler = (async ({ event, resolve }) => {
-	const cookie: WMSCookie = parse(event.request.headers.get('cookie') || '');
+	const cookie: Record<string, string> = parse(event.request.headers.get('cookie') || '');
 
 	let isAuthenticatedUser = true;
-	const ABUserCookie = getUserTokenFromCookie(cookie['ABUserCookie']);
+	const ABUserCookie = getUserTokenFromCookie(cookie[getUserCookieName()]);
 	let token = event.request.headers.get('authtoken') || ABUserCookie?.NTAccessToken || '';
 	const refreshToken =
 		event.request.headers.get('refreshtoken') || ABUserCookie?.NTRefreshToken || '';

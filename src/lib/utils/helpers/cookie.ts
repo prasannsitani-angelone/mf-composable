@@ -2,7 +2,8 @@ export const setCookie = (cname: string, cvalue: string, options?: object) => {
 	let expires = '';
 	let ss = '';
 	let secureFlag = '';
-	const { sameSite, secure, exDays } = options || {};
+	let domainStr = '';
+	const { sameSite, secure, exDays, domain } = options || {};
 	if (exDays) {
 		const d = new Date();
 		d.setTime(d.getTime() + exDays * 24 * 60 * 60 * 1000);
@@ -14,8 +15,11 @@ export const setCookie = (cname: string, cvalue: string, options?: object) => {
 	if (secure) {
 		secureFlag = 'secure;';
 	}
+	if (domain) {
+		domainStr = `domain=${domain}`;
+	}
 
-	document.cookie = `${cname}=${cvalue};${expires}${ss}${secureFlag}`;
+	document.cookie = `${cname}=${cvalue};${expires}${ss}${secureFlag}${domainStr}`;
 };
 
 export const getCookie = (cname: string) => {

@@ -1,37 +1,88 @@
-import AES from 'crypto-js/aes';
-import utf8 from 'crypto-js/enc-utf8';
+import { decompressSync, zlibSync, strToU8 } from 'fflate';
+import { isDevMode } from './dev';
 import { setCookie } from './cookie';
+import { PUBLIC_ENV_NAME, PUBLIC_APP_USER_COOKIE } from '$env/static/public';
 
-export const decryptToken = (token: string | null, tokenEncryptionPassPhrase: string) => {
+export const getUserCookieName = (): string => {
+	return PUBLIC_APP_USER_COOKIE;
+};
+
+export const getUserCookieOptions = () => {
+	const options = {
+		secure: isDevMode() ? '' : true,
+		sameSite: 'strict'
+	};
+	if (!isDevMode() && PUBLIC_ENV_NAME === 'prod') {
+		options.domain = '.angelone.in';
+	}
+	return options;
+};
+
+export function fnDecompressData(b64Data: string, rettype?: string) {
+	if (!b64Data) return {};
+	// Decode base64 (convert ascii to binary)
+	const strData = atob(b64Data);
+	// Convert binary string to character-number array
+	const charData = strData.split('').map(function (x) {
+		return x.charCodeAt(0);
+	});
+
+	// Turn number array into byte-array
+	const binData = new Uint8Array(charData);
+	// fflate magic
+	try {
+		const data = decompressSync(binData);
+		const response = data.reduce(function (data, byte) {
+			return data + String.fromCharCode(byte);
+		}, '');
+		if (rettype) return response;
+		else return JSON.parse(response);
+	} catch (error) {
+		console.log('error', error);
+		return {};
+	}
+}
+
+function _arrayBufferToBase64(bytes) {
+	let binary = '';
+	const len = bytes.byteLength;
+	for (let i = 0; i < len; i++) {
+		binary += String.fromCharCode(bytes[i]);
+	}
+	return btoa(binary);
+}
+
+export function fnCompressData(str: string) {
+	if (!str) return;
+	const compressed = zlibSync(strToU8(str));
+	const cs = _arrayBufferToBase64(compressed);
+	return cs;
+}
+
+export const decryptToken = (token: string | null) => {
 	if (token) {
-		const bytes = AES.decrypt(token, tokenEncryptionPassPhrase);
-		return JSON.parse(bytes.toString(utf8));
+		return fnDecompressData(token);
 	}
 	return null;
 };
 
-export const encryptToken = (token: object | null, tokenEncryptionPassPhrase: string) => {
+export const encryptToken = (token: object | null) => {
 	if (token) {
-		const result = AES.encrypt(JSON.stringify(token), tokenEncryptionPassPhrase).toString();
-		return result;
+		return fnCompressData(JSON.stringify(token));
 	}
 	return null;
 };
 
 export const setUserTokenInCookie = (token: object) => {
-	if (token) {
-		const encryptedToken = encryptToken(token, '@nge|$p@rk2021');
-		setCookie('ABUserCookie', encryptedToken, {
-			sameSite: 'Strict',
-			secure: true
-		});
+	const encryptedToken = encryptToken(token);
+	if (encryptedToken) {
+		setCookie(getUserCookieName(), encryptedToken, getUserCookieOptions());
 	}
 };
 
 export const getUserTokenFromCookie = (cookie: string | undefined) => {
 	if (cookie) {
-		const decryptedToken = decryptToken(cookie, '@nge|$p@rk2021');
-		return decryptedToken;
+		return decryptToken(cookie);
 	}
 	return null;
 };
