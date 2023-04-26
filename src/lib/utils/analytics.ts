@@ -1,5 +1,10 @@
 import BaseLogger from './baseLogger';
 import { format } from 'date-fns';
+// import { tokenStore } from '$lib/stores/TokenStore';
+import { profileStore } from '$lib/stores/ProfileStore';
+import { appStore } from '$lib/stores/SparkStore';
+import { deviceStore } from '$lib/stores/DeviceStore';
+import { PUBLIC_ANALYTICS_TOPIC, PUBLIC_ENV_NAME } from '$env/static/public';
 
 class Analytics extends BaseLogger {
 	constructor() {
@@ -21,17 +26,17 @@ class Analytics extends BaseLogger {
 			api_min: date.getMinutes(),
 			api_timestamp: date.getTime(),
 			api_timestamp_unix: format(date, 'yyyy-mm-dd hh:mm:ss.SSS'),
-			//   app_id: sparkStore.deviceID,
+			app_id: appStore.deviceid(),
 			app_version_id: 'mf',
-			//   build_release: runtimeConfig.name,
-			//   client_id: profileStore.profileData.data?.data?.clientId || 'guest',
+			build_release: PUBLIC_ENV_NAME,
+			client_id: profileStore?.clientId() || 'guest',
 			client_ip: '',
-			//   device_manufacturer: deviceStore.platform,
-			//   device_model: getBrowserName(),
+			device_manufacturer: deviceStore.vendor(),
+			device_model: deviceStore.model(),
 			device_token: '',
-			//   os_version: deviceStore.userAgent,
-			//   pipe_topic: runtimeConfig.AnalyticsTopic,
-			//   platform: sparkStore.platform,
+			os_version: deviceStore.osVersion(),
+			pipe_topic: PUBLIC_ANALYTICS_TOPIC,
+			platform: appStore.platform(),
 			//   session_id: tokenStore.sessionID,
 			release_code: 'analytics2.0',
 			user_id: '',

@@ -52,7 +52,10 @@ function Store() {
 		isSparkIOSUser: () => {
 			return sparkStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS;
 		},
-		closecta: () => sparkStore.closecta
+		closecta: () => sparkStore.closecta,
+		platformversion: () => sparkStore.platformversion,
+		platformvariant: () => sparkStore.platformvariant,
+		deviceid: () => sparkStore.deviceid
 	};
 }
 

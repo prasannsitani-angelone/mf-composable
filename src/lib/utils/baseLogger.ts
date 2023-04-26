@@ -18,9 +18,7 @@ class BaseLogger {
 			enabled: false,
 			baseUrl: '',
 			url: '',
-			getHeaders: () => {
-				return {};
-			},
+			headers: {},
 			getLogsBody: () => {
 				return this._state.logs;
 			},
@@ -33,12 +31,10 @@ class BaseLogger {
 	}
 
 	_init(config: Config) {
-		if (!this._state.initialised) {
-			this._state = {
-				...this._state,
-				...config
-			};
-		}
+		this._state = {
+			...this._state,
+			...config
+		};
 	}
 
 	checkLogLevel(allowedLogLevelArray: string[] = []) {
@@ -54,7 +50,7 @@ class BaseLogger {
 		const options = {
 			body: JSON.stringify(this._state.getLogsBody(logs)),
 			method: 'POST',
-			headers: this._state.getHeaders()
+			headers: this._state.headers
 		};
 		fetch(`${baseUrl}${url}`, options);
 	}

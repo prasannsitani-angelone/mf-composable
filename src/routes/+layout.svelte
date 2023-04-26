@@ -8,20 +8,34 @@
 
 	export let data;
 	// Update store with Spark headers
-	const { scheme, host } = data;
+	const { scheme, host, deviceType } = data;
 
 	setContext('app', {
 		scheme,
 		host
 	});
-
+	// initialising logging for routes outside of (app) like login page
 	Logger.init({
 		batchSize: browser ? 10 : 1,
 		baseUrl: `${scheme}://${host}/mutual-funds-v2/api`,
 		url: '/logging',
 		logLevel: PUBLIC_LOG_LEVEL,
 		enabled: PUBLIC_LOG_ENABLED === 'true',
-		initialised: true
+		initialised: true,
+		headers: {
+			isSSR: !browser,
+			isMobile: deviceType?.isMobile,
+			model: deviceType?.model,
+			os: deviceType?.osName || deviceType?.os,
+			osVersion: deviceType?.osVersion,
+			deviceUserAgent: deviceType?.userAgent || deviceType?.ua,
+			vendor: deviceType?.vendor,
+			isDesktop: deviceType?.isBrowser,
+			browserVersion: deviceType?.browserFullVersion,
+			browserName: deviceType?.browserName,
+			isCrawler: deviceType?.isCrawler,
+			platform: deviceType?.platform
+		}
 	});
 
 	onMount(() => {
