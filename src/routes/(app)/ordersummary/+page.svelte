@@ -73,17 +73,16 @@
 		subHeaderClass: ''
 	};
 	const schemeCardItems: Array<SchemeCardItems> = [];
+	const schemeDetails = {};
 	const statusHistoryItems: Array<Record<string, any>> = [];
 
 	const sipData = data.api.sipData;
 	const orderData = data.api.ordersData;
 	const isLumpsumOrder = orderID && !sipID;
-	const isSIPOrder = orderID && sipID;
+	const isSIPOrder = (orderID && sipID) || (!firstTimePayment && sipID);
 	let emandateBankDetails: BankDetailsEntity | undefined;
 
-	if (!firstTimePayment) {
-		headerContent.heading = 'SIP Created Successfully';
-	} else if (orderData?.ok) {
+	if (orderData?.ok) {
 		const data = orderData?.data?.data;
 		if (data?.statusHistory && data.statusHistory.length > 0) {
 			let previousStepCurrentState: number | null = null;
@@ -135,9 +134,9 @@
 							{
 								text: `Your portfolio will be updated by ${format(
 									new Date(data.statusHistory[data.statusHistory.length - 1].timeStamp),
-									'do MMMM'
+									'do MMMM yyyy'
 								)}`,
-								class: ''
+								class: '!text-black-title font-medium'
 							}
 						];
 						headerContent.status = STATUS_ARR.SUCCESS;
@@ -161,7 +160,23 @@
 				title: 'One Time Investment Amount',
 				value: `₹ ${addCommasToAmountString(data?.amount)}`
 			});
+			schemeDetails.logoUrl = data?.logoUrl;
+			schemeDetails.schemePlan = data?.schemePlan;
+			schemeDetails.schemeName = data?.schemeName;
 		}
+	}
+
+	if (!firstTimePayment && sipData?.ok) {
+		const data = sipData?.data?.data;
+		headerContent.heading = 'SIP Created Successfully';
+		headerContent.subHeadingArr = [
+			{
+				text: `Your first SIP payment is on ${getNextSIPDate(data)}`,
+				class: '!text-black-title font-medium'
+			}
+		];
+		headerContent.status = STATUS_ARR.SUCCESS;
+		headerContent.subHeaderClass = 'bg-green-buy/10';
 	}
 
 	if (sipData?.ok) {
@@ -174,7 +189,11 @@
 			title: firstTimePayment ? 'Next SIP Payment' : 'First SIP Payment',
 			value: getNextSIPDate(data)
 		});
+		schemeDetails.logoUrl = data?.logoUrl;
+		schemeDetails.schemePlan = data?.schemePlan;
+		schemeDetails.schemeName = data?.schemeName;
 	}
+
 	$: {
 		emandateBankDetails = getBankDetailsByAccountNumber(
 			data?.profile?.bankDetails,
@@ -197,9 +216,9 @@
 			/>
 			<div class="flex flex-1 flex-col overflow-auto px-2">
 				<SchemeCard
-					logoUrl={orderData?.data?.data?.logoUrl}
-					schemePlan={orderData?.data?.data?.schemePlan}
-					schemeName={orderData?.data?.data?.schemeName}
+					logoUrl={schemeDetails?.logoUrl}
+					schemePlan={schemeDetails?.schemePlan}
+					schemeName={schemeDetails?.schemeName}
 					{schemeCardItems}
 					clazz="mt-2 shadow-csm"
 				/>
