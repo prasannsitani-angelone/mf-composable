@@ -33,7 +33,7 @@
 </script>
 
 <section>
-	<article class="mt-2 lg:mt-0">
+	<article>
 		<ResultItem
 			class={`mb-2 rounded-lg bg-white p-4 shadow-csm md:px-6 md:py-5 ${
 				!isInvestmentNotAllowed && schemeDetails ? 'cursor-pointer' : ''

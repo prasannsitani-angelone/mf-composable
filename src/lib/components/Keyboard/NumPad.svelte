@@ -1,5 +1,8 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
 	import CrossBackIcon from '$lib/images/icons/CrossBackIcon.svelte';
+
+	const dispatch = createEventDispatcher();
 
 	interface keysTypes {
 		label: string;
@@ -36,6 +39,8 @@
 	export let maxNumberLimit: number = Number.MAX_SAFE_INTEGER;
 
 	const handleKeyClick = (val: number | null) => {
+		dispatch('numpadKeyCick');
+
 		const value = val?.toString();
 
 		if (value && value?.length) {

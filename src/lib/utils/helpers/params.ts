@@ -21,3 +21,14 @@ export const decodeToObject = (str = '') => {
 		return {};
 	}
 };
+
+export const getQueryParamsObj = () => {
+	const urlParams = new URLSearchParams(window?.location?.search);
+	const paramsObj = {};
+
+	for (const [key, value] of urlParams) {
+		paramsObj[key] = value;
+	}
+
+	return paramsObj;
+};

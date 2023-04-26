@@ -31,7 +31,6 @@
 	let showCalendar = false;
 	let sipAllowedDaysArray = schemeData?.sipAllowedDays?.trim()?.split(',') || [];
 	let dateSuperscript = 'th';
-	let tempDateSuperscript = 'th';
 	let calendarDate = new Date(schemeData?.sipDate)?.getDate();
 	let calendarMonth = new Date(schemeData?.sipDate)?.toLocaleString('default', { month: 'short' });
 	let calendarYear = new Date(schemeData?.sipDate)?.getFullYear();
@@ -162,14 +161,33 @@
 
 	setNextSipDate();
 
+	const handleAmountInputFocus = () => {
+		const amountInputElement = document?.getElementById('amountInput');
+		amountInputElement?.focus();
+	};
+
+	const resetAmountVal = () => {
+		amountVal = '0';
+		amountVal = amount?.length ? `₹${addCommasToAmountString(amount)}` : '';
+	};
+
 	const onInputChange = (val: string | object) => {
 		let inputValue = val;
 
-		if (!isMobile && val && typeof val === 'object') {
-			inputValue = val?.target?.value;
+		if (isMobile) {
+			if (!val || typeof val === 'object') {
+				resetAmountVal();
+				return;
+			}
+		} else {
+			if (val && typeof val === 'object') {
+				inputValue = val?.target?.value;
+				inputValue = formatAmount(inputValue); // trim, remove alphabets and remove leading zeroes
 
-			if (inputValue?.length && inputValue[0] === '₹') {
-				inputValue = inputValue?.slice(1, inputValue?.length);
+				if (inputValue === amount) {
+					resetAmountVal();
+					return;
+				}
 			}
 		}
 
@@ -240,6 +258,7 @@
 			prefillAmount();
 			setErrorMessage();
 			handleShowTabNotSupported();
+			handleAmountInputFocus();
 		}
 	};
 
@@ -253,6 +272,10 @@
 
 	onMount(() => {
 		handleShowTabNotSupported();
+
+		if (isMobile) {
+			handleAmountInputFocus();
+		}
 	});
 
 	const toggleCalendar = () => {
@@ -262,11 +285,14 @@
 		tempCalendarMonth = calendarMonth;
 		tempCalendarYear = calendarYear;
 		dateSuperscript = getDateSuperscript(tempCalendarDate);
+
+		if (!showCalendar) {
+			handleAmountInputFocus();
+		}
 	};
 
 	const handleDateSelect = (value: unknown) => {
 		tempCalendarDate = value?.detail;
-		tempDateSuperscript = getDateSuperscript(tempCalendarDate);
 
 		const now = new Date();
 		const month = getSIPMonthBasedOnDate(tempCalendarDate, now, firstSipPayment ? 30 : 10);
@@ -286,7 +312,7 @@
 	};
 </script>
 
-<section class="w-full rounded-lg bg-grey shadow-csm">
+<section class={`h-fit w-full rounded-lg bg-grey shadow-csm ${$$props?.class}`}>
 	<slot name="header">
 		<section class="hidden rounded-t-lg bg-white px-3 py-5 font-medium text-black-title md:block">
 			Your Investment Pad
@@ -324,20 +350,20 @@
 			>
 				<!-- svelte-ignore a11y-label-has-associated-control -->
 				<label class="mb-2 text-xs font-normal text-black-title">Amount</label>
-				<section
+				<button
 					class="flex w-full cursor-text items-center justify-start rounded border border-gray-200 px-3 py-2"
+					on:click={handleAmountInputFocus}
 				>
 					<input
 						id="amountInput"
-						inputmode="numeric"
+						inputmode="none"
 						maxlength="13"
 						placeholder="₹"
 						value={amountVal}
-						readonly={isMobile}
 						class="w-full bg-white text-base font-medium leading-none text-black-title outline-none"
 						on:input={onInputChange}
 					/>
-				</section>
+				</button>
 			</article>
 
 			<!-- Date (Calendar) input -->
@@ -354,7 +380,7 @@
 						}}
 					>
 						<input
-							id="amountInput"
+							id="dateSelector"
 							inputmode="numeric"
 							value={`${calendarDate}${dateSuperscript}`}
 							readonly
@@ -444,7 +470,12 @@
 			</article>
 
 			<!-- On-screen numpad keyboard for Mobile layout -->
-			<NumPad class="block md:hidden" bind:number={amount} maxNumberLimit={maximumAmountLimit} />
+			<NumPad
+				class="block md:hidden"
+				maxNumberLimit={maximumAmountLimit}
+				bind:number={amount}
+				on:numpadKeyCick={handleAmountInputFocus}
+			/>
 		</section>
 	</article>
 

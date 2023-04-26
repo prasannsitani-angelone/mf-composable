@@ -191,6 +191,9 @@ export interface FolioHoldingType {
 	switchFlag: string;
 	stpFlag: string;
 	swpFlag: string;
+	amcCode: number;
+	distributors: Array<DistributorsType>;
+	rtaName: string;
 }
 
 export interface CharDataEntity {
@@ -219,4 +222,9 @@ export interface FolioTableColumn {
 export interface FolioTableData {
 	columns: FolioTableColumn[];
 	rows: FolioObject[];
+}
+
+export interface DistributorsType {
+	distributor: string;
+	folio: string;
 }
