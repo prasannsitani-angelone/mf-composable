@@ -21,6 +21,7 @@
 
 	let sipCount = 0;
 	let alertSleeveText = '';
+	let skipSipText = '';
 	let sip: ISip;
 	let bankLogo = '';
 	let isUpcomingSip = false;
@@ -49,6 +50,12 @@
 			)}, today`;
 			isCurrentDateEqualToT3Date = true;
 		}
+	};
+	const setSkipPaymentText = () => {
+		const lastSkipDate = new Date(sip?.skipSipDueDate);
+		skipSipText = `SIP instalment skipped for ${lastSkipDate.toLocaleString('default', {
+			month: 'long'
+		})} ${lastSkipDate.getFullYear()}.`;
 	};
 	const handleSipPaymentClick = (isCta: boolean) => {
 		// TODO: To change the navigation after the proper release
@@ -121,6 +128,7 @@
 		await DateFns.init();
 	});
 	setAlertSleeveText();
+	setSkipPaymentText();
 	export { sip, sipCount, bankLogo, inactiveSip };
 </script>
 
@@ -130,7 +138,7 @@
 	on:keydown={handleClick}
 >
 	<!-- Header section -->
-	{#if sip?.isSipPaymentNudge}
+	{#if sip?.isSipPaymentNudge && !sip?.installmentSkip}
 		<section
 			class="flex items-center justify-between rounded-t-lg border-l-4 border-yellow-primary bg-gradient-to-r from-white to-yellow-primary/10 py-2 px-3.5 font-medium text-black"
 		>
@@ -258,6 +266,11 @@
 						</div>
 					</NudgeComponent>
 				{/if}
+			</section>
+		{/if}
+		{#if sip?.installmentSkip}
+			<section class="px-3 pb-4">
+				<NudgeComponent nudgeText={skipSipText} nudgeClasses="!p-1" />
 			</section>
 		{/if}
 	</slot>

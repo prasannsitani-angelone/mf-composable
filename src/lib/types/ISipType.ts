@@ -53,6 +53,8 @@ export interface ISip {
 	sipPaymentDate: number;
 	sipAmountPayTillDate: number;
 	isSipPaymentNudge: boolean;
+	installmentSkip: boolean;
+	skipSipDueDate: string;
 }
 
 export interface ISipOrderHistory {
