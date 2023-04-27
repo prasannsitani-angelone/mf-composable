@@ -86,3 +86,27 @@ export const getUserTokenFromCookie = (cookie: string | undefined) => {
 	}
 	return null;
 };
+
+export const decodeToken = (token: string) => {
+	try {
+		return JSON.parse(atob(token.split('.')[1]));
+	} catch (err) {
+		return {};
+	}
+};
+
+export const getTokenExpiryTime = (token: string) => {
+	return decodeToken(token)?.exp;
+};
+
+export const isTokenExpired = (token = '') => {
+	if (!token) {
+		return false;
+	}
+	const currentTime = Math.ceil(Date.now() / 1000); // Date.now gives in ms hence converting to seconds
+	const expTime = getTokenExpiryTime(token);
+	if (expTime && expTime < currentTime) {
+		return true;
+	}
+	return false;
+};

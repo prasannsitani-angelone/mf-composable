@@ -78,7 +78,7 @@ export const load = (async ({ url, request, locals, cookies, fetch }) => {
 		};
 	}
 	if (!localProfileData.clientId && !isGuest) {
-		localProfileData = await useProfileFetch(url.origin, locals, fetch);
+		localProfileData = await useProfileFetch(url.origin, token, fetch);
 		cookies.set('UserType', localProfileData?.userType);
 		cookies.set('AccountType', localProfileData?.dpNumber ? 'D' : 'P');
 	}
@@ -87,6 +87,7 @@ export const load = (async ({ url, request, locals, cookies, fetch }) => {
 		sparkHeaders,
 		profile: localProfileData,
 		tokenObj,
-		searchDashboardData
+		searchDashboardData,
+		isGuest
 	};
 }) satisfies LayoutServerLoad;

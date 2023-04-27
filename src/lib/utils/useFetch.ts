@@ -1,7 +1,7 @@
 import { browser } from '$app/environment';
 import { profileStore } from '$lib/stores/ProfileStore';
 import { appStore } from '$lib/stores/SparkStore';
-import { tokenStore } from '$lib/stores/TokenStore';
+import { AUTH_STATE_ENUM, tokenStore } from '$lib/stores/TokenStore';
 import { v4 as uuidv4 } from 'uuid';
 import { hydrate } from './helpers/hydrated';
 import Logger from '$lib/utils/logger';
@@ -67,6 +67,20 @@ export const useFetch = async (url: string, options: RequestInit = {}, fetchServ
 					response: data
 				}
 			});
+		} else if (res.status === 401) {
+			Logger.error({
+				type: 'Token Expired',
+				params: {
+					url,
+					opts,
+					response: data
+				}
+			});
+			if (browser) {
+				tokenStore.updateStore({
+					state: AUTH_STATE_ENUM.LOGGED_OUT
+				});
+			}
 		} else {
 			Logger.error({
 				type: 'Network Response Error',

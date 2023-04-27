@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { page as appPage } from '$app/stores';
+	import { goto } from '$app/navigation';
 	import { appStore } from '$lib/stores/SparkStore';
 	import type { LayoutData } from './$types';
-	import { tokenStore } from '$lib/stores/TokenStore';
+	import { AUTH_STATE_ENUM, tokenStore } from '$lib/stores/TokenStore';
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import { onMount } from 'svelte';
 	import Logger from '$lib/utils/logger';
@@ -15,12 +16,21 @@
 	import Analytics from '$lib/utils/analytics';
 	import { PUBLIC_ANALYTICS_ENABLED, PUBLIC_ANALYTICS_URL } from '$env/static/public';
 	import { deviceStore } from '$lib/stores/DeviceStore';
+	import ResultPopup from '$components/Popup/ResultPopup.svelte';
+	import { isTokenExpired } from '$lib/utils/helpers/token';
 
 	export let data: LayoutData;
-	const { sparkHeaders, tokenObj, profile, deviceType } = data;
+	const { sparkHeaders, tokenObj, profile, deviceType, isGuest, scheme, host } = data;
 	// Update store with Spark headers
 	onMount(() => {
-		tokenStore.updateStore({ ...tokenObj });
+		const authState = isGuest
+			? isTokenExpired(tokenObj?.guestToken)
+				? AUTH_STATE_ENUM.GUEST_LOGGED_OUT
+				: AUTH_STATE_ENUM.GUEST_LOGGED_IN
+			: isTokenExpired(tokenObj?.userToken?.NTAccessToken)
+			? AUTH_STATE_ENUM.LOGGED_OUT
+			: AUTH_STATE_ENUM.LOGGED_IN;
+		tokenStore.updateStore({ ...tokenObj, state: authState });
 		appStore.updateStore({ ...sparkHeaders });
 		profileStore.updateStore({ ...profile });
 		deviceStore.updateStore({ ...deviceType });
@@ -58,6 +68,9 @@
 			// sessionID: tokenStore.sessionID,
 		}
 	});
+	const navigateToLoginPage = async () => {
+		await goto(`${scheme}://${host}/mutual-funds/login`, { replaceState: true });
+	};
 </script>
 
 {#if $appPage.data?.layoutConfig?.layoutType === 'TWO_COLUMN'}
@@ -80,4 +93,27 @@
 	<Default>
 		<slot />
 	</Default>
+{/if}
+{#if appStore.isSparkUser() && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_OUT}
+	<ResultPopup
+		popupType="FAILURE"
+		title="You have been logged out"
+		text="Please close the app and open again."
+		class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+		isModalOpen
+	>
+		<div slot="popupFooter" />
+	</ResultPopup>
+{:else if $tokenStore.state === AUTH_STATE_ENUM.LOGGED_OUT}
+	<ResultPopup
+		popupType="FAILURE"
+		title="You have been logged out"
+		text="You will be redirected to login page"
+		class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+		isModalOpen
+		handleButtonClick={navigateToLoginPage}
+		buttonTitle="DONE"
+		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
+		buttonVariant="contained"
+	/>
 {/if}

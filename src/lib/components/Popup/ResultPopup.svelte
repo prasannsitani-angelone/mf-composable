@@ -12,6 +12,7 @@
 	let textClass = '';
 	let buttonClass = '';
 	let isModalOpen = false;
+	let buttonVariant: 'outlined' | 'contained' | 'transparent' = 'outlined';
 	let closeModal: (() => void) | null = null;
 	let handleButtonClick: () => void;
 	export {
@@ -24,7 +25,8 @@
 		buttonClass,
 		isModalOpen,
 		closeModal,
-		handleButtonClick
+		handleButtonClick,
+		buttonVariant
 	};
 </script>
 
@@ -54,7 +56,7 @@
 		</slot>
 
 		<slot name="popupFooter">
-			<Button variant="outlined" class={buttonClass} onClick={handleButtonClick}>
+			<Button variant={buttonVariant} class={buttonClass} onClick={handleButtonClick}>
 				{buttonTitle}
 			</Button>
 		</slot>
