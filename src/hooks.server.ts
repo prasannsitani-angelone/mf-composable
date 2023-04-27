@@ -57,7 +57,7 @@ const handler = (async ({ event, resolve }) => {
 	};
 
 	const response = await resolve(event);
-
+	response.headers.set('Cache-Control', 'no-cache');
 	return response;
 }) satisfies Handle;
 

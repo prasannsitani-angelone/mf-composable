@@ -4,7 +4,8 @@
 	import type { ITab } from '$lib/types/ITab';
 	const activeTabClass =
 		'border-b-[3px] rounded-none text-blue-primary pb-5 border-blue-primary hover:border-blue-primary';
-	const inactiveTabClass = 'text-grey-body rounded-none  pb-5 border-b-[3px] border-white';
+	const inactiveTabClass =
+		'text-grey-body rounded-none  pb-5 border-b-[3px] border-white hover:!border-transparent';
 	let activeTab: string;
 	let tabs: ITab[];
 	$: deviceType = $page?.data?.deviceType;
