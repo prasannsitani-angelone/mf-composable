@@ -128,7 +128,9 @@
 		await DateFns.init();
 	});
 	setAlertSleeveText();
-	setSkipPaymentText();
+	$: if (sip?.skipSipDueDate) {
+		setSkipPaymentText();
+	}
 	export { sip, sipCount, bankLogo, inactiveSip };
 </script>
 
