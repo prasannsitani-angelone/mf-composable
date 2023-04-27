@@ -17,8 +17,8 @@
 		sipbookDashboardScreenOpenAnalytics
 	} from '$lib/analytics/sipbook/sipbook';
 	import { getDateTimeString } from '$lib/utils/helpers/date';
-	import DateFns from '$lib/utils/asyncDateFns';
 	import { nudgeClick, nudgeImpression } from '$lib/analytics/DiscoverFunds';
+	import { format } from 'date-fns';
 
 	const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips`;
 	let showInactiveSipsCta = false;
@@ -65,8 +65,7 @@
 	});
 
 	const sipPaymentDueNudgeImpressionAnalyticsFunc = () => {
-		let dueSips: IDueSips[];
-		const { format } = DateFns.DateFns;
+		let dueSips: IDueSips[] = [];
 		paymentDueSips?.forEach((sip) => {
 			dueSips.push({
 				FundName: sip?.schemeName,

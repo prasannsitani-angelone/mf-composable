@@ -6,7 +6,7 @@
 </script>
 
 <div class="flex-no-wrap fixed flex h-full w-full flex-col bg-grey">
-	<header class="flex-shrink-0 bg-white shadow-clg">
+	<header class="relative flex-shrink-0 bg-white">
 		<Header />
 	</header>
 	<main class="scroll-lock w-full flex-grow overflow-auto">

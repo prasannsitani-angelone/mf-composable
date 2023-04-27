@@ -10,7 +10,7 @@
 </script>
 
 <div class="flex-no-wrap fixed flex h-full w-full flex-col bg-grey">
-	<header class="flex-shrink-0 bg-white shadow-clg">
+	<header class="flex-shrink-0 bg-white">
 		<Header />
 	</header>
 	<main class="scroll-lock w-full flex-grow overflow-auto px-2 py-2 lg:pb-20">

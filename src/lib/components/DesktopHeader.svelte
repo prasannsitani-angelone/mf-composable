@@ -21,7 +21,7 @@
 	const appContext: AppContext = getContext('app');
 </script>
 
-<section class="p-2 pl-4 text-center md:p-5">
+<section class="p-2 pl-4 text-center shadow-clg md:p-5">
 	<!-- md and upper (medium and larger) screen layout -->
 	<article class="flex-col items-center justify-center gap-10 sm:m-[1px] md:flex md:flex-row">
 		<div class="mr-6 cursor-pointer">

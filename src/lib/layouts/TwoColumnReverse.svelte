@@ -11,7 +11,7 @@
 
 <div class="flex-no-wrap fixed flex h-full w-full flex-col bg-grey">
 	<!-- header (navbar) -->
-	<header class="flex-shrink-0 bg-white shadow-clg">
+	<header class="flex-shrink-0 bg-white">
 		<Header />
 	</header>
 

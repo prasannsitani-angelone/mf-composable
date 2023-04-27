@@ -11,7 +11,7 @@
 </script>
 
 {#if $page?.data?.deviceType?.isMobile}
-	<section class="p-2 pl-4 text-center md:p-5">
+	<section class="p-2 pl-4 text-center shadow-csm md:p-5">
 		<article class="flex flex-col items-center justify-around py-[6px] md:hidden">
 			<section class="flex w-full items-center justify-between">
 				<article>
