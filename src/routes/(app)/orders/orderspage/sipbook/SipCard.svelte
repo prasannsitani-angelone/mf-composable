@@ -75,7 +75,9 @@
 				`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/${path}?params=${params}`
 			);
 		} else if (!isCta) {
-			goto(`${base}/sipbook/${sip?.sipId}`);
+			goto(
+				`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/sipbook/${sip?.sipId}`
+			);
 		}
 	};
 

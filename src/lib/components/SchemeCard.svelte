@@ -1,6 +1,9 @@
 <script lang="ts">
+	import type { AppContext } from '$lib/types/IAppContext';
 	import type { WeeklyTopSchemesEntity } from '$lib/types/IDiscoverFunds';
+	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
+	import { getContext } from 'svelte';
 	import ChipArqRating from './ChipArqRating.svelte';
 	import ChipOverview from './ChipOverview.svelte';
 
@@ -11,7 +14,7 @@
 	let showLogo = true;
 	let preventRedirectOnSchemeClick = false;
 	let redirectUrl = '';
-
+	const appContext: AppContext = getContext('app');
 	export { schemes, showLogo, preventRedirectOnSchemeClick, redirectUrl };
 </script>
 
@@ -20,7 +23,8 @@
 	to={`${
 		redirectUrl
 			? redirectUrl
-			: '/schemes/' + normalizeFundName(schemes?.schemeName, schemes?.isin, schemes?.schemeCode)
+			: `${getNavigationBaseUrl('', appContext.scheme, appContext.host)}/schemes/` +
+			  normalizeFundName(schemes?.schemeName, schemes?.isin, schemes?.schemeCode)
 	}`}
 	class={`flex items-start justify-between ${$$props.class}`}
 >
