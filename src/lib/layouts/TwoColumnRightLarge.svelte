@@ -7,11 +7,15 @@
 	import { getContext } from 'svelte';
 	$: pageMetaData = $page?.data?.layoutConfig;
 	const appContext: AppContext = getContext('app');
+	let searchFocused = false;
+	const handleSearchFocus = (e: { detail: boolean }) => {
+		searchFocused = e.detail;
+	};
 </script>
 
 <div class="flex-no-wrap fixed flex h-full w-full flex-col bg-grey">
 	<header class="flex-shrink-0 bg-white">
-		<Header />
+		<Header on:handleSearchFocus={handleSearchFocus} />
 	</header>
 
 	<!-- page body -->

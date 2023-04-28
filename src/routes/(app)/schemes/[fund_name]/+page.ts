@@ -11,7 +11,15 @@ export const load = (async ({ fetch, params }) => {
 	const [isin = '', schemeCode = ''] = schemeMetadata?.split('-SCHEMECODE-') || [];
 	const getSchemeData = async () => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/${schemeCode}`;
-		const res = await useFetch(url, {}, fetch);
+		const res = await useFetch(
+			url,
+			{
+				headers: {
+					'X-LRU': 'true'
+				}
+			},
+			fetch
+		);
 		const schemeData: SchemeDetails = res.data;
 
 		return schemeData;

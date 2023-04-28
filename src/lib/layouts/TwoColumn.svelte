@@ -2,22 +2,30 @@
 	import { page } from '$app/stores';
 	import BottomNavigation from '$components/BottomNavigation.svelte';
 	import Header from '$components/Headers/Header.svelte';
+	import Overlay from '$components/Overlay.svelte';
 	import { BOTTOM_NAVBARS } from '$lib/constants/navItems';
 	import type { AppContext } from '$lib/types/IAppContext';
 	import { getContext } from 'svelte';
 	$: pageMetaData = $page?.data?.layoutConfig;
 	const appContext: AppContext = getContext('app');
+	let searchFocused = false;
+	const handleSearchFocus = (e: { detail: boolean }) => {
+		searchFocused = e.detail;
+	};
 </script>
 
 <div class="flex-no-wrap fixed flex h-full w-full flex-col bg-grey">
 	<!-- header (navbar) Two column-->
-	<header class="flex-shrink-0 bg-white">
-		<Header />
+	<header class="z-[70] flex-shrink-0 bg-white shadow-clg">
+		<Header on:handleSearchFocus={handleSearchFocus} />
 	</header>
 
 	<!-- page body -->
 	<main class="scroll-lock w-full flex-grow overflow-auto px-2 py-2 lg:pb-20">
 		<!-- <slot name="breadcrumbs"></slot> -->
+		{#if searchFocused}
+			<Overlay />
+		{/if}
 		<section class="m-auto flex max-w-8xl flex-wrap justify-center">
 			<section class="w-full lg:grid lg:grid-cols-[66%_34%] lg:gap-5 lg:pt-3 xl:w-4/5">
 				<slot />

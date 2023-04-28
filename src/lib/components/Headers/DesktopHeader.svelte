@@ -5,6 +5,8 @@
 	import { getContext } from 'svelte';
 	import type { AppContext } from '$lib/types/IAppContext';
 	import { page } from '$app/stores';
+	import { createEventDispatcher } from 'svelte';
+	import SearchComponent from '$lib/components/Search/SearchComponent.svelte';
 	import { OnNavigation } from '$lib/utils/navigation';
 
 	const logoUrl = `${base}/images/AngelOneLogo.webp`;
@@ -20,6 +22,10 @@
 		? activePageTabClass
 		: inactivePageTabClass;
 	const appContext: AppContext = getContext('app');
+	const dispatch = createEventDispatcher();
+	const handleSearchFocusEvent = (e: { detail: boolean }) => {
+		dispatch('handleSearchFocus', e.detail);
+	};
 </script>
 
 <section class="p-2 pl-4 text-center shadow-clg md:p-5">
@@ -46,6 +52,8 @@
 				INVESTMENTS
 			</div>
 		</Link>
-		<div class="w-full md:w-2/5" />
+		<div class="w-full md:w-2/5">
+			<SearchComponent on:searchFocus={handleSearchFocusEvent} />
+		</div>
 	</article>
 </section>

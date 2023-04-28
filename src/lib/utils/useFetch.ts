@@ -5,6 +5,7 @@ import { AUTH_STATE_ENUM, tokenStore } from '$lib/stores/TokenStore';
 import { v4 as uuidv4 } from 'uuid';
 import { hydrate } from './helpers/hydrated';
 import Logger from '$lib/utils/logger';
+import type { FetchType } from '$lib/types/Fetch';
 
 const defaultOptions = {
 	method: 'GET',
@@ -41,7 +42,7 @@ if (browser) {
 	};
 }
 
-export const useFetch = async (url: string, options: RequestInit = {}, fetchServer: FetchType) => {
+export const useFetch = async (url: string, options: RequestInit = {}, fetchServer?: FetchType) => {
 	const baseFetch = hydrate ? fetch : fetchServer;
 	const opts = {
 		...defaultOptions,

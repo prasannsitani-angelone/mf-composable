@@ -4,7 +4,12 @@
 	import { userStore } from '$lib/stores/UserStore';
 	import { page } from '$app/stores';
 	import { headerStore } from '$lib/stores/HeaderStore';
+	import { createEventDispatcher } from 'svelte';
 	$: pageMetaData = $page?.data?.layoutConfig;
+	const dispatch = createEventDispatcher();
+	const handleSearchFocusEvent = (e: { detail: boolean }) => {
+		dispatch('handleSearchFocus', e.detail);
+	};
 </script>
 
 {#if $page?.data?.deviceType?.isMobile}
@@ -33,7 +38,7 @@
 		</MobileHeader>
 	{/if}
 {:else}
-	<DesktopHeader />
+	<DesktopHeader on:handleSearchFocus={handleSearchFocusEvent} />
 {/if}
 {#if pageMetaData?.component}
 	<svelte:component this={pageMetaData.component} />
