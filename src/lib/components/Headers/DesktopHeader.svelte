@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { base } from '$app/paths';
-	import Link from './Link.svelte';
+	import Link from '../Link.svelte';
 	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 	import { getContext } from 'svelte';
 	import type { AppContext } from '$lib/types/IAppContext';

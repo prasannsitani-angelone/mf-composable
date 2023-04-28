@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import BottomNavigation from '$components/BottomNavigation.svelte';
-	import Header from '$components/Header.svelte';
+	import Header from '$components/Headers/Header.svelte';
 	import { BOTTOM_NAVBARS } from '$lib/constants/navItems';
 	import type { AppContext } from '$lib/types/IAppContext';
 	import { getContext } from 'svelte';

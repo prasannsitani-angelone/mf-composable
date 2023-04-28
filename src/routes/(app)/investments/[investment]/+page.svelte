@@ -219,7 +219,7 @@
 		<!-- Right Side -->
 		{#if !isMobile}
 			<InvestmentPad
-				class="mt-[52px] hidden md:block"
+				class="sticky -top-2 mt-[52px] hidden md:block"
 				schemeData={res.schemeData}
 				fromInvestmentDetailsPage
 			>

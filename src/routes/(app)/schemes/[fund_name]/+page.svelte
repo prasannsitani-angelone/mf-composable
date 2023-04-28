@@ -79,6 +79,10 @@
 
 	<!-- Right Side -->
 	{#if !isMobile}
-		<InvestmentPad class="mt-7 hidden md:block" schemeData={schemedata} fromInvestmentDetailsPage />
+		<InvestmentPad
+			class="sticky -top-2 mt-7 hidden md:block"
+			schemeData={schemedata}
+			fromInvestmentDetailsPage
+		/>
 	{/if}
 {/await}

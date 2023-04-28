@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Header from '$components/Header.svelte';
+	import Header from '$components/Headers/Header.svelte';
 	import type { AppContext } from '$lib/types/IAppContext';
 	import { getContext } from 'svelte';
 	const appContext: AppContext = getContext('app');

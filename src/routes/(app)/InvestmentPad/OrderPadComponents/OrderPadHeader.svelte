@@ -17,7 +17,7 @@
 
 <article class="flex justify-center rounded-t-lg border-b bg-white py-4 px-3">
 	<Button
-		class={`w-[148px] rounded-r-none py-3 ${
+		class={`flex-auto rounded-r-none py-3 ${
 			orderPadActiveTab !== 'INVEST' ? inactiveButtonClass : ''
 		}`}
 		onClick={() => onButtonClick(investmentDetailsFooterEvents?.INVEST)}
@@ -25,7 +25,7 @@
 		INVEST MORE
 	</Button>
 	<Button
-		class={`w-[148px] rounded-l-none py-3 ${
+		class={`flex-auto rounded-l-none py-3 ${
 			orderPadActiveTab !== 'WITHDRAW' ? inactiveButtonClass : ''
 		}`}
 		onClick={() => onButtonClick(investmentDetailsFooterEvents?.WITHDRAW)}

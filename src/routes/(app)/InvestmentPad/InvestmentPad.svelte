@@ -1,6 +1,8 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { page } from '$app/stores';
+	import { headerStore } from '$lib/stores/HeaderStore';
+	import MobileHeader from '$components/Headers/MobileHeader.svelte';
 	import Button from '$components/Button.svelte';
 	import NumPad from '$components/Keyboard/NumPad.svelte';
 	import CalendarSmallIcon from '$lib/images/icons/CalendarSmallIcon.svelte';
@@ -275,6 +277,14 @@
 
 		if (isMobile) {
 			handleAmountInputFocus();
+
+			$headerStore.showMobileHeader = false;
+		}
+	});
+
+	onDestroy(() => {
+		if (isMobile) {
+			$headerStore.showMobileHeader = true;
 		}
 	});
 
@@ -318,6 +328,17 @@
 			Your Investment Pad
 		</section>
 	</slot>
+	{#if isMobile && !$headerStore?.showMobileHeader}
+		<slot name="customMobileHeader">
+			<MobileHeader
+				title={schemeData?.schemeName}
+				showSearchIcon={false}
+				showBackIcon={true}
+				showCloseIcon={false}
+				class="-mx-2 -mt-2 mb-2 bg-white"
+			/>
+		</slot>
+	{/if}
 	<article class="mb-4 rounded-lg bg-white text-black-title md:mx-3 md:mt-2">
 		<!-- Tab Section (SIP | ONE TIME) -->
 		<section class="bg-whites flex rounded-lg rounded-b-none text-black-title">
