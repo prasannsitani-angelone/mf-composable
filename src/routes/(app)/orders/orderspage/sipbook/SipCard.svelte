@@ -88,6 +88,7 @@
 				)}/${path}?orderpad=INVEST&params=${params}`
 			);
 		} else if (!isCta) {
+			OnNavigation();
 			goto(
 				`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/sipbook/${sip?.sipId}`
 			);
