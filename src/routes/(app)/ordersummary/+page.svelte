@@ -246,11 +246,30 @@
 					>
 						GO TO DASHBOARD
 					</Button>
+				{:else if isSIPOrder && orderData?.data?.data?.paymentStatus === 'success'}
+					<AutopaySetupTile
+						clazz="mt-2 hidden sm:flex shadow-csm rounded"
+						onSubmit={navigateToEmandate}
+					/>
 				{:else if isSIPOrder}
 					<AutopaySetupTile
 						clazz="mt-2 hidden sm:flex shadow-csm rounded"
 						onSubmit={navigateToEmandate}
 					/>
+					<Button
+						variant="transparent"
+						class="mt-6 w-max self-center sm:hidden"
+						onClick={navigateToOrders}
+					>
+						GO TO ORDERS
+					</Button>
+					<Button
+						variant="transparent"
+						class="mt-6 hidden w-max self-center sm:flex"
+						onClick={navigateToDashboard}
+					>
+						GO TO DASHBOARD
+					</Button>
 				{:else if isLumpsumOrder}
 					<Button
 						variant="transparent"
