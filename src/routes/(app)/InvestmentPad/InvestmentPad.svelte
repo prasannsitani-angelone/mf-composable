@@ -21,6 +21,7 @@
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import type { dateArrayTypes } from '$lib/types/Calendar/ICalendar';
 	import type { decodedParamsTypes } from '$lib/types/IOrderPad';
+	import TncModal from '$components/TnC/TncModal.svelte';
 
 	export let schemeData: SchemeDetails;
 	export let fromInvestmentDetailsPage: boolean;
@@ -59,6 +60,7 @@
 	let tempCalendarYear = calendarYear;
 	let errorMessage = '';
 	let firstSipPayment = true;
+	let showTncModal = false;
 
 	$: amountVal = amount?.length ? `₹${addCommasToAmountString(amount)}` : '';
 	$: showTabNotSupported = false;
@@ -284,7 +286,7 @@
 	};
 
 	const toggleTncModal = () => {
-		// showTncModal.value = !showTncModal?.value
+		showTncModal = !showTncModal;
 	};
 
 	onMount(() => {
@@ -479,15 +481,9 @@
 				<article class="flex items-center justify-center">
 					<p class="text-center text-xs font-normal text-black-title">
 						By proceeding, you accept Angel One's
-						<span
-							class="text-blue-primary md:cursor-pointer"
-							on:click={toggleTncModal}
-							on:keypress={() => {
-								// add logic
-							}}
-						>
+						<button class="text-blue-primary md:cursor-pointer" on:click={toggleTncModal}>
 							Terms and Conditions
-						</span>
+						</button>
 					</p>
 				</article>
 
@@ -548,5 +544,10 @@
 				</svelte:fragment>
 			</CalendarComponent>
 		</Modal>
+	{/if}
+
+	{#if showTncModal}
+		<!-- T&C Modal -->
+		<TncModal showModal={showTncModal} on:closeModal={toggleTncModal} />
 	{/if}
 </section>
