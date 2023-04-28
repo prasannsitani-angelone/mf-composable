@@ -29,7 +29,7 @@
 	const { sparkHeaders, tokenObj, profile, deviceType, isGuest, scheme, host } = data;
 	// Update store with Spark headers
 	onMount(() => {
-		$externalNavigation.active = false;
+		// $externalNavigation.active = false;
 		const authState = isGuest
 			? isTokenExpired(tokenObj?.guestToken)
 				? AUTH_STATE_ENUM.GUEST_LOGGED_OUT
@@ -101,9 +101,12 @@
 		<slot />
 	</Default>
 {/if}
-<Overlay {isModalOpen} class="justify-center">
-	<LoadingIndicator />
-</Overlay>
+{#if isModalOpen}
+	<Overlay class="justify-center">
+		<LoadingIndicator />
+	</Overlay>
+{/if}
+
 {#if appStore.isSparkUser() && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_OUT}
 	<ResultPopup
 		popupType="FAILURE"
