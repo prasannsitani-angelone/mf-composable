@@ -61,7 +61,7 @@
 	const handleSipPaymentClick = (isCta: boolean) => {
 		// TODO: To change the navigation after the proper release
 		if (isCta) {
-			const reRouteUrl = $page?.data?.isBrowser ? 'schemes' : 'schemes/invest';
+			const reRouteUrl = 'schemes';
 			const path = `${reRouteUrl}/${normalizeFundName(
 				sip?.schemeName,
 				sip?.isin,
@@ -81,7 +81,11 @@
 			});
 			OnNavigation();
 			goto(
-				`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/${path}?params=${params}`
+				`${getNavigationBaseUrl(
+					base,
+					appContext.scheme,
+					appContext.host
+				)}/${path}?orderpad=INVEST&params=${params}`
 			);
 		} else if (!isCta) {
 			goto(

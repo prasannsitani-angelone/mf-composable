@@ -20,9 +20,27 @@
 	import Modal from '$components/Modal.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import type { dateArrayTypes } from '$lib/types/Calendar/ICalendar';
+	import type { decodedParamsTypes } from '$lib/types/IOrderPad';
 
 	export let schemeData: SchemeDetails;
 	export let fromInvestmentDetailsPage: boolean;
+	export let params: decodedParamsTypes = {};
+
+	const {
+		investmentType,
+		investmentAmount,
+		sipDate,
+		ftp,
+		skipOrderPad,
+		redirectedFrom
+		// orderId,
+		// pgTxnId,
+		// requestId,
+		// sipId,
+		// sipRegistrationNumber,
+		// sipDueDate,
+		// source
+	} = params || {};
 
 	const sipPrefillAmount = 100;
 	const lumpsumPrefillAmount = 100;
@@ -40,10 +58,9 @@
 	let tempCalendarMonth = calendarMonth;
 	let tempCalendarYear = calendarYear;
 	let errorMessage = '';
+	let firstSipPayment = true;
 
 	$: amountVal = amount?.length ? `₹${addCommasToAmountString(amount)}` : '';
-	$: firstSipPayment = true;
-	$: redirectedFrom = '';
 	$: showTabNotSupported = false;
 	$: tabNotSupportedType = '';
 	$: isMobile = $page?.data?.deviceType?.isMobile;
@@ -201,29 +218,26 @@
 	$: onInputChange(amount); // for on-screen numpad amount input
 
 	const prefillParamsData = () => {
-		// TODO
-		// if (investmentType) {
-		// 	activeTab = investmentType === 'LUMPSUM' ? 'ONETIME' : 'SIP'
-		// }
-		// if (investmentAmount) {
-		// 	amount = parseInt(investmentAmount)?.toFixed(0)
-		// 	setErrorMessage()
-		// }
-		// if (typeof ftp === 'boolean') {
-		// 	firstSipPayment = ftp
-		// }
-		// if (sipDate) {
-		// 	calendarDate = sipDate
-		// 	dateSuperscript = getDateSuperscript(sipDate)
-		// 	setNextSipDate()
-		// }
-		// if (skipOrderPad && (ftp || activeTab === 'ONETIME')) {
-		// 	showChangePaymentModeSection = ff === 'lf'
-		// 	showChangePaymentModeModal = ff === 'mf'
-		// }
+		if (investmentType) {
+			activeTab = investmentType === 'LUMPSUM' ? 'ONETIME' : 'SIP';
+		}
+		if (investmentAmount) {
+			amount = investmentAmount?.toFixed(0);
+			setErrorMessage();
+		}
+		if (typeof ftp === 'boolean') {
+			firstSipPayment = ftp;
+		}
+		if (sipDate) {
+			calendarDate = sipDate;
+			dateSuperscript = getDateSuperscript(sipDate);
+			setNextSipDate();
+		}
+		if (skipOrderPad && (ftp || activeTab === 'ONETIME')) {
+			// TODO
+			// add logic for skip order pad and directly show payment mode page/modal
+		}
 	};
-
-	prefillParamsData();
 
 	const prefillAmount = () => {
 		if (activeTab === 'SIP') {
@@ -251,6 +265,7 @@
 	};
 
 	prefillAmount();
+	prefillParamsData();
 
 	const switchTabs = (val: string) => {
 		if (val !== activeTab) {

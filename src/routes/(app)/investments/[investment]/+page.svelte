@@ -19,6 +19,7 @@
 	import { orderpadParentPage } from '../../InvestmentPad/constants';
 	import OrderPadHeader from '../../InvestmentPad/OrderPadComponents/OrderPadHeader.svelte';
 	import { investmentDetailsFooterEvents } from './constants';
+	import type { OrderPadTypes } from '$lib/types/IOrderPad';
 
 	export let data: PageData;
 
@@ -30,8 +31,8 @@
 	$: breadCrumbs = [];
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 	$: showInvestmentPad = false;
-	$: queryParamsObj = {};
 	$: holdingsData = <FolioHoldingType>{};
+	$: queryParamsObj = <OrderPadTypes>{};
 
 	let orderPadActiveTab = investmentDetailsFooterEvents?.INVEST;
 	let isInvestmentNotAllowed = false;
@@ -151,7 +152,7 @@
 	};
 
 	const setQueryParamsData = () => {
-		if (queryParamsObj['orderpad'] === 'INVEST') {
+		if (queryParamsObj?.orderpad === 'INVEST') {
 			showInvestmentPad = true;
 		} else {
 			showInvestmentPad = false;

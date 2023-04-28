@@ -53,7 +53,7 @@
 			schemeDetails?.schemeName,
 			schemeDetails?.isin,
 			schemeDetails?.schemeCode
-		)}?params=${encodedQuery}`;
+		)}?orderpad=INVEST&params=${encodedQuery}`;
 		goto(redirectPath);
 	};
 

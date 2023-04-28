@@ -14,13 +14,15 @@
 	import { orderpadParentPage } from '../../InvestmentPad/constants';
 	import InvestmentDetailsFooter from '../../investments/[investment]/components/InvestmentDetailsFooter.svelte';
 	import { afterUpdate } from 'svelte';
-	import { getQueryParamsObj } from '$lib/utils/helpers/params';
+	import { decodeToObject, getQueryParamsObj } from '$lib/utils/helpers/params';
+	import type { OrderPadTypes, decodedParamsTypes } from '$lib/types/IOrderPad';
 
 	export let data: PageData;
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 	$: showInvestmentPad = false;
-	$: queryParamsObj = {};
+	$: queryParamsObj = <OrderPadTypes>{};
+	$: orderpadParams = <decodedParamsTypes>{};
 
 	const handleInvestMoreCtaClick = () => {
 		const currentPath = window?.location?.pathname;
@@ -30,10 +32,14 @@
 	};
 
 	const setQueryParamsData = () => {
-		if (queryParamsObj['orderpad'] === 'INVEST') {
+		if (queryParamsObj?.orderpad === 'INVEST') {
 			showInvestmentPad = true;
 		} else {
 			showInvestmentPad = false;
+		}
+
+		if (queryParamsObj?.params?.length) {
+			orderpadParams = decodeToObject(queryParamsObj?.params);
 		}
 	};
 
@@ -74,7 +80,12 @@
 			/>
 		{/if}
 	{:else}
-		<InvestmentPad class="block md:hidden" schemeData={schemedata} fromInvestmentDetailsPage />
+		<InvestmentPad
+			class="block md:hidden"
+			schemeData={schemedata}
+			fromInvestmentDetailsPage
+			params={orderpadParams}
+		/>
 	{/if}
 
 	<!-- Right Side -->
@@ -83,6 +94,7 @@
 			class="sticky -top-2 mt-7 hidden md:block"
 			schemeData={schemedata}
 			fromInvestmentDetailsPage
+			params={orderpadParams}
 		/>
 	{/if}
 {/await}
