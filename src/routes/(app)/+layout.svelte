@@ -17,11 +17,10 @@
 	import { PUBLIC_ANALYTICS_ENABLED, PUBLIC_ANALYTICS_URL } from '$env/static/public';
 	import { deviceStore } from '$lib/stores/DeviceStore';
 	import LoadingIndicator from '$components/LoadingIndicator.svelte';
-	import Modal from '$components/Modal.svelte';
 	import { externalNavigation } from '$lib/stores/ExtrenalNavigationStore';
-	import Button from '$components/Button.svelte';
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
 	import { isTokenExpired } from '$lib/utils/helpers/token';
+	import Overlay from '$components/Overlay.svelte';
 
 	$: isModalOpen = $externalNavigation.active;
 	// Update store with Spark headers
@@ -102,9 +101,9 @@
 		<slot />
 	</Default>
 {/if}
-<Modal {isModalOpen}>
+<Overlay {isModalOpen} class="justify-center">
 	<LoadingIndicator />
-</Modal>
+</Overlay>
 {#if appStore.isSparkUser() && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_OUT}
 	<ResultPopup
 		popupType="FAILURE"
