@@ -7,6 +7,7 @@
 		"dev": "vite dev",
 		"dev:uat": "cp .env.uat .env && JWT_SYMMETRIC_KEY=aAJALJFLJLSLFJ@##@!12123a vite dev",
 		"dev:cug": "cp .env.cug .env && vite dev",
+		"dev:prod": "cp .env.prod .env && vite dev",
 		"build": "vite build",
 		"build:uat": "cp .env.uat .env && vite build",
 		"build:cug": "cp .env.cug .env && vite build",

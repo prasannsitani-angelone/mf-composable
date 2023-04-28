@@ -5,6 +5,7 @@
 	import { getContext } from 'svelte';
 	import type { AppContext } from '$lib/types/IAppContext';
 	import { page } from '$app/stores';
+	import { OnNavigation } from '$lib/utils/navigation';
 
 	const logoUrl = `${base}/images/AngelOneLogo.webp`;
 	const activePageTabClass =
@@ -29,12 +30,18 @@
 				<img src={logoUrl} alt="Angel One Logo" width="127" height="51" />
 			</Link>
 		</div>
-		<Link to={`${getNavigationBaseUrl('', appContext.scheme, appContext.host)}/discoverfunds`}>
+		<Link
+			to={`${getNavigationBaseUrl('', appContext.scheme, appContext.host)}/discoverfunds`}
+			on:linkClicked={OnNavigation}
+		>
 			<div class={`hidden cursor-pointer uppercase md:block ${discoverFundsTabClass}`}>
 				Discover
 			</div>
 		</Link>
-		<Link to={`${getNavigationBaseUrl('', appContext.scheme, appContext.host)}/investments`}>
+		<Link
+			to={`${getNavigationBaseUrl('', appContext.scheme, appContext.host)}/investments`}
+			on:linkClicked={OnNavigation}
+		>
 			<div class={`mr-4 hidden cursor-pointer uppercase md:block ${myInvestmentsTabClass}`}>
 				INVESTMENTS
 			</div>

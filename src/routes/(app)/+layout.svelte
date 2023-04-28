@@ -16,13 +16,21 @@
 	import Analytics from '$lib/utils/analytics';
 	import { PUBLIC_ANALYTICS_ENABLED, PUBLIC_ANALYTICS_URL } from '$env/static/public';
 	import { deviceStore } from '$lib/stores/DeviceStore';
+	import LoadingIndicator from '$components/LoadingIndicator.svelte';
+	import Modal from '$components/Modal.svelte';
+	import { externalNavigation } from '$lib/stores/ExtrenalNavigationStore';
+	import Button from '$components/Button.svelte';
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
 	import { isTokenExpired } from '$lib/utils/helpers/token';
+
+	$: isModalOpen = $externalNavigation.active;
+	// Update store with Spark headers
 
 	export let data: LayoutData;
 	const { sparkHeaders, tokenObj, profile, deviceType, isGuest, scheme, host } = data;
 	// Update store with Spark headers
 	onMount(() => {
+		$externalNavigation.active = false;
 		const authState = isGuest
 			? isTokenExpired(tokenObj?.guestToken)
 				? AUTH_STATE_ENUM.GUEST_LOGGED_OUT
@@ -94,6 +102,9 @@
 		<slot />
 	</Default>
 {/if}
+<Modal {isModalOpen}>
+	<LoadingIndicator />
+</Modal>
 {#if appStore.isSparkUser() && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_OUT}
 	<ResultPopup
 		popupType="FAILURE"

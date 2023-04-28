@@ -18,6 +18,7 @@
 	import { getContext, onMount } from 'svelte';
 	import DateFns from '$lib/utils/asyncDateFns';
 	import { sipCardClickAnalytics } from '$lib/analytics/sipbook/sipbook';
+	import { OnNavigation } from '$lib/utils/navigation';
 
 	let sipCount = 0;
 	let alertSleeveText = '';
@@ -78,6 +79,7 @@
 				sipRegistrationNumber: sip?.sipRegistrationNo,
 				sipDueDate: format(new Date(sip?.sipPaymentDate), 'yyyy-MM-dd')
 			});
+			OnNavigation();
 			goto(
 				`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/${path}?params=${params}`
 			);

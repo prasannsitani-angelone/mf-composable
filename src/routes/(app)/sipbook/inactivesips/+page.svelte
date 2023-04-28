@@ -17,6 +17,7 @@
 	import type { AppContext } from '$lib/types/IAppContext';
 	import { getContext } from 'svelte';
 	import { restartSipButtonClickAnalytics } from '$lib/analytics/sipbook/sipbook';
+	import { OnNavigation } from '$lib/utils/navigation';
 
 	const userType = profileStore.userType();
 	const appContext: AppContext = getContext('app');
@@ -29,6 +30,7 @@
 			investmentType: 'SIP',
 			investmentAmount: sip?.installmentAmount
 		});
+		OnNavigation();
 		goto(
 			`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/${path}?params=${params}`
 		);

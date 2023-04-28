@@ -11,6 +11,7 @@
 		if (disableRedirect) {
 			e.preventDefault();
 		}
+
 		dispatch('linkClicked');
 	}
 </script>

@@ -17,6 +17,7 @@
 	import { getContext } from 'svelte';
 	import type { AppContext } from '$lib/types/IAppContext';
 	import type { SIPData, SchemeCardItems } from './type';
+	import { OnNavigation } from '$lib/utils/navigation';
 	export let data: PageData;
 
 	const params = $page.url.searchParams.get('params') || '';
@@ -48,12 +49,14 @@
 
 	const navigateToDashboard = async () => {
 		const baseUrl = getNavigationBaseUrl('', appContext.scheme, appContext.host, '/');
+		OnNavigation();
 		await goto(`${baseUrl}investments`, { replaceState: true });
 	};
 
 	const navigateToEmandate = () => {
 		if (isExternalNavigation()) {
 			const baseUrl = getNavigationBaseUrl('', appContext.scheme, appContext.host, '/');
+			OnNavigation();
 			goto(
 				`${baseUrl}orderflow/sip/emandate?params=${encodeObject({
 					...restQueryParams,

@@ -20,6 +20,7 @@
 	import type { AppContext } from '$lib/types/IAppContext';
 	import { getContext } from 'svelte';
 	import { failedOrdersRetryCtaClickAnalytics } from '$lib/analytics/orders/orders';
+	import { OnNavigation } from '$lib/utils/navigation';
 	let ordersSummary: OrdersSummary;
 	let failedOrders: orderItem[];
 	let schemeDetails: SchemeDetails;
@@ -48,6 +49,7 @@
 				investmentType: orderItem?.investmentType,
 				investmentAmount: orderItem?.amount
 			});
+			OnNavigation();
 			goto(
 				`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/${path}?params=${params}`
 			);

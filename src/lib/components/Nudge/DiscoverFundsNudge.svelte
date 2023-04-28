@@ -7,6 +7,7 @@
 	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 	import type { AppContext } from '$lib/types/IAppContext';
 	import { getContext, onMount } from 'svelte';
+	import { OnNavigation } from '$lib/utils/navigation';
 	let nudge: INudge;
 	let impressionEvent: () => void;
 	let clickEvent: () => void;
@@ -17,6 +18,7 @@
 	const navigateToPage = () => {
 		clickEvent?.();
 		if (nudge?.link) {
+			OnNavigation();
 			goto(`${getNavigationBaseUrl('', appContext.scheme, appContext.host)}${nudge.link}`);
 		}
 	};

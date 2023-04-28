@@ -10,6 +10,7 @@
 	import { getContext } from 'svelte';
 	import DateFns from '$lib/utils/asyncDateFns';
 	import { orderCardClickAnalytics } from '$lib/analytics/orders/orders';
+	import { OnNavigation } from '$lib/utils/navigation';
 	// import { orderCardClickAnalytics } from '$lib/analytics/orders/orders';
 
 	// await DateFns.init()
@@ -80,6 +81,7 @@
 	const handleBodyClick = () => {
 		if (item?.status !== 'ORDER_SCHEDULED') {
 			orderCardAnalytics();
+			OnNavigation();
 			goto(
 				`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/orders/${item?.orderId}`
 			);
