@@ -104,7 +104,7 @@
 {/if}
 {#if isModalOpen}
 	<Overlay class="justify-center">
-		<LoadingIndicator />
+		<LoadingIndicator svgClass={'!w-16 !h-16'} />
 	</Overlay>
 {/if}
 
