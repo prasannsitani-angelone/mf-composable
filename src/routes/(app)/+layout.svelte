@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { page as appPage } from '$app/stores';
-	import { goto } from '$app/navigation';
 	import { appStore } from '$lib/stores/SparkStore';
 	import type { LayoutData } from './$types';
 	import { AUTH_STATE_ENUM, tokenStore } from '$lib/stores/TokenStore';
@@ -21,6 +20,8 @@
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
 	import { isTokenExpired } from '$lib/utils/helpers/token';
 	import Overlay from '$components/Overlay.svelte';
+	import { PLATFORM_TYPE } from '$lib/constants/platform';
+	import { logout } from '$lib/utils/helpers/logout';
 
 	$: isModalOpen = $externalNavigation.active;
 	// Update store with Spark headers
@@ -77,7 +78,8 @@
 		}
 	});
 	const navigateToLoginPage = async () => {
-		await goto(`${scheme}://${host}/mutual-funds/login`, { replaceState: true });
+		logout();
+		window.location.replace(`${scheme}://${host}/mutual-funds/login`);
 	};
 </script>
 
@@ -107,8 +109,7 @@
 		<LoadingIndicator svgClass={'!w-16 !h-16'} />
 	</Overlay>
 {/if}
-
-{#if appStore.isSparkUser() && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_OUT}
+{#if ($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_OUT}
 	<ResultPopup
 		popupType="FAILURE"
 		title="You have been logged out"

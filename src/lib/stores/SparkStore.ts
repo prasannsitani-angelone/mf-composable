@@ -13,6 +13,7 @@ export interface SparkStore {
 	deviceosversion: string;
 	isSparkAndroidUser: () => boolean;
 	isSparkIOSUser: () => boolean;
+	isSparkUser: () => boolean;
 }
 
 const initalStore: SparkStore = {
@@ -29,6 +30,9 @@ const initalStore: SparkStore = {
 		return false;
 	},
 	isSparkIOSUser: () => {
+		return false;
+	},
+	isSparkUser: () => {
 		return false;
 	}
 };

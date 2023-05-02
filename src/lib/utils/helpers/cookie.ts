@@ -36,3 +36,7 @@ export const getCookie = (cname: string) => {
 	}
 	return '';
 };
+
+export const deleteCookie = (cname: string) => {
+	document.cookie = `name=${cname};max-age=0`;
+};
