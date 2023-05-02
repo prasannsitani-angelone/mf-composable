@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { hydrate } from './helpers/hydrated';
 import Logger from '$lib/utils/logger';
 import type { FetchType } from '$lib/types/Fetch';
+import { removeAuthHeaders } from './helpers/logging';
 
 const defaultOptions = {
 	method: 'GET',
@@ -30,7 +31,10 @@ if (browser) {
 				type: 'Network request',
 				params: {
 					url: resource,
-					opts: config
+					opts: {
+						...config,
+						headers: removeAuthHeaders(config.headers)
+					}
 				}
 			});
 		}
@@ -59,23 +63,24 @@ export const useFetch = async (url: string, options: RequestInit = {}, fetchServ
 	try {
 		const res = await baseFetch(url, opts);
 		const data = await res.json();
+		const params = {
+			url,
+			opts: {
+				...opts,
+				headers: removeAuthHeaders(opts.headers)
+			},
+			response: data,
+			statusCode: res.status
+		};
 		if (res.ok) {
 			Logger.info({
 				type: 'Network Response Success',
-				params: {
-					url,
-					opts,
-					response: data
-				}
+				params
 			});
 		} else if (res.status === 401) {
 			Logger.error({
 				type: 'Token Expired',
-				params: {
-					url,
-					opts,
-					response: data
-				}
+				params
 			});
 			if (browser) {
 				tokenStore.updateStore({
@@ -85,11 +90,7 @@ export const useFetch = async (url: string, options: RequestInit = {}, fetchServ
 		} else {
 			Logger.error({
 				type: 'Network Response Error',
-				params: {
-					url,
-					opts,
-					response: data
-				}
+				params
 			});
 		}
 		return { ok: res.ok, status: res.status, data };
@@ -98,7 +99,10 @@ export const useFetch = async (url: string, options: RequestInit = {}, fetchServ
 			type: 'Network Request Error',
 			params: {
 				url,
-				opts,
+				opts: {
+					...opts,
+					headers: removeAuthHeaders(opts.headers)
+				},
 				error: e.toString()
 			}
 		});

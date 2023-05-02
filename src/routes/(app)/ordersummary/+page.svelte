@@ -50,7 +50,7 @@
 	const navigateToDashboard = async () => {
 		const baseUrl = getNavigationBaseUrl('', appContext.scheme, appContext.host, '/');
 		OnNavigation();
-		await goto(`${baseUrl}investments`, { replaceState: true });
+		window.location.replace(`${baseUrl}investments`);
 	};
 
 	const navigateToEmandate = () => {
@@ -61,8 +61,7 @@
 				`${baseUrl}orderflow/sip/emandate?params=${encodeObject({
 					...restQueryParams,
 					sipID
-				})}`,
-				{ replaceState: true }
+				})}`
 			);
 		} else {
 			// no functionality till now

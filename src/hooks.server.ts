@@ -1,6 +1,7 @@
 import getAuthToken from '$lib/server/getAuthToken';
 import type { UserProfile } from '$lib/types/IUserProfile';
 import { isDevMode } from '$lib/utils/helpers/dev';
+import { removeAuthHeaders } from '$lib/utils/helpers/logging';
 import { getUserCookieName, getUserTokenFromCookie } from '$lib/utils/helpers/token';
 import Logger from '$lib/utils/logger';
 import { useProfileFetch } from '$lib/utils/useProfileFetch';
@@ -69,14 +70,13 @@ export const handleFetch = (async ({ event, request, fetch }) => {
 	request.headers.set('accountType', accountType);
 	request.headers.set('authorization', `Bearer ${token}`);
 	request.headers.set('authtoken', token);
-
 	Logger.debug({
 		type: 'Network request',
 		params: {
 			url: request.url,
 			opts: {
 				method: request.method,
-				headers: Object.fromEntries(request.headers)
+				headers: removeAuthHeaders(Object.fromEntries(request.headers))
 			}
 		}
 	});

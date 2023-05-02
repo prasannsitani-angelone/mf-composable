@@ -8,8 +8,7 @@
 
 	export let data;
 	// Update store with Spark headers
-	const { scheme, host, deviceType } = data;
-
+	const { scheme, host, deviceType, token } = data;
 	setContext('app', {
 		scheme,
 		host
@@ -23,6 +22,7 @@
 		enabled: PUBLIC_LOG_ENABLED === 'true',
 		initialised: true,
 		headers: {
+			accessToken: token,
 			isSSR: !browser,
 			isMobile: deviceType?.isMobile,
 			model: deviceType?.model,

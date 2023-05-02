@@ -26,7 +26,7 @@
 	// Update store with Spark headers
 
 	export let data: LayoutData;
-	const { sparkHeaders, tokenObj, profile, deviceType, isGuest, scheme, host } = data;
+	const { sparkHeaders, tokenObj, profile, deviceType, isGuest, scheme, host, token } = data;
 	// Update store with Spark headers
 	onMount(() => {
 		// $externalNavigation.active = false;
@@ -52,6 +52,7 @@
 	// initialising logging again with all new headers for routes of (app)
 	Logger.init({
 		headers: {
+			accessToken: token,
 			isSSR: !browser,
 			isMobile: deviceType?.isMobile,
 			model: deviceType?.model,
@@ -68,8 +69,8 @@
 			deviceID: sparkHeaders.deviceid,
 			sparkPlatform: sparkHeaders.platform,
 			platformVariant: sparkHeaders.platformvariant,
-			platformVersion: sparkHeaders.platformversion
-			// isGuest: tokenStore.logInState === USER_STATE_ENUM.GUEST_USER,
+			platformVersion: sparkHeaders.platformversion,
+			isGuest
 			// isLoggedIn: tokenStore.logInState === USER_STATE_ENUM.LOGGED_IN_USER,
 			// loggedInState: tokenStore.logInState,
 			// sessionID: tokenStore.sessionID,
