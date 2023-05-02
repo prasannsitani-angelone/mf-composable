@@ -24,7 +24,7 @@
 	const redirectToOrderPad = (sip: IInactiveSip) => {
 		// TODO: To change the navigation after the proper release
 		restartSipButtonClickAnalyticsFunc(sip);
-		const reRouteUrl = 'schemes';
+		const reRouteUrl = $page?.data?.deviceType?.isBrowser ? 'schemes' : 'schemes/invest';
 		const path = `${reRouteUrl}/${normalizeFundName(sip?.schemeName, sip?.Isin, sip?.schemeCode)}`;
 		const params = encodeObject({
 			investmentType: 'SIP',
@@ -32,11 +32,7 @@
 		});
 		OnNavigation();
 		goto(
-			`${getNavigationBaseUrl(
-				base,
-				appContext.scheme,
-				appContext.host
-			)}/${path}?orderpad=INVEST&params=${params}`
+			`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/${path}?params=${params}`
 		);
 	};
 

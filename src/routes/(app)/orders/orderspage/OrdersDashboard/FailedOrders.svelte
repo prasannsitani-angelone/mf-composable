@@ -37,7 +37,7 @@
 		if (schemeResponse.ok) {
 			schemeDetails = schemeResponse?.data;
 			// TODO: To change the navigation after the proper release
-			const reRouteUrl = 'schemes';
+			const reRouteUrl = $page?.data?.deviceType?.isBrowser ? 'schemes' : 'schemes/invest';
 			const path = `${reRouteUrl}/${normalizeFundName(
 				schemeDetails?.schemeName,
 				schemeDetails?.isin,
@@ -51,11 +51,7 @@
 			});
 			OnNavigation();
 			goto(
-				`${getNavigationBaseUrl(
-					base,
-					appContext.scheme,
-					appContext.host
-				)}/${path}?orderpad=INVEST&params=${params}`
+				`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/${path}?params=${params}`
 			);
 		}
 	};
