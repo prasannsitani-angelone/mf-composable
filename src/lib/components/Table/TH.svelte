@@ -23,11 +23,12 @@
 </script>
 
 <th
-	class={`border-b border-grey-line bg-white pl-5 pt-4 pb-4 pr-6 font-medium text-grey-body ${clazz}`}
+	class={`h-12 border-b border-grey-line bg-white py-0 pl-5 pr-6 font-medium text-grey-body ${clazz}`}
 	style={thStyle}
 >
 	{#if sortable}
 		<Button
+			size="xs"
 			variant="transparent"
 			class={`!m-auto flex items-center !p-0 !text-xs !font-medium text-grey-body ${
 				wrapperClass || ''
