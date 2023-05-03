@@ -16,6 +16,9 @@
 	import { afterUpdate } from 'svelte';
 	import { decodeToObject, getQueryParamsObj } from '$lib/utils/helpers/params';
 	import type { OrderPadTypes, decodedParamsTypes } from '$lib/types/IOrderPad';
+	import Breadcrumbs from '$components/Breadcrumbs.svelte';
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 
 	export let data: PageData;
 
@@ -23,6 +26,26 @@
 	$: showInvestmentPad = false;
 	$: queryParamsObj = <OrderPadTypes>{};
 	$: orderpadParams = <decodedParamsTypes>{};
+
+	function getSchemeDetailsBreadCrumbs(scheme: SchemeDetails) {
+		const { schemeName, isin, schemeCode } = scheme;
+		const breadCrumbs = [
+			{
+				text: 'Home',
+				href: '/discoverfunds'
+			},
+			{
+				text: 'Mutual Fund',
+				href: '/discoverfunds'
+			},
+			{
+				text: schemeName,
+				href: normalizeFundName(schemeName, isin, schemeCode)
+			}
+		];
+
+		return breadCrumbs;
+	}
 
 	const handleInvestMoreCtaClick = () => {
 		const currentPath = window?.location?.pathname;
@@ -53,8 +76,13 @@
 	<div>Loading</div>
 {:then schemedata}
 	<!-- Left Side -->
+
 	{#if !isMobile || !showInvestmentPad}
-		<article class="sm-scroll-margin lg:scroll-margin rounded-lg pt-1 sm:pt-2 lg:mt-5">
+		<article class="">
+			<Breadcrumbs
+				items={getSchemeDetailsBreadCrumbs(schemedata)}
+				class="my-4 hidden items-center justify-start md:flex"
+			/>
 			<FundOverview schemeDetails={schemedata} />
 			<LockInPeriod schemeDetails={schemedata} />
 			<ReturnEstimator
@@ -91,7 +119,7 @@
 	<!-- Right Side -->
 	{#if !isMobile}
 		<InvestmentPad
-			class="sticky -top-2 mt-7 hidden md:block"
+			class="sticky -top-2 mt-[52px] hidden md:block"
 			schemeData={schemedata}
 			fromInvestmentDetailsPage
 			params={orderpadParams}
