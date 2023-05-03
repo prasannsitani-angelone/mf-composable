@@ -20,7 +20,7 @@
 				<svelte:component this={isActive ? nav.activeIcon : nav.icon} class="m-auto mb-2" />
 				<span
 					class={`block text-[10px] font-semibold uppercase ${
-						isActive ? 'text-[#3F5BD9]' : 'text-[#C2C6CC]'
+						isActive ? 'text-blue-primary' : 'text-grey-medium'
 					}`}>{nav.label}</span
 				>
 			</a>
