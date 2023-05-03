@@ -56,7 +56,7 @@
 		const lastSkipDate = new Date(sip?.skipSipDueDate);
 		skipSipText = `SIP instalment skipped for ${lastSkipDate.toLocaleString('default', {
 			month: 'long'
-		})} ${lastSkipDate.getFullYear()}.`;
+		})} ${lastSkipDate.getFullYear()}`;
 	};
 	const handleSipPaymentClick = (isCta: boolean) => {
 		// TODO: To change the navigation after the proper release
