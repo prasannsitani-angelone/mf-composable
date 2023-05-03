@@ -77,6 +77,7 @@
 	const schemeCardItems: Array<SchemeCardItems> = [];
 	const schemeDetails = {};
 	const statusHistoryItems: Array<Record<string, any>> = [];
+	let statusCardHeading = '';
 
 	const sipData = data.api.sipData;
 	const orderData = data.api.ordersData;
@@ -93,12 +94,15 @@
 				let subTitle = `Estimated by: ${format(new Date(item.timeStamp), 'dd MMMM yyyy')}`;
 				if (isNull(previousStepCurrentState) && item.failed) {
 					status = STATUS_ARR.FAILED;
+					statusCardHeading = item.description;
 					subTitle = format(new Date(item.timeStamp), 'dd MMMM yyyy hh:mm a');
 				} else if (isNull(previousStepCurrentState) && item.currentState) {
 					previousStepCurrentState = index;
+					statusCardHeading = item.description;
 					status = STATUS_ARR.PENDING;
 				} else if (isNull(previousStepCurrentState)) {
 					status = STATUS_ARR.SUCCESS;
+					statusCardHeading = item.description;
 					subTitle = format(new Date(item.timeStamp), 'dd MMMM yyyy hh:mm a');
 				}
 				statusHistoryItems.push({
@@ -225,7 +229,7 @@
 					clazz="mt-2 shadow-csm"
 				/>
 				{#if firstTimePayment && orderData?.data?.data?.paymentStatus !== 'pending'}
-					<OrderStatusCard {statusHistoryItems} clazz="!mt-2" />
+					<OrderStatusCard {statusHistoryItems} heading={statusCardHeading} clazz="!mt-2" />
 				{/if}
 				{#if emandateBankDetails && isSIPOrder}
 					<AutopayTile

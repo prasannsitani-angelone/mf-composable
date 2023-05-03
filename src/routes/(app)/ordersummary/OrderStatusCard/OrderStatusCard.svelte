@@ -6,6 +6,7 @@
 
 	export let statusHistoryItems: Array<StatusHistoryItem> = [];
 	export let clazz = '';
+	export let heading = '';
 </script>
 
 <AccordianCardComponent
@@ -18,7 +19,7 @@
 	</div>
 	<div slot="titleUserAction">
 		<div class="mb-1 text-xs text-grey-body">Order Status</div>
-		<div class="mb-1 text-sm font-medium text-black-title">Order being processed by exchange</div>
+		<div class="mb-1 text-sm font-medium text-black-title">{heading}</div>
 		<div class="text-xs text-grey-body">Track progress for this order</div>
 	</div>
 	<div
