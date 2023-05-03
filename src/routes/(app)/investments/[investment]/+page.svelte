@@ -197,7 +197,8 @@
 				{#if res.holdingsData}
 					<InvestmentDetailsFooter
 						parentPage={orderpadParentPage?.INVESTMENT}
-						investmentAllowed={(holdingsData?.investmentAllowed && !isInvestmentNotAllowed) ||
+						investmentAllowed={holdingsData?.investmentAllowed &&
+							!isInvestmentNotAllowed &&
 							!investDisableText?.length}
 						redemptionAllowed={holdingsData?.redemptionAllowed && !withdrawDisableText?.length}
 						investmentDisableText={investDisableText}
@@ -223,6 +224,7 @@
 				class="sticky -top-2 mt-[52px] hidden md:block"
 				schemeData={res.schemeData}
 				fromInvestmentDetailsPage
+				investmentNotAllowedText={investDisableText}
 			>
 				<svelte:fragment slot="header">
 					{#if res?.holdingsData}
