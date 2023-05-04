@@ -5,4 +5,5 @@ export interface IBottomNavItem {
 	path: string;
 	icon: typeof SvelteComponent;
 	activeIcon: typeof SvelteComponent;
+	isInternalNavigation?: boolean;
 }

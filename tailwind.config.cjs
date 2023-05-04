@@ -70,10 +70,16 @@ module.exports = {
 			zIndex: {
 				60: '60'
 			},
+			fontSize: {
+				'1xs': '0.6875rem'
+			},
 			backgroundOpacity: {
 				12: '0.12'
 			}
 		}
+	},
+	daisyui: {
+		themes: false
 	},
 	plugins: [require('daisyui')]
 };

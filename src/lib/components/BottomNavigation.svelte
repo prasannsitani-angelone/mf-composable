@@ -3,6 +3,9 @@
 	import type { IBottomNavItem } from '$lib/types/IBottomNavItem';
 	import { OnNavigation } from '$lib/utils/navigation';
 	export let navs: IBottomNavItem[];
+
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
+	const noop = () => {};
 </script>
 
 <section class="inset-x-0 z-40 flex-shrink-0 border-t-2 bg-white shadow-lg lg:hidden">
@@ -15,7 +18,7 @@
 			<a
 				href={nav.path}
 				class="inline-block w-full justify-center py-3 text-center"
-				on:click={OnNavigation}
+				on:click={nav.isInternalNavigation ? noop : OnNavigation}
 			>
 				<svelte:component this={isActive ? nav.activeIcon : nav.icon} class="m-auto mb-2" />
 				<span

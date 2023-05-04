@@ -2,8 +2,13 @@
 	import Link from '$components/Link.svelte';
 	import type { PageData } from '../../../../$types';
 	import NoSipImage from '$lib/images/icons/NoSipImage.svelte';
+	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
+	import type { AppContext } from '$lib/types/IAppContext';
+	import { getContext } from 'svelte';
+	import { OnNavigation } from '$lib/utils/navigation';
 	let showInactiveSipsCta: boolean;
 	let data: PageData;
+	const appContext: AppContext = getContext('app');
 	export { showInactiveSipsCta, data };
 </script>
 
@@ -20,10 +25,15 @@
 	</div>
 
 	<Link
-		to={`/explorefunds/${data?.searchDashboardData?.searchOptions[0]?.name
+		to={`${getNavigationBaseUrl(
+			'',
+			appContext.scheme,
+			appContext.host
+		)}/explorefunds/${data?.searchDashboardData?.searchOptions[0]?.name
 			?.split(' ')
 			.join('-')
 			.toLowerCase()}?id=${data?.searchDashboardData?.searchOptions[0]?.id}`}
+		on:linkClicked={OnNavigation}
 	>
 		<div
 			class="mt-5 w-52 cursor-default rounded border border-blue-primary bg-white py-4 text-center text-sm font-semibold text-blue-primary active:opacity-95 md:cursor-pointer"

@@ -24,6 +24,7 @@ export const BOTTOM_NAVBARS = (scheme = '', host = '') => [
 		label: 'Orders',
 		path: `${base}/orders/orderspage`,
 		icon: OrdersBottomNavbarInactiveIcon,
-		activeIcon: OrdersBottomNavbarActiveIcon
+		activeIcon: OrdersBottomNavbarActiveIcon,
+		isInternalNavigation: true
 	}
 ];
