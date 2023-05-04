@@ -3,6 +3,7 @@
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
 	import BigGreenTickIcon from '$lib/images/icons/BigGreenTickIcon.svelte';
 	import BigRedCrossIcon from '$lib/images/icons/BigRedCrossIcon.svelte';
+	import { WMSIcon } from 'wms-ui-component';
 	interface txnItem {
 		title: string;
 		subTitle: string;
@@ -30,6 +31,8 @@
 							<BigGreenTickIcon />
 						{:else if item.status === STATUS_ARR.FAILED}
 							<BigRedCrossIcon />
+						{:else if item.status === STATUS_ARR.SKIPPED}
+							<WMSIcon name="skip" />
 						{:else}
 							<div class="h-4 w-4 rounded-lg bg-grey" />
 						{/if}

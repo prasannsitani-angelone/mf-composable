@@ -85,9 +85,7 @@
 			);
 		} else if (!isCta) {
 			OnNavigation();
-			goto(
-				`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/sipbook/${sip?.sipId}`
-			);
+			goto(`${base}/sipbook/${sip?.sipId}`);
 		}
 	};
 

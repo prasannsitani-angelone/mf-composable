@@ -8,6 +8,7 @@
 	import { base } from '$app/paths';
 	import SipTransactions from './SipTransactions.svelte';
 	import SipDate from './SipDate.svelte';
+	import { createEventDispatcher } from 'svelte';
 	let sipId: number;
 	let sipOrderHistory: Array<ISipOrderHistory>;
 	let sipCreatedTs: number;
@@ -27,8 +28,10 @@
 
 	let successfulTxns = 0;
 	let failedTxns = 0;
+	let skippedTxns = 0;
 	let transactionItems: Array<txnItem> = [];
 	let sipHistoryExpanded = false;
+	const dispatch = createEventDispatcher();
 
 	const setTxnCounts = () => {
 		const transactionList: Array<txnItem> = [];
@@ -37,14 +40,25 @@
 				successfulTxns++;
 			} else if (item?.orderStatus?.toUpperCase() === 'INVALID') {
 				failedTxns++;
+			} else if (item?.orderStatus?.toUpperCase() === 'SKIP') {
+				skippedTxns++;
 			}
 
 			const statusObj = {
 				title: `${
-					item?.orderStatus?.toUpperCase() === 'VALID' ? 'Success' : 'Failed'
+					item?.orderStatus?.toUpperCase() === 'VALID'
+						? 'Success'
+						: item?.orderStatus?.toUpperCase() === 'SKIP'
+						? 'Skipped'
+						: 'Failed'
 				}: ${getDateTimeString(item?.orderCompletionTs, 'DATE', true)}`,
 				subTitle: item?.Message,
-				status: item?.orderStatus?.toUpperCase() === 'VALID' ? 'SUCCESS' : 'FAILED'
+				status:
+					item?.orderStatus?.toUpperCase() === 'VALID'
+						? 'SUCCESS'
+						: item?.orderStatus?.toUpperCase() === 'SKIP'
+						? 'SKIP'
+						: 'FAILED'
 			};
 
 			transactionList.push(statusObj);
@@ -59,6 +73,7 @@
 
 	const handleSipHistoryToggle = () => {
 		sipHistoryExpanded = !sipHistoryExpanded;
+		dispatch('historyToggled', sipHistoryExpanded);
 	};
 
 	onMount(() => {
@@ -116,6 +131,15 @@
 							{successfulTxns}
 						</span>
 						<span class="mr-2 text-sm text-grey-body"> Successful </span>
+						{#if skippedTxns > 0}
+							<span
+								class="mr-1 flex h-5 w-5 items-center justify-center rounded-full bg-gray-400 bg-opacity-10 text-xs text-grey-body"
+								class:px-1.5={skippedTxns > 9}
+							>
+								{skippedTxns}
+							</span>
+							<span class="mr-2 text-sm text-grey-body"> Skipped </span>
+						{/if}
 
 						<span
 							class="mr-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-sell bg-opacity-10 text-xs text-red-sell"
