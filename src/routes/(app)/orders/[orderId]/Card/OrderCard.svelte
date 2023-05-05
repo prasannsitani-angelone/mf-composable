@@ -39,7 +39,7 @@
 		<div class="text-left">
 			<span class="text-1xs text-grey-body">Amount</span>
 			<p class="overflow-hidden text-ellipsis whitespace-nowrap font-medium text-black-title">
-				{addCommasToAmountString(
+				₹ {addCommasToAmountString(
 					parseFloat(orderDetails?.amount.toFixed(amountDecimalPlaces))?.toString()
 				)}
 			</p>
@@ -52,13 +52,13 @@
 		</div>
 		<div class="text-right">
 			{#if orderDetails?.status?.toUpperCase() === ORDER_STATUS.ORDER_COMPLETE}
-				<span class="text-1xs text-grey-body"> Nav date </span>
+				<span class="text-1xs text-grey-body"> NAV date </span>
 				<p class="overflow-hidden text-ellipsis whitespace-nowrap font-medium text-black-title">
 					{getDateTimeString((orderDetails?.actualNavDate || 0) * 1000, 'DATE', true)}
 				</p>
 			{:else if orderDetails?.transactionType?.toUpperCase() === TRANSACTION_TYPE.REDEEM}
 				<span class="flex items-center justify-end gap-1 text-1xs text-grey-body">
-					Ex. Credit date
+					Ex. Credit Date
 				</span>
 				<p class="overflow-hidden text-ellipsis whitespace-nowrap font-medium text-black-title">
 					{orderDetails?.status?.toUpperCase() === ORDER_STATUS.ORDER_REJECTED
@@ -67,7 +67,7 @@
 				</p>
 			{:else}
 				<span class="flex items-center justify-end gap-1 text-1xs text-grey-body">
-					Ex. Nav date
+					Ex. NAV Date
 					<WMSIcon
 						height={16}
 						width={16}

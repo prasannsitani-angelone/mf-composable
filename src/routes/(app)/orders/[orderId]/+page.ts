@@ -492,7 +492,8 @@ export const load = (async ({ fetch, params }) => {
 
 			showFooterButton =
 				isInvestmentAllowed(profileStore.userType(), schemePlan) &&
-				transactionType === 'PURCHASE' &&
+				(transactionType === TRANSACTION_TYPE.PURCHASE ||
+					transactionType === TRANSACTION_TYPE.REDEEM) &&
 				orderStatus === ORDER_STATUS.ORDER_REJECTED &&
 				investmentType !== 'XSIP';
 

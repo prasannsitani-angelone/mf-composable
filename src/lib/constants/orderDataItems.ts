@@ -14,7 +14,7 @@ const ORDER_DATA = {
 	ORDER_ID: 'Order ID',
 	STAMP_DUTY: 'Stamp Duty',
 	UNITS: 'Units',
-	NAV_DATE: 'Nav Date',
+	NAV_DATE: 'NAV Date',
 	AUTO_PAY_BANK: 'Autopay Bank',
 	SIP_ID: 'Sip Id',
 	SIP_DUE_DATE: 'SIP Due Date'

@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Button from '$components/Button.svelte';
-	import { INVESTMENT_TYPE } from '$lib/constants/transactionType';
+	import { INVESTMENT_TYPE, TRANSACTION_TYPE } from '$lib/constants/transactionType';
 	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { OnNavigation } from '$lib/utils/navigation';
@@ -35,34 +35,45 @@
 	};
 	const handleFooterCtaClick = () => {
 		orderDetailsFooterCtaAnalytics();
-		const reRouteUrl = deviceType?.isMobile ? 'schemes/invest' : 'schemes';
+		let reRouteUrl = '';
+		if (orderDetailsData?.transactionType === TRANSACTION_TYPE.REDEEM) {
+			reRouteUrl = deviceType?.isMobile ? 'schemes/withdraw' : 'investments';
+		} else {
+			reRouteUrl = deviceType?.isMobile ? 'schemes/invest' : 'schemes';
+		}
 		const routerPath = `${reRouteUrl}/${normalizeFundName(
 			schemeDetails?.schemeName,
 			schemeDetails?.isin,
 			schemeDetails?.schemeCode
 		)}`;
 		let params = '';
-		if (isOrderFailedAtExchange) {
-			params = encodeObject({
-				investmentType: orderDetailsData?.investmentType,
-				investmentAmount: orderDetailsData?.amount
-			});
-		} else {
-			params = encodeObject({
-				orderId: orderDetailsData?.orderId,
-				pgTxnId: orderDetailsData?.pgTxnId,
-				investmentType: orderDetailsData?.investmentType,
-				investmentAmount: orderDetailsData?.amount
-			});
+		if (orderDetailsData?.transactionType === TRANSACTION_TYPE.PURCHASE) {
+			if (isOrderFailedAtExchange) {
+				params = encodeObject({
+					investmentType: orderDetailsData?.investmentType,
+					investmentAmount: orderDetailsData?.amount
+				});
+			} else {
+				params = encodeObject({
+					orderId: orderDetailsData?.orderId,
+					pgTxnId: orderDetailsData?.pgTxnId,
+					investmentType: orderDetailsData?.investmentType,
+					investmentAmount: orderDetailsData?.amount
+				});
+			}
 		}
 		OnNavigation();
-		goto(
-			`${getNavigationBaseUrl(
-				base,
-				appContext.scheme,
-				appContext.host
-			)}/${routerPath}?params=${params}`
-		);
+		if (params) {
+			goto(
+				`${getNavigationBaseUrl(
+					base,
+					appContext.scheme,
+					appContext.host
+				)}/${routerPath}?params=${params}`
+			);
+		} else {
+			goto(`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/${routerPath}`);
+		}
 	};
 	export { isOrderFailedAtExchange, schemeDetails, orderDetailsData };
 </script>

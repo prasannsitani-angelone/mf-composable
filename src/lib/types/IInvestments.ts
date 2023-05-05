@@ -32,6 +32,7 @@ export interface OrdersSummary {
 	totalFailedOrders: number;
 	totalProcessingOrders: number;
 	totalScheduledOrders: number;
+	totalCompletedOrders: number;
 }
 
 export interface ProtfolioDataEntity {
