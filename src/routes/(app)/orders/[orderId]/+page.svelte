@@ -14,7 +14,7 @@
 	$: breadCrumbs = [
 		{
 			text: 'Home',
-			href: `${getNavigationBaseUrl('', appContext.scheme, appContext.host)}`
+			href: `${getNavigationBaseUrl('', appContext.scheme, appContext.host)}/`
 		},
 		{
 			text: 'Orders',

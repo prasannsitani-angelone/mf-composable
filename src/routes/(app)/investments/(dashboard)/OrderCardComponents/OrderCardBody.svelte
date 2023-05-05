@@ -1,17 +1,11 @@
 <script lang="ts">
 	import ResultItem from '$components/Autocomplete/ResultItem.svelte';
 	import { goto } from '$app/navigation';
-	// import DateFns from '@/utils/asyncDateFns'
 	import type { orderItem } from '$lib/types/IOrderItem';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { base } from '$app/paths';
 	import DateFns from '$lib/utils/asyncDateFns';
 	import { orderCardClickAnalytics } from '$lib/analytics/orders/orders';
-	import { OnNavigation } from '$lib/utils/navigation';
-	// import { orderCardClickAnalytics } from '$lib/analytics/orders/orders';
-
-	// await DateFns.init()
-	// const { format } = DateFns.DateFns
 
 	export let item: orderItem;
 	let investmentTypeText = '';
@@ -77,7 +71,6 @@
 	const handleBodyClick = () => {
 		if (item?.status !== 'ORDER_SCHEDULED') {
 			orderCardAnalytics();
-			OnNavigation();
 			goto(`${base}/orders/${item?.orderId}`);
 		}
 	};

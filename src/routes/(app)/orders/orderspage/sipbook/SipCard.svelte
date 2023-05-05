@@ -84,7 +84,6 @@
 				`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/${path}?params=${params}`
 			);
 		} else if (!isCta) {
-			OnNavigation();
 			goto(`${base}/sipbook/${sip?.sipId}`);
 		}
 	};
