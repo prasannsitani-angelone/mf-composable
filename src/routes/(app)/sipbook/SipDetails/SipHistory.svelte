@@ -72,7 +72,9 @@
 	};
 
 	const handleSipHistoryToggle = () => {
-		sipHistoryExpanded = !sipHistoryExpanded;
+		if (transactionItems?.length) {
+			sipHistoryExpanded = !sipHistoryExpanded;
+		}
 		dispatch('historyToggled', sipHistoryExpanded);
 	};
 

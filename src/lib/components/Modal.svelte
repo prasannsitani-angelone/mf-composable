@@ -22,7 +22,7 @@
 
 {#if isModalOpen}
 	<Overlay>
-		{#if !deviceType?.isBrowser}
+		{#if deviceType?.isMobile}
 			<div
 				class="modal modal-open modal-bottom !bg-transparent sm:modal-middle"
 				in:fly={{ y: 1000, duration: 500 }}

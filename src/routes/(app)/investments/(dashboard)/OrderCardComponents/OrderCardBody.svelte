@@ -5,9 +5,6 @@
 	import type { orderItem } from '$lib/types/IOrderItem';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { base } from '$app/paths';
-	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
-	import type { AppContext } from '$lib/types/IAppContext';
-	import { getContext } from 'svelte';
 	import DateFns from '$lib/utils/asyncDateFns';
 	import { orderCardClickAnalytics } from '$lib/analytics/orders/orders';
 	import { OnNavigation } from '$lib/utils/navigation';
@@ -19,7 +16,6 @@
 	export let item: orderItem;
 	let investmentTypeText = '';
 	let transactionTypeText = '';
-	const appContext: AppContext = getContext('app');
 
 	const setInvestmentTypeText = () => {
 		if (item?.investmentType === 'LUMPSUM') {
@@ -82,9 +78,7 @@
 		if (item?.status !== 'ORDER_SCHEDULED') {
 			orderCardAnalytics();
 			OnNavigation();
-			goto(
-				`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/orders/${item?.orderId}`
-			);
+			goto(`${base}/orders/${item?.orderId}`);
 		}
 	};
 </script>

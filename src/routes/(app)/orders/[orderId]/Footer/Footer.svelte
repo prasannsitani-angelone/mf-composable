@@ -1,0 +1,94 @@
+<script lang="ts">
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
+	import Button from '$components/Button.svelte';
+	import { INVESTMENT_TYPE } from '$lib/constants/transactionType';
+	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
+	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
+	import { OnNavigation } from '$lib/utils/navigation';
+	import { base } from '$app/paths';
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	import type { AppContext } from '$lib/types/IAppContext';
+	import { encodeObject } from '$lib/utils/helpers/params';
+	import { getContext } from 'svelte';
+	import type { IOrderDetails } from '$lib/types/IOrderDetails';
+	import {
+		placeNewOrderCtaClickAnalytics,
+		retryCtaClickAnalytics
+	} from '$lib/analytics/orders/orders';
+
+	let isOrderFailedAtExchange: boolean;
+	let schemeDetails: SchemeDetails;
+	let orderDetailsData: IOrderDetails;
+	$: deviceType = $page?.data?.deviceType;
+	const appContext: AppContext = getContext('app');
+	const orderDetailsFooterCtaAnalytics = () => {
+		if (isOrderFailedAtExchange) {
+			placeNewOrderCtaClickAnalytics();
+		} else {
+			const eventMetaData = {
+				Message: 'Payment processing failed at Angel One'
+			};
+
+			retryCtaClickAnalytics(eventMetaData);
+		}
+	};
+	const handleFooterCtaClick = () => {
+		orderDetailsFooterCtaAnalytics();
+		const reRouteUrl = deviceType?.isMobile ? 'schemes/invest' : 'schemes';
+		const routerPath = `${reRouteUrl}/${normalizeFundName(
+			schemeDetails?.schemeName,
+			schemeDetails?.isin,
+			schemeDetails?.schemeCode
+		)}`;
+		let params = '';
+		if (isOrderFailedAtExchange) {
+			params = encodeObject({
+				investmentType: orderDetailsData?.investmentType,
+				investmentAmount: orderDetailsData?.amount
+			});
+		} else {
+			params = encodeObject({
+				orderId: orderDetailsData?.orderId,
+				pgTxnId: orderDetailsData?.pgTxnId,
+				investmentType: orderDetailsData?.investmentType,
+				investmentAmount: orderDetailsData?.amount
+			});
+		}
+		OnNavigation();
+		goto(
+			`${getNavigationBaseUrl(
+				base,
+				appContext.scheme,
+				appContext.host
+			)}/${routerPath}?params=${params}`
+		);
+	};
+	export { isOrderFailedAtExchange, schemeDetails, orderDetailsData };
+</script>
+
+{#if deviceType?.isMobile}
+	<!-- Mobile view footer button -->
+	<article class="mx-3 mt-4 block md:hidden">
+		<section class="fixed inset-0 top-auto bg-white px-4 py-5">
+			<Button class="w-full" onClick={handleFooterCtaClick}>
+				{orderDetailsData?.investmentType === INVESTMENT_TYPE.REDEEM
+					? 'RETRY WITHDRAWAL'
+					: isOrderFailedAtExchange
+					? 'PLACE NEW ORDER'
+					: 'RETRY PAYMENT'}
+			</Button>
+		</section>
+	</article>
+{:else}
+	<!-- Desktop view footer button -->
+	<article class="w-full text-right">
+		<Button class="w-6/12 sm:max-w-21" onClick={handleFooterCtaClick}>
+			{orderDetailsData?.investmentType === INVESTMENT_TYPE.REDEEM
+				? 'RETRY WITHDRAWAL'
+				: isOrderFailedAtExchange
+				? 'PLACE NEW ORDER'
+				: 'RETRY PAYMENT'}
+		</Button>
+	</article>
+{/if}

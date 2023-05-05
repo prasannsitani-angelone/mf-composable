@@ -76,10 +76,7 @@
 			>
 				<section class="flex items-center">
 					<slot name="titleIcon" />
-					<h2
-						class="ml-3 flex items-center text-left font-medium text-black-title"
-						class:titleStyle
-					>
+					<h2 class={`ml-3 flex items-center text-left font-medium text-black-title ${titleStyle}`}>
 						<span> {data.title}</span>
 						<slot name="titleUserAction" />
 					</h2>

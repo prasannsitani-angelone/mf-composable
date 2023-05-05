@@ -1,8 +1,7 @@
 <script lang="ts">
-	import TickInCircle from '$lib/images/icons/TickInCircle.svelte';
+	import { WMSIcon } from 'wms-ui-component';
 	import { STATUS_ARR } from '../constant';
 	import type { StatusHistoryItem } from '../type';
-	import StatusIcon from './StatusIcon.svelte';
 
 	export let item: StatusHistoryItem = {};
 	export let index = 0;
@@ -17,13 +16,13 @@
 			}`}
 		/>
 		{#if item.status === STATUS_ARR.SUCCESS}
-			<TickInCircle />
+			<WMSIcon name="tick-in-circle" height={16} width={16} />
 		{:else if item.status === STATUS_ARR.PAYMENT_PENDING}
-			<StatusIcon clazz="bg-yellow-primary" />
+			<WMSIcon name="status" class="bg-yellow-primary" />
 		{:else if item.status === STATUS_ARR.PENDING}
-			<StatusIcon clazz="bg-green-buy" />
+			<WMSIcon name="status" class="bg-green-buy" />
 		{:else if item.status === STATUS_ARR.FAILED}
-			<StatusIcon clazz="bg-red-sell" />
+			<WMSIcon name="status" class="bg-red-sell" />
 		{:else}
 			<div class="h-4 w-4 rounded-full bg-grey" />
 		{/if}

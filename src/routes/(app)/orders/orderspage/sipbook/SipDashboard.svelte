@@ -19,6 +19,7 @@
 	import { getDateTimeString } from '$lib/utils/helpers/date';
 	import { nudgeClick, nudgeImpression } from '$lib/analytics/DiscoverFunds';
 	import { format } from 'date-fns';
+	import type { INudge } from '$lib/types/INudge';
 
 	const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips`;
 	let showInactiveSipsCta = false;
@@ -28,7 +29,7 @@
 	let paymentSipsArray: ISip[] = [];
 	let bankDetails = profileStore?.bankAccounts();
 	let data: PageData;
-	let nudgeData: any[];
+	let nudgeData: INudge[];
 	$: sipBookData?.sips?.forEach((sip) => {
 		if (sip?.isSipPaymentNudge) {
 			paymentSipsArray.push(sip);

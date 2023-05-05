@@ -132,7 +132,6 @@
 	{#if sipData}
 		<article class="mb-36">
 			<SipDetailsBasic
-				sipId={sipData?.sipId}
 				schemeName={sipData?.schemeName}
 				schemePlan={sipData?.schemePlan}
 				logoUrl={sipData?.logoUrl}

@@ -16,7 +16,7 @@ export const load = (async ({ fetch, params }) => {
 			const eventMetaData = {
 				SIPId: sipId,
 				SIPHistory: sipOrderHistory?.map(
-					(item: { orderCompletionTs: number; orderStatus: string; Message: any }) => ({
+					(item: { orderCompletionTs: number; orderStatus: string; Message: string }) => ({
 						OrderCompletionDate: getDateTimeString(item?.orderCompletionTs, 'DATE', true),
 						Status: item?.orderStatus?.toUpperCase() === 'VALID' ? 'Success' : 'Failed',
 						Message: item?.Message

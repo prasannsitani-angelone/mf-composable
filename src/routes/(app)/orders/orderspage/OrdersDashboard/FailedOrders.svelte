@@ -15,7 +15,7 @@
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { page } from '$app/stores';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
-	import { encodeObject } from '$lib/utils/helpers/object';
+	import { encodeObject } from '$lib/utils/helpers/params';
 	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 	import type { AppContext } from '$lib/types/IAppContext';
 	import { getContext } from 'svelte';

@@ -7,7 +7,6 @@
 	import type { AppContext } from '$lib/types/IAppContext';
 	import { getContext } from 'svelte';
 	import { OnNavigation } from '$lib/utils/navigation';
-	let sipId: number;
 	let schemeName: string;
 	let schemePlan: string;
 	let logoUrl: string;
@@ -19,7 +18,7 @@
 		OnNavigation();
 		goto(`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/${path}`);
 	};
-	export { sipId, schemeName, schemePlan, logoUrl, isin, schemeCode };
+	export { schemeName, schemePlan, logoUrl, isin, schemeCode };
 </script>
 
 <section class="rounded-lg bg-white shadow-csm">

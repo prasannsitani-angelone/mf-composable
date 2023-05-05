@@ -8,7 +8,7 @@
 	import isInvestmentAllowed from '$lib/utils/isInvestmentAllowed';
 	import { getDateTimeString } from '$lib/utils/helpers/date';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
-	import { encodeObject } from '$lib/utils/helpers/object';
+	import { encodeObject } from '$lib/utils/helpers/params';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { onMount } from 'svelte';
 	import { useFetch } from '$lib/utils/useFetch';

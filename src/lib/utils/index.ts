@@ -93,7 +93,7 @@ export const formatDate = (epochDate: Date) => {
 };
 
 export const getBankLogoUrl = (
-	bankDetails: BankDetailsEntity[] | null,
+	bankDetails: BankDetailsEntity[] | null | undefined,
 	bankAccountNumber: string
 ) => {
 	if (!bankDetails) {

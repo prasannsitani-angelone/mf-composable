@@ -4,4 +4,5 @@ export interface INudge {
 	description: string;
 	link: string;
 	linkHeading: string;
+	nudgesType?: string;
 }
