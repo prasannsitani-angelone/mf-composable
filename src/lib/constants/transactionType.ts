@@ -9,7 +9,7 @@ export const TRANSACTION_MAP: { [key: string]: string } = {
 	REDEEM: 'Withdrawal',
 	'SWITCH OUT': 'Switch',
 	SIP: 'SIP',
-	LUMPSUM: 'Onetime',
+	LUMPSUM: 'One time',
 	SWITCH: 'Switch'
 };
 

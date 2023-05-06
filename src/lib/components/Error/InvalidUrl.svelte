@@ -2,9 +2,14 @@
 	import ErrorView from '$components/ErrorView.svelte';
 	import { goto } from '$app/navigation';
 	import UrlExpiredIcon from '$lib/images/icons/UrlExpiredIcon.svelte';
-	import { base } from '$app/paths';
+	import type { AppContext } from '$lib/types/IAppContext';
+	import { getContext } from 'svelte';
+	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
+	import { OnNavigation } from '$lib/utils/navigation';
+	const appContext: AppContext = getContext('app');
 	const navigateToDiscoverFunds = () => {
-		goto(`${base}/discoverfunds`);
+		OnNavigation();
+		goto(`${getNavigationBaseUrl('', appContext.scheme, appContext.host)}/discoverfunds`);
 	};
 </script>
 
