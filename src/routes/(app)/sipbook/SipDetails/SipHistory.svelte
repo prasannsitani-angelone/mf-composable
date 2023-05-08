@@ -8,7 +8,6 @@
 	import { base } from '$app/paths';
 	import SipTransactions from './SipTransactions.svelte';
 	import SipDate from './SipDate.svelte';
-	import { createEventDispatcher } from 'svelte';
 	let sipId: number;
 	let sipOrderHistory: Array<ISipOrderHistory>;
 	let sipCreatedTs: number;
@@ -31,7 +30,6 @@
 	let skippedTxns = 0;
 	let transactionItems: Array<txnItem> = [];
 	let sipHistoryExpanded = false;
-	const dispatch = createEventDispatcher();
 
 	const setTxnCounts = () => {
 		const transactionList: Array<txnItem> = [];
@@ -75,7 +73,6 @@
 		if (transactionItems?.length) {
 			sipHistoryExpanded = !sipHistoryExpanded;
 		}
-		dispatch('historyToggled', sipHistoryExpanded);
 	};
 
 	onMount(() => {

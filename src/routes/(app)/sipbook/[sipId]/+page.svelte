@@ -39,7 +39,6 @@
 	let showSkipSuccessModal = false;
 	let showSkipFailureModal = false;
 	$: bottomHeight = 128;
-	$: historyToggled = false;
 	const maxTransactionsCap = 6;
 
 	const toggleShowCancelSipActionModal = () => {
@@ -114,10 +113,6 @@
 		sipCancelFailureModalRetryButtonClickAnalytics();
 	};
 
-	const handleHistoryToggled = (e: { detail: boolean }) => {
-		historyToggled = e.detail;
-	};
-
 	const handleSuccessModalCta = () => {
 		toggleShowSuccessModal();
 		sipCancelledSuccessModalDoneButtonClickAnalytics();
@@ -158,17 +153,13 @@
 				sipOrderHistory={sipData?.sipOrderHistory}
 				sipCreatedTs={sipData?.createdTs}
 				maxTxnShowCount={maxTransactionsCap}
-				on:historyToggled={handleHistoryToggled}
 			/>
 
-			<section
-				style={`bottom: ${bottomHeight}px`}
-				class={`w-full ${!historyToggled ? `!fixed inset-x-0 px-2` : ''}`}
-			>
+			<section style={`bottom: ${bottomHeight}px`} class={`w-full`}>
 				{#if sipData?.isSipInprocess}
 					<NudgeComponent
 						nudgeText="Your SIP order is already in progress. Skip and cancel are not available."
-						nudgeClasses={`m-4 ${!historyToggled ? `mb-2` : ''}`}
+						nudgeClasses={`m-4 mb-2`}
 					>
 						<svelte:fragment slot="nudgeIcon">
 							<HexagonalYellowWarningIcon class="mr-3" />
@@ -179,7 +170,7 @@
 				{#if sipData?.installmentSkip}
 					<NudgeComponent
 						nudgeText="You have already skipped your next SIP instalment."
-						nudgeClasses={`m-4 ${!historyToggled ? `mb-2` : ''}`}
+						nudgeClasses={`m-4 mb-2`}
 					>
 						<svelte:fragment slot="nudgeIcon">
 							<HexagonalYellowWarningIcon class="mr-3" />
@@ -194,7 +185,7 @@
 							'DATE',
 							true
 						)}.`}
-						nudgeClasses={`m-4 ${!historyToggled ? `mb-2` : ''}`}
+						nudgeClasses={`m-4 mb-2`}
 					>
 						<svelte:fragment slot="nudgeIcon">
 							<HexagonalYellowWarningIcon class="mr-3" />
