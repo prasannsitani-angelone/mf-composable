@@ -26,39 +26,41 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <article
-	class={`flex p-3 lg:p-4 ${
-		itemStyle ? itemStyle : 'items-center justify-between border-b lg:border-none'
-	} ${$$props.class || ''}`}
+	class="flex p-3 lg:p-4 {itemStyle
+		? itemStyle
+		: 'items-center justify-between border-b lg:border-none'} {$$props.class || ''}"
 	on:click
 >
-	<section class={`flex pr-8 ${itemStyle ? itemStyle : 'items-center'}`}>
+	<section class="flex pr-8 {itemStyle ? itemStyle : 'items-center'}">
 		<slot name="schemeLogo">
 			<img
 				src={data?.logoUrl || logoUrl}
 				alt="logo"
-				class={`mr-3 h-12 w-12 rounded-full border object-cover p-2 shadow-csm group-hover:bg-white ${
-					logoStyle || ''
-				}`}
+				class="mr-3 h-12 w-12 rounded-full border object-cover p-2 shadow-csm group-hover:bg-white {logoStyle ||
+					''}"
 				loading="lazy"
 			/>
 		</slot>
 		<div>
-			<div class="flex items-center text-xs text-gray-500">
-				{#if categoryName || data?.categoryName}
-					<span class={`${categoryStyle || ''}`}>
-						{categoryName || data?.categoryName}
-					</span>
-				{/if}
-				{#if (categoryName && subcategoryName) || (data?.categoryName && data?.subcategoryName)}
-					<DotIcon class="mx-1" />
-				{/if}
-				{#if subcategoryName || data?.subcategoryName}
-					<span class={`h-4 w-36 truncate md:w-56 ${subCategoryStyle || ''}`}>
-						{subcategoryName || data?.subcategoryName}
-					</span>
-				{/if}
-			</div>
-			<div class={`text-sm font-medium text-black-title lg:text-base ${titleStyle || ''}`}>
+			<slot name="schemeInfo">
+				<div class="flex items-center text-xs text-gray-500">
+					{#if categoryName || data?.categoryName}
+						<span class={categoryStyle || ''}>
+							{categoryName || data?.categoryName}
+						</span>
+					{/if}
+					{#if (categoryName && subcategoryName) || (data?.categoryName && data?.subcategoryName)}
+						<DotIcon class="mx-1" />
+					{/if}
+					{#if subcategoryName || data?.subcategoryName}
+						<span class="h-4 w-36 truncate md:w-56 {subCategoryStyle || ''}">
+							{subcategoryName || data?.subcategoryName}
+						</span>
+					{/if}
+				</div>
+			</slot>
+
+			<div class="text-sm font-medium text-black-title lg:text-base {titleStyle || ''}">
 				{data?.schemeName || schemeName || '-'}
 			</div>
 			<slot name="ratingSection">

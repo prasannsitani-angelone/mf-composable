@@ -20,6 +20,7 @@
 	import OrderPadHeader from '../../InvestmentPad/OrderPadComponents/OrderPadHeader.svelte';
 	import { investmentDetailsFooterEvents } from './constants';
 	import type { OrderPadTypes } from '$lib/types/IOrderPad';
+	import RedemptionPad from '../../Redemption/RedemptionPad.svelte';
 
 	export let data: PageData;
 
@@ -31,6 +32,7 @@
 	$: breadCrumbs = [];
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 	$: showInvestmentPad = false;
+	$: showRedemptionPad = false;
 	$: holdingsData = <FolioHoldingType>{};
 	$: queryParamsObj = <OrderPadTypes>{};
 
@@ -84,7 +86,7 @@
 	const handleErrorNavigation = () => goto('/');
 
 	const investmentHeaderButtonClick = (clickedButton: string) => {
-		if (clickedButton?.length && clickedButton === investmentDetailsFooterEvents?.INVEST) {
+		if (clickedButton?.length) {
 			orderPadActiveTab = clickedButton;
 		}
 	};
@@ -154,7 +156,12 @@
 	const setQueryParamsData = () => {
 		if (queryParamsObj?.orderpad === 'INVEST') {
 			showInvestmentPad = true;
+			showRedemptionPad = false;
+		} else if (queryParamsObj?.orderpad === 'REDEEM') {
+			showRedemptionPad = true;
+			showInvestmentPad = false;
 		} else {
+			showRedemptionPad = false;
 			showInvestmentPad = false;
 		}
 	};
@@ -165,7 +172,10 @@
 	});
 
 	const handleWithdrawCtaClick = () => {
-		// add logic
+		const currentPath = window?.location?.pathname;
+		const redirectPath = `${currentPath}?orderpad=REDEEM`;
+
+		goto(redirectPath);
 	};
 
 	const toggleSwitch = () => {
@@ -186,7 +196,8 @@
 		<section>
 			<Breadcrumbs items={breadCrumbs} class="my-4 hidden items-center justify-start md:flex" />
 
-			{#if !isMobile || !showInvestmentPad}
+			{#if !isMobile || !(showInvestmentPad || showRedemptionPad)}
+				<!-- Investment Details Page (Mobile and Desktop Layout) -->
 				<LeftSideView
 					holdings={res.holdingsData}
 					chartData={res.chartData}
@@ -195,6 +206,7 @@
 				/>
 
 				{#if res.holdingsData}
+					<!-- Investment Details Page Footer (Mobile Layout) -->
 					<InvestmentDetailsFooter
 						parentPage={orderpadParentPage?.INVESTMENT}
 						investmentAllowed={holdingsData?.investmentAllowed &&
@@ -210,32 +222,61 @@
 					/>
 				{/if}
 			{:else}
-				<InvestmentPad
-					class="block md:hidden"
-					schemeData={res.schemeData}
-					fromInvestmentDetailsPage
-				/>
+				<!-- Invest/Redeem Pages (Mobile Layout) -->
+				{#if showInvestmentPad}
+					<InvestmentPad
+						class="block md:hidden"
+						schemeData={res.schemeData}
+						fromInvestmentDetailsPage
+					/>
+				{:else if showRedemptionPad}
+					<RedemptionPad
+						holdingDetails={holdingsData}
+						isRedemptionNotAllowed={!holdingsData?.redemptionAllowed ||
+							!!withdrawDisableText?.length}
+						redemptionNotAllowedText={withdrawDisableText}
+						{isInvestmentNotAllowed}
+					/>
+				{/if}
 			{/if}
 		</section>
 
-		<!-- Right Side -->
+		<!-- Right Side (Desktop Layout) -->
 		{#if !isMobile}
-			<InvestmentPad
-				class="sticky -top-2 mt-[52px] hidden md:block"
-				schemeData={res.schemeData}
-				fromInvestmentDetailsPage
-				investmentNotAllowedText={investDisableText}
-			>
-				<svelte:fragment slot="header">
-					{#if res?.holdingsData}
-						<OrderPadHeader
-							{orderPadActiveTab}
-							on:onHeaderButtonClick={(buttonType) =>
-								investmentHeaderButtonClick(buttonType?.detail)}
-						/>
-					{/if}
-				</svelte:fragment>
-			</InvestmentPad>
+			{#if orderPadActiveTab === investmentDetailsFooterEvents?.INVEST}
+				<!-- Investment Pad -->
+				<InvestmentPad
+					class="sticky -top-2 mt-[52px] hidden md:block"
+					schemeData={res.schemeData}
+					fromInvestmentDetailsPage
+					investmentNotAllowedText={investDisableText}
+				>
+					<svelte:fragment slot="header">
+						{#if res?.holdingsData}
+							<OrderPadHeader
+								{orderPadActiveTab}
+								on:onHeaderButtonClick={(buttonType) =>
+									investmentHeaderButtonClick(buttonType?.detail)}
+							/>
+						{/if}
+					</svelte:fragment>
+				</InvestmentPad>
+			{:else if orderPadActiveTab === investmentDetailsFooterEvents?.WITHDRAW}
+				<!-- Redemption Pad -->
+				<article class="mt-[52px] h-fit shadow-csm">
+					<OrderPadHeader
+						{orderPadActiveTab}
+						on:onHeaderButtonClick={(buttonType) => investmentHeaderButtonClick(buttonType?.detail)}
+					/>
+					<RedemptionPad
+						holdingDetails={holdingsData}
+						isRedemptionNotAllowed={!holdingsData?.redemptionAllowed ||
+							!!withdrawDisableText?.length}
+						redemptionNotAllowedText={withdrawDisableText}
+						{isInvestmentNotAllowed}
+					/>
+				</article>
+			{/if}
 		{/if}
 	{:else}
 		<section class="col-span-full">

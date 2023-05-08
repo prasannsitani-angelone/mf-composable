@@ -35,9 +35,10 @@
 <section>
 	<article>
 		<ResultItem
-			class={`mb-2 rounded-lg bg-white p-4 shadow-csm md:px-6 md:py-5 ${
-				!isInvestmentNotAllowed && schemeDetails ? 'cursor-pointer' : ''
-			}`}
+			class="mb-2 rounded-lg bg-white p-4 shadow-csm md:px-6 md:py-5 {!isInvestmentNotAllowed &&
+			schemeDetails
+				? 'cursor-pointer'
+				: ''}"
 			data={schemeDetails}
 			schemeName={holdings?.schemeName}
 			logoUrl={holdings?.logoUrl}
@@ -64,7 +65,7 @@
 	<FolioSummary folioDetails={holdings} />
 	<TransactionHistory
 		transactionList={ordersData.orders}
-		class={isInvestmentNotAllowed ? 'mb-36' : ''}
+		class={isInvestmentNotAllowed ? 'mb-36' : 'mb-16'}
 	/>
 	<!-- TODO: Add the complete class condition for TransactionHistory - (isInvestmentNotAllowed || withdrawDisableText?.length) && 'mb-36' -->
 </section>

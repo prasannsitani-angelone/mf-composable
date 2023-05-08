@@ -15,19 +15,19 @@
 	const inactiveButtonClass = 'font-medium !bg-white !text-black-title/80 !border border-grey-line';
 </script>
 
-<article class="flex justify-center rounded-t-lg border-b bg-white py-4 px-3">
+<article class="flex justify-center rounded-t-lg border-b bg-white py-4 px-3 {$$props?.class}">
 	<Button
-		class={`flex-auto rounded-r-none py-3 ${
-			orderPadActiveTab !== 'INVEST' ? inactiveButtonClass : ''
-		}`}
+		class="flex-auto rounded-r-none py-3 {orderPadActiveTab !== 'INVEST'
+			? inactiveButtonClass
+			: ''}"
 		onClick={() => onButtonClick(investmentDetailsFooterEvents?.INVEST)}
 	>
 		INVEST MORE
 	</Button>
 	<Button
-		class={`flex-auto rounded-l-none py-3 ${
-			orderPadActiveTab !== 'WITHDRAW' ? inactiveButtonClass : ''
-		}`}
+		class="flex-auto rounded-l-none py-3 {orderPadActiveTab !== 'WITHDRAW'
+			? inactiveButtonClass
+			: ''}"
 		onClick={() => onButtonClick(investmentDetailsFooterEvents?.WITHDRAW)}
 	>
 		WITHDRAW

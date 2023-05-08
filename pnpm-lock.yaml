@@ -42,7 +42,7 @@ specifiers:
   uuid: ^9.0.0
   vite: 4.3.1
   vitest: ^0.25.3
-  wms-ui-component: 0.17.0
+  wms-ui-component: 0.19.0
 
 dependencies:
   '@bulatdashiev/svelte-slider': 1.0.3
@@ -60,7 +60,7 @@ dependencies:
   sveltekit-device-detector: 1.0.2_svelte@3.58.0
   ua-parser-js: 1.0.35
   uuid: 9.0.0
-  wms-ui-component: 0.17.0_lw4xmhynkhzauvwd2ysai265n4
+  wms-ui-component: 0.19.0_lw4xmhynkhzauvwd2ysai265n4
 
 devDependencies:
   '@playwright/test': 1.33.0
@@ -2539,8 +2539,8 @@ packages:
       isexe: 2.0.0
     dev: true
 
-  /wms-ui-component/0.17.0_lw4xmhynkhzauvwd2ysai265n4:
-    resolution: {integrity: sha512-EU8OZoWG7ikdurucVHun6PSHwptuMFXPdfSAOqmhBWC0PgWEClPSujBZeX9tmB1VwDjfNWMsJL5lf0nMZaQasQ==}
+  /wms-ui-component/0.19.0_lw4xmhynkhzauvwd2ysai265n4:
+    resolution: {integrity: sha512-GizuFvTOD59rBLmeDrlDO31m9GDW16cuEhvQ+V2M+zBQ7mERtssP3ObKmuvGCY3XdOD0lDGi6euK9sZQA0ruiA==}
     peerDependencies:
       svelte: ^3.54.0
     dependencies:

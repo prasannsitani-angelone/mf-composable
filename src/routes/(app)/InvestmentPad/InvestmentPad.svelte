@@ -341,7 +341,11 @@
 	};
 </script>
 
-<section class={`h-fit w-full rounded-lg bg-grey shadow-csm ${$$props?.class}`}>
+<section
+	class="h-fit w-full rounded-lg shadow-csm {$$props?.class} {!investmentNotAllowedText?.length
+		? 'bg-grey'
+		: 'bg-white'}"
+>
 	<slot name="header">
 		<section class="hidden rounded-t-lg bg-white px-3 py-5 font-medium text-black-title md:block">
 			Your Investment Pad

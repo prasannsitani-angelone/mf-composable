@@ -27,7 +27,7 @@
 			: `${getNavigationBaseUrl('', appContext.scheme, appContext.host)}/schemes/` +
 			  normalizeFundName(schemes?.schemeName, schemes?.isin, schemes?.schemeCode)
 	}`}
-	class={`flex items-start justify-between ${$$props.class}`}
+	class="flex items-start justify-between {$$props.class}"
 >
 	{#if showLogo}
 		<SchemeLogo src={schemes?.logoUrl} alt={schemes?.schemeName} />
@@ -39,7 +39,7 @@
 				headingSecondary={schemes?.subcategoryName}
 			/>
 		</slot>
-		<h3 class={`whitespace-normal text-base font-medium text-black-title sm:text-sm ${titleClass}`}>
+		<h3 class={`whitespace-normal text-sm font-medium text-black-title md:text-base ${titleClass}`}>
 			{schemes?.schemeName}
 		</h3>
 		<slot name="rating">
