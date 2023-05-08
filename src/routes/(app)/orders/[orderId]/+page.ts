@@ -35,6 +35,14 @@ export const load = (async ({ fetch, params }) => {
 			title: ORDER_DATA.ORDER_DATE,
 			value: ''
 		},
+		[ORDER_DATA.SIP_DUE_DATE]: {
+			title: ORDER_DATA.SIP_DUE_DATE,
+			value: ''
+		},
+		[ORDER_DATA.NAV_DATE]: {
+			title: ORDER_DATA.NAV_DATE,
+			value: ''
+		},
 		[ORDER_DATA.EXPECTED_NAV_DATE]: {
 			title: ORDER_DATA.EXPECTED_NAV_DATE,
 			value: '-',
@@ -42,21 +50,21 @@ export const load = (async ({ fetch, params }) => {
 			informationHeading: 'Expected NAV Date',
 			informationSubheading: NAV_DETAILS
 		},
-		[ORDER_DATA.ORDER_ID]: {
-			title: ORDER_DATA.ORDER_ID,
-			value: '',
-			copyIcon: true
-		},
-		[ORDER_DATA.STAMP_DUTY]: {
-			title: ORDER_DATA.STAMP_DUTY,
+		[ORDER_DATA.UNITS]: {
+			title: ORDER_DATA.UNITS,
 			value: ''
 		},
 		[ORDER_DATA.FOLIO_NUMBER]: {
 			title: ORDER_DATA.FOLIO_NUMBER,
 			value: ''
 		},
-		[ORDER_DATA.ESTIMATED_CREDIT_DATE]: {
-			title: ORDER_DATA.ESTIMATED_CREDIT_DATE,
+		[ORDER_DATA.ORDER_ID]: {
+			title: ORDER_DATA.ORDER_ID,
+			value: '',
+			copyIcon: true
+		},
+		[ORDER_DATA.SIP_ID]: {
+			title: ORDER_DATA.SIP_ID,
 			value: ''
 		},
 		[ORDER_DATA.BANK_DETAILS]: {
@@ -64,20 +72,12 @@ export const load = (async ({ fetch, params }) => {
 			value: '',
 			node: true
 		},
-		[ORDER_DATA.UNITS]: {
-			title: ORDER_DATA.UNITS,
+		[ORDER_DATA.STAMP_DUTY]: {
+			title: ORDER_DATA.STAMP_DUTY,
 			value: ''
 		},
-		[ORDER_DATA.NAV_DATE]: {
-			title: ORDER_DATA.NAV_DATE,
-			value: ''
-		},
-		[ORDER_DATA.SIP_DUE_DATE]: {
-			title: ORDER_DATA.SIP_DUE_DATE,
-			value: ''
-		},
-		[ORDER_DATA.SIP_ID]: {
-			title: ORDER_DATA.SIP_ID,
+		[ORDER_DATA.ESTIMATED_CREDIT_DATE]: {
+			title: ORDER_DATA.ESTIMATED_CREDIT_DATE,
 			value: ''
 		}
 	};
@@ -154,7 +154,7 @@ export const load = (async ({ fetch, params }) => {
 				amount,
 				paymentStatus,
 				status: orderStatus,
-				bankAccountNumber: bankAcc,
+				bankAccountNo: bankAcc,
 				bankName: bankname,
 				schemePlan,
 				sipId,
@@ -398,18 +398,18 @@ export const load = (async ({ fetch, params }) => {
 						index: number | null
 					) => {
 						let status = STATUS_ARR.NONE;
-						let subTitle = `Estimated by: ${format(new Date(item.timeStamp), 'dd MMMM yyyy')}`;
+						let subTitle = `Estimated by: ${format(new Date(item.timeStamp), 'dd MMM yyyy')}`;
 						let message = '';
 						let bgColorPending = false;
 						let textColorPending = false;
 						message = item?.message || '';
 						if (isNull(previousStepCurrentState) && item.failed) {
 							status = STATUS_ARR.FAILED;
-							subTitle = `Failed: ${format(new Date(item.timeStamp), 'dd MMMM yyyy hh:mm a')}`;
+							subTitle = `Failed: ${format(new Date(item.timeStamp), 'dd MMM yyyy, hh:mm a')}`;
 							if (index === 2) {
 								isOrderFailedAtExchange = true;
 							}
-							headerContent.subHeadingText = item?.message || item?.description;
+							headerContent.subHeadingText = item?.description || '';
 						} else if (isNull(previousStepCurrentState) && item.currentState) {
 							if (index === 0) {
 								status = STATUS_ARR.PAYMENT_PENDING;
@@ -444,7 +444,7 @@ export const load = (async ({ fetch, params }) => {
 							previousStepCurrentState = index;
 						} else if (isNull(previousStepCurrentState)) {
 							status = STATUS_ARR.SUCCESS;
-							subTitle = `${format(new Date(item.timeStamp), 'dd MMMM yyyy hh:mm a')}`;
+							subTitle = `${format(new Date(item.timeStamp), 'dd MMM yyyy, hh:mm a')}`;
 							headerContent.subHeadingText = `Portfolio updated on ${getDateTimeString(
 								Number(item.timeStamp),
 								'DATE',

@@ -52,7 +52,7 @@
 					class="border-b border-grey-line sm:border-b-0"
 				/>
 				<div class="mt-3 px-2 md:px-0">
-					<OrderCard orderDetails={ordersData.data} showStatusNote={data.showStatusNote} />
+					<OrderCard orderDetails={ordersData.data} showStatusNote={ordersData.showStatusNote} />
 					<div class="mt-3 rounded-lg bg-white px-3 py-3">
 						<div class="mb-5 text-lg font-medium text-black-title">
 							{ordersData?.data?.investmentType?.toUpperCase() === 'REDEEM'

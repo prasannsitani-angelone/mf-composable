@@ -14,7 +14,7 @@
 		expectedNavDateOpenAnalytics
 	} from '../analytics/navDate';
 	let orderDetails: IOrderDetails;
-	let showStatusNote: boolean;
+	let showStatusNote: boolean | undefined;
 	let isModalOpen: boolean;
 	$: amountDecimalPlaces =
 		orderDetails?.transactionType === 'REDEEM' || orderDetails?.transactionType === 'SWITCH'
@@ -68,26 +68,28 @@
 			{:else}
 				<span class="flex items-center justify-end gap-1 text-1xs text-grey-body">
 					Ex. NAV Date
-					<WMSIcon
-						height={16}
-						width={16}
-						class="ml-1 cursor-pointer"
-						name="info-in-circle"
-						on:click={handleOpenExpectedNavDateModal}
-					/>
-					<InfoPopup
-						detailText={NAV_DETAILS}
-						{isModalOpen}
-						closeModal={handleCloseExpectedNavDateModal}
-					>
-						<svelte:fragment slot="popupHeader">
-							<div class="flex items-center justify-between px-4 pt-6 pb-3 md:py-6 md:px-8">
-								<span class="text-lg font-medium text-black-title md:text-xl">
-									Expected NAV Date
-								</span>
-							</div>
-						</svelte:fragment>
-					</InfoPopup>
+					{#if orderDetails?.status?.toUpperCase() !== ORDER_STATUS.ORDER_REJECTED}
+						<WMSIcon
+							height={16}
+							width={16}
+							class="ml-1 cursor-pointer"
+							name="info-in-circle"
+							on:click={handleOpenExpectedNavDateModal}
+						/>
+						<InfoPopup
+							detailText={NAV_DETAILS}
+							{isModalOpen}
+							closeModal={handleCloseExpectedNavDateModal}
+						>
+							<svelte:fragment slot="popupHeader">
+								<div class="flex items-center justify-between px-4 pt-6 pb-3 md:py-6 md:px-8">
+									<span class="text-lg font-medium text-black-title md:text-xl">
+										Expected NAV Date
+									</span>
+								</div>
+							</svelte:fragment>
+						</InfoPopup>
+					{/if}
 				</span>
 				<p class="overflow-hidden text-ellipsis whitespace-nowrap font-medium text-black-title">
 					{orderDetails?.status?.toUpperCase() === ORDER_STATUS.ORDER_REJECTED
@@ -98,7 +100,7 @@
 		</div>
 	</div>
 	{#if showStatusNote}
-		<div class="mt-3 rounded bg-purple-background p-2 text-sm text-black-title">
+		<div class="mt-3 rounded bg-purple-background px-3 py-2 text-sm text-black-title">
 			You will receive a refund to your source bank account in 5-7 working days
 		</div>
 	{/if}
