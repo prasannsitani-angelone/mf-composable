@@ -24,7 +24,7 @@ if (browser) {
 
 		// request interceptor starts
 		// request interceptor ends
-		config.headers['X-Request-Id'] = uuidv4();
+		config.headers['X-Request-Id'] = config.headers['X-Request-Id'] || uuidv4();
 		// logging request
 		if (!resource.toString().includes('logging')) {
 			Logger.debug({

@@ -23,7 +23,7 @@
 	<main class="scroll-lock w-full flex-grow overflow-auto px-2 py-2 lg:pb-20">
 		<section class="m-auto flex max-w-8xl flex-wrap justify-center">
 			<section
-				class="w-full max-sm:flex max-sm:flex-col-reverse max-sm:self-baseline max-sm:overflow-auto lg:grid lg:grid-cols-[66%_34%] lg:gap-5 lg:pt-3 xl:w-4/5"
+				class="grid w-full grid-cols-[100%] !gap-y-0 sm:grid-cols-[66%_34%] sm:gap-2 lg:gap-5 lg:pt-3 xl:w-4/5"
 			>
 				<slot />
 			</section>

@@ -18,9 +18,33 @@ export const load = (async ({ fetch }) => {
 		}
 	};
 
+	const getExternalInvestmentData = async () => {
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings?external=true`;
+
+		const res = await useFetch(url, {}, fetch);
+
+		if (res?.ok) {
+			const investmentData = res.data;
+			return {
+				...investmentData
+			};
+		} else {
+			return res.data || {};
+		}
+	};
+
+	const getExternalInvestmentSummary = async () => {
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings?summary=true&external=true`;
+		const res = await useFetch(url, {}, fetch);
+
+		return res.data;
+	};
+
 	return {
 		api: {
-			investment: browser ? getInvestmentData() : await getInvestmentData()
+			investment: browser ? getInvestmentData() : await getInvestmentData(),
+			externalInvestmentSummary: getExternalInvestmentSummary(),
+			externalInvestment: getExternalInvestmentData()
 		},
 		layoutConfig: {
 			title: 'Investment Dashboard',

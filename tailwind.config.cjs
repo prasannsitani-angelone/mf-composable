@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	content: ['./src/**/*.{html,js,svelte,ts}'],
+	content: [
+		'./src/**/*.{html,js,svelte,ts}',
+		'./node_modules/wms-ui-component/**/*.{html,js,svelte,ts}'
+	],
 	safelist: ['w-2'],
 	theme: {
 		extend: {
@@ -51,6 +54,7 @@ module.exports = {
 				},
 				purple: {
 					primary: '#581DBE',
+					glow: '#EBE4F7',
 					background: '#E8EBFA'
 				}
 			},

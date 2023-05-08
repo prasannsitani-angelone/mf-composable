@@ -132,6 +132,16 @@ export const getTimestampDaysDifference = (
 	return daysDifference;
 };
 
+export const getTimestampHoursDifference = (
+	timeStamp1: number = Date.now(),
+	timeStamp2: number = Date.now()
+) => {
+	const difference = timeStamp1 - timeStamp2;
+	const hoursDifference = Math.floor(difference / 3600000);
+
+	return hoursDifference;
+};
+
 export const getNextMonthDate = (
 	dateTs: number,
 	dateTimeType = 'DATE',

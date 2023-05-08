@@ -7,6 +7,8 @@
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import Link from '$components/Link.svelte';
+
+	import { PortfolioCard } from 'wms-ui-component';
 	import PortfolioCardLoader from './PortfolioCardLoader.svelte';
 	import { useFetch } from '$lib/utils/useFetch';
 	import type { InvestmentSummary } from '$lib/types/IInvestments';
@@ -58,10 +60,8 @@
 {#if loading}
 	<PortfolioCardLoader {discoverPage} />
 {:else}
-	<article
-		class="mb-2 rounded-lg bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 pt-6 pb-4 text-white md:mt-2 lg:mt-0 lg:p-6"
-	>
-		<section class="mx-4 flex items-center justify-between lg:mx-0">
+	<PortfolioCard class="mb-2 pt-6 pb-4 md:mt-2 lg:mt-0 lg:p-6">
+		<section class=" flex items-center justify-between lg:mx-0">
 			<article class="flex flex-col items-start">
 				<div class="text-xs md:text-sm">Total Invested</div>
 				<div class="text-[18px] font-medium md:text-xl">
@@ -89,7 +89,7 @@
 			</section>
 		{:else}
 			<section
-				class={`my-4 mx-4 flex items-center justify-around rounded-lg bg-white bg-opacity-10 px-3 py-4 md:my-6 md:py-3.5 lg:mx-0 ${
+				class={`my-4 flex items-center justify-around rounded-lg bg-white bg-opacity-10 px-3 py-4 md:my-6 md:py-3.5 lg:mx-0 ${
 					discoverPage ? 'max-sm:hidden' : ''
 				}`}
 			>
@@ -204,5 +204,5 @@
 				</article>
 			</section>
 		{/if}
-	</article>
+	</PortfolioCard>
 {/if}

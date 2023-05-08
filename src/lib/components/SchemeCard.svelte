@@ -13,9 +13,10 @@
 	let schemes: WeeklyTopSchemesEntity;
 	let showLogo = true;
 	let preventRedirectOnSchemeClick = false;
+	let titleClass = '';
 	let redirectUrl = '';
 	const appContext: AppContext = getContext('app');
-	export { schemes, showLogo, preventRedirectOnSchemeClick, redirectUrl };
+	export { schemes, showLogo, preventRedirectOnSchemeClick, redirectUrl, titleClass };
 </script>
 
 <Link
@@ -38,7 +39,7 @@
 				headingSecondary={schemes?.subcategoryName}
 			/>
 		</slot>
-		<h3 class="whitespace-normal text-base font-medium text-black-title sm:text-sm">
+		<h3 class={`whitespace-normal text-base font-medium text-black-title sm:text-sm ${titleClass}`}>
 			{schemes?.schemeName}
 		</h3>
 		<slot name="rating">

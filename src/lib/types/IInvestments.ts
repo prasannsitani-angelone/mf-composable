@@ -26,6 +26,8 @@ export interface InvestmentEntity {
 	swpFlag: string;
 	datasource: string;
 	nfoScheme: string;
+	externalFundImportStatus: string;
+	externalImportFailed: boolean;
 }
 
 export interface OrdersSummary {
@@ -143,6 +145,10 @@ export interface InvestmentSummary {
 	previousDayReturnPercentage?: number;
 	shortTermGain?: number;
 	longTermGain?: number;
+	lastImportPending: boolean;
+	lastImportStatus: string;
+	lastImportTs: number;
+	lastSuccessfullImportTs: number;
 }
 
 export interface FolioObject {
@@ -228,4 +234,27 @@ export interface FolioTableData {
 export interface DistributorsType {
 	distributor: string;
 	folio: string;
+}
+
+export interface ScenarioMap {
+	errorFetchingInvestments: string;
+	FetchingInprogress: string;
+	noInvestmentFound: string;
+}
+
+export interface HoldingsResponse {
+	holdings: InvestmentEntity[];
+}
+
+export interface HoldingsPromise {
+	data: HoldingsResponse;
+	status: string;
+}
+
+export interface SummaryResponse {
+	summary: InvestmentSummary;
+}
+export interface SummaryPromise {
+	data: SummaryResponse;
+	status: string;
 }
