@@ -65,7 +65,7 @@
 		class="resend-otp cursor-pointer"
 		variant="transparent"
 		size="xs"
-		on:click={resendButtonClicked}>Resend OTP</Button
+		onClick={resendButtonClicked}>Resend OTP</Button
 	>
 	<div class="otp-input-container">
 		{#each otp as ot, i}
