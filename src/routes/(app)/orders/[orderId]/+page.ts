@@ -479,7 +479,7 @@ export const load = (async ({ fetch, params }) => {
 				headerContent.status = STATUS_ARR.PENDING;
 			} else if (orderStatus === ORDER_STATUS.ORDER_REJECTED) {
 				headerContent.status = STATUS_ARR.FAILURE;
-				headerContent.heading = 'FAILED';
+				headerContent.heading = 'Failed';
 			} else if (orderStatus === ORDER_STATUS.ORDER_COMPLETE) {
 				headerContent.status = STATUS_ARR.SUCCESS;
 				headerContent.heading = 'COMPLETED';
