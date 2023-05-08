@@ -19,6 +19,8 @@
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
+	import FundDetailsLoader from './FundDetailsLoader/FundDetailsLoader.svelte';
+	import OrderpadLoader from './FundDetailsLoader/OrderpadLoader.svelte';
 
 	export let data: PageData;
 
@@ -73,7 +75,9 @@
 </script>
 
 {#await data?.api?.schemeData}
-	<div>Loading</div>
+	<FundDetailsLoader />
+
+	<OrderpadLoader />
 {:then schemedata}
 	<!-- Left Side -->
 
