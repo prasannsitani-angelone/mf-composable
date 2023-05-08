@@ -10,7 +10,7 @@
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { useFetch } from '$lib/utils/useFetch';
 	import type {
 		OrdersSummary,
@@ -107,6 +107,7 @@
 			.map((key: keyof ProtfolioData) => protfolioData[key]) || [];
 
 	onMount(async () => {
+		await tick();
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/orders`;
 
 		try {

@@ -43,8 +43,10 @@ export const load = (async ({ fetch }) => {
 	return {
 		api: {
 			investment: browser ? getInvestmentData() : await getInvestmentData(),
-			externalInvestmentSummary: getExternalInvestmentSummary(),
-			externalInvestment: getExternalInvestmentData()
+			externalInvestmentSummary: browser
+				? getExternalInvestmentSummary()
+				: await getExternalInvestmentSummary(),
+			externalInvestment: browser ? getExternalInvestmentData() : await getExternalInvestmentData()
 		},
 		layoutConfig: {
 			title: 'Investment Dashboard',
