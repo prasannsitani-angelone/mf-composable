@@ -50,13 +50,14 @@
 
 			step = 'VALIDATE';
 		} else {
-			errorMsg = 'Error fetching OTP!!';
+			errorMsg = 'Unable to request for OTP. Please Try again.';
 		}
 		loading = false;
 	};
 
 	const onValidateOtp = async () => {
 		loading = true;
+		errorMsg = '';
 		const body = {
 			email: data.profile?.clientDetails?.email || '',
 			mobileNo: data.profile?.countryCode + data.profile?.mobile,
@@ -98,23 +99,35 @@
 	>
 		{#if step === 'GENERATE'}
 			<!-- Render Generate OTP contents -->
-			<div class="flex items-center justify-between p-0 sm:border-b sm:py-6 sm:px-8">
-				<div class="mr-1 text-xl">Generate OTP</div>
-				<button class="hidden sm:block md:cursor-pointer" on:click={onModalClick}>
-					<WMSIcon name="cross-circle" />
-				</button>
-			</div>
-			<div class="text-center sm:px-8">
-				<div
-					class="mt-3 mb-10 text-left text-sm font-normal text-grey-body sm:mt-5 sm:mb-11 sm:text-base sm:font-medium"
-				>
-					You will receive an OTP from MFCentral on <span class="font-normal text-black-title"
-						>{getMaskedMobileNumber(data.profile.mobile)}</span
-					>. Please verify this OTP in the next step
+			{#if !errorMsg}
+				<div class="flex items-center justify-between p-0 sm:border-b sm:py-6 sm:px-8">
+					<div class="mr-1 text-xl">Generate OTP</div>
+					<button class="hidden sm:block md:cursor-pointer" on:click={onModalClick}>
+						<WMSIcon name="cross-circle" />
+					</button>
 				</div>
-				<Button class="w-full sm:w-48" onClick={onRequestOtp}>GENERATE OTP</Button>
+				<div class="text-center sm:px-8">
+					<div
+						class="mt-3 mb-10 text-left text-sm font-normal text-grey-body sm:mt-5 sm:mb-11 sm:text-base"
+					>
+						You will receive an OTP from MFCentral on <span class="font-medium text-black-title"
+							>{getMaskedMobileNumber(data.profile.mobile)}</span
+						>. Please verify this OTP in the next step
+					</div>
+				</div>
+			{:else}
+				<div class="flex flex-col items-center justify-between sm:px-16 sm:pt-10 sm:pb-4">
+					<div class=""><WMSIcon width={92} height={92} name="red-cross-circle" /></div>
+					<div class="mt-10 mb-4 text-center text-base">{errorMsg}</div>
+				</div>
+			{/if}
+			<div class="text-center sm:px-8">
+				<Button
+					class="w-full sm:w-48"
+					variant={errorMsg ? 'outlined' : 'contained'}
+					onClick={onRequestOtp}>{errorMsg ? 'TRY AGAIN' : 'GENERATE OTP'}</Button
+				>
 			</div>
-
 			{#if loading}
 				<div class="absolute inset-0 flex items-center justify-center bg-black-title/80">
 					<LoadingIndicator svgClass={'!w-16 !h-16'} />
@@ -123,7 +136,7 @@
 		{:else if step === 'VALIDATE'}
 			<!-- Render Validate OTP contents -->
 			<div class="flex items-center justify-between p-0 sm:border-b sm:py-6 sm:px-8">
-				<div class="mr-1 text-xl">Verify OTP</div>
+				<div class="mr-1 text-lg font-medium">Verify OTP</div>
 				<button class="hidden sm:block md:cursor-pointer" on:click={onModalClick}>
 					<WMSIcon name="cross-circle" />
 				</button>
@@ -133,7 +146,7 @@
 					class="mt-3 mb-8 text-left text-sm font-normal text-grey-body sm:mt-5 sm:mb-11 sm:text-base"
 				>
 					By verifying the OTP, you are allowing Angel One to fetch all mutual funds investment
-					information mapped to your <span class="font-normal text-black-title"
+					information mapped to your <span class="font-medium text-black-title"
 						>PAN {getMaskedMobileNumber(data.profile.pan)}</span
 					>
 				</div>
@@ -165,7 +178,7 @@
 						will notify you once your portfolio has been updated
 					</div>
 				{/if}
-				<Button class="w-full sm:w-48" onClick={onModalClick}>Go To Investments</Button>
+				<Button class="w-full sm:w-48" onClick={onModalClick}>GO TO INVESTMENTS</Button>
 			</div>
 		{/if}
 	</div>

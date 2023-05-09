@@ -65,7 +65,7 @@
 		class="resend-otp cursor-pointer"
 		variant="transparent"
 		size="xs"
-		onClick={resendButtonClicked}>Resend OTP</Button
+		onClick={resendButtonClicked}>RESEND OTP</Button
 	>
 	<div class="otp-input-container">
 		{#each otp as ot, i}
@@ -75,7 +75,7 @@
 				bind:value={ot.value}
 				min="0"
 				max="9"
-				class="otp-inputs"
+				class="otp-inputs text-2xl"
 				bind:this={ot.self}
 				on:keyup={(e) => inputChange(e, ot, i)}
 			/>
