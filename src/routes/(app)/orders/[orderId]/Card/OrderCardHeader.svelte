@@ -13,7 +13,7 @@
 		>
 			<img src={orderDetails?.logoUrl} loading={'lazy'} width="48" height="48" alt="logo" />
 		</div>
-		<p class="text-black-title">{orderDetails?.schemeName}</p>
+		<p class="text-sm text-black-title md:text-base">{orderDetails?.schemeName}</p>
 	</div>
 {:else}
 	<SwitchOrderTitleCard

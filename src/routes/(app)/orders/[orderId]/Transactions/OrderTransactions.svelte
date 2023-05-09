@@ -30,6 +30,7 @@
 		title: 'Transaction Details'
 	}}
 	titleStyle="!ml-0"
+	titleFontSize="text-sm"
 	class="mb-2 max-w-8xl"
 	headerClass="!px-3 !py-4 md:!px-3 md:!py-4"
 >

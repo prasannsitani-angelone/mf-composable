@@ -16,7 +16,7 @@ const ORDER_DATA = {
 	UNITS: 'Units',
 	NAV_DATE: 'NAV Date',
 	AUTO_PAY_BANK: 'Autopay Bank',
-	SIP_ID: 'Sip Id',
+	SIP_ID: 'SIP ID',
 	SIP_DUE_DATE: 'SIP Due Date'
 };
 

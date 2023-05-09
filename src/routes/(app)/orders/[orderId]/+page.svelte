@@ -54,7 +54,10 @@
 				<div class="mt-3 px-2 md:px-0">
 					<OrderCard orderDetails={ordersData.data} showStatusNote={ordersData.showStatusNote} />
 					<div class="mt-3 rounded-lg bg-white px-3 py-3">
-						<div class="mb-5 text-lg font-medium text-black-title">
+						<div
+							class="mb-5 text-sm font-medium text-black-title"
+							class:!text-base={ordersData?.data?.investmentType?.toUpperCase() === 'REDEEM'}
+						>
 							{ordersData?.data?.investmentType?.toUpperCase() === 'REDEEM'
 								? 'Withdrawal Timeline'
 								: 'Order Timeline'}
