@@ -160,6 +160,7 @@ export const load = (async ({ fetch, params }) => {
 				sipId,
 				actualNavDate,
 				units,
+				quantity,
 				isin,
 				schemeCode
 			} = res.data.data;
@@ -244,7 +245,7 @@ export const load = (async ({ fetch, params }) => {
 					: ''
 			}</div></div>`;
 
-			statusItems[ORDER_DATA.UNITS].value = units;
+			statusItems[ORDER_DATA.UNITS].value = units || quantity;
 			if (actualNavDate) {
 				statusItems[ORDER_DATA.NAV_DATE].value = format(
 					new Date(actualNavDate * 1000),
@@ -364,7 +365,6 @@ export const load = (async ({ fetch, params }) => {
 				const filter = [ORDER_DATA.ORDER_DATE, ORDER_DATA.ORDER_ID];
 				statusItems = filterObject(statusItems, filter);
 			}
-			console.log(firstOrder);
 			// When order is type SIP investment recurring order OR lumpsum order via mandate ref number,
 			// change some data for transaction details
 			if (
@@ -379,6 +379,32 @@ export const load = (async ({ fetch, params }) => {
 						statusItems[key].title = ORDER_DATA.AUTO_PAY_BANK;
 					}
 				});
+			}
+
+			// If first order is Y and the mandate bank details is present
+			if (
+				transactionType === 'PURCHASE' &&
+				isInvestmentSipOrXsip &&
+				firstOrder?.toUpperCase() === 'Y' &&
+				orderStatus !== ORDER_STATUS.ORDER_REJECTED &&
+				orderStatus !== ORDER_STATUS.ORDER_COMPLETE &&
+				sipDetails?.bankName?.length
+			) {
+				const autoPayDetails = {
+					[ORDER_DATA.AUTO_PAY_BANK]: {
+						title: ORDER_DATA.AUTO_PAY_BANK,
+						value: '',
+						node: true
+					}
+				};
+				autoPayDetails[ORDER_DATA.AUTO_PAY_BANK].value = `<div class="flex flex-col"><div>${
+					sipDetails?.bankName
+				}</div><div class="text-sm text-grey-body">${
+					sipDetails?.accountNo?.length
+						? '****' + sipDetails?.accountNo?.substring(sipDetails?.accountNo?.length - 4)
+						: ''
+				}</div></div>`;
+				statusItems = { ...statusItems, ...autoPayDetails };
 			}
 
 			// History to set the timeline data
