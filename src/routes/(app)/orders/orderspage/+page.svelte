@@ -13,17 +13,14 @@
 	});
 </script>
 
-<article>
-	<section class="mt-0">
-		{#await data?.api?.getOrdersData}
-			<OrderDashboardLoader />
-		{:then ordersData}
-			<Dashboard
-				ordersSummary={ordersData?.ordersSummary}
-				inProgressOrders={ordersData?.inProgressOrders}
-				failedOrders={ordersData?.failedOrders}
-				{data}
-			/>
-		{/await}
-	</section>
-</article>
+{#await data?.api?.getOrdersData}
+	<OrderDashboardLoader />
+{:then ordersData}
+	<Dashboard
+		ordersSummary={ordersData?.ordersSummary}
+		inProgressOrders={ordersData?.inProgressOrders}
+		failedOrders={ordersData?.failedOrders}
+		compeletedOrders={ordersData?.completedOrders}
+		{data}
+	/>
+{/await}

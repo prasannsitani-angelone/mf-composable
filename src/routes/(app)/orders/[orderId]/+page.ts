@@ -404,7 +404,10 @@ export const load = (async ({ fetch, params }) => {
 						? '****' + sipDetails?.accountNo?.substring(sipDetails?.accountNo?.length - 4)
 						: ''
 				}</div></div>`;
-				statusItems = { ...statusItems, ...autoPayDetails };
+				// To maintain the odering that stamp duty should be last
+				const stampDutyDetails = statusItems[ORDER_DATA.STAMP_DUTY];
+				delete statusItems[ORDER_DATA.STAMP_DUTY];
+				statusItems = { ...statusItems, ...autoPayDetails, stampDutyDetails };
 			}
 
 			// History to set the timeline data

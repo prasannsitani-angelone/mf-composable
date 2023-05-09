@@ -22,6 +22,8 @@
 	export let categoryStyle = '';
 	export let subCategoryStyle = '';
 	export let logoStyle = '';
+	export let categoryContainerStyle = '';
+	export let containerStyle = '';
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -31,7 +33,7 @@
 		: 'items-center justify-between border-b lg:border-none'} {$$props.class || ''}"
 	on:click
 >
-	<section class="flex pr-8 {itemStyle ? itemStyle : 'items-center'}">
+	<section class="flex pr-8 {containerStyle} {itemStyle ? itemStyle : 'items-center'}">
 		<slot name="schemeLogo">
 			<img
 				src={data?.logoUrl || logoUrl}
@@ -41,11 +43,11 @@
 				loading="lazy"
 			/>
 		</slot>
-		<div>
+		<div class={categoryContainerStyle}>
 			<slot name="schemeInfo">
 				<div class="flex items-center text-xs text-gray-500">
 					{#if categoryName || data?.categoryName}
-						<span class={categoryStyle || ''}>
+						<span class={categoryStyle}>
 							{categoryName || data?.categoryName}
 						</span>
 					{/if}
@@ -59,7 +61,6 @@
 					{/if}
 				</div>
 			</slot>
-
 			<div class="text-sm font-medium text-black-title lg:text-base {titleStyle || ''}">
 				{data?.schemeName || schemeName || '-'}
 			</div>

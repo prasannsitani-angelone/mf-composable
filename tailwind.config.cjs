@@ -77,7 +77,9 @@ module.exports = {
 				60: '60'
 			},
 			fontSize: {
-				'1xs': '0.6875rem'
+				'1xs': '0.6875rem',
+				'2xs': '0.6250rem',
+				'3xs': '0.5625rem'
 			},
 			backgroundOpacity: {
 				12: '0.12'

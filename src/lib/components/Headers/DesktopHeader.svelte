@@ -21,6 +21,9 @@
 	const myInvestmentsTabClass = $page.url?.pathname?.includes('/investments')
 		? activePageTabClass
 		: inactivePageTabClass;
+	const ordersTabClass = $page.url?.pathname?.includes('/orders/orderspage')
+		? activePageTabClass
+		: inactivePageTabClass;
 	const appContext: AppContext = getContext('app');
 	const dispatch = createEventDispatcher();
 	const handleSearchFocusEvent = (e: { detail: boolean }) => {
@@ -48,6 +51,9 @@
 			<div class={`mr-4 hidden cursor-pointer uppercase md:block ${myInvestmentsTabClass}`}>
 				INVESTMENTS
 			</div>
+		</Link>
+		<Link to={`/orders/orderspage`}>
+			<div class="mr-4 hidden cursor-pointer uppercase md:block {ordersTabClass}">ORDERS</div>
 		</Link>
 		<div class="w-full md:w-2/5">
 			<SearchComponent on:searchFocus={handleSearchFocusEvent} />

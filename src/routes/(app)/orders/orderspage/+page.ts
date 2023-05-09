@@ -1,4 +1,5 @@
-import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+import { PUBLIC_MF_CORE_BASE_URL_V2 } from '$env/static/public';
+import { ORDER_STATUS } from '$lib/constants/orderFlowStatuses';
 import type { OrdersSummary } from '$lib/types/IInvestments';
 import type { IOrdersResponse, orderItem } from '$lib/types/IOrderItem';
 import { hydrate } from '$lib/utils/helpers/hydrated';
@@ -8,7 +9,7 @@ import OrderTabSelection from './TabSelection/OrderTabSelection.svelte';
 
 export const load = (async ({ fetch }) => {
 	let ordersSummary: OrdersSummary;
-	const ordersUrl = `${PUBLIC_MF_CORE_BASE_URL}/orders`;
+	const ordersUrl = `${PUBLIC_MF_CORE_BASE_URL_V2}/orders`;
 	const getOrdersData = async () => {
 		const ordersResponse = await useFetch(ordersUrl + '?summary=true', {}, fetch);
 		if (ordersResponse.ok) {
@@ -17,12 +18,23 @@ export const load = (async ({ fetch }) => {
 			const promises = [];
 			let inProgressOrders: orderItem[] = [];
 			let failedOrders: orderItem[] = [];
+			let completedOrders: orderItem[] = [];
 			if (ordersSummary?.totalProcessingOrders) {
 				promises.push(
 					useFetch(ordersUrl + '?status=ORDER_PROCESSING', {}, fetch)
 						.then((res) => res.data)
 						.then(({ data }: { data: IOrdersResponse }) => {
 							inProgressOrders = data?.orders;
+						})
+				);
+			}
+
+			if (ordersSummary?.totalProcessingOrders) {
+				promises.push(
+					useFetch(ordersUrl + `?status=${ORDER_STATUS.ORDER_COMPLETE}`, {}, fetch)
+						.then((res) => res.data)
+						.then(({ data }: { data: IOrdersResponse }) => {
+							completedOrders = data?.orders;
 						})
 				);
 			}
@@ -40,6 +52,7 @@ export const load = (async ({ fetch }) => {
 			return {
 				inProgressOrders,
 				failedOrders,
+				completedOrders,
 				ordersSummary
 			};
 		}
@@ -55,7 +68,8 @@ export const load = (async ({ fetch }) => {
 		layoutConfig: {
 			title: 'All Orders',
 			component: OrderTabSelection,
-			showBottomNavigation: true
+			showBottomNavigation: true,
+			layoutType: 'TWO_COLUMN_RIGHT_LARGE'
 		},
 		api: {
 			getOrdersData: hydrate ? getOrdersData() : await getOrdersData()
