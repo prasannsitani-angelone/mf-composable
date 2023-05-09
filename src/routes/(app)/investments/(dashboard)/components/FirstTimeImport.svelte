@@ -6,8 +6,7 @@
 
 <section class="rounded-lg bg-white px-4 py-5 sm:py-14">
 	<div class="m-auto max-w-[350px] text-center">
-		<div class="mb-3 text-xl font-medium text-black-title">Already Invested Somewhere?</div>
-
+		<div class="mb-2 text-xl font-medium text-black-title sm:mb-3">Already Invested Somewhere?</div>
 		<div class="mb-10 text-base font-normal leading-5 text-grey-body">
 			View all your investments in one place by tracking external investments with Angel One
 		</div>
