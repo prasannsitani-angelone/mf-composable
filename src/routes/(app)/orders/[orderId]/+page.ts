@@ -290,11 +290,17 @@ export const load = (async ({ fetch, params }) => {
 					} else if (investmentType === 'LUMPSUM') {
 						const filter = [
 							ORDER_DATA.ORDER_DATE,
-							ORDER_DATA.EXPECTED_NAV_DATE,
 							ORDER_DATA.BANK_DETAILS,
 							ORDER_DATA.ORDER_ID,
-							ORDER_DATA.STAMP_DUTY
+							ORDER_DATA.STAMP_DUTY,
+							ORDER_DATA.UNITS
 						];
+						if (orderStatus !== ORDER_STATUS.ORDER_COMPLETE) {
+							filter.push(ORDER_DATA.EXPECTED_NAV_DATE);
+						}
+						if (orderStatus == ORDER_STATUS.ORDER_COMPLETE) {
+							filter.push(ORDER_DATA.NAV_DATE);
+						}
 						statusItems = filterObject(statusItems, filter);
 					}
 				} else if (orderStatus === ORDER_STATUS.ORDER_REJECTED) {
