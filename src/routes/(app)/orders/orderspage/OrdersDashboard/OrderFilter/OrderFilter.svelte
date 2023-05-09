@@ -27,8 +27,8 @@
 	export { ordersSummary };
 </script>
 
-<section class="mb-3 flex flex-col rounded-lg border bg-white p-3 md:pt-4 md:pb-5">
-	<article class="mb-3 text-1xs text-grey-body md:text-xs">FILTER BY</article>
+<section class="mb-3 flex flex-col rounded-lg border bg-white px-4 py-3 md:px-5 md:pt-4 md:pb-5">
+	<article class="mb-3 text-1xs text-grey-body md:mb-5 md:text-xs">FILTER BY</article>
 	<article class="flex justify-between md:flex-col">
 		<div class="flex items-center">
 			<Input
@@ -40,10 +40,10 @@
 				checked={filters.inprogress}
 				onInputChange={(e) => handleChange(e)}
 				{classes}
-				label={`In Progress ( ${ordersSummary.totalProcessingOrders} )`}
+				label={`In Progress (${ordersSummary.totalProcessingOrders})`}
 			/>
 		</div>
-		<div class="flex items-center md:mt-5">
+		<div class="flex items-center md:mt-6">
 			<Input
 				id="completed-checkbox"
 				type="checkbox"
@@ -53,10 +53,10 @@
 				checked={filters.completed}
 				onInputChange={(e) => handleChange(e)}
 				{classes}
-				label={`Completed ( ${ordersSummary.totalCompletedOrders} )`}
+				label={`Completed (${ordersSummary.totalCompletedOrders})`}
 			/>
 		</div>
-		<div class="flex items-center md:mt-5">
+		<div class="flex items-center md:mt-6">
 			<Input
 				id="failed-checkbox"
 				type="checkbox"
@@ -66,7 +66,7 @@
 				checked={filters.failed}
 				onInputChange={(e) => handleChange(e)}
 				{classes}
-				label={`Failed ( ${ordersSummary.totalFailedOrders} )`}
+				label={`Failed (${ordersSummary.totalFailedOrders})`}
 			/>
 		</div>
 	</article>

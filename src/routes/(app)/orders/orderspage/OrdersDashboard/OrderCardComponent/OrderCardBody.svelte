@@ -7,17 +7,19 @@
 	import { WMSIcon } from 'wms-ui-component';
 	import { format } from 'date-fns';
 	import { orderCardClickAnalytics } from '$lib/analytics/orders/orders';
+	import { INVESTMENT_TYPE } from '$lib/constants/transactionType';
 
 	export let item: orderItem;
 	let investmentTypeText = '';
 
 	const setInvestmentTypeText = () => {
-		if (item?.investmentType === 'LUMPSUM') {
-			investmentTypeText = 'ONE-TIME';
-		} else if (item?.investmentType === 'REDEEM') {
-			investmentTypeText = 'WITHDRAW';
-		} else if (item?.investmentType === 'XSIP') {
+		if (item?.investmentType === 'XSIP') {
 			investmentTypeText = 'SIP';
+		} else if (
+			item?.investmentType === INVESTMENT_TYPE.SWITCH_IN ||
+			item?.investmentType === INVESTMENT_TYPE.SWITCH_OUT
+		) {
+			investmentTypeText = 'SWITCH';
 		} else {
 			investmentTypeText = item?.investmentType;
 		}

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import type { orderItem } from '$lib/types/IOrderItem';
+	import { INVESTMENT_TYPE } from '$lib/constants/transactionType';
 
 	const dispatch = createEventDispatcher();
 	export let item: orderItem;
@@ -15,7 +16,10 @@
 			class="flex items-center text-xs font-semibold text-blue-primary md:text-sm"
 			on:click={handleButtonClick}
 		>
-			{item?.transactionType === 'SWITCH' ? 'RETRY SWITCH' : 'RETRY PAYMENT'}
+			{item?.investmentType === INVESTMENT_TYPE.SWITCH_IN ||
+			item?.investmentType === INVESTMENT_TYPE.SWITCH_OUT
+				? 'RETRY SWITCH'
+				: 'RETRY PAYMENT'}
 		</button>
 	</article>
 </section>
