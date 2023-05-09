@@ -21,7 +21,7 @@
 	}
 </script>
 
-<PortfolioCard class="max-sm:mb-[10px]" variant="secondary">
+<PortfolioCard class="overflow-hidden max-sm:mb-[10px]" variant="secondary">
 	<section class="flex items-center justify-between lg:mx-0">
 		<article class="flex flex-col items-start">
 			<div class="text-xs md:text-sm">Total Invested</div>
