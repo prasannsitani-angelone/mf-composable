@@ -15,8 +15,8 @@
 		<ul
 			class="list-disc rounded bg-blue-background p-3 pl-7 text-left text-sm font-normal leading-[18px] text-grey-body"
 		>
-			<li class="mb-1">Getting information about your external investments could take some time</li>
-			<li>We will notify you once your portfolio has been updated</li>
+			<li class="mb-1">Fetching information about your investments can take some time.</li>
+			<li>We will notify you once your portfolio has been updated.</li>
 		</ul>
 	</div>
 </section>

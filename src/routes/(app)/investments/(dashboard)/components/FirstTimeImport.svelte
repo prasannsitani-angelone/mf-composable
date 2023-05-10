@@ -16,7 +16,7 @@
 			loading="lazy"
 			alt="Illustration shoeing first time import"
 		/>
-		<Button class="mt-8 w-full px-2 text-sm !font-light" onClick={onConfirmation}
+		<Button class="mt-8 w-full px-2 text-sm" onClick={onConfirmation}
 			>TRACK EXTERNAL INVESTMENTS</Button
 		>
 
