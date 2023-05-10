@@ -29,7 +29,7 @@ export const load = (async ({ fetch }) => {
 				);
 			}
 
-			if (ordersSummary?.totalProcessingOrders) {
+			if (ordersSummary?.totalCompletedOrders) {
 				promises.push(
 					useFetch(ordersUrl + `?status=${ORDER_STATUS.ORDER_COMPLETE}`, {}, fetch)
 						.then((res) => res.data)
