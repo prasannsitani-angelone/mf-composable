@@ -112,5 +112,5 @@
 		{/if}
 	</article>
 {:else}
-	<NoOrdersPage {data} />
+	<NoOrdersPage class="md:mt-0" {data} />
 {/if}

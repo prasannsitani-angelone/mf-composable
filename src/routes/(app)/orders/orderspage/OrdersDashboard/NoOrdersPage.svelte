@@ -7,13 +7,16 @@
 	let data: PageData;
 	const classes = {
 		header: 'p-4 pb-0',
-		container: '!pb-0'
+		container: `!pb-0 ${$$props.class}`
 	};
 	export { data };
 </script>
 
-<article class="mt-2">
+<article class="hidden md:block">
 	<NoOrders title="You don't have any orders currently" />
+</article>
+<article class="mt-2 {$$props.class}">
+	<NoOrders class="block md:hidden" title="You don't have any orders currently" />
 	{#if data?.searchDashboardData?.weeklyTopSchemes}
 		<TrendingFunds
 			tableData={data.searchDashboardData.weeklyTopSchemes}

@@ -95,10 +95,10 @@
 		const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips/${data?.sipId}`;
 		const res = await useFetch(sipUrl, {
 			method: 'PATCH',
-			body: {
+			body: JSON.stringify({
 				action: 'skip',
 				nextSipDueDate: nextSipDueDate
-			}
+			})
 		});
 		toggleShowSkipModal();
 		if (res.ok && res?.data?.status?.toUpperCase() === STATUS_ARR?.SUCCESS) {
