@@ -6,6 +6,12 @@ export const INVESTMENT_TYPE = {
 	LUMPSUM: 'LUMPSUM'
 };
 
+export const REVERSE_INVESTMENT_TYPE: { [key: string]: string } = {
+	'ONE-TIME': 'LUMPSUM',
+	SIP: 'SIP',
+	WITHDRAWAL: 'REDEEM'
+};
+
 export const TRANSACTION_MAP: { [key: string]: string } = {
 	REDEEM: 'Withdrawal',
 	'SWITCH OUT': 'Switch',

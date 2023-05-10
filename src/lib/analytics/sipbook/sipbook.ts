@@ -198,3 +198,49 @@ export const restartSipButtonClickAnalytics = (eventMetaData: any) => {
 		event_metadata: eventMetaData
 	});
 };
+
+export const skipSipButtonClickAnalytics = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipdetails',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'skipnextinstalment',
+		event_property: null,
+		event_id: '309.0.0.1.30'
+	});
+};
+
+export const skipSipConfirmationModalOpenAnalytics = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipdetails',
+		event_type: 'impression',
+		event_sub_type: 'popup',
+		event_name: 'bs-nextinstallment',
+		event_property: null,
+		event_id: '309.0.0.1.31'
+	});
+};
+
+export const skipSipModalButtonClickAnalytics = (eventMetaData: { value: string }) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 'bs-nextinstallement',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'YesNO',
+		event_property: null,
+		event_id: '309.0.0.1.32',
+		event_metadata: eventMetaData
+	});
+};
+
+export const skipSipSkippedSuccessModalOpenAnalytics = (eventMetaData: { value: string }) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipdetails',
+		event_type: 'impression',
+		event_sub_type: 'popup',
+		event_name: 'sipskipped',
+		event_property: null,
+		event_id: '309.0.0.1.33',
+		event_metadata: eventMetaData
+	});
+};

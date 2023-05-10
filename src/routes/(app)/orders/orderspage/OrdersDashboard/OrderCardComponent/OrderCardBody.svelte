@@ -93,11 +93,7 @@
 			<span class="mt-1 rounded-sm bg-grey p-1 text-3xs md:text-1xs">{investmentTypeText}</span>
 		</svelte:fragment>
 		<div class="w-[30%] pl-2" slot="returns">
-			<section
-				class="flex w-full flex-col"
-				class:font-medium={item?.status?.toUpperCase() === 'COMPLETED' ||
-					item?.status?.toUpperCase() === 'FAILED'}
-			>
+			<section class="flex w-full flex-col font-medium">
 				<article class="truncate text-end text-sm md:text-base">
 					{item?.amount > 0
 						? `₹${addCommasToAmountString(item?.amount?.toFixed(0))}`

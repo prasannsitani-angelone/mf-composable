@@ -29,8 +29,13 @@
 		sipCancelFailureModalRetryButtonClickAnalytics,
 		sipCancelledFailureModalOpenAnalytics,
 		sipCancelledSuccessModalDoneButtonClickAnalytics,
-		sipCancelledSuccessModalOpenAnalytics
+		sipCancelledSuccessModalOpenAnalytics,
+		skipSipButtonClickAnalytics,
+		skipSipConfirmationModalOpenAnalytics,
+		skipSipModalButtonClickAnalytics,
+		skipSipSkippedSuccessModalOpenAnalytics
 	} from '$lib/analytics/sipbook/sipbook';
+	import type { ISip } from '$lib/types/ISipType';
 	$: bankDetails = $profileStore?.bankDetails;
 	let showCancelSipActionModal = false;
 	let showSuccessModal = false;
@@ -59,8 +64,17 @@
 		}
 	};
 
-	const toggleSkipSuccessModal = () => {
+	const toggleSkipSuccessModal = (sipData: ISip) => {
 		showSkipSuccessModal = !showSkipSuccessModal;
+		if (showSkipSuccessModal) {
+			skipSipSkippedSuccessModalOpenAnalytics({
+				value: `SIP Instalment skipped,Your SIP instalment for ${sipData?.schemeName} for ${
+					getDateTimeProperties(sipData?.nextSipDueDate).month
+				}
+								${getDateTimeProperties(sipData?.nextSipDueDate).year}
+							will be skipped. Next SIP order is scheduled for ${getNextMonthDate(sipData?.nextSipDueDate)}`
+			});
+		}
 	};
 
 	const toggleSkipFailureModal = () => {
@@ -78,6 +92,10 @@
 
 	const toggleShowSkipModal = () => {
 		showSkipModal = !showSkipModal;
+		if (showSkipModal) {
+			skipSipButtonClickAnalytics();
+			skipSipConfirmationModalOpenAnalytics();
+		}
 	};
 
 	const handleCancelSip = async () => {
@@ -91,7 +109,7 @@
 		}
 	};
 
-	const handleSkipSip = async (nextSipDueDate: number) => {
+	const handleSkipSip = async (nextSipDueDate: number, sipData: ISip) => {
 		const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips/${data?.sipId}`;
 		const res = await useFetch(sipUrl, {
 			method: 'PATCH',
@@ -101,8 +119,11 @@
 			})
 		});
 		toggleShowSkipModal();
+		skipSipModalButtonClickAnalytics({
+			value: 'Yes, Skip'
+		});
 		if (res.ok && res?.data?.status?.toUpperCase() === STATUS_ARR?.SUCCESS) {
-			toggleSkipSuccessModal();
+			toggleSkipSuccessModal(sipData);
 		} else {
 			toggleSkipFailureModal();
 		}
@@ -240,9 +261,14 @@
 
 			<!-- SKIP MODAL -->
 			<ConfirmationPopup
-				closeModal={toggleShowSkipModal}
+				closeModal={() => {
+					toggleShowSkipModal();
+					skipSipModalButtonClickAnalytics({
+						value: 'No'
+					});
+				}}
 				isModalOpen={showSkipModal}
-				confirm={() => handleSkipSip(sipData?.nextSipDueDate)}
+				confirm={() => handleSkipSip(sipData?.nextSipDueDate, sipData)}
 				titleClass="!font-medium"
 				title="Skip Next SIP Instalment?"
 				confirmButtonTitle="YES, SKIP"

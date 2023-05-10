@@ -23,6 +23,7 @@
 	import type { AppContext } from '$lib/types/IAppContext';
 	import { getContext } from 'svelte';
 	import OrderFilter from './OrderFilter/OrderFilter.svelte';
+	import { REVERSE_INVESTMENT_TYPE } from '$lib/constants/transactionType';
 	let ordersSummary: OrdersSummary;
 	let inProgressOrders: orderItem[] = [];
 	let failedOrders: orderItem[] = [];
@@ -49,7 +50,7 @@
 			const params = encodeObject({
 				orderId: orderItem?.orderId,
 				pgTxnId: orderItem?.pgTxnId,
-				investmentType: orderItem?.investmentType,
+				investmentType: REVERSE_INVESTMENT_TYPE[orderItem?.investmentType?.toUpperCase()],
 				investmentAmount: orderItem?.amount
 			});
 			OnNavigation();
