@@ -5,7 +5,6 @@ export const load = (() => {
 		layoutConfig: {
 			title: 'Reports',
 			showBackIcon: true,
-			showCloseIcon: true,
 			layoutType: 'TWO_COLUMN_RIGHT_LARGE'
 		}
 	};

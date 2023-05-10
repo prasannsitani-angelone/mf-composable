@@ -11,7 +11,7 @@ const config: UserConfig = {
 		strictPort: false
 	},
 	optimizeDeps: {
-		include: ['lodash.get', 'lodash.isequal', 'lodash.clonedeep']
+		include: ['lodash.get', 'lodash.isequal', 'lodash.clonedeep', 'just-throttle', 'dayjs']
 	}
 };
 

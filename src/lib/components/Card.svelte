@@ -3,7 +3,7 @@
 	export let defaultHeaderClass = '';
 </script>
 
-<article class={`mt-0 rounded-lg bg-white p-4 text-sm shadow-csm ${$$props.class || ''}`}>
+<article class={`rounded-lg bg-white p-4 text-sm shadow-csm ${$$props.class || ''}`}>
 	<slot name="header">
 		{#if title}
 			<header class={`flex flex-col p-6 ${defaultHeaderClass}`}>

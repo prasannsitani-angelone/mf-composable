@@ -3,6 +3,6 @@
 	import Overlay from './Overlay.svelte';
 </script>
 
-<Overlay class="z-60 justify-center">
+<Overlay class=" justify-center">
 	<LoadingIndicator svgClass="!w-16 !h-16" />
 </Overlay>

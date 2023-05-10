@@ -46,7 +46,12 @@ if (browser) {
 	};
 }
 
-export const useFetch = async (url: string, options: RequestInit = {}, fetchServer?: FetchType) => {
+export const useFetch = async (
+	url: string,
+	options: RequestInit = {},
+	fetchServer: FetchType,
+	isNonJsonFetch = false
+) => {
 	const baseFetch = hydrate ? fetch : fetchServer;
 	const opts = {
 		...defaultOptions,
@@ -62,7 +67,10 @@ export const useFetch = async (url: string, options: RequestInit = {}, fetchServ
 	};
 	try {
 		const res = await baseFetch(url, opts);
-		const data = await res.json();
+		let data = res;
+		if (!isNonJsonFetch) {
+			data = await res.json();
+		}
 		const params = {
 			url,
 			opts: {
@@ -93,7 +101,7 @@ export const useFetch = async (url: string, options: RequestInit = {}, fetchServ
 				params
 			});
 		}
-		return { ok: res.ok, status: res.status, data };
+		return !isNonJsonFetch ? { ok: res.ok, status: res.status, data } : res;
 	} catch (e) {
 		Logger.error({
 			type: 'Network Request Error',

@@ -227,3 +227,88 @@ export const getCompleteSIPDateBasedonDD = (
 	const year = date?.getFullYear();
 	return new Date(year, month, calendarDate);
 };
+
+/**
+ * getFinancialYearList: returns array of objects of requested length (listLength)
+ * each object has info of a different financial year (title,
+ * fromDate, toDate, filename, selected)
+ * first object in current financial year, it decreases with each consequent object
+ *
+ * @param {number} listLength
+ * @returns {Array} financialYearList
+ */
+export const getFinancialYearList = (listLength = 3) => {
+	const today = new Date();
+	let endYear;
+	today.getMonth() < 3 // before April
+		? (endYear = today.getFullYear())
+		: (endYear = today.getFullYear() + 1);
+
+	const financialYearList = [];
+	for (let i = 0; i < listLength; i++) {
+		const temp = {
+			fromDate: `${endYear - 1}-04-01`,
+			toDate: `${endYear}-03-31`,
+			selected: false,
+			fileName: `Apr_${endYear - 1}_Mar_${endYear}`,
+			title: `Apr ${endYear - 1} - Mar ${endYear}`
+		};
+		endYear -= 1;
+		financialYearList.push(temp);
+	}
+	return financialYearList;
+};
+
+/**
+ * convertToTwoDigit: returns string after converting a number to two digit format
+ *
+ * @param {number} date
+ * @returns {string} twoDigitNumber
+ */
+export const convertToTwoDigit = (date: number): string => {
+	return ('0' + date).slice(-2);
+};
+
+/**
+ * getFrequentTimePeriodList: returns Array of Objects of frequently used time period
+ * used in opitons for Txn History reports
+ *
+ * @returns {Array} frequentTimePeriodList
+ */
+export const getFrequentTimePeriodList = () => {
+	let today = new Date();
+	const toDate = `${today.getFullYear()}-${convertToTwoDigit(
+		today.getMonth() + 1
+	)}-${convertToTwoDigit(today.getDate())}`;
+	const _3MonthBefore = new Date(today.setMonth(today.getMonth() - 3));
+	today = new Date();
+	const _6MonthBefore = new Date(today.setMonth(today.getMonth() - 6));
+	const Jan1 = new Date(new Date().getFullYear(), 0, 1);
+
+	const frequentTimePeriodList = [];
+	frequentTimePeriodList.push({
+		title: 'Last 3 Months',
+		isSelected: false,
+		fromDate: `${_3MonthBefore.getFullYear()}-${convertToTwoDigit(
+			_3MonthBefore.getMonth() + 1
+		)}-${convertToTwoDigit(_3MonthBefore.getDate())}`,
+		toDate
+	});
+	frequentTimePeriodList.push({
+		title: 'Last 6 Months',
+		isSelected: false,
+		fromDate: `${_6MonthBefore.getFullYear()}-${convertToTwoDigit(
+			_6MonthBefore.getMonth() + 1
+		)}-${convertToTwoDigit(_6MonthBefore.getDate())}`,
+		toDate
+	});
+	frequentTimePeriodList.push({
+		title: 'Year Till Date',
+		isSelected: false,
+		fromDate: `${Jan1.getFullYear()}-${convertToTwoDigit(Jan1.getMonth() + 1)}-${convertToTwoDigit(
+			Jan1.getDate()
+		)}`,
+		toDate
+	});
+	return frequentTimePeriodList;
+};

@@ -1,4 +1,11 @@
-<svg width="92" height="93" viewBox="0 0 92 93" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg
+	width="92"
+	height="93"
+	viewBox="0 0 92 93"
+	fill="none"
+	xmlns="http://www.w3.org/2000/svg"
+	class={$$props.class}
+>
 	<g id="group3">
 		<path
 			id="Path"

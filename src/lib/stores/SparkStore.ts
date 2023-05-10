@@ -65,7 +65,14 @@ function Store() {
 		closecta: () => sparkStore.closecta,
 		platformversion: () => sparkStore.platformversion,
 		platformvariant: () => sparkStore.platformvariant,
-		deviceid: () => sparkStore.deviceid
+		deviceid: () => sparkStore.deviceid,
+
+		isTWA() {
+			return sparkStore.platformvariant.toLowerCase() === 'twa';
+		},
+		isWebView() {
+			return sparkStore.platformvariant.toLowerCase() === 'webview';
+		}
 	};
 }
 
