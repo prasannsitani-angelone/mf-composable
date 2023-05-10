@@ -47,7 +47,7 @@
 				Discover
 			</div>
 		</Link>
-		<Link to="/investments" on:linkClicked={OnNavigation}>
+		<Link to="/investments">
 			<div class={`mr-4 hidden cursor-pointer uppercase md:block ${myInvestmentsTabClass}`}>
 				INVESTMENTS
 			</div>

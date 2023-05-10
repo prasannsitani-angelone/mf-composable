@@ -12,6 +12,7 @@
 	import FetchingInprogress from './components/FetchingInprogress.svelte';
 	import NoInvestmentFound from './components/NoInvestmentFound.svelte';
 	import FirstTimeInfoCard from './components/FirstTimeInfoCard.svelte';
+	import ErrorLoadingTableData from './components/ErrorLoadingTableData.svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import { getTimestampHoursDifference } from '$lib/utils/helpers/date';
@@ -46,7 +47,12 @@
 			summary?.investedValue === 0
 		) {
 			return 'errorFetchingInvestments';
-		} else if (summary?.lastImportPending === true && summary?.investedValue === 0) {
+		} else if (
+			(summary?.lastImportPending === true && summary?.investedValue === 0) ||
+			(summary?.lastImportPending === false &&
+				summary?.lastImportStatus === 'PENDING' &&
+				summary?.investedValue === 0)
+		) {
 			return 'FetchingInprogress';
 		} else if (
 			summary?.lastImportPending === false &&
@@ -197,7 +203,7 @@
 				<section class="col-span-1 sm:col-span-1 sm:col-start-1">
 					{#if res.status === 'success'}<YourInvestments
 							tableData={res.data?.holdings || []}
-						/>{:else}<div>ERROR: Table Data fetch Failed !!!</div>{/if}
+						/>{:else}<ErrorLoadingTableData />{/if}
 				</section>
 				<section
 					class="col-span-1 row-start-2 sm:col-span-1 sm:col-start-2 sm:row-span-3 sm:row-start-1"
