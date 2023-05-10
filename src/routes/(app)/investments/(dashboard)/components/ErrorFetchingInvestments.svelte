@@ -18,6 +18,6 @@
 		<div class="mb-6 text-sm text-grey-body">
 			We could not fetch your investment information due to a technical error. Please try again
 		</div>
-		<Button variant="outlined" class="w-40" onClick={onConfirmation}>Try Again</Button>
+		<Button variant="outlined" class="w-40" onClick={onConfirmation}>TRY AGAIN</Button>
 	</div>
 </section>

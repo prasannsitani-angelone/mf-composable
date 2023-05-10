@@ -24,6 +24,6 @@
 				>PAN {getMaskedMobileNumber(data.profile.pan)}</span
 			>
 		</div>
-		<Button class="w-40" variant="outlined" onClick={onConfirmation}>Try Again</Button>
+		<Button class="w-40" variant="outlined" onClick={onConfirmation}>TRY AGAIN</Button>
 	</div>
 </section>
