@@ -10,7 +10,7 @@
 		value?: string;
 		self?: HTMLInputElement;
 	};
-	//TODO: Handle 0 ka input
+
 	let otp: Item[] = [
 		{ value: '', self: undefined },
 		{ value: '', self: undefined },
@@ -19,6 +19,8 @@
 		{ value: '', self: undefined },
 		{ value: '', self: undefined }
 	];
+
+	const onlyNumbers = new RegExp(/^[0-9]*$/);
 
 	/**
 	 * @param {{value: string;self: {};}} item
@@ -53,6 +55,21 @@
 		clearExistingOtpParams();
 	};
 
+	const onPaste = (e: ClipboardEvent) => {
+		e.preventDefault();
+		let pastedValue = (e.clipboardData || window.clipboardData).getData('text');
+
+		const isValidCopyPaste = pastedValue && onlyNumbers.test(pastedValue) && pastedValue.length > 0;
+
+		if (isValidCopyPaste) {
+			const targetStr = pastedValue.substring(0, 6);
+			otp.forEach((val, i) => {
+				otp[i].value = targetStr.charAt(i) || '';
+			});
+			otp[targetStr.length - 1].self?.focus();
+		}
+	};
+
 	onMount(() => {
 		otp[0].self?.focus();
 	});
@@ -70,7 +87,7 @@
 	<div class="otp-input-container">
 		{#each otp as ot, i}
 			<input
-				type="tel"
+				type="number"
 				name="flavours"
 				bind:value={ot.value}
 				min="0"
@@ -78,6 +95,7 @@
 				class="otp-inputs text-2xl"
 				bind:this={ot.self}
 				on:keyup={(e) => inputChange(e, ot, i)}
+				on:paste={(e) => onPaste(e, ot, i)}
 			/>
 		{/each}
 	</div>
@@ -87,6 +105,11 @@
 </div>
 
 <style>
+	input[type='number']::-webkit-inner-spin-button,
+	input[type='number']::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
 	.text-secondary {
 		font-style: normal;
 		font-weight: 400;

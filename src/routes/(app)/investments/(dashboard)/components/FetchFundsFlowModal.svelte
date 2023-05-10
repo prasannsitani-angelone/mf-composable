@@ -22,6 +22,10 @@
 	let errorMsg = '';
 	let loading = false;
 
+	const otpValueChanged = () => {
+		errorMsg = '';
+	};
+
 	let xReqId: string;
 	const onRequestOtp = async () => {
 		errorMsg = '';
@@ -91,6 +95,10 @@
 		}
 		loading = false;
 	};
+
+	$: {
+		otpValueChanged(enteredOtp);
+	}
 </script>
 
 <Modal closeModal={onModalClick} isModalOpen>
@@ -141,7 +149,13 @@
 					<WMSIcon name="cross-circle" />
 				</button>
 			</div>
-			<div class="text-center sm:px-8">
+			<form
+				class="text-center sm:px-8"
+				on:submit={(e) => {
+					e.preventDefault();
+					onValidateOtp();
+				}}
+			>
 				<div
 					class="mt-3 mb-8 text-left text-sm font-normal text-grey-body sm:mt-5 sm:mb-11 sm:text-base"
 				>
@@ -151,10 +165,10 @@
 					>
 				</div>
 				<Otp bind:value={enteredOtp} {errorMsg} onResendClick={onRequestOtp} class="pb-11" />
-				<Button class="w-full" onClick={onValidateOtp} disabled={enteredOtp.length < 6}
+				<Button type="submit" class="w-full" disabled={enteredOtp.length < 6 || errorMsg.length > 0}
 					>VERIFY</Button
 				>
-			</div>
+			</form>
 			{#if loading}
 				<div class="absolute inset-0 flex items-center justify-center bg-black-title/80">
 					<LoadingIndicator svgClass={'!w-16 !h-16'} />
