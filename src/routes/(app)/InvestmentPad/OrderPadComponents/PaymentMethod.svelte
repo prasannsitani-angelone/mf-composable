@@ -1,0 +1,53 @@
+<script lang="ts">
+	import type { BankDetailsEntity } from '$lib/types/IUserProfile';
+	import PaymentTile from './PaymentTile.svelte';
+	import { PAYMENT_MODE } from '../constants';
+	import { stringToFloat } from '$lib/utils/helpers/numbers';
+
+	export let selectedMode = '';
+	export let paymentModes: Array<string> = [];
+	export let amount = '';
+	export let bankAccounts: Array<BankDetailsEntity> = [];
+	export let selectedAccount: number;
+	export let inputError = '';
+	export let redirectedFrom = '';
+	export let defaultInputVal = '';
+	export let isLoading = false;
+
+	export let onSelect: (payload: string) => void = () => undefined;
+	export let onSubmit = (): void => undefined;
+	export let onChangeBankClick = (): void => undefined;
+	export let resetInputError = (): void => undefined;
+
+	const amountInNumber: number = stringToFloat(amount);
+</script>
+
+<div class="flex flex-col overflow-y-scroll bg-white px-4 py-3">
+	<div class="mb-3 text-sm font-medium text-black-title">Pay Using</div>
+	{#each paymentModes as paymentModeKey (paymentModeKey)}
+		{#if PAYMENT_MODE[paymentModeKey].enabled(amountInNumber, redirectedFrom)}
+			<PaymentTile
+				selected={selectedMode === paymentModeKey}
+				identifier={paymentModeKey}
+				{onSelect}
+				{onSubmit}
+				showInput={PAYMENT_MODE[paymentModeKey].showInput}
+				{inputError}
+				{resetInputError}
+				bankAccount={bankAccounts[selectedAccount]?.accNO}
+				bankName={bankAccounts[selectedAccount]?.bankName}
+				bankLogo={bankAccounts[selectedAccount]?.bankLogo}
+				{amount}
+				showChangeBank={bankAccounts.length > 1}
+				defaultInputVal={defaultInputVal || ''}
+				{isLoading}
+				changeBank={onChangeBankClick}
+			>
+				<svelte:component this={PAYMENT_MODE[paymentModeKey].logo} slot="icon" />
+				<div slot="content">
+					{PAYMENT_MODE[paymentModeKey].name}
+				</div>
+			</PaymentTile>
+		{/if}
+	{/each}
+</div>

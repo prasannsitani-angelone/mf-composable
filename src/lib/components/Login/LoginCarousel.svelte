@@ -24,7 +24,7 @@
 <div class="flex flex-col items-center px-4 pt-8 pb-2 md:w-1/2 md:justify-center md:py-14">
 	<img src={`${base}/images/AngelOneLogo.webp`} class="mb-6 w-36 md:mb-14" alt="Angelone logo" />
 	<Carousel>
-		{#each carouselItems as item}
+		{#each carouselItems as item, index (index)}
 			<div class="mb-2 flex flex-col items-center">
 				<img
 					src={item.imageSrc}

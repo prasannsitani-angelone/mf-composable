@@ -3,6 +3,7 @@
 	import Modal from '$components/Modal.svelte';
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
 	import FailedIcon from '$lib/images/icons/FailedIcon.svelte';
+	import PendingOutlinedIcon from '$lib/images/icons/PendingOutlinedIcon.svelte';
 	import SuccessTickInCircleIcon from '$lib/images/icons/SuccessTickInCircleIcon.svelte';
 	let popupType = '';
 	let title = '';
@@ -40,6 +41,9 @@
 			{/if}
 			{#if popupType?.toUpperCase() === STATUS_ARR?.FAILURE}
 				<FailedIcon />
+			{/if}
+			{#if popupType?.toUpperCase() === STATUS_ARR?.PENDING}
+				<PendingOutlinedIcon />
 			{/if}
 		</slot>
 

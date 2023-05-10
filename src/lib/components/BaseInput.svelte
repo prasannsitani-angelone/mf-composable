@@ -16,7 +16,7 @@
 	export let value: string;
 	export let error = false;
 	export let filterChar = (event: InputEvent) => undefined;
-	export let onChange = () => undefined;
+	export let onChange: (data: string) => void = () => undefined;
 	export let onSubmit = () => undefined;
 	export let onClick = () => undefined;
 
