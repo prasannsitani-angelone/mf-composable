@@ -2,7 +2,7 @@
 	import BaseInput from '$components/BaseInput.svelte';
 	import Button from '$components/Button.svelte';
 	import RadioButton from '$components/RadioButton.svelte';
-	import { onMount } from 'svelte';
+	import { onDestroy } from 'svelte';
 
 	export let identifier = '';
 	export let selected = false;
@@ -21,7 +21,7 @@
 	export let resetInputError = (): void => undefined;
 	export let changeBank = (): void => undefined;
 
-	onMount(() => {
+	onDestroy(() => {
 		if (showInput) {
 			resetInputError();
 		}

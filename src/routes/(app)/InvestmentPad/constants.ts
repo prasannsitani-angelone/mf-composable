@@ -1,9 +1,7 @@
-import WorldIcon from '$lib/images/icons/WorldIcon.svelte';
-import GPayIcon from '$lib/images/icons/GPayIcon.svelte';
-import GPay from '$lib/images/icons/GPay.svelte';
-import PhonepeIcon from '$lib/images/icons/PhonepeIcon.svelte';
 import PhonePe from '$lib/images/icons/PhonePe.svelte';
-import UPIIcon from '$lib/images/icons/UPIIcon.svelte';
+import WorldIcon from './icons/GlobeIcon.svelte';
+import UPIIcon from './icons/UPIIcon.svelte';
+import GPayIcon from './icons/GpayIcon.svelte';
 
 import { deviceStore } from '$lib/stores/DeviceStore';
 
@@ -11,9 +9,10 @@ const MAX_LIMIT = 100000;
 
 export const PAYMENT_MODE = {
 	PHONEPE: {
-		logo: PhonepeIcon,
+		logo: PhonePe,
 		sleeveIcon: PhonePe,
 		name: 'PhonePe',
+		apiName: 'PHONEPE',
 		analytics: () => undefined,
 		enabled: (amountInNumber: number) => {
 			const os = deviceStore.osName();
@@ -26,8 +25,9 @@ export const PAYMENT_MODE = {
 	},
 	GOOGLEPAY: {
 		logo: GPayIcon,
-		sleeveIcon: GPay,
+		sleeveIcon: GPayIcon,
 		name: 'Google Pay',
+		apiName: 'GPAY',
 		analytics: () => undefined,
 		enabled: (amountInNumber: number) => {
 			const os = deviceStore.osName();

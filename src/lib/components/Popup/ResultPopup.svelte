@@ -3,7 +3,7 @@
 	import Modal from '$components/Modal.svelte';
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
 	import FailedIcon from '$lib/images/icons/FailedIcon.svelte';
-	import PendingOutlinedIcon from '$lib/images/icons/PendingOutlinedIcon.svelte';
+	import { WMSIcon } from 'wms-ui-component';
 	import SuccessTickInCircleIcon from '$lib/images/icons/SuccessTickInCircleIcon.svelte';
 	let popupType = '';
 	let title = '';
@@ -43,7 +43,7 @@
 				<FailedIcon />
 			{/if}
 			{#if popupType?.toUpperCase() === STATUS_ARR?.PENDING}
-				<PendingOutlinedIcon />
+				<WMSIcon name="clock-yellow" width={92} height={92} />
 			{/if}
 		</slot>
 
