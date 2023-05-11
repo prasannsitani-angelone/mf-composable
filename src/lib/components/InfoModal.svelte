@@ -22,9 +22,11 @@
 		>
 			<slot name="heading">
 				<div class="flex items-center justify-between px-4 pt-6 pb-3 md:py-6 md:px-8">
-					<span class="text-lg font-normal text-black-title md:text-xl">
-						{heading}
-					</span>
+					<slot name="headingDetails">
+						<span class="text-lg font-normal text-black-title md:text-xl">
+							{heading}
+						</span>
+					</slot>
 					<slot name="crossIconSlot">
 						<span class="cursor-default md:cursor-pointer" on:click={crossButtonClicked}>
 							<CrossInCircleIcon />

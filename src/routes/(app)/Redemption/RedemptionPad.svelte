@@ -27,6 +27,7 @@
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import { getQueryParamsObj } from '$lib/utils/helpers/params';
 	import type { OrderPadTypes } from '$lib/types/IOrderPad';
+	import DotIcon from '$lib/images/icons/DotIcon.svelte';
 
 	export let holdingDetails = <FolioHoldingType>{};
 	export let isRedemptionNotAllowed = false;
@@ -279,6 +280,12 @@
 			)}`
 		);
 	};
+
+	const withdrawalAmountReasons = [
+		'Withdrawal or switch is in progress',
+		'Investment is in lock in period',
+		'Units have been pledged'
+	];
 </script>
 
 <section class="rounded-b-lg md:bg-white md:py-3 {$$props?.class}">
@@ -614,6 +621,14 @@
 			detailText="Withdrawal amount may differ as exit load might be applicable as per AMC rules"
 			on:crossClicked={toggleWithdrawableAmountInfoModal}
 		>
+			<svelte:fragment slot="headingDetails">
+				<div class="flex flex-col font-medium">
+					<span class="text-lg text-black-title md:text-xl"> Withdrawable Amount </span>
+					<span class="text-sm text-grey-body">
+						Folio No: #{selectedFolio?.folioNumber}
+					</span>
+				</div>
+			</svelte:fragment>
 			<svelte:fragment slot="bodySection">
 				<section class="m-4 md:m-8">
 					<article class="mb-6 flex items-center justify-start">
@@ -621,7 +636,7 @@
 							<WMSIcon width={40} height={40} name="unlock-green" />
 						</span>
 						<div class="flex flex-col items-start justify-center">
-							<span class="text-xs font-medium text-grey-body">Withdrawable Amount</span>
+							<span class="text-xs font-medium text-grey-body">Available To Withdraw</span>
 							<span class="text-base font-medium text-black-title">
 								₹{addCommasToAmountString(selectedFolio?.redemableAmount?.toFixed(2))}
 								<span class="text-sm font-normal text-grey-body">
@@ -636,7 +651,7 @@
 							<WMSIcon width={40} height={40} name="lock-red" />
 						</span>
 						<div class="flex flex-col items-start justify-center">
-							<span class="text-xs font-medium text-grey-body">Blocked Amount</span>
+							<span class="text-xs font-medium text-grey-body">Blocked</span>
 							<span class="text-base font-medium text-black-title">
 								₹{addCommasToAmountString(selectedFolio?.blockedAmount?.toFixed(2))}
 								<span class="text-sm font-normal text-grey-body">
@@ -652,35 +667,18 @@
 						<span class="mr-3">
 							<WMSIcon width={25} height={25} name="not-allowed-icon" />
 						</span>
-						{#if selectedFolio?.unitsUnderProcess > 0 && selectedFolio?.pledgedUnits > 0}
-							<span>
-								Withdrawal of <span class="font-medium"
-									>{selectedFolio?.blockedunits?.toFixed(3)} units</span
-								>
-								of this fund is blocked as they might be in
-								<span class="font-medium">progress for withdrawal</span>
-								and <span class="font-medium">pledged</span> or subjected to
-								<span class="font-medium">3 years of lock in period</span>
-							</span>
-						{/if}
-						{#if selectedFolio?.unitsUnderProcess > 0}
-							<span>
-								Withdrawal of <span class="font-medium"
-									>{selectedFolio?.blockedunits?.toFixed(3)} units</span
-								>
-								of this fund is blocked as they might be in
-								<span class="font-medium">progress for withdrawal</span>
-								or subjected to <span class="font-medium">3 years of lock in period</span>
-							</span>
-						{:else}
-							<span>
-								Withdrawal of <span class="font-medium"
-									>{selectedFolio?.blockedunits?.toFixed(3)} units</span
-								>
-								of this fund is blocked as they are subjected to a
-								<span class="font-medium">3 year lock in period or have been pledged</span>
-							</span>
-						{/if}
+						<div class="text-xs font-normal">
+							Withdrawal of <span class="font-medium text-black-title"
+								>{selectedFolio?.blockedunits?.toFixed(3)} units</span
+							>
+							is blocked. This could be due to the following reasons (one or more):
+
+							{#each withdrawalAmountReasons as reason}
+								<div class="flex items-center">
+									<DotIcon class="mx-2" />{reason}
+								</div>
+							{/each}
+						</div>
 					</article>
 				</section>
 			</svelte:fragment>
