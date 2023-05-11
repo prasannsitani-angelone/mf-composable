@@ -2,6 +2,9 @@
 	import Link from '$components/Link.svelte';
 	import NoOrders from '$components/NoOrders.svelte';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
+	import type { AppContext } from '$lib/types/IAppContext';
+	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
+	import { getContext } from 'svelte';
 	import type { PageData } from '../../../../$types';
 	import TrendingFunds from '../../../discoverfunds/TrendingFunds/TrendingFunds.svelte';
 	let data: PageData;
@@ -9,6 +12,7 @@
 		header: 'p-4 pb-0',
 		container: `!pb-0 ${$$props.class}`
 	};
+	const appContext: AppContext = getContext('app');
 	export { data };
 </script>
 
@@ -28,7 +32,11 @@
 					class=" flex cursor-pointer items-center justify-center text-sm font-semibold uppercase text-blue-primary"
 				>
 					<Link
-						to={`/explorefunds/${data?.searchDashboardData?.searchOptions[0]?.name
+						to={`${getNavigationBaseUrl(
+							'',
+							appContext.scheme,
+							appContext.host
+						)}/explorefunds/${data?.searchDashboardData?.searchOptions[0]?.name
 							?.split(' ')
 							.join('-')
 							.toLowerCase()}?id=${data?.searchDashboardData?.searchOptions[0]?.id}`}
