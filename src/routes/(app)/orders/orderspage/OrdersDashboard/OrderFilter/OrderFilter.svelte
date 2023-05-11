@@ -1,21 +1,49 @@
 <script lang="ts">
+	import { filterStore } from '$lib/stores/FilterStore';
+	import type { IOrderFilter } from '$lib/types/IOrderFilter';
 	import type { OrdersSummary } from '$lib/types/IInvestments';
-	import { createEventDispatcher } from 'svelte';
 	import { Input } from 'wms-ui-component';
-	const dispatch = createEventDispatcher();
 	let ordersSummary: OrdersSummary;
-	let filters: { [key: string]: boolean } = {
+	let shouldDisable: IOrderFilter = {
 		failed: false,
-		completed: true,
-		inprogress: true
+		completed: false,
+		inprogress: false
 	};
-	const handleChange = (e: Event) => {
-		if ((e.target as HTMLInputElement)?.checked) {
-			filters[(e.target as HTMLInputElement)?.name] = true;
+
+	// Logic where the last checkbox should not be disabled
+	const disableLastFilter = (filters: IOrderFilter) => {
+		const filtersNotChecked = Object.keys(filters).filter(
+			(key) => !filters[key as keyof IOrderFilter]
+		);
+		if (filtersNotChecked.length == 2) {
+			Object.keys(filters).forEach((key) => {
+				if (filters[key as keyof IOrderFilter]) {
+					shouldDisable[key as keyof IOrderFilter] = true;
+				} else {
+					shouldDisable[key as keyof IOrderFilter] = false;
+				}
+			});
 		} else {
-			filters[(e.target as HTMLInputElement)?.name] = false;
+			resetDisableState();
 		}
-		dispatch('checked', filters);
+	};
+	const resetDisableState = () => {
+		shouldDisable = {
+			failed: false,
+			completed: false,
+			inprogress: false
+		};
+	};
+
+	const handleChange = (e: Event) => {
+		let filters = $filterStore;
+		if ((e.target as HTMLInputElement)?.checked) {
+			filters[(e.target as HTMLInputElement)?.name as keyof IOrderFilter] = true;
+		} else {
+			filters[(e.target as HTMLInputElement)?.name as keyof IOrderFilter] = false;
+		}
+		disableLastFilter(filters);
+		filterStore.updateStore(filters);
 	};
 	let classes = {
 		input: 'h-4 !w-4 cursor-pointer focus:outline-none accent-blue-primary',
@@ -24,6 +52,9 @@
 		container: '',
 		parent: ''
 	};
+	let filters = $filterStore;
+	disableLastFilter(filters);
+
 	export { ordersSummary };
 </script>
 
@@ -38,9 +69,10 @@
 					type="checkbox"
 					name="inprogress"
 					inputMode="none"
-					checked={filters.inprogress}
+					checked={$filterStore.inprogress}
 					onInputChange={(e) => handleChange(e)}
 					{classes}
+					disabled={shouldDisable.inprogress}
 				/>
 				<div class="ml-2">{`In Progress (${ordersSummary.totalProcessingOrders})`}</div>
 			</label>
@@ -53,9 +85,10 @@
 					type="checkbox"
 					name="completed"
 					inputMode="none"
-					checked={filters.completed}
+					checked={$filterStore.completed}
 					onInputChange={(e) => handleChange(e)}
 					{classes}
+					disabled={shouldDisable.completed}
 				/>
 				<div class="ml-2">{`Completed (${ordersSummary.totalCompletedOrders})`}</div>
 			</label>
@@ -68,9 +101,10 @@
 					type="checkbox"
 					name="failed"
 					inputMode="none"
-					checked={filters.failed}
+					checked={$filterStore.failed}
 					onInputChange={(e) => handleChange(e)}
 					{classes}
+					disabled={shouldDisable.failed}
 				/>
 				<div class="ml-2">{`Failed (${ordersSummary.totalFailedOrders})`}</div>
 			</label>

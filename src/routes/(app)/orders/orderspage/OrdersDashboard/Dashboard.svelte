@@ -24,11 +24,12 @@
 	import { getContext } from 'svelte';
 	import OrderFilter from './OrderFilter/OrderFilter.svelte';
 	import { REVERSE_INVESTMENT_TYPE } from '$lib/constants/transactionType';
+	import { filterStore } from '$lib/stores/FilterStore';
 	let ordersSummary: OrdersSummary;
 	let inProgressOrders: orderItem[] = [];
 	let failedOrders: orderItem[] = [];
 	let compeletedOrders: orderItem[] = [];
-	$: orders = [...compeletedOrders, ...inProgressOrders];
+	let orders: orderItem[] = [];
 	let data: PageData;
 	let schemeDetails: SchemeDetails;
 
@@ -60,30 +61,27 @@
 		}
 	};
 
-	const handleCheck = (e: { detail: { [key: string]: boolean } }) => {
+	$: {
 		orders = [];
-		const filters = e.detail;
-		if (filters.completed) {
-			orders.push(...compeletedOrders);
+		// const filters = e.detail;
+		if ($filterStore.completed) {
+			orders = [...orders, ...compeletedOrders];
 		}
-		if (filters.inprogress) {
-			orders.push(...inProgressOrders);
+		if ($filterStore.inprogress) {
+			orders = [...orders, ...inProgressOrders];
 		}
-		if (filters.failed) {
-			orders.push(...failedOrders);
+		if ($filterStore.failed) {
+			orders = [...orders, ...failedOrders];
 		}
-		if (!filters.completed && !filters.failed && !filters.inprogress) {
-			orders.push(...compeletedOrders);
-			orders.push(...inProgressOrders);
-			orders.push(...failedOrders);
+		if (!$filterStore.completed && !$filterStore.failed && !$filterStore.inprogress) {
+			orders = [...compeletedOrders, ...failedOrders, ...inProgressOrders];
 		}
-	};
-
-	// Sorting the orders desc by created Timestamp
-	$: if (orders) {
-		orders.sort((a, b) => {
-			return b.createdTs - a.createdTs;
-		});
+		// Sorting the orders desc by created Timestamp
+		if (orders) {
+			orders.sort((a, b) => {
+				return b.createdTs - a.createdTs;
+			});
+		}
 	}
 
 	const userType = profileStore.userType();
@@ -92,11 +90,11 @@
 
 {#if ordersSummary?.totalProcessingOrders || ordersSummary?.totalFailedOrders || ordersSummary?.totalCompletedOrders}
 	<article class="hidden md:block">
-		<OrderFilter {ordersSummary} on:checked={handleCheck} />
+		<OrderFilter {ordersSummary} />
 	</article>
 	<article>
 		<article class="block md:hidden">
-			<OrderFilter {ordersSummary} on:checked={handleCheck} />
+			<OrderFilter {ordersSummary} />
 		</article>
 		{#if orders.length}
 			{#each orders as item (item?.orderId)}
