@@ -48,7 +48,7 @@
 			</div>
 		</Link>
 		<Link to="/investments">
-			<div class={`mr-4 hidden cursor-pointer uppercase md:block ${myInvestmentsTabClass}`}>
+			<div class={`hidden cursor-pointer uppercase md:block ${myInvestmentsTabClass}`}>
 				INVESTMENTS
 			</div>
 		</Link>

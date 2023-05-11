@@ -4,36 +4,6 @@
 	import type { OrdersSummary } from '$lib/types/IInvestments';
 	import { Input } from 'wms-ui-component';
 	let ordersSummary: OrdersSummary;
-	let shouldDisable: IOrderFilter = {
-		failed: false,
-		completed: false,
-		inprogress: false
-	};
-
-	// Logic where the last checkbox should not be disabled
-	const disableLastFilter = (filters: IOrderFilter) => {
-		const filtersNotChecked = Object.keys(filters).filter(
-			(key) => !filters[key as keyof IOrderFilter]
-		);
-		if (filtersNotChecked.length == 2) {
-			Object.keys(filters).forEach((key) => {
-				if (filters[key as keyof IOrderFilter]) {
-					shouldDisable[key as keyof IOrderFilter] = true;
-				} else {
-					shouldDisable[key as keyof IOrderFilter] = false;
-				}
-			});
-		} else {
-			resetDisableState();
-		}
-	};
-	const resetDisableState = () => {
-		shouldDisable = {
-			failed: false,
-			completed: false,
-			inprogress: false
-		};
-	};
 
 	const handleChange = (e: Event) => {
 		let filters = $filterStore;
@@ -42,7 +12,6 @@
 		} else {
 			filters[(e.target as HTMLInputElement)?.name as keyof IOrderFilter] = false;
 		}
-		disableLastFilter(filters);
 		filterStore.updateStore(filters);
 	};
 	let classes = {
@@ -52,8 +21,6 @@
 		container: '',
 		parent: ''
 	};
-	let filters = $filterStore;
-	disableLastFilter(filters);
 
 	export { ordersSummary };
 </script>
@@ -72,7 +39,6 @@
 					checked={$filterStore.inprogress}
 					onInputChange={(e) => handleChange(e)}
 					{classes}
-					disabled={shouldDisable.inprogress}
 				/>
 				<div class="ml-2">{`In Progress (${ordersSummary.totalProcessingOrders})`}</div>
 			</label>
@@ -88,7 +54,6 @@
 					checked={$filterStore.completed}
 					onInputChange={(e) => handleChange(e)}
 					{classes}
-					disabled={shouldDisable.completed}
 				/>
 				<div class="ml-2">{`Completed (${ordersSummary.totalCompletedOrders})`}</div>
 			</label>
@@ -104,7 +69,6 @@
 					checked={$filterStore.failed}
 					onInputChange={(e) => handleChange(e)}
 					{classes}
-					disabled={shouldDisable.failed}
 				/>
 				<div class="ml-2">{`Failed (${ordersSummary.totalFailedOrders})`}</div>
 			</label>

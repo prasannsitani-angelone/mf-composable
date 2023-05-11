@@ -517,7 +517,7 @@ export const load = (async ({ fetch, params }) => {
 				headerContent.heading = 'Failed';
 			} else if (orderStatus === ORDER_STATUS.ORDER_COMPLETE) {
 				headerContent.status = STATUS_ARR.SUCCESS;
-				headerContent.heading = 'COMPLETED';
+				headerContent.heading = 'Completed';
 			}
 
 			showStatusNote =

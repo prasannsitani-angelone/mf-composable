@@ -10,7 +10,8 @@ let initalStore: IOrderFilter = {
 
 if (browser) {
 	initalStore = JSON.parse(
-		window.sessionStorage.getItem('filter') || '{"failed":false,"completed":true,"inprogress":true}'
+		window.sessionStorage.getItem('filter') ||
+			'{"failed":false,"completed":false,"inprogress":false}'
 	);
 }
 

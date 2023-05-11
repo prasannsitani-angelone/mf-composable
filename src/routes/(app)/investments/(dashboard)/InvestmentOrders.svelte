@@ -72,15 +72,6 @@
 	};
 
 	const protfolioData: ProtfolioData = {
-		inProgress: {
-			countIdentifier: 'totalProcessingOrders',
-			orderCountStyles: 'text-blue-primary  bg-blue-600',
-			title: 'In Progress',
-			orders: [],
-			textString: 'Status',
-			status: 'Processing',
-			orderType: 'PROCESSING'
-		},
 		upComing: {
 			countIdentifier: 'totalScheduledOrders',
 			orderCountStyles: 'text-blue-primary  bg-blue-600',
@@ -89,15 +80,6 @@
 			textString: 'Next payment',
 			status: '',
 			orderType: 'UPCOMING'
-		},
-		failed: {
-			countIdentifier: 'totalFailedOrders',
-			orderCountStyles: 'text-red-500 rounded-full bg-red-500',
-			title: 'Failed',
-			orders: [],
-			textString: 'Status',
-			status: '',
-			orderType: 'FAILED'
 		}
 	};
 	let availablePortfolios: Array<ProtfolioDataEntity>;

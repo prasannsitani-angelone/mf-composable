@@ -21,7 +21,7 @@
 			body[0].style.overflow = 'hidden';
 		}
 	};
-
+	let containerClass = '';
 	const resumePageScrolling = () => {
 		const body = document.getElementsByTagName('main');
 		if (body.length) {
@@ -32,9 +32,12 @@
 	const onWrapperClick = () => {
 		dispatch('backdropclicked');
 	};
+	export { containerClass };
 </script>
 
-<div class={`fixed inset-0 z-60 flex w-full flex-col items-center justify-end sm:justify-center`}>
+<div
+	class="fixed inset-0 z-60 flex w-full flex-col items-center justify-end sm:justify-center {containerClass}"
+>
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<div
 		class={`fixed inset-0 z-60 flex w-full flex-col items-center justify-end bg-black-title/80 sm:justify-center ${$$props?.class}`}
