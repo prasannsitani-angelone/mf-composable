@@ -263,7 +263,7 @@
 				</InvestmentPad>
 			{:else if orderPadActiveTab === investmentDetailsFooterEvents?.WITHDRAW}
 				<!-- Redemption Pad -->
-				<article class="mt-[52px] h-fit shadow-csm">
+				<article class="sticky -top-2 mt-[52px] h-fit rounded-b-lg shadow-csm">
 					<OrderPadHeader
 						{orderPadActiveTab}
 						on:onHeaderButtonClick={(buttonType) => investmentHeaderButtonClick(buttonType?.detail)}

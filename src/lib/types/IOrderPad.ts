@@ -1,6 +1,7 @@
 export interface OrderPadTypes {
 	orderpad: string;
 	params: string;
+	screen?: string;
 }
 
 export interface decodedParamsTypes {

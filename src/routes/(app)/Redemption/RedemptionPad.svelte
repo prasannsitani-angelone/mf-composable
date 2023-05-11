@@ -12,7 +12,7 @@
 	import Modal from '$components/Modal.svelte';
 	import { page } from '$app/stores';
 	import MobileHeader from '$components/Headers/MobileHeader.svelte';
-	import { onDestroy, onMount } from 'svelte';
+	import { afterUpdate, onDestroy, onMount } from 'svelte';
 	import ResultItem from '$components/Autocomplete/ResultItem.svelte';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
@@ -23,14 +23,18 @@
 	import { useFetch } from '$lib/utils/useFetch';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import type { UtilsMetaData } from '$lib/types/IRedemption';
+	import WithdrawConfirmation from './WithdrawConfirmation.svelte';
+	import { profileStore } from '$lib/stores/ProfileStore';
+	import { getQueryParamsObj } from '$lib/utils/helpers/params';
+	import type { OrderPadTypes } from '$lib/types/IOrderPad';
 
 	export let holdingDetails = <FolioHoldingType>{};
 	export let isRedemptionNotAllowed = false;
 	export let redemptionNotAllowedText = '';
 	export let isInvestmentNotAllowed = false;
 
-	// let bankDetails = $profileStore?.bankDetails;
-	// let primaryBankAccountIndex = profileStore?.primaryBankAccountIndex();
+	let bankDetails = $profileStore?.bankDetails;
+	let primaryBankAccountIndex = profileStore?.primaryBankAccountIndex();
 	let amount = '';
 	let errorMessage = '';
 	let fullAmountSelected = false;
@@ -53,6 +57,7 @@
 	$: redeemMultiplierAmount = holdingDetails?.redeemMultiplier;
 	$: blockedAmount = selectedFolio?.blockedAmount;
 	$: redemableUnits = selectedFolio?.redemableUnits;
+	$: queryParamsObj = <OrderPadTypes>{};
 
 	const handleAmountInputFocus = () => {
 		const amountInputElement = document?.getElementById('amountInput');
@@ -181,11 +186,45 @@
 		}
 
 		showWithdrawConfirmation = true;
+
+		if (isMobile) {
+			const currentPath = window?.location?.pathname;
+			const currentQuery = window?.location?.search;
+			const newQuery = 'screen=CONFIRM';
+			const updatedQuery = currentQuery?.includes('?')
+				? `${currentQuery}&${newQuery}`
+				: `?${newQuery}`;
+			const redirectPath = `${currentPath}${updatedQuery}`;
+
+			goto(redirectPath);
+		}
 	};
 
-	// const closeWithdrawalConfirmationScreen = () => {
-	//   showWithdrawConfirmation = false;
-	// }
+	const setQueryParamsData = () => {
+		if (isMobile) {
+			if (queryParamsObj?.screen === 'CONFIRM') {
+				if (amount?.length && numberOfUnits > 0) {
+					showWithdrawConfirmation = true;
+				} else {
+					const currentPath = window?.location?.pathname;
+					const redirectPath = `${currentPath}?orderpad=REDEEM`;
+
+					goto(redirectPath);
+				}
+			} else {
+				showWithdrawConfirmation = false;
+			}
+		}
+	};
+
+	afterUpdate(() => {
+		queryParamsObj = getQueryParamsObj();
+		setQueryParamsData();
+	});
+
+	const closeWithdrawalConfirmationScreen = () => {
+		showWithdrawConfirmation = false;
+	};
 
 	const toggleCurrentValueInfoModal = () => {
 		showCurrentValueTooltip = !showCurrentValueTooltip;
@@ -242,11 +281,11 @@
 	};
 </script>
 
-<section class="rounded-b-lg md:bg-white md:py-3">
+<section class="rounded-b-lg md:bg-white md:py-3 {$$props?.class}">
 	{#if isMobile && !$headerStore?.showMobileHeader}
 		<slot name="customMobileHeader">
 			<MobileHeader
-				title="Withdraw"
+				title={!showWithdrawConfirmation ? 'Withdraw' : 'Confirm Your Withdrawal'}
 				showSearchIcon={false}
 				showBackIcon={true}
 				showCloseIcon={false}
@@ -482,7 +521,7 @@
 						? 'cursor-default !bg-grey-line !text-grey-disabled active:opacity-100'
 						: ''}"
 					disabled={!amount?.length || !!errorMessage?.length || redemableAmount <= 0}
-					on:click={handleFooterCtaClick}
+					onClick={handleFooterCtaClick}
 				>
 					PROCEED
 				</Button>
@@ -505,7 +544,7 @@
 						? 'cursor-default !bg-grey-line !text-grey-disabled active:opacity-100'
 						: ''}"
 					disabled={!amount?.length || !!errorMessage?.length || redemableAmount <= 0}
-					on:click={handleFooterCtaClick}
+					onClick={handleFooterCtaClick}
 				>
 					WITHDRAW
 				</Button>
@@ -543,18 +582,17 @@
 	{#if showWithdrawConfirmation}
 		<!-- Withdraw Confirmation screen section -->
 		<section class="mx-0 md:mx-3">
-			<!-- TODO -->
-			<!-- <InvestRedeemRedemptionPadWithdrawConfirmation
-        :holding-details="holdingDetails"
-        :bank-accounts="bankAccounts"
-        :selected-account="primaryBankAccountIndex"
-        :withdrawal-amount="amount"
-        :number-of-units="numberOfUnits"
-        :folio-data="selectedFolio"
-        :utils-meta-data="utilsMetaData"
-        :redeem-all="fullAmountSelected"
-        on:close-withdrawal-confirmation-screen={closeWithdrawalConfirmationScreen}
-      /> -->
+			<WithdrawConfirmation
+				{holdingDetails}
+				bankAccounts={bankDetails}
+				selectedAccount={primaryBankAccountIndex}
+				withdrawalAmount={amount}
+				{numberOfUnits}
+				folioData={selectedFolio}
+				{utilsMetaData}
+				redeemAll={fullAmountSelected}
+				on:closeWithdrawalConfirmationScreen={closeWithdrawalConfirmationScreen}
+			/>
 		</section>
 	{/if}
 

@@ -37,7 +37,9 @@
 			</div>
 		</div>
 	</div>
-	{#if showRadioButton}
-		<RadioButton {selected} />
-	{/if}
+	<slot name="rightSection">
+		{#if showRadioButton}
+			<RadioButton {selected} />
+		{/if}
+	</slot>
 </div>

@@ -82,3 +82,22 @@ export const formatAmount = (amount: string) => {
 
 	return formattedAmount;
 };
+
+/**
+ * getCappedUnitString: Get units in capped format (without round off)
+ *
+ * @param {string} units
+ * @param {number} cap (default value = 3)
+ * @returns {string}
+ */
+export const getCappedUnitString = (units = '', cap = 3) => {
+	const unitString = units?.toString();
+
+	if (!unitString?.length) {
+		return '';
+	}
+
+	const [preDecimal = '', postDecimal = ''] = unitString.split('.');
+
+	return `${preDecimal}.${postDecimal?.slice(0, cap)}`;
+};
