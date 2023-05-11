@@ -44,8 +44,11 @@
 	import logger from '$lib/utils/logger';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { browser } from '$app/environment';
+	import { profileStore } from '$lib/stores/ProfileStore';
+	import type { IPreviousPaymentDetails } from '$lib/types/IPreviousPaymentDetails';
 
 	export let schemeData: SchemeDetails;
+	export let previousPaymentDetails: IPreviousPaymentDetails;
 	export let fromInvestmentDetailsPage: boolean;
 	export let params: decodedParamsTypes = {};
 	export let investmentNotAllowedText = '';
@@ -69,6 +72,8 @@
 	const sipPrefillAmount = 100;
 	const lumpsumPrefillAmount = 100;
 	const maximumAmountLimit = 999999999;
+	const upiPaymentAmountLimit = 100000;
+	const minimumNetBankingAmountLimit = 50;
 
 	let activeTab = 'SIP';
 	let amount = '';
@@ -90,7 +95,7 @@
 	let showChangePayment = false;
 	let paymentHandler = {
 		selectedAccount: 0,
-		paymentMode: 'UPI',
+		paymentMode: '',
 		upiId: ''
 	};
 	let inputPaymentError = '';
@@ -132,7 +137,8 @@
 	$: showTabNotSupported = false;
 	$: tabNotSupportedType = '';
 	$: isMobile = $page?.data?.deviceType?.isMobile;
-	$: profileStore = $page?.data?.profile;
+	$: profileData = $page?.data?.profile;
+	$: os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
 
 	let dateArray: Array<dateArrayTypes> = [{ value: 1, disabled: false }];
 
@@ -673,6 +679,65 @@
 			replaceState: true
 		});
 	};
+
+	const defaultValueToPaymentHandler = () => {
+		paymentHandler.paymentMode = '';
+		paymentHandler.upiId = '';
+		paymentHandler.selectedAccount = 0;
+		showChangePayment = true;
+	};
+
+	const updatePaymentMode = (amount: string) => {
+		if (
+			(paymentHandler?.paymentMode === 'GOOGLEPAY' ||
+				paymentHandler?.paymentMode === 'PHONEPE' ||
+				paymentHandler?.paymentMode === 'UPI') &&
+			parseInt(amount) > upiPaymentAmountLimit
+		) {
+			paymentHandler.paymentMode = 'NET_BANKING';
+		} else if (
+			paymentHandler?.paymentMode === 'NET_BANKING' &&
+			parseInt(amount) < minimumNetBankingAmountLimit
+		) {
+			paymentHandler.paymentMode = 'UPI';
+		}
+	};
+
+	const assignPreviousPaymentDetails = async () => {
+		if (previousPaymentDetails.ok) {
+			const data = previousPaymentDetails?.data;
+			const bankDetails = $page?.data?.profile?.bankDetails;
+			const index = profileStore.bankAccountIndexByAccountNumberOnServer(
+				bankDetails,
+				data?.accountNo
+			);
+			if (index < 0) {
+				defaultValueToPaymentHandler();
+				return;
+			}
+			paymentHandler.upiId = data?.upiId;
+			paymentHandler.selectedAccount = index;
+			const paymentMode = data?.paymentMode;
+			if (
+				(paymentMode === 'GOOGLEPAY' || paymentMode === 'PHONEPE') &&
+				os !== 'Android' &&
+				os !== 'iOS'
+			) {
+				paymentHandler.paymentMode = 'UPI';
+			} else if (redirectedFrom === 'SIP_PAYMENTS' && (os === 'Android' || os === 'iOS')) {
+				paymentHandler.paymentMode = 'GOOGLEPAY';
+			} else if (redirectedFrom === 'SIP_PAYMENTS') {
+				paymentHandler.paymentMode = 'UPI';
+			} else {
+				paymentHandler.paymentMode = paymentMode;
+			}
+		} else {
+			defaultValueToPaymentHandler();
+		}
+	};
+	assignPreviousPaymentDetails();
+
+	$: updatePaymentMode(amount);
 	// -------- **** ----------
 
 	//  ------- api calls functions --------
@@ -749,10 +814,10 @@
 				method: 'POST',
 				body: JSON.stringify({
 					amount: stringToFloat(amount),
-					bank_account_number: profileStore?.bankDetails[paymentHandler.selectedAccount]?.accNO,
-					bank_ifsc_code: profileStore?.bankDetails[paymentHandler.selectedAccount]?.ifscCode,
-					bank_name: profileStore?.bankDetails[paymentHandler.selectedAccount]?.bankName,
-					client_name: profileStore?.clientDetails?.fullName,
+					bank_account_number: profileData?.bankDetails[paymentHandler.selectedAccount]?.accNO,
+					bank_ifsc_code: profileData?.bankDetails[paymentHandler.selectedAccount]?.ifscCode,
+					bank_name: profileData?.bankDetails[paymentHandler.selectedAccount]?.bankName,
+					client_name: profileData?.clientDetails?.fullName,
 					product: 'mf',
 					request_source: 'mf-web',
 					redirect_url: `${window.location.origin}${base}/paymentCallback`
@@ -774,14 +839,14 @@
 				method: 'POST',
 				body: JSON.stringify({
 					amount: stringToFloat(amount),
-					bankAccountNo: profileStore?.bankDetails[paymentHandler.selectedAccount]?.accNO,
-					bankName: profileStore?.bankDetails[paymentHandler.selectedAccount]?.bankName,
-					dpNumber: profileStore?.dpNumber,
-					emailId: profileStore?.clientDetails?.email,
-					mobileNo: profileStore?.mobile,
-					poaStatus: profileStore?.poaStatus,
+					bankAccountNo: profileData?.bankDetails[paymentHandler.selectedAccount]?.accNO,
+					bankName: profileData?.bankDetails[paymentHandler.selectedAccount]?.bankName,
+					dpNumber: profileData?.dpNumber,
+					emailId: profileData?.clientDetails?.email,
+					mobileNo: profileData?.mobile,
+					poaStatus: profileData?.poaStatus,
 					schemeCode: schemeData?.schemeCode,
-					subBrokerCode: profileStore?.clientDetails?.subBroker,
+					subBrokerCode: profileData?.clientDetails?.subBroker,
 					transactionType: redirectedFrom === 'SIP_PAYMENTS' ? 'SIP_INSTALLMENT' : 'PURCHASE',
 					transactionRefNumber,
 					sipId,
@@ -806,7 +871,7 @@
 				body: JSON.stringify({
 					emandateId,
 					installmentAmount: stringToFloat(amount),
-					dpNumber: profileStore?.dpNumber,
+					dpNumber: profileData?.dpNumber,
 					schemeCode: schemeData?.schemeCode,
 					type: 'SIP',
 					startDate: getFormattedSIPDate(),
@@ -838,7 +903,7 @@
 				method: 'POST',
 				body: JSON.stringify({
 					bank_name:
-						profileStore?.bankDetails[paymentHandler?.selectedAccount]?.bankName?.toLowerCase() ||
+						profileData?.bankDetails[paymentHandler?.selectedAccount]?.bankName?.toLowerCase() ||
 						'',
 					product: 'mf',
 					vpa: id
@@ -863,10 +928,10 @@
 				method: 'POST',
 				body: JSON.stringify({
 					amount: stringToFloat(amount),
-					bank_account_number: profileStore?.bankDetails[paymentHandler?.selectedAccount]?.accNO,
-					bank_ifsc_code: profileStore?.bankDetails[paymentHandler?.selectedAccount]?.ifscCode,
-					bank_name: profileStore?.bankDetails[paymentHandler?.selectedAccount]?.bankName,
-					client_name: profileStore.clientDetails.fullName,
+					bank_account_number: profileData?.bankDetails[paymentHandler?.selectedAccount]?.accNO,
+					bank_ifsc_code: profileData?.bankDetails[paymentHandler?.selectedAccount]?.ifscCode,
+					bank_name: profileData?.bankDetails[paymentHandler?.selectedAccount]?.bankName,
+					client_name: profileData.clientDetails.fullName,
 					vpa: paymentHandler.upiId,
 					product: 'mf',
 					request_source: 'mf-web',
@@ -891,10 +956,10 @@
 				method: 'POST',
 				body: JSON.stringify({
 					amount: stringToFloat(amount),
-					bank_account_number: profileStore?.bankDetails[paymentHandler?.selectedAccount]?.accNO,
-					bank_ifsc_code: profileStore?.bankDetails[paymentHandler?.selectedAccount]?.ifscCode,
-					bank_name: profileStore?.bankDetails[paymentHandler?.selectedAccount]?.bankName,
-					client_name: profileStore.clientDetails.fullName,
+					bank_account_number: profileData?.bankDetails[paymentHandler?.selectedAccount]?.accNO,
+					bank_ifsc_code: profileData?.bankDetails[paymentHandler?.selectedAccount]?.ifscCode,
+					bank_name: profileData?.bankDetails[paymentHandler?.selectedAccount]?.bankName,
+					client_name: profileData.clientDetails.fullName,
 					product: 'mf',
 					request_source: 'mf-web',
 					request_type: 'INTENT',
@@ -1560,8 +1625,9 @@
 						<PaymentSleeve
 							selectedMode={paymentHandler?.paymentMode}
 							onPaymentMethodChange={showPaymentMethodScreen}
-							bankName={profileStore?.bankDetails[paymentHandler?.selectedAccount].bankName}
-							bankAccount={profileStore?.bankDetails[paymentHandler?.selectedAccount].accNO}
+							bankName={profileData?.bankDetails[paymentHandler?.selectedAccount]?.bankName}
+							bankAccount={profileData?.bankDetails[paymentHandler?.selectedAccount]?.accNO}
+							upiId={paymentHandler.upiId}
 						/>
 					{/if}
 					<article class="rounded-b-lg bg-white px-4 pt-3 md:px-3">
@@ -1663,7 +1729,7 @@
 		selectedMode={paymentHandler?.paymentMode}
 		onSelect={onPaymentModeSelect}
 		onSubmit={handleInvestClick}
-		bankAccounts={profileStore?.bankDetails}
+		bankAccounts={profileData?.bankDetails}
 		selectedAccount={paymentHandler?.selectedAccount}
 		inputError={inputPaymentError}
 		resetInputError={resetInputPaymentError}
@@ -1677,7 +1743,7 @@
 
 {#if bankPopupVisible}
 	<BankSelectionPopup
-		bankAccounts={profileStore?.bankDetails}
+		bankAccounts={profileData?.bankDetails}
 		selectedAccount={paymentHandler?.selectedAccount}
 		{onAccountChange}
 		onClose={hideBankPopup}

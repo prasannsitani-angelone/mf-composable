@@ -44,6 +44,11 @@ function CreateStore() {
 				return accNO === bankAccount.accNO;
 			});
 		},
+		bankAccountIndexByAccountNumberOnServer(bnkDetails: Array<BankDetailsEntity>, accNO: string) {
+			return bnkDetails?.findIndex((item: BankDetailsEntity) => {
+				return item.accNO === accNO;
+			});
+		},
 		accountType() {
 			if (!clientId) {
 				return 'D';

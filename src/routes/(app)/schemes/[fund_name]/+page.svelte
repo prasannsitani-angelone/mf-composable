@@ -122,11 +122,16 @@
 
 	<!-- Right Side -->
 	{#if !isMobile}
-		<InvestmentPad
-			class="sticky -top-2 mt-[52px] hidden md:block"
-			schemeData={schemedata}
-			fromInvestmentDetailsPage
-			params={orderpadParams}
-		/>
+		{#await data?.api?.previousPaymentDetails}
+			<div />
+		{:then previousPaymentDetails}
+			<InvestmentPad
+				class="sticky -top-2 mt-[52px] hidden md:block"
+				schemeData={schemedata}
+				{previousPaymentDetails}
+				fromInvestmentDetailsPage
+				params={orderpadParams}
+			/>
+		{/await}
 	{/if}
 {/await}

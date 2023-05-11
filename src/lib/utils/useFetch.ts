@@ -49,7 +49,7 @@ if (browser) {
 export const useFetch = async (
 	url: string,
 	options: RequestInit = {},
-	fetchServer: FetchType,
+	fetchServer?: FetchType,
 	isNonJsonFetch = false
 ) => {
 	const baseFetch = hydrate ? fetch : fetchServer;

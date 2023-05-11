@@ -3,8 +3,6 @@ import WorldIcon from './icons/GlobeIcon.svelte';
 import UPIIcon from './icons/UPIIcon.svelte';
 import GPayIcon from './icons/GpayIcon.svelte';
 
-import { deviceStore } from '$lib/stores/DeviceStore';
-
 const MAX_LIMIT = 100000;
 
 export const PAYMENT_MODE = {
@@ -14,8 +12,7 @@ export const PAYMENT_MODE = {
 		name: 'PhonePe',
 		apiName: 'PHONEPE',
 		analytics: () => undefined,
-		enabled: (amountInNumber: number) => {
-			const os = deviceStore.osName();
+		enabled: (amountInNumber: number, os: string) => {
 			if (os === 'Android' || os === 'iOS') {
 				return amountInNumber <= MAX_LIMIT;
 			}
@@ -29,8 +26,7 @@ export const PAYMENT_MODE = {
 		name: 'Google Pay',
 		apiName: 'GPAY',
 		analytics: () => undefined,
-		enabled: (amountInNumber: number) => {
-			const os = deviceStore.osName();
+		enabled: (amountInNumber: number, os: string) => {
 			if (os === 'Android' || os === 'iOS') {
 				return amountInNumber <= MAX_LIMIT;
 			}
@@ -53,7 +49,7 @@ export const PAYMENT_MODE = {
 		sleeveIcon: WorldIcon,
 		name: 'Net Banking',
 		analytics: () => undefined,
-		enabled: (amount: number, redirectedFrom: string) => {
+		enabled: (amount: number, os: string, redirectedFrom: string) => {
 			return redirectedFrom !== 'SIP_PAYMENTS' && amount >= 50;
 		},
 		showInput: false

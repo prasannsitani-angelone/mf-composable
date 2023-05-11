@@ -3,6 +3,7 @@
 	import PaymentTile from './PaymentTile.svelte';
 	import { PAYMENT_MODE } from '../constants';
 	import { stringToFloat } from '$lib/utils/helpers/numbers';
+	import { page } from '$app/stores';
 
 	export let selectedMode = '';
 	export let paymentModes: Array<string> = [];
@@ -20,12 +21,13 @@
 	export let resetInputError = (): void => undefined;
 
 	const amountInNumber: number = stringToFloat(amount);
+	$: os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
 </script>
 
 <div class="flex flex-col overflow-y-scroll bg-white px-4 py-3">
 	<div class="mb-3 text-sm font-medium text-black-title">Pay Using</div>
 	{#each paymentModes as paymentModeKey (paymentModeKey)}
-		{#if PAYMENT_MODE[paymentModeKey].enabled(amountInNumber, redirectedFrom)}
+		{#if PAYMENT_MODE[paymentModeKey].enabled(amountInNumber, os, redirectedFrom)}
 			<PaymentTile
 				selected={selectedMode === paymentModeKey}
 				identifier={paymentModeKey}

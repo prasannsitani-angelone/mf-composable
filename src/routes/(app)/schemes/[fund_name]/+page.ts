@@ -40,6 +40,16 @@ export const load = (async ({ fetch, params }) => {
 
 		return holdingData;
 	};
+
+	const getPreviousPaymentDetails = async () => {
+		try {
+			const url = `${PUBLIC_MF_CORE_BASE_URL}/user/paymentHandlers`;
+			return await useFetch(url, {}, fetch);
+		} catch (e) {
+			return {};
+		}
+	};
+
 	return {
 		layoutConfig: {
 			title: 'Fund Details',
@@ -49,7 +59,10 @@ export const load = (async ({ fetch, params }) => {
 		api: {
 			schemeData: browser ? getSchemeData() : await getSchemeData(),
 			holdingData: browser ? getFundHoldings() : await getFundHoldings(),
-			comparisons: browser ? getFundComparisonsData() : await getFundComparisonsData()
+			comparisons: browser ? getFundComparisonsData() : await getFundComparisonsData(),
+			previousPaymentDetails: browser
+				? getPreviousPaymentDetails()
+				: await getPreviousPaymentDetails()
 		}
 	};
 }) satisfies PageLoad;
