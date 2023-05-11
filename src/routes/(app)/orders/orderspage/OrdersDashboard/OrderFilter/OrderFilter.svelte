@@ -30,7 +30,9 @@
 	<article class="flex justify-between md:flex-col">
 		<div>
 			<!-- svelte-ignore a11y-label-has-associated-control -->
-			<label class="flex items-center text-xs font-medium text-black-title md:text-sm">
+			<label
+				class="flex cursor-pointer items-center text-xs font-medium text-black-title md:text-sm"
+			>
 				<Input
 					id="inprogress"
 					type="checkbox"
@@ -45,7 +47,9 @@
 		</div>
 		<div class="md:mt-6">
 			<!-- svelte-ignore a11y-label-has-associated-control -->
-			<label class="flex items-center text-xs font-medium text-black-title md:text-sm">
+			<label
+				class="flex cursor-pointer items-center text-xs font-medium text-black-title md:text-sm"
+			>
 				<Input
 					id="completed"
 					type="checkbox"
@@ -60,7 +64,9 @@
 		</div>
 		<div class="md:mt-6">
 			<!-- svelte-ignore a11y-label-has-associated-control -->
-			<label class="flex items-center text-xs font-medium text-black-title md:text-sm">
+			<label
+				class="flex cursor-pointer items-center text-xs font-medium text-black-title md:text-sm"
+			>
 				<Input
 					id="failed"
 					type="checkbox"
