@@ -7,7 +7,9 @@
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import HoldingsOverview from '../portfolio/HoldingsOverview.svelte';
 	import FolioSummary from './FolioSummary.svelte';
+	import FolioSummaryExternalFunds from './FolioSummaryExternalFunds.svelte';
 	import TransactionHistory from './TransactionHistory.svelte';
+	import PartialImportHeading from './components/PartialImportHeading.svelte';
 	import type { FolioHoldingType, ChartData, OrdersData } from '$lib/types/IInvestments';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	export let holdings: FolioHoldingType;
@@ -16,11 +18,20 @@
 	export let schemeDetails: SchemeDetails;
 
 	const userType = $page.data?.profile?.userType || '';
+	$: isExternal = $page?.data?.isExternal;
 
 	$: isInvestmentNotAllowed = !isInvestmentAllowed(userType, holdings?.schemePlan);
 
+	$: isPartialImport = isExternal && holdings?.externalFundImportStatus !== 'COMPLETED';
+
+	const isRedirectAllowed = () => {
+		return !isExternal ? true : !holdings.externalImportFailed;
+	};
+
 	const handleSchemeCardClick = () => {
 		if (isInvestmentNotAllowed) {
+			return;
+		} else if (!isRedirectAllowed()) {
 			return;
 		}
 		// TODO: Analytics
@@ -34,9 +45,13 @@
 
 <section>
 	<article class="mt-0">
+		{#if isPartialImport}
+			<PartialImportHeading />
+		{/if}
 		<ResultItem
 			class="mb-2 rounded-lg bg-white p-4 shadow-csm md:px-6 md:py-5 {!isInvestmentNotAllowed &&
-			schemeDetails
+			schemeDetails &&
+			isRedirectAllowed()
 				? 'cursor-pointer'
 				: ''}"
 			data={schemeDetails}
@@ -53,7 +68,7 @@
 				<span />
 			</svelte.fragment>
 			<svelte.fragment slot="returns">
-				{#if !isInvestmentNotAllowed && schemeDetails}
+				{#if !isInvestmentNotAllowed && schemeDetails && isRedirectAllowed()}
 					<span>
 						<RightIcon />
 					</span>
@@ -61,8 +76,18 @@
 			</svelte.fragment>
 		</ResultItem>
 	</article>
-	<HoldingsOverview folioSummary={holdings} chartDataList={chartData.chart} showGraphTags={false} />
-	<FolioSummary folioDetails={holdings} />
+	<HoldingsOverview
+		folioSummary={holdings}
+		chartDataList={chartData.chart}
+		showGraphTags={false}
+		{isPartialImport}
+	/>
+
+	{#if isExternal}
+		<FolioSummaryExternalFunds {isPartialImport} folioDetails={holdings} />
+	{:else}
+		<FolioSummary folioDetails={holdings} />
+	{/if}
 	<TransactionHistory
 		transactionList={ordersData.orders}
 		class={isInvestmentNotAllowed ? 'mb-36' : 'mb-16'}

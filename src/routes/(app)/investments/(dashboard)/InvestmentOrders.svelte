@@ -158,7 +158,7 @@
 			<svelte:fragment slot="accordionBody">
 				<section class="border-t px-3 pb-2">
 					<!-- Card -->
-					{#each portfolio.orders as item (item?.orderId)}
+					{#each portfolio.orders as item (item?.orderId + item?.isin)}
 						<article class="my-4 rounded-lg border">
 							<!-- Header -->
 							<HeaderComponent

@@ -3,7 +3,8 @@ import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
 
-export const load = (async ({ fetch }) => {
+export const load = (async ({ fetch, url }) => {
+	const isExternal = url.searchParams.get('type') === 'all';
 	const getInvestmentData = async () => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings`;
 
@@ -48,6 +49,7 @@ export const load = (async ({ fetch }) => {
 				: await getExternalInvestmentSummary(),
 			externalInvestment: browser ? getExternalInvestmentData() : await getExternalInvestmentData()
 		},
+		isExternal,
 		layoutConfig: {
 			title: 'Investment Dashboard',
 			showBottomNavigation: true,

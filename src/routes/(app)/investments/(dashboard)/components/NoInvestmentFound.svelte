@@ -20,7 +20,7 @@
 			No Investment Found!!
 		</div>
 		<div class="mb-6 text-sm text-grey-body">
-			We could not find any investments linked to your <span class="font-normal text-black-title"
+			We could not find any investments linked to your <span class="font-medium text-black"
 				>PAN {getMaskedMobileNumber(data.profile.pan)}</span
 			>
 		</div>

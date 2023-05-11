@@ -27,6 +27,8 @@
 
 	export let data: PageData;
 
+	$: isExternal = data?.isExternal;
+
 	let externalInvestmentSummary: Promise<SummaryPromise> | InvestmentSummary;
 	let externalInvestmentHoldings: Promise<HoldingsPromise> | InvestmentEntity[];
 	$: externalInvestmentSummary = data.api.externalInvestmentSummary;
@@ -69,13 +71,13 @@
 		const partialImports =
 			(Array.isArray(data) &&
 				data.filter((fund) => {
-					return fund.externalFundImportStatus === 'FAILED';
+					return fund.externalFundImportStatus !== 'COMPLETED';
 				})) ||
 			[];
 
 		partialImportedFundCount = partialImports.length;
 		totalImportedFundCount = data.length;
-		isPartialImport = partialImports.length > 0;
+		isPartialImport = isExternal && partialImports.length > 0;
 		return true;
 	};
 
@@ -144,7 +146,6 @@
 		const responses = await Promise.all([summary, holdings]);
 
 		if (responses[0]?.ok) {
-			console.log('Summary ---- ', responses[0]?.ok);
 			// Update externalInvestmentSummary
 			externalInvestmentSummary = responses[0].data;
 			const resSummary = responses[0].data?.data?.summary;

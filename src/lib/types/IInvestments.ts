@@ -120,6 +120,7 @@ export interface FolioSummaryTypes {
 	sipEnabled: boolean;
 	totalUnitsAllocated: number;
 	xirrPer: number;
+	lastSuccessfullImportTs: number;
 }
 
 export interface OrdersResponse {
@@ -201,6 +202,9 @@ export interface FolioHoldingType {
 	amcCode: number;
 	distributors: Array<DistributorsType>;
 	rtaName: string;
+	externalFundImportStatus: string;
+	externalImportFailed: boolean;
+	lastSuccessfullImportTs: number;
 }
 
 export interface CharDataEntity {
@@ -257,4 +261,8 @@ export interface SummaryResponse {
 export interface SummaryPromise {
 	data: SummaryResponse;
 	status: string;
+}
+export interface DistributorListEntity {
+	distributor: string;
+	folio: string;
 }

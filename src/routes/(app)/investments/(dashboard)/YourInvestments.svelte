@@ -34,13 +34,14 @@
 	export { tableData };
 
 	const handleRowClick = (selectedRow: InvestmentEntity) => {
+		const typeInQuery = new Map($page.url.searchParams)?.get('type');
+		const queryParam = `${typeInQuery ? '?type=external' : ''}`;
 		try {
 			goto(
-				`./investments/${normalizeFundName(
-					selectedRow?.schemeName,
-					selectedRow?.isin,
-					selectedRow?.schemeCode
-				)}`,
+				`./investments/${
+					normalizeFundName(selectedRow?.schemeName, selectedRow?.isin, selectedRow?.schemeCode) +
+					queryParam
+				}`,
 				{ replaceState: false }
 			);
 		} catch (error) {
@@ -48,8 +49,10 @@
 		}
 	};
 
+	$: isExternal = $page?.data?.isExternal;
+
 	const isPartialImport = (scheme: InvestmentEntity) => {
-		return scheme?.externalFundImportStatus === 'FAILED';
+		return isExternal && scheme?.externalFundImportStatus !== 'COMPLETED';
 	};
 </script>
 
@@ -86,7 +89,7 @@
 				<tr class="hover relative cursor-pointer" on:click={() => handleRowClick(schemes)}
 					><Td
 						class={`w-[40%] whitespace-normal max-sm:w-[70%] max-sm:pr-1 max-sm:pl-4 ${
-							isPartialImport(schemes) ? 'pb-16 sm:pb-12' : ''
+							isPartialImport(schemes) ? '!sm:pb-12 !pb-16' : ''
 						}`}
 					>
 						<SchemeCard
@@ -132,44 +135,62 @@
 					</Td>
 					<Td
 						class={`text-center max-sm:pl-1 max-sm:pr-0 max-sm:text-right ${
-							isPartialImport(schemes) ? 'pb-16 sm:pb-12' : ''
+							isPartialImport(schemes) ? '!sm:pb-12 !pb-16' : ''
 						}`}
-						><div class="text-black-title">
-							₹{schemes?.currentValue?.toString()
-								? addCommasToAmountString(schemes?.currentValue?.toFixed(2)?.toString())
-								: '-'}
-						</div></Td
+						>{#if isPartialImport(schemes)}
+							<article class="text-black-title max-sm:mr-1 lg:text-center">- -</article>
+						{:else}<div class="text-black-title">
+								₹{schemes?.currentValue?.toString()
+									? addCommasToAmountString(schemes?.currentValue?.toFixed(2)?.toString())
+									: '-'}
+							</div>{/if}</Td
 					>
 					<Td
-						class={`text-center max-sm:hidden ${isPartialImport(schemes) ? 'pb-16 sm:pb-12' : ''}`}
-						><div class="text-black-title">
-							₹{schemes?.investedValue?.toString()
-								? addCommasToAmountString(schemes?.investedValue?.toFixed(2)?.toString())
-								: '-'}
-						</div></Td
+						class={`text-center max-sm:hidden ${
+							isPartialImport(schemes) ? '!sm:pb-12 !pb-16' : ''
+						}`}
+					>
+						{#if isPartialImport(schemes)}
+							<article class="text-black-title lg:text-center">- -</article>
+						{:else}
+							<div class="text-black-title">
+								₹{schemes?.investedValue?.toString()
+									? addCommasToAmountString(schemes?.investedValue?.toFixed(2)?.toString())
+									: '-'}
+							</div>
+						{/if}</Td
 					>
 					<Td
 						class={`!pr-4 text-center max-sm:hidden ${
-							isPartialImport(schemes) ? 'pb-16 sm:pb-12' : ''
+							isPartialImport(schemes) ? '!sm:pb-12 !pb-16' : ''
 						}`}
-						><article class="text-black-title lg:text-right">
-							<div>
-								₹{schemes?.returnsValue?.toString()
-									? addCommasToAmountString(Math.abs(schemes?.returnsValue)?.toFixed(2)?.toString())
-									: '-'}
-							</div>
-							<div
-								class={`${schemes?.returnsAbsolutePer < 0 ? 'text-red-sell' : 'text-green-buy'}`}
-							>
-								{schemes?.returnsAbsolutePer > 0 ? '+' : ''}{schemes?.returnsAbsolutePer?.toString()
-									? schemes?.returnsAbsolutePer?.toFixed(2)
-									: '-'}%
-							</div>
-						</article></Td
 					>
+						{#if isPartialImport(schemes)}
+							<article class=" text-black-title lg:text-right">- -</article>
+						{:else}
+							<article class="text-black-title lg:text-right">
+								<div>
+									₹{schemes?.returnsValue?.toString()
+										? addCommasToAmountString(
+												Math.abs(schemes?.returnsValue)?.toFixed(2)?.toString()
+										  )
+										: '-'}
+								</div>
+								<div
+									class={`${schemes?.returnsAbsolutePer < 0 ? 'text-red-sell' : 'text-green-buy'}`}
+								>
+									{schemes?.returnsAbsolutePer > 0
+										? '+'
+										: ''}{schemes?.returnsAbsolutePer?.toString()
+										? schemes?.returnsAbsolutePer?.toFixed(2)
+										: '-'}%
+								</div>
+							</article>
+						{/if}
+					</Td>
 					<Td
 						class={`max-sm:align-right !pl-0 !pr-0 max-sm:pr-0 ${
-							isPartialImport(schemes) ? 'pb-16 sm:pb-12' : ''
+							isPartialImport(schemes) ? '!sm:pb-12 !pb-16' : ''
 						}`}><div><RightIcon width="22" height="27" class="inline-block" /></div></Td
 					></tr
 				>

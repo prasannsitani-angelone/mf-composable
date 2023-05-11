@@ -43,7 +43,7 @@ specifiers:
   uuid: ^9.0.0
   vite: 4.3.1
   vitest: ^0.25.3
-  wms-ui-component: 0.19.0
+  wms-ui-component: /Users/nitish.bhaskar/Projects/wms-ui-components/wms-ui-component-0.24.0.tgz
 
 dependencies:
   '@bulatdashiev/svelte-slider': 1.0.3
@@ -61,7 +61,7 @@ dependencies:
   sveltekit-device-detector: 1.0.2_svelte@3.58.0
   ua-parser-js: 1.0.35
   uuid: 9.0.0
-  wms-ui-component: 0.19.0_lw4xmhynkhzauvwd2ysai265n4
+  wms-ui-component: file:../wms-ui-components/wms-ui-component-0.24.0.tgz_lw4xmhynkhzauvwd2ysai265n4
 
 devDependencies:
   '@playwright/test': 1.33.0
@@ -2556,19 +2556,6 @@ packages:
       isexe: 2.0.0
     dev: true
 
-  /wms-ui-component/0.19.0_lw4xmhynkhzauvwd2ysai265n4:
-    resolution: {integrity: sha512-GizuFvTOD59rBLmeDrlDO31m9GDW16cuEhvQ+V2M+zBQ7mERtssP3ObKmuvGCY3XdOD0lDGi6euK9sZQA0ruiA==}
-    peerDependencies:
-      svelte: ^3.54.0
-    dependencies:
-      daisyui: 2.51.4_zmwpaxxolxfsc5pnrezed2bx24
-      svelte: 3.58.0
-    transitivePeerDependencies:
-      - autoprefixer
-      - postcss
-      - ts-node
-    dev: false
-
   /word-wrap/1.2.3:
     resolution: {integrity: sha512-Hz/mrNwitNRh/HUAtM/VT/5VH+ygD6DV7mYKZAtHOrbs8U7lvPS6xf7EJKMF0uW1KJCl0H701g3ZGus+muE5vQ==}
     engines: {node: '>=0.10.0'}
@@ -2593,3 +2580,19 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  file:../wms-ui-components/wms-ui-component-0.24.0.tgz_lw4xmhynkhzauvwd2ysai265n4:
+    resolution: {integrity: sha512-pU2LtIEubMsjWiWLL47Nc4SQkAy9SLIwxnqYvhVE0In4oewweWpZzGL2x0fqeM8nAwlBIjNEZUQGvQQPBRm2WQ==, tarball: file:../wms-ui-components/wms-ui-component-0.24.0.tgz}
+    id: file:../wms-ui-components/wms-ui-component-0.24.0.tgz
+    name: wms-ui-component
+    version: 0.24.0
+    peerDependencies:
+      svelte: ^3.54.0
+    dependencies:
+      daisyui: 2.51.4_zmwpaxxolxfsc5pnrezed2bx24
+      svelte: 3.58.0
+    transitivePeerDependencies:
+      - autoprefixer
+      - postcss
+      - ts-node
+    dev: false

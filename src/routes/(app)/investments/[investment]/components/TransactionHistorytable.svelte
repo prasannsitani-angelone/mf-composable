@@ -16,7 +16,9 @@
 			PURCHASE: 'BUY',
 			REDEEM: 'WITHDRAW',
 			['SWITCH OUT']: 'SWITCH OUT',
-			['SWITCH IN']: 'SWITCH IN'
+			['SWITCH IN']: 'SWITCH IN',
+			BUY: 'BUY',
+			WITHDRAW: 'WITHDRAW'
 		};
 		return transactionTypeLabelMap[transactionType] ? transactionTypeLabelMap[transactionType] : '';
 	};
@@ -26,7 +28,9 @@
 			PURCHASE: 'bg-green-buy bg-opacity-[12%]',
 			REDEEM: 'bg-red-sell bg-opacity-[12%]',
 			['SWITCH OUT']: 'bg-yellow-primary bg-opacity-[12%]',
-			['SWITCH IN']: 'bg-purple-primary bg-opacity-[12%]'
+			['SWITCH IN']: 'bg-purple-primary bg-opacity-[12%]',
+			BUY: 'bg-green-buy bg-opacity-[12%]',
+			WITHDRAW: 'bg-red-sell bg-opacity-[12%]'
 		};
 
 		return data?.transactionType ? cssMap[data?.transactionType] : '';

@@ -31,6 +31,7 @@
 	let breadCrumbs: BreadcrumbType[];
 	$: breadCrumbs = [];
 	$: isMobile = $page?.data?.deviceType?.isMobile;
+	$: isExternal = $page?.data?.isExternal;
 	$: showInvestmentPad = false;
 	$: showRedemptionPad = false;
 	$: holdingsData = <FolioHoldingType>{};
@@ -205,7 +206,7 @@
 					schemeDetails={res.schemeData}
 				/>
 
-				{#if res.holdingsData}
+				{#if res.holdingsData && !isExternal}
 					<!-- Investment Details Page Footer (Mobile Layout) -->
 					<InvestmentDetailsFooter
 						parentPage={orderpadParentPage?.INVESTMENT}
@@ -223,13 +224,13 @@
 				{/if}
 			{:else}
 				<!-- Invest/Redeem Pages (Mobile Layout) -->
-				{#if showInvestmentPad}
+				{#if showInvestmentPad && !isExternal}
 					<InvestmentPad
 						class="block md:hidden"
 						schemeData={res.schemeData}
 						fromInvestmentDetailsPage
 					/>
-				{:else if showRedemptionPad}
+				{:else if showRedemptionPad && !isExternal}
 					<RedemptionPad
 						holdingDetails={holdingsData}
 						isRedemptionNotAllowed={!holdingsData?.redemptionAllowed ||
@@ -242,7 +243,7 @@
 		</section>
 
 		<!-- Right Side (Desktop Layout) -->
-		{#if !isMobile}
+		{#if !isMobile && !isExternal}
 			{#if orderPadActiveTab === investmentDetailsFooterEvents?.INVEST}
 				<!-- Investment Pad -->
 				<InvestmentPad

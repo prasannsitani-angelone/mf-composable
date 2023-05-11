@@ -6,8 +6,10 @@
 	import GraphUpIcon from '$lib/images/icons/GraphUpIcon.svelte';
 	import GraphDownIcon from '$lib/images/icons/GraphDownIcon.svelte';
 	import type { FolioSummaryTypes } from '$lib/types/IInvestments';
+	import { WMSIcon } from 'wms-ui-component';
 
 	export let data: FolioSummaryTypes;
+	export let isPartialImport: boolean;
 </script>
 
 <article class="flex items-center justify-between rounded lg:border">
@@ -52,13 +54,23 @@
 	<section
 		class="ml-10 flex flex-1 flex-col items-end justify-center py-3 pt-2 lg:hidden lg:items-center lg:pt-3"
 	>
-		<div class="text-xs font-medium text-grey-body">Current Value</div>
+		<div class="text-xs font-medium text-grey-body">
+			{#if isPartialImport}
+				<WMSIcon name="polygon-red-warning" class="inline-block" width={12} height={12} />
+			{/if}
+			<span>Current Value</span>
+		</div>
+
 		<div class="text-base font-medium text-black-title">
-			<span class="mr-1">
-				{data?.currentValue < 0 ? '-' : ''}₹{!Number.isNaN(Math.abs(data?.currentValue))
-					? addCommasToAmountString(Math.abs(data?.currentValue)?.toFixed(2))
-					: ''}
-			</span>
+			{#if isPartialImport}
+				<span class="mr-1">- -</span>
+			{:else}
+				<span class="mr-1">
+					{data?.currentValue < 0 ? '-' : ''}₹{!Number.isNaN(Math.abs(data?.currentValue))
+						? addCommasToAmountString(Math.abs(data?.currentValue)?.toFixed(2))
+						: ''}
+				</span>
+			{/if}
 		</div>
 	</section>
 
@@ -67,11 +79,20 @@
 	</span>
 
 	<section class="hidden flex-1 flex-col items-center justify-center border-l py-3 lg:flex">
-		<div class="text-xs font-medium text-grey-body">Current Value</div>
+		<div class="text-xs font-medium text-grey-body">
+			{#if isPartialImport}
+				<WMSIcon name="polygon-red-warning" class="inline-block" width={12} height={12} />
+			{/if}
+			<span>Current Value</span>
+		</div>
 		<div class="text-base font-medium text-black-title">
-			₹{!Number.isNaN(Math.abs(data?.currentValue))
-				? addCommasToAmountString(Math.abs(data?.currentValue)?.toFixed(2))
-				: ''}
+			{#if isPartialImport}
+				<span class="mr-1">- -</span>
+			{:else}
+				₹{!Number.isNaN(Math.abs(data?.currentValue))
+					? addCommasToAmountString(Math.abs(data?.currentValue)?.toFixed(2))
+					: ''}
+			{/if}
 		</div>
 	</section>
 </article>
