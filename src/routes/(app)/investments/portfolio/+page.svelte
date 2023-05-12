@@ -26,9 +26,14 @@
 	];
 	export let data: PageData;
 
-	let chartData: ChartDataType[];
-	$: chartData = [];
-	$: ChartDataToSend = chartData;
+	type AllResponseSchema = {
+		chartData: ChartDataResponseObj;
+		summaryData: FolioSummaryTypes;
+		distributionData: DistributionDataResponseObj;
+	};
+
+	let allResponse: Promise<AllResponseSchema> | AllResponseSchema;
+	$: allResponse = data.api.allResponse;
 
 	type ChartDataResponseObj = {
 		chart: ChartDataType[];
@@ -37,34 +42,23 @@
 	type DistributionDataResponseObj = {
 		distributions: DistributionType[];
 	};
-	async function setPageData(
-		data: Promise<{
-			chartData: ChartDataResponseObj;
-			summaryData: FolioSummaryTypes;
-			distributionData: DistributionDataResponseObj;
-		}>
-	) {
-		const result = await data;
-		chartData = result?.chartData?.chart || [];
-	}
-
-	$: {
-		setPageData(data.api?.allResponse);
-	}
 
 	const updateLineChart = async (data: { detail: Tag }) => {
+		const allResData = await allResponse;
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings?chart=true&months=${data.detail.months}`;
-
 		const res = await useFetch(url, {}, fetch);
+		allResponse = allResData;
+
 		if (res?.ok && res?.data?.status === 'success') {
-			chartData = res.data.data?.chart || [];
+			allResponse.chartData.chart = res.data.data?.chart || [];
 		} else {
-			chartData = [];
+			allResponse.chartData.chart = [];
 		}
+		allResponse = allResponse;
 	};
 </script>
 
-{#await data.api.allResponse}
+{#await allResponse}
 	<InvestmentPortfolioLoader />
 {:then response}
 	{#if response.summaryData.summary}
@@ -73,7 +67,7 @@
 			<PageTitle title="Portfolio Analysis" class="mb-0 lg:mb-4" />
 			<HoldingsOverview
 				folioSummary={response.summaryData.summary}
-				chartDataList={ChartDataToSend}
+				chartDataList={response.chartData.chart}
 				showGraphTags={true}
 				on:portfolioChartTagChange={updateLineChart}
 			/>

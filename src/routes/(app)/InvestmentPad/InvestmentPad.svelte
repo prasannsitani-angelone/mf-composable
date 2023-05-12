@@ -704,7 +704,7 @@
 	};
 
 	const assignPreviousPaymentDetails = async () => {
-		if (previousPaymentDetails.ok) {
+		if (previousPaymentDetails?.ok) {
 			const data = previousPaymentDetails?.data;
 			const bankDetails = $page?.data?.profile?.bankDetails;
 			const index = profileStore.bankAccountIndexByAccountNumberOnServer(
