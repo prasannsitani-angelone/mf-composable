@@ -68,19 +68,6 @@ const handler = (async ({ event, resolve }) => {
 	response.headers.set('Expires', '0');
 	// temp fix need to add authtoken in cookie
 	if (!event.url?.pathname?.includes('api')) {
-		console.log(
-			JSON.stringify({
-				type: 'Initial Application Params',
-				params: {
-					locals: {
-						...event.locals,
-						token: event.locals.token ? 'xxxx' : '',
-						refreshToken: event.locals.refreshToken ? 'xxxx' : ''
-					},
-					cookie
-				}
-			})
-		);
 		let options = '';
 		const cookieOptionsObj = getUserCookieOptions();
 		Object.keys(cookieOptionsObj).forEach((key: string) => {

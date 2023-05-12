@@ -82,6 +82,22 @@ export const load = (async ({ url, request, locals, cookies, fetch }) => {
 		cookies.set('UserType', localProfileData?.userType);
 		cookies.set('AccountType', localProfileData?.dpNumber ? 'D' : 'P');
 	}
+
+	console.log(
+		JSON.stringify({
+			type: 'Initial Application Params',
+			params: {
+				locals: {
+					...locals,
+					token: token ? 'xxxx' : '',
+					refreshToken: refreshToken ? 'xxxx' : '',
+					profileData: localProfileData
+				},
+				cookie: cookies.getAll()
+			}
+		})
+	);
+
 	const searchDashboardData = await getsearchDashboardData(fetch);
 	return {
 		sparkHeaders,
