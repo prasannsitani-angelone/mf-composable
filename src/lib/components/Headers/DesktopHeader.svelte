@@ -47,10 +47,7 @@
 				Discover
 			</div>
 		</Link>
-		<Link
-			to={`${getNavigationBaseUrl('', appContext.scheme, appContext.host)}/investments`}
-			on:linkClicked={OnNavigation}
-		>
+		<Link to="/investments">
 			<div class={`hidden cursor-pointer uppercase md:block ${myInvestmentsTabClass}`}>
 				INVESTMENTS
 			</div>

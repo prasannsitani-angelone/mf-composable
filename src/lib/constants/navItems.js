@@ -16,9 +16,10 @@ export const BOTTOM_NAVBARS = (scheme = '', host = '') => [
 	},
 	{
 		label: 'Investments',
-		path: `${getNavigationBaseUrl(base, scheme, host)}/investments`,
+		path: `${base}/investments`,
 		icon: RupeeInCircleIcon,
-		activeIcon: RupeeInCircleActiveIcon
+		activeIcon: RupeeInCircleActiveIcon,
+		isInternalNavigation: true
 	},
 	{
 		label: 'Orders',
