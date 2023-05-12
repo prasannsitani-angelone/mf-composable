@@ -53,6 +53,7 @@
 	// initialising logging again with all new headers for routes of (app)
 	Logger.init({
 		headers: {
+			'content-type': 'application/json',
 			accessToken: token,
 			isSSR: !browser,
 			isMobile: deviceType?.isMobile,

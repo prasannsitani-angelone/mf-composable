@@ -18,7 +18,9 @@ class BaseLogger {
 			enabled: false,
 			baseUrl: '',
 			url: '',
-			headers: {},
+			headers: {
+				'content-type': 'application/json'
+			},
 			getLogsBody: () => {
 				return this._state.logs;
 			},

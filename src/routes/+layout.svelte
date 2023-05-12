@@ -22,6 +22,7 @@
 		enabled: PUBLIC_LOG_ENABLED === 'true',
 		initialised: true,
 		headers: {
+			'content-type': 'application/json',
 			accessToken: token,
 			isSSR: !browser,
 			isMobile: deviceType?.isMobile,
