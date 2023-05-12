@@ -59,6 +59,7 @@ export const load = (async ({ fetch }) => {
 		return {
 			inProgressOrders: [],
 			failedOrders: [],
+			completedOrders: [],
 			ordersSummary
 		};
 	};
