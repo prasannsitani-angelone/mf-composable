@@ -38,29 +38,37 @@
 	let totalImportedFundCount = data.length;
 	let isPartialImport = false;
 
+	/**
+	 	INITIATE FIRST TIME IMPORT (TRACK EXTERNAL FUNDS FLOW)
+		1. non 200OK htpp status mean API Failed and show externa import fetch failed
+
+		ERROR FETCHING YOUR INVESTMENTS
+		2. status is 200OK && values zero && lastImportStatus=FAILED then no previous import user can ask for import again
+
+		FETCHING IN PROGRESS
+		3. status is 200OK && values zero && lastImportStatus=(STARTED|PENDING) then no previous import  and current import in pending, show refreshing and block user for importing again
+
+		NO INVESTMENT FOUND
+		4. status is 200OK && values zero && lastImportStatus=COMPLETED then previous import has no folios (highly unlikely unless user is completely new)
+	*/
+
 	const getUnhappyScenario = (data: SummaryPromise) => {
 		const summary = data?.data?.summary;
 
 		if (data.status === 'failure') {
+			// INITIATE FIRST TIME IMPORT (TRACK EXTERNAL FUNDS FLOW)
 			return 'firstTimeImport';
-		} else if (
-			summary?.lastImportPending === false &&
-			summary?.lastImportStatus === 'FAILED' &&
-			summary?.investedValue === 0
-		) {
+		} else if (summary?.lastImportStatus === 'FAILED' && summary?.investedValue === 0) {
+			// ERROR FETCHING YOUR INVESTMENTS
 			return 'errorFetchingInvestments';
 		} else if (
-			(summary?.lastImportPending === true && summary?.investedValue === 0) ||
-			(summary?.lastImportPending === false &&
-				summary?.lastImportStatus === 'PENDING' &&
-				summary?.investedValue === 0)
-		) {
-			return 'FetchingInprogress';
-		} else if (
-			summary?.lastImportPending === false &&
-			summary?.lastImportStatus === 'COMPLETED' &&
+			(summary?.lastImportStatus === 'STARTED' || summary?.lastImportStatus === 'PENDING') &&
 			summary?.investedValue === 0
 		) {
+			// FETCHING IN PROGRESS
+			return 'FetchingInprogress';
+		} else if (summary?.lastImportStatus === 'COMPLETED' && summary?.investedValue === 0) {
+			//NO INVESTMENT FOUND
 			return 'noInvestmentFound';
 		} else {
 			return '';
@@ -151,7 +159,7 @@
 			const resSummary = responses[0].data?.data?.summary;
 			if (
 				responses[1]?.ok &&
-				resSummary?.lastImportPending === false &&
+				resSummary?.investedValue !== 0 &&
 				resSummary?.lastImportStatus === 'COMPLETED'
 			) {
 				externalInvestmentHoldings = responses[1].data?.data?.holdings;

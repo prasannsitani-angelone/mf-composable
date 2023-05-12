@@ -6,21 +6,26 @@
 	export let summary: InvestmentSummary;
 
 	const showRefreshEnums = ['REFRESHED', 'UPDATE FAILED'];
+	/**
+	 * UPDATE FAILED
+	 * 1. status is 200OK && values not zero && && lastImportStatus=FAILED then user has previous import and last import failed
+	 *
+	 * UPDATE ONGOING - REFRESHING
+	 * 2. status is 200OK && values not zero && && lastImportStatus=(STARTED|PENDING) then user has previous import and last import in progress, show refreshing
+	 *
+	 * REFRESH SUCCESSFUL
+	 * 3. status is 200OK && values not zero && && lastImportStatus=COMPLETED then user has previous import and last import in successful
+	 */
 
 	const getUpdateScenarios = (summary: InvestmentSummary) => {
-		if (summary?.lastImportPending === true && summary?.investedValue !== 0) {
+		if (
+			(summary?.lastImportStatus === 'STARTED' || summary?.lastImportStatus === 'PENDING') &&
+			summary?.investedValue !== 0
+		) {
 			return 'REFRESHING';
-		} else if (
-			summary?.lastImportPending === false &&
-			summary?.investedValue !== 0 &&
-			summary?.lastImportStatus === 'COMPLETED'
-		) {
+		} else if (summary?.investedValue !== 0 && summary?.lastImportStatus === 'COMPLETED') {
 			return 'REFRESHED';
-		} else if (
-			summary?.lastImportPending === false &&
-			summary?.investedValue !== 0 &&
-			summary?.lastImportStatus === 'FAILED'
-		) {
+		} else if (summary?.investedValue !== 0 && summary?.lastImportStatus === 'FAILED') {
 			return 'UPDATE FAILED';
 		} else {
 			return 'REFRESHED';
