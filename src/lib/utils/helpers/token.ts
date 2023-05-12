@@ -9,8 +9,9 @@ export const getUserCookieName = (): string => {
 
 export const getUserCookieOptions = () => {
 	const options = {
-		secure: isDevMode() ? '' : true,
-		sameSite: 'strict'
+		secure: isDevMode() ? false : true,
+		sameSite: 'strict',
+		path: '/'
 	};
 	if (!isDevMode() && PUBLIC_ENV_NAME === 'prod') {
 		options.domain = '.angelone.in';

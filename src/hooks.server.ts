@@ -2,7 +2,11 @@ import getAuthToken from '$lib/server/getAuthToken';
 import type { UserProfile } from '$lib/types/IUserProfile';
 import { isDevMode } from '$lib/utils/helpers/dev';
 import { removeAuthHeaders } from '$lib/utils/helpers/logging';
-import { getUserCookieName, getUserTokenFromCookie } from '$lib/utils/helpers/token';
+import {
+	getUserCookieName,
+	getUserCookieOptions,
+	getUserTokenFromCookie
+} from '$lib/utils/helpers/token';
 import Logger from '$lib/utils/logger';
 import { useProfileFetch } from '$lib/utils/useProfileFetch';
 import type { Handle, HandleFetch } from '@sveltejs/kit';
@@ -15,7 +19,8 @@ const handler = (async ({ event, resolve }) => {
 	const cookie: Record<string, string> = parse(event.request.headers.get('cookie') || '');
 
 	let isAuthenticatedUser = true;
-	const ABUserCookie = getUserTokenFromCookie(cookie[getUserCookieName()]);
+	const encryptedABUserCookie = cookie[getUserCookieName()];
+	const ABUserCookie = getUserTokenFromCookie(encryptedABUserCookie);
 	let token = event.request.headers.get('authtoken') || ABUserCookie?.NTAccessToken || '';
 	const refreshToken =
 		event.request.headers.get('refreshtoken') || ABUserCookie?.NTRefreshToken || '';
@@ -61,6 +66,31 @@ const handler = (async ({ event, resolve }) => {
 	response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
 	response.headers.set('Pragma', 'no-cache');
 	response.headers.set('Expires', '0');
+	// temp fix need to add authtoken in cookie
+	if (!event.url?.pathname?.includes('api')) {
+		console.log(
+			JSON.stringify({
+				type: 'Initial Application Params',
+				params: {
+					locals: {
+						...event.locals,
+						token: event.locals.token ? 'xxxx' : '',
+						refreshToken: event.locals.refreshToken ? 'xxxx' : ''
+					},
+					cookie
+				}
+			})
+		);
+		let options = '';
+		const cookieOptionsObj = getUserCookieOptions();
+		Object.keys(cookieOptionsObj).forEach((key: string) => {
+			options += `${key}=${cookieOptionsObj[key]};`;
+		});
+		response.headers.set(
+			'Set-Cookie',
+			`${getUserCookieName()}=${encryptedABUserCookie};${options}`
+		);
+	}
 	return response;
 }) satisfies Handle;
 
