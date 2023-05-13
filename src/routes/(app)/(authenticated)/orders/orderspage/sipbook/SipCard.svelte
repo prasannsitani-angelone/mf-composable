@@ -13,12 +13,9 @@
 	import { page } from '$app/stores';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { encodeObject } from '$lib/utils/helpers/params';
-	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
-	import type { AppContext } from '$lib/types/IAppContext';
-	import { getContext, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import DateFns from '$lib/utils/asyncDateFns';
 	import { sipCardClickAnalytics } from '$lib/analytics/sipbook/sipbook';
-	import { OnNavigation } from '$lib/utils/navigation';
 
 	let sipCount = 0;
 	let alertSleeveText = '';
@@ -34,7 +31,6 @@
 		sip?.nextSipDueDate - timezoneOffset * 60 * 1000,
 		Date.now()
 	);
-	const appContext: AppContext = getContext('app');
 	isUpcomingSip = daysLeft <= 4 && daysLeft >= -1;
 	const setAlertSleeveText = () => {
 		const currentDate = new Date()?.getDate(); // current date
@@ -79,10 +75,7 @@
 				sipRegistrationNumber: sip?.sipRegistrationNo,
 				sipDueDate: format(new Date(sip?.sipPaymentDate), 'yyyy-MM-dd')
 			});
-			OnNavigation();
-			goto(
-				`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/${path}?params=${params}`
-			);
+			goto(`${base}/${path}?params=${params}`);
 		} else if (!isCta) {
 			goto(`${base}/sipbook/${sip?.sipId}`);
 		}

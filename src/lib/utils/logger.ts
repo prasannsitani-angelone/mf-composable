@@ -1,6 +1,5 @@
 import BaseLogger from './baseLogger';
 import type { Config } from '$lib/types/IBaseLogger';
-import { browser } from '$app/environment';
 
 class Logger extends BaseLogger {
 	constructor() {

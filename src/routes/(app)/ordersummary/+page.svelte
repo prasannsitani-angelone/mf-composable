@@ -18,6 +18,7 @@
 	import type { AppContext } from '$lib/types/IAppContext';
 	import type { SIPData, SchemeCardItems } from './type';
 	import { OnNavigation } from '$lib/utils/navigation';
+	import { base } from '$app/paths';
 	export let data: PageData;
 
 	const params = $page.url.searchParams.get('params') || '';
@@ -48,9 +49,7 @@
 	};
 
 	const navigateToDashboard = async () => {
-		const baseUrl = getNavigationBaseUrl('', appContext.scheme, appContext.host, '/');
-		OnNavigation();
-		window.location.replace(`${baseUrl}investments`);
+		goto(`${base}/investments`);
 	};
 
 	const navigateToEmandate = () => {

@@ -9,8 +9,7 @@
 	import OrderCardBody from './OrderCardComponent/OrderCardBody.svelte';
 	import isInvestmentAllowed from '$lib/utils/isInvestmentAllowed';
 	import { profileStore } from '$lib/stores/ProfileStore';
-	import { OnNavigation } from '$lib/utils/navigation';
-	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
+
 	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
 	import { encodeObject } from '$lib/utils/helpers/params';
@@ -54,10 +53,8 @@
 				investmentType: REVERSE_INVESTMENT_TYPE[orderItem?.investmentType?.toUpperCase()],
 				investmentAmount: orderItem?.amount
 			});
-			OnNavigation();
-			goto(
-				`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/${path}?params=${params}`
-			);
+
+			goto(`${base}/${path}?params=${params}`);
 		}
 	};
 

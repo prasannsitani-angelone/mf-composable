@@ -1,5 +1,5 @@
 import type { PageLoad } from './$types';
-export const load = (async ({ fetch, params }) => {
+export const load = (async () => {
 	return {
 		layoutConfig: {
 			title: 'Discover Mutual Funds',

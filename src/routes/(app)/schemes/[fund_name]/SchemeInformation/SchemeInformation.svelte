@@ -1,6 +1,4 @@
 <script lang="ts">
-	import Button from '$components/Button.svelte';
-	import SchemeInformationIcon from '$lib/images/icons/SchemeInformationIcon.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 
 	import BasicInformation from './BasicInformation.svelte';

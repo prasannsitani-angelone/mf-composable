@@ -3,14 +3,10 @@
 	import { page } from '$app/stores';
 	import Button from '$components/Button.svelte';
 	import { INVESTMENT_TYPE, TRANSACTION_TYPE } from '$lib/constants/transactionType';
-	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
-	import { OnNavigation } from '$lib/utils/navigation';
 	import { base } from '$app/paths';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
-	import type { AppContext } from '$lib/types/IAppContext';
 	import { encodeObject } from '$lib/utils/helpers/params';
-	import { getContext } from 'svelte';
 	import type { IOrderDetails } from '$lib/types/IOrderDetails';
 	import {
 		placeNewOrderCtaClickAnalytics,
@@ -21,7 +17,6 @@
 	let schemeDetails: SchemeDetails;
 	let orderDetailsData: IOrderDetails;
 	$: deviceType = $page?.data?.deviceType;
-	const appContext: AppContext = getContext('app');
 	const orderDetailsFooterCtaAnalytics = () => {
 		if (isOrderFailedAtExchange) {
 			placeNewOrderCtaClickAnalytics();
@@ -62,17 +57,11 @@
 				});
 			}
 		}
-		OnNavigation();
+
 		if (params) {
-			goto(
-				`${getNavigationBaseUrl(
-					base,
-					appContext.scheme,
-					appContext.host
-				)}/${routerPath}?params=${params}`
-			);
+			goto(`${base}/${routerPath}?params=${params}`);
 		} else {
-			goto(`${getNavigationBaseUrl(base, appContext.scheme, appContext.host)}/${routerPath}`);
+			goto(`${base}/${routerPath}`);
 		}
 	};
 	export { isOrderFailedAtExchange, schemeDetails, orderDetailsData };
