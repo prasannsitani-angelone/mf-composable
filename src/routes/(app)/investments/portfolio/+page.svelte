@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import ErrorView from '$components/ErrorView.svelte';
 	import { goto } from '$app/navigation';
 	import PortfolioEmptyIcon from '$lib/images/icons/PortfolioEmptyIcon.svelte';
@@ -12,6 +13,40 @@
 	import type { PageData } from './$types';
 	import type { Tag, ChartDataType, DistributionType } from '$lib/types/IPortfolioDetails';
 	import type { FolioSummaryTypes } from '$lib/types/IInvestments';
+	import { portfolioAnalysisScreenOpenAnalytics, graphYearSelectAnalytics } from '../analytics';
+
+	const graphYearSelectAnalyticsFunc = (selectedTag) => {
+		let formattedSelectedTag = '';
+
+		if (selectedTag?.months < 12) {
+			formattedSelectedTag = `${selectedTag?.months}M Returns`;
+		} else if (selectedTag?.months === 12) {
+			formattedSelectedTag = '1Y Returns';
+		} else if (selectedTag?.months === 36) {
+			formattedSelectedTag = '3Y Returns';
+		}
+
+		const eventMetaData = {
+			YOY: formattedSelectedTag
+		};
+
+		graphYearSelectAnalytics(eventMetaData);
+	};
+
+	const portfolioAnalysisScreenOpenAnalyticsFunc = (holdingDetails: FolioSummaryTypes) => {
+		const eventMetaData = {
+			CurrentValue: parseFloat(holdingDetails?.currentValue?.toFixed(2)),
+			TotalInvestment: parseFloat(holdingDetails?.investedValue?.toFixed(2)),
+			OverallReturn: `${holdingDetails?.returnsValue?.toFixed(
+				2
+			)} (${holdingDetails?.returnsAbsolutePer?.toFixed(2)}%)`,
+			TodaysReturn: `${holdingDetails?.previousDayReturns?.toFixed(
+				2
+			)} (${holdingDetails?.previousDayReturnPercentage?.toFixed(2)}%)`
+		};
+
+		portfolioAnalysisScreenOpenAnalytics(eventMetaData);
+	};
 
 	const handleErrorNavigation = () => goto('/');
 	const breadCrumbs = [
@@ -44,6 +79,7 @@
 	};
 
 	const updateLineChart = async (data: { detail: Tag }) => {
+		graphYearSelectAnalyticsFunc(data.detail);
 		const allResData = await allResponse;
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings?chart=true&months=${data.detail.months}`;
 		const res = await useFetch(url, {}, fetch);
@@ -56,6 +92,12 @@
 		}
 		allResponse = allResponse;
 	};
+
+	onMount(() => {
+		allResponse.then((res) => {
+			portfolioAnalysisScreenOpenAnalyticsFunc(res?.summaryData?.summary || {});
+		});
+	});
 </script>
 
 {#await allResponse}

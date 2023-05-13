@@ -16,15 +16,15 @@
 	export let summary: FolioSummaryTypes;
 	$: deviceType = $page.data.deviceType;
 
-	// import {
-	//   equityDebtTabSwitchAnalytics,
-	//   marketCapShowCompaniesCtaAnalytics,
-	//   sectorsShowCompaniesCtaAnalytics,
-	//   instrumentsShowCompaniesCtaAnalytics,
-	//   ratingsShowCompaniesCtaAnalytics,
-	//   filterByInstrumentsAnalytics,
-	//   filterByRatingsAnalytics,
-	// } from "@/analytics/investment/investment";
+	import {
+		equityDebtTabSwitchAnalytics,
+		marketCapShowCompaniesCtaAnalytics,
+		sectorsShowCompaniesCtaAnalytics,
+		instrumentsShowCompaniesCtaAnalytics,
+		ratingsShowCompaniesCtaAnalytics,
+		filterByInstrumentsAnalytics,
+		filterByRatingsAnalytics
+	} from '../analytics';
 
 	const distributionsList: Array<DistributionListType> = [];
 	let showFundsFilterTable = '';
@@ -240,16 +240,16 @@
 			selectedInstrumentFilterIndex = index;
 			instrumentsFilteredData = filterData(type, instrumentsFilterTypes?.[index]);
 
-			// filterByInstrumentsAnalytics({
-			//   FilterByInstruments: instrumentsFilterTypes?.[index],
-			// });
+			filterByInstrumentsAnalytics({
+				FilterByInstruments: instrumentsFilterTypes?.[index]
+			});
 		} else if (type === 'rating') {
 			selectedRatingFilterIndex = index;
 			ratingsFilteredData = filterData(type, ratingsFilterTypes?.[index]);
 
-			// filterByRatingsAnalytics({
-			//   FilterByRatings: ratingsFilterTypes?.[index],
-			// });
+			filterByRatingsAnalytics({
+				FilterByRatings: ratingsFilterTypes?.[index]
+			});
 		}
 	};
 
@@ -380,8 +380,8 @@
 			  }
 			| string
 	) => {
-		//   showCompaniesHoldingsCtaAnalytics(value);
 		const value = val && typeof val === 'object' && val?.detail?.type ? val.detail.type : '';
+		showCompaniesHoldingsCtaAnalytics(value);
 		showFundsFilterTable = showFundsFilterTable === value ? '' : value;
 
 		// reset selected filter
@@ -398,8 +398,7 @@
 		showEquityDebt = value;
 		handleToggleFilterTable('');
 		() => toggleShowIndexedChartForMobile(0);
-		// TODO: Analytics
-		//   equityDebtTabSwitchAnalyticsFunc();
+		equityDebtTabSwitchAnalyticsFunc();
 	};
 
 	let showIndexedChartForMobile = 0;
@@ -414,30 +413,26 @@
 		'font-medium bg-white text-black-title/80 border-0 border-white';
 	const disabledClass = '!border-grey-line !bg-white';
 
-	// let isMobileDevice: boolean = false;
-	// isMobileDevice = checkIfMobileDevice();
+	const equityDebtTabSwitchAnalyticsFunc = () => {
+		const eventMetaData = {
+			MainCategory: `Equity (${equityTotalPercentage?.toFixed(
+				2
+			)}%) / Debt (${debtTotalPercentage?.toFixed(2)}%)`
+		};
+		equityDebtTabSwitchAnalytics(eventMetaData);
+	};
 
-	// const equityDebtTabSwitchAnalyticsFunc = () => {
-	// 	// const eventMetaData = {
-	// 	// 	MainCategory: `Equity (${equityTotalPercentage?.toFixed(
-	// 	// 		2
-	// 	// 	)}%) / Debt (${debtTotalPercentage?.toFixed(2)}%)`
-	// 	// };
-	// 	// TODO: Analytics
-	// 	//   equityDebtTabSwitchAnalytics(eventMetaData);
-	// };
-	// TODO: Analytics
-	// const showCompaniesHoldingsCtaAnalytics = (value) => {
-	//   if (value === "marketCap") {
-	//     marketCapShowCompaniesCtaAnalytics();
-	//   } else if (value === "sector") {
-	//     sectorsShowCompaniesCtaAnalytics();
-	//   } else if (value === "instrument") {
-	//     instrumentsShowCompaniesCtaAnalytics();
-	//   } else if (value === "rating") {
-	//     ratingsShowCompaniesCtaAnalytics();
-	//   }
-	// };
+	const showCompaniesHoldingsCtaAnalytics = (value: string) => {
+		if (value === 'marketCap') {
+			marketCapShowCompaniesCtaAnalytics();
+		} else if (value === 'sector') {
+			sectorsShowCompaniesCtaAnalytics();
+		} else if (value === 'instrument') {
+			instrumentsShowCompaniesCtaAnalytics();
+		} else if (value === 'rating') {
+			ratingsShowCompaniesCtaAnalytics();
+		}
+	};
 	let tableChartData: ChartAndTable;
 	$: tableChartData = {
 		EQUITY: [

@@ -54,7 +54,6 @@
 	};
 
 	const orderCardAnalytics = () => {
-		// TODO: Analytics Code
 		const { format } = DateFns.DateFns;
 		const eventMetaData = {
 			FundName: item?.schemeName,

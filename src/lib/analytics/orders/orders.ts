@@ -22,6 +22,18 @@ export const ordersDashboardScreenOpenAnalytics = () => {
 	});
 };
 
+export const ordersDropdownClickAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-Orders',
+		event_type: 'click',
+		event_sub_type: 'dropdown',
+		event_name: 'dropdown',
+		event_property: null,
+		event_id: '305.0.0.1.1',
+		event_metadata: eventMetaData
+	});
+};
+
 export const orderCardClickAnalytics = (eventMetaData: any) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-Orders',

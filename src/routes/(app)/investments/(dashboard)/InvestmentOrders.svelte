@@ -19,6 +19,10 @@
 		OrdersResponse,
 		OrdersEntity
 	} from '$lib/types/IInvestments';
+	import {
+		failedOrdersRetryCtaClickAnalytics,
+		ordersDropdownClickAnalytics
+	} from '$lib/analytics/orders/orders';
 
 	let ordersSummary: OrdersSummary = {
 		totalFailedOrders: 0,
@@ -33,8 +37,7 @@
 	 *
 	 */
 	const handleFooterClick = async (e: { detail: OrdersEntity }) => {
-		//TODO: Analytics
-		//   failedOrdersRetryCtaClickAnalytics()
+		failedOrdersRetryCtaClickAnalytics();
 		const orderItem = e.detail || {};
 		const schemeUrl = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${orderItem?.isin}`;
 		const res = await useFetch(schemeUrl, {}, fetch);
@@ -62,13 +65,12 @@
 	}
 
 	const handleCardToggleEvent = () => {
-		// TODO: Implement the analytics
-		//   const eventMetaData = {
-		//     InProgress: inProgressOrders?.value?.length || 0,
-		//     Upcoming: upcomingOrders?.value?.length || 0,
-		//     Failed: failedOrders?.value?.length || 0
-		//   }
-		//   ordersDropdownClickAnalytics(eventMetaData)
+		const eventMetaData = {
+			InProgress: protfolioData.inProgress?.orders?.length || 0,
+			Upcoming: protfolioData?.upComing?.orders?.length || 0,
+			Failed: protfolioData?.failed?.orders?.length || 0
+		};
+		ordersDropdownClickAnalytics(eventMetaData);
 	};
 
 	const protfolioData: ProtfolioData = {

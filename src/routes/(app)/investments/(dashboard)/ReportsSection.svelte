@@ -2,9 +2,9 @@
 	import Link from '$lib/components/Link.svelte';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import ReportsMobileIcon from '$lib/images/icons/ReportsMobileIcon.svelte';
+	import { reportsEntryMobileAnalytics } from '$lib/analytics/reports/reports';
 	const onViewReportsClick = () => {
-		// TODO: Add Analytics
-		// reportsEntryMobileAnalytics();
+		reportsEntryMobileAnalytics();
 	};
 </script>
 
