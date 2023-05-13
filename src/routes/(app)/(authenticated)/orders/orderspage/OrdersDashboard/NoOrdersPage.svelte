@@ -5,8 +5,8 @@
 	import type { AppContext } from '$lib/types/IAppContext';
 	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 	import { getContext } from 'svelte';
-	import type { PageData } from '../../../../$types';
-	import TrendingFunds from '../../../discoverfunds/TrendingFunds/TrendingFunds.svelte';
+	import TrendingFunds from '../../../../discoverfunds/TrendingFunds/TrendingFunds.svelte';
+	import type { PageData } from '../../../../../$types';
 	let data: PageData;
 	const classes = {
 		header: 'p-4 pb-0',

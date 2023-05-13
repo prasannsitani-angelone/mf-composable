@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
 	import { WMSIcon } from 'wms-ui-component';
-	import type { StatusHistoryItem } from '../../../ordersummary/type';
+	import type { StatusHistoryItem } from '../../../../ordersummary/type';
 	$: deviceType = $page?.data?.deviceType;
 	let items: Array<StatusHistoryItem>;
 	export { items };
