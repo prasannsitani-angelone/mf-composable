@@ -3,7 +3,7 @@ import { externalNavigation } from '$lib/stores/ExtrenalNavigationStore';
 
 export const OnNavigation = () => {
 	if (isExternalNavigation()) {
-		externalNavigation.update((_) => {
+		externalNavigation.update(() => {
 			return { active: true };
 		});
 	}

@@ -6,7 +6,7 @@
 	import PhoneIcon from '$lib/images/icons/PhoneIcon.svelte';
 	import { useFetch } from '$lib/utils/useFetch';
 
-	export let onSuccess = (mobileNumber: string, requestId: string) => undefined;
+	export let onSuccess: (mobileNumber: string, requestId: string) => void = () => undefined;
 
 	let error = '';
 	let mobileNumber = '';

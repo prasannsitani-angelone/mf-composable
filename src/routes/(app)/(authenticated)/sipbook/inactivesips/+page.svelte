@@ -18,7 +18,6 @@
 	import { restartSipButtonClickAnalytics } from '$lib/analytics/sipbook/sipbook';
 
 	const userType = profileStore.userType();
-	const appContext: AppContext = getContext('app');
 	const redirectToOrderPad = (sip: IInactiveSip) => {
 		// TODO: To change the navigation after the proper release
 		restartSipButtonClickAnalyticsFunc(sip);

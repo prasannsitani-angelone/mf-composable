@@ -60,8 +60,8 @@
 		ftp,
 		skipOrderPad,
 		redirectedFrom,
-		// orderId,
-		// pgTxnId,
+		orderId: previousOrderId,
+		pgTxnId,
 		requestId,
 		sipId,
 		sipRegistrationNumber,
@@ -742,6 +742,26 @@
 
 	//  ------- api calls functions --------
 
+	const orderDeletePatchFunc = () => {
+		try {
+			if (previousOrderId) {
+				const url = `${PUBLIC_MF_CORE_BASE_URL}/orders/${previousOrderId}`;
+				useFetch(url, {
+					method: 'PATCH',
+					body: JSON.stringify({
+						paymentReferenceNumber: pgTxnId,
+						paymentRemarks: 'Payment cancel',
+						paymentStatus: 'cancel',
+						pgTxnId,
+						purchaseType: 'SIP'
+					})
+				});
+			}
+		} catch (e) {
+			return;
+		}
+	};
+
 	const sipOrderPatchFunc = async (transactionData, orderPostData) => {
 		try {
 			const url = `${PUBLIC_MF_CORE_BASE_URL}/sips/${orderPostData?.data?.sipId}`;
@@ -749,7 +769,7 @@
 				method: 'PATCH',
 				body: JSON.stringify({
 					paymentReferenceNumber: transactionData?.data?.reference_number,
-					paymentRemarks: 'paymentRemarks',
+					paymentRemarks: transactionData?.message,
 					paymentStatus: transactionData?.data?.status,
 					pgTxnId: transactionData?.data?.transaction_id
 				}),
@@ -770,7 +790,7 @@
 				method: 'PATCH',
 				body: JSON.stringify({
 					paymentReferenceNumber: transactionData?.data?.reference_number,
-					paymentRemarks: 'paymentRemarks',
+					paymentRemarks: transactionData?.message,
 					paymentStatus: transactionData?.data?.status,
 					pgTxnId: transactionData?.data?.transaction_id,
 					purchaseType: 'LUMPSUM'
@@ -1082,7 +1102,7 @@
 
 	const handleOrderPostResponse = (orderPostResponse) => {
 		if (orderPostResponse.ok) {
-			// orderDeletePatchFunc()
+			orderDeletePatchFunc();
 		} else {
 			resetTransactionInterval();
 			stopLoading();
