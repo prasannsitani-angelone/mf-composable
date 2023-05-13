@@ -18,6 +18,19 @@
 	export let showGraphTags: boolean;
 	export let onTagSelection: OnTagSelectionFunction = () => '';
 	export let selectedTag = '6M';
+	export let isExternal = false;
+
+	const lineChartOptions = {
+		maintainAspectRatio: false,
+		elements: {
+			point: {
+				borderWidth: 6, // make responsive
+				pointRadius: 10, // make responsive
+				hoverRadius: 10, // make responsive
+				hoverBorderWidth: 6 // make responsive
+			}
+		}
+	};
 
 	$: lineData = {
 		data: {
@@ -29,7 +42,7 @@
 				}
 			]
 		},
-		options: schema.options
+		options: isExternal ? lineChartOptions : schema.options
 	};
 
 	const changeTag = (tag: Tags) => {

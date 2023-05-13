@@ -45,6 +45,7 @@
 								label={chartLabel}
 								{showGraphTags}
 								on:portfolioChartTagChange
+								{isExternal}
 							/>
 						{:else}
 							<div class="pb-8 text-center text-sm text-grey-body">
