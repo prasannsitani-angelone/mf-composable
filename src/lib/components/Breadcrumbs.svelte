@@ -1,12 +1,17 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { base } from '$app/paths';
+	import { getContext } from 'svelte';
+	import type { AppContext } from '$lib/types/IAppContext';
+	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
+	import { OnNavigation } from '$lib/utils/navigation';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import Link from './Link.svelte';
 	import type { Breadcrumbs } from '../types/IBreadcrumbs';
 
 	export let items: Array<Breadcrumbs>;
 
+	const appContext: AppContext = getContext('app');
 	let breadCrumbsList: Array<Breadcrumbs>;
 	$: breadCrumbsList = items?.map((breadCrumb) => {
 		if ($page.url.pathname === base + breadCrumb.href) {
@@ -22,9 +27,18 @@
 	<ol class="flex">
 		{#each breadCrumbsList as crumb, index (crumb.text)}
 			<li class="mr-1 flex items-center justify-center" class:pointer-events-none={crumb.disabled}>
-				<Link to={crumb.href} class={`text-sm text-grey-body ${crumb.isLast ? 'font-medium' : ''}`}>
-					{crumb.text}
-				</Link>
+				{#if crumb.text?.toLowerCase() === 'home'}
+					<Link
+						to={`${getNavigationBaseUrl('', appContext.scheme, appContext.host)}/discoverfunds`}
+						class="text-sm text-grey-body ${crumb.isLast ? 'font-medium' : ''}"
+						on:linkClicked={OnNavigation}>{crumb.text}</Link
+					>
+				{:else}
+					<Link to={crumb.href} class="text-sm text-grey-body ${crumb.isLast ? 'font-medium' : ''}">
+						{crumb.text}
+					</Link>
+				{/if}
+
 				{#if index < breadCrumbsList.length - 1}
 					<RightIcon class="mt-1 stroke-current" />
 				{/if}
