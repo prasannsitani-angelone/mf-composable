@@ -93,7 +93,7 @@
 	<!-- Right Side Contents -->
 	<section class="col-span-1 row-start-2 sm:col-span-1 sm:col-start-2 sm:row-span-3 sm:row-start-1">
 		<!-- Portfolio cards: All scenarios -->
-		<article>
+		<article class="overflow-hidden">
 			<PortfolioCard />
 		</article>
 		<!-- Order cards: Visible only in desktop and tablet -->

@@ -60,7 +60,7 @@
 {#if loading}
 	<PortfolioCardLoader {discoverPage} />
 {:else}
-	<PortfolioCard class="mb-2 overflow-hidden pt-6 pb-4 md:mt-2 lg:mt-0 lg:p-6">
+	<PortfolioCard class="mb-2 pt-6 pb-4 md:mt-2 lg:mt-0 lg:p-6">
 		<section class=" flex items-center justify-between lg:mx-0">
 			<article class="flex flex-col items-start">
 				<div class="text-xs md:text-sm">Total Invested</div>

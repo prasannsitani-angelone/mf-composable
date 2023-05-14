@@ -25,11 +25,11 @@
 	<!-- <InvestmentsStories /> -->
 
 	{#if showPortfoliocard && deviceType?.isMobile}
-		<div>
+		<div class="overflow-hidden">
 			<PortfolioCard discoverPage={true} on:portfolidataReceived={onPortfolioDataReceived} />
 		</div>
 	{/if}
-	<article class="mt-2 max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:mt-0">
+	<article class="max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:mt-0">
 		<ExploreScheme searchOptions={data?.searchDashboardData?.searchOptions} />
 	</article>
 	<TrendingFunds tableData={data?.searchDashboardData?.weeklyTopSchemes} />
