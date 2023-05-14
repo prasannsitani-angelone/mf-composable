@@ -35,12 +35,12 @@
 
 	const handleRowClick = (selectedRow: InvestmentEntity) => {
 		const typeInQuery = new Map($page.url.searchParams)?.get('type');
-		const queryParam = `${typeInQuery ? '?type=external' : ''}`;
+		const dParam = `${typeInQuery ? '/external' : ''}`;
 		try {
 			goto(
 				`./investments/${
 					normalizeFundName(selectedRow?.schemeName, selectedRow?.isin, selectedRow?.schemeCode) +
-					queryParam
+					dParam
 				}`,
 				{ replaceState: false }
 			);

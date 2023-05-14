@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
+	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import ResultItem from '$components/Autocomplete/ResultItem.svelte';
@@ -80,7 +81,11 @@
 		fundCardClickAnalyticsFunc();
 
 		goto(
-			`../schemes/${normalizeFundName(holdings?.schemeName, holdings?.isin, holdings?.schemeCode)}`
+			`${base}/schemes/${normalizeFundName(
+				holdings?.schemeName,
+				holdings?.isin,
+				holdings?.schemeCode
+			)}`
 		);
 	};
 
