@@ -7,6 +7,7 @@
 	import { createEventDispatcher, onMount, tick } from 'svelte';
 	import { tags } from '$lib/constants/tags';
 	import type { LineChartData, NavDetails } from '../types';
+	import { chartTimeIntervalSelection } from '../analytics';
 
 	const dispatch = createEventDispatcher();
 
@@ -85,9 +86,14 @@
 		const res = await fetch(navUrl, {
 			headers: MFCommonHeader()
 		});
+
 		const navDetails: Array<NavDetails> = await res.json();
 
 		const lineChartData: LineChartData = setChartData(navDetails);
+
+		const currentMonthLable = tags.filter((tag) => tag.months === month);
+		const eventMetadata = { ChartTimeIntervalSelected: currentMonthLable[0].label };
+		chartTimeIntervalSelection(eventMetadata);
 
 		fillChartData(lineChartData);
 		selectedMonth = month;
@@ -106,21 +112,18 @@
 <article class="mt-6 flex justify-center">
 	<section class="flex w-auto flex-row gap-2 bg-white sm:gap-4">
 		{#each tags as tag}
-			<Button
-				variant="outlined"
-				size="xs"
-				class={`${
-					selectedMonth === tag.months ? '!border-blue-primary !text-blue-primary' : ''
-				} noselect flex h-5 w-9 cursor-pointer flex-row items-center justify-center rounded-sm border border-grey-line bg-white  p-0 py-[2px] text-xs font-semibold !text-grey-body active:opacity-70 sm:h-6 sm:w-11 sm:text-sm sm:font-medium`}
-				onClick={() => selectNavDuration(tag.months)}
-				disabled={!schemeDetails[tag.returnPeriod]}
-			>
-				{#if schemeDetails[tag.returnPeriod]}
+			{#if schemeDetails[tag.returnPeriod]}
+				<Button
+					variant="outlined"
+					size="xs"
+					class={`${
+						selectedMonth === tag.months ? '!border-blue-primary !text-blue-primary' : ''
+					} noselect flex h-5 w-9 cursor-pointer flex-row items-center justify-center rounded-sm border border-grey-line bg-white  p-0 py-[2px] text-xs font-semibold !text-grey-body active:opacity-70 sm:h-6 sm:w-11 sm:text-sm sm:font-medium`}
+					onClick={() => selectNavDuration(tag.months)}
+				>
 					{tag.label}
-				{:else}
-					-
-				{/if}
-			</Button>
+				</Button>
+			{/if}
 		{/each}
 	</section>
 </article>

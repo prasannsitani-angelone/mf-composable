@@ -3,12 +3,17 @@
 	import CalenderIcon from '$lib/images/icons/CalenderIcon.svelte';
 	import ReturnEstimatorIcon from '$lib/images/icons/ReturnEstimatorIcon.svelte';
 	import Slider from '@bulatdashiev/svelte-slider';
+	import { calculateReturnsAmount, calculateReturnsduration } from '../analytics';
 
 	let returns3yr: number;
 	let categoryName: string;
 	$: currentCalculatorMode = 'SIP';
 	$: yearsReturnSlider = currentCalculatorMode ? [5, 30] : [5, 30];
+	$: yearsReturnSlider, onYearChange();
+
 	$: amountReturnSlider = currentCalculatorMode ? [5000, 10000] : [5000, 1000000];
+	$: amountReturnSlider, onAmountChange();
+
 	$: capitalGain = 0;
 
 	$: totalInvestment = 0;
@@ -16,6 +21,22 @@
 	$: maxAmountSlider = currentCalculatorMode === 'SIP' ? 100000 : 1000000;
 	$: capitalGainSlider = (capitalGain / matuarityAmount()) * 100;
 
+	function onAmountChange() {
+		const eventMetadata = {
+			InvestmentType: currentCalculatorMode,
+			Amount: yearsReturnSlider[0]
+		};
+
+		calculateReturnsAmount(eventMetadata);
+	}
+
+	function onYearChange() {
+		const eventMetadata = {
+			InvestmentType: currentCalculatorMode,
+			Duration: yearsReturnSlider[0]
+		};
+		calculateReturnsduration(eventMetadata);
+	}
 	$: matuarityAmount = function calculateReturn() {
 		const selectedYear = yearsReturnSlider[0];
 		const investedAmount = amountReturnSlider[0];
@@ -110,6 +131,7 @@
 						min={500}
 						max={maxAmountSlider}
 						step={500}
+						on
 					>
 						<div
 							class="flex h-[22px] w-[22px] items-center justify-center rounded-full bg-white shadow-csm"

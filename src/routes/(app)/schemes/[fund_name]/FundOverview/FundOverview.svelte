@@ -10,6 +10,8 @@
 
 	import NavCharts from './NavCharts.svelte';
 	import RocketIcon from '$lib/images/icons/RocketIcon.svelte';
+	import { onMount } from 'svelte';
+	import { sFundDetails } from '../analytics';
 
 	let schemeDetails: SchemeDetails;
 	let selectedTag: Tags[];
@@ -25,9 +27,22 @@
 	];
 
 	let returnPeriod: keyof Tags;
+	let fundLaunchMonth: string = new Date(schemeDetails?.launchDate)?.toLocaleString('default', {
+		month: 'long'
+	});
+	let fundLaunchYear = new Date(schemeDetails?.launchDate).getFullYear();
+	let fundAge = calculateYearDiffrence(new Date(schemeDetails?.launchDate));
+
 	$: returnPeriod = selectedTag[0].returnPeriod;
 	$: oneDayReturnClass = 'text-green-buy ';
 	$: oneDayReturnSuffix = '';
+
+	function calculateYearDiffrence(date: Date) {
+		const diffMs = Date.now() - date;
+		const actualDate = new Date(diffMs); // miliseconds from epoch
+		return Math.abs(actualDate.getUTCFullYear() - 1970);
+	}
+
 	function oneDayReturn(scheme: SchemeDetails): string {
 		const { navValue, previousNavValue } = scheme || {};
 		const oneDReturn = ((navValue - previousNavValue) / previousNavValue) * 100;
@@ -45,6 +60,28 @@
 		const selectedMonth: number = event?.detail?.text;
 		selectedTag = tags.filter((val) => val.months === selectedMonth);
 	};
+
+	onMount(() => {
+		const {
+			schemeName,
+			arqRating,
+			navValue,
+			reInvestmentPlan,
+			subcategoryName,
+			exitLoadValue,
+			expenseRatio
+		} = schemeDetails || {};
+		const eventMetadata = {
+			Fundname: schemeName,
+			FundType: reInvestmentPlan,
+			SubAssetType: subcategoryName,
+			Rating: arqRating,
+			Nav: navValue,
+			'Exit Load': exitLoadValue,
+			'Expense Ratio': expenseRatio
+		};
+		sFundDetails(eventMetadata);
+	});
 	export { schemeDetails };
 </script>
 
@@ -66,7 +103,7 @@
 			<div class="relative">
 				<ArqRatingIcon />
 				<ChipArqRating
-					class="  absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center !border-none !bg-transparent !p-0 pt-2"
+					class="  absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center !border-none !bg-transparent !p-0 !pt-2"
 					arqRating={schemeDetails?.arqRating}
 				/>
 			</div>
@@ -104,8 +141,11 @@
 	<footer class="flex items-center justify-center border-t border-t-grey-line pt-5">
 		<RocketIcon />
 		<span class="ml-5 text-xs font-medium text-black-title sm:text-sm">
-			Launched in November 2013
-			<span class="text-sm font-normal text-grey-body"> (Age - 9 years)</span></span
+			Launched in {fundLaunchMonth}
+			{fundLaunchYear}
+			<span class="text-sm font-normal text-grey-body">
+				(Age - {fundAge} year{fundAge > 1 ? 's' : ''})</span
+			></span
 		>
 	</footer>
 </section>

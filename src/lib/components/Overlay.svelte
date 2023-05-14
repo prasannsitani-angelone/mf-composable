@@ -36,7 +36,7 @@
 </script>
 
 <div
-	class="fixed inset-0 z-60 flex w-full flex-col items-center justify-end sm:justify-center {containerClass}"
+	class="fixed inset-0 z-100 flex w-full flex-col items-center justify-end sm:justify-center {containerClass}"
 >
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<div

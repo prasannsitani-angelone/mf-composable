@@ -7,7 +7,9 @@
 </script>
 
 <Modal {isModalOpen} on:backdropclicked={toggleSchemeIformationModal}>
-	<article class="overflow-x-scroll rounded-t-2xl bg-white px-6 pt-6 pb-8 md:w-120 md:rounded-lg">
+	<article
+		class="h-[70vh] overflow-x-scroll rounded-t-2xl bg-white px-6 pt-6 pb-8 md:w-120 md:rounded-lg"
+	>
 		<header
 			class="mb-3 flex justify-center align-middle text-lg font-medium text-black-title md:text-xl"
 		>

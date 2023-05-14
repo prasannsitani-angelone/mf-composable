@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 	import Button from '$components/Button.svelte';
 	import ChipArqRating from '$components/ChipArqRating.svelte';
 	import ChipOverview from '$components/ChipOverview.svelte';
@@ -12,8 +14,10 @@
 	import Tr from '$components/Table/TR.svelte';
 	import OtherFundsIcon from '$lib/images/icons/OtherFundsIcon.svelte';
 	import RightArrow from '$lib/images/icons/RightArrow.svelte';
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { returnYearTableChangeColumn, yearlyReturnMap, type TableColumnToggle } from '$lib/utils';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
+	import { fundNameSelection, sortbyReturnYear } from '../analytics';
 
 	import type { SameAmcScheme } from '../types';
 
@@ -24,8 +28,29 @@
 	};
 	const sortTable = () => {
 		currentYearFilter = returnYearTableChangeColumn(currentYearFilter.field, yearlyReturnMap);
+		const eventMetadata = { ReturnYear: currentYearFilter.label };
+		sortbyReturnYear(eventMetadata);
 	};
 
+	const onTableRowSelect = (schemes: SchemeDetails) => {
+		const eventMetadata = {
+			Fundname: schemes.schemeName,
+			FundType: schemes.categoryName,
+			Rating: schemes.arqRating,
+			ReturnYear: currentYearFilter?.label,
+			ReturnsValue: currentYearFilter?.field
+		};
+
+		fundNameSelection(eventMetadata);
+		goto(
+			`${base}/${normalizeFundName(
+				schemes?.schemeName,
+				schemes?.isin,
+				schemes?.schemeCode,
+				'schemes'
+			)}`
+		);
+	};
 	export { sameAmcScheme };
 </script>
 
@@ -69,43 +94,41 @@
 				</THead>
 				<TBody slot="tbody">
 					{#each sameAmcScheme?.schemeInfo || [] as schemes}
-						<Tr class="border-x border-b border-grey-line border-x-grey-line ">
-							<Td class="!pr-0"
-								><a
-									class="block w-full overflow-hidden text-ellipsis whitespace-pre-wrap"
-									href={normalizeFundName(schemes.schemeName, schemes.isin, schemes.schemeCode)}
+						<Tr
+							class="border-x border-b border-grey-line border-x-grey-line "
+							on:click={() => onTableRowSelect(schemes)}
+						>
+							<Td class="!pr-0">
+								<Link
+									to={`/schemes/${normalizeFundName(
+										schemes?.schemeName,
+										schemes?.isin,
+										schemes?.schemeCode
+									)}`}
+									class="flex items-start justify-between"
 								>
-									<Link
-										to={`/schemes/${normalizeFundName(
-											schemes?.schemeName,
-											schemes?.isin,
-											schemes?.schemeCode
-										)}`}
-										class="flex items-start justify-between"
-									>
-										<SchemeLogo src={schemes?.logoUrl} alt={schemes?.schemeName} />
-										<div class="m-0 mr-auto flex flex-col">
-											<ChipOverview
-												headingPrimary={schemes?.categoryName}
-												headingSecondary={schemes?.subcategoryName}
-											/>
-											<h3
-												class="block w-full whitespace-pre-wrap text-base font-medium text-black-title sm:text-sm"
+									<SchemeLogo src={schemes?.logoUrl} alt={schemes?.schemeName} />
+									<div class="m-0 mr-auto flex flex-col">
+										<ChipOverview
+											headingPrimary={schemes?.categoryName}
+											headingSecondary={schemes?.subcategoryName}
+										/>
+										<h3
+											class="block w-full whitespace-pre-wrap text-base font-medium text-black-title sm:text-sm"
+										>
+											{schemes?.schemeName}
+										</h3>
+										<div class="mt-1 flex">
+											<ChipArqRating arqRating={schemes?.arqRating} />
+											<div
+												class="ml-1 bg-grey px-1 group-hover:border group-hover:border-grey-line group-hover:bg-white"
 											>
-												{schemes?.schemeName}
-											</h3>
-											<div class="mt-1 flex">
-												<ChipArqRating arqRating={schemes?.arqRating} />
-												<div
-													class="ml-1 bg-grey px-1 group-hover:border group-hover:border-grey-line group-hover:bg-white"
-												>
-													<span class="text-xs text-grey-body">{schemes?.reInvestmentPlan}</span>
-												</div>
+												<span class="text-xs text-grey-body">{schemes?.reInvestmentPlan}</span>
 											</div>
 										</div>
-									</Link>
-								</a></Td
-							>
+									</div>
+								</Link>
+							</Td>
 							<Td class="!pr-2 sm:!pr-5"
 								><div class="flex items-end justify-end">
 									<span>{schemes[currentYearFilter.field]} %</span>

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 	import { page } from '$app/stores';
 	import SchemeCard from '$components/SchemeCard.svelte';
 	import TBody from '$components/Table/TBody.svelte';
@@ -7,12 +9,15 @@
 	import THead from '$components/Table/THead.svelte';
 	import Tr from '$components/Table/TR.svelte';
 	import Table from '$components/Table/Table.svelte';
+
 	import {
 		exploreMutualFundMap,
 		returnYearTableChangeColumn,
 		type TableColumnToggle
 	} from '$lib/utils';
+	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import type { ExploreFundsOptions } from '../../types';
+	import { fundCardClick } from '../analytics';
 
 	let searchOption: ExploreFundsOptions[];
 
@@ -42,6 +47,20 @@
 		currentYearFilter = returnYearTableChangeColumn(currentYearFilter.field, exploreMutualFundMap);
 	};
 
+	const onTableRowSelect = (schemes: ExploreFundsOptions) => {
+		const replaceState = false;
+		fundCardClick({ 'Fund Name': `${schemes?.schemeName}(${schemes?.categoryName})` });
+		goto(
+			`${base}/${normalizeFundName(
+				schemes?.schemeName,
+				schemes?.isin,
+				schemes?.schemeCode,
+				'schemes'
+			)}`,
+			{ replaceState }
+		);
+	};
+
 	export { searchOption };
 </script>
 
@@ -63,8 +82,13 @@
 	<TBody slot="tbody">
 		{#each searchOption || [] as scheme}
 			{@const isNavTrendingUp = scheme?.navValue >= scheme?.previousNavValue}
-			<Tr class="hover cursor-pointer">
-				<Td class="pr-0">
+			<Tr
+				class="hover cursor-pointer"
+				on:click={() => {
+					onTableRowSelect(scheme);
+				}}
+			>
+				<Td class="!pr-0">
 					<SchemeCard schemes={scheme} />
 				</Td>
 

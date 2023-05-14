@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 	import Button from '$components/Button.svelte';
 	import ChipArqRating from '$components/ChipArqRating.svelte';
 	import Table from '$components/Table/Table.svelte';
@@ -8,8 +10,11 @@
 	import THead from '$components/Table/THead.svelte';
 	import Tr from '$components/Table/TR.svelte';
 	import SimilarFundsIcon from '$lib/images/icons/SimilarFundsIcon.svelte';
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { returnYearTableChangeColumn, yearlyReturnMap, type TableColumnToggle } from '$lib/utils';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
+
+	import { fundNameSelection, sortbyReturnYear } from '../analytics';
 
 	import type { OtherSchemeEntityOrSchemeInfoEntity } from '../types';
 
@@ -20,8 +25,28 @@
 	};
 	const sortTable = () => {
 		currentYearFilter = returnYearTableChangeColumn(currentYearFilter.field, yearlyReturnMap);
+		const eventMetadata = { ReturnYear: currentYearFilter.label };
+		sortbyReturnYear(eventMetadata);
 	};
+	const onTableRowSelect = (schemes: SchemeDetails) => {
+		const eventMetadata = {
+			Fundname: schemes.schemeName,
+			FundType: schemes.categoryName,
+			Rating: schemes.arqRating,
+			ReturnYear: currentYearFilter?.label,
+			ReturnsValue: currentYearFilter?.field
+		};
 
+		fundNameSelection(eventMetadata);
+		goto(
+			`${base}/${normalizeFundName(
+				schemes?.schemeName,
+				schemes?.isin,
+				schemes?.schemeCode,
+				'schemes'
+			)}`
+		);
+	};
 	export { similarFunds };
 </script>
 
@@ -62,7 +87,12 @@
 			</THead>
 			<TBody slot="tbody">
 				{#each similarFunds || [] as funds}
-					<Tr class="border-b border-grey-line">
+					<Tr
+						class="border-b border-grey-line"
+						on:click={() => {
+							onTableRowSelect(funds);
+						}}
+					>
 						<Td class=""
 							><a
 								class="block w-full overflow-hidden text-ellipsis whitespace-pre-wrap"

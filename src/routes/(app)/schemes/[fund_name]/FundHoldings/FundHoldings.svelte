@@ -5,6 +5,7 @@
 	import FundHoldingIcon from '$lib/images/icons/FundHoldingIcon.svelte';
 	import UpArrowIcon from '$lib/images/icons/UpArrowIcon.svelte';
 	import type { SchemeHoldings } from '$lib/types/ISchemeDetails';
+	import { allHoldings } from '../analytics';
 	import { generateGraphDataset } from '../helper';
 	import type { TopHolding, TopHoldingSummary } from '../types';
 	import HoldingTable from './HoldingTable.svelte';
@@ -78,6 +79,11 @@
 		]
 	};
 
+	const toggleAllHolding = () => {
+		const eventMetadata = { action: showAllHoldings ? 'collapse' : 'expand' };
+		allHoldings(eventMetadata);
+		showAllHoldings = !showAllHoldings;
+	};
 	export { fundHoldingData };
 </script>
 
@@ -119,7 +125,7 @@
 			class="uppercase"
 			variant="transparent"
 			endAdornment={showAllHoldings ? UpArrowIcon : DownArrowIcon}
-			onClick={() => (showAllHoldings = !showAllHoldings)}
+			onClick={toggleAllHolding}
 		>
 			{#if !showAllHoldings}
 				Show all

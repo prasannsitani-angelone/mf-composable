@@ -5,8 +5,9 @@
 	let to: string;
 	let clazz = '';
 	let disableRedirect = false;
+	let replaceState = false;
 	const dispatch = createEventDispatcher();
-	export { to, clazz as class, disableRedirect };
+	export { to, clazz as class, disableRedirect, replaceState };
 	function onLinkClick(e: MouseEvent & { currentTarget: EventTarget & HTMLAnchorElement }) {
 		if (disableRedirect) {
 			e.preventDefault();
@@ -20,6 +21,7 @@
 	on:click={(e) => onLinkClick(e)}
 	href={isAbsoluteUrl(to) ? to : `${base}${to}`}
 	class={`${clazz}`}
+	data-sveltekit-replacestate={replaceState ? '' : 'off'}
 >
 	<slot />
 </a>

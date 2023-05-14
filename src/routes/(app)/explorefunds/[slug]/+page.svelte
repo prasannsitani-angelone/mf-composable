@@ -4,6 +4,9 @@
 	import TaxSavingModal from './TaxSavingModal/TaxSavingModal.svelte';
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
 	import SearchOptionHeader from './SearchOptionHeader/SearchOptionHeader.svelte';
+	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
+	import { onMount } from 'svelte';
+	import { sExploreMutualFunds, taxSavingInfo } from './analytics';
 	let data: PageData;
 	$: isModalOpen = false;
 	$: breadCrumbs = [
@@ -18,8 +21,15 @@
 	];
 
 	const toggleTaxSavingModal = () => {
+		if (!isModalOpen) {
+			taxSavingInfo({ Info: 'Learn more about Tax Saving Mutual Funds' });
+		}
 		isModalOpen = isModalOpen ? false : true;
 	};
+
+	onMount(() => {
+		sExploreMutualFunds();
+	});
 	export { data };
 </script>
 
@@ -35,7 +45,7 @@
 	<section class="ml-[calc(50%-50vw)] w-screen shadow-csm sm:ml-0 sm:w-full md:bg-white md:pt-4">
 		<section>
 			{#await data?.api?.searchOption}
-				Loading...
+				<TableSkeleton />
 			{:then searchOption}
 				<SearchOptionTable {searchOption} />
 			{:catch error}

@@ -4,6 +4,7 @@
 
 	import Link from '$components/Link.svelte';
 	import type { ExploreFundNavItem } from '../../types';
+	import { exploreMFFilter } from '../analytics';
 
 	let exploreFundsNavigation: ExploreFundNavItem[];
 
@@ -19,6 +20,10 @@
 		<Link
 			to={nav.href}
 			class={`w-28 cursor-pointer rounded border ${isActive ? activeLink : inActiveLink}`}
+			on:linkClicked={() => {
+				exploreMFFilter(nav.title);
+			}}
+			replaceState={true}
 		>
 			<h2 class="w-28 px-4 py-3 text-center text-xs font-medium">{nav.title}</h2>
 		</Link>

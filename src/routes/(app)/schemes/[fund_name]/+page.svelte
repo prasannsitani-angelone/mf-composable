@@ -21,6 +21,7 @@
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import FundDetailsLoader from './FundDetailsLoader/FundDetailsLoader.svelte';
 	import OrderpadLoader from './FundDetailsLoader/OrderpadLoader.svelte';
+	import { mobileSchemeDetailsPageInvestButtonClickAnalytics } from './analytics';
 
 	export let data: PageData;
 
@@ -49,7 +50,19 @@
 		return breadCrumbs;
 	}
 
-	const handleInvestMoreCtaClick = () => {
+	const handleInvestMoreCtaClick = async () => {
+		const schemeData: SchemeDetails = await data?.api?.schemeData;
+
+		const eventMetaData = {
+			Fundname: schemeData?.schemeName,
+			AssetType: schemeData?.categoryName,
+			SubAssetType: schemeData?.subcategoryName,
+			FundType: schemeData?.reInvestmentPlan,
+			Rating: schemeData?.arqRating,
+			NAV: schemeData?.navValue
+		};
+
+		mobileSchemeDetailsPageInvestButtonClickAnalytics(eventMetaData);
 		const currentPath = window?.location?.pathname;
 		const redirectPath = `${currentPath}?orderpad=INVEST`;
 

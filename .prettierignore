@@ -11,3 +11,10 @@ node_modules
 pnpm-lock.yaml
 package-lock.json
 yarn.lock
+
+.github
+.prettierrc
+.eslintrc.cjs
+README.md
+postcss.config.cjs 
+playwright.config.ts
