@@ -2,7 +2,7 @@
 	import { v4 as uuidv4 } from 'uuid';
 	import type { FolioObject } from '$lib/types/IInvestments';
 	import type { BankDetailsEntity } from '$lib/types/IUserProfile';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, getContext } from 'svelte';
 	import { useFetch } from '$lib/utils/useFetch';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { profileStore } from '$lib/stores/ProfileStore';
@@ -17,6 +17,11 @@
 	import BankAccountTile from '$components/BankAccountTile.svelte';
 	import LoadingPopup from '../InvestmentPad/OrderPadComponents/LoadingPopup.svelte';
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
+	import TpinVerification from '$components/TpinFlow/TpinVerification.svelte';
+	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
+	import { base } from '$app/paths';
+	import type { AppContext } from '$lib/types/IAppContext';
+	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
 
 	// export let holdingDetails: FolioHoldingType;
 	export let bankAccounts: Array<BankDetailsEntity>;
@@ -28,6 +33,8 @@
 	export let redeemAll: boolean;
 
 	const dispatch = createEventDispatcher();
+
+	const appContext: AppContext = getContext('app');
 
 	const closeConfirmationScreen = () => {
 		dispatch('closeWithdrawalConfirmationScreen');
@@ -97,40 +104,46 @@
 		showOtpVerificationModal = !showOtpVerificationModal;
 	};
 
-	const postRedemptionOrderFunc = async () => {
+	const postRedemptionOrder = async (edisExecDate?: string) => {
 		showLoading('Placing Withdrawal Order');
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/orders`;
 
-		let res = await useFetch(
-			url,
-			{
-				method: 'POST',
-				body: JSON.stringify({
-					amount: redeemAll ? folioData?.redemableAmount : parseInt(withdrawalAmount),
-					dpNumber: $profileStore?.dpNumber,
-					folioNumber: folioData?.folioNumber,
-					quantity: redeemAll
-						? folioData?.redemableUnits
-						: parseFloat(getCappedUnitString(numberOfUnits?.toString(), 3)),
-					redeemAll: redeemAll,
-					remarks: '',
-					schemeCode: folioData?.schemeCode,
-					subBrokerCode: '',
-					transactionType: 'REDEEM',
-					bankAccountNo: selectedBankAccount?.accNO,
-					bankName: selectedBankAccount?.bankName,
-					poaStatus: $profileStore?.poaStatus,
-					dpFlag: folioData?.dpFlag,
-					isin: folioData?.isin,
-					edisExecuteDate: ''
-				})
+		const res = await useFetch(url, {
+			method: 'POST',
+			headers: {
+				'X-Request-Id': uuid,
+				'X-SESSION-ID': uuid,
+				'X-device-type': 'WEB'
 			},
-			fetch,
-			false
-		);
+			body: JSON.stringify({
+				amount: redeemAll ? folioData?.redemableAmount : parseInt(withdrawalAmount),
+				dpNumber: $profileStore?.dpNumber,
+				folioNumber: folioData?.folioNumber,
+				quantity: redeemAll
+					? folioData?.redemableUnits
+					: parseFloat(getCappedUnitString(numberOfUnits?.toString(), 3)),
+				redeemAll: redeemAll,
+				remarks: '',
+				schemeCode: folioData?.schemeCode,
+				subBrokerCode: '',
+				transactionType: 'REDEEM',
+				bankAccountNo: selectedBankAccount?.accNO,
+				edisExecuteDate: edisExecDate,
+				bankName: selectedBankAccount?.bankName,
+				poaStatus: $profileStore?.poaStatus,
+				dpFlag: folioData?.dpFlag,
+				isin: folioData?.isin
+			})
+		});
 
-		if (res?.ok && res?.data?.orderId !== undefined) {
-			goto(`/orders/redeem/${res?.data?.orderId}`);
+		if (
+			res?.ok &&
+			res?.data?.status?.toUpperCase() === STATUS_ARR?.SUCCESS &&
+			res?.data?.data?.orderId !== undefined
+		) {
+			const baseUrl = `${getNavigationBaseUrl(base, appContext?.scheme, appContext?.host)}`;
+			const path = `/orders/redeem/${res?.data?.data?.orderId}`;
+			goto(`${baseUrl}${path}`);
 		} else {
 			error.visible = true;
 			error.heading = 'Order Failed';
@@ -144,7 +157,7 @@
 			if ($profileStore?.poaStatus?.toUpperCase() === 'I') {
 				toggleTpinVerificationModal();
 			} else if ($profileStore?.poaStatus?.toUpperCase() === 'A') {
-				postRedemptionOrderFunc();
+				postRedemptionOrder();
 			}
 		} else if (folioData?.dpFlag?.toUpperCase() === 'N') {
 			toggleOtpVerificationModal();
@@ -290,20 +303,19 @@
 		/>
 	{/if}
 
-	<!-- TPIN Verification Modal -->
-	<!-- <InvestRedeemRedemptionPadTpinVerificationVerifyOrderWithTpin
-    v-if="showTpinVerificationModal"
-    :uuid="uuid"
-    :amount="withdrawalAmount"
-    :profile="profileData"
-    :folio="folioData"
-    :quantity="numberOfUnits"
-    :redeem-all="redeemAll"
-    :selected-bank-account="selectedBankAccount"
-    @close-modal="toggleTpinVerificationModal"
-  /> -->
+	<!-- TPIN Verification Process -->
+	{#if showTpinVerificationModal}
+		<TpinVerification
+			{uuid}
+			folio={folioData}
+			quantity={numberOfUnits}
+			{redeemAll}
+			on:tpinVerificationSuccessful={(e) => postRedemptionOrder(e?.detail)}
+			on:closeModal={toggleTpinVerificationModal}
+		/>
+	{/if}
 
-	<!-- OTP Verification Modal -->
+	<!-- 2FA (OTP) Verification Process -->
 	<!-- <InvestRedeemRedemptionPadOtpVerificationVerifyOrderWithOtp
     v-if="showOtpVerificationModal"
     :uuid="uuid"

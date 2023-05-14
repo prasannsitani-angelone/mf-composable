@@ -11,7 +11,7 @@
 
 <div class="flex w-full flex-row items-center border-t border-grey-line px-4 py-3">
 	<div>
-		<svelte:component this={PAYMENT_MODE[selectedMode].sleeveIcon} />
+		<svelte:component this={PAYMENT_MODE[selectedMode]?.sleeveIcon} />
 	</div>
 	<div class="ml-5 flex w-full flex-col">
 		<div class="text-xs font-medium text-black-title">
@@ -19,13 +19,13 @@
 				? upiId?.length
 					? upiId
 					: 'Your UPI Id'
-				: PAYMENT_MODE[selectedMode].name}
+				: PAYMENT_MODE[selectedMode]?.name}
 		</div>
 		<div class="text-[10px] font-normal text-black-title">
 			{bankName} - *{bankAccount?.substring(bankAccount.length - 4)}
 		</div>
 		<div class="text-[10px] font-normal text-grey-body">
-			Use the same bank account on {PAYMENT_MODE[selectedMode].name}
+			Use the same bank account on {PAYMENT_MODE[selectedMode]?.name}
 			{selectedMode === 'UPI' ? 'app' : ''}
 		</div>
 	</div>

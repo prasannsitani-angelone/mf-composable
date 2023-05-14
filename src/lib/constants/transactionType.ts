@@ -25,3 +25,10 @@ export const TRANSACTION_TYPE = {
 	REDEEM: 'REDEEM',
 	SWITCH: 'SWITCH'
 };
+
+export const OrderType = {
+	SWITCH: 'SWITCH',
+	LUMPSUM: 'LUMPSUM',
+	SIP: 'SIP',
+	REDEEM: 'REDEEM'
+};

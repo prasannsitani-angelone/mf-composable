@@ -5,6 +5,7 @@
 	import { update } from '$lib/utils/helpers/hydrated';
 	import '../app.css';
 	import { browser } from '$app/environment';
+	import { base } from '$app/paths';
 
 	export let data;
 	// Update store with Spark headers
@@ -16,7 +17,7 @@
 	// initialising logging for routes outside of (app) like login page
 	Logger.init({
 		batchSize: browser ? 10 : 1,
-		baseUrl: `${scheme}://${host}/mutual-funds-v2/api`,
+		baseUrl: `${scheme}://${host}${base}/api`,
 		url: '/logging',
 		logLevel: PUBLIC_LOG_LEVEL,
 		enabled: PUBLIC_LOG_ENABLED === 'true',
