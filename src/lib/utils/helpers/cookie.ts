@@ -3,7 +3,8 @@ export const setCookie = (cname: string, cvalue: string, options?: object) => {
 	let ss = '';
 	let secureFlag = '';
 	let domainStr = '';
-	const { sameSite, secure, exDays, domain } = options || {};
+	let pathStr = '';
+	const { sameSite, secure, exDays, domain, path } = options || {};
 	if (exDays) {
 		const d = new Date();
 		d.setTime(d.getTime() + exDays * 24 * 60 * 60 * 1000);
@@ -16,10 +17,13 @@ export const setCookie = (cname: string, cvalue: string, options?: object) => {
 		secureFlag = 'secure;';
 	}
 	if (domain) {
-		domainStr = `domain=${domain}`;
+		domainStr = `domain=${domain};`;
+	}
+	if (path) {
+		pathStr = `path=${path};`;
 	}
 
-	document.cookie = `${cname}=${cvalue};${expires}${ss}${secureFlag}${domainStr}`;
+	document.cookie = `${cname}=${cvalue};${expires}${ss}${secureFlag}${domainStr}${pathStr}`;
 };
 
 export const getCookie = (cname: string) => {
@@ -37,6 +41,13 @@ export const getCookie = (cname: string) => {
 	return '';
 };
 
-export const deleteCookie = (cname: string) => {
-	document.cookie = `name=${cname};max-age=0`;
+export const deleteCookie = (cname: string, options?: object) => {
+	let domainStr = '';
+	const path = 'path=/;';
+	const maxAge = 'max-age=0;';
+	const { domain } = options || {};
+	if (domain) {
+		domainStr = `domain=${domain};`;
+	}
+	document.cookie = `${cname}=;${maxAge}${path}${domainStr}`;
 };

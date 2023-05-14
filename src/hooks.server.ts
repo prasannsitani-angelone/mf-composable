@@ -1,12 +1,9 @@
+import { PUBLIC_ENV_NAME } from '$env/static/public';
 import getAuthToken from '$lib/server/getAuthToken';
 import type { UserProfile } from '$lib/types/IUserProfile';
 import { isDevMode } from '$lib/utils/helpers/dev';
 import { removeAuthHeaders } from '$lib/utils/helpers/logging';
-import {
-	getUserCookieName,
-	getUserCookieOptions,
-	getUserTokenFromCookie
-} from '$lib/utils/helpers/token';
+import { decryptRightUserCookie, getUserCookieName } from '$lib/utils/helpers/token';
 import Logger from '$lib/utils/logger';
 import { useProfileFetch } from '$lib/utils/useProfileFetch';
 import type { Handle, HandleFetch } from '@sveltejs/kit';
@@ -16,12 +13,13 @@ import { handleDeviecDetector } from 'sveltekit-device-detector';
 const deviceDetector = handleDeviecDetector({});
 
 const handler = (async ({ event, resolve }) => {
-	const cookie: Record<string, string> = parse(event.request.headers.get('cookie') || '');
+	const cookieString = event.request.headers.get('cookie') || '';
+	const cookie: Record<string, string> = parse(cookieString);
 
 	let isAuthenticatedUser = true;
-	const encryptedABUserCookie = cookie[getUserCookieName()];
-	const ABUserCookie = getUserTokenFromCookie(encryptedABUserCookie);
+	const ABUserCookie = decryptRightUserCookie(cookieString);
 	let token = event.request.headers.get('authtoken') || ABUserCookie?.NTAccessToken || '';
+
 	const refreshToken =
 		event.request.headers.get('refreshtoken') || ABUserCookie?.NTRefreshToken || '';
 	let userType = cookie['UserType'] === 'undefined' ? null : cookie['UserType'];
@@ -62,22 +60,32 @@ const handler = (async ({ event, resolve }) => {
 		host
 	};
 
+	// removing cookie from specific domain in case of prod
+	if (!event.url?.pathname?.includes('api')) {
+		console.log(
+			JSON.stringify({
+				type: 'Cookie String',
+				params: {
+					cookieString
+				}
+			})
+		);
+		if (PUBLIC_ENV_NAME === 'prod') {
+			const cookieOptions = {
+				secure: isDevMode() ? false : true,
+				samesite: 'strict',
+				path: '/',
+				domain: host || '',
+				maxAge: 0
+			};
+			event.cookies.set(getUserCookieName(), '', cookieOptions);
+		}
+	}
+
 	const response = await resolve(event);
 	response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
 	response.headers.set('Pragma', 'no-cache');
 	response.headers.set('Expires', '0');
-	// temp fix need to add authtoken in cookie
-	if (!event.url?.pathname?.includes('api')) {
-		let options = '';
-		const cookieOptionsObj = getUserCookieOptions();
-		Object.keys(cookieOptionsObj).forEach((key: string) => {
-			options += `${key}=${cookieOptionsObj[key]};`;
-		});
-		response.headers.set(
-			'Set-Cookie',
-			`${getUserCookieName()}=${encryptedABUserCookie};${options}`
-		);
-	}
 	return response;
 }) satisfies Handle;
 

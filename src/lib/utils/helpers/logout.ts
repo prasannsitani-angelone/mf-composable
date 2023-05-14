@@ -1,8 +1,8 @@
 import { deleteCookie } from './cookie';
-import { getUserCookieName } from './token';
+import { getUserCookieName, getUserCookieOptions } from './token';
 
 export const logout = () => {
-	deleteCookie(getUserCookieName());
+	deleteCookie(getUserCookieName(), getUserCookieOptions());
 	deleteCookie('UserType');
 	deleteCookie('AccountType');
 };

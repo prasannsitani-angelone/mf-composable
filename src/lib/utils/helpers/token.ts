@@ -2,6 +2,7 @@ import { decompressSync, zlibSync, strToU8 } from 'fflate';
 import { isDevMode } from './dev';
 import { setCookie } from './cookie';
 import { PUBLIC_ENV_NAME, PUBLIC_APP_USER_COOKIE } from '$env/static/public';
+import type { CookieParseOptions } from 'cookie-es';
 
 export const getUserCookieName = (): string => {
 	return PUBLIC_APP_USER_COOKIE;
@@ -110,4 +111,83 @@ export const isTokenExpired = (token = '') => {
 		return true;
 	}
 	return false;
+};
+
+function tryDecode(str, decode) {
+	try {
+		return decode(str);
+	} catch {
+		return str;
+	}
+}
+
+function decode(str: string) {
+	return str.includes('%') ? decodeURIComponent(str) : str;
+}
+
+function parse(str: string, options?: CookieParseOptions) {
+	if (typeof str !== 'string') {
+		throw new TypeError('argument str must be a string');
+	}
+
+	const arr = [];
+	const opt = options || {};
+	const dec = opt.decode || decode;
+
+	let index = 0;
+	while (index < str.length) {
+		const eqIdx = str.indexOf('=', index);
+
+		// no more cookie pairs
+		if (eqIdx === -1) {
+			break;
+		}
+
+		let endIdx = str.indexOf(';', index);
+
+		if (endIdx === -1) {
+			endIdx = str.length;
+		} else if (endIdx < eqIdx) {
+			// backtrack on prior semicolon
+			index = str.lastIndexOf(';', eqIdx - 1) + 1;
+			continue;
+		}
+
+		const key = str.slice(index, eqIdx).trim();
+
+		// only assign once
+		let val = str.slice(eqIdx + 1, endIdx).trim();
+
+		// quoted values
+		if (val.codePointAt(0) === 0x22) {
+			val = val.slice(1, -1);
+		}
+		arr.push({
+			[key]: tryDecode(val, dec)
+		});
+
+		index = endIdx + 1;
+	}
+
+	return arr;
+}
+export const decryptRightUserCookie = (cookiesString: string) => {
+	let decryptedValue = '';
+	try {
+		const cookieArr = parse(cookiesString);
+		for (let i = 0; i < cookieArr.length; i++) {
+			const cookieName = Object.keys(cookieArr[i])[0];
+			const cookieValue = cookieArr[i][cookieName];
+			if (cookieName === getUserCookieName()) {
+				decryptedValue = getUserTokenFromCookie(cookieValue);
+
+				if (decryptedValue) {
+					break;
+				}
+			}
+		}
+		return decryptedValue;
+	} catch (e) {
+		return decryptedValue;
+	}
 };
