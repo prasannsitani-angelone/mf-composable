@@ -5,6 +5,19 @@
 	export let value = '';
 	export let errorMsg = '';
 	export let onResendClick = () => '';
+	export let resendCountdown = 30;
+	export let disableResend = false;
+
+	let countDisplayNum = 0;
+
+	$: {
+		setTimeout(() => {
+			if (countDisplayNum <= 0) {
+				return;
+			}
+			countDisplayNum = countDisplayNum - 1;
+		}, 1000);
+	}
 
 	type Item = {
 		value?: string;
@@ -51,6 +64,7 @@
 	};
 
 	const resendButtonClicked = () => {
+		countDisplayNum = resendCountdown;
 		onResendClick();
 		clearExistingOtpParams();
 	};
@@ -77,13 +91,18 @@
 
 <div class={`otp-box flex w-full justify-between ${$$props.class}`}>
 	<div class="w-[50%] text-left text-sm text-grey-body">Enter OTP</div>
-	<!-- svelte-ignore a11y-click-events-have-key-events -->
-	<Button
-		class="resend-otp cursor-pointer"
-		variant="transparent"
-		size="xs"
-		onClick={resendButtonClicked}>RESEND OTP</Button
-	>
+	{#if !disableResend}
+		{#if countDisplayNum === 0}
+			<Button
+				class="resend-otp cursor-pointer"
+				variant="transparent"
+				size="xs"
+				onClick={resendButtonClicked}>RESEND OTP</Button
+			>
+		{:else}
+			<div>00: {countDisplayNum < 10 ? '0' : ''}{countDisplayNum}</div>
+		{/if}
+	{/if}
 	<div class="otp-input-container">
 		{#each otp as ot, i}
 			<input

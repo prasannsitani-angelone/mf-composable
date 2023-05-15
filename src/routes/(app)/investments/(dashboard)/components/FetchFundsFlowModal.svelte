@@ -21,6 +21,7 @@
 	let generateOtpResponse = {};
 	let errorMsg = '';
 	let loading = false;
+	let errorCode = '';
 
 	const otpValueChanged = () => {
 		errorMsg = '';
@@ -29,8 +30,8 @@
 	let xReqId: string;
 	const onRequestOtp = async () => {
 		errorMsg = '';
-		loading = true;
 		xReqId = uuidv4();
+		step = 'VALIDATE';
 		const body = {
 			email: data.profile?.clientDetails?.email || '',
 			mobileNo: data.profile?.countryCode + data.profile?.mobile,
@@ -51,12 +52,23 @@
 		);
 		if (res?.ok) {
 			generateOtpResponse = res.data?.data || {};
-
-			step = 'VALIDATE';
 		} else {
-			errorMsg = 'Unable to request for OTP. Please Try again.';
+			errorMsg = res.data?.message;
+			errorCode = res.data?.errorCode;
 		}
-		loading = false;
+	};
+
+	$: isVerifyDisabled = () => {
+		return (
+			enteredOtp.length < 6 ||
+			errorMsg.length > 0 ||
+			errorCode === 'MF-SVC-MFCENTRAL-03' ||
+			errorCode === 'MF-SVC-MFCENTRAL-05'
+		);
+	};
+
+	$: isResendDisabled = () => {
+		return errorCode === 'MF-SVC-MFCENTRAL-05';
 	};
 
 	const onValidateOtp = async () => {
@@ -92,6 +104,7 @@
 			onfetchFundsSuccess();
 		} else {
 			errorMsg = res.data?.message;
+			errorCode = res.data?.errorCode;
 		}
 		loading = false;
 	};
@@ -107,40 +120,24 @@
 	>
 		{#if step === 'GENERATE'}
 			<!-- Render Generate OTP contents -->
-			{#if !errorMsg}
-				<div class="flex items-center justify-between p-0 sm:border-b sm:py-6 sm:px-8">
-					<div class="mr-1 text-xl">Generate OTP</div>
-					<button class="hidden sm:block md:cursor-pointer" on:click={onModalClick}>
-						<WMSIcon name="cross-circle" />
-					</button>
-				</div>
-				<div class="text-center sm:px-8">
-					<div
-						class="mt-3 mb-10 text-left text-sm font-normal text-grey-body sm:mt-5 sm:mb-11 sm:text-base"
-					>
-						You will receive an OTP from MFCentral on <span class="font-medium text-black-title"
-							>{getMaskedMobileNumber(data.profile.mobile)}</span
-						>. Please verify this OTP in the next step
-					</div>
-				</div>
-			{:else}
-				<div class="flex flex-col items-center justify-between sm:px-16 sm:pt-10 sm:pb-4">
-					<div class=""><WMSIcon width={92} height={92} name="red-cross-circle" /></div>
-					<div class="mt-10 mb-4 text-center text-base">{errorMsg}</div>
-				</div>
-			{/if}
+			<div class="flex items-center justify-between p-0 sm:border-b sm:py-6 sm:px-8">
+				<div class="mr-1 text-xl">Generate OTP</div>
+				<button class="hidden sm:block md:cursor-pointer" on:click={onModalClick}>
+					<WMSIcon name="cross-circle" />
+				</button>
+			</div>
 			<div class="text-center sm:px-8">
-				<Button
-					class="w-full sm:w-48"
-					variant={errorMsg ? 'outlined' : 'contained'}
-					onClick={onRequestOtp}>{errorMsg ? 'TRY AGAIN' : 'GENERATE OTP'}</Button
+				<div
+					class="mt-3 mb-10 text-left text-sm font-normal text-grey-body sm:mt-5 sm:mb-11 sm:text-base"
+				>
+					You will receive an OTP from MFCentral on <span class="font-medium text-black-title"
+						>{getMaskedMobileNumber(data.profile.mobile)}</span
+					>. Please verify this OTP in the next step
+				</div>
+				<Button class="w-full sm:w-48" variant="contained" onClick={onRequestOtp}>
+					GENERATE OTP</Button
 				>
 			</div>
-			{#if loading}
-				<div class="absolute inset-0 flex items-center justify-center bg-black-title/80">
-					<LoadingIndicator svgClass={'!w-16 !h-16'} />
-				</div>
-			{/if}
 		{:else if step === 'VALIDATE'}
 			<!-- Render Validate OTP contents -->
 			<div class="flex items-center justify-between p-0 sm:border-b sm:py-6 sm:px-8">
@@ -164,10 +161,14 @@
 						>PAN {getMaskedMobileNumber(data.profile.pan)}</span
 					>
 				</div>
-				<Otp bind:value={enteredOtp} {errorMsg} onResendClick={onRequestOtp} class="pb-11" />
-				<Button type="submit" class="w-full" disabled={enteredOtp.length < 6 || errorMsg.length > 0}
-					>VERIFY</Button
-				>
+				<Otp
+					bind:value={enteredOtp}
+					{errorMsg}
+					onResendClick={onRequestOtp}
+					class="pb-11"
+					disableResend={isResendDisabled()}
+				/>
+				<Button type="submit" class="w-full" disabled={isVerifyDisabled()}>VERIFY</Button>
 			</form>
 			{#if loading}
 				<div class="absolute inset-0 flex items-center justify-center bg-black-title/80">
