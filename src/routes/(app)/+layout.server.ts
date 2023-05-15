@@ -90,14 +90,14 @@ export const load = (async ({ url, request, locals, cookies, fetch }) => {
 			NTRefreshToken: refreshToken
 		};
 	}
-	if (!localProfileData.clientId && !isGuest) {
+	if (!localProfileData?.clientId && !isGuest) {
 		localProfileData = await useProfileFetch(url.origin, token, fetch);
 
 		cookies.set('AccountType', localProfileData?.dpNumber ? 'D' : 'P', {
 			path: '/'
 		});
 	}
-	if (!localUserDetails.userType && !isGuest) {
+	if (!localUserDetails?.userType && !isGuest) {
 		localUserDetails = await useUserDetailsFetch(token, fetch);
 		cookies.set('UserType', localUserDetails?.userType, {
 			path: '/'
