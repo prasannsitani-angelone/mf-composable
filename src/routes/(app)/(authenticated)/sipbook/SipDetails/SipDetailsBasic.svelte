@@ -1,17 +1,13 @@
 <script lang="ts">
 	import ResultItem from '$components/Autocomplete/ResultItem.svelte';
-	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import type { AppContext } from '$lib/types/IAppContext';
-	import { getContext } from 'svelte';
 	let schemeName: string;
 	let schemePlan: string;
 	let logoUrl: string;
 	let isin: string;
 	let schemeCode: string;
-	const appContext: AppContext = getContext('app');
 	const navigateToDetailsPage = async () => {
 		const path = `schemes/${normalizeFundName(schemeName, isin, schemeCode)}`;
 

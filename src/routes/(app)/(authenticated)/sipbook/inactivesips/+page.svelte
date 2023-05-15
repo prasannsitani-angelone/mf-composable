@@ -13,8 +13,6 @@
 	import { page } from '$app/stores';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { encodeObject } from '$lib/utils/helpers/params';
-	import type { AppContext } from '$lib/types/IAppContext';
-	import { getContext } from 'svelte';
 	import { restartSipButtonClickAnalytics } from '$lib/analytics/sipbook/sipbook';
 
 	const userType = profileStore.userType();

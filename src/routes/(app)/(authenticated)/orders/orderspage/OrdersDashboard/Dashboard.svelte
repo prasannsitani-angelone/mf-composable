@@ -19,8 +19,6 @@
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
-	import type { AppContext } from '$lib/types/IAppContext';
-	import { getContext } from 'svelte';
 	import OrderFilter from './OrderFilter/OrderFilter.svelte';
 	import { REVERSE_INVESTMENT_TYPE } from '$lib/constants/transactionType';
 	import { filterStore } from '$lib/stores/FilterStore';
@@ -32,7 +30,6 @@
 	let data: PageData;
 	let schemeDetails: SchemeDetails;
 
-	const appContext: AppContext = getContext('app');
 	const handleFooterClick = async (e: CustomEvent) => {
 		failedOrdersRetryCtaClickAnalytics();
 		const orderItem: orderItem = e.detail;

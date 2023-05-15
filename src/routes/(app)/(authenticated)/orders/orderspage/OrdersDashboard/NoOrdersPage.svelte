@@ -2,8 +2,6 @@
 	import Link from '$components/Link.svelte';
 	import NoOrders from '$components/NoOrders.svelte';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
-	import type { AppContext } from '$lib/types/IAppContext';
-	import { getContext } from 'svelte';
 	import TrendingFunds from '../../../../discoverfunds/TrendingFunds/TrendingFunds.svelte';
 	import type { PageData } from '../../../../../$types';
 	let data: PageData;
@@ -11,7 +9,6 @@
 		header: 'p-4 pb-0',
 		container: `!pb-0 ${$$props.class}`
 	};
-	const appContext: AppContext = getContext('app');
 	export { data };
 </script>
 
