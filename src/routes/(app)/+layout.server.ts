@@ -6,6 +6,7 @@ import type { UserProfile } from '$lib/types/IUserProfile';
 import { useProfileFetch } from '$lib/utils/useProfileFetch';
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { useFetch } from '$lib/utils/useFetch';
+import { useUserDetailsFetch } from '$lib/utils/useUserDetailsFetch';
 const sparkHeadersList: Array<keyof SparkStore> = [
 	'platform',
 	'platformversion',
@@ -56,7 +57,15 @@ const getSparkHeaders = (headers: Headers) => {
 
 export const load = (async ({ url, request, locals, cookies, fetch }) => {
 	const sparkHeaders: SparkStore = getSparkHeaders(request.headers);
-	const { isGuest, userType, accountType, profileData, token = '', refreshToken = '' } = locals;
+	const {
+		isGuest,
+		userType,
+		accountType,
+		userDetails,
+		profileData,
+		token = '',
+		refreshToken = ''
+	} = locals;
 	const tokenObj: TokenStore = {
 		userToken: {
 			NTAccessToken: '',
@@ -65,7 +74,7 @@ export const load = (async ({ url, request, locals, cookies, fetch }) => {
 		guestToken: ''
 	};
 	let localProfileData: UserProfile = profileData;
-
+	let localUserDetails: IUserDetails = userDetails;
 	cookies.set('UserType', userType, {
 		path: '/'
 	});
@@ -83,14 +92,17 @@ export const load = (async ({ url, request, locals, cookies, fetch }) => {
 	}
 	if (!localProfileData.clientId && !isGuest) {
 		localProfileData = await useProfileFetch(url.origin, token, fetch);
-		cookies.set('UserType', localProfileData?.userType, {
-			path: '/'
-		});
+
 		cookies.set('AccountType', localProfileData?.dpNumber ? 'D' : 'P', {
 			path: '/'
 		});
 	}
-
+	if (!localUserDetails.userType && !isGuest) {
+		localUserDetails = await useUserDetailsFetch(token, fetch);
+		cookies.set('UserType', localUserDetails?.userType, {
+			path: '/'
+		});
+	}
 	console.log(
 		JSON.stringify({
 			type: 'Initial Application Params',

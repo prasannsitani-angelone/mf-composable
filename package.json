@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev-debug": "cp .env.uat .env && NODE_OPTIONS=--inspect ./node_modules/.bin/vite dev",
+		"dev-debug": "NODE_OPTIONS=--inspect ./node_modules/.bin/vite dev",
 		"dev": "vite dev",
 		"dev:uat": "cp .env.uat .env && JWT_SYMMETRIC_KEY=aAJALJFLJLSLFJ@##@!12123a vite dev",
 		"dev:cug": "cp .env.cug .env && vite dev",
@@ -19,7 +19,8 @@
 		"test:unit": "vitest",
 		"lint": "prettier --plugin-search-dir . --check . && eslint --cache .",
 		"format": "prettier --plugin-search-dir . --cache --write .",
-		"prepare": "husky install"
+		"prepare": "husky install",
+		"lint:diff": "eslint $(git diff --name-only HEAD | xargs)"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",

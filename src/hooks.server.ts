@@ -6,6 +6,7 @@ import { removeAuthHeaders } from '$lib/utils/helpers/logging';
 import { decryptRightUserCookie, getUserCookieName } from '$lib/utils/helpers/token';
 import Logger from '$lib/utils/logger';
 import { useProfileFetch } from '$lib/utils/useProfileFetch';
+import { useUserDetailsFetch } from '$lib/utils/useUserDetailsFetch';
 import type { Handle, HandleFetch } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { parse } from 'cookie-es';
@@ -29,6 +30,8 @@ const handler = (async ({ event, resolve }) => {
 		userType: 'B2C',
 		dpNumber: 'D'
 	};
+
+	let userDetails: IUserDetails;
 	const scheme = event.request.headers.get('x-forwarded-proto') || (isDevMode() ? 'http' : 'https');
 	const host = event.request.headers.get('x-forwarded-host') || event.request.headers.get('host');
 
@@ -44,7 +47,8 @@ const handler = (async ({ event, resolve }) => {
 		accountType = 'D';
 	} else if (!userType && !event.request.url.includes('/api/profile')) {
 		profileData = await useProfileFetch(event.url.origin, token, fetch);
-		userType = profileData?.userType || null;
+		userDetails = await useUserDetailsFetch(token, fetch);
+		userType = userDetails?.userType || null;
 		accountType = profileData?.dpNumber ? 'D' : 'P';
 	}
 
@@ -54,6 +58,7 @@ const handler = (async ({ event, resolve }) => {
 		refreshToken,
 		isGuest,
 		userType,
+		userDetails,
 		accountType,
 		profileData,
 		scheme,

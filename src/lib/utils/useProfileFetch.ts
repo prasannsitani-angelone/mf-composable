@@ -1,4 +1,5 @@
 import { base } from '$app/paths';
+import type { FetchType } from '$lib/types/Fetch';
 import type { UserProfile } from '$lib/types/IUserProfile';
 import { useFetch } from './useFetch';
 
