@@ -104,6 +104,7 @@
 	let validateUPILoading = false;
 	let pendingCaseOrderID: number;
 	let pendingCaseSipID: number;
+	let firstTimeUser = false;
 	const error = {
 		visible: false,
 		heading: '',
@@ -437,6 +438,7 @@
 	const onPaymentModeSelect = (paymentMode: string) => {
 		PAYMENT_MODE[paymentMode].analytics();
 		paymentHandler.paymentMode = paymentMode;
+		firstTimeUser = false;
 	};
 
 	const resetInputPaymentError = () => {
@@ -684,7 +686,7 @@
 		paymentHandler.paymentMode = '';
 		paymentHandler.upiId = '';
 		paymentHandler.selectedAccount = 0;
-		showChangePayment = true;
+		firstTimeUser = true;
 	};
 
 	const updatePaymentMode = (amount: string) => {
@@ -1467,13 +1469,19 @@
 	// -------- **** ----------
 
 	const onPaymentTypeSubmit = (inputId: string) => {
+		const NO_SIP_PAYMENT = !firstSipPayment && activeTab === 'SIP';
+		if (firstTimeUser && !NO_SIP_PAYMENT) {
+			showPaymentMethodScreen();
+			return;
+		}
+
 		if (requestId) {
 			xRequestId = requestId;
 		} else {
 			assignNewRequestId();
 		}
 
-		if (!firstSipPayment && activeTab === 'SIP') {
+		if (NO_SIP_PAYMENT) {
 			noPaymentFlow();
 		} else if (
 			paymentHandler?.paymentMode === 'NET_BANKING' &&
@@ -1641,7 +1649,7 @@
 					{#if activeTab === 'SIP' && !firstSipPayment}
 						<NextSipDate {calendarDate} {calendarMonth} {calendarYear} />
 					{/if}
-					{#if activeTab === 'ONETIME' || firstSipPayment}
+					{#if (activeTab === 'ONETIME' || firstSipPayment) && !firstTimeUser}
 						<PaymentSleeve
 							selectedMode={paymentHandler?.paymentMode}
 							onPaymentMethodChange={showPaymentMethodScreen}
