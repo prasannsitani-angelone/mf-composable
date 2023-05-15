@@ -224,11 +224,16 @@
 			{:else}
 				<!-- Invest/Redeem Pages (Mobile Layout) -->
 				{#if showInvestmentPad}
-					<InvestmentPad
-						class="block md:hidden"
-						schemeData={res.schemeData}
-						fromInvestmentDetailsPage
-					/>
+					{#await data?.api?.previousPaymentDetails}
+						<div />
+					{:then previousPaymentDetails}
+						<InvestmentPad
+							class="block md:hidden"
+							schemeData={res.schemeData}
+							fromInvestmentDetailsPage
+							{previousPaymentDetails}
+						/>
+					{/await}
 				{:else if showRedemptionPad}
 					<RedemptionPad
 						holdingDetails={holdingsData}
@@ -245,22 +250,27 @@
 		{#if !isMobile}
 			{#if orderPadActiveTab === investmentDetailsFooterEvents?.INVEST}
 				<!-- Investment Pad -->
-				<InvestmentPad
-					class="sticky -top-2 mt-[52px] hidden md:block"
-					schemeData={res.schemeData}
-					fromInvestmentDetailsPage
-					investmentNotAllowedText={investDisableText}
-				>
-					<svelte:fragment slot="header">
-						{#if res?.holdingsData}
-							<OrderPadHeader
-								{orderPadActiveTab}
-								on:onHeaderButtonClick={(buttonType) =>
-									investmentHeaderButtonClick(buttonType?.detail)}
-							/>
-						{/if}
-					</svelte:fragment>
-				</InvestmentPad>
+				{#await data?.api?.previousPaymentDetails}
+					<div />
+				{:then previousPaymentDetails}
+					<InvestmentPad
+						class="sticky -top-2 mt-[52px] hidden md:block"
+						schemeData={res.schemeData}
+						fromInvestmentDetailsPage
+						investmentNotAllowedText={investDisableText}
+						{previousPaymentDetails}
+					>
+						<svelte:fragment slot="header">
+							{#if res?.holdingsData}
+								<OrderPadHeader
+									{orderPadActiveTab}
+									on:onHeaderButtonClick={(buttonType) =>
+										investmentHeaderButtonClick(buttonType?.detail)}
+								/>
+							{/if}
+						</svelte:fragment>
+					</InvestmentPad>
+				{/await}
 			{:else if orderPadActiveTab === investmentDetailsFooterEvents?.WITHDRAW}
 				<!-- Redemption Pad -->
 				<article class="sticky -top-2 mt-[52px] h-fit rounded-b-lg shadow-csm">

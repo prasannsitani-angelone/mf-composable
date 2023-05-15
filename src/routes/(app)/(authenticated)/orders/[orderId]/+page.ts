@@ -15,7 +15,7 @@ import { getExpectedNavDate, getTransactionDate } from '$lib/utils/helpers/order
 import isInvestmentAllowed from '$lib/utils/isInvestmentAllowed';
 import { useFetch } from '$lib/utils/useFetch';
 import { format } from 'date-fns';
-import type { StatusHistoryItem } from '../../../ordersummary/type';
+import type { StatusHistoryItem } from '../../ordersummary/type';
 import type { PageLoad } from './$types';
 import type { IStatusItem, IStatusObject } from './type';
 

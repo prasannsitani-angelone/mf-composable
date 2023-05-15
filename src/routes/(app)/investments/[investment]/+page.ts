@@ -30,6 +30,15 @@ export const load = (async ({ fetch, params }) => {
 		return useFetch(url, {}, fetch);
 	};
 
+	const getPreviousPaymentDetails = async () => {
+		try {
+			const url = `${PUBLIC_MF_CORE_BASE_URL}/user/paymentHandlers`;
+			return await useFetch(url, {}, fetch);
+		} catch (e) {
+			return {};
+		}
+	};
+
 	const getPageData = async () => {
 		try {
 			const res = await Promise.all([
@@ -50,7 +59,12 @@ export const load = (async ({ fetch, params }) => {
 	};
 
 	return {
-		api: { allResponse: browser ? getPageData() : await getPageData() },
+		api: {
+			allResponse: browser ? getPageData() : await getPageData(),
+			previousPaymentDetails: browser
+				? getPreviousPaymentDetails()
+				: await getPreviousPaymentDetails()
+		},
 		layoutConfig: {
 			title: 'Investment Details',
 			showBackIcon: true,

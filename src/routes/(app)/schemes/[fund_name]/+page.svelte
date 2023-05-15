@@ -125,12 +125,17 @@
 			/>
 		{/if}
 	{:else}
-		<InvestmentPad
-			class="block md:hidden"
-			schemeData={schemedata}
-			fromInvestmentDetailsPage
-			params={orderpadParams}
-		/>
+		{#await data?.api?.previousPaymentDetails}
+			<div />
+		{:then previousPaymentDetails}
+			<InvestmentPad
+				class="block md:hidden"
+				schemeData={schemedata}
+				{previousPaymentDetails}
+				fromInvestmentDetailsPage
+				params={orderpadParams}
+			/>
+		{/await}
 	{/if}
 
 	<!-- Right Side -->
