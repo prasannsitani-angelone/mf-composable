@@ -160,6 +160,7 @@
 		} else if (queryParamsObj?.orderpad === 'REDEEM') {
 			showRedemptionPad = true;
 			showInvestmentPad = false;
+			orderPadActiveTab = 'WITHDRAW';
 		} else {
 			showRedemptionPad = false;
 			showInvestmentPad = false;

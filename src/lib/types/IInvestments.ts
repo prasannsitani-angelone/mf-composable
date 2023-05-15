@@ -1,3 +1,5 @@
+import type { StatusHistoryTypes } from './IOrderItem';
+
 export interface InvestmentEntity {
 	schemeCode: string;
 	isin: string;
@@ -75,7 +77,7 @@ export interface OrdersEntity {
 	paymentRemarks: string;
 	paymentStatus: string;
 	firstOrder: string;
-	statusHistory: any;
+	statusHistory: Array<StatusHistoryTypes>;
 	createdTs: number;
 	updatedTs: number;
 	scheduledTs: number;

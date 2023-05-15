@@ -58,11 +58,7 @@
 	</Modal>
 {:else}
 	<section class={`h-fit w-full rounded-lg bg-grey shadow-csm ${$$props?.class}`}>
-		<slot name="header">
-			<section class="hidden rounded-t-lg bg-white px-3 py-5 font-medium text-black-title md:block">
-				Your Investment Pad
-			</section>
-		</slot>
+		<slot name="header" />
 		<PaymentMethodHeader
 			{isSIP}
 			{dateSuperscript}

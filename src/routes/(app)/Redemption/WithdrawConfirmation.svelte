@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { v4 as uuidv4 } from 'uuid';
-	import type { FolioObject } from '$lib/types/IInvestments';
+	import type { FolioHoldingType, FolioObject } from '$lib/types/IInvestments';
 	import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 	import { createEventDispatcher, getContext } from 'svelte';
 	import { useFetch } from '$lib/utils/useFetch';
@@ -22,8 +22,10 @@
 	import { base } from '$app/paths';
 	import type { AppContext } from '$lib/types/IAppContext';
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
+	import OtpVerification from '$components/OtpFlow/OtpVerification.svelte';
+	import type { IOrderPostData } from '$lib/types/IOrderPostData';
 
-	// export let holdingDetails: FolioHoldingType;
+	export let holdingDetails: FolioHoldingType;
 	export let bankAccounts: Array<BankDetailsEntity>;
 	export let selectedAccount: number;
 	export let withdrawalAmount: string;
@@ -104,7 +106,7 @@
 		showOtpVerificationModal = !showOtpVerificationModal;
 	};
 
-	const postRedemptionOrder = async (edisExecDate?: string) => {
+	const postRedemptionOrder = async (orderPostData?: IOrderPostData) => {
 		showLoading('Placing Withdrawal Order');
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/orders`;
 
@@ -117,6 +119,8 @@
 			},
 			body: JSON.stringify({
 				amount: redeemAll ? folioData?.redemableAmount : parseInt(withdrawalAmount),
+				emailId: orderPostData?.emailId,
+				mobileNo: orderPostData?.mobileNo?.slice(3),
 				dpNumber: $profileStore?.dpNumber,
 				folioNumber: folioData?.folioNumber,
 				quantity: redeemAll
@@ -128,7 +132,7 @@
 				subBrokerCode: '',
 				transactionType: 'REDEEM',
 				bankAccountNo: selectedBankAccount?.accNO,
-				edisExecuteDate: edisExecDate,
+				edisExecuteDate: orderPostData?.edisExecDate,
 				bankName: selectedBankAccount?.bankName,
 				poaStatus: $profileStore?.poaStatus,
 				dpFlag: folioData?.dpFlag,
@@ -310,23 +314,23 @@
 			folio={folioData}
 			quantity={numberOfUnits}
 			{redeemAll}
-			on:tpinVerificationSuccessful={(e) => postRedemptionOrder(e?.detail)}
+			on:tpinVerificationSuccessful={(e) => postRedemptionOrder({ edisExecDate: e?.detail })}
 			on:closeModal={toggleTpinVerificationModal}
 		/>
 	{/if}
 
 	<!-- 2FA (OTP) Verification Process -->
-	<!-- <InvestRedeemRedemptionPadOtpVerificationVerifyOrderWithOtp
-    v-if="showOtpVerificationModal"
-    :uuid="uuid"
-    :amount="withdrawalAmount"
-    :folio="folioData"
-    :quantity="numberOfUnits"
-    :redeem-all="redeemAll"
-    :selected-bank-account="selectedBankAccount"
-    :scheme-name="holdingDetails?.schemeName"
-    @close-otp-modal="toggleOtpVerificationModal"
-  /> -->
+	{#if showOtpVerificationModal}
+		<OtpVerification
+			{uuid}
+			folio={folioData}
+			amount={withdrawalAmount}
+			schemeName={holdingDetails?.schemeName}
+			on:otpVerificationSuccessful={(e) =>
+				postRedemptionOrder({ emailId: e?.detail?.emailId, mobileNo: e?.detail?.mobileNo })}
+			on:closeOtpModal={toggleOtpVerificationModal}
+		/>
+	{/if}
 
 	{#if loadingState.isLoading}
 		<LoadingPopup heading={loadingState.heading} />

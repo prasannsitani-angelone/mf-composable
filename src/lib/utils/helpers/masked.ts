@@ -13,6 +13,13 @@ export const getMaskedEmail = (email: string) => {
 	return maskedEmail;
 };
 
+/**
+ * getMaskedMobileNumber: Returns masked mobile number with format (******XXXX)
+ *
+ * @param {string} mobileNumber
+ * @param {boolean} isDialingCodePresent
+ * @returns {string}
+ */
 export const getMaskedMobileNumber = (mobileNumber: string, isDialingCodePresent = false) => {
 	if (!mobileNumber?.length) {
 		return '';
@@ -33,6 +40,37 @@ export const getMaskedMobileNumber = (mobileNumber: string, isDialingCodePresent
 	}
 
 	const maskedMobileNumber = '*'.repeat(numberOfStars) + postfix;
+
+	return maskedMobileNumber;
+};
+
+/**
+ * getMaskedMobileNumberSuffix: Returns masked mobile number with format (XX********)
+ *
+ * @param {string} mobileNumber
+ * @param {boolean} isDialingCodePresent
+ * @returns {string}
+ */
+export const getMaskedMobileNumberSuffix = (mobileNumber: string, isDialingCodePresent = false) => {
+	if (!mobileNumber?.length) {
+		return '';
+	}
+
+	let prefixLength = 2;
+
+	if (isDialingCodePresent) {
+		prefixLength = 5;
+	}
+
+	const prefix = mobileNumber.substring(0, prefixLength);
+
+	let numberOfStars = mobileNumber.length - prefixLength;
+
+	if (!mobileNumber?.length || numberOfStars < 0) {
+		numberOfStars = 1;
+	}
+
+	const maskedMobileNumber = prefix + '*'.repeat(numberOfStars);
 
 	return maskedMobileNumber;
 };

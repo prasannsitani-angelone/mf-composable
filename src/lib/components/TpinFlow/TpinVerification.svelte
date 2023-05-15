@@ -4,7 +4,7 @@
 	import type { VerifyEdisDataTypes } from '$lib/types/ITpinFlow';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { profileStore } from '$lib/stores/ProfileStore';
-	import { getMaskedMobileNumber } from '$lib/utils/helpers/masked';
+	import { getMaskedMobileNumberSuffix } from '$lib/utils/helpers/masked';
 	import { useFetch } from '$lib/utils/useFetch';
 	import { getCappedUnitString } from '$lib/utils/helpers/formatAmount';
 	import Modal from '$components/Modal.svelte';
@@ -48,7 +48,7 @@
 	let tpinVerificationSuccessful = false;
 	let showTpinVerifiedModal = false;
 	let mobileNo: string = $profileStore?.mobile || '';
-	let maskedMobileNumber = getMaskedMobileNumber(mobileNo, false);
+	let maskedMobileNumber = getMaskedMobileNumberSuffix(mobileNo, false);
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 
@@ -346,7 +346,7 @@
 <section>
 	<Modal isModalOpen={true} on:backdropclicked={closeTpinActionModal}>
 		<div
-			class="animate-bottomTransition flex w-screen flex-col rounded-t-2xl rounded-b-none bg-white shadow-csm md:w-120 md:animate-none md:rounded-lg"
+			class="flex w-screen flex-col rounded-t-2xl rounded-b-none bg-white shadow-csm md:w-120 md:rounded-lg"
 		>
 			<slot name="heading">
 				<div class="flex items-center justify-between py-6 px-4 md:px-8">

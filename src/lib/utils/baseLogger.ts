@@ -43,7 +43,7 @@ class BaseLogger {
 		return allowedLogLevelArray.includes(this._state.logLevel);
 	}
 
-	sendLog(logs: Record<string, any>) {
+	sendLog(logs: Record<string, unknown>) {
 		if (this._state.isDev) {
 			console.log(this._state.getLogsBody(logs));
 			return;

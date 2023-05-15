@@ -1766,7 +1766,17 @@
 		onChangeBank={showBankPopup}
 		class={$$props.class}
 		isLoading={loadingState.isLoading || validateUPILoading}
-	/>
+	>
+		<svelte:fragment slot="header">
+			<slot name="header">
+				<section
+					class="hidden rounded-t-lg bg-white px-3 py-5 font-medium text-black-title md:block"
+				>
+					Your Investment Pad
+				</section>
+			</slot>
+		</svelte:fragment>
+	</ChangePaymentContainer>
 {/if}
 
 {#if bankPopupVisible}
