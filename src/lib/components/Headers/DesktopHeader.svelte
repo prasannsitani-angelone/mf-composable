@@ -38,6 +38,7 @@
 			<Link to="/">
 				<img src={logoUrl} alt="Angel One Logo" width="127" height="51" />
 			</Link>
+			<div class="ml-2 font-bold text-red-700">Svelte</div>
 		</div>
 		<Link
 			to={`${getNavigationBaseUrl('', appContext.scheme, appContext.host)}/discoverfunds`}

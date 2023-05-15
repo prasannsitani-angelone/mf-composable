@@ -25,12 +25,15 @@
 				<h1 class="text-lg font-medium text-black-title">
 					{#if userStore.userType() === 'B2C' && pageMetaData?.title === 'Mutual Funds'}
 						<span class="ml-1 flex flex-col">
-							<span> Direct Mutual Funds v2 </span>
+							<span class="flex">
+								Direct Mutual Funds <div class="ml-2 font-bold text-red-700">Svelte</div></span
+							>
 							<span class="text-left text-xs text-grey-body">Zero commission | Zero fees</span>
 						</span>
 					{:else}
-						<div class="truncate text-left" class:w-80={!pageMetaData?.showSearchIcon}>
+						<div class="flex truncate text-left" class:w-80={!pageMetaData?.showSearchIcon}>
 							{pageMetaData?.title || ''}
+							<div class="ml-2 font-bold text-red-700">Svelte</div>
 						</div>
 					{/if}
 				</h1>

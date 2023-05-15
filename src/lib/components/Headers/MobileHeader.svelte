@@ -25,6 +25,7 @@
 						<CrossIcon class="mr-4 cursor-pointer" />
 					{/if}
 				</slot>
+
 				{#if title === 'Mutual Funds'}
 					<img src={logoUrl} alt="Angel one Logo" width="32" height="32" class="mr-1 h-8 w-8" />
 				{/if}
