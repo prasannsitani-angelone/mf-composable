@@ -13,6 +13,7 @@
 	import NoInvestmentFound from './components/NoInvestmentFound.svelte';
 	import FirstTimeInfoCard from './components/FirstTimeInfoCard.svelte';
 	import ErrorLoadingTableData from './components/ErrorLoadingTableData.svelte';
+	import { partialImportCheck } from '../utils';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import { getTimestampHoursDifference } from '$lib/utils/helpers/date';
@@ -79,10 +80,9 @@
 		const partialImports =
 			(Array.isArray(data) &&
 				data.filter((fund) => {
-					return fund.externalFundImportStatus !== 'COMPLETED';
+					return partialImportCheck(fund);
 				})) ||
 			[];
-
 		partialImportedFundCount = partialImports.length;
 		totalImportedFundCount = data.length;
 		isPartialImport = isExternal && partialImports.length > 0;
@@ -122,8 +122,20 @@
 		return getTimestampHoursDifference(Date.now(), summary?.lastSuccessfullImportTs) >= 24;
 	};
 
+	const hasSeventyTwoHoursPassed = (summary: InvestmentSummary) => {
+		return getTimestampHoursDifference(Date.now(), summary?.lastSuccessfullImportTs) >= 72;
+	};
+
+	const refreshAllowedForNormalImports = (summary: InvestmentSummary) => {
+		return !isPartialImport ? hasTwentyFourHoursPassed(summary) : true;
+	};
+
+	const refreshAllowedForPartialImports = (summary: InvestmentSummary) => {
+		return isPartialImport ? hasSeventyTwoHoursPassed(summary) : true;
+	};
+
 	const isRefreshAllowed = (data: InvestmentSummary) => {
-		return hasTwentyFourHoursPassed(data) && !isPartialImport;
+		return refreshAllowedForNormalImports(data) && refreshAllowedForPartialImports(data);
 	};
 
 	const onRefreshFunds = (summary: InvestmentSummary) => {
@@ -132,9 +144,9 @@
 			otpFlow = 'REFRESH';
 		} else {
 			refreshNotAllowed = true;
-			if (isPartialImport) {
+			if (!refreshAllowedForPartialImports(summary)) {
 				refreshErrorType = 'TECHNICAL_ERROR';
-			} else if (!hasTwentyFourHoursPassed(summary)) {
+			} else if (!refreshAllowedForNormalImports(summary)) {
 				refreshErrorType = 'WAIT_TWENTY_FOUR_HOURS';
 			}
 		}

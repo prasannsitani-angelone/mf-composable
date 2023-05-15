@@ -34,20 +34,33 @@
 	<section
 		class="ml-10 hidden flex-1 flex-col items-end justify-center py-3 lg:flex lg:items-center"
 	>
-		<div class="text-xs font-medium text-grey-body">Total Returns</div>
+		<div class="text-xs font-medium text-grey-body">
+			{#if isPartialImport}
+				<WMSIcon name="polygon-red-warning" class="inline-block" width={12} height={12} />
+			{/if}
+			<span>Total Returns</span>
+		</div>
 		<div class="text-base font-medium text-black-title">
-			<span class="mr-1">
-				{data?.returnsValue < 0 ? '-' : ''}₹{!Number.isNaN(Math.abs(data?.returnsValue))
-					? addCommasToAmountString(Math.abs(data?.returnsValue)?.toFixed(2))
-					: ''}
-			</span>
-			<span
-				class={`text-xs ${
-					data?.returnsValue > 0 ? 'text-green-buy' : data?.returnsValue < 0 ? 'text-red-sell' : ''
-				}`}
-			>
-				{data?.returnsAbsolutePer > 0 ? '+' : ''}{data?.returnsAbsolutePer?.toFixed(2)}%
-			</span>
+			{#if isPartialImport}
+				<span class="mr-1">- -</span>
+			{:else}
+				<span class="mr-1">
+					{data?.returnsValue < 0 ? '-' : ''}₹{!Number.isNaN(Math.abs(data?.returnsValue))
+						? addCommasToAmountString(Math.abs(data?.returnsValue)?.toFixed(2))
+						: ''}
+				</span>
+				<span
+					class={`text-xs ${
+						data?.returnsValue > 0
+							? 'text-green-buy'
+							: data?.returnsValue < 0
+							? 'text-red-sell'
+							: ''
+					}`}
+				>
+					{data?.returnsAbsolutePer > 0 ? '+' : ''}{data?.returnsAbsolutePer?.toFixed(2)}%
+				</span>
+			{/if}
 		</div>
 	</section>
 
@@ -96,33 +109,38 @@
 		</div>
 	</section>
 </article>
-
-<article class="lg:hidden">
-	<section class="my-1 flex items-center justify-center rounded border py-1">
-		<div class="mr-1 -mb-1 flex items-center text-xs font-medium text-grey-body">
-			{#if data?.returnsValue >= 0}
-				<GraphUpIcon class="mr-1" />
-			{:else}
-				<GraphDownIcon class="mr-1" />
-			{/if}
-			<span> Returns </span>
-		</div>
-		<div class="text-base font-medium text-black-title">
-			<span class="mr-1">
-				{data?.returnsValue < 0 ? '-' : ''}₹{!Number.isNaN(Math.abs(data?.returnsValue))
-					? addCommasToAmountString(Math.abs(data?.returnsValue)?.toFixed(2))
-					: ''}
-			</span>
-			<span
-				class={`text-xs ${
-					data?.returnsValue > 0 ? 'text-green-buy' : data?.returnsValue < 0 ? 'text-red-sell' : ''
-				}`}
-			>
-				({data?.returnsAbsolutePer > 0 ? '+' : ''}{data?.returnsAbsolutePer?.toFixed(2)}%)
-			</span>
-		</div>
-	</section>
-</article>
+{#if !isPartialImport}
+	<article class="lg:hidden">
+		<section class="my-1 flex items-center justify-center rounded border py-1">
+			<div class="mr-1 -mb-1 flex items-center text-xs font-medium text-grey-body">
+				{#if data?.returnsValue >= 0}
+					<GraphUpIcon class="mr-1" />
+				{:else}
+					<GraphDownIcon class="mr-1" />
+				{/if}
+				<span> Returns </span>
+			</div>
+			<div class="text-base font-medium text-black-title">
+				<span class="mr-1">
+					{data?.returnsValue < 0 ? '-' : ''}₹{!Number.isNaN(Math.abs(data?.returnsValue))
+						? addCommasToAmountString(Math.abs(data?.returnsValue)?.toFixed(2))
+						: ''}
+				</span>
+				<span
+					class={`text-xs ${
+						data?.returnsValue > 0
+							? 'text-green-buy'
+							: data?.returnsValue < 0
+							? 'text-red-sell'
+							: ''
+					}`}
+				>
+					({data?.returnsAbsolutePer > 0 ? '+' : ''}{data?.returnsAbsolutePer?.toFixed(2)}%)
+				</span>
+			</div>
+		</section>
+	</article>
+{/if}
 
 <style>
 	.verticalLine::after {

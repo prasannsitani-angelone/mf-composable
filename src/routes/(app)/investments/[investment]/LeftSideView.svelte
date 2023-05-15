@@ -12,6 +12,7 @@
 	import FolioSummaryExternalFunds from './FolioSummaryExternalFunds.svelte';
 	import TransactionHistory from './TransactionHistory.svelte';
 	import PartialImportHeading from './components/PartialImportHeading.svelte';
+	import { partialImportCheck } from '../utils';
 	import type { FolioHoldingType, ChartData, OrdersData } from '$lib/types/IInvestments';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import {
@@ -30,7 +31,7 @@
 
 	$: isInvestmentNotAllowed = !isInvestmentAllowed(userType, holdings?.schemePlan);
 
-	$: isPartialImport = isExternal && holdings?.externalFundImportStatus !== 'COMPLETED';
+	$: isPartialImport = isExternal && partialImportCheck(holdings);
 
 	const folioArray: {
 		FolioNumber: string;

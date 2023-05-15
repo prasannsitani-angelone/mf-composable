@@ -57,7 +57,7 @@ export const load = (async ({ fetch, params }) => {
 		api: { allResponse: browser ? getPageData() : await getPageData() },
 		isExternal,
 		layoutConfig: {
-			title: 'Investment Details - external funds',
+			title: 'Investment Details',
 			showBackIcon: true,
 			layoutType: 'DEFAULT'
 		}

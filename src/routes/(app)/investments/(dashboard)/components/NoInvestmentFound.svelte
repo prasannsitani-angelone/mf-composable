@@ -16,9 +16,7 @@
 			loading="lazy"
 			alt="Illustration shoeing first time import"
 		/>
-		<div class="mt-5 mb-3 text-base font-medium text-black-title sm:mt-8">
-			No Investment Found!!
-		</div>
+		<div class="mt-5 mb-3 text-base font-medium text-black-title sm:mt-8">No Investment Found</div>
 		<div class="mb-6 text-sm text-grey-body">
 			We could not find any investments linked to your <span class="font-medium text-black"
 				>PAN {getMaskedMobileNumber(data.profile.pan)}</span

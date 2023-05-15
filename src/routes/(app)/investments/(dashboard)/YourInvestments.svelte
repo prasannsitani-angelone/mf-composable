@@ -12,6 +12,7 @@
 	import TBody from '$components/Table/TBody.svelte';
 	import ChipOverview from '$components/ChipOverview.svelte';
 	import SchemeCard from '$components/SchemeCard.svelte';
+	import { partialImportCheck } from '../utils';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 
@@ -52,7 +53,7 @@
 	$: isExternal = $page?.data?.isExternal;
 
 	const isPartialImport = (scheme: InvestmentEntity) => {
-		return isExternal && scheme?.externalFundImportStatus !== 'COMPLETED';
+		return isExternal && partialImportCheck(scheme);
 	};
 </script>
 
