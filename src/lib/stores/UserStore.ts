@@ -1,8 +1,7 @@
-import type { User } from '$lib/types/IUserType';
 import { writable } from 'svelte/store';
 
-const initalStore: User = {
-	userType: '',
+const initalStore: IUserDetails = {
+	userType: 'B2C',
 	arn: '',
 	euin: '',
 	isARNExpired: '',
@@ -17,12 +16,12 @@ function CreateStore() {
 	});
 	return {
 		subscribe,
-		updateStore: (newStore: User) => {
+		updateStore: (newStore: IUserDetails) => {
 			return update((s) => {
 				return { ...s, ...newStore };
 			});
 		},
-		set: (store: User) => set(store),
+		set: (store: IUserDetails) => set(store),
 		userType: () => userType || 'B2C'
 	};
 }

@@ -22,12 +22,14 @@
 	import Overlay from '$components/Overlay.svelte';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 	import { logout } from '$lib/utils/helpers/logout';
+	import { userStore } from '$lib/stores/UserStore';
 
 	$: isModalOpen = $externalNavigation.active;
 	// Update store with Spark headers
 
 	export let data: LayoutData;
-	const { sparkHeaders, tokenObj, profile, deviceType, isGuest, scheme, host, token } = data;
+	const { sparkHeaders, tokenObj, profile, userDetails, deviceType, isGuest, scheme, host, token } =
+		data;
 	// Update store with Spark headers
 	onMount(() => {
 		// $externalNavigation.active = false;
@@ -41,6 +43,7 @@
 		tokenStore.updateStore({ ...tokenObj, state: authState });
 		appStore.updateStore({ ...sparkHeaders });
 		profileStore.updateStore({ ...profile });
+		userStore.updateStore({ ...userDetails });
 		deviceStore.updateStore({ ...deviceType });
 		Analytics.init({
 			batchSize: 10,

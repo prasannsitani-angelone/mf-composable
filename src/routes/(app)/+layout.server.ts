@@ -124,6 +124,7 @@ export const load = (async ({ url, request, locals, cookies, fetch }) => {
 		profile: localProfileData,
 		tokenObj,
 		searchDashboardData,
-		isGuest
+		isGuest,
+		userDetails: localUserDetails
 	};
 }) satisfies LayoutServerLoad;
