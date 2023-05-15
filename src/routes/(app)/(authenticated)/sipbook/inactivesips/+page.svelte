@@ -10,7 +10,6 @@
 	import { base } from '$app/paths';
 	import type { PageData } from './$types';
 	import SipCardLoader from './SipCardLoader.svelte';
-	import { page } from '$app/stores';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { restartSipButtonClickAnalytics } from '$lib/analytics/sipbook/sipbook';
@@ -19,13 +18,13 @@
 	const redirectToOrderPad = (sip: IInactiveSip) => {
 		// TODO: To change the navigation after the proper release
 		restartSipButtonClickAnalyticsFunc(sip);
-		const reRouteUrl = $page?.data?.deviceType?.isBrowser ? 'schemes' : 'schemes/invest';
+		const reRouteUrl = 'schemes';
 		const path = `${reRouteUrl}/${normalizeFundName(sip?.schemeName, sip?.Isin, sip?.schemeCode)}`;
 		const params = encodeObject({
 			investmentType: 'SIP',
 			investmentAmount: sip?.installmentAmount
 		});
-		goto(`${base}/${path}?params=${params}`);
+		goto(`${base}/${path}?params=${params}&orderpad=INVEST`);
 	};
 
 	const restartSipButtonClickAnalyticsFunc = (sip: IInactiveSip) => {

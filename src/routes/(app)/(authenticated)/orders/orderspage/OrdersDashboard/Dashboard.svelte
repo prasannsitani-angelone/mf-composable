@@ -14,7 +14,6 @@
 	import { goto } from '$app/navigation';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
-	import { page } from '$app/stores';
 	import { failedOrdersRetryCtaClickAnalytics } from '$lib/analytics/orders/orders';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
@@ -38,7 +37,7 @@
 		if (schemeResponse.ok) {
 			schemeDetails = schemeResponse?.data;
 			// TODO: To change the navigation after the proper release
-			const reRouteUrl = $page?.data?.deviceType?.isBrowser ? 'schemes' : 'schemes/invest';
+			const reRouteUrl = 'schemes';
 			const path = `${reRouteUrl}/${normalizeFundName(
 				schemeDetails?.schemeName,
 				schemeDetails?.isin,
@@ -51,7 +50,7 @@
 				investmentAmount: orderItem?.amount
 			});
 
-			goto(`${base}/${path}?params=${params}`);
+			goto(`${base}/${path}?params=${params}&orderpad=INVEST`);
 		}
 	};
 

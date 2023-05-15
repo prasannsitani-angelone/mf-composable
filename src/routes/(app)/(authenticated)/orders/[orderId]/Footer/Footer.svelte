@@ -30,11 +30,11 @@
 	};
 	const handleFooterCtaClick = () => {
 		orderDetailsFooterCtaAnalytics();
-		let reRouteUrl = '';
+		let reRouteUrl = 'schemes';
+		let orderpad = 'INVEST';
 		if (orderDetailsData?.transactionType === TRANSACTION_TYPE.REDEEM) {
-			reRouteUrl = deviceType?.isMobile ? 'schemes/withdraw' : 'investments';
-		} else {
-			reRouteUrl = deviceType?.isMobile ? 'schemes/invest' : 'schemes';
+			reRouteUrl = 'investments';
+			orderpad = 'REDEEM';
 		}
 		const routerPath = `${reRouteUrl}/${normalizeFundName(
 			schemeDetails?.schemeName,
@@ -59,9 +59,9 @@
 		}
 
 		if (params) {
-			goto(`${base}/${routerPath}?params=${params}`);
+			goto(`${base}/${routerPath}?params=${params}&orderpad=${orderpad}`);
 		} else {
-			goto(`${base}/${routerPath}`);
+			goto(`${base}/${routerPath}?orderpad=${orderpad}`);
 		}
 	};
 	export { isOrderFailedAtExchange, schemeDetails, orderDetailsData };

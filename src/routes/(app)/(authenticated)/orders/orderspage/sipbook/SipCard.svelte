@@ -10,7 +10,6 @@
 	import type { ISip } from '$lib/types/ISipType';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { page } from '$app/stores';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { onMount } from 'svelte';
@@ -57,7 +56,7 @@
 	const handleSipPaymentClick = (isCta: boolean) => {
 		// TODO: To change the navigation after the proper release
 		if (isCta) {
-			const reRouteUrl = $page?.data?.deviceType?.isBrowser ? 'schemes' : 'schemes/invest';
+			const reRouteUrl = 'schemes';
 			const path = `${reRouteUrl}/${normalizeFundName(
 				sip?.schemeName,
 				sip?.isin,
@@ -75,7 +74,7 @@
 				sipRegistrationNumber: sip?.sipRegistrationNo,
 				sipDueDate: format(new Date(sip?.sipPaymentDate), 'yyyy-MM-dd')
 			});
-			goto(`${base}/${path}?params=${params}`);
+			goto(`${base}/${path}?params=${params}&orderpad=INVEST`);
 		} else if (!isCta) {
 			goto(`${base}/sipbook/${sip?.sipId}`);
 		}
