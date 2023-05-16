@@ -1,9 +1,8 @@
-import { PUBLIC_ENV_NAME } from '$env/static/public';
 import getAuthToken from '$lib/server/getAuthToken';
 import type { UserProfile } from '$lib/types/IUserProfile';
 import { isDevMode } from '$lib/utils/helpers/dev';
 import { removeAuthHeaders } from '$lib/utils/helpers/logging';
-import { decryptRightUserCookie, getUserCookieName } from '$lib/utils/helpers/token';
+import { decryptRightUserCookie } from '$lib/utils/helpers/token';
 import Logger from '$lib/utils/logger';
 import { useProfileFetch } from '$lib/utils/useProfileFetch';
 import { useUserDetailsFetch } from '$lib/utils/useUserDetailsFetch';
@@ -64,28 +63,6 @@ const handler = (async ({ event, resolve }) => {
 		scheme,
 		host
 	};
-
-	// removing cookie from specific domain in case of prod
-	if (!event.url?.pathname?.includes('api')) {
-		console.log(
-			JSON.stringify({
-				type: 'Cookie String',
-				params: {
-					cookieString
-				}
-			})
-		);
-		if (PUBLIC_ENV_NAME === 'prod') {
-			const cookieOptions = {
-				secure: isDevMode() ? false : true,
-				samesite: 'strict',
-				path: '/',
-				domain: host || '',
-				maxAge: 0
-			};
-			event.cookies.set(getUserCookieName(), '', cookieOptions);
-		}
-	}
 
 	const response = await resolve(event);
 	response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');

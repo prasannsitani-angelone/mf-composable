@@ -92,7 +92,6 @@ export const load = (async ({ url, request, locals, cookies, fetch }) => {
 	}
 	if (!localProfileData?.clientId && !isGuest) {
 		localProfileData = await useProfileFetch(url.origin, token, fetch);
-
 		cookies.set('AccountType', localProfileData?.dpNumber ? 'D' : 'P', {
 			path: '/'
 		});
@@ -112,8 +111,7 @@ export const load = (async ({ url, request, locals, cookies, fetch }) => {
 					token: token ? 'xxxx' : '',
 					refreshToken: refreshToken ? 'xxxx' : '',
 					profileData: localProfileData
-				},
-				cookie: cookies.getAll()
+				}
 			}
 		})
 	);

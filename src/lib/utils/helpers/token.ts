@@ -180,8 +180,11 @@ export const decryptRightUserCookie = (cookiesString: string) => {
 			const cookieValue = cookieArr[i][cookieName];
 			if (cookieName === getUserCookieName()) {
 				decryptedValue = getUserTokenFromCookie(cookieValue);
-
-				if (decryptedValue) {
+				if (
+					decryptedValue &&
+					typeof decryptedValue === 'object' &&
+					Object.keys(decryptedValue)?.length > 0
+				) {
 					break;
 				}
 			}

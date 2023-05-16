@@ -43,11 +43,22 @@ export const getCookie = (cname: string) => {
 
 export const deleteCookie = (cname: string, options?: object) => {
 	let domainStr = '';
-	const path = 'path=/;';
+	let pathStr = 'path=/;';
+	let ss = '';
+	let secureFlag = '';
 	const maxAge = 'max-age=0;';
-	const { domain } = options || {};
+	const { domain, sameSite, secure, path } = options || {};
 	if (domain) {
 		domainStr = `domain=${domain};`;
 	}
-	document.cookie = `${cname}=;${maxAge}${path}${domainStr}`;
+	if (sameSite) {
+		ss = `SameSite=${sameSite};`;
+	}
+	if (secure) {
+		secureFlag = 'secure;';
+	}
+	if (path) {
+		pathStr = `path=${path};`;
+	}
+	document.cookie = `${cname}=;${maxAge}${pathStr}${domainStr}${secureFlag}${ss}`;
 };

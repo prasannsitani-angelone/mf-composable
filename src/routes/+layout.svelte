@@ -1,10 +1,13 @@
 <script lang="ts">
-	import { PUBLIC_LOG_LEVEL, PUBLIC_LOG_ENABLED } from '$env/static/public';
+	import { PUBLIC_LOG_LEVEL, PUBLIC_LOG_ENABLED, PUBLIC_ENV_NAME } from '$env/static/public';
 	import Logger from '$lib/utils/logger';
 	import { onMount, setContext } from 'svelte';
 	import { update } from '$lib/utils/helpers/hydrated';
 	import '../app.css';
 	import { browser } from '$app/environment';
+	import { deleteCookie } from '$lib/utils/helpers/cookie';
+	import { getUserCookieName } from '$lib/utils/helpers/token';
+	import { isDevMode } from '$lib/utils/helpers/dev';
 	import { base } from '$app/paths';
 
 	export let data;
@@ -45,6 +48,14 @@
 			type: 'App Mounted on Client'
 		});
 		update();
+		if (PUBLIC_ENV_NAME === 'prod') {
+			const cookieOptions = {
+				secure: isDevMode() ? false : true,
+				sameSite: 'strict',
+				path: '/'
+			};
+			deleteCookie(getUserCookieName(), cookieOptions);
+		}
 	});
 </script>
 
