@@ -8,7 +8,6 @@
 	import { getDateTimeString } from '$lib/utils/helpers/date';
 	import OrderCardBody from './OrderCardComponent/OrderCardBody.svelte';
 	import isInvestmentAllowed from '$lib/utils/isInvestmentAllowed';
-	import { profileStore } from '$lib/stores/ProfileStore';
 
 	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
@@ -21,6 +20,7 @@
 	import OrderFilter from './OrderFilter/OrderFilter.svelte';
 	import { REVERSE_INVESTMENT_TYPE } from '$lib/constants/transactionType';
 	import { filterStore } from '$lib/stores/FilterStore';
+	import { userStore } from '$lib/stores/UserStore';
 	let ordersSummary: OrdersSummary;
 	let inProgressOrders: orderItem[] = [];
 	let failedOrders: orderItem[] = [];
@@ -77,7 +77,7 @@
 		}
 	}
 
-	const userType = profileStore.userType();
+	const userType = userStore.userType();
 	export { ordersSummary, compeletedOrders, inProgressOrders, failedOrders, data };
 </script>
 

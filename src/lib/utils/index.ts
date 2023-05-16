@@ -1,5 +1,6 @@
 import { profileStore } from '$lib/stores/ProfileStore';
 import { tokenStore } from '$lib/stores/TokenStore';
+import { userStore } from '$lib/stores/UserStore';
 import type { SearchOptionsEntity } from '$lib/types/IDiscoverFunds';
 import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 
@@ -12,7 +13,7 @@ export interface TableColumnToggle {
 
 export const MFCommonHeader = () => {
 	const headers = {
-		userType: `${profileStore.userType()}`,
+		userType: `${userStore.userType()}`,
 		accountType: `${profileStore?.accountType()}`,
 		authorization: `Bearer ${tokenStore.activeToken()}`
 	};

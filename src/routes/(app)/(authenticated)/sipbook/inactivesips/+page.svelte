@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Button from '$components/Button.svelte';
-	import { profileStore } from '$lib/stores/ProfileStore';
 	import type { IInactiveSip } from '$lib/types/ISipType';
 	import { getDateTimeString } from '$lib/utils/helpers/date';
 	import isInvestmentAllowed from '$lib/utils/isInvestmentAllowed';
@@ -13,8 +12,9 @@
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { restartSipButtonClickAnalytics } from '$lib/analytics/sipbook/sipbook';
+	import { userStore } from '$lib/stores/UserStore';
 
-	const userType = profileStore.userType();
+	const userType = userStore.userType();
 	const redirectToOrderPad = (sip: IInactiveSip) => {
 		// TODO: To change the navigation after the proper release
 		restartSipButtonClickAnalyticsFunc(sip);

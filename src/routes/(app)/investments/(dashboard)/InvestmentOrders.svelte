@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import AccordianCardComponent from '$components/Accordian/AccordianCardComponent.svelte';
-	import { profileStore } from '$lib/stores/ProfileStore';
 	import HeaderComponent from './OrderCardComponents/OrderCardHeader.svelte';
 	import BodyComponent from './OrderCardComponents/OrderCardBody.svelte';
 	import FooterComponent from './OrderCardComponents/OrderCardFooter.svelte';
@@ -23,6 +22,7 @@
 		failedOrdersRetryCtaClickAnalytics,
 		ordersDropdownClickAnalytics
 	} from '$lib/analytics/orders/orders';
+	import { userStore } from '$lib/stores/UserStore';
 
 	let ordersSummary: OrdersSummary = {
 		totalFailedOrders: 0,
@@ -30,7 +30,7 @@
 		totalScheduledOrders: 0
 	};
 
-	const userType = profileStore.userType();
+	const userType = userStore.userType();
 
 	/**
 	 * handleFooterCtaClick: Function to redirect user to payments page for the particular order.

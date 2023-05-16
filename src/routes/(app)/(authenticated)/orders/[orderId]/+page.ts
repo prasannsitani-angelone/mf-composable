@@ -4,7 +4,6 @@ import { NAV_DETAILS, NAV_DETAILS_WITHDRAWAL } from '$lib/constants/order';
 import ORDER_DATA from '$lib/constants/orderDataItems';
 import STATUS_ARR, { ORDER_STATUS } from '$lib/constants/orderFlowStatuses';
 import { TRANSACTION_TYPE } from '$lib/constants/transactionType';
-import { profileStore } from '$lib/stores/ProfileStore';
 import type { IOrderDetails } from '$lib/types/IOrderDetails';
 import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 import type { ISip } from '$lib/types/ISipType';
@@ -18,6 +17,7 @@ import { format } from 'date-fns';
 import type { StatusHistoryItem } from '../../ordersummary/type';
 import type { PageLoad } from './$types';
 import type { IStatusItem, IStatusObject } from './type';
+import { userStore } from '$lib/stores/UserStore';
 
 export const load = (async ({ fetch, params }) => {
 	const ordersUrl = `${PUBLIC_MF_CORE_BASE_URL}/orders/${params?.orderId}`;
@@ -526,7 +526,7 @@ export const load = (async ({ fetch, params }) => {
 				isOrderFailedAtExchange;
 
 			showFooterButton =
-				isInvestmentAllowed(profileStore.userType(), schemePlan) &&
+				isInvestmentAllowed(userStore.userType(), schemePlan) &&
 				(transactionType === TRANSACTION_TYPE.PURCHASE ||
 					transactionType === TRANSACTION_TYPE.REDEEM) &&
 				orderStatus === ORDER_STATUS.ORDER_REJECTED &&
