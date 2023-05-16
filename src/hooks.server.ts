@@ -1,4 +1,5 @@
 import getAuthToken from '$lib/server/getAuthToken';
+import type { IUserDetails } from '$lib/types/IUserDetails';
 import type { UserProfile } from '$lib/types/IUserProfile';
 import { isDevMode } from '$lib/utils/helpers/dev';
 import { removeAuthHeaders } from '$lib/utils/helpers/logging';
@@ -6,7 +7,7 @@ import { decryptRightUserCookie } from '$lib/utils/helpers/token';
 import Logger from '$lib/utils/logger';
 import { useProfileFetch } from '$lib/utils/useProfileFetch';
 import { useUserDetailsFetch } from '$lib/utils/useUserDetailsFetch';
-import type { Handle, HandleFetch } from '@sveltejs/kit';
+import type { Handle, HandleFetch, HandleServerError } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { parse } from 'cookie-es';
 import { handleDeviecDetector } from 'sveltekit-device-detector';
@@ -77,6 +78,7 @@ export const handleFetch = (async ({ event, request, fetch }) => {
 	request.headers.set('accountType', accountType);
 	request.headers.set('authorization', `Bearer ${token}`);
 	request.headers.set('authtoken', token);
+
 	Logger.debug({
 		type: 'Network request',
 		params: {
@@ -92,3 +94,19 @@ export const handleFetch = (async ({ event, request, fetch }) => {
 }) satisfies HandleFetch;
 
 export const handle = sequence(deviceDetector, handler);
+
+export const handleError = (async ({ error, event }) => {
+	const errorId = crypto.randomUUID();
+
+	Logger.error({
+		type: 'Runtime Exception in server',
+		params: {
+			error,
+			errorId
+		}
+	});
+	return {
+		message: 'Something went wrong',
+		errorId
+	};
+}) satisfies HandleServerError;

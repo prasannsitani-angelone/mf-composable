@@ -1,3 +1,4 @@
+import type { IUserDetails } from '$lib/types/IUserDetails';
 import { writable } from 'svelte/store';
 
 const initalStore: IUserDetails = {

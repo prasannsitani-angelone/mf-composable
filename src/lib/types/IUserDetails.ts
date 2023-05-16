@@ -1,4 +1,4 @@
-interface IUserDetails {
+export interface IUserDetails {
 	subBrokerTag?: string;
 	userType: 'B2C' | 'B2B';
 	arn?: string;

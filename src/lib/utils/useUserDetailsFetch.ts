@@ -1,5 +1,6 @@
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import type { FetchType } from '$lib/types/Fetch';
+import type { IUserDetails } from '$lib/types/IUserDetails';
 import { useFetch } from './useFetch';
 
 export const useUserDetailsFetch = async (token: string, fetch: FetchType) => {

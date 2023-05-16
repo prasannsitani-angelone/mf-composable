@@ -3,7 +3,18 @@
 import type { DiscoverFund } from '$lib/types/IDiscoverFunds';
 import type { UserProfile } from '$lib/types/IUserProfile';
 import type { DevicePayload } from 'sveltekit-device-detector/dist/types';
-
+interface LayoutConfig {
+	title: string;
+	showBackIcon: boolean;
+	component: class;
+	showBottomNavigation: boolean;
+	showSearchIcon: boolean;
+	layoutType:
+		| 'TWO_COLUMN'
+		| 'TWO_COLUMN_REVERSE'
+		| 'TWO_COLUMN_RIGHT_LARGE'
+		| 'FULL_HEIGHT_WITHOUT_PADDING';
+}
 // for information about these interfaces
 declare global {
 	namespace App {
@@ -22,6 +33,7 @@ declare global {
 		interface PageData {
 			deviceType: DevicePayload;
 			searchDashboardData: DiscoverFund;
+			layoutConfig: LayoutConfig;
 		}
 		// interface Platform {}
 	}

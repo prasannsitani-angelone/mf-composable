@@ -93,7 +93,6 @@
 	<OrderpadLoader />
 {:then schemedata}
 	<!-- Left Side -->
-
 	{#if !isMobile || !showInvestmentPad}
 		<article class="">
 			<Breadcrumbs

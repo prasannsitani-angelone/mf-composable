@@ -5,12 +5,16 @@ import type { SchemeDetails, SchemeHoldings } from '$lib/types/ISchemeDetails';
 import { browser } from '$app/environment';
 import type { FundComparisons } from './types';
 import { useFetch } from '$lib/utils/useFetch';
+import { redirect } from '@sveltejs/kit';
+import { base } from '$app/paths';
+import { goto } from '$app/navigation';
 export const load = (async ({ fetch, params }) => {
 	const fundName = params['fund_name'];
 	const schemeMetadata = fundName?.split('-isin-')[1]?.toUpperCase();
 	const [isin = '', schemeCode = ''] = schemeMetadata?.split('-SCHEMECODE-') || [];
 	const getSchemeData = async () => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/${schemeCode}`;
+		let schemeData: SchemeDetails | Error;
 		const res = await useFetch(
 			url,
 			{
@@ -20,7 +24,16 @@ export const load = (async ({ fetch, params }) => {
 			},
 			fetch
 		);
-		const schemeData: SchemeDetails = res.data;
+
+		if (res.ok) {
+			schemeData = res.data;
+		} else {
+			if (browser) {
+				goto(`${base}/schemes/error`);
+			} else {
+				throw redirect(302, `${base}/schemes/error`);
+			}
+		}
 
 		return schemeData;
 	};

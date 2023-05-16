@@ -7,6 +7,7 @@ import { useProfileFetch } from '$lib/utils/useProfileFetch';
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { useFetch } from '$lib/utils/useFetch';
 import { useUserDetailsFetch } from '$lib/utils/useUserDetailsFetch';
+import type { IUserDetails } from '$lib/types/IUserDetails';
 const sparkHeadersList: Array<keyof SparkStore> = [
 	'platform',
 	'platformversion',

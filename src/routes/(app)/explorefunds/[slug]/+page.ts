@@ -23,7 +23,6 @@ export const load = (async ({ fetch, url }) => {
 		},
 		layoutConfig: {
 			title: 'Explore Mutual Funds',
-
 			showSearchIcon: true,
 			showBackIcon: true,
 			layoutType: 'DEFAULT'
