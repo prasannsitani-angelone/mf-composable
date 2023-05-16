@@ -45,20 +45,20 @@
 	let numberOfUnits = 0;
 	let showFolioSelection = false;
 	let showWithdrawConfirmation = false;
+	let folioList = holdingDetails?.folioHoldings?.sort((a, b) =>
+		a.redemableAmount < b.redemableAmount ? -1 : 1
+	);
+	let selectedFolio = (folioList || [])[0];
+	let redemableAmount = selectedFolio?.redemableAmount;
+	let minimumRedeemAmount = holdingDetails?.minimumRedeemAmount;
+	let redeemMultiplierAmount = holdingDetails?.redeemMultiplier;
+	let blockedAmount = selectedFolio?.blockedAmount;
+	let redemableUnits = selectedFolio?.redemableUnits;
 	let utilsMetaData: UtilsMetaData;
+	let queryParamsObj = <OrderPadTypes>{};
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 	$: amountVal = amount?.length ? `₹${addCommasToAmountString(amount)}` : '';
-	$: folioList = holdingDetails?.folioHoldings?.sort((a, b) =>
-		a.redemableAmount < b.redemableAmount ? -1 : 1
-	);
-	$: selectedFolio = (folioList || [])[0];
-	$: redemableAmount = selectedFolio?.redemableAmount;
-	$: minimumRedeemAmount = holdingDetails?.minimumRedeemAmount;
-	$: redeemMultiplierAmount = holdingDetails?.redeemMultiplier;
-	$: blockedAmount = selectedFolio?.blockedAmount;
-	$: redemableUnits = selectedFolio?.redemableUnits;
-	$: queryParamsObj = <OrderPadTypes>{};
 
 	const handleAmountInputFocus = () => {
 		const amountInputElement = document?.getElementById('amountInput');

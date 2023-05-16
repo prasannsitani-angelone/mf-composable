@@ -1,4 +1,5 @@
 import { browser } from '$app/environment';
+import { userStore } from '$lib/stores/UserStore';
 import { profileStore } from '$lib/stores/ProfileStore';
 import { appStore } from '$lib/stores/SparkStore';
 import { AUTH_STATE_ENUM, tokenStore } from '$lib/stores/TokenStore';
@@ -60,7 +61,7 @@ export const useFetch = async (
 			...defaultOptions?.headers,
 			'X-Platform': appStore.platform(),
 			authorization: `Bearer ${tokenStore.activeToken()}`,
-			userType: `${profileStore.userType()}`,
+			userType: userStore.userType(),
 			accountType: `${profileStore.accountType()}`,
 			...options?.headers
 		}

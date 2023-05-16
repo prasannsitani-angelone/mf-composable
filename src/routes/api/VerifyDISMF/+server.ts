@@ -7,14 +7,14 @@ export const POST = (async ({ request }) => {
 
 	const requestId = request.headers.get('x-request-id');
 	const sessionId = request.headers.get('x-session-id');
-	const authtoken = request.headers.get('authtoken');
+	const tokenValue = (request?.headers?.get('authorization') || '')?.split(' ')[1];
 
 	const headers = {
 		'X-Request-Id': requestId,
 		'X-SESSION-ID': sessionId,
 		'X-device-type': 'WEB',
 		'Content-Type': 'application/json',
-		accessToken: authtoken
+		accessToken: tokenValue
 	};
 
 	const body = await request.json();
@@ -58,7 +58,7 @@ export const POST = (async ({ request }) => {
 			status
 		});
 	} catch (e) {
-		return new Response(
+		const errRes = new Response(
 			JSON.stringify({
 				status: 'error',
 				message: e.toString()
@@ -70,5 +70,14 @@ export const POST = (async ({ request }) => {
 				status: 500
 			}
 		);
+
+		logger.error({
+			type: 'Network Error in proxy',
+			params: {
+				response: errRes
+			}
+		});
+
+		return errRes;
 	}
 }) satisfies RequestHandler;
