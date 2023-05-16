@@ -46,6 +46,24 @@
 	import { browser } from '$app/environment';
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import type { IPreviousPaymentDetails } from '$lib/types/IPreviousPaymentDetails';
+	import {
+		changeBankButtonClickAnalytics,
+		changeBankConfirmButtonClickAnalytics,
+		paymentModeScreenPayButtonClickAnalytics
+	} from './analytics/changePayment';
+	import {
+		upiInitiateScreenAnalytics,
+		paymentPendingScreenAnalytics,
+		paymentPendingScreenCloseButtonAnalytics,
+		paymentFailedScreenAnalytics,
+		paymentFailedScreenCloseButtonAnalytics
+	} from './analytics/paymentFlow';
+	import {
+		startSipButtonClickAnalytics,
+		payNowLumpsumButtonClickAnalytics,
+		changePaymentMethodButtonClickAnalytics,
+		changePaymentMethodScreenImpressionAnalytics
+	} from './analytics/orderpad';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -430,6 +448,54 @@
 
 	//  ---------- payment flow code ---------------
 
+	// --------- analytics functions -----------
+	const paymentFailedScreenAnalyticsWithData = () => {
+		paymentFailedScreenAnalytics({
+			InvestmentType: activeTab === 'SIP' ? 'SIP' : 'OTI',
+			Amount: amount,
+			PaymentMethod: paymentHandler?.paymentMode,
+			PaymentBank: profileData?.bankDetails[paymentHandler.selectedAccount]?.bankName,
+			PaymentPending:
+				'If the money has been debited from your bank account, please do not worry, it will be refunded automatically'
+		});
+	};
+
+	const submitButtonLumpsumClickAnalyticsFunc = () => {
+		const eventMetadata = {
+			Fundname: schemeData?.schemeName,
+			Amount: amount,
+			InvestmentType: activeTab,
+			PaymentMethod: paymentHandler?.paymentMode,
+			Bank: profileData?.bankDetails[paymentHandler.selectedAccount]?.bankName
+		};
+		payNowLumpsumButtonClickAnalytics(eventMetadata);
+	};
+
+	const submitButtonSIPClickAnalyticsFunc = () => {
+		const eventMetadata = {
+			Fundname: schemeData?.schemeName,
+			Amount: amount,
+			InvestmentType: activeTab,
+			PaymentMethod: paymentHandler?.paymentMode,
+			Bank: profileData?.bankDetails[paymentHandler.selectedAccount]?.bankName,
+			SipDate: getFormattedSIPDate(),
+			FirstSipPayment: firstSipPayment ? 'Y' : 'N'
+		};
+		startSipButtonClickAnalytics(eventMetadata);
+	};
+
+	const changePaymentMethodScreenImpressionAnalyticsFunc = () => {
+		const eventMetaData = {
+			InvestmentType: activeTab,
+			DefaultPaymentMethod: paymentHandler?.paymentMode,
+			DefaultBank: profileData?.bankDetails[paymentHandler?.selectedAccount]?.bankName,
+			ChangeBankAvailable: profileData?.bankDetails?.length > 1
+		};
+		changePaymentMethodScreenImpressionAnalytics(eventMetaData);
+	};
+
+	// ------------ ***** ---------------
+
 	//  ------- helpers functions -----------
 	const assignNewRequestId = () => {
 		xRequestId = uuidv4();
@@ -450,11 +516,16 @@
 	};
 
 	const showPaymentMethodScreen = () => {
+		changePaymentMethodButtonClickAnalytics();
 		showChangePayment = true;
+		changePaymentMethodScreenImpressionAnalyticsFunc();
 	};
 
 	const onAccountChange = (index: number) => {
 		paymentHandler.selectedAccount = index;
+		changeBankConfirmButtonClickAnalytics({
+			ChangedBankAccount: profileData?.bankDetails[paymentHandler.selectedAccount]?.bankName
+		});
 	};
 
 	const hideBankPopup = () => {
@@ -462,6 +533,11 @@
 	};
 
 	const showBankPopup = () => {
+		changeBankButtonClickAnalytics({
+			InvestmentType: activeTab === 'SIP' ? 'SIP' : 'OTI',
+			PaymentMethod: paymentHandler?.paymentMode,
+			CurrentBank: profileData?.bankDetails[paymentHandler.selectedAccount]?.bankName
+		});
 		bankPopupVisible = true;
 	};
 
@@ -477,12 +553,14 @@
 	};
 
 	const closeErrorPopup = () => {
+		paymentFailedScreenCloseButtonAnalytics();
 		error.heading = '';
 		error.subHeading = '';
 		error.visible = false;
 	};
 
 	const closePendingPopup = () => {
+		paymentPendingScreenCloseButtonAnalytics();
 		pending.heading = '';
 		pending.subHeading = '';
 		pending.visible = false;
@@ -494,6 +572,14 @@
 	};
 
 	const displayPendingPopup = ({ heading = 'Payment Pending', errorSubHeading = '' }) => {
+		paymentPendingScreenAnalytics({
+			InvestmentType: activeTab === 'SIP' ? 'SIP' : 'OTI',
+			Amount: amount,
+			PaymentMethod: paymentHandler?.paymentMode,
+			PaymentBank: profileData?.bankDetails[paymentHandler?.selectedAccount]?.bankName,
+			PaymentPending:
+				'we are confirming the status of your payment. This Usually takes few minutes. We will notify you once we have an update'
+		});
 		pending.visible = true;
 		pending.heading = heading;
 		pending.subHeading = errorSubHeading;
@@ -771,7 +857,7 @@
 				method: 'PATCH',
 				body: JSON.stringify({
 					paymentReferenceNumber: transactionData?.data?.reference_number,
-					paymentRemarks: transactionData?.message,
+					paymentRemarks: transactionData?.data?.response_description,
 					paymentStatus: transactionData?.data?.status,
 					pgTxnId: transactionData?.data?.transaction_id
 				}),
@@ -792,7 +878,7 @@
 				method: 'PATCH',
 				body: JSON.stringify({
 					paymentReferenceNumber: transactionData?.data?.reference_number,
-					paymentRemarks: transactionData?.message,
+					paymentRemarks: transactionData?.data?.response_description,
 					paymentStatus: transactionData?.data?.status,
 					pgTxnId: transactionData?.data?.transaction_id,
 					purchaseType: 'LUMPSUM'
@@ -1006,12 +1092,13 @@
 	const handleTransactionResponse = (transactionResponse, orderPostResponse) => {
 		if (transactionResponse.ok) {
 			if (transactionResponse.data?.data?.status === 'failure') {
+				paymentFailedScreenAnalyticsWithData();
 				stopLoading();
 				orderPatchFunc(transactionResponse.data, orderPostResponse.data);
 				displayError({
 					heading: 'Payment Failed',
 					errorSubHeading:
-						transactionResponse?.data?.message ||
+						transactionResponse?.data?.data?.response_description ||
 						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
 				});
 				throw new Error('');
@@ -1022,7 +1109,7 @@
 				displayPendingPopup({
 					heading: 'Payment Pending',
 					errorSubHeading:
-						transactionResponse.data?.message ||
+						transactionResponse?.data?.data?.response_description ||
 						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
 				});
 				throw new Error('');
@@ -1034,7 +1121,7 @@
 			displayPendingPopup({
 				heading: 'Payment Pending',
 				errorSubHeading:
-					transactionResponse.data?.message ||
+					transactionResponse?.data?.data?.response_description ||
 					"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
 			});
 			throw new Error('');
@@ -1470,11 +1557,27 @@
 
 	const onPaymentTypeSubmit = (inputId: string) => {
 		const NO_SIP_PAYMENT = !firstSipPayment && activeTab === 'SIP';
+		// analytics when payment method screen is open
+		if (showChangePayment) {
+			paymentModeScreenPayButtonClickAnalytics({
+				Fundname: schemeData?.schemeName,
+				ISIN: schemeData?.isin,
+				Amount: amount,
+				SIPDate: activeTab === 'SIP' ? getFormattedSIPDate() : '',
+				firstSIPpayment: activeTab === 'SIP' ? firstSipPayment : '',
+				InvestmentType: activeTab === 'SIP' ? 'SIP' : 'OTI',
+				PaymentMethod: paymentHandler?.paymentMode,
+				Bank: profileData?.bankDetails[paymentHandler.selectedAccount]?.bankName
+			});
+		}
+
+		// when first time user and first time payment true then navigate to payment method screen
 		if (firstTimeUser && !NO_SIP_PAYMENT) {
 			showPaymentMethodScreen();
 			return;
 		}
 
+		// generating request id
 		if (requestId) {
 			xRequestId = requestId;
 		} else {
@@ -1482,22 +1585,31 @@
 		}
 
 		if (NO_SIP_PAYMENT) {
+			submitButtonSIPClickAnalyticsFunc();
 			noPaymentFlow();
 		} else if (
 			paymentHandler?.paymentMode === 'NET_BANKING' &&
 			activeTab === 'SIP' &&
 			redirectedFrom !== 'SIP_PAYMENTS'
 		) {
+			submitButtonSIPClickAnalyticsFunc();
 			netBankingSIPFlow();
 		} else if (paymentHandler?.paymentMode === 'NET_BANKING') {
+			submitButtonLumpsumClickAnalyticsFunc();
 			netBankingLumpsumFlow();
 		} else if (paymentHandler?.paymentMode === 'UPI' && activeTab === 'SIP') {
+			submitButtonSIPClickAnalyticsFunc();
+			upiInitiateScreenAnalytics();
 			upiSIPFlow(inputId);
 		} else if (paymentHandler?.paymentMode === 'UPI') {
+			submitButtonLumpsumClickAnalyticsFunc();
+			upiInitiateScreenAnalytics();
 			upiLumpsumFlow(inputId);
 		} else if (activeTab === 'SIP') {
+			submitButtonSIPClickAnalyticsFunc();
 			walletSIPFlow();
 		} else {
+			submitButtonLumpsumClickAnalyticsFunc();
 			walletLumpsumFlow();
 		}
 	};
