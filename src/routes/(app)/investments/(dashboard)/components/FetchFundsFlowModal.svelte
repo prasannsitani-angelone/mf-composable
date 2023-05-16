@@ -30,6 +30,7 @@
 	let xReqId: string;
 	const onRequestOtp = async () => {
 		errorMsg = '';
+		errorCode = '';
 		xReqId = uuidv4();
 		step = 'VALIDATE';
 		const body = {
@@ -50,21 +51,17 @@
 			},
 			fetch
 		);
+
 		if (res?.ok) {
 			generateOtpResponse = res.data?.data || {};
 		} else {
-			errorMsg = res.data?.message;
+			errorMsg = res.data?.message || '';
 			errorCode = res.data?.errorCode;
 		}
 	};
 
 	$: isVerifyDisabled = () => {
-		return (
-			enteredOtp.length < 6 ||
-			errorMsg.length > 0 ||
-			errorCode === 'MF-SVC-MFCENTRAL-03' ||
-			errorCode === 'MF-SVC-MFCENTRAL-05'
-		);
+		return enteredOtp.length < 6 || errorMsg.length > 0 || errorCode === 'MF-SVC-MFCENTRAL-03';
 	};
 
 	$: isResendDisabled = () => {
@@ -74,6 +71,7 @@
 	const onValidateOtp = async () => {
 		loading = true;
 		errorMsg = '';
+		errorCode = '';
 		const body = {
 			email: data.profile?.clientDetails?.email || '',
 			mobileNo: data.profile?.countryCode + data.profile?.mobile,
@@ -103,7 +101,7 @@
 			// Update the investments in background on successful otp validation
 			onfetchFundsSuccess();
 		} else {
-			errorMsg = res.data?.message;
+			errorMsg = res.data?.message || '';
 			errorCode = res.data?.errorCode;
 		}
 		loading = false;

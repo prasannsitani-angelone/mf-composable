@@ -41,6 +41,13 @@
 	 * @param {KeyboardEvent & { currentTarget: EventTarget & HTMLInputElement; }} e
 	 */
 	function inputChange(e: KeyboardEvent, item: Item, index: number) {
+		const valuePastedFromKeypadSuggest = e.target?.value?.length === 6 ? e.target.value : '';
+
+		if (valuePastedFromKeypadSuggest) {
+			setPreselctedValue(valuePastedFromKeypadSuggest);
+			return;
+		}
+
 		otp[index].value = item.value || String(item.value) === '0' ? String(item.value).charAt(0) : '';
 		if (index < otp.length - 1 && (item.value || item.value === '0')) {
 			otp[index + 1].self?.focus();
@@ -69,19 +76,26 @@
 		clearExistingOtpParams();
 	};
 
+	const setPreselctedValue = (pastedValue: string) => {
+		const targetStr = pastedValue.substring(0, 6);
+		otp.forEach((val, i) => {
+			otp[i].value = targetStr.charAt(i) || '';
+		});
+		otp[targetStr.length - 1].self?.focus();
+
+		value = otp.reduce((acc, curr) => acc + String(curr.value), '');
+	};
+
 	const onPaste = (e: ClipboardEvent) => {
 		e.preventDefault();
-		let pastedValue = (e.clipboardData || window.clipboardData).getData('text');
+		let pastedValue = (e.clipboardData || window.clipboardData)?.getData('text');
 
 		const isValidCopyPaste = pastedValue && onlyNumbers.test(pastedValue) && pastedValue.length > 0;
 
 		if (isValidCopyPaste) {
-			const targetStr = pastedValue.substring(0, 6);
-			otp.forEach((val, i) => {
-				otp[i].value = targetStr.charAt(i) || '';
-			});
-			otp[targetStr.length - 1].self?.focus();
+			setPreselctedValue(pastedValue);
 		}
+		value = otp.reduce((acc, curr) => acc + String(curr.value), '');
 	};
 
 	onMount(() => {
@@ -115,6 +129,7 @@
 				bind:this={ot.self}
 				on:keyup={(e) => inputChange(e, ot, i)}
 				on:paste={(e) => onPaste(e, ot, i)}
+				on:change={(e) => onPaste(e, ot, i)}
 			/>
 		{/each}
 	</div>
