@@ -24,6 +24,27 @@
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
 	import OtpVerification from '$components/OtpFlow/OtpVerification.svelte';
 	import type { IOrderPostData } from '$lib/types/IOrderPostData';
+	import {
+		authFailedModalOpenAnalytics,
+		authFailedRetryClickAnalytics,
+		changeBankAccountAnalytics,
+		confirmWithdrawButtonAnalytics,
+		edisAboutModalCloseAnalytics,
+		edisAboutModalOpenAnalytics,
+		proceedButtonClickAfterRegenerateTpinAnalytics,
+		redemptionResendOtpClickAnalytics,
+		regenerateTpinButtonAnalytics,
+		serverErrorModalOpenAnalytics,
+		serverErrorRetryCloseClickAnalytics,
+		tpinProceedAnalytics,
+		tpinVerifiedModalGoBackClickAnalytics,
+		tpinVerifiedModalOpenAnalytics,
+		tpinVerifiedModalProceedClickAnalytics,
+		verifyWithEdisModalOpenAnalytics,
+		verifyWithOtpModalOpenAnalytics,
+		verifyWithOtpProceedButtonAnalytics,
+		withdrawInfoAnalytics
+	} from '$lib/analytics/redemption/redemption';
 
 	export let holdingDetails: FolioHoldingType;
 	export let bankAccounts: Array<BankDetailsEntity>;
@@ -86,12 +107,20 @@
 	};
 
 	const onAccountChange = (index: number) => {
+		const previousBankAccount = selectedBankAccount;
+
 		selectedAccount = index;
 		selectedBankAccount = bankAccounts[selectedAccount];
+
+		bankAccountChangeAnalyticsFunc(previousBankAccount, selectedBankAccount);
 	};
 
 	const withdrawableAmountInfoTagClick = () => {
 		showWithdrawableAmountTooltip = !showWithdrawableAmountTooltip;
+
+		if (showWithdrawableAmountTooltip) {
+			withdrawInfoAnalytics();
+		}
 	};
 
 	const expectedNavDateInfoTagClick = () => {
@@ -100,6 +129,10 @@
 
 	const toggleTpinVerificationModal = () => {
 		showTpinVerificationModal = !showTpinVerificationModal;
+
+		if (!showTpinVerificationModal) {
+			tpinVerifiedModalGoBackClickAnalytics();
+		}
 	};
 
 	const toggleOtpVerificationModal = () => {
@@ -157,6 +190,8 @@
 	};
 
 	const handleConfirmAndWithdraw = () => {
+		confirmWithdrawCtaAnalyticsFunc();
+
 		if (folioData?.dpFlag?.toUpperCase() === 'Y') {
 			if ($profileStore?.poaStatus?.toUpperCase() === 'I') {
 				toggleTpinVerificationModal();
@@ -166,6 +201,70 @@
 		} else if (folioData?.dpFlag?.toUpperCase() === 'N') {
 			toggleOtpVerificationModal();
 		}
+	};
+
+	const confirmWithdrawCtaAnalyticsFunc = () => {
+		const eventMetadata = {
+			FundName: holdingDetails?.schemeName,
+			CurrentValue: parseFloat(holdingDetails?.currentValue?.toFixed(2)),
+			TotalInvestment: parseFloat(holdingDetails?.investedValue?.toFixed(2)),
+			TotalReturns: parseFloat(holdingDetails?.returnsValue?.toFixed(2)),
+			ReturnsPercentage: parseFloat(holdingDetails?.returnsAbsolutePer?.toFixed(2)),
+			Amount: parseFloat(withdrawalAmount),
+			FolioNumber: folioData?.folioNumber,
+			Value: parseFloat((folioData?.redemableAmount + folioData?.blockedAmount)?.toFixed(2)),
+			Units: parseFloat((folioData?.redemableUnits + folioData?.blockedunits)?.toFixed(3)),
+			WithdrawFullAmount: redeemAll ? 'Yes' : 'No'
+		};
+
+		confirmWithdrawButtonAnalytics(eventMetadata);
+	};
+
+	const bankAccountChangeAnalyticsFunc = (
+		previousBankAccount: BankDetailsEntity,
+		currentBankAccount: BankDetailsEntity
+	) => {
+		const eventMetadata = {
+			CurrentBankSelected: previousBankAccount?.bankName,
+			NextBankSelected: currentBankAccount?.bankName,
+			isChangeBank: previousBankAccount?.accNO === currentBankAccount?.accNO ? 'No' : 'Yes'
+		};
+
+		changeBankAccountAnalytics(eventMetadata);
+	};
+
+	const verifyWithOtpModalOpenAnalyticsFunc = (e) => {
+		const { maskedEmailId = '', maskedMobileNumber = '', folioNumber = '' } = e?.detail || {};
+
+		const eventMetadata = {
+			Message: `An OTP has been sent to ${maskedEmailId} and ${maskedMobileNumber} registered with the folio ${folioNumber}. Please enter the OTP to verify your order`
+		};
+
+		verifyWithOtpModalOpenAnalytics(eventMetadata);
+	};
+
+	const tpinVerifiedModalOpenAnalyticsFunc = () => {
+		const eventMetadata = {
+			Message: 'Your TPIN Verfied Successfully.'
+		};
+
+		tpinVerifiedModalOpenAnalytics(eventMetadata);
+	};
+
+	const authFailedModalOpenAnalyticsFunc = () => {
+		const eventMetadata = {
+			Message: 'Your TPIN verification failed. Please try again'
+		};
+
+		authFailedModalOpenAnalytics(eventMetadata);
+	};
+
+	const serverErrorModalOpenAnalyticsFunc = () => {
+		const eventMetadata = {
+			Message: 'CDSL Servers are not responding, kindly try after sometime.'
+		};
+
+		serverErrorModalOpenAnalytics(eventMetadata);
 	};
 </script>
 
@@ -316,6 +415,18 @@
 			{redeemAll}
 			on:tpinVerificationSuccessful={(e) => postRedemptionOrder({ edisExecDate: e?.detail })}
 			on:closeModal={toggleTpinVerificationModal}
+			on:tpinProcessStart={verifyWithEdisModalOpenAnalytics}
+			on:regenerateTpinClick={regenerateTpinButtonAnalytics}
+			on:tpinProceedClick={tpinProceedAnalytics}
+			on:edisAboutModalOpen={edisAboutModalOpenAnalytics}
+			on:edisAboutModalClose={edisAboutModalCloseAnalytics}
+			on:showAuthFailedModal={authFailedModalOpenAnalyticsFunc}
+			on:authFailedRetryClick={authFailedRetryClickAnalytics}
+			on:showServerErrorModal={serverErrorModalOpenAnalyticsFunc}
+			on:serverErrorRetryClick={serverErrorRetryCloseClickAnalytics}
+			on:tpinVerifiedModalOpen={tpinVerifiedModalOpenAnalyticsFunc}
+			on:tpinVerifiedModalProceedClick={tpinVerifiedModalProceedClickAnalytics}
+			on:proceedAfterRegenerateTpin={proceedButtonClickAfterRegenerateTpinAnalytics}
 		/>
 	{/if}
 
@@ -329,6 +440,9 @@
 			on:otpVerificationSuccessful={(e) =>
 				postRedemptionOrder({ emailId: e?.detail?.emailId, mobileNo: e?.detail?.mobileNo })}
 			on:closeOtpModal={toggleOtpVerificationModal}
+			on:otpVerificationModalOpen={verifyWithOtpModalOpenAnalyticsFunc}
+			on:otpVerificationProceedClick={verifyWithOtpProceedButtonAnalytics}
+			on:otpResendClick={redemptionResendOtpClickAnalytics}
 		/>
 	{/if}
 

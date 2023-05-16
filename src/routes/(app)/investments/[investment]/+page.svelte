@@ -21,6 +21,8 @@
 	import { investmentDetailsFooterEvents } from './constants';
 	import type { OrderPadTypes } from '$lib/types/IOrderPad';
 	import RedemptionPad from '../../Redemption/RedemptionPad.svelte';
+	import { format } from 'date-fns';
+	import { withdrawFlowStartClickAnalytics } from '$lib/analytics/redemption/redemption';
 
 	export let data: PageData;
 
@@ -88,6 +90,10 @@
 	const investmentHeaderButtonClick = (clickedButton: string) => {
 		if (clickedButton?.length) {
 			orderPadActiveTab = clickedButton;
+
+			if (orderPadActiveTab === 'WITHDRAW') {
+				withdrawButtonClickAnalytics();
+			}
 		}
 	};
 
@@ -176,6 +182,8 @@
 		const currentPath = window?.location?.pathname;
 		const redirectPath = `${currentPath}?orderpad=REDEEM`;
 
+		withdrawButtonClickAnalytics();
+
 		goto(redirectPath);
 	};
 
@@ -186,6 +194,32 @@
 	const handleMoreOptionsClick = () => {
 		// add logic
 		toggleSwitch();
+	};
+
+	const withdrawButtonClickAnalytics = () => {
+		interface eventMetaDataType {
+			FundName: string;
+			CurrentValue: number;
+			TotalInvestment: number;
+			TotalReturns: number;
+			ReturnsPercentage: number;
+			NextSipDate?: string;
+		}
+
+		const eventMetadata: eventMetaDataType = {
+			FundName: holdingsData?.schemeName,
+			CurrentValue: parseFloat(holdingsData?.currentValue?.toFixed(2)),
+			TotalInvestment: parseFloat(holdingsData?.investedValue?.toFixed(2)),
+			TotalReturns: parseFloat(holdingsData?.returnsValue?.toFixed(2)),
+			ReturnsPercentage: parseFloat(holdingsData?.returnsAbsolutePer?.toFixed(2)),
+			NextSipDate: format(new Date(holdingsData?.nextSipDate), 'dd MMM yyyy')
+		};
+
+		if (!holdingsData?.sipEnabled) {
+			delete eventMetadata.NextSipDate;
+		}
+
+		withdrawFlowStartClickAnalytics(eventMetadata);
 	};
 </script>
 

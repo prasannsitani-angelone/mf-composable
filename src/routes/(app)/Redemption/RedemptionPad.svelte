@@ -28,6 +28,15 @@
 	import { getQueryParamsObj } from '$lib/utils/helpers/params';
 	import type { OrderPadTypes } from '$lib/types/IOrderPad';
 	import DotIcon from '$lib/images/icons/DotIcon.svelte';
+	import {
+		changeFolioAnalytics,
+		confirmChangeFolioAnalytics,
+		withdrawFullAmountCheckboxAnalytics,
+		withdrawProceedButtonClickAnalytics,
+		withdrawableAmountLessThanMinimumLimitAnalytics,
+		withdrawableAmountModalCloseButtonAnalytics,
+		withdrawableAmountModalOpenAnalytics
+	} from '$lib/analytics/redemption/redemption';
 
 	export let holdingDetails = <FolioHoldingType>{};
 	export let isRedemptionNotAllowed = false;
@@ -72,6 +81,8 @@
 	};
 
 	const setFolioWithdrawalData = (folioNumber: string) => {
+		const previousFolioNumber = selectedFolio?.folioNumber;
+
 		setSelectedFolio(folioNumber);
 		redemableAmount = selectedFolio?.redemableAmount;
 		blockedAmount = selectedFolio?.blockedAmount;
@@ -81,6 +92,8 @@
 		amount = '';
 		fullAmountSelected = false;
 		redeemableAmountLessThanWithdrawableAmountFunc();
+
+		confirmFolioChangeAnalytics(previousFolioNumber, selectedFolio?.folioNumber);
 	};
 
 	const calculateNumberOfUnits = () => {
@@ -95,6 +108,8 @@
 		}
 
 		fullAmountSelected = !fullAmountSelected;
+
+		withdrawFullAmountCheckboxAnalyticsFunc();
 
 		if (inputBasedToggle) {
 			return;
@@ -146,6 +161,14 @@
 		}
 	};
 
+	const withdrawableAmountLessThanMinimumLimitAnalyticsFunc = () => {
+		const eventMetaData = {
+			value: `${redemableAmount} < ${minimumRedeemAmount}`
+		};
+
+		withdrawableAmountLessThanMinimumLimitAnalytics(eventMetaData);
+	};
+
 	const redeemableAmountLessThanWithdrawableAmountFunc = () => {
 		if (redemableAmount < minimumRedeemAmount) {
 			isRedeemableAmountLessThanWithdrawableAmount = true;
@@ -155,6 +178,8 @@
 
 			amountVal = '₹' + addCommasToAmountString(formattedValue); // get amount string with commas in INR currency format
 			amount = formattedValue;
+
+			withdrawableAmountLessThanMinimumLimitAnalyticsFunc();
 		} else {
 			isRedeemableAmountLessThanWithdrawableAmount = false;
 			fullAmountSelected = false;
@@ -187,6 +212,8 @@
 		}
 
 		showWithdrawConfirmation = true;
+
+		withdrawProceedCtaAnalytics();
 
 		if (isMobile) {
 			const currentPath = window?.location?.pathname;
@@ -233,10 +260,20 @@
 
 	const toggleWithdrawableAmountInfoModal = () => {
 		showWithdrawableAmountTooltip = !showWithdrawableAmountTooltip;
+
+		if (showWithdrawableAmountTooltip) {
+			withdrawableAmountModalOpenAnalyticsFunc();
+		} else {
+			withdrawableAmountModalCloseButtonAnalytics();
+		}
 	};
 
 	const toggleFolioSelection = (val = false) => {
 		showFolioSelection = val;
+
+		if (showFolioSelection) {
+			selectFolioDropdownAnalytics();
+		}
 	};
 
 	const url = `${PUBLIC_MF_CORE_BASE_URL}/utils/meta`;
@@ -286,6 +323,77 @@
 		'Investment is in lock in period',
 		'Units have been pledged'
 	];
+
+	const withdrawProceedCtaAnalytics = () => {
+		const eventMetadata = {
+			FundName: holdingDetails?.schemeName,
+			CurrentValue: parseFloat(holdingDetails?.currentValue?.toFixed(2)),
+			TotalInvestment: parseFloat(holdingDetails?.investedValue?.toFixed(2)),
+			TotalReturns: parseFloat(holdingDetails?.returnsValue?.toFixed(2)),
+			ReturnsPercentage: parseFloat(holdingDetails?.returnsAbsolutePer?.toFixed(2)),
+			Amount: parseFloat(amount),
+			FolioNumber: selectedFolio?.folioNumber,
+			Value: parseFloat(
+				(selectedFolio?.redemableAmount + selectedFolio?.blockedAmount)?.toFixed(2)
+			),
+			Units: parseFloat((selectedFolio?.redemableUnits + selectedFolio?.blockedunits)?.toFixed(3))
+		};
+
+		withdrawProceedButtonClickAnalytics(eventMetadata);
+	};
+
+	const selectFolioDropdownAnalytics = () => {
+		const eventMetadata = {
+			CurrentFolio: selectedFolio?.folioNumber
+		};
+
+		changeFolioAnalytics(eventMetadata);
+	};
+
+	const confirmFolioChangeAnalytics = (currentFolioNumber: string, newFolioNumber: string) => {
+		const eventMetadata = {
+			CurrentFolio: currentFolioNumber,
+			NewFolio: newFolioNumber
+		};
+
+		confirmChangeFolioAnalytics(eventMetadata);
+	};
+
+	const withdrawFullAmountCheckboxAnalyticsFunc = () => {
+		const eventMetadata = {
+			WithdrawFullAmount: fullAmountSelected ? 'Yes' : 'No'
+		};
+
+		withdrawFullAmountCheckboxAnalytics(eventMetadata);
+	};
+
+	const withdrawableAmountModalOpenAnalyticsFunc = () => {
+		let eventMetadataMessage = '';
+
+		if (selectedFolio?.unitsUnderProcess > 0 && selectedFolio?.pledgedUnits > 0) {
+			eventMetadataMessage = `Withdrawal of ${selectedFolio?.blockedunits?.toFixed(
+				3
+			)} units of this fund is blocked as they might be in progress for withdrawal and pledged or subjected to 3 years of lock in period`;
+		} else if (selectedFolio?.unitsUnderProcess > 0) {
+			eventMetadataMessage = `Withdrawal of ${selectedFolio?.blockedunits?.toFixed(
+				3
+			)} units of this fund is blocked as they might be in progress for withdrawal or subjected to 3 years of lock in period`;
+		} else {
+			eventMetadataMessage = `Withdrawal of ${selectedFolio?.blockedunits?.toFixed(
+				3
+			)} units of this fund is blocked as they are subjected to a 3 year lock in period or have been pledged`;
+		}
+
+		const eventMetadata = {
+			WithdrawableAmount: `₹${selectedFolio?.redemableAmount?.toFixed(2)}`,
+			WithdrawableUnits: `${selectedFolio?.redemableUnits?.toFixed(3)} Units`,
+			BlockedAmount: `₹${selectedFolio?.blockedAmount?.toFixed(2)}`,
+			BlockedUnits: `${selectedFolio?.blockedunits?.toFixed(3)} Units`,
+			Message: eventMetadataMessage
+		};
+
+		withdrawableAmountModalOpenAnalytics(eventMetadata);
+	};
 </script>
 
 <section class="rounded-b-lg md:bg-white md:py-3 {$$props?.class}">

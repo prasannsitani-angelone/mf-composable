@@ -19,7 +19,7 @@
 	};
 
 	onMount(() => {
-		dispatch('tpinVerifiedMount');
+		dispatch('tpinVerifiedOpen');
 	});
 </script>
 

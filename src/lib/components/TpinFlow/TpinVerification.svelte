@@ -58,6 +58,12 @@
 
 	const handleShowAboutEdisModal = () => {
 		showAboutEdisModal = !showAboutEdisModal;
+
+		if (showAboutEdisModal) {
+			dispatch('edisAboutModalOpen');
+		} else {
+			dispatch('edisAboutModalClose');
+		}
 	};
 
 	const handleShowTpinRegeneratedModal = (closeAllModals = false) => {
@@ -91,6 +97,12 @@
 	};
 
 	const onErrorTryAgain = () => {
+		if (error?.heading === AUTH_FAILED_ERROR_HEADING) {
+			dispatch('authFailedRetryClick');
+		} else if (error?.heading === SERVER_ERROR_HEADING) {
+			dispatch('serverErrorRetryClick');
+		}
+
 		error.visible = false;
 		error.heading = '';
 		error.subHeading = '';
@@ -130,6 +142,8 @@
 		subHeading: string = SERVER_ERROR_SUBHEADING
 	) => {
 		showErrorModal(heading, subHeading, true);
+
+		dispatch('showServerErrorModal');
 	};
 
 	const showAuthFailedModal = (
@@ -137,6 +151,8 @@
 		subHeading: string = AUTH_FAILED_ERROR_SUBHEADING
 	) => {
 		showErrorModal(heading, subHeading, false);
+
+		dispatch('showAuthFailedModal');
 	};
 
 	// eslint-disable-next-line
@@ -204,6 +220,8 @@
 
 			setFormattedEdisExecDate(verifyEdisData?.TradeDate);
 			stopLoading();
+
+			dispatch('tpinProcessStart');
 		} else {
 			if (res?.data?.msgcode?.toUpperCase() === 'AG1000') {
 				verifyEdisData = res?.data?.data;
@@ -250,6 +268,8 @@
 	};
 
 	const regenerateProceed = () => {
+		dispatch('proceedAfterRegenerateTpin');
+
 		handleProceedClick();
 	};
 
@@ -272,14 +292,20 @@
 	};
 
 	const handleProceedClick = () => {
+		dispatch('tpinProceedClick');
+
 		redirectionFunc();
 	};
 
 	const handleRegenerateTpinClick = async () => {
 		await regenerateTpinFunc();
+
+		dispatch('regenerateTpinClick');
 	};
 
 	const handleTpinVerifiedModalProceedCta = async () => {
+		dispatch('tpinVerifiedModalProceedClick');
+
 		showTpinVerifiedModal = false;
 
 		onTpinVericationSuccessful();
@@ -341,6 +367,10 @@
 			);
 		}
 	}
+
+	const tpinVerifiedModalOpenAnalyticsFunc = () => {
+		dispatch('tpinVerifiedModalOpen');
+	};
 </script>
 
 <section>
@@ -528,6 +558,7 @@
 			secondaryButtonTitle={orderType === OrderType.SWITCH ? '' : 'GO BACK'}
 			on:primaryButtonClick={handleTpinVerifiedModalProceedCta}
 			on:secondaryButtonClick={closeTpinActionModal}
+			on:tpinVerifiedOpen={tpinVerifiedModalOpenAnalyticsFunc}
 		/>
 	{/if}
 

@@ -19,7 +19,7 @@
 	export let amount: string;
 	export let folio: FolioObject;
 	export let schemeName: string;
-	export let orderType: any = undefined;
+	export let orderType: unknown = undefined;
 
 	const dispatch = createEventDispatcher();
 
@@ -132,6 +132,8 @@
 		await generateOTPFunc(mobileNo, emailId);
 
 		timerCountdownInProgress = true;
+
+		dispatch('otpResendClick');
 	};
 
 	let otpTimer;
@@ -202,12 +204,7 @@
 		isSubmitClicked = false;
 	};
 
-	const validateOtpResponse = (
-		mobileNumber: string,
-		emailId: string,
-		otp: string,
-		useCase?: string
-	) => {
+	const validateOtpResponse = (mobileNumber: string, emailId: string, otp: string) => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/notifications/otp/verify`;
 
 		return useFetch(url, {
@@ -236,6 +233,12 @@
 
 			return;
 		}
+
+		dispatch('otpVerificationModalOpen', {
+			maskedEmailId,
+			maskedMobileNumber,
+			folioNumber: folio?.folioNumber
+		});
 	});
 
 	const handleShowAboutOrderVerificationModal = () => {
@@ -243,6 +246,8 @@
 	};
 
 	const handleOtpVerificationProceedClick = async () => {
+		dispatch('otpVerificationProceedClick');
+
 		isSubmitClicked = true;
 
 		const res = await validateOtpResponse(mobileNo, emailId, otpValue);
