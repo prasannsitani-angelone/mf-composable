@@ -1,6 +1,6 @@
 import type { PageLoad } from './$types';
 
-export const load = (async () => {
+export const load = (async ({ data }) => {
 	return {
 		layoutConfig: {
 			title: 'Mutual Funds',
@@ -8,6 +8,7 @@ export const load = (async () => {
 			showSearchIcon: true,
 			showBottomNavigation: true,
 			layoutType: 'TWO_COLUMN'
-		}
+		},
+		getNudgeData: data.streamed.getNudgeData
 	};
 }) satisfies PageLoad;

@@ -87,9 +87,10 @@ export interface IInactiveSip {
 }
 
 export interface IDueSips {
-	FundName: string;
+	FundName?: string;
 	Amount: number;
 	SipPaymentDue: number;
 	SipDate: string;
 	PayBefore: string;
+	SipCount?: string;
 }

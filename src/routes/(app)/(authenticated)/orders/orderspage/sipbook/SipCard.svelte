@@ -165,18 +165,27 @@
 				categoryStyle="text-[10px] capitalize"
 				logoStyle="w-9 h-9 p-0.5"
 			>
-				{#if sipCount > 1}
-					<img
-						src={sip?.logoUrl}
-						alt="logo"
-						class="mr-3 h-9 w-9 rounded-full border object-cover p-0.5 shadow-csm group-hover:bg-white"
-					/>
-					<div
-						class="mr-3 -ml-7 flex h-9 w-9 items-center justify-center rounded-full border bg-white object-cover p-0.5 text-xs font-medium opacity-100 shadow-csm group-hover:bg-white"
-					>
-						+ {sipCount - 1}
-					</div>
-				{/if}
+				<svelte:fragment slot="schemeLogo">
+					{#if sipCount > 1}
+						<img
+							src={sip?.logoUrl}
+							alt="logo"
+							class="mr-3 h-9 w-9 rounded-full border object-cover p-0.5 shadow-csm group-hover:bg-white"
+						/>
+						<div
+							class="mr-3 -ml-7 flex h-9 w-9 items-center justify-center rounded-full border bg-white object-cover p-0.5 text-xs font-medium opacity-100 shadow-csm group-hover:bg-white"
+						>
+							+ {sipCount - 1}
+						</div>
+					{:else}
+						<img
+							src={sip?.logoUrl}
+							alt="logo"
+							class="mr-3 h-9 w-9 rounded-full border object-cover p-0.5 shadow-csm group-hover:bg-white md:p-2"
+							loading="lazy"
+						/>
+					{/if}
+				</svelte:fragment>
 				<span slot="ratingSection" />
 				<span slot="returns" />
 			</ResultItem>
