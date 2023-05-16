@@ -17,6 +17,7 @@
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
+	$: isExternal = $page?.data?.isExternal;
 
 	const sortColumn = (event: {
 		detail: { sortType: string; sortField: keyof InvestmentEntity };
@@ -35,8 +36,7 @@
 	export { tableData };
 
 	const handleRowClick = (selectedRow: InvestmentEntity) => {
-		const typeInQuery = new Map($page.url.searchParams)?.get('type');
-		const dParam = `${typeInQuery ? '/external' : ''}`;
+		const dParam = `${isExternal ? '/external' : ''}`;
 		try {
 			goto(
 				`./investments/${
@@ -49,8 +49,6 @@
 			//TODO: Add Logger
 		}
 	};
-
-	$: isExternal = $page?.data?.isExternal;
 
 	const isPartialImport = (scheme: InvestmentEntity) => {
 		return isExternal && partialImportCheck(scheme);
@@ -102,7 +100,7 @@
 								schemes?.schemeName,
 								schemes?.isin,
 								schemes?.schemeCode
-							)}`}
+							)}${isExternal ? '/external' : ''}`}
 							><svelte:fragment slot="chip-overview">
 								<ChipOverview
 									class="mb-1 border-b-0 pb-0 sm:text-xs"

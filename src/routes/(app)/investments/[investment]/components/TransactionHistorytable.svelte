@@ -52,7 +52,7 @@
 		<Th class={`border-t text-start capitalize`} wrapperClass="w-full justify-end">Value</Th>
 	</THead>
 	<TBody slot="tbody">
-		{#each modifiedTransactionList as data (data.orderId + data.createdTs + data.nav + data.units)}
+		{#each modifiedTransactionList as data, index (index)}
 			<tr>
 				<Td class={`border-b border-grey-line py-4 pl-5 pr-6 text-left text-grey-body`}>
 					<div

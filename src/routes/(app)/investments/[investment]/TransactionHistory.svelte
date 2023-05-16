@@ -27,7 +27,7 @@
 		title="Transaction History"
 		defaultHeaderClass="!p-4 !md:px-6 !md:py-5 text-lg"
 	>
-		{#if transactionList.length > 0}
+		{#if transactionList?.length > 0}
 			<TransactionHistorytable {modifiedTransactionList} />
 		{:else}
 			<div class="flex items-end justify-center border-t border-grey-line py-5">

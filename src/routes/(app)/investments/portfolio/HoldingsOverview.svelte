@@ -20,8 +20,10 @@
 	};
 	let prepareChartData: ChartData;
 	$: prepareChartData = {
-		data: chartDataList.map((each) => each.value?.toFixed(2)),
-		timestamp: chartDataList.map((each) => each.timestamp)
+		data: ((Array.isArray(chartDataList) && chartDataList) || []).map((each) =>
+			each.value?.toFixed(2)
+		),
+		timestamp: ((Array.isArray(chartDataList) && chartDataList) || []).map((each) => each.timestamp)
 	};
 	$: chartData = prepareChartData.data;
 	$: chartLabel = prepareChartData.timestamp;
