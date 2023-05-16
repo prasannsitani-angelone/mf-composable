@@ -44,7 +44,6 @@
 		const valuePastedFromKeypadSuggest = e.target?.value?.length === 6 ? e.target.value : '';
 
 		if (valuePastedFromKeypadSuggest) {
-			setPreselctedValue(valuePastedFromKeypadSuggest);
 			return;
 		}
 
@@ -77,25 +76,35 @@
 	};
 
 	const setPreselctedValue = (pastedValue: string) => {
-		const targetStr = pastedValue.substring(0, 6);
-		otp.forEach((val, i) => {
-			otp[i].value = targetStr.charAt(i) || '';
-		});
-		otp[targetStr.length - 1].self?.focus();
-
-		value = otp.reduce((acc, curr) => acc + String(curr.value), '');
+		const isValidCopyPaste = pastedValue && onlyNumbers.test(pastedValue) && pastedValue.length > 0;
+		if (isValidCopyPaste) {
+			const targetStr = pastedValue.substring(0, 6);
+			otp.forEach((val, i) => {
+				otp[i].value = targetStr.charAt(i) || '';
+			});
+			otp[targetStr.length - 1].self?.focus();
+			value = otp.reduce((acc, curr) => acc + String(curr.value), '');
+		}
 	};
+
+	const updateOnPasteFromKeybaord = (val: number) => {
+		const valuePastedFromKeypadSuggest = String(val)?.length === 6 ? String(val) : '';
+
+		if (valuePastedFromKeypadSuggest) {
+			setPreselctedValue(valuePastedFromKeypadSuggest);
+			return;
+		}
+	};
+
+	$: {
+		updateOnPasteFromKeybaord(otp[0].value);
+	}
 
 	const onPaste = (e: ClipboardEvent) => {
 		e.preventDefault();
 		let pastedValue = (e.clipboardData || window.clipboardData)?.getData('text');
 
-		const isValidCopyPaste = pastedValue && onlyNumbers.test(pastedValue) && pastedValue.length > 0;
-
-		if (isValidCopyPaste) {
-			setPreselctedValue(pastedValue);
-		}
-		value = otp.reduce((acc, curr) => acc + String(curr.value), '');
+		setPreselctedValue(pastedValue);
 	};
 
 	onMount(() => {
@@ -123,13 +132,13 @@
 				type="number"
 				name="flavours"
 				bind:value={ot.value}
+				inputmode="numeric"
 				min="0"
 				max="9"
 				class="otp-inputs text-2xl"
 				bind:this={ot.self}
 				on:keyup={(e) => inputChange(e, ot, i)}
 				on:paste={(e) => onPaste(e, ot, i)}
-				on:change={(e) => onPaste(e, ot, i)}
 			/>
 		{/each}
 	</div>

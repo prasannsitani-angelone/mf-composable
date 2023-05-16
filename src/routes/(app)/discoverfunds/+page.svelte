@@ -133,7 +133,7 @@
 <article>
 	<!-- <InvestmentsStories /> -->
 	{#if showPortfoliocard && deviceType?.isMobile}
-		<div class="overflow-hidden">
+		<div class="mb-2 overflow-hidden sm:mb-0">
 			<PortfolioCard discoverPage={true} on:portfolidataReceived={onPortfolioDataReceived} />
 		</div>
 	{/if}
