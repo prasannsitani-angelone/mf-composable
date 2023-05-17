@@ -119,7 +119,7 @@
 		{#if step === 'GENERATE'}
 			<!-- Render Generate OTP contents -->
 			<div class="flex items-center justify-between p-0 sm:border-b sm:py-6 sm:px-8">
-				<div class="mr-1 text-xl">Generate OTP</div>
+				<div class="mr-1 text-xl font-medium">Generate OTP</div>
 				<button class="hidden sm:block md:cursor-pointer" on:click={onModalClick}>
 					<WMSIcon name="cross-circle" />
 				</button>

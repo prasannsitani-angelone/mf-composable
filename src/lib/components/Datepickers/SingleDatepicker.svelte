@@ -60,13 +60,13 @@
 
 	.dp-con
 		:global(.calendar-view-header > div.calendar-view-pagination-controls > button:first-child) {
-		background: url('src/lib/images/arrow-previous-circle.svg') no-repeat 0 0;
+		background: url('/images/arrow-previous-circle.svg') no-repeat 0 0;
 		margin: 0;
 		inline-size: 2.125rem;
 	}
 	.dp-con
 		:global(.calendar-view-header > div.calendar-view-pagination-controls > button:last-child) {
-		background: url('src/lib/images/arrow-next-circle.svg') no-repeat 0 0;
+		background: url('/images/arrow-next-circle.svg') no-repeat 0 0;
 		margin: 0;
 		inline-size: 2.125rem;
 	}
