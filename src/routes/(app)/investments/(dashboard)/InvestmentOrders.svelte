@@ -15,7 +15,6 @@
 		OrdersSummary,
 		ProtfolioData,
 		ProtfolioDataEntity,
-		OrdersResponse,
 		OrdersEntity
 	} from '$lib/types/IInvestments';
 	import {
@@ -101,34 +100,17 @@
 				const summaryData = await res.data;
 
 				ordersSummary = summaryData.data.summary;
-				let failedOrders: [] | Promise<OrdersResponse> = [];
-				let inProgressOrders: [] | Promise<OrdersResponse> = [];
-				let upcomingOrders: [] | Promise<OrdersResponse> = [];
-				if (ordersSummary.totalFailedOrders > 0) {
-					failedOrders = useFetch(url + '?status=ORDER_REJECTED', {}, fetch);
-				}
-				if (ordersSummary.totalProcessingOrders > 0) {
-					inProgressOrders = useFetch(url + '?status=ORDER_PROCESSING', {}, fetch);
-				}
 				if (ordersSummary.totalScheduledOrders > 0) {
-					upcomingOrders = useFetch(url + '?status=ORDER_SCHEDULED', {}, fetch);
+					useFetch(url + '?status=ORDER_SCHEDULED', {}, fetch)
+						.then((res) => {
+							protfolioData.upComing.orders = hasPassedAllChecks(res)
+								? res?.data?.data?.orders || []
+								: [];
+						})
+						.catch(() => {
+							// TODO: Add Logger
+						});
 				}
-
-				Promise.all([failedOrders, inProgressOrders, upcomingOrders])
-					.then((res: any[]) => {
-						protfolioData.failed.orders = hasPassedAllChecks(res[0])
-							? res[0]?.data?.data?.orders
-							: [];
-						protfolioData.inProgress.orders = hasPassedAllChecks(res[1])
-							? res[1]?.data?.data?.orders
-							: [];
-						protfolioData.upComing.orders = hasPassedAllChecks(res[2])
-							? res[2]?.data?.data?.orders
-							: [];
-					})
-					.catch(() => {
-						// TODO: Add Logger
-					});
 			}
 		} catch (e) {
 			//TODO: Add Logger
