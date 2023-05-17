@@ -85,10 +85,10 @@
 		</THead>
 		<TBody slot="tbody">
 			{#each tableDataToDisplay as schemes}
-				<tr class="hover relative cursor-pointer" on:click={() => handleRowClick(schemes)}
+				<tr class="hover cursor-pointer" on:click={() => handleRowClick(schemes)}
 					><Td
 						class={`w-[40%] whitespace-normal max-sm:w-[70%] max-sm:pr-1 max-sm:pl-4 ${
-							isPartialImport(schemes) ? '!sm:pb-12 !pb-16' : ''
+							isPartialImport(schemes) ? '!border-b-0' : ''
 						}`}
 					>
 						<SchemeCard
@@ -118,23 +118,10 @@
 							</svelte:fragment>
 							<svelte:fragment slot="rating"><span /></svelte:fragment></SchemeCard
 						>
-						{#if isPartialImport(schemes)}
-							<section
-								class={`absolute bottom-4 left-0 right-0 mt-2 ml-4 mr-2 flex items-center rounded-lg bg-blue-background px-2 py-1 sm:ml-5 sm:mr-4 sm:items-start sm:px-3`}
-							>
-								<div class="mr-3">
-									<WMSIcon name="polygon-red-warning" width={16} height={16} />
-								</div>
-
-								<div class="text-xs text-black-title">
-									We are facing some technical issues identifying this investment
-								</div>
-							</section>
-						{/if}
 					</Td>
 					<Td
 						class={`text-center max-sm:pl-1 max-sm:pr-0 max-sm:text-right ${
-							isPartialImport(schemes) ? '!sm:pb-12 !pb-16' : ''
+							isPartialImport(schemes) ? '!border-b-0' : ''
 						}`}
 						>{#if isPartialImport(schemes)}
 							<article class="text-black-title max-sm:mr-1 lg:text-center">- -</article>
@@ -144,11 +131,7 @@
 									: '-'}
 							</div>{/if}</Td
 					>
-					<Td
-						class={`text-center max-sm:hidden ${
-							isPartialImport(schemes) ? '!sm:pb-12 !pb-16' : ''
-						}`}
-					>
+					<Td class={`text-center max-sm:hidden ${isPartialImport(schemes) ? '!border-b-0' : ''}`}>
 						{#if isPartialImport(schemes)}
 							<article class="text-black-title lg:text-center">- -</article>
 						{:else}
@@ -161,7 +144,7 @@
 					>
 					<Td
 						class={`!pr-4 text-center max-sm:hidden ${
-							isPartialImport(schemes) ? '!sm:pb-12 !pb-16' : ''
+							isPartialImport(schemes) ? '!border-b-0' : ''
 						}`}
 					>
 						{#if isPartialImport(schemes)}
@@ -189,10 +172,27 @@
 					</Td>
 					<Td
 						class={`max-sm:align-right !pl-0 !pr-0 max-sm:pr-0 ${
-							isPartialImport(schemes) ? '!sm:pb-12 !pb-16' : ''
+							isPartialImport(schemes) ? '!border-b-0' : ''
 						}`}><div><RightIcon width="22" height="27" class="inline-block" /></div></Td
 					></tr
 				>
+				{#if isPartialImport(schemes)}
+					<tr>
+						<td colspan={5} class="whitespace-pre-wrap pt-0 pb-3"
+							><div
+								class={` flex items-center rounded-lg bg-blue-background px-2 py-1 sm:items-start sm:px-3`}
+							>
+								<div class="mr-3">
+									<WMSIcon name="polygon-red-warning" width={16} height={16} />
+								</div>
+
+								<div class="text-xs text-black-title">
+									We are facing some technical issues identifying this investment
+								</div>
+							</div>
+						</td>
+					</tr>
+				{/if}
 			{/each}
 		</TBody>
 	</Table>

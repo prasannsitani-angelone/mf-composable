@@ -302,7 +302,9 @@
 {#if deviceType?.isBrowser}
 	<article>
 		{#if showPortfoliocard}
-			<PortfolioCard discoverPage={true} on:portfolidataReceived={onPortfolioDataReceived} />
+			<div class="overflow-hidden">
+				<PortfolioCard discoverPage={true} on:portfolidataReceived={onPortfolioDataReceived} />
+			</div>
 		{:else}
 			<StartNewInvestment />
 		{/if}
