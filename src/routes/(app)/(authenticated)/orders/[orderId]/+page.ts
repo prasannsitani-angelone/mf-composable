@@ -193,9 +193,9 @@ export const load = (async ({ fetch, params }) => {
 
 			statusItems[ORDER_DATA.ORDER_DATE].value = format(new Date(createdTs), 'dd MMM yyyy');
 
-			if ((isInvestmentSipOrXsip && firstOrder?.toUpperCase() === 'N') || lumpsumMandateOrder) {
-				statusItems[ORDER_DATA.ORDER_DATE].value = format(new Date(scheduledTs), 'dd MMM yyyy');
-			}
+			// if ((isInvestmentSipOrXsip && firstOrder?.toUpperCase() === 'N') || lumpsumMandateOrder) {
+			// 	statusItems[ORDER_DATA.ORDER_DATE].value = format(new Date(scheduledTs), 'dd MMM yyyy');
+			// }
 
 			const expectedNavDate = statusHistory?.find(
 				(state: { status: string }) => state.status === 'ORDER_SENT_TO_RTA'

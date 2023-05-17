@@ -3,7 +3,9 @@
 	import Button from '$components/Button.svelte';
 	import ThreeVerticalDotsIcon from '$lib/images/icons/ThreeVerticalDotsIcon.svelte';
 	import { investmentDetailsFooterEvents } from '../../investments/[investment]/constants';
+	import { page } from '$app/stores';
 
+	$: deviceType = $page?.data?.deviceType;
 	const dispatch = createEventDispatcher();
 
 	export let orderPadActiveTab: string;
@@ -32,10 +34,12 @@
 	>
 		WITHDRAW
 	</Button>
-	<Button
-		class="rounded border-none !bg-grey px-6"
-		onClick={() => onButtonClick(investmentDetailsFooterEvents?.MORE_OPTIONS)}
-	>
-		<ThreeVerticalDotsIcon />
-	</Button>
+	{#if deviceType.isMobile}
+		<Button
+			class="rounded border-none !bg-grey px-6"
+			onClick={() => onButtonClick(investmentDetailsFooterEvents?.MORE_OPTIONS)}
+		>
+			<ThreeVerticalDotsIcon />
+		</Button>
+	{/if}
 </article>

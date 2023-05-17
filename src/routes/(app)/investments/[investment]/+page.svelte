@@ -22,7 +22,13 @@
 	import type { OrderPadTypes } from '$lib/types/IOrderPad';
 	import RedemptionPad from '../../Redemption/RedemptionPad.svelte';
 	import { format } from 'date-fns';
+	import Modal from '$components/Modal.svelte';
+	import SwitchOptions from '$components/Switch/SwitchOptions.svelte';
 	import { withdrawFlowStartClickAnalytics } from '$lib/analytics/redemption/redemption';
+	import {
+		switchHamburgerIconClickAnalytics,
+		switchOptionsOpenAnalytics
+	} from '$lib/analytics/switch/switch';
 
 	export let data: PageData;
 
@@ -37,6 +43,7 @@
 	$: showRedemptionPad = false;
 	$: holdingsData = <FolioHoldingType>{};
 	$: queryParamsObj = <OrderPadTypes>{};
+	$: isSwitchModalOpen = false;
 
 	let orderPadActiveTab = investmentDetailsFooterEvents?.INVEST;
 	let isInvestmentNotAllowed = false;
@@ -189,6 +196,11 @@
 
 	const toggleSwitch = () => {
 		// add logic
+		isSwitchModalOpen = isSwitchModalOpen ? false : true;
+		if (isSwitchModalOpen) {
+			switchHamburgerIconClickAnalytics();
+			switchOptionsOpenAnalytics();
+		}
 	};
 
 	const handleMoreOptionsClick = () => {
@@ -334,4 +346,12 @@
 			/>
 		</section>
 	{/if}
+	<Modal isModalOpen={isSwitchModalOpen} closeModal={toggleSwitch}>
+		<SwitchOptions
+			schemeData={res.schemeData}
+			switchFlags={holdingsData.switchFlag}
+			holdingDetails={holdingsData}
+			redemptionNotAllowedText={withdrawDisableText}
+		/>
+	</Modal>
 {/await}
