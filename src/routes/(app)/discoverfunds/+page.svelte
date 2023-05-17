@@ -18,6 +18,10 @@
 		nudgeImpression
 	} from '$lib/analytics/DiscoverFunds';
 	import type { PageData } from './$types';
+	import type { StoriesData, videoCtaUrls } from '$lib/types/IStories';
+	import { userStore } from '$lib/stores/UserStore';
+	import { profileStore } from '$lib/stores/ProfileStore';
+	import StoriesComponent from '$components/Stories/StoriesComponent.svelte';
 
 	$: showPortfoliocard = true;
 	$: deviceType = $page.data.deviceType;
@@ -120,6 +124,129 @@
 		nudgesData = nudgeData;
 		return '';
 	};
+
+	const setStoryCtaUrl = (vidId: number) => {
+		const selectedVid: videoCtaUrls | undefined = videoCtaList?.find(
+			(vid) => vid?.videoId === vidId
+		);
+
+		if (selectedVid) {
+			if (Object.keys(selectedVid?.ctaList)?.length > 1) {
+				return (
+					selectedVid?.ctaList[`${$userStore?.userType}_${profileStore?.accountType()}`] || '/'
+				);
+			} else if (Object.keys(selectedVid?.ctaList)?.length) {
+				return selectedVid?.ctaList.genericUrl || '/';
+			}
+		}
+
+		return '/';
+	};
+
+	const videoCtaList: Array<videoCtaUrls> = [
+		{
+			videoId: 1,
+			ctaList: {
+				genericUrl: '/explorefunds/sip-with-100?id=101'
+			}
+		},
+		{
+			videoId: 2,
+			ctaList: {
+				genericUrl: '/explorefunds/index-funds?id=103'
+			}
+		},
+		{
+			videoId: 3,
+			ctaList: {
+				B2C_D:
+					'/schemes/sbi-large-and-midcap-fund-direct-plan-growth-isin-inf200k01uj5-schemecode-sbd017g-gr',
+				B2C_P:
+					'/schemes/sbi-large-and-midcap-fund-direct-plan-growth-isin-inf200k01uj5-schemecode-sbd017g-gr',
+				B2B_D:
+					'/schemes/sbi-large-and-midcap-fund-regular-plan-growth-isin-inf200k01305-schemecode-017g',
+				B2B_P:
+					'/schemes/sbi-large-and-midcap-fund-regular-plan-growth-isin-inf200k01305-schemecode-017g',
+				genericUrl: ''
+			}
+		},
+		{
+			videoId: 4,
+			ctaList: {
+				B2C_D:
+					'/schemes/hdfc-balanced-advantage-fund-growth-plan-direct-plan-isin-inf179k01wa6-schemecode-gfgt-gr',
+				B2C_P:
+					'/schemes/hdfc-balanced-advantage-fund-growth-plan-direct-plan-isin-inf179k01wa6-schemecode-gfgt-gr',
+				B2B_D:
+					'/schemes/hdfc-balanced-advantage-fund-growth-plan-isin-inf179k01830-schemecode-gfg-hdfc',
+				B2B_P:
+					'/schemes/hdfc-balanced-advantage-fund-growth-plan-isin-inf179k01830-schemecode-gfg-hdfc',
+				genericUrl: ''
+			}
+		}
+	];
+
+	let storiesData: StoriesData = {
+		stories: [
+			{
+				storyId: 1,
+				title: 'Start a SIP',
+				videos: [
+					{
+						videoId: 1,
+						videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video1c3.mp4'
+					}
+				],
+				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail1c1.webp',
+				ctaType: '',
+				ctaText: 'START SIP NOW',
+				ctaUrl: setStoryCtaUrl(1)
+			},
+			{
+				storyId: 2,
+				title: 'Index Funds!',
+				videos: [
+					{
+						videoId: 2,
+						videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video2c1.mp4'
+					}
+				],
+				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail2c1.webp',
+				ctaType: '',
+				ctaText: 'START SIP NOW',
+				ctaUrl: setStoryCtaUrl(2)
+			},
+			{
+				storyId: 3,
+				title: 'Best of SBI',
+				videos: [
+					{
+						videoId: 3,
+						videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video3c1.mp4'
+					}
+				],
+				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail3c1.webp',
+				ctaType: '',
+				ctaText: 'START SIP NOW',
+				ctaUrl: setStoryCtaUrl(3)
+			},
+			{
+				storyId: 4,
+				title: 'All Season Fund',
+				videos: [
+					{
+						videoId: 4,
+						videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video4c1.mp4'
+					}
+				],
+				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail4c1.webp',
+				ctaType: '',
+				ctaText: 'START SIP NOW',
+				ctaUrl: setStoryCtaUrl(4)
+			}
+		]
+	};
+
 	export let data: PageData;
 </script>
 
@@ -132,6 +259,12 @@
 {/await}
 <article>
 	<!-- <InvestmentsStories /> -->
+
+	<!-- Stories section -->
+	{#if storiesData?.stories?.length}
+		<StoriesComponent stories={storiesData?.stories} />
+	{/if}
+
 	{#if showPortfoliocard && deviceType?.isMobile}
 		<div class="mb-2 overflow-hidden sm:mb-0">
 			<PortfolioCard discoverPage={true} on:portfolidataReceived={onPortfolioDataReceived} />

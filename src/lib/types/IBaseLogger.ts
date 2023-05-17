@@ -7,7 +7,7 @@ export interface AnalyticMsgObj {
 	screen_name: string;
 	event_type: string;
 	event_sub_type: string;
-	event_name: string;
+	event_name: string | null;
 	event_property: string | null;
 	event_id: string;
 	event_metadata?: any;
