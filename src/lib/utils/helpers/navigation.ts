@@ -14,3 +14,7 @@ export const isExternalNavigation = () => {
 	}
 	return false;
 };
+
+export const getNavigationV1Url = (scheme = '', host = '', prefix = '') => {
+	return `${scheme}://${host}/mutual-funds${prefix}`;
+};

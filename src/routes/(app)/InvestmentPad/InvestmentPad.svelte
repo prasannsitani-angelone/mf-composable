@@ -64,6 +64,7 @@
 		changePaymentMethodButtonClickAnalytics,
 		changePaymentMethodScreenImpressionAnalytics
 	} from './analytics/orderpad';
+	import { getNavigationV1Url } from '$lib/utils/helpers/navigation';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -454,7 +455,7 @@
 			InvestmentType: activeTab === 'SIP' ? 'SIP' : 'OTI',
 			Amount: amount,
 			PaymentMethod: paymentHandler?.paymentMode,
-			PaymentBank: profileData?.bankDetails[paymentHandler.selectedAccount]?.bankName,
+			PaymentBank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName,
 			PaymentPending:
 				'If the money has been debited from your bank account, please do not worry, it will be refunded automatically'
 		});
@@ -466,7 +467,7 @@
 			Amount: amount,
 			InvestmentType: activeTab,
 			PaymentMethod: paymentHandler?.paymentMode,
-			Bank: profileData?.bankDetails[paymentHandler.selectedAccount]?.bankName
+			Bank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName
 		};
 		payNowLumpsumButtonClickAnalytics(eventMetadata);
 	};
@@ -477,7 +478,7 @@
 			Amount: amount,
 			InvestmentType: activeTab,
 			PaymentMethod: paymentHandler?.paymentMode,
-			Bank: profileData?.bankDetails[paymentHandler.selectedAccount]?.bankName,
+			Bank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName,
 			SipDate: getFormattedSIPDate(),
 			FirstSipPayment: firstSipPayment ? 'Y' : 'N'
 		};
@@ -488,7 +489,7 @@
 		const eventMetaData = {
 			InvestmentType: activeTab,
 			DefaultPaymentMethod: paymentHandler?.paymentMode,
-			DefaultBank: profileData?.bankDetails[paymentHandler?.selectedAccount]?.bankName,
+			DefaultBank: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
 			ChangeBankAvailable: profileData?.bankDetails?.length > 1
 		};
 		changePaymentMethodScreenImpressionAnalytics(eventMetaData);
@@ -524,7 +525,7 @@
 	const onAccountChange = (index: number) => {
 		paymentHandler.selectedAccount = index;
 		changeBankConfirmButtonClickAnalytics({
-			ChangedBankAccount: profileData?.bankDetails[paymentHandler.selectedAccount]?.bankName
+			ChangedBankAccount: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName
 		});
 	};
 
@@ -536,7 +537,7 @@
 		changeBankButtonClickAnalytics({
 			InvestmentType: activeTab === 'SIP' ? 'SIP' : 'OTI',
 			PaymentMethod: paymentHandler?.paymentMode,
-			CurrentBank: profileData?.bankDetails[paymentHandler.selectedAccount]?.bankName
+			CurrentBank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName
 		});
 		bankPopupVisible = true;
 	};
@@ -576,7 +577,7 @@
 			InvestmentType: activeTab === 'SIP' ? 'SIP' : 'OTI',
 			Amount: amount,
 			PaymentMethod: paymentHandler?.paymentMode,
-			PaymentBank: profileData?.bankDetails[paymentHandler?.selectedAccount]?.bankName,
+			PaymentBank: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
 			PaymentPending:
 				'we are confirming the status of your payment. This Usually takes few minutes. We will notify you once we have an update'
 		});
@@ -922,9 +923,9 @@
 				method: 'POST',
 				body: JSON.stringify({
 					amount: stringToFloat(amount),
-					bank_account_number: profileData?.bankDetails[paymentHandler.selectedAccount]?.accNO,
-					bank_ifsc_code: profileData?.bankDetails[paymentHandler.selectedAccount]?.ifscCode,
-					bank_name: profileData?.bankDetails[paymentHandler.selectedAccount]?.bankName,
+					bank_account_number: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.accNO,
+					bank_ifsc_code: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.ifscCode,
+					bank_name: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName,
 					client_name: profileData?.clientDetails?.fullName,
 					product: 'mf',
 					request_source: 'mf-web',
@@ -947,8 +948,8 @@
 				method: 'POST',
 				body: JSON.stringify({
 					amount: stringToFloat(amount),
-					bankAccountNo: profileData?.bankDetails[paymentHandler.selectedAccount]?.accNO,
-					bankName: profileData?.bankDetails[paymentHandler.selectedAccount]?.bankName,
+					bankAccountNo: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.accNO,
+					bankName: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName,
 					dpNumber: profileData?.dpNumber,
 					emailId: profileData?.clientDetails?.email,
 					mobileNo: profileData?.mobile,
@@ -1011,7 +1012,7 @@
 				method: 'POST',
 				body: JSON.stringify({
 					bank_name:
-						profileData?.bankDetails[paymentHandler?.selectedAccount]?.bankName?.toLowerCase() ||
+						profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName?.toLowerCase() ||
 						'',
 					product: 'mf',
 					vpa: id
@@ -1036,9 +1037,9 @@
 				method: 'POST',
 				body: JSON.stringify({
 					amount: stringToFloat(amount),
-					bank_account_number: profileData?.bankDetails[paymentHandler?.selectedAccount]?.accNO,
-					bank_ifsc_code: profileData?.bankDetails[paymentHandler?.selectedAccount]?.ifscCode,
-					bank_name: profileData?.bankDetails[paymentHandler?.selectedAccount]?.bankName,
+					bank_account_number: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO,
+					bank_ifsc_code: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.ifscCode,
+					bank_name: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
 					client_name: profileData.clientDetails.fullName,
 					vpa: paymentHandler.upiId,
 					product: 'mf',
@@ -1064,9 +1065,9 @@
 				method: 'POST',
 				body: JSON.stringify({
 					amount: stringToFloat(amount),
-					bank_account_number: profileData?.bankDetails[paymentHandler?.selectedAccount]?.accNO,
-					bank_ifsc_code: profileData?.bankDetails[paymentHandler?.selectedAccount]?.ifscCode,
-					bank_name: profileData?.bankDetails[paymentHandler?.selectedAccount]?.bankName,
+					bank_account_number: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO,
+					bank_ifsc_code: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.ifscCode,
+					bank_name: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
 					client_name: profileData.clientDetails.fullName,
 					product: 'mf',
 					request_source: 'mf-web',
@@ -1556,6 +1557,18 @@
 	// -------- **** ----------
 
 	const onPaymentTypeSubmit = (inputId: string) => {
+		if ($page?.data?.isGuest) {
+			const pageData = $page?.data;
+			window.location.replace(
+				getNavigationV1Url(
+					pageData?.scheme,
+					pageData?.host,
+					`/login?redirect=${window.location.href}`
+				)
+			);
+			return;
+		}
+
 		const NO_SIP_PAYMENT = !firstSipPayment && activeTab === 'SIP';
 		// analytics when payment method screen is open
 		if (showChangePayment) {
@@ -1567,7 +1580,7 @@
 				firstSIPpayment: activeTab === 'SIP' ? firstSipPayment : '',
 				InvestmentType: activeTab === 'SIP' ? 'SIP' : 'OTI',
 				PaymentMethod: paymentHandler?.paymentMode,
-				Bank: profileData?.bankDetails[paymentHandler.selectedAccount]?.bankName
+				Bank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName
 			});
 		}
 
@@ -1765,8 +1778,8 @@
 						<PaymentSleeve
 							selectedMode={paymentHandler?.paymentMode}
 							onPaymentMethodChange={showPaymentMethodScreen}
-							bankName={profileData?.bankDetails[paymentHandler?.selectedAccount]?.bankName}
-							bankAccount={profileData?.bankDetails[paymentHandler?.selectedAccount]?.accNO}
+							bankName={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName}
+							bankAccount={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO}
 							upiId={paymentHandler.upiId}
 						/>
 					{/if}
