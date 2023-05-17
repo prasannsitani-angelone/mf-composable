@@ -54,7 +54,7 @@
 		{#if buttonTitle}
 			<section class="px-4 py-2 md:px-8">
 				<article class="flex items-center justify-center">
-					<Button class="rounded sm:w-48" onClick={onSubmit}>
+					<Button class="rounded max-sm:w-full sm:w-48" onClick={onSubmit}>
 						{buttonTitle}
 					</Button>
 				</article>
