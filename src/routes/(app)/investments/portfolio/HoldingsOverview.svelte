@@ -86,7 +86,7 @@
 				<span />
 			{/if}
 		</div>
-		{#if isExternal && chartData.length > 0}
+		{#if isExternal}
 			<section
 				class="mt-4 flex items-center justify-center border-t py-3 text-xs font-medium text-black-title sm:text-sm lg:mx-0 lg:bg-inherit lg:py-5"
 			>
