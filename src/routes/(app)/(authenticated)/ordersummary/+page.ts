@@ -8,7 +8,7 @@ import { STATUS_ARR } from './constant';
 import { format } from 'date-fns';
 import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 
-export const load = async ({ fetch, url, parent }) => {
+export const load = async ({ fetch, url, parent, depends }) => {
 	const params = url.searchParams.get('params');
 	const decodedParams = decodeToObject(params);
 	const { profile } = await parent();
@@ -16,11 +16,12 @@ export const load = async ({ fetch, url, parent }) => {
 	const getOrderDetailsFunc = async () => {
 		try {
 			if (firstTimePayment) {
-				return useFetch(
+				const response = await useFetch(
 					`${PUBLIC_MF_CORE_BASE_URL}/orders/${orderID}?statusHistory=true`,
 					{},
 					fetch
 				);
+				return response;
 			}
 		} catch (e) {
 			return {};
@@ -30,7 +31,8 @@ export const load = async ({ fetch, url, parent }) => {
 	const getSIPDetailsFunc = async () => {
 		try {
 			if (sipID) {
-				return useFetch(`${PUBLIC_MF_CORE_BASE_URL}/sips/${sipID}`, {}, fetch);
+				const response = await useFetch(`${PUBLIC_MF_CORE_BASE_URL}/sips/${sipID}`, {}, fetch);
+				return response;
 			}
 		} catch (e) {
 			return {};
@@ -205,6 +207,8 @@ export const load = async ({ fetch, url, parent }) => {
 			sipData
 		};
 	};
+
+	depends('app:ordersummary');
 
 	return {
 		api: {

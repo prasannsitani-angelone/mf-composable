@@ -11,7 +11,7 @@
 	export let clazz = '';
 </script>
 
-<article class={`flex flex-row items-center bg-white px-4 py-3 ${clazz}`}>
+<article class={`z-10 flex flex-row items-center bg-white px-4 py-3 ${clazz}`}>
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<div on:click={onBackClick}>
 		<LeftArrowIcon />

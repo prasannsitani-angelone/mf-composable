@@ -158,7 +158,6 @@
 	$: tabNotSupportedType = '';
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 	$: profileData = $page?.data?.profile;
-	$: os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
 
 	let dateArray: Array<dateArrayTypes> = [{ value: 1, disabled: false }];
 
@@ -807,6 +806,7 @@
 			paymentHandler.upiId = data?.upiId;
 			paymentHandler.selectedAccount = index;
 			const paymentMode = data?.paymentMode;
+			const os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
 			if (
 				(paymentMode === 'GOOGLEPAY' || paymentMode === 'PHONEPE') &&
 				os !== 'Android' &&
@@ -831,11 +831,11 @@
 
 	//  ------- api calls functions --------
 
-	const orderDeletePatchFunc = () => {
+	const orderDeletePatchFunc = async () => {
 		try {
 			if (previousOrderId) {
 				const url = `${PUBLIC_MF_CORE_BASE_URL}/orders/${previousOrderId}`;
-				useFetch(url, {
+				await useFetch(url, {
 					method: 'PATCH',
 					body: JSON.stringify({
 						paymentReferenceNumber: pgTxnId,
@@ -854,7 +854,7 @@
 	const sipOrderPatchFunc = async (transactionData, orderPostData) => {
 		try {
 			const url = `${PUBLIC_MF_CORE_BASE_URL}/sips/${orderPostData?.data?.sipId}`;
-			return useFetch(url, {
+			const response = await useFetch(url, {
 				method: 'PATCH',
 				body: JSON.stringify({
 					paymentReferenceNumber: transactionData?.data?.reference_number,
@@ -867,6 +867,7 @@
 					'X-Source': source || 'diy'
 				}
 			});
+			return response;
 		} catch (e) {
 			return {};
 		}
@@ -875,7 +876,7 @@
 	const lumpsumOrderPatchFunc = async (transactionData, orderPostData) => {
 		try {
 			const url = `${PUBLIC_MF_CORE_BASE_URL}/orders/${orderPostData?.data?.orderId}`;
-			return useFetch(url, {
+			const response = await useFetch(url, {
 				method: 'PATCH',
 				body: JSON.stringify({
 					paymentReferenceNumber: transactionData?.data?.reference_number,
@@ -889,6 +890,7 @@
 					'X-Source': source || 'diy'
 				}
 			});
+			return response;
 		} catch (e) {
 			return {};
 		}
@@ -905,12 +907,13 @@
 	const fetchTransactionDataFunc = async (transactionID: number) => {
 		try {
 			const url = `${PUBLIC_PAYMENT_BASE_URL}/transaction?transaction_id=${transactionID}`;
-			return useFetch(url, {
+			const response = await useFetch(url, {
 				headers: {
 					'X-Request-Id': xRequestId,
 					'X-Source': source || 'diy'
 				}
 			});
+			return response;
 		} catch (e) {
 			return {};
 		}
@@ -919,7 +922,7 @@
 	const initiateNetBankingPaymentFunc = async () => {
 		const url = `${PUBLIC_PAYMENT_BASE_URL}/net-banking-initiate-payment`;
 		try {
-			return useFetch(url, {
+			const response = await useFetch(url, {
 				method: 'POST',
 				body: JSON.stringify({
 					amount: stringToFloat(amount),
@@ -936,6 +939,7 @@
 					'X-Source': source || 'diy'
 				}
 			});
+			return response;
 		} catch (e) {
 			return {};
 		}
@@ -944,7 +948,7 @@
 	const lumpsumOrderPostFunction = async (transactionRefNumber = '') => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/orders`;
 		try {
-			return useFetch(url, {
+			const response = await useFetch(url, {
 				method: 'POST',
 				body: JSON.stringify({
 					amount: stringToFloat(amount),
@@ -967,6 +971,7 @@
 					'X-Source': source || 'diy'
 				}
 			});
+			return response;
 		} catch (e) {
 			return {};
 		}
@@ -975,7 +980,7 @@
 	const sipOrderPostFunction = async (transactionRefNumber = '', emandateId = '') => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/sips`;
 		try {
-			return useFetch(url, {
+			const response = await useFetch(url, {
 				method: 'POST',
 				body: JSON.stringify({
 					emandateId,
@@ -995,6 +1000,7 @@
 					'X-Source': source || 'diy'
 				}
 			});
+			return response;
 		} catch (e) {
 			return {};
 		}
@@ -1033,7 +1039,7 @@
 	const initiateUPIPayment = async () => {
 		try {
 			const url = `${PUBLIC_PAYMENT_BASE_URL}/upi-initiate-payment`;
-			return useFetch(url, {
+			const response = await useFetch(url, {
 				method: 'POST',
 				body: JSON.stringify({
 					amount: stringToFloat(amount),
@@ -1053,6 +1059,7 @@
 					'X-Source': source || 'diy'
 				}
 			});
+			return response;
 		} catch (e) {
 			return {};
 		}
@@ -1061,7 +1068,7 @@
 	const initiateWalletPayment = async (name: string) => {
 		try {
 			const url = `${PUBLIC_PAYMENT_BASE_URL}/upi-initiate-payment`;
-			return useFetch(url, {
+			const response = await useFetch(url, {
 				method: 'POST',
 				body: JSON.stringify({
 					amount: stringToFloat(amount),
@@ -1081,6 +1088,7 @@
 					'X-Source': source || 'diy'
 				}
 			});
+			return response;
 		} catch (e) {
 			return {};
 		}

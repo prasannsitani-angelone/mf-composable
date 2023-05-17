@@ -37,7 +37,7 @@ module.exports = {
 					tinted: '#E0F7F5',
 					DEFAULT: '#E4F8F6',
 					lite: '#E4F6F5',
-					amount: '008F75'
+					amount: '#008F75'
 				},
 				red: {
 					sell: '#F65E5A',

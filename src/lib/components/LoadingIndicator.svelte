@@ -2,7 +2,7 @@
 	export let svgClass = '';
 </script>
 
-<div role="status">
+<div role="status" class={$$props.class}>
 	<svg
 		aria-hidden="true"
 		class={`mr-2 h-8 w-8 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600 ${svgClass}`}

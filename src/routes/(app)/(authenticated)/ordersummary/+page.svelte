@@ -23,6 +23,8 @@
 		sipScreenOpenAnalytics
 	} from './analytics';
 	import { base } from '$app/paths';
+	import LoadingIndicator from '$components/LoadingIndicator.svelte';
+	import { invalidate } from '$app/navigation';
 	export let data: PageData;
 
 	const params = $page.url.searchParams.get('params') || '';
@@ -42,6 +44,10 @@
 			lumpsumGoTODashBoardButtonAnalytics();
 		}
 		goto(`${base}/investments`);
+	};
+
+	const onRefresh = async () => {
+		invalidate('app:ordersummary');
 	};
 
 	const navigateToEmandate = () => {
@@ -105,9 +111,9 @@
 	});
 </script>
 
-<article class="flex h-full flex-col">
+<article class="flex h-full flex-col justify-center">
 	{#await data.api.data}
-		Loading...
+		<LoadingIndicator svgClass="!w-12 !h-12" class="self-center" />
 	{:then orderSummaryData}
 		{#if orderSummaryData.ok}
 			<div class="flex h-full flex-col overflow-hidden">
@@ -199,8 +205,52 @@
 					<AutopaySetupTile clazz="mt-2 sm:hidden" onSubmit={navigateToEmandate} />
 				{/if}
 			</div>
+		{:else}
+			<div class="flex h-full flex-col items-center self-center px-4 py-4">
+				<div class="mb-4 text-center text-base font-medium text-black-title">
+					We are facing some issue at our end. Please try again or contact field support
+				</div>
+				<Button variant="transparent" class="mt-6 w-max self-center" onClick={onRefresh}>
+					REFRESH
+				</Button>
+				<Button
+					variant="transparent"
+					class="mt-6 w-max self-center sm:hidden"
+					onClick={navigateToOrders}
+				>
+					GO TO ORDERS
+				</Button>
+				<Button
+					variant="transparent"
+					class="mt-6 hidden w-max self-center sm:flex"
+					onClick={navigateToDashboard}
+				>
+					GO TO DASHBOARD
+				</Button>
+			</div>
 		{/if}
 	{:catch}
-		Error
+		<div class="flex h-full flex-col items-center self-center px-4 py-4">
+			<div class="mb-4 text-center text-base font-medium text-black-title">
+				We are facing some issue at our end. Please try again or contact field support
+			</div>
+			<Button variant="transparent" class="mt-6 w-max self-center" onClick={onRefresh}>
+				REFRESH
+			</Button>
+			<Button
+				variant="transparent"
+				class="mt-6 w-max self-center sm:hidden"
+				onClick={navigateToOrders}
+			>
+				GO TO ORDERS
+			</Button>
+			<Button
+				variant="transparent"
+				class="mt-6 hidden w-max self-center sm:flex"
+				onClick={navigateToDashboard}
+			>
+				GO TO DASHBOARD
+			</Button>
+		</div>
 	{/await}
 </article>

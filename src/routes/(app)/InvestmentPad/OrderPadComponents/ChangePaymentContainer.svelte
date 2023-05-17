@@ -38,6 +38,7 @@
 				{amount}
 				{schemeName}
 				{onBackClick}
+				clazz="shadow-csm"
 			/>
 			<PaymentMethod
 				paymentModes={Object.keys(PAYMENT_MODE)}
