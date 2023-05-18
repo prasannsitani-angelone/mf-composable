@@ -3,13 +3,18 @@ import type { LayoutData } from '../$types';
 import { browser } from '$app/environment';
 import { goto } from '$app/navigation';
 import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
+import logger from '$lib/utils/logger';
 
 export const load = (async ({ url, parent }) => {
 	const parentData = await parent();
-	console.log(parentData);
-	const currentPath = url?.href;
+	logger.debug({
+		type: 'Page Load Url',
+		params: {
+			response: url
+		}
+	});
 	if (!parentData?.tokenObj?.userToken?.NTAccessToken) {
-		const redirectPath = currentPath || '';
+		const redirectPath = `${url.protocol}//${url.host}${url.pathname}`;
 		if (redirectPath) {
 			const withRedirectParam = `${getNavigationBaseUrl(
 				'',
