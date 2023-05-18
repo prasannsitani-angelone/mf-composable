@@ -7,6 +7,7 @@
 	import { onMount } from 'svelte';
 	import Logger from '$lib/utils/logger';
 	import Default from '$lib/layouts/Default.svelte';
+	import LogoutPopup from '$components/Logout/LogoutPopup.svelte';
 	import TwoColumn from '$lib/layouts/TwoColumn.svelte';
 	import TwoColumnReverse from '$lib/layouts/TwoColumnReverse.svelte';
 	import TwoColumnRightLarge from '$lib/layouts/TwoColumnRightLarge.svelte';
@@ -23,6 +24,7 @@
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 	import { logout } from '$lib/utils/helpers/logout';
 	import { userStore } from '$lib/stores/UserStore';
+	import { logoutAttemptStore } from '$lib/stores/LogoutAttemptStore';
 
 	$: isModalOpen = $externalNavigation.active;
 	// Update store with Spark headers
@@ -135,4 +137,7 @@
 		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
 		buttonVariant="contained"
 	/>
+{/if}
+{#if $logoutAttemptStore.logoutAttempt}
+	<LogoutPopup />
 {/if}

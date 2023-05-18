@@ -21,10 +21,14 @@
 	import type { StoriesData, videoCtaUrls } from '$lib/types/IStories';
 	import { userStore } from '$lib/stores/UserStore';
 	import { profileStore } from '$lib/stores/ProfileStore';
+	import { appStore } from '$lib/stores/SparkStore';
+	import { logoutAttemptStore } from '$lib/stores/LogoutAttemptStore';
 	import StoriesComponent from '$components/Stories/StoriesComponent.svelte';
+	import Button from '$components/Button.svelte';
 
 	$: showPortfoliocard = true;
 	$: deviceType = $page.data.deviceType;
+	$: isGuest = $page.data.isGuest;
 	let sipPaymentNudges: ISip[] = [];
 	let retryPaymentNudges: IRetryPaymentNudge[] = [];
 	let formattedSipNudgeData: ISip;
@@ -313,5 +317,16 @@
 				<SipCard {sip} />
 			{/each}
 		{/if}
+	</article>
+{/if}
+{#if !appStore.isSparkUser() && deviceType?.isMobile && !isGuest}
+	<article class="flex justify-center">
+		<Button
+			variant="transparent"
+			class="mt-2 !w-min !bg-transparent !text-blue-primary"
+			onClick={logoutAttemptStore.showLogoutConfirmationPopup}
+		>
+			LOGOUT
+		</Button>
 	</article>
 {/if}

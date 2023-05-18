@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { base } from '$app/paths';
+	import { goto } from '$app/navigation';
 	import Link from '../Link.svelte';
 	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 	import { getContext } from 'svelte';
@@ -8,6 +9,46 @@
 	import { createEventDispatcher } from 'svelte';
 	import SearchComponent from '$lib/components/Search/SearchComponent.svelte';
 	import { OnNavigation } from '$lib/utils/navigation';
+	import { WMSIcon } from 'wms-ui-component';
+	import Overlay from '$components/Modal.svelte';
+	import Dropdown from '$components/Dropdown.svelte';
+	import { userActionStore } from '$lib/stores/UserActionStore';
+	import { logoutAttemptStore } from '$lib/stores/LogoutAttemptStore';
+	import { reportsEntryDesktopAnalytics } from '$lib/analytics/reports/reports';
+
+	const onReportsButtonClick = () => {
+		userActionStore.hideUserActionDropDown();
+		reportsEntryDesktopAnalytics();
+		goto(`${base}/reports`);
+	};
+
+	const onLogoutButtonClick = () => {
+		userActionStore.hideUserActionDropDown();
+		logoutAttemptStore.showLogoutConfirmationPopup();
+	};
+
+	$: isGuest = $page.data?.isGuest;
+	$: userName = $page.data?.profile?.clientDetails?.fullName || '';
+
+	$: actionItemList = [
+		{
+			title: userName,
+			action: () => undefined,
+			icon: 'profile-icon'
+		},
+		{
+			title: 'Reports',
+			action: onReportsButtonClick,
+			icon: 'reports-icon',
+			class: 'cursor-pointer'
+		},
+		{
+			title: 'Logout',
+			action: onLogoutButtonClick,
+			icon: 'logout-icon',
+			class: 'cursor-pointer'
+		}
+	];
 
 	const logoUrl = `${base}/images/AngelOneLogo.webp`;
 	const activePageTabClass =
@@ -59,5 +100,24 @@
 		<div class="w-full md:w-2/5">
 			<SearchComponent on:searchFocus={handleSearchFocusEvent} />
 		</div>
+		{#if !isGuest}
+			<div class="relative">
+				<WMSIcon
+					name="profile-icon"
+					height={36}
+					width={36}
+					class="cursor-pointer"
+					on:click={userActionStore.showUserActionDropDown}
+				/>
+				{#if $userActionStore.userActionVisible}
+					<div>
+						<Overlay closeModal={userActionStore.hideUserActionDropDown} isModalOpen />
+						<div class="absolute right-0 z-100">
+							<Dropdown class="absolute right-0 top-16 z-60" list={actionItemList} />
+						</div>
+					</div>
+				{/if}
+			</div>
+		{/if}
 	</article>
 </section>
