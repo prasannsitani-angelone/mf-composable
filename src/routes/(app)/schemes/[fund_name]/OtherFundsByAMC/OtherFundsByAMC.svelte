@@ -79,7 +79,7 @@
 							class="flex cursor-pointer justify-end !pl-0 !pr-0 text-left sm:!pl-5 sm:!pr-5 sm:text-center"
 						>
 							<Button
-								class="flex items-center bg-white !pl-0 align-middle !font-normal !text-blue-primary hover:bg-white sm:pl-5 sm:!pr-0"
+								class="flex items-center bg-white !pl-0 align-middle !text-xs !font-normal !text-blue-primary hover:bg-white sm:pl-5 sm:!pr-0"
 								onClick={sortTable}
 							>
 								<span class="mr-1">{currentYearFilter.label}</span>

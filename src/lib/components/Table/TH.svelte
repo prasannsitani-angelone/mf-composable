@@ -30,7 +30,7 @@
 		<Button
 			size="xs"
 			variant="transparent"
-			class={`!m-auto flex items-center !p-0 !text-xs !font-medium text-grey-body ${
+			class={`!m-auto flex items-center !p-0 !text-xs !font-medium !text-blue-primary ${
 				wrapperClass || ''
 			}`}
 			onClick={initiateSort}

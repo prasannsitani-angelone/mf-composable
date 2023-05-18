@@ -73,7 +73,7 @@
 				<Th class="text-center opacity-0 sm:opacity-100">ARQ Rating</Th>
 				<Th class="cursor-pointer !pl-0 text-left sm:!pl-5 sm:text-center">
 					<Button
-						class="flex items-center bg-white !pl-0 align-middle !font-normal !text-blue-primary hover:bg-white sm:pl-5"
+						class="flex items-center bg-white !pl-0 align-middle !text-xs !font-normal !text-blue-primary hover:bg-white sm:pl-5"
 						onClick={sortTable}
 					>
 						<span class="mr-1">{currentYearFilter.label}</span>

@@ -74,7 +74,7 @@
 			<Th wrapperClass="justify-center">Current NAV</Th>
 			<Th wrapperClass="justify-center">Min SIP Investments</Th>
 		{:else}
-			<Th class="!p-0 !pr-1 text-center" sortable isHorizontalSort={true} on:initSort={sortTable}
+			<Th class="!p-0 !pr-1 text-center  " sortable isHorizontalSort={true} on:initSort={sortTable}
 				>{currentYearFilter.label}</Th
 			>
 		{/if}
