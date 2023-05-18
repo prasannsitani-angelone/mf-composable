@@ -1280,7 +1280,6 @@
 				orderPostResponse.data
 			);
 			handleOrderPatchResponse(orderPatchResponse);
-			stopLoading();
 			navigateToLumpsumCompletePage(orderPostResponse.data?.data?.orderId);
 		} catch (e) {
 			stopLoading();
@@ -1325,7 +1324,6 @@
 				orderPostResponse.data
 			);
 			handleOrderPatchResponse(orderPatchResponse);
-			stopLoading();
 			navigateToSipCompletePage(
 				orderPostResponse.data?.data?.orderId,
 				orderPostResponse.data?.data?.sipId
@@ -1385,7 +1383,6 @@
 				orderPostResponse.data
 			);
 			handleOrderPatchResponse(orderPatchResponse);
-			stopLoading();
 			navigateToLumpsumCompletePage(orderPostResponse.data?.data?.orderId);
 		} catch (e) {
 			stopLoading();
@@ -1446,7 +1443,6 @@
 				orderPostResponse.data
 			);
 			handleOrderPatchResponse(orderPatchResponse);
-			stopLoading();
 			navigateToSipCompletePage(
 				orderPostResponse.data?.data?.orderId,
 				orderPostResponse.data?.data?.sipId
@@ -1499,7 +1495,6 @@
 				orderPostResponse.data
 			);
 			handleOrderPatchResponse(orderPatchResponse);
-			stopLoading();
 			navigateToLumpsumCompletePage(orderPostResponse.data?.data?.orderId);
 		} catch (e) {
 			stopLoading();
@@ -1553,7 +1548,6 @@
 				orderPostResponse.data
 			);
 			handleOrderPatchResponse(orderPatchResponse);
-			stopLoading();
 			navigateToSipCompletePage(
 				orderPostResponse.data?.data?.orderId,
 				orderPostResponse.data?.data?.sipId
