@@ -5,23 +5,22 @@
 	import type { Report } from '$lib/types/IReports';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 
+	import { reportsCardClickAnalytics } from '$lib/analytics/reports/reports';
+
 	const dispatch = createEventDispatcher();
 
 	export let selectedReport: Report;
 	export let reportItemList: Report[] = [];
 
-	//TODO: Analytics
-	// const reportsCardAnalytics = (reportTitle: string): void => {
-	//TODO: Analytics
-	// const eventMetaData = {
-	//   Report: reportTitle
-	// }
-	// reportsCardClickAnalytics(eventMetaData)
-	// };
+	const reportsCardAnalytics = (reportTitle: string): void => {
+		const eventMetaData = {
+			Report: reportTitle
+		};
+		reportsCardClickAnalytics(eventMetaData);
+	};
 
 	const selectReport = (item: Report) => {
-		//TODO: Analytics
-		// reportsCardAnalytics(item.title)
+		reportsCardAnalytics(item.title);
 		dispatch('onSelect', { ...item });
 	};
 </script>

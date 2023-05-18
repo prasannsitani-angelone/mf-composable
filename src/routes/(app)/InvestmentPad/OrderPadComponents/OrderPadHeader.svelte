@@ -2,7 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import Button from '$components/Button.svelte';
 	import ThreeVerticalDotsIcon from '$lib/images/icons/ThreeVerticalDotsIcon.svelte';
-	import { investmentDetailsFooterEvents } from '../../investments/[investment]/constants';
+	import { investmentDetailsFooterEvents } from '../../(authenticated)/investments/[investment]/constants';
 	import { page } from '$app/stores';
 
 	$: deviceType = $page?.data?.deviceType;

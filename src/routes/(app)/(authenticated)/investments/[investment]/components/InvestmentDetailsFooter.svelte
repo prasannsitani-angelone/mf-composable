@@ -5,7 +5,7 @@
 	import ThreeVerticalDotsIcon from '$lib/images/icons/ThreeVerticalDotsIcon.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { investmentDetailsFooterEvents } from '../constants';
-	import { orderpadParentPage } from '../../../InvestmentPad/constants';
+	import { orderpadParentPage } from '../../../../InvestmentPad/constants';
 	import FooterErrorMessage from './FooterErrorMessage.svelte';
 
 	const dispatch = createEventDispatcher();

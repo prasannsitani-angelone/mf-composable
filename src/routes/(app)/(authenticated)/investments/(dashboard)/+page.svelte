@@ -11,7 +11,7 @@
 	import InvestmentDashboardLoader from './Loaders/InvestmentDashboardLoader.svelte';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 
-	import TrendingFunds from '../../discoverfunds/TrendingFunds/TrendingFunds.svelte';
+	import TrendingFunds from '../../../discoverfunds/TrendingFunds/TrendingFunds.svelte';
 	import type { PageData } from './$types';
 	import type { ITab } from '$lib/types/ITab';
 

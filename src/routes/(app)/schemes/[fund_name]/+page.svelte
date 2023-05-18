@@ -12,7 +12,7 @@
 	import ReturnEstimator from './ReturnEstimator/ReturnEstimator.svelte';
 	import InvestmentPad from '../../InvestmentPad/InvestmentPad.svelte';
 	import { orderpadParentPage } from '../../InvestmentPad/constants';
-	import InvestmentDetailsFooter from '../../investments/[investment]/components/InvestmentDetailsFooter.svelte';
+	import InvestmentDetailsFooter from '../../(authenticated)/investments/[investment]/components/InvestmentDetailsFooter.svelte';
 	import { afterUpdate } from 'svelte';
 	import { decodeToObject, getQueryParamsObj } from '$lib/utils/helpers/params';
 	import type { OrderPadTypes, decodedParamsTypes } from '$lib/types/IOrderPad';
