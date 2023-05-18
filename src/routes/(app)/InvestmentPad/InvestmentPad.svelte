@@ -65,6 +65,7 @@
 		changePaymentMethodScreenImpressionAnalytics
 	} from './analytics/orderpad';
 	import { getNavigationV1Url } from '$lib/utils/helpers/navigation';
+	import { debounce } from '$lib/utils/helpers/debounce';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -87,6 +88,8 @@
 		sipDueDate,
 		source
 	} = params || {};
+
+	const os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
 
 	const sipPrefillAmount = 100;
 	const lumpsumPrefillAmount = 100;
@@ -307,6 +310,18 @@
 		amount = formatAmount(inputValue); // trim, remove alphabets and remove leading zeroes
 
 		setErrorMessage();
+	};
+
+	const removeAmountInputFocus = () => {
+		const amountInputElement = document?.getElementById('amountInput');
+		amountInputElement?.blur();
+	};
+
+	const handleAmountInputBlur = () => {
+		if (isMobile && os === 'Android') {
+			const debouncedRemoveAmountInputFocus = debounce(removeAmountInputFocus, 250);
+			debouncedRemoveAmountInputFocus();
+		}
 	};
 
 	$: onInputChange(amount); // for on-screen numpad amount input
@@ -806,7 +821,6 @@
 			paymentHandler.upiId = data?.upiId;
 			paymentHandler.selectedAccount = index;
 			const paymentMode = data?.paymentMode;
-			const os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
 			if (
 				(paymentMode === 'GOOGLEPAY' || paymentMode === 'PHONEPE') &&
 				os !== 'Android' &&
@@ -1701,6 +1715,7 @@
 								value={amountVal}
 								class="w-full bg-white text-base font-medium leading-none text-black-title outline-none"
 								on:input={onInputChange}
+								on:focus={handleAmountInputBlur}
 							/>
 						</button>
 					</article>

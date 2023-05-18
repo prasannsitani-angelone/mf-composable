@@ -38,7 +38,7 @@
 			{#if parentPage === orderpadParentPage?.INVESTMENT}
 				<Button
 					class={`w-32 rounded !bg-white ${
-						redemptionDisableText?.length ? '!text-grey-medium' : ''
+						redemptionDisableText?.length ? '!border-grey-line !text-grey-medium' : ''
 					}`}
 					disabled={!redemptionAllowed}
 					variant="outlined"

@@ -362,7 +362,7 @@
 					<!-- Story footer section -->
 					<section class="flex h-1/6 flex-col items-center justify-center bg-black">
 						{#if isMobile}
-							<WMSIcon width={14} height={8} name="swipe-up" />
+							<WMSIcon width={14} height={8} name="swipe-up" class="mb-3" />
 						{/if}
 
 						<Button

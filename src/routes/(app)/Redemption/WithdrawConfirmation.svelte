@@ -407,7 +407,7 @@
 	{/if}
 
 	<!-- TPIN Verification Process -->
-	{#if showTpinVerificationModal}
+	{#if showTpinVerificationModal && !error?.visible}
 		<TpinVerification
 			{uuid}
 			folio={folioData}
@@ -431,7 +431,7 @@
 	{/if}
 
 	<!-- 2FA (OTP) Verification Process -->
-	{#if showOtpVerificationModal}
+	{#if showOtpVerificationModal && !error?.visible}
 		<OtpVerification
 			{uuid}
 			folio={folioData}

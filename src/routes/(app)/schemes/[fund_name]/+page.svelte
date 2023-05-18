@@ -22,6 +22,7 @@
 	import FundDetailsLoader from './FundDetailsLoader/FundDetailsLoader.svelte';
 	import OrderpadLoader from './FundDetailsLoader/OrderpadLoader.svelte';
 	import { mobileSchemeDetailsPageInvestButtonClickAnalytics } from './analytics';
+	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 
 	export let data: PageData;
 
@@ -63,10 +64,22 @@
 		};
 
 		mobileSchemeDetailsPageInvestButtonClickAnalytics(eventMetaData);
-		const currentPath = window?.location?.pathname;
-		const redirectPath = `${currentPath}?orderpad=INVEST`;
 
-		goto(redirectPath);
+		if (data?.isGuest) {
+			const pageData = $page?.data;
+			const redirectPath = `${getNavigationBaseUrl(
+				'',
+				pageData?.scheme,
+				pageData?.host
+			)}/login?redirect=${window?.location?.href}`;
+
+			goto(redirectPath);
+		} else {
+			const currentPath = window?.location?.pathname;
+			const redirectPath = `${currentPath}?orderpad=INVEST`;
+
+			goto(redirectPath);
+		}
 	};
 
 	const setQueryParamsData = () => {
@@ -131,7 +144,6 @@
 				class="block md:hidden"
 				schemeData={schemedata}
 				{previousPaymentDetails}
-				fromInvestmentDetailsPage
 				params={orderpadParams}
 			/>
 		{/await}
@@ -146,7 +158,6 @@
 				class="sticky -top-2 mt-[52px] hidden md:block"
 				schemeData={schemedata}
 				{previousPaymentDetails}
-				fromInvestmentDetailsPage
 				params={orderpadParams}
 			/>
 		{/await}
