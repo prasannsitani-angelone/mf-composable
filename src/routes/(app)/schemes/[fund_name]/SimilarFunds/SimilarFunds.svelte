@@ -50,7 +50,7 @@
 	export { similarFunds };
 </script>
 
-<article class="mt-4 max-w-4xl rounded-lg bg-white pb-4 text-sm shadow-csm">
+<article class="mt-4 max-w-4xl rounded-lg bg-white text-sm shadow-csm">
 	<header class="border border-b border-grey-line">
 		<section
 			class="flex cursor-pointer items-center justify-between p-4 text-lg hover:text-blue-800 md:px-6 md:py-5"
@@ -69,11 +69,11 @@
 	<section>
 		<Table>
 			<THead slot="thead">
-				<Th class="text-star w-3/5  sm:w-2/3">Funds</Th>
+				<Th class="text-star w-6/12  !normal-case  sm:w-2/3">Funds</Th>
 				<Th class="text-center opacity-0 sm:opacity-100">ARQ Rating</Th>
 				<Th class="cursor-pointer !pl-0 text-left sm:!pl-5 sm:text-center">
 					<Button
-						class="flex items-center bg-white !pl-0 align-middle !text-grey-body hover:bg-white sm:pl-5"
+						class="flex items-center bg-white !pl-0 align-middle !font-normal !text-blue-primary hover:bg-white sm:pl-5"
 						onClick={sortTable}
 					>
 						<span class="mr-1">{currentYearFilter.label}</span>
@@ -93,7 +93,7 @@
 							onTableRowSelect(funds);
 						}}
 					>
-						<Td class=""
+						<Td class="!pr-0"
 							><a
 								class="block w-full overflow-hidden text-ellipsis whitespace-pre-wrap"
 								href={normalizeFundName(funds.schemeName, funds.isin, funds.schemeCode)}
@@ -103,7 +103,7 @@
 						<Td class="border-none">
 							<ChipArqRating arqRating={funds.arqRating} />
 						</Td>
-						<Td class="text-center"><span>{funds[currentYearFilter.field]}</span></Td>
+						<Td class="text-center"><span>{funds[currentYearFilter.field]}%</span></Td>
 					</Tr>
 				{/each}
 			</TBody>

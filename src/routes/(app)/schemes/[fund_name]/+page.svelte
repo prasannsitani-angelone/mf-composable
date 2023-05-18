@@ -94,7 +94,7 @@
 {:then schemedata}
 	<!-- Left Side -->
 	{#if !isMobile || !showInvestmentPad}
-		<article class="">
+		<article class="pb-16">
 			<Breadcrumbs
 				items={getSchemeDetailsBreadCrumbs(schemedata)}
 				class="my-4 hidden items-center justify-start md:flex"

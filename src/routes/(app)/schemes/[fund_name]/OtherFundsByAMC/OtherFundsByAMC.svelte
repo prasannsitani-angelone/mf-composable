@@ -54,7 +54,7 @@
 	export { sameAmcScheme };
 </script>
 
-<article class="mt-4 max-w-4xl rounded-lg bg-white pb-4 text-sm shadow-csm">
+<article class="mt-4 max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:pb-4">
 	<header class="">
 		<section
 			class="flex cursor-pointer items-center justify-between p-4 text-lg hover:text-blue-800 md:px-6 md:py-5"
@@ -74,12 +74,12 @@
 			<Table>
 				<THead slot="thead">
 					<tr class="border-x border-t border-x-grey-line">
-						<Th class="text-star w-2/3  sm:w-4/5">Funds</Th>
+						<Th class="text-star w-2/3  !normal-case sm:w-4/5">Funds</Th>
 						<Th
 							class="flex cursor-pointer justify-end !pl-0 !pr-0 text-left sm:!pl-5 sm:!pr-5 sm:text-center"
 						>
 							<Button
-								class="flex items-center bg-white !pl-0 align-middle !text-grey-body hover:bg-white sm:pl-5 sm:!pr-0"
+								class="flex items-center bg-white !pl-0 align-middle !font-normal !text-blue-primary hover:bg-white sm:pl-5 sm:!pr-0"
 								onClick={sortTable}
 							>
 								<span class="mr-1">{currentYearFilter.label}</span>
@@ -129,7 +129,7 @@
 									</div>
 								</Link>
 							</Td>
-							<Td class="!pr-2 sm:!pr-5"
+							<Td class="!pr-2 !pl-0 sm:!pr-5"
 								><div class="flex items-end justify-end">
 									<span>{schemes[currentYearFilter.field]} %</span>
 									<RightArrow />
