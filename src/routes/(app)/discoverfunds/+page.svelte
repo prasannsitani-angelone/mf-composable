@@ -320,7 +320,7 @@
 	</article>
 {/if}
 {#if !appStore.isSparkUser() && deviceType?.isMobile && !isGuest}
-	<article class="flex justify-center">
+	<article class="flex justify-center sm:hidden">
 		<Button
 			variant="transparent"
 			class="mt-2 !w-min !bg-transparent !text-blue-primary"
