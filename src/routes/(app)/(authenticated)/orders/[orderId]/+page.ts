@@ -292,14 +292,14 @@ export const load = (async ({ fetch, params }) => {
 							ORDER_DATA.ORDER_DATE,
 							ORDER_DATA.BANK_DETAILS,
 							ORDER_DATA.ORDER_ID,
-							ORDER_DATA.STAMP_DUTY,
-							ORDER_DATA.UNITS
+							ORDER_DATA.STAMP_DUTY
 						];
 						if (orderStatus !== ORDER_STATUS.ORDER_COMPLETE) {
 							filter.push(ORDER_DATA.EXPECTED_NAV_DATE);
 						}
 						if (orderStatus == ORDER_STATUS.ORDER_COMPLETE) {
 							filter.push(ORDER_DATA.NAV_DATE);
+							filter.push(ORDER_DATA.UNITS);
 						}
 						statusItems = filterObject(statusItems, filter);
 					}
@@ -378,7 +378,7 @@ export const load = (async ({ fetch, params }) => {
 				((isInvestmentSipOrXsip && firstOrder?.toUpperCase() === 'N') || lumpsumMandateOrder)
 			) {
 				Object.keys(statusItems)?.forEach((key) => {
-					if (key === ORDER_DATA.ORDER_ID) {
+					if (key === ORDER_DATA.ORDER_ID && !bankAcc?.length) {
 						statusItems[key].value = Math?.abs(orderId)?.toString();
 					}
 					if (key === ORDER_DATA.BANK_DETAILS && !bankAcc?.length) {
