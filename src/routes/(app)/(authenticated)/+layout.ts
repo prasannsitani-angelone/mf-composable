@@ -7,14 +7,19 @@ import logger from '$lib/utils/logger';
 
 export const load = (async ({ url, parent }) => {
 	const parentData = await parent();
+	const { pathname } = url;
 	logger.debug({
 		type: 'Page Load Url',
 		params: {
-			response: url
+			response: {
+				scheme: parentData.scheme,
+				host: parentData.host,
+				pathname
+			}
 		}
 	});
 	if (!parentData?.tokenObj?.userToken?.NTAccessToken) {
-		const redirectPath = `${url.protocol}//${url.host}${url.pathname}`;
+		const redirectPath = `${parentData.scheme}://${parentData.host}${pathname}`;
 		if (redirectPath) {
 			const withRedirectParam = `${getNavigationBaseUrl(
 				'',
