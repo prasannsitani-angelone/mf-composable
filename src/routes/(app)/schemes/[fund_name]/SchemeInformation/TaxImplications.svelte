@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ScissorsIcon from '$lib/images/icons/ScissorsIcon.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	import { WMSIcon } from 'wms-ui-component';
 
 	let schemeDetails: SchemeDetails;
 	const taxImplications = schemeDetails.taxImplications || [];
@@ -15,6 +16,37 @@
 
 		<h3 class="ml-4 text-lg font-medium text-black-title">Tax Implications</h3>
 	</header>
+	<article class="hidden sm:flex">
+		<div class="relative mr-3 w-full rounded border border-grey-line py-4 pl-5 font-medium">
+			<h4 class="text-sm text-grey-body">
+				{taxImplications[0]?.header}
+			</h4>
+			<h5 class="text-sm text-black-title">
+				{taxImplications[0]?.value}
+			</h5>
+			<div
+				class="absolute right-0 top-1/2 h-4 w-4 translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-green-buy"
+			/>
+		</div>
+
+		<div class="mr-3 flex items-center justify-center">
+			<WMSIcon name="polygon-right-small" class="mr-1" />
+			<WMSIcon name="polygon-right-medium" class="mr-1" />
+			<WMSIcon name="polygon-right-small" />
+		</div>
+		<div class="relative w-full rounded border border-grey-line py-4 pl-5 font-medium">
+			<h4 class="text-sm text-grey-body">
+				{taxImplications[1]?.header}
+			</h4>
+			<h5 class="text-sm text-black-title">
+				{taxImplications[1]?.value}
+			</h5>
+			<div
+				class="absolute left-0 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-green-buy"
+			/>
+		</div>
+	</article>
+
 	<article class="relative left-0 top-0 flex flex-col gap-6 sm:hidden">
 		<div class="relative flex">
 			<div class="h-4 w-4 rounded-full border-4 border-green-buy" />

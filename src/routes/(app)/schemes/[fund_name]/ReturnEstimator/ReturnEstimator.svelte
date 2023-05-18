@@ -4,10 +4,11 @@
 	import ReturnEstimatorIcon from '$lib/images/icons/ReturnEstimatorIcon.svelte';
 	import Slider from '@bulatdashiev/svelte-slider';
 	import { calculateReturnsAmount, calculateReturnsduration } from '../analytics';
+	import { WMSIcon } from 'wms-ui-component';
 
 	let returns3yr: number;
 	let categoryName: string;
-	$: currentCalculatorMode = 'SIP';
+	$: currentCalculatorMode = 'SIP' as 'SIP' | 'OneTime';
 	$: yearsReturnSlider = currentCalculatorMode ? [5, 30] : [5, 30];
 	$: yearsReturnSlider, onYearChange();
 
@@ -108,14 +109,16 @@
 				>
 				<Button
 					variant={`${currentCalculatorMode === 'OneTime' ? 'contained' : 'outlined'}`}
-					class={` flex-grow basis-0 rounded !py-0 !text-sm !font-medium uppercase `}
+					class="flex-grow basis-0 rounded !py-0 !text-sm !font-medium !uppercase"
 					onClick={() => changeCalculatorMode('OneTime')}>One-Time</Button
 				>
 			</div>
 			<div class="mt-11">
 				<div class="mb-5 flex justify-between">
-					<span class="flex items-center justify-center text-xs font-normal text-black-title">
-						Select Amount
+					<span
+						class="flex items-center justify-center text-xs font-normal text-black-title md:text-sm md:font-medium md:text-grey-body"
+					>
+						{currentCalculatorMode === 'SIP' ? 'Monthly Investment' : 'Select Amount'}
 					</span>
 					<div
 						class="flex border-b border-t-0 border-l-0 border-r-0 border-grey-disabled text-2xl font-medium text-black-title"
@@ -143,8 +146,10 @@
 			</div>
 			<div class="mt-11">
 				<div class="mb-5 flex justify-between">
-					<span class="flex items-center justify-center text-xs font-normal text-black-title">
-						Select Duration
+					<span
+						class="flex items-center justify-center text-xs font-normal text-black-title md:text-sm md:font-medium md:text-grey-body"
+					>
+						Time Period
 					</span>
 					<div
 						class="border-b border-t-0 border-l-0 border-r-0 border-grey-disabled text-2xl font-medium text-black-title"
@@ -168,16 +173,15 @@
 				</div>
 			</div>
 			<div
-				class="mt-6 mb-9 flex h-9 justify-center rounded bg-grey align-middle text-base text-grey-body"
+				class="mt-6 mb-9 flex h-9 justify-center rounded bg-grey align-middle font-normal text-grey-body"
 			>
-				<span class="text-xs leading-9"
-					><span> When you invest </span><span class="font-bold text-black-title">
-						₹<span>{amountReturnSlider[0]}</span></span
-					>
+				<span class="flex items-center gap-1 text-xs leading-9 md:text-sm">
+					<span> When you invest </span>
+					<span class="font-bold text-black-title"> ₹<span>{amountReturnSlider[0]}</span></span>
 					{#if currentCalculatorMode === 'SIP'}
-						<span> every month for the next </span>
+						<span> monthly for </span>
 					{:else}
-						<span>hold it for</span>
+						<span>and hold it for</span>
 					{/if}
 					<span class="font-bold text-black-title">{yearsReturnSlider[0]} year<span>s</span></span
 					></span
@@ -205,18 +209,25 @@
 						<div class="h-2.5 rounded-r-full bg-green-buy" style={`width: ${capitalGainSlider}%`} />
 					</div>
 				</div>
+
 				<div class="flex justify-center bg-green-buy/[0.12] py-3">
+					{#if matuarityAmount() > 0}
+						<WMSIcon name="sparkles" />
+					{/if}
 					<div
 						class="mr-2 flex h-9 w-9 items-center justify-center rounded-full bg-green-buy sm:h-12 sm:w-12"
 					>
 						<CalenderIcon />
 					</div>
 					<div>
-						<div class="text-sm font-normal text-grey-body">Maturity Amount</div>
+						<div class="text-sm font-normal text-grey-body">Total Value</div>
 						<div class="text-2xl font-medium text-black-title">
 							₹<span>{matuarityAmount()}</span>
 						</div>
 					</div>
+					{#if matuarityAmount() > 0}
+						<WMSIcon name="sparkles" />
+					{/if}
 				</div>
 			</div>
 		</div>

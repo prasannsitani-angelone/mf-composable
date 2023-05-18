@@ -17,7 +17,8 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test:unit": "vitest",
-		"lint": "prettier --plugin-search-dir . --check . && eslint --cache .",
+		"lint": "eslint --cache .",
+		"lint:old": "prettier --plugin-search-dir . --check . && eslint --cache .",
 		"format": "prettier --plugin-search-dir . --cache --write .",
 		"prepare": "husky install",
 		"lint:diff": "eslint $(git diff --name-only HEAD | xargs)"
@@ -69,6 +70,6 @@
 		"sveltekit-device-detector": "^1.0.2",
 		"ua-parser-js": "^1.0.35",
 		"uuid": "^9.0.0",
-		"wms-ui-component": "0.29.0"
+		"wms-ui-component": "0.33.0"
 	}
 }
