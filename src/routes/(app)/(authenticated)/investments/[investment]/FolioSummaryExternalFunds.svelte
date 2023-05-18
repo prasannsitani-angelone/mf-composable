@@ -1,10 +1,12 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { WMSIcon } from 'wms-ui-component';
 	import { createEventDispatcher } from 'svelte';
 	import Card from '$components/Card.svelte';
 	import FolioHeadExternalInvestments from './components/FolioHeadExternalInvestments.svelte';
 	import FolioDistributionExternalFunds from './components/FolioDistributionExternalFunds.svelte';
 	import type { FolioHoldingType, DistributorListEntity } from '$lib/types/IInvestments';
+	import { investmentDetailsExternalFolioSection } from '../analytics';
 
 	const dispatch = createEventDispatcher();
 
@@ -33,6 +35,14 @@
 			dispatch('viewHideAllFolioClicked');
 		}
 	};
+
+	onMount(() => {
+		const metaData = {
+			Units: folioDetails?.totalUnitsAllocated,
+			'Current Nav': folioDetails?.currentNav
+		};
+		investmentDetailsExternalFolioSection(metaData);
+	});
 </script>
 
 <Card class="mt-2 !p-0 lg:mt-4">

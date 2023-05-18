@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Button from '$components/Button.svelte';
+	import { tefResendOtpClickAnalytics } from '../../analytics';
 
 	export let value = '';
 	export let errorMsg = '';
@@ -73,6 +74,7 @@
 		countDisplayNum = resendCountdown;
 		onResendClick();
 		clearExistingOtpParams();
+		tefResendOtpClickAnalytics();
 	};
 
 	const setPreselctedValue = (pastedValue: string) => {

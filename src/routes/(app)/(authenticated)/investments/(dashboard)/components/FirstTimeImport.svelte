@@ -1,7 +1,13 @@
 <script lang="ts">
 	import Button from '$components/Button.svelte';
+	import { trackExternalInvestmentsClickAnalytics } from '../../analytics';
 	import FirstTimeImportSVG from '$lib/images/FirstTimeImport.svg';
 	export let onConfirmation = () => '';
+
+	const onConfirmationClick = () => {
+		onConfirmation();
+		trackExternalInvestmentsClickAnalytics();
+	};
 </script>
 
 <section class="rounded-lg bg-white px-4 py-5 sm:py-14">
@@ -16,7 +22,7 @@
 			loading="lazy"
 			alt="Illustration shoeing first time import"
 		/>
-		<Button class="mt-8 w-full px-2 text-sm" onClick={onConfirmation}
+		<Button class="mt-8 w-full px-2 text-sm" onClick={onConfirmationClick}
 			>TRACK EXTERNAL INVESTMENTS</Button
 		>
 

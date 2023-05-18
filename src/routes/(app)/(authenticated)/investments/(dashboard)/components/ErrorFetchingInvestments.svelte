@@ -2,6 +2,12 @@
 	import ErrorFetchingData from '$lib/images/ErrorFetchingData.svg';
 	import Button from '$components/Button.svelte';
 	export let onConfirmation = () => '';
+	import { tefTryAgainClickAnlytics } from '../../analytics';
+
+	const onConfirmationClick = () => {
+		onConfirmation();
+		tefTryAgainClickAnlytics({ message: 'Import Funds Failed' });
+	};
 </script>
 
 <section class="rounded-lg bg-white px-4 py-6 text-center max-sm:shadow-csm sm:py-7">
@@ -18,6 +24,6 @@
 		<div class="mb-6 text-sm text-grey-body">
 			We could not fetch your investment information due to a technical error. Please try again
 		</div>
-		<Button variant="outlined" class="w-40" onClick={onConfirmation}>TRY AGAIN</Button>
+		<Button variant="outlined" class="w-40" onClick={onConfirmationClick}>TRY AGAIN</Button>
 	</div>
 </section>

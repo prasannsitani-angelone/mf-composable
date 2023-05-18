@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Modal from '$components/Modal.svelte';
+	import { onMount } from 'svelte';
 	import { WMSIcon } from 'wms-ui-component';
 	import Button from '$components/Button.svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
@@ -9,6 +10,13 @@
 	import Otp from './Otp.svelte';
 	import LoadingIndicator from '$components/LoadingIndicator.svelte';
 	import { getMaskedMobileNumber } from '$lib/utils/helpers/masked';
+	import {
+		tefVerifyOtpClickAnalytics,
+		tefVerifyOtpScreenAnalytics,
+		tefGenerateOtpClickAnalytics,
+		tefGenerateOtpScreenAnalytics,
+		investmentExternalRefreshGotToInvestmentAnalytics
+	} from '../../analytics';
 
 	export let step: string;
 	export let flow: string;
@@ -58,6 +66,7 @@
 			errorMsg = res.data?.message || '';
 			errorCode = res.data?.errorCode;
 		}
+		tefGenerateOtpClickAnalytics();
 	};
 
 	$: isVerifyDisabled = () => {
@@ -100,16 +109,34 @@
 
 			// Update the investments in background on successful otp validation
 			onfetchFundsSuccess();
+			tefVerifyOtpClickAnalytics({
+				Status: 'Success'
+			});
 		} else {
 			errorMsg = res.data?.message || '';
 			errorCode = res.data?.errorCode;
+			tefVerifyOtpClickAnalytics({ Status: 'Failure', Message: errorMsg });
 		}
 		loading = false;
+	};
+
+	const goToInvestmentClick = () => {
+		onModalClick();
+		investmentExternalRefreshGotToInvestmentAnalytics();
+	};
+
+	const stepIsValidate = () => {
+		tefVerifyOtpScreenAnalytics();
+		return true;
 	};
 
 	$: {
 		otpValueChanged(enteredOtp);
 	}
+
+	onMount(() => {
+		tefGenerateOtpScreenAnalytics();
+	});
 </script>
 
 <Modal closeModal={onModalClick} isModalOpen>
@@ -136,7 +163,7 @@
 					GENERATE OTP</Button
 				>
 			</div>
-		{:else if step === 'VALIDATE'}
+		{:else if step === 'VALIDATE' && stepIsValidate()}
 			<!-- Render Validate OTP contents -->
 			<div class="flex items-center justify-between p-0 sm:border-b sm:py-6 sm:px-8">
 				<div class="mr-1 text-lg font-medium">Verify OTP</div>
@@ -191,7 +218,7 @@
 						will notify you once your portfolio has been updated
 					</div>
 				{/if}
-				<Button class="w-full sm:w-48" onClick={onModalClick}>GO TO INVESTMENTS</Button>
+				<Button class="w-full sm:w-48" onClick={goToInvestmentClick}>GO TO INVESTMENTS</Button>
 			</div>
 		{/if}
 	</div>

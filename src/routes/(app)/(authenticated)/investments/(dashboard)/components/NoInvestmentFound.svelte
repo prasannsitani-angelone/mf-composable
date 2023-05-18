@@ -2,10 +2,16 @@
 	import NoInvestments from '$lib/images/NoInvestments.svg';
 	import Button from '$components/Button.svelte';
 	import { getMaskedMobileNumber } from '$lib/utils/helpers/masked';
+	import { tefTryAgainClickAnlytics } from '../../analytics';
 	import type { PageData } from '../$types';
 
 	export let data: PageData;
 	export let onConfirmation = () => '';
+
+	const onConfirmationClick = () => {
+		onConfirmation();
+		tefTryAgainClickAnlytics({ message: 'No investments found' });
+	};
 </script>
 
 <section class="rounded-lg bg-white px-4 py-6 text-center max-sm:shadow-csm sm:py-7">
@@ -22,6 +28,6 @@
 				>PAN {getMaskedMobileNumber(data.profile.pan)}</span
 			>
 		</div>
-		<Button class="w-40" variant="outlined" onClick={onConfirmation}>TRY AGAIN</Button>
+		<Button class="w-40" variant="outlined" onClick={onConfirmationClick}>TRY AGAIN</Button>
 	</div>
 </section>

@@ -15,6 +15,7 @@
 	import { partialImportCheck } from '../utils';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
+	import { investmentRowClickAnalytics } from '../analytics';
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 	$: isExternal = $page?.data?.isExternal;
@@ -37,6 +38,10 @@
 
 	const handleRowClick = (selectedRow: InvestmentEntity) => {
 		const dParam = `${isExternal ? '/external' : ''}`;
+		if (isExternal) {
+			const meteData = { FundName: selectedRow.schemeName, CurrentValue: selectedRow.currentValue };
+			investmentRowClickAnalytics(meteData);
+		}
 		try {
 			goto(
 				`./investments/${

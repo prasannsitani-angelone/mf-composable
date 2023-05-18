@@ -14,6 +14,7 @@
 	import TrendingFunds from '../../../discoverfunds/TrendingFunds/TrendingFunds.svelte';
 	import type { PageData } from './$types';
 	import type { ITab } from '$lib/types/ITab';
+	import { angeloneTabClickedAnalytics } from '../analytics';
 
 	export let data: PageData;
 
@@ -24,7 +25,10 @@
 	const tabs: ITab[] = [
 		{
 			name: 'Angel One',
-			onClick: () => goto('./investments')
+			onClick: () => {
+				angeloneTabClickedAnalytics();
+				goto('./investments');
+			}
 		},
 		{
 			name: 'All',

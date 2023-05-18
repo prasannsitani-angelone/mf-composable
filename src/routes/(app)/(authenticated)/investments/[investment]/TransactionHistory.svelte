@@ -4,6 +4,7 @@
 	import type { OrdersEntity } from '$lib/types/IInvestments';
 	import { page } from '$app/stores';
 	import { WMSIcon } from 'wms-ui-component';
+	import { investmentDetailsExternalFolioSectionCtaClick } from '../analytics';
 
 	export let transactionList: OrdersEntity[] = [];
 
@@ -19,6 +20,9 @@
 			modifiedTransactionList = transactionList || [];
 		} else {
 			modifiedTransactionList = transactionList?.slice(0, tableListThreshold) || [];
+		}
+		if (isExternal) {
+			investmentDetailsExternalFolioSectionCtaClick({ data: transactionList });
 		}
 	};
 	$: isExternal = $page?.data?.isExternal;

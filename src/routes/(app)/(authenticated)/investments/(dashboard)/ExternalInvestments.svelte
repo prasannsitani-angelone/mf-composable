@@ -17,6 +17,12 @@
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import { getTimestampHoursDifference } from '$lib/utils/helpers/date';
+	import {
+		investmentExternalRefreshFlowAnalytics,
+		investmentExternalPartialImportScreenOpenAnalytics,
+		allTabScreenOpenAnalytics,
+		allTabClickedAnalytics
+	} from '../analytics';
 
 	import type { PageData } from './$types';
 	import type {
@@ -60,15 +66,18 @@
 			// INITIATE FIRST TIME IMPORT (TRACK EXTERNAL FUNDS FLOW)
 			return 'firstTimeImport';
 		} else if (summary?.lastImportStatus === 'FAILED' && summary?.investedValue === 0) {
+			allTabClickedAnalytics({ Status: 'Failure', message: 'Import Funds Failed' });
 			// ERROR FETCHING YOUR INVESTMENTS
 			return 'errorFetchingInvestments';
 		} else if (
 			(summary?.lastImportStatus === 'STARTED' || summary?.lastImportStatus === 'PENDING') &&
 			summary?.investedValue === 0
 		) {
+			allTabClickedAnalytics({ Status: 'Success', message: 'Fetching External Investments' });
 			// FETCHING IN PROGRESS
 			return 'FetchingInprogress';
 		} else if (summary?.lastImportStatus === 'COMPLETED' && summary?.investedValue === 0) {
+			allTabClickedAnalytics({ Status: 'Success', message: 'No investments found' });
 			//NO INVESTMENT FOUND
 			return 'noInvestmentFound';
 		} else {
@@ -76,7 +85,7 @@
 		}
 	};
 
-	const setSuccessScenarioParams = (data: InvestmentEntity[]) => {
+	const setSuccessScenarioParams = (data: InvestmentEntity[], summaryData: InvestmentSummary) => {
 		const partialImports =
 			(Array.isArray(data) &&
 				data.filter((fund) => {
@@ -86,6 +95,31 @@
 		partialImportedFundCount = partialImports.length;
 		totalImportedFundCount = data.length;
 		isPartialImport = isExternal && partialImports.length > 0;
+		if (isPartialImport) {
+			const metaData = {
+				Status: 'yes',
+				Message:
+					'Total Invested and Current Value may not include some of your investments due to a technical issue'
+			};
+			investmentExternalPartialImportScreenOpenAnalytics(metaData);
+		}
+		const metaData = {
+			TotalInvested: summaryData?.investedValue,
+			'Current Value': summaryData?.currentValue,
+			TotalFunds: !isPartialImport
+				? totalImportedFundCount
+				: `${totalImportedFundCount - partialImportedFundCount}/${totalImportedFundCount}`,
+			'Total Returns': summaryData?.returnsAbsolutePer,
+			Refresh: `Last refreshed on ${new Date(
+				summaryData?.lastSuccessfullImportTs
+			).toLocaleDateString('en-GB', {
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric'
+			})}`
+		};
+		allTabScreenOpenAnalytics(metaData);
+
 		return true;
 	};
 
@@ -158,6 +192,7 @@
 	};
 
 	const updatePageData = async () => {
+		investmentExternalRefreshFlowAnalytics({ Status: 'Success' });
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings?external=true`;
 		const summary = useFetch(url + '&summary=true', {}, fetch);
 		const holdings = useFetch(url, {}, fetch);
@@ -220,7 +255,7 @@
 		</section>
 		{#await externalInvestmentHoldings then res}
 			<!-- Render Success scenario - partial/ full success  -->
-			{#if setSuccessScenarioParams(res.data?.holdings || [])}
+			{#if setSuccessScenarioParams(res.data?.holdings || [], response.data?.summary)}
 				<section class="col-span-1 sm:col-span-1 sm:col-start-1">
 					{#if res.status === 'success'}<YourInvestments
 							tableData={res.data?.holdings || []}

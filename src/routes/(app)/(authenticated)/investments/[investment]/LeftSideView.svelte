@@ -18,7 +18,8 @@
 	import {
 		fundCardClickAnalytics,
 		hideAllFoliosAnalytics,
-		investmentDetailsScreenOpenAnalytics
+		investmentDetailsScreenOpenAnalytics,
+		investmentDetailsExternalScreenOpenAnalytics
 	} from '../analytics';
 
 	export let holdings: FolioHoldingType;
@@ -101,9 +102,27 @@
 		investmentDetailsScreenOpenAnalytics(eventMetaData);
 	};
 
+	const investmentDetailsExternalScreenOpenAnalyticsFunc = () => {
+		const meteData = {
+			FundName: holdings?.schemeName,
+			Total_invested: parseFloat(holdings?.investedValue?.toFixed(2) || '0.00'),
+			current_value: parseFloat(holdings?.currentValue?.toFixed(2) || '0.00'),
+			Total_Returns: parseFloat(holdings?.returnsValue?.toFixed(2) || '0.00'),
+			GraphSatus: chartData.chart?.length > 0 ? 'Visble' : 'Not Visible',
+			Message:
+				chartData.chart?.length === 0
+					? 'Generating your investment value graph. This can take up to 24 hours'
+					: ''
+		};
+		investmentDetailsExternalScreenOpenAnalytics(meteData);
+	};
+
 	onMount(() => {
 		setFolioArrayAnalytics();
 		investmentDetailsScreenOpenAnalyticsFunc();
+		if (isExternal) {
+			investmentDetailsExternalScreenOpenAnalyticsFunc();
+		}
 	});
 </script>
 
