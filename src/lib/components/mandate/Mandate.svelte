@@ -226,20 +226,27 @@
 		if (!emandateWindow || (emandateWindow && emandateWindow.closed)) {
 			stopLoading();
 			displayError({
-				heading: 'Autopay Setup Failed',
+				heading: 'AutoPay Setup Failed',
 				errorSubHeading:
-					'You have cancelled the eMandate request for Autopay. Please try again or use another authorisation mode'
+					'You have cancelled the request for AutoPay. Please try again.'
 			});
 			throw new Error('');
 		} else if (!response?.ok) {
 			closeEmandateWindow();
 			stopLoading();
-			displayError({
-				heading: 'Autopay Setup Failed',
-				errorSubHeading:
-					response?.data?.message ||
-					'Failed to set up an e-mandate autopay request. Please try again'
-			});
+			if(response?.data?.error_code === "ERROR-API-MANDATE-NOT-SUPPORTED"){
+				displayError({
+					heading: 'AutoPay Currently Unavailable',
+					errorSubHeading: 'AutoPay is temporarily unavailable. Please try again later from the SIPs section.'
+				});
+			} else {
+				displayError({
+					heading: 'AutoPay Setup Failed',
+					errorSubHeading:
+						response?.data?.message ||
+						'Failed to set up an AutoPay request. Please try again.'
+				});
+			}
 			throw new Error('');
 		}
 	};
