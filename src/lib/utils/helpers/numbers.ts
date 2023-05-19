@@ -5,3 +5,11 @@ export const stringToFloat = (val: string): number => {
 		return NaN;
 	}
 };
+
+export const stringToInteger = (val: string): number => {
+	try {
+		return parseInt(val);
+	} catch (err) {
+		return NaN;
+	}
+};
