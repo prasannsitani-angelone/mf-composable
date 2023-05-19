@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { appStore } from '$lib/stores/SparkStore';
+	import { compareVersion } from '$lib/utils/helpers';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import Button from '$components/Button.svelte';
 	import type { FinancialYear, ReportDownloadArgs } from '$lib/types/IReports';
@@ -21,13 +22,17 @@
 	const dispatch = createEventDispatcher();
 
 	let isDownloadEnabled = true;
+	const iOSVersionCompatible = '14.5';
 
 	$: isDownloadEnabled = (() => {
 		return (
 			// iOS 14.5 and above
-			!appStore.isSparkIOSUser() &&
+			!(
+				appStore.isSparkIOSUser() &&
+				!compareVersion($page?.data?.deviceType?.osVersion, iOSVersionCompatible)
+			) &&
 			// android webview
-			!(appStore.isSparkAndroidUser() && appStore.isWebView())
+			$page?.data?.deviceType?.os !== 'Android'
 		);
 	})();
 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 	import { onMount } from 'svelte';
 	import { appStore } from '$lib/stores/SparkStore';
+	import { compareVersion } from '$lib/utils/helpers';
 	import type { ReportDownloadArgs } from '$lib/types/IReports';
 	import { reportType, reportMode } from '$lib/types/IReports';
 	import Modal from '$components/Modal.svelte';
@@ -38,13 +39,17 @@
 	};
 
 	let isDownloadEnabled = true;
+	const iOSVersionCompatible = '14.5';
 
 	$: isDownloadEnabled = (() => {
 		return (
 			// iOS 14.5 and above
-			!appStore.isSparkIOSUser() &&
+			!(
+				appStore.isSparkIOSUser() &&
+				!compareVersion($page?.data?.deviceType?.osVersion, iOSVersionCompatible)
+			) &&
 			// android webview
-			!(appStore.isSparkAndroidUser() && appStore.isWebView())
+			$page?.data?.deviceType?.os !== 'Android'
 		);
 	})();
 

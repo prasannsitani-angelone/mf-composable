@@ -69,7 +69,7 @@
 				selected={selectedFyear}
 				reportType={reportType.elss}
 				fileName="ELSS_Report"
-				fileExtension="selectedReport?.fileExtension"
+				fileExtension={selectedReport?.fileExtension}
 				on:backdropClick={backdropClick}
 				on:onSubmit={downloadReport}
 			>
