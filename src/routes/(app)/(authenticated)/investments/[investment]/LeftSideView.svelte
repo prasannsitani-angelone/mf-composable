@@ -26,6 +26,7 @@
 	export let chartData: ChartData;
 	export let ordersData: OrdersData;
 	export let schemeDetails: SchemeDetails;
+	export let isRedemptionNotAllowed = false;
 
 	const userType = $page.data?.profile?.userType || '';
 	$: isExternal = $page?.data?.isExternal;
@@ -173,7 +174,6 @@
 	{/if}
 	<TransactionHistory
 		transactionList={ordersData.orders}
-		class={isInvestmentNotAllowed ? 'mb-36' : 'mb-16'}
+		class={isInvestmentNotAllowed || isRedemptionNotAllowed ? 'mb-48' : 'mb-16'}
 	/>
-	<!-- TODO: Add the complete class condition for TransactionHistory - (isInvestmentNotAllowed || withdrawDisableText?.length) && 'mb-36' -->
 </section>

@@ -250,6 +250,7 @@
 					chartData={res.chartData}
 					ordersData={res.ordersData}
 					schemeDetails={res.schemeData}
+					isRedemptionNotAllowed={Boolean(withdrawDisableText?.length)}
 				/>
 
 				{#if res.holdingsData}
