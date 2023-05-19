@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AmountText from './../../../../../lib/components/AmountText.svelte';
 	import Button from '$components/Button.svelte';
 	import CalenderIcon from '$lib/images/icons/CalenderIcon.svelte';
 	import ReturnEstimatorIcon from '$lib/images/icons/ReturnEstimatorIcon.svelte';
@@ -123,8 +124,7 @@
 					<div
 						class="flex border-b border-t-0 border-l-0 border-r-0 border-grey-disabled text-2xl font-medium text-black-title"
 					>
-						₹
-						<div>{amountReturnSlider[0]}</div>
+						<AmountText amount={amountReturnSlider[0]} />
 					</div>
 				</div>
 				<div class="slider">
@@ -177,7 +177,9 @@
 			>
 				<span class="flex items-center gap-1 text-xs leading-9 md:text-sm">
 					<span> When you invest </span>
-					<span class="font-bold text-black-title"> ₹<span>{amountReturnSlider[0]}</span></span>
+					<span class="font-bold text-black-title"
+						><AmountText amount={amountReturnSlider[0]} />
+					</span>
 					{#if currentCalculatorMode === 'SIP'}
 						<span> monthly for </span>
 					{:else}
@@ -192,13 +194,15 @@
 					<div class="mb-3 flex justify-between text-sm font-medium text-grey-body">
 						<div>
 							<p>Your Investment</p>
-							<p class="text-xl text-black-title">₹<span>{totalInvestment}</span></p>
+							<p class="text-xl text-black-title">
+								<AmountText amount={totalInvestment} />
+							</p>
 						</div>
 						<div>
 							<p class="text-right">Gain</p>
 							<div class="flex items-center justify-center">
 								<p class="text-green-buy">{gainLossPercentage?.toFixed(2)}%</p>
-								<p class="ml-1 text-xl text-black-title">₹<span>{capitalGain}</span></p>
+								<p class="ml-1 text-xl text-black-title"><AmountText amount={capitalGain} /></p>
 							</div>
 						</div>
 					</div>
@@ -222,7 +226,7 @@
 					<div>
 						<div class="text-sm font-normal text-grey-body">Total Value</div>
 						<div class="text-2xl font-medium text-black-title">
-							₹<span>{matuarityAmount()}</span>
+							<AmountText amount={matuarityAmount()} />
 						</div>
 					</div>
 					{#if matuarityAmount() > 0}

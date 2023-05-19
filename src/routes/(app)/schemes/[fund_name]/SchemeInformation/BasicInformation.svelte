@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AmountText from '$components/AmountText.svelte';
 	import ExitLoadIcon from '$lib/images/icons/ExitLoadIcon.svelte';
 
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
@@ -20,7 +21,7 @@
 				₹
 			</div>
 			<h3 class="mb-1 text-xs font-medium text-grey-body">Asset Under Management</h3>
-			<h4><span>₹</span> <span>{schemeDetails?.aum}</span> <span>Cr.</span></h4>
+			<h4><AmountText amount={schemeDetails?.aum} /> <span>Cr.</span></h4>
 		</article>
 	</section>
 	<!-- Expense Ratio  -->

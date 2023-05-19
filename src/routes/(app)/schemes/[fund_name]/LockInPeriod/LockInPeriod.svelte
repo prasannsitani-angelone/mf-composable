@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AmountText from '$components/AmountText.svelte';
 	import LockInIcon from '$lib/images/icons/LockInIcon.svelte';
 	import MinLumpSumIcon from '$lib/images/icons/MinLumpSumIcon.svelte';
 	import PiggyBankIcon from '$lib/images/icons/PiggyBankIcon.svelte';
@@ -19,7 +20,7 @@
 							<PiggyBankIcon class="h-9 w-9" />
 							<div class="ml-2">
 								<div class="text-base font-medium text-black-title sm:text-2xl">
-									₹{schemeDetails?.minSipAmount}
+									<AmountText amount={schemeDetails?.minSipAmount} />
 								</div>
 								<div class="text-xs font-medium text-grey-body sm:text-sm">
 									Minimum SIP investment
@@ -41,7 +42,7 @@
 							<MinLumpSumIcon class="h-9 w-9" />
 							<div class="ml-2">
 								<div class="text-base font-medium text-black-title sm:text-2xl">
-									₹{schemeDetails?.minLumpsumAmount}
+									<AmountText amount={schemeDetails?.minLumpsumAmount} />
 								</div>
 								<div class="text-xs font-medium text-grey-body sm:text-sm">
 									Minimum one time investment

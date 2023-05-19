@@ -1,4 +1,4 @@
-export const addCommasToAmountString = (amount: string) => {
+export const addCommasToAmountString = (amount: string | number) => {
 	let decimalValues = '';
 
 	if (typeof amount === 'number') {
