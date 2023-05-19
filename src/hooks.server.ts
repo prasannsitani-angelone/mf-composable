@@ -97,11 +97,11 @@ export const handle = sequence(deviceDetector, handler);
 
 export const handleError = (async ({ error, event }) => {
 	const errorId = crypto.randomUUID();
-
+	const errorStr = error?.stack?.toString() || error?.toString();
 	Logger.error({
 		type: 'Runtime Exception in server',
 		params: {
-			error,
+			error: errorStr,
 			errorId
 		}
 	});
