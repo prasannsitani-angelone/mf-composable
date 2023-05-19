@@ -3,7 +3,6 @@
 	import { appStore } from '$lib/stores/SparkStore';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import Button from '$components/Button.svelte';
-	import { compareVersion } from '$lib/utils/helpers';
 	import type { FinancialYear, ReportDownloadArgs } from '$lib/types/IReports';
 	import { reportMode } from '$lib/types/IReports';
 	import { createEventDispatcher } from 'svelte';
@@ -22,15 +21,11 @@
 	const dispatch = createEventDispatcher();
 
 	let isDownloadEnabled = true;
-	const iOSVersionCompatible = '14.5';
 
 	$: isDownloadEnabled = (() => {
 		return (
 			// iOS 14.5 and above
-			!(
-				appStore.isSparkIOSUser() &&
-				!compareVersion($appStore.deviceosversion, iOSVersionCompatible)
-			) &&
+			!appStore.isSparkIOSUser() &&
 			// android webview
 			!(appStore.isSparkAndroidUser() && appStore.isWebView())
 		);
@@ -82,12 +77,14 @@
 		<article class="flex items-center justify-between gap-3">
 			<Button
 				disabled={buttonDisabled}
-				variant="outlined"
+				variant={isDownloadEnabled ? 'outlined' : 'contained'}
 				class={`w-[49%] rounded ${
 					isDownloadEnabled && !buttonDisabled
 						? 'border border-blue-primary bg-white text-blue-primary'
 						: ''
-				} ${buttonDisabled ? 'border border-grey-disabled bg-white' : ''}`}
+				} ${buttonDisabled ? 'border border-grey-disabled bg-white' : ''} ${
+					!isDownloadEnabled ? 'flex-1' : ''
+				}`}
 				onClick={() => downloadReport({ type: reportType, mode: reportMode.email })}
 			>
 				<div
