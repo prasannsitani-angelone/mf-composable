@@ -1,5 +1,10 @@
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
-import { orderDetailsPageScreenOpenAnalytics } from '$lib/analytics/orders/orders';
+import {
+	orderDetailsPageCompletedOrdersScreenOpenAnalytics,
+	orderDetailsPageFailedOrdersScreenOpenAnalytics,
+	orderDetailsPageInProgressOrdersScreenOpenAnalytics,
+	orderDetailsPageScreenOpenAnalytics
+} from '$lib/analytics/orders/orders';
 import { NAV_DETAILS, NAV_DETAILS_WITHDRAWAL } from '$lib/constants/order';
 import ORDER_DATA from '$lib/constants/orderDataItems';
 import STATUS_ARR, { ORDER_STATUS } from '$lib/constants/orderFlowStatuses';
@@ -10,16 +15,15 @@ import type { ISip } from '$lib/types/ISipType';
 import { getDateTimeString } from '$lib/utils/helpers/date';
 import { hydrate } from '$lib/utils/helpers/hydrated';
 import { calculateTransactionCharges } from '$lib/utils/helpers/order';
-import { getExpectedNavDate, getTransactionDate } from '$lib/utils/helpers/order';
+import { getExpectedNavDate } from '$lib/utils/helpers/order';
 import isInvestmentAllowed from '$lib/utils/isInvestmentAllowed';
 import { useFetch } from '$lib/utils/useFetch';
 import { format } from 'date-fns';
 import type { StatusHistoryItem } from '../../ordersummary/type';
 import type { PageLoad } from './$types';
 import type { IStatusItem, IStatusObject } from './type';
-import { userStore } from '$lib/stores/UserStore';
 
-export const load = (async ({ fetch, params }) => {
+export const load = (async ({ fetch, params, parent }) => {
 	const ordersUrl = `${PUBLIC_MF_CORE_BASE_URL}/orders/${params?.orderId}`;
 	let ordersData: IOrderDetails;
 	let schemeDetails: SchemeDetails;
@@ -28,6 +32,7 @@ export const load = (async ({ fetch, params }) => {
 	let showStatusNote = false;
 	let showFooterButton = false;
 	let isOrderFailedAtExchange = false;
+	const { userDetails } = await parent();
 	const orderStatusItems: Array<StatusHistoryItem> = [];
 	let sipDetails: ISip;
 	let statusItems: IStatusObject = {
@@ -97,31 +102,29 @@ export const load = (async ({ fetch, params }) => {
 		return false;
 	};
 
-	const orderDetailsPageAnalytics = (
-		orderDetailsData: IOrderDetails,
-		isInvestmentSipOrXsip: boolean,
-		lumpsumMandateOrder: boolean
-	) => {
+	const orderDetailsPageAnalytics = (orderDetailsData: IOrderDetails) => {
 		const data = orderDetailsData;
 
 		if (!data) {
 			return;
 		}
-
+		const { status: orderStatus } = orderDetailsData;
+		const currentState = data?.statusHistory?.find((item) => item?.currentState);
 		const eventMetaData = {
 			FundName: data?.schemeName,
-			TransactionType: data?.transactionType,
-			InvestmentType: data?.investmentType,
+			Status: orderStatus,
+			OrderType: data?.investmentType,
 			Amount: data?.amount,
-			TransactionDate: getTransactionDate(data, isInvestmentSipOrXsip, lumpsumMandateOrder),
-			ExpectedNavDate: getExpectedNavDate(data),
-			PaymentMethod: data?.paymentMode,
-			OrderStatus: data?.remarks?.length
-				? data?.remarks
-				: data?.statusHistory?.find((item) => item?.currentState)?.description
+			EXNAVDATE: getExpectedNavDate(data),
+			Message: currentState?.message || currentState?.description
 		};
-
-		orderDetailsPageScreenOpenAnalytics(eventMetaData);
+		if (orderStatus === ORDER_STATUS.ORDER_COMPLETE) {
+			orderDetailsPageCompletedOrdersScreenOpenAnalytics(eventMetaData);
+		} else if (orderStatus === ORDER_STATUS.ORDER_REJECTED) {
+			orderDetailsPageFailedOrdersScreenOpenAnalytics(eventMetaData);
+		} else {
+			orderDetailsPageInProgressOrdersScreenOpenAnalytics(eventMetaData);
+		}
 	};
 
 	const filterObject = (items: IStatusObject, filters: string[]) => {
@@ -526,7 +529,7 @@ export const load = (async ({ fetch, params }) => {
 				isOrderFailedAtExchange;
 
 			showFooterButton =
-				isInvestmentAllowed(userStore.userType(), schemePlan) &&
+				isInvestmentAllowed(userDetails?.userType, schemePlan) &&
 				(transactionType === TRANSACTION_TYPE.PURCHASE ||
 					transactionType === TRANSACTION_TYPE.REDEEM) &&
 				orderStatus === ORDER_STATUS.ORDER_REJECTED &&

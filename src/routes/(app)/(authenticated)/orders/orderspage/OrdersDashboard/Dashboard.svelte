@@ -13,7 +13,12 @@
 	import { goto } from '$app/navigation';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
-	import { failedOrdersRetryCtaClickAnalytics } from '$lib/analytics/orders/orders';
+	import {
+		clickCompletedCheckboxAnalytics,
+		clickFailedCheckboxAnalytics,
+		clickInProgressCheckboxAnalytics,
+		failedOrdersRetryCtaClickAnalytics
+	} from '$lib/analytics/orders/orders';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
@@ -59,12 +64,15 @@
 		// const filters = e.detail;
 		if ($filterStore.completed) {
 			orders = [...orders, ...compeletedOrders];
+			clickCompletedCheckboxAnalytics();
 		}
 		if ($filterStore.inprogress) {
 			orders = [...orders, ...inProgressOrders];
+			clickInProgressCheckboxAnalytics();
 		}
 		if ($filterStore.failed) {
 			orders = [...orders, ...failedOrders];
+			clickFailedCheckboxAnalytics();
 		}
 		if (!$filterStore.completed && !$filterStore.failed && !$filterStore.inprogress) {
 			orders = [...compeletedOrders, ...failedOrders, ...inProgressOrders];

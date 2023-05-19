@@ -10,8 +10,10 @@
 	import type { IOrderDetails } from '$lib/types/IOrderDetails';
 	import {
 		placeNewOrderCtaClickAnalytics,
-		retryCtaClickAnalytics
+		retryPaymentClick,
+		retryWithdrawClick
 	} from '$lib/analytics/orders/orders';
+	import { ORDER_STATUS_MAP } from '$lib/constants/orderFlowStatuses';
 
 	let isOrderFailedAtExchange: boolean;
 	let schemeDetails: SchemeDetails;
@@ -22,12 +24,16 @@
 			placeNewOrderCtaClickAnalytics();
 		} else {
 			const eventMetaData = {
-				Message: 'Payment processing failed at Angel One'
+				Status: ORDER_STATUS_MAP[orderDetailsData?.status?.toUpperCase()] || 'In progress'
 			};
-
-			retryCtaClickAnalytics(eventMetaData);
+			if (orderDetailsData?.transactionType === TRANSACTION_TYPE.REDEEM) {
+				retryWithdrawClick(eventMetaData);
+			} else {
+				retryPaymentClick(eventMetaData);
+			}
 		}
 	};
+
 	const handleFooterCtaClick = () => {
 		orderDetailsFooterCtaAnalytics();
 		let reRouteUrl = 'schemes';

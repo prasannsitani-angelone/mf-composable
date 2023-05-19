@@ -36,6 +36,7 @@ export interface IOrderDetails {
 			failed: boolean;
 			status: string;
 			timeStamp: number;
+			message?: string;
 		}
 	];
 	subBrokerCode: string;
