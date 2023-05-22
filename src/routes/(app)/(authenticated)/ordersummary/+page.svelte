@@ -22,6 +22,7 @@
 	import Mandate from '$lib/components/mandate/Mandate.svelte';
 	import LoadingIndicator from '$components/LoadingIndicator.svelte';
 	import { invalidate } from '$app/navigation';
+	import { goTODashBoardButtonAnalytics } from '$components/mandate/analytics';
 	export let data: PageData;
 
 	const params = $page.url.searchParams.get('params') || '';
@@ -35,6 +36,11 @@
 		} else {
 			lumpsumGoTODashBoardButtonAnalytics();
 		}
+		await goto('orders/orderspage', { replaceState: true });
+	};
+
+	const navigateToOrdersByEmandate = async () => {
+		goTODashBoardButtonAnalytics();
 		await goto('orders/orderspage', { replaceState: true });
 	};
 
@@ -159,7 +165,7 @@
 				{amount}
 				{date}
 				successButtonTitle="GO TO ORDERS"
-				onSuccess={navigateToOrders}
+				onSuccess={navigateToOrdersByEmandate}
 			/>
 		{:else}
 			<div class="flex h-full flex-col items-center self-center px-4 py-4">

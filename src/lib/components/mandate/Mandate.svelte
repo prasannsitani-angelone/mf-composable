@@ -17,6 +17,16 @@
 	import { getCompleteSIPDateBasedonDD } from '$lib/utils/helpers/date';
 	import SuccessPopup from './components/SuccessPopup.svelte';
 	import { browser } from '$app/environment';
+	import {
+		screenOpenAnalytics,
+		accounChangeAnalytics,
+		emandateProceedButtonAnalytics,
+		netBankingPopupAnalytics,
+		emandateCreatedSuccessfullyAnalytics,
+		emandateCreatedSuccessDoneButtonAnalytics,
+		emandateCreateFailedAnalytics,
+		emandateCreateFailedDoneButtonAnalytics
+	} from './analytics';
 
 	export let sipID = '';
 	export let amount = '';
@@ -60,6 +70,7 @@
 	};
 
 	const closeErrorPopup = () => {
+		emandateCreateFailedDoneButtonAnalytics();
 		error.heading = '';
 		error.subHeading = '';
 		error.visible = false;
@@ -122,9 +133,9 @@
 					orderPurchaseBulkPatchFunc(emandateID);
 				}
 				isSuccess = true;
-				// emandateCreatedSuccessfullyAnalytics();
+				emandateCreatedSuccessfullyAnalytics();
 			} else if (event.data.status === 'failure') {
-				// emandateCreateFailedAnalytics();
+				emandateCreateFailedAnalytics();
 				stopLoading();
 				displayError({
 					heading: 'Autopay Setup Failed',
@@ -133,7 +144,7 @@
 						'We were unable to process your request due a technical issue. Please try again'
 				});
 			} else {
-				// emandateCreateFailedAnalytics();
+				emandateCreateFailedAnalytics();
 				stopLoading();
 				displayError({
 					heading: 'Autopay Setup Failed',
@@ -266,7 +277,13 @@
 
 	const startEmandateProcess = async () => {
 		try {
+			emandateProceedButtonAnalytics({
+				Amount: amount,
+				sipID,
+				date
+			});
 			openWindow();
+			netBankingPopupAnalytics();
 			isLoading = true;
 			const response = await callMandateAPI();
 			handleMandateResponse(response);
@@ -287,6 +304,7 @@
 	};
 
 	export const startProcess = () => {
+		screenOpenAnalytics();
 		if (profileData?.bankDetails.length > 1) {
 			toggleBankPopup();
 		} else {
@@ -294,8 +312,11 @@
 		}
 	};
 
-	const onAccountChange = (payload: number) => {
-		selectedAccount = payload;
+	const onAccountChange = (index: number) => {
+		accounChangeAnalytics({
+			BankAccount: profileData?.bankDetails?.[index]?.bankName
+		});
+		selectedAccount = index;
 		startEmandateProcess();
 	};
 </script>
@@ -329,7 +350,10 @@
 		<SuccessPopup
 			mandateLimit={getMandateAmount(amountInNumber)?.toString()}
 			buttonTitle={successButtonTitle}
-			onSubmit={onSuccess}
+			onSubmit={() => {
+				emandateCreatedSuccessDoneButtonAnalytics();
+				onSuccess();
+			}}
 		/>
 	{/if}
 </div>
