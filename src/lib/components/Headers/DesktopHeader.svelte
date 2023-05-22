@@ -65,6 +65,7 @@
 	const ordersTabClass = $page.url?.pathname?.includes('/orders/orderspage')
 		? activePageTabClass
 		: inactivePageTabClass;
+	const isFavouritesActive = $page.url?.pathname?.includes('/favourites');
 	const appContext: AppContext = getContext('app');
 	const dispatch = createEventDispatcher();
 	const handleSearchFocusEvent = (e: { detail: boolean }) => {
@@ -99,6 +100,15 @@
 		<div class="w-full md:w-2/5">
 			<SearchComponent on:searchFocus={handleSearchFocusEvent} />
 		</div>
+		<Link to="/favourites">
+			<div
+				class="flex h-9 w-9 items-center justify-center rounded-full {isFavouritesActive
+					? 'bg-blue-primary'
+					: 'bg-grey-light'}"
+			>
+				<WMSIcon name="bookmark" size="lg" mode={isFavouritesActive ? 'white' : 'blue'} />
+			</div>
+		</Link>
 		{#if !isGuest}
 			<div class="relative">
 				<WMSIcon

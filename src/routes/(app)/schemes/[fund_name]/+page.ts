@@ -29,7 +29,7 @@ export const load = (async ({ fetch, params }) => {
 			schemeData = res.data;
 		} else {
 			if (browser) {
-				goto(`${base}/schemes/error`);
+				goto(`${base}/schemes/error`, { replaceState: true });
 			} else {
 				throw redirect(302, `${base}/schemes/error`);
 			}

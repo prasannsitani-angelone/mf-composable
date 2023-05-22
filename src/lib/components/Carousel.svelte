@@ -6,7 +6,7 @@
 {#if browser}
 	<Carousel
 		arrows={false}
-		autoplay={true}
+		autoplay={false}
 		pauseOnFocus={true}
 		autoplayDuration={2000}
 		let:currentPageIndex

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AddToFavourites from '$components/AddToFavourites.svelte';
 	import Carousel from '$components/Carousel.svelte';
 	import SchemeCard from '$components/SchemeCard.svelte';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
@@ -19,6 +20,12 @@
 							src={schemes?.logoUrl}
 							alt={schemes?.schemeName}
 							class=" border-line-grey  absolute top-0  left-0 translate-x-1/2 -translate-y-1/2 justify-center bg-white"
+						/>
+						<AddToFavourites
+							class="absolute right-0 top-2"
+							isin={schemes?.isin}
+							schemeCode={schemes?.schemeCode}
+							isFavourite={schemes?.isFavourite}
 						/>
 						<div class="w-2/3 pt-5">
 							<SchemeCard {schemes} showLogo={false} />

@@ -15,7 +15,7 @@
 </script>
 
 <section
-	class="mt-2 flex h-[calc(100vh-180px)] flex-col items-center justify-center rounded-lg bg-white px-8 shadow-csm"
+	class="flex h-[calc(100vh-180px)] flex-col items-center rounded-lg bg-white px-8 pt-12 shadow-csm"
 >
 	<slot name="icon" />
 	<slot name="heading">

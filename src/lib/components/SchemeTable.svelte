@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
+	import AddToFavourites from '$components/AddToFavourites.svelte';
 	import SchemeCard from '$components/SchemeCard.svelte';
 	import TBody from '$components/Table/TBody.svelte';
 	import Td from '$components/Table/TD.svelte';
@@ -9,6 +10,7 @@
 	import THead from '$components/Table/THead.svelte';
 	import Tr from '$components/Table/TR.svelte';
 	import Table from '$components/Table/Table.svelte';
+	import type { ExploreFundsOptions } from '$lib/types/IExploreFunds';
 
 	import {
 		exploreMutualFundMap,
@@ -16,11 +18,13 @@
 		type TableColumnToggle
 	} from '$lib/utils';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
-	import type { ExploreFundsOptions } from '../../types';
-	import { fundCardClick } from '../analytics';
+	import { createEventDispatcher } from 'svelte';
 
+	let hideFavourites = false;
+	// eslint-disable-next-line
+	let toggleFavourites = (_: any) => {};
 	let searchOption: ExploreFundsOptions[];
-
+	const dispatch = createEventDispatcher();
 	const getNavDiffrence = (navValue = 0, previousNavValue = 0) => {
 		let navChange = parseFloat(
 			(((navValue - previousNavValue) / previousNavValue) * 100)?.toFixed(2)
@@ -49,7 +53,7 @@
 
 	const onTableRowSelect = (schemes: ExploreFundsOptions) => {
 		const replaceState = false;
-		fundCardClick({ 'Fund Name': `${schemes?.schemeName}(${schemes?.categoryName})` });
+		dispatch('fundRowClicked', { schemes });
 		goto(
 			`${base}/${normalizeFundName(
 				schemes?.schemeName,
@@ -61,11 +65,11 @@
 		);
 	};
 
-	export { searchOption };
+	export { searchOption, toggleFavourites, hideFavourites };
 </script>
 
-<Table>
-	<THead slot="thead" class="border-t border-grey-line">
+<Table class="overflow-hidden rounded-t {$$props.class}">
+	<THead slot="thead" class="rounded-t border-t border-grey-line">
 		<Th class=" w-8/12 !pr-0 sm:w-5/12">Funds</Th>
 		{#if $page?.data?.deviceType?.isBrowser}
 			<Th wrapperClass="justify-end sm:justify-center">3Y Return</Th>
@@ -83,7 +87,7 @@
 		{#each searchOption || [] as scheme}
 			{@const isNavTrendingUp = scheme?.navValue >= scheme?.previousNavValue}
 			<Tr
-				class="hover cursor-pointer"
+				class="cursor-pointer sm:hover"
 				on:click={() => {
 					onTableRowSelect(scheme);
 				}}
@@ -109,15 +113,43 @@
 							</span>
 						</div>
 					</Td>
-					<Td class="text-center">
-						₹{scheme?.minSipAmount}
+					<Td class="relative text-center">
+						<div class="absolute top-0 bottom-0 right-0 flex items-center justify-center sm:w-full">
+							<div class="flex items-center">
+								<span>₹{scheme?.minSipAmount}</span>
+							</div>
+							{#if !hideFavourites}
+								<AddToFavourites
+									class="mt-[2px] flex h-full items-center"
+									isin={scheme?.isin}
+									schemeCode={scheme?.schemeCode}
+									isFavourite={scheme?.isFavourite}
+									on:toggleFavourites={toggleFavourites}
+								/>
+							{/if}
+						</div>
 					</Td>
 				{:else}
-					<Td class="text-center"
-						>{`${currentYearFilter.prefix}${scheme[currentYearFilter.field]}${
-							currentYearFilter.suffix
-						}`}</Td
-					>
+					<Td class="relative !py-0 !pr-0">
+						<div class="absolute top-0 bottom-0 right-4 flex">
+							<div class="flex items-center">
+								<span
+									>{`${currentYearFilter.prefix}${scheme[currentYearFilter.field]}${
+										currentYearFilter.suffix
+									}`}</span
+								>
+							</div>
+							{#if !hideFavourites}
+								<AddToFavourites
+									class="mt-[2px] flex h-full items-center"
+									isin={scheme?.isin}
+									schemeCode={scheme?.schemeCode}
+									isFavourite={scheme?.isFavourite}
+									on:toggleFavourites={toggleFavourites}
+								/>
+							{/if}
+						</div>
+					</Td>
 				{/if}
 			</Tr>
 		{/each}

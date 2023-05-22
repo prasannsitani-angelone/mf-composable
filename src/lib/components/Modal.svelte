@@ -10,8 +10,9 @@
 	let preventBackDropClick = false;
 	$: deviceType = $page?.data?.deviceType;
 
-	const backDropClicked = () => {
-		dispatch('backdropclicked');
+	const backDropClicked = (event: Event) => {
+		event.stopPropagation();
+		dispatch('backdropclicked', event);
 		if (!preventBackDropClick) {
 			closeModal?.();
 		}

@@ -57,6 +57,9 @@ module.exports = {
 					primary: '#581DBE',
 					glow: '#EBE4F7',
 					background: '#E8EBFA'
+				},
+				tulip: {
+					DEFAULT: '#FF928E'
 				}
 			},
 			spacing: {

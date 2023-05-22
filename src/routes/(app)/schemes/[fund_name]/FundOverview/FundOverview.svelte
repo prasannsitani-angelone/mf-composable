@@ -1,8 +1,6 @@
 <script lang="ts">
-	import ChipArqRating from '$components/ChipArqRating.svelte';
 	import ChipOverview from '$components/ChipOverview.svelte';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
-	import ArqRatingIcon from '$lib/images/icons/ArqRatingIcon.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { formatDate } from '$lib/utils';
 	import { tags } from '$lib/constants/tags';
@@ -12,6 +10,7 @@
 	import RocketIcon from '$lib/images/icons/RocketIcon.svelte';
 	import { onMount } from 'svelte';
 	import { sFundDetails } from '../analytics';
+	import AddToFavourites from '$components/AddToFavourites.svelte';
 
 	let schemeDetails: SchemeDetails;
 	let selectedTag: Tags[];
@@ -101,10 +100,10 @@
 				</h1>
 			</div>
 			<div class="relative">
-				<ArqRatingIcon />
-				<ChipArqRating
-					class="  absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center !border-none !bg-transparent !p-0 !pt-2"
-					arqRating={schemeDetails?.arqRating}
+				<AddToFavourites
+					isin={schemeDetails?.isin}
+					schemeCode={schemeDetails?.schemeCode}
+					isFavourite={schemeDetails?.isFavourite}
 				/>
 			</div>
 		</div>

@@ -9,6 +9,7 @@
 	import { returnYearTableChangeColumn, yearlyReturnMap, type TableColumnToggle } from '$lib/utils';
 	import Td from '$components/Table/TD.svelte';
 	import Tr from '$components/Table/TR.svelte';
+	import AddToFavourites from '$components/AddToFavourites.svelte';
 	let tableData: Array<WeeklyTopSchemesEntity>;
 
 	let currentYearFilter: TableColumnToggle = {
@@ -37,7 +38,21 @@
 					<SchemeCard {schemes} />
 				</Td>
 				<Td class="text-center">{schemes[currentYearFilter.field]}%</Td>
-				<Td class="text-center">₹{schemes?.minSipAmount}</Td></Tr
+				<Td class="relative text-center">
+					<div class="absolute top-0 bottom-0 right-0 flex justify-end pr-3">
+						<div class="flex items-center">
+							<span>
+								₹{schemes?.minSipAmount}
+							</span>
+						</div>
+						<AddToFavourites
+							class="mt-[2px] flex h-full items-center"
+							isin={schemes?.isin}
+							schemeCode={schemes?.schemeCode}
+							isFavourite={schemes?.isFavourite}
+						/>
+					</div>
+				</Td></Tr
 			>
 		{/each}
 	</TBody>

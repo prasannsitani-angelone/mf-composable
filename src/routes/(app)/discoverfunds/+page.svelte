@@ -24,7 +24,9 @@
 	import { appStore } from '$lib/stores/SparkStore';
 	import { logoutAttemptStore } from '$lib/stores/LogoutAttemptStore';
 	import StoriesComponent from '$components/Stories/StoriesComponent.svelte';
+	import Link from '$components/Link.svelte';
 	import Button from '$components/Button.svelte';
+	import { WMSIcon } from 'wms-ui-component';
 
 	$: showPortfoliocard = true;
 	$: deviceType = $page.data.deviceType;
@@ -277,9 +279,53 @@
 	{#if deviceType?.isMobile && sipPaymentNudges?.length}
 		<SipCard sip={formattedSipNudgeData} sipCount={sipPaymentNudges?.length} />
 	{/if}
+
 	<article class="max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:mt-0">
 		<ExploreScheme searchOptions={data?.searchDashboardData?.searchOptions} />
 	</article>
+
+	<!-- External Funds, NFO, Calculator -->
+	<article class="mt-2 flex justify-between rounded bg-white px-4 py-6 shadow-csm">
+		<Link to="/investments?type=all">
+			<!-- <div class="mb-2 flex flex-col items-center relative">
+				<div class="h-9 w-9 rounded-full bg-[#F9BA4D]/[0.24] p-[6px]">
+					<WMSIcon name="import-external-funds"/>
+				</div>
+				<div class="text-title-black mt-1 text-base font-medium">External Funds</div>
+			</div> -->
+			<div class="mb-2 flex flex-col items-center">
+				<div class="relative flex h-9 w-9 items-center rounded-full bg-[#F9BA4D]/[0.24]">
+					<WMSIcon name="import-external-funds" />
+				</div>
+				<div class="text-title-black mt-1 text-base font-medium">External Funds</div>
+			</div>
+		</Link>
+		<Link to="/nfo">
+			<div class="mb-2 flex flex-col items-center">
+				<div class="relative h-9 w-9 rounded-full bg-[#E1D1FC] p-[6px]">
+					{#await data.streamed.nfo then nfo}
+						<div
+							class="absolute right-0 -top-1 h-3 w-3 rounded-full bg-blue-primary text-center text-[8px] text-white"
+						>
+							{nfo.length}
+						</div>
+					{/await}
+					<WMSIcon name="announcement" />
+				</div>
+				<div class="text-title-black mt-1 text-base font-medium">NFO</div>
+			</div>
+		</Link>
+		<Link to="/sip-calculator">
+			<div class="mb-2 flex flex-col items-center">
+				<div class="h-9 w-9 rounded-full bg-[#C9F3E1] p-[6px]">
+					<WMSIcon name="fund-calculator" />
+				</div>
+				<div class="text-title-black mt-1 text-base font-medium">SIP Calculator</div>
+			</div>
+		</Link>
+	</article>
+
+	<!-- Retry Payment Nudge -->
 	{#if retryPaymentNudges?.length}
 		<FailedOrdersNudge
 			order={formattedRetryPaymentNudgeData}

@@ -1,12 +1,12 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import SearchOptionTable from './SearchOptionTable/SearchOptionTable.svelte';
 	import TaxSavingModal from './TaxSavingModal/TaxSavingModal.svelte';
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
 	import SearchOptionHeader from './SearchOptionHeader/SearchOptionHeader.svelte';
 	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
 	import { onMount } from 'svelte';
-	import { sExploreMutualFunds, taxSavingInfo } from './analytics';
+	import { fundCardClick, sExploreMutualFunds, taxSavingInfo } from './analytics';
+	import SchemeTable from '$components/SchemeTable.svelte';
 	let data: PageData;
 	$: isModalOpen = false;
 	$: breadCrumbs = [
@@ -27,9 +27,15 @@
 		isModalOpen = isModalOpen ? false : true;
 	};
 
+	const fundRowClicked = (event) => {
+		const { schemes } = event.detail;
+		fundCardClick({ 'Fund Name': `${schemes?.schemeName}(${schemes?.categoryName})` });
+	};
+
 	onMount(() => {
 		sExploreMutualFunds();
 	});
+
 	export { data };
 </script>
 
@@ -47,7 +53,7 @@
 			{#await data?.api?.searchOption}
 				<TableSkeleton />
 			{:then searchOption}
-				<SearchOptionTable {searchOption} />
+				<SchemeTable {searchOption} on:fundRowClicked={fundRowClicked} />
 			{:catch error}
 				Error...
 			{/await}

@@ -72,6 +72,7 @@ export interface SchemeDetails {
 	maximumRedeemAmount: number;
 	taxImplications: TaxImplication[];
 	additionalPurchaseAmount: number;
+	isFavourite: boolean;
 }
 
 export interface SchemeHoldings {

@@ -4,6 +4,8 @@ import RupeeInCircleActiveIcon from '$lib/images/icons/RupeeInCircleActiveIcon.s
 import RupeeInCircleIcon from '$lib/images/icons/RupeeInCircleIcon.svelte';
 import OrdersBottomNavbarActiveIcon from '$lib/images/icons/OrdersBottomNavbarActiveIcon.svelte';
 import OrdersBottomNavbarInactiveIcon from '$lib/images/icons/OrdersBottomNavbarInactiveIcon.svelte';
+import BookmarkNav from '$lib/components/BookmarkNavItems/BookmarkNav.svelte';
+import BookmarkNavFilled from '$lib/components/BookmarkNavItems/BookmarkNavFilled.svelte';
 import { base } from '$app/paths';
 import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 
@@ -13,6 +15,13 @@ export const BOTTOM_NAVBARS = (scheme = '', host = '') => [
 		path: `${getNavigationBaseUrl(base, scheme, host)}/discoverfunds`,
 		icon: DiscoverIcon,
 		activeIcon: DiscoverActiveIcon
+	},
+	{
+		label: 'Favourites',
+		path: `${base}/favourites`,
+		icon: BookmarkNav,
+		activeIcon: BookmarkNavFilled,
+		isInternalNavigation: true
 	},
 	{
 		label: 'Investments',

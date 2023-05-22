@@ -1,14 +1,4 @@
-export interface DiscoverFund {
-	searchOptions?: SearchOptionsEntity[];
-	weeklyTopSchemes?: WeeklyTopSchemesEntity[] | null;
-	banner?: null;
-}
-export interface SearchOptionsEntity {
-	id: string;
-	name: string;
-	iconUrl: string;
-}
-export interface WeeklyTopSchemesEntity {
+export interface ExploreFundsOptions {
 	schemeCode: string;
 	isin: string;
 	schemeName: string;
@@ -29,5 +19,5 @@ export interface WeeklyTopSchemesEntity {
 	stpFlag: string;
 	switchFlag: string;
 	amcCode: number;
-	isFavourite: true;
+	isFavourite: boolean;
 }
