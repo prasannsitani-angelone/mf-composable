@@ -10,6 +10,7 @@
 	import Link from '$components/Link.svelte';
 	import InvestmentDashboardLoader from './Loaders/InvestmentDashboardLoader.svelte';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
+	import ErrorLoadingComponent from '$components/ErrorLoadingComponent.svelte';
 
 	import TrendingFunds from '../../../discoverfunds/TrendingFunds/TrendingFunds.svelte';
 	import type { PageData } from './$types';
@@ -87,7 +88,12 @@
 				{/if}
 			{/if}
 		{:catch error}
-			<div>Got An error!!!</div>
+			<div>
+				<ErrorLoadingComponent
+					title="Error Fetching Investments"
+					message="We could not fetch your investment list due to a technical error. Please try again"
+				/>
+			</div>
 		{/await}
 		{#if isMobile}
 			<ReportsSection />

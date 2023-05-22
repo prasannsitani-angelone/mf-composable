@@ -13,6 +13,7 @@
 	import type { PageData } from './$types';
 	import type { Tag, ChartDataType, DistributionType } from '$lib/types/IPortfolioDetails';
 	import type { FolioSummaryTypes } from '$lib/types/IInvestments';
+	import ErrorLoadingComponent from '$components/ErrorLoadingComponent.svelte';
 	import { portfolioAnalysisScreenOpenAnalytics, graphYearSelectAnalytics } from '../analytics';
 
 	const graphYearSelectAnalyticsFunc = (selectedTag) => {
@@ -132,5 +133,10 @@
 		</section>
 	{/if}
 {:catch error}
-	<div>Got An error!!!</div>
+	<div>
+		<ErrorLoadingComponent
+			title="Error Fetching Portfolio Data"
+			message="We could not fetch your portfolio due to a technical error. Please try again."
+		/>
+	</div>
 {/await}

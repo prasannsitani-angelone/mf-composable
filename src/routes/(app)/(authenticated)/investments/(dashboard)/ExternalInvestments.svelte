@@ -12,7 +12,7 @@
 	import FetchingInprogress from './components/FetchingInprogress.svelte';
 	import NoInvestmentFound from './components/NoInvestmentFound.svelte';
 	import FirstTimeInfoCard from './components/FirstTimeInfoCard.svelte';
-	import ErrorLoadingTableData from './components/ErrorLoadingTableData.svelte';
+	import ErrorLoadingComponent from '$components/ErrorLoadingComponent.svelte';
 	import { partialImportCheck } from '../utils';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
@@ -259,7 +259,10 @@
 				<section class="col-span-1 sm:col-span-1 sm:col-start-1">
 					{#if res.status === 'success'}<YourInvestments
 							tableData={res.data?.holdings || []}
-						/>{:else}<ErrorLoadingTableData />{/if}
+						/>{:else}<ErrorLoadingComponent
+							title="Error Fetching Investments"
+							message="We could not fetch your investment list due to a technical error. Please try again"
+						/>{/if}
 				</section>
 				<section
 					class="col-span-1 row-start-2 sm:col-span-1 sm:col-start-2 sm:row-span-3 sm:row-start-1"
@@ -273,7 +276,12 @@
 				</section>
 			{/if}
 		{:catch error}
-			<div>Got An error!!!</div>
+			<div>
+				<ErrorLoadingComponent
+					title="Error Fetching Investments"
+					message="We could not fetch your investment list due to a technical error. Please try again"
+				/>
+			</div>
 		{/await}
 	{/if}
 {/await}
