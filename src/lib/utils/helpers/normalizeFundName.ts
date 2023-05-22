@@ -18,3 +18,17 @@ export const normalizeFundName = (
 
 	return prefix ? `${prefix}/${url}` : url;
 };
+interface FundUrlDetails {
+	isin: string;
+	schemeCode: string;
+}
+
+export const getFundUrlDetails = (url: string): FundUrlDetails => {
+	if (!url || typeof url !== 'string') {
+		return { isin: '', schemeCode: '' };
+	}
+	const schemeMetadata = url?.split('-isin-')[1]?.toUpperCase();
+	const [isin = '', schemeCode = ''] = schemeMetadata?.split('-SCHEMECODE-') || [];
+
+	return { isin, schemeCode };
+};

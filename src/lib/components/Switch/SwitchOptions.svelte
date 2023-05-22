@@ -4,13 +4,10 @@
 	import { Button, WMSIcon } from 'wms-ui-component';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
-	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
-	import type { AppContext } from '$lib/types/IAppContext';
-	import { getContext } from 'svelte';
 	import type { FolioHoldingType } from '$lib/types/IInvestments';
+	import { base } from '$app/paths';
 	$: isMobile = $page.data.deviceType.isMobile;
 
-	const appContext: AppContext = getContext('app');
 	let schemeData: SchemeDetails;
 	let switchFlags: string;
 	let holdingDetails: FolioHoldingType;
@@ -18,13 +15,7 @@
 	const onSwitchNavigation = () => {
 		if (isMobile) {
 			const { schemeName, isin, schemeCode } = schemeData || {};
-			goto(
-				`${getNavigationBaseUrl(
-					'',
-					appContext.scheme,
-					appContext.host
-				)}/schemes/switch/${normalizeFundName(schemeName, isin, schemeCode)}`
-			);
+			goto(`${base}/schemes/switch/${normalizeFundName(schemeName, isin, schemeCode)}`);
 		}
 	};
 

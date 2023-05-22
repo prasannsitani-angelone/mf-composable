@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Modal from '$components/Modal.svelte';
-	import CrossIcon from '$lib/images/icons/CrossIcon.svelte';
+	import { WMSIcon } from 'wms-ui-component';
 	let heading = '';
 	let detailText = '';
 	let isModalOpen = false;
@@ -18,7 +18,7 @@
 					{heading}
 				</span>
 				<slot name="crossIconSlot">
-					<CrossIcon class="cursor-pointer" on:click={closeModal} />
+					<WMSIcon name="cross-circle" class="cursor-pointer" on:click={closeModal} />
 				</slot>
 			</div>
 		</slot>

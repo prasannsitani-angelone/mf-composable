@@ -22,16 +22,22 @@
 	const queryLengthThreshold = 2;
 	const dispatch = createEventDispatcher();
 	$: deviceType = $page?.data?.deviceType;
+	let filter = '';
 
 	let searchPageLoaded = false;
 	let dashboardData: IDashBoardData | null;
 	let resultsData: Array<WeeklyTopSchemesEntity>;
-	let resultItemClicked: boolean;
+	let initialSearchResult: Array<WeeklyTopSchemesEntity>;
 
+	let resultItemClicked: boolean;
+	let shouldFetchSearchDashboard = true;
+	let initialSearchText = '';
+	let searchMode: string;
 	const getSearchResults = (val: string) =>
 		val?.length > queryLengthThreshold ? resultsData || [] : null;
 
 	const handleSearchFocus = (e: { detail: boolean }) => {
+		console.log('Search focus', e);
 		if (!e?.detail) {
 			dashboardData = null;
 			resultsData = [];
@@ -40,13 +46,19 @@
 	};
 
 	const getSearchResultsData = async (query: string) => {
-		const encodedQuery = encodeURIComponent(query);
-		const url = `${PUBLIC_MF_CORE_BASE_URL}/search?value=${encodedQuery}`;
+		const encodedQuery = encodeURIComponent(query || 'ALL');
+
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/search?value=${encodedQuery}${
+			filter ? `&filters=${filter}` : ''
+		}`;
 		const res = await useFetch(url);
 		if (res.ok) {
 			const response = res.data;
 			if (response?.status === 'success') {
 				resultsData = response?.data?.schemes;
+				if (encodedQuery === 'ALL') {
+					initialSearchResult = response?.data?.schemes;
+				}
 			}
 		}
 
@@ -58,6 +70,7 @@
 		});
 	};
 	const getSearchDashboardData = async () => {
+		if (!shouldFetchSearchDashboard) return;
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/searchDashboard`;
 		const res = await useFetch(url);
 		if (res.ok) {
@@ -77,6 +90,8 @@
 		if (val) {
 			if (val?.length > queryLengthThreshold) {
 				getSearchResultsData(val);
+			} else if (searchMode === 'switch') {
+				getSearchResultsData('ALL');
 			}
 		} else {
 			getSearchDashboardData();
@@ -85,6 +100,9 @@
 
 	onMount(() => {
 		screenOpenAnalytics();
+		if (initialSearchText) {
+			getSearchResultsData(initialSearchText);
+		}
 	});
 
 	const searchAnalyticsEvent = (item: WeeklyTopSchemesEntity, type: string) => {
@@ -107,7 +125,7 @@
 		getSearchDashboardData();
 	}
 
-	export { searchPageLoaded };
+	export { searchPageLoaded, shouldFetchSearchDashboard, initialSearchText, filter, searchMode };
 </script>
 
 <section class={`${$$props.class}`}>
@@ -119,116 +137,37 @@
 		on:searchFocus={handleSearchFocus}
 		on:searchInput={handleSearchInput}
 		{resultItemClicked}
+		{initialSearchResult}
 	>
 		<svelte:fragment slot="defaultResult">
-			<section
-				class="absolute z-60 w-full overflow-auto rounded-md rounded-t-none border border-t-0 border-gray-200 bg-white lg:w-[440px]"
-				style={`${deviceType.isBrowser ? 'max-height: 80vh' : 'max-height: 75vh'}`}
-			>
-				<!-- header 1 -->
-				{#if dashboardData?.recentlyViewed?.length}
-					<article class="border-b border-gray-200">
-						<SearchHeader
-							data={{
-								defaultTitle: 'You Recently Viewed',
-								ctaTitle: 'CLEAR ALL',
-								subtitle: 'Fund Name',
-								subtitleRight: '3Y Returns'
-							}}
-							on:clearAll={handleRecentClearAllClick}
-						>
-							<svelte:fragment slot="searchHeaderIconSlot">
-								<ClockInCircleIcon class="mr-1.5" />
-							</svelte:fragment>
-						</SearchHeader>
-					</article>
-				{/if}
-
-				<!-- recently viewed list -->
-				{#if dashboardData?.recentlyViewed?.length}
-					<section>
-						{#each dashboardData.recentlyViewed as item (`${item?.isin}-${item?.schemeCode}`)}
-							<div class="group cursor-pointer text-left hover:bg-gray-100">
-								<Link
-									to={`/schemes/${normalizeFundName(
-										item?.schemeName,
-										item?.isin,
-										item?.schemeCode
-									)}`}
-									on:linkClicked={() => searchAnalyticsEvent(item, 'recentSearch')}
-								>
-									<SearchCard data={item} on:click={() => (resultItemClicked = true)} />
-								</Link>
-							</div>
-						{/each}
-					</section>
-				{/if}
-
-				<!-- header 2 -->
-				{#if dashboardData?.topInvestSchemes?.length}
-					<article class="border-b border-gray-200">
-						<SearchHeader
-							data={{
-								defaultTitle: 'Popular With Other Investors',
-								subtitle: 'Fund Name',
-								subtitleRight: '3Y Returns'
-							}}
-						>
-							<svelte:fragment slot="searchHeaderIconSlot">
-								<RupeeInCircleSmallIcon class="mr-[5px]" />
-							</svelte:fragment>
-							<svelte:fragment slot="searchCtaTitle" />
-						</SearchHeader>
-					</article>
-				{/if}
-
-				<!-- Popular With Other Investors list -->
-				{#if dashboardData?.topInvestSchemes?.length}
-					<section>
-						{#each dashboardData.topInvestSchemes as item (`${item?.isin}-${item?.schemeCode}`)}
-							<div class="group cursor-pointer text-left hover:bg-gray-100">
-								<Link
-									to={`/schemes/${normalizeFundName(
-										item?.schemeName,
-										item?.isin,
-										item?.schemeCode
-									)}`}
-									on:linkClicked={() =>
-										searchAnalyticsEvent(item, 'popularWithOtherInvestorsSearch')}
-								>
-									<SearchCard data={item} on:click={() => (resultItemClicked = true)} />
-								</Link>
-							</div>
-						{/each}
-					</section>
-				{/if}
-			</section>
-		</svelte:fragment>
-
-		<svelte:fragment slot="resultsData">
-			<section
-				class="absolute z-60 w-full overflow-auto rounded-md rounded-t-none border border-t-0 border-gray-200 bg-white lg:w-[440px]"
-				style={`${deviceType.isBrowser ? 'max-height: 80vh' : 'max-height: 75vh'}`}
-			>
-				{#if resultsData?.length}
-					<section>
-						<!-- header 1 -->
+			<slot name="defaultResult">
+				<section
+					class="absolute z-60 w-full overflow-auto rounded-md rounded-t-none border border-t-0 border-gray-200 bg-white lg:w-[440px]"
+					style={`${deviceType.isBrowser ? 'max-height: 80vh' : 'max-height: 75vh'}`}
+				>
+					<!-- header 1 -->
+					{#if dashboardData?.recentlyViewed?.length}
 						<article class="border-b border-gray-200">
 							<SearchHeader
 								data={{
-									defaultTitle: `Showing ${resultsData?.length} Results`,
+									defaultTitle: 'You Recently Viewed',
+									ctaTitle: 'CLEAR ALL',
 									subtitle: 'Fund Name',
 									subtitleRight: '3Y Returns'
 								}}
+								on:clearAll={handleRecentClearAllClick}
 							>
-								<svelte:fragment slot="searchHeaderIconSlot" />
-								<svelte:fragment slot="searchCtaTitle" />
+								<svelte:fragment slot="searchHeaderIconSlot">
+									<ClockInCircleIcon class="mr-1.5" />
+								</svelte:fragment>
 							</SearchHeader>
 						</article>
+					{/if}
 
-						<!-- results data list -->
+					<!-- recently viewed list -->
+					{#if dashboardData?.recentlyViewed?.length}
 						<section>
-							{#each resultsData as item (`${item?.isin}-${item?.schemeCode}`)}
+							{#each dashboardData.recentlyViewed as item (`${item?.isin}-${item?.schemeCode}`)}
 								<div class="group cursor-pointer text-left hover:bg-gray-100">
 									<Link
 										to={`/schemes/${normalizeFundName(
@@ -236,73 +175,157 @@
 											item?.isin,
 											item?.schemeCode
 										)}`}
-										on:linkClicked={() => searchAnalyticsEvent(item, 'afterSearch')}
+										on:linkClicked={() => searchAnalyticsEvent(item, 'recentSearch')}
 									>
-										<ResultItem data={item} on:click={() => (resultItemClicked = true)} />
+										<SearchCard data={item} on:click={() => (resultItemClicked = true)} />
 									</Link>
 								</div>
 							{/each}
 						</section>
-					</section>
-				{:else}
-					<section>
-						<!-- No results found -->
-						<section>
-							<article class="border-b border-gray-200">
-								<section
-									class="m-4 flex items-center justify-center rounded-lg bg-gray-100 px-10 md:px-16"
-								>
-									<SearchResultImage />
-									<p class="pl-4 text-sm text-grey-body">
-										No results found. Please try using different keywords
-									</p>
-								</section>
-							</article>
-						</section>
+					{/if}
 
+					<!-- header 2 -->
+					{#if dashboardData?.topInvestSchemes?.length}
+						<article class="border-b border-gray-200">
+							<SearchHeader
+								data={{
+									defaultTitle: 'Popular With Other Investors',
+									subtitle: 'Fund Name',
+									subtitleRight: '3Y Returns'
+								}}
+							>
+								<svelte:fragment slot="searchHeaderIconSlot">
+									<RupeeInCircleSmallIcon class="mr-[5px]" />
+								</svelte:fragment>
+								<svelte:fragment slot="searchCtaTitle" />
+							</SearchHeader>
+						</article>
+					{/if}
+
+					<!-- Popular With Other Investors list -->
+					{#if dashboardData?.topInvestSchemes?.length}
 						<section>
-							<!-- header 2 -->
-							{#if dashboardData?.topInvestSchemes?.length}
-								<article class="border-b border-gray-200">
-									<SearchHeader
-										data={{
-											defaultTitle: 'Popular With Other Investors',
-											subtitle: 'Fund Name',
-											subtitleRight: '3Y Returns'
-										}}
+							{#each dashboardData.topInvestSchemes as item (`${item?.isin}-${item?.schemeCode}`)}
+								<div class="group cursor-pointer text-left hover:bg-gray-100">
+									<Link
+										to={`/schemes/${normalizeFundName(
+											item?.schemeName,
+											item?.isin,
+											item?.schemeCode
+										)}`}
+										on:linkClicked={() =>
+											searchAnalyticsEvent(item, 'popularWithOtherInvestorsSearch')}
 									>
-										<svelte:fragment slot="searchHeaderIconSlot">
-											<RupeeInCircleSmallIcon class="mr-[5px]" />
-										</svelte:fragment>
-										<svelte:fragment slot="searchCtaTitle" />
-									</SearchHeader>
-								</article>
-							{/if}
-
-							<!-- Popular With Other Investors list -->
-							{#if dashboardData?.topInvestSchemes?.length}
-								<section>
-									{#each dashboardData.topInvestSchemes as item (`${item?.isin}-${item?.schemeCode}`)}
-										<div class="group cursor-pointer text-left hover:bg-gray-100">
-											<Link
-												to={`/schemes/${normalizeFundName(
-													item?.schemeName,
-													item?.isin,
-													item?.schemeCode
-												)}`}
-												on:linkClicked={() =>
-													searchAnalyticsEvent(item, 'popularWithOtherInvestorsSearch')}
-											>
-												<ResultItem data={item} on:click={() => (resultItemClicked = true)} />
-											</Link>
-										</div>
-									{/each}
-								</section>
-							{/if}
+										<SearchCard data={item} on:click={() => (resultItemClicked = true)} />
+									</Link>
+								</div>
+							{/each}
 						</section>
-					</section>
-				{/if}
-			</section>
+					{/if}
+				</section>
+			</slot>
+		</svelte:fragment>
+
+		<svelte:fragment slot="resultsData">
+			<slot name="resultsData" {resultsData}>
+				<section
+					class="absolute z-60 w-full overflow-auto rounded-md rounded-t-none border border-t-0 border-gray-200 bg-white lg:w-[440px]"
+					style={`${deviceType.isBrowser ? 'max-height: 80vh' : 'max-height: 75vh'}`}
+				>
+					{#if resultsData?.length}
+						<section>
+							<!-- header 1 -->
+							<article class="border-b border-gray-200">
+								<SearchHeader
+									data={{
+										defaultTitle: `Showing ${resultsData?.length} Results`,
+										subtitle: 'Fund Name',
+										subtitleRight: '3Y Returns'
+									}}
+								>
+									<svelte:fragment slot="searchHeaderIconSlot" />
+									<svelte:fragment slot="searchCtaTitle" />
+								</SearchHeader>
+							</article>
+
+							<!-- results data list -->
+							<section>
+								{#each resultsData as item (`${item?.isin}-${item?.schemeCode}`)}
+									<div class="group cursor-pointer text-left hover:bg-gray-100">
+										<Link
+											to={`/schemes/${normalizeFundName(
+												item?.schemeName,
+												item?.isin,
+												item?.schemeCode
+											)}`}
+											on:linkClicked={() => searchAnalyticsEvent(item, 'afterSearch')}
+										>
+											<ResultItem data={item} on:click={() => (resultItemClicked = true)} />
+										</Link>
+									</div>
+								{/each}
+							</section>
+						</section>
+					{:else}
+						<section>
+							<!-- No results found -->
+							<section>
+								<article class="border-b border-gray-200">
+									<section
+										class="m-4 flex items-center justify-center rounded-lg bg-gray-100 px-10 md:px-16"
+									>
+										<SearchResultImage />
+										<p class="pl-4 text-sm text-grey-body">
+											No results found. Please try using different keywords
+										</p>
+									</section>
+								</article>
+							</section>
+
+							<section>
+								<!-- header 2 -->
+								{#if dashboardData?.topInvestSchemes?.length}
+									<article class="border-b border-gray-200">
+										<SearchHeader
+											data={{
+												defaultTitle: 'Popular With Other Investors',
+												subtitle: 'Fund Name',
+												subtitleRight: '3Y Returns'
+											}}
+										>
+											<svelte:fragment slot="searchHeaderIconSlot">
+												<RupeeInCircleSmallIcon class="mr-[5px]" />
+											</svelte:fragment>
+											<svelte:fragment slot="searchCtaTitle" />
+										</SearchHeader>
+									</article>
+								{/if}
+
+								<!-- Popular With Other Investors list -->
+								{#if dashboardData?.topInvestSchemes?.length}
+									<section>
+										{#each dashboardData.topInvestSchemes as item (`${item?.isin}-${item?.schemeCode}`)}
+											<div class="group cursor-pointer text-left hover:bg-gray-100">
+												<Link
+													to={`/schemes/${normalizeFundName(
+														item?.schemeName,
+														item?.isin,
+														item?.schemeCode
+													)}`}
+													on:linkClicked={() =>
+														searchAnalyticsEvent(item, 'popularWithOtherInvestorsSearch')}
+												>
+													<ResultItem data={item} on:click={() => (resultItemClicked = true)} />
+												</Link>
+											</div>
+										{/each}
+									</section>
+								{/if}
+							</section>
+						</section>
+					{/if}
+				</section>
+			</slot>
 		</svelte:fragment>
 	</AutocompleteComponent>
 </section>

@@ -64,6 +64,7 @@
 	{:else}
 		<div class={`flex items-center justify-start ${classes.container}`}>
 			<slot name="preinput" />
+			{value}
 			<input
 				{type}
 				{autocomplete}
@@ -96,5 +97,8 @@
 	/* Firefox */
 	input[type='number'] {
 		-moz-appearance: textfield;
+	}
+	input:focus {
+		outline: none;
 	}
 </style>

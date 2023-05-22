@@ -18,7 +18,7 @@
 	let inputVal = '';
 	let results: WeeklyTopSchemesEntity[] | null = null;
 	let inputRef: HTMLInputElement | null = null;
-	$: showResults = deviceType?.isMobile || false;
+	let showResults = deviceType?.isMobile || true;
 	let resultItemClicked = false;
 	const resetResults = () => {
 		results = null;
@@ -33,6 +33,7 @@
 		if (deviceType?.isMobile) {
 			return;
 		}
+
 		setTimeout(() => {
 			showResults = val;
 			dispatch('searchFocus', val);
@@ -85,8 +86,8 @@
 			inputRef?.focus();
 		}, 300);
 	}
-
-	export { getResults, placeholderText, searchPageLoaded, resultItemClicked };
+	let initialSearchResult: WeeklyTopSchemesEntity[];
+	export { getResults, placeholderText, searchPageLoaded, resultItemClicked, initialSearchResult };
 </script>
 
 <article>
@@ -125,16 +126,15 @@
 				{/if}
 			</slot>
 		</div>
-
 		<!-- Results Section -->
 		{#if showResults}
 			<slot name="resultSection">
 				<section class="w-full lg:w-[440px]">
 					<!-- Results Data (List) Div -->
-					{#if results}
+					{#if results || initialSearchResult}
 						<slot name="resultsData">
 							<section>
-								{#each results as item, index (item)}
+								{#each results || [] as item, index (item)}
 									<div
 										class="cursor-pointer border-b border-gray-200 p-2 text-left"
 										class:border-none={index === results?.length - 1}

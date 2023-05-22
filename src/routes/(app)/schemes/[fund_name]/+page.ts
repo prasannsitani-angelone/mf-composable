@@ -12,7 +12,7 @@ export const load = (async ({ fetch, params }) => {
 	const fundName = params['fund_name'];
 	const schemeMetadata = fundName?.split('-isin-')[1]?.toUpperCase();
 	const [isin = '', schemeCode = ''] = schemeMetadata?.split('-SCHEMECODE-') || [];
-	const getSchemeData = async () => {
+	const getSchemeData = async (): Promise<SchemeDetails> => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/${schemeCode}`;
 		let schemeData: SchemeDetails | Error;
 		const res = await useFetch(
@@ -38,7 +38,7 @@ export const load = (async ({ fetch, params }) => {
 		return schemeData;
 	};
 
-	const getFundHoldings = async () => {
+	const getFundHoldings = async (): Promise<Array<SchemeHoldings>> => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/holdings`;
 		const res = await useFetch(url, {}, fetch);
 		const holdingData: Array<SchemeHoldings> = res.data;
@@ -46,7 +46,7 @@ export const load = (async ({ fetch, params }) => {
 		return holdingData;
 	};
 
-	const getFundComparisonsData = async () => {
+	const getFundComparisonsData = async (): Promise<FundComparisons> => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/comparisons`;
 		const res = await useFetch(url, {}, fetch);
 		const holdingData: FundComparisons = res.data;

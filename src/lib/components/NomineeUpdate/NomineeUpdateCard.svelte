@@ -4,14 +4,14 @@
 	export let rta = '';
 	export let textForButton = '';
 	export let redirectLink = '';
-
+	export let buttonClass = '';
 	const openCamsKarvyLink = () => {
 		window.open(redirectLink);
 	};
 </script>
 
 <section
-	class="via-yellow mx-3 mt-2 flex items-center justify-center rounded-lg border-l-2 border-yellow-400 bg-gradient-to-r from-white to-yellow-50 px-4 shadow-csm"
+	class="via-yellow mx-3 mt-2 flex items-center justify-center rounded-lg border-l-2 border-yellow-400 bg-gradient-to-r from-white to-yellow-50 px-4 shadow-csm {$$props.class}"
 >
 	<slot name="icon" />
 
@@ -31,7 +31,7 @@
 
 	<slot name="button">
 		<Button
-			class="items-center justify-center rounded !border-0 !bg-transparent !p-0 text-center !text-xs !text-blue-primary"
+			class="items-center justify-center rounded !border-0 !bg-transparent !p-0 text-center !text-xs !text-blue-primary {buttonClass}"
 			onClick={openCamsKarvyLink}
 		>
 			{textForButton}

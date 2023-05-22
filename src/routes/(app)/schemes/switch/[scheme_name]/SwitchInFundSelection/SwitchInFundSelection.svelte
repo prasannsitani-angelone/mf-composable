@@ -1,0 +1,31 @@
+<script lang="ts">
+	import { WMSIcon, Button } from 'wms-ui-component';
+
+	let toggleSwitchCue: () => void;
+	let toggleModal: () => void;
+	export { toggleSwitchCue, toggleModal };
+</script>
+
+<section class="mx-3 mt-2 flex flex-col items-center justify-center rounded-lg bg-white px-8 pb-4">
+	<div class="pt-8 pb-4">
+		<WMSIcon height={184} width={160} name="switch-in" />
+	</div>
+
+	<div class="flex items-center justify-center">
+		<div class="text-medium flex items-center font-medium text-black-title">
+			<p>Switch In Fund</p>
+			<WMSIcon
+				height={16}
+				width={16}
+				class="ml-1 cursor-pointer"
+				name="info-in-circle"
+				on:click={toggleSwitchCue}
+			/>
+		</div>
+	</div>
+	<div class="mt-2 mb-2 text-center text-sm font-normal text-black-title">
+		Select a Switch In Fund. Your investment will be <b>transferred to</b> this mutual fund
+	</div>
+
+	<Button variant="outlined" class="mt-2 mb-4" on:click={toggleModal}>SELECT SWITCH IN FUND</Button>
+</section>
