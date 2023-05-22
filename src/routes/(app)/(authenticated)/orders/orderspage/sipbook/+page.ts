@@ -5,8 +5,9 @@ import type { PageLoad } from './$types';
 import SipTabSelection from '../TabSelection/SipTabSelection.svelte';
 import type { ISipBookData } from '$lib/types/ISipType';
 
-export const load = (async ({ fetch }) => {
+export const load = (async ({ fetch, depends }) => {
 	let sipBookData: ISipBookData | null = null;
+
 	const getSipBookData = async () => {
 		const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips`;
 		const res = await useFetch(sipUrl + '?InvestmentType=SIP', {}, fetch);
@@ -16,7 +17,7 @@ export const load = (async ({ fetch }) => {
 		}
 		return [];
 	};
-
+	depends('app:sipbook');
 	return {
 		layoutConfig: {
 			title: 'All Orders',

@@ -11,18 +11,21 @@
 	let nudge: INudge;
 	let impressionEvent: () => void;
 	let clickEvent: () => void;
+	let onAction: (() => void) | null = null;
 	const appContext: AppContext = getContext('app');
 	onMount(() => {
 		impressionEvent?.();
 	});
 	const navigateToPage = () => {
 		clickEvent?.();
-		if (nudge?.link) {
+		if (onAction) {
+			onAction?.();
+		} else if (nudge?.link) {
 			OnNavigation();
 			goto(`${getNavigationBaseUrl('', appContext.scheme, appContext.host)}${nudge.link}`);
 		}
 	};
-	export { nudge, impressionEvent, clickEvent };
+	export { nudge, impressionEvent, clickEvent, onAction };
 </script>
 
 <article

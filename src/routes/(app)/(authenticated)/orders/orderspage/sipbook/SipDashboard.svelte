@@ -20,6 +20,8 @@
 	import { nudgeClick, nudgeImpression } from '$lib/analytics/DiscoverFunds';
 	import { format } from 'date-fns';
 	import type { INudge } from '$lib/types/INudge';
+	import { invalidate } from '$app/navigation';
+	import Mandate from '$components/mandate/Mandate.svelte';
 
 	const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips`;
 	let showInactiveSipsCta = false;
@@ -30,6 +32,11 @@
 	let bankDetails = profileStore?.bankAccounts();
 	let data: PageData;
 	let nudgeData: INudge[];
+	let mandateInstance: Mandate | null = null;
+	let sipID: string;
+	let amount: string;
+	let orderDate: string;
+
 	$: sipBookData?.sips?.forEach((sip) => {
 		if (sip?.isSipPaymentNudge) {
 			paymentSipsArray.push(sip);
@@ -101,6 +108,18 @@
 	$: if (paymentDueSips.length) {
 		sipPaymentDueNudgeImpressionAnalyticsFunc();
 	}
+
+	const refreshPage = async () => {
+		invalidate('app:sipbook');
+	};
+
+	const onAction = (nudge: INudge) => {
+		sipID = nudge?.data?.sipID;
+		amount = nudge?.data?.amount;
+		orderDate = nudge?.data?.orderDate;
+		mandateInstance?.startProcess();
+	};
+
 	export { sipBookData, data };
 </script>
 
@@ -144,6 +163,7 @@
 								{#if nudge?.nudgesType === 'mandate'}
 									<DiscoverFundsNudge
 										{nudge}
+										onAction={() => onAction(nudge)}
 										clickEvent={nudgeClick}
 										impressionEvent={nudgeImpression}
 										class="mt-2 sm:mt-4"
@@ -164,6 +184,14 @@
 				{/if}
 			</Link>
 		</section>
+		<Mandate
+			bind:this={mandateInstance}
+			{sipID}
+			{amount}
+			date={orderDate}
+			successButtonTitle="DONE"
+			onSuccess={refreshPage}
+		/>
 	{:else}
 		<NoSipScreen {data} {showInactiveSipsCta} />
 	{/if}
