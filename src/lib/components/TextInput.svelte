@@ -64,7 +64,6 @@
 	{:else}
 		<div class={`flex items-center justify-start ${classes.container}`}>
 			<slot name="preinput" />
-			{value}
 			<input
 				{type}
 				{autocomplete}
