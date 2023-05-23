@@ -1,5 +1,6 @@
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import type { NFOList } from '$lib/types/INFOList';
+import { hydrate } from '$lib/utils/helpers/hydrated';
 import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
 // const fakePromise = () => {
@@ -24,7 +25,7 @@ export const load = (async ({ data, fetch }) => {
 
 	return {
 		streamed: {
-			nfo: getactiveNfo()
+			nfo: hydrate ? getactiveNfo() : await getactiveNfo()
 		},
 		layoutConfig: {
 			title: 'Mutual Funds',

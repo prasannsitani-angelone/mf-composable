@@ -120,9 +120,9 @@ export const getPromotionsNavigationPath = (option: PromotionsEntity) => {
 	return `/promotions/${option.name?.split(' ').join('-').toLowerCase()}?id=${option.id}`;
 };
 
-export const capitalizeFirstLetter = (name:string)=> {
+export const capitalizeFirstLetter = (name: string) => {
 	return name?.charAt(0).toUpperCase() + name.slice(1);
-}
+};
 
 export const getNameFromDashedParams = (nameInParam: string) => {
 	return capitalizeFirstLetter(nameInParam?.split('-').join(' ').toLowerCase());

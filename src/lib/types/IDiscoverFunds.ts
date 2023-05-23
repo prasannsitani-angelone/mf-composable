@@ -9,7 +9,7 @@ export interface SearchOptionsEntity {
 	iconUrl: string;
 }
 export interface PromotionsEntity {
-	header: string,
+	header: string;
 	id: string;
 	name: string;
 	uri: string;

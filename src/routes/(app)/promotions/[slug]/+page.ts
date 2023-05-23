@@ -9,7 +9,7 @@ export const load = (async ({ fetch, url, params }) => {
 	const pageID = url.searchParams.get('id');
 	const getPromotionalSchemes = async () => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes?amcAd=true&id=${pageID}`;
-		let searchOption:ExploreFundsOptions[] = [];
+		let searchOption: ExploreFundsOptions[] = [];
 		const res = await useFetch(url, {}, fetch);
 		if (res.ok) {
 			searchOption = res.data;
@@ -22,7 +22,7 @@ export const load = (async ({ fetch, url, params }) => {
 			promotions: browser ? getPromotionalSchemes() : await getPromotionalSchemes()
 		},
 		layoutConfig: {
-			title: getNameFromDashedParams(params.slug||''),
+			title: getNameFromDashedParams(params.slug || ''),
 			showBackIcon: true,
 			layoutType: 'DEFAULT'
 		},
