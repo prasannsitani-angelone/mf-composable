@@ -20,7 +20,7 @@
 	// initialising logging for routes outside of (app) like login page
 	Logger.init({
 		batchSize: browser ? 10 : 1,
-		baseUrl: `${scheme}://${host}${base}/api`,
+		baseUrl: `${scheme}//${host}${base}/api`,
 		url: '/logging',
 		logLevel: PUBLIC_LOG_LEVEL,
 		enabled: PUBLIC_LOG_ENABLED === 'true',

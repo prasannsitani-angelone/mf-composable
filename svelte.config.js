@@ -12,7 +12,7 @@ const config = {
 			precompress: true
 		}),
 		paths: {
-			base: '/mutual-funds-v2'
+			base: '/mutual-funds'
 		},
 		alias: { 'lib/': './src/routes/lib/', $components: './src/lib/components' }
 	}

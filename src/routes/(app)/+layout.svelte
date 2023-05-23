@@ -25,6 +25,7 @@
 	import { logout } from '$lib/utils/helpers/logout';
 	import { userStore } from '$lib/stores/UserStore';
 	import { logoutAttemptStore } from '$lib/stores/LogoutAttemptStore';
+	import { VUE_BASE_URL } from '$lib/constants/navigation';
 
 	$: isModalOpen = $externalNavigation.active;
 	// Update store with Spark headers
@@ -85,7 +86,7 @@
 	});
 	const navigateToLoginPage = async () => {
 		logout();
-		window.location.replace(`${scheme}://${host}/mutual-funds/login`);
+		window.location.replace(`${scheme}//${host}/${VUE_BASE_URL}/login`);
 	};
 </script>
 

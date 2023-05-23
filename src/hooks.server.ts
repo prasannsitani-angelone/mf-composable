@@ -1,7 +1,6 @@
 import getAuthToken from '$lib/server/getAuthToken';
 import type { IUserDetails } from '$lib/types/IUserDetails';
 import type { UserProfile } from '$lib/types/IUserProfile';
-import { isDevMode } from '$lib/utils/helpers/dev';
 import { removeAuthHeaders } from '$lib/utils/helpers/logging';
 import { decryptRightUserCookie } from '$lib/utils/helpers/token';
 import Logger from '$lib/utils/logger';
@@ -32,8 +31,8 @@ const handler = (async ({ event, resolve }) => {
 	};
 
 	let userDetails: IUserDetails;
-	const scheme = event.request.headers.get('x-forwarded-proto') || (isDevMode() ? 'http' : 'https');
-	const host = event.request.headers.get('x-forwarded-host') || event.request.headers.get('host');
+	const scheme = event.url.protocol;
+	const host = event.url.host;
 
 	if (!token) {
 		// TODO: Check if Guest token is in Cookie

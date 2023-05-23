@@ -19,7 +19,7 @@ export const load = (async ({ url, parent }) => {
 		}
 	});
 	if (!parentData?.tokenObj?.userToken?.NTAccessToken) {
-		const redirectPath = `${parentData.scheme}://${parentData.host}${pathname}`;
+		const redirectPath = `${parentData.scheme}//${parentData.host}${pathname}`;
 		if (redirectPath) {
 			const withRedirectParam = `${getNavigationBaseUrl(
 				'',
