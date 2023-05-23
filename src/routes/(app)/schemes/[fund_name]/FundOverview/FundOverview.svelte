@@ -14,6 +14,7 @@
 
 	let schemeDetails: SchemeDetails;
 	let selectedTag: Tags[];
+	let isNFO = false;
 	$: selectedTag = [
 		{
 			label: '3Y',
@@ -81,10 +82,10 @@
 		};
 		sFundDetails(eventMetadata);
 	});
-	export { schemeDetails };
+	export { schemeDetails, isNFO };
 </script>
 
-<section class="rounded-lg bg-white p-4 shadow-csm sm:p-6">
+<section class="rounded-lg bg-white p-4 shadow-csm sm:p-6 sm:pb-2">
 	<header>
 		<ChipOverview
 			class="mb-2"
@@ -99,52 +100,62 @@
 					{schemeDetails?.schemeName}
 				</h1>
 			</div>
-			<div class="relative">
-				<AddToFavourites
-					isin={schemeDetails?.isin}
-					schemeCode={schemeDetails?.schemeCode}
-					isFavourite={schemeDetails?.isFavourite}
-				/>
+			<div class="relative {isNFO ? 'mb-auto' : ''}">
+				{#if !isNFO}
+					<AddToFavourites
+						isin={schemeDetails?.isin}
+						schemeCode={schemeDetails?.schemeCode}
+						isFavourite={schemeDetails?.isFavourite}
+					/>
+				{:else}
+					<div>
+						<span class="text-sm font-normal uppercase text-grey-body">Nav</span>
+						<span>₹{schemeDetails?.navValue}</span>
+					</div>
+				{/if}
 			</div>
 		</div>
-		<div class="relative flex">
-			<div class="flex flex-grow basis-0 flex-col pt-3 pb-3">
-				<span class="text-base font-medium text-black-title sm:text-2xl"
-					>{schemeDetails[returnPeriod]?.toFixed(2)}%</span
-				>
-				<span class="flex gap-1 text-xs font-medium text-grey-body sm:text-sm"
-					>Fund {selectedTag[0].text} return</span
-				>
+		{#if !isNFO}
+			<div class="relative flex">
+				<div class="flex flex-grow basis-0 flex-col pt-3 pb-3">
+					<span class="text-base font-medium text-black-title sm:text-2xl"
+						>{schemeDetails[returnPeriod]?.toFixed(2)}%</span
+					>
+					<span class="flex gap-1 text-xs font-medium text-grey-body sm:text-sm"
+						>Fund {selectedTag[0].text} return</span
+					>
+				</div>
 			</div>
-		</div>
+		{/if}
 	</header>
-
-	<section class="mb-5">
-		<NavCharts {schemeDetails} on:chartRangeChange={handleChartRangeChange} />
-		<div class="mt-9 flex justify-between">
-			<div class="flex flex-col">
-				<span class="mr-1 text-sm font-medium text-grey-body sm:text-sm"
-					>NAV on {formatDate(schemeDetails?.navDate)}</span
-				><span class="mr-1 text-lg text-black-title">₹{schemeDetails?.navValue?.toFixed(2)}</span>
+	{#if !isNFO}
+		<section class="mb-5">
+			<NavCharts {schemeDetails} on:chartRangeChange={handleChartRangeChange} />
+			<div class="mt-9 flex justify-between">
+				<div class="flex flex-col">
+					<span class="mr-1 text-sm font-medium text-grey-body sm:text-sm"
+						>NAV on {formatDate(schemeDetails?.navDate)}</span
+					><span class="mr-1 text-lg text-black-title">₹{schemeDetails?.navValue?.toFixed(2)}</span>
+				</div>
+				<div class="flex flex-col">
+					<span class="text-sm font-medium text-grey-body ${oneDayReturnClass}">
+						1D Returns
+					</span><span class={`${oneDayReturnClass}`}
+						>{oneDayReturnSuffix}{oneDayReturn(schemeDetails)}%</span
+					>
+				</div>
 			</div>
-			<div class="flex flex-col">
-				<span class="text-sm font-medium text-grey-body ${oneDayReturnClass}">
-					1D Returns
-				</span><span class={`${oneDayReturnClass}`}
-					>{oneDayReturnSuffix}{oneDayReturn(schemeDetails)}%</span
-				>
-			</div>
-		</div>
-	</section>
+		</section>
 
-	<footer class="flex items-center justify-center border-t border-t-grey-line pt-5">
-		<RocketIcon />
-		<span class="ml-5 text-xs font-medium text-black-title sm:text-sm">
-			Launched in {fundLaunchMonth}
-			{fundLaunchYear}
-			<span class="text-sm font-normal text-grey-body">
-				(Age - {fundAge} year{fundAge > 1 ? 's' : ''})</span
-			></span
-		>
-	</footer>
+		<footer class="flex items-center justify-center border-t border-t-grey-line pt-5 pb-4">
+			<RocketIcon />
+			<span class="ml-5 text-xs font-medium text-black-title sm:text-sm">
+				Launched in {fundLaunchMonth}
+				{fundLaunchYear}
+				<span class="text-sm font-normal text-grey-body">
+					(Age - {fundAge} year{fundAge > 1 ? 's' : ''})</span
+				></span
+			>
+		</footer>
+	{/if}
 </section>

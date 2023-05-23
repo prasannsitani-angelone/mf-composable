@@ -13,11 +13,11 @@
 
 	const handleCloseButtonClick = () => {
 		if ($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) {
-			window.location.href = `${window.location.origin}${base}/exit`
+			window.location.href = `${window.location.origin}${base}/exit`;
 		} else {
-			window.open($appStore.closecta, '_self')
+			window.open($appStore.closecta, '_self');
 		}
-	}
+	};
 
 	const logoUrl = `${base}/images/mutual-fund-logo.webp`;
 </script>
@@ -31,7 +31,13 @@
 						<LeftArrowIcon class="mr-4 cursor-pointer" onClick={() => history.back()} />
 					{/if}
 					{#if showCloseIcon && (($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID && $appStore.closecta) || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS)}
-						<WMSIcon height={24} width={24} name="cross" class="mr-4 cursor-pointer" on:click={handleCloseButtonClick} />
+						<WMSIcon
+							height={24}
+							width={24}
+							name="cross"
+							class="mr-4 cursor-pointer"
+							on:click={handleCloseButtonClick}
+						/>
 					{/if}
 				</slot>
 

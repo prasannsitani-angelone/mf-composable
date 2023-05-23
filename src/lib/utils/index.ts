@@ -63,6 +63,32 @@ export const yearlyReturnMap: Array<TableColumnToggle> = [
 	}
 ];
 
+export const nfoTableToggleList: Array<TableColumnToggle> = [
+	{
+		label: 'Open Date',
+		field: 'nfoStartDate',
+		prefix: '',
+		suffix: ''
+	},
+	{
+		label: 'Close Date',
+		field: 'nfoEndDate',
+		prefix: '',
+		suffix: ''
+	},
+	{
+		label: 'Current NAV',
+		field: 'navValue',
+		prefix: '₹',
+		suffix: ''
+	},
+	{
+		label: 'Min SIP amount',
+		field: 'minSipAmount',
+		prefix: '₹',
+		suffix: ''
+	}
+];
 const findNextYearReturn = (yearlyReturn: Array<TableColumnToggle>, currentReturn: string) => {
 	const currentIndex = yearlyReturn.findIndex((val) => val.field === currentReturn);
 
@@ -81,6 +107,12 @@ export const returnYearTableChangeColumn = (col: string, allColumns: Array<Table
 	return nextColumn;
 };
 
+export const returnNFOTableChangeColumn = (col: string, allColumns: Array<TableColumnToggle>) => {
+	const nextColumnIndex = findNextYearReturn(allColumns, col);
+
+	const nextColumn = allColumns[nextColumnIndex];
+	return nextColumn;
+};
 export const formatDate = (epochDate: Date) => {
 	if (!epochDate) {
 		return '';

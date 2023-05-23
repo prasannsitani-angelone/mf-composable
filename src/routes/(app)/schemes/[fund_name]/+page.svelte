@@ -23,6 +23,7 @@
 	import OrderpadLoader from './FundDetailsLoader/OrderpadLoader.svelte';
 	import { mobileSchemeDetailsPageInvestButtonClickAnalytics } from './analytics';
 	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
+	import NfoDetails from './NFODetails/NFODetails.svelte';
 
 	export let data: PageData;
 
@@ -105,6 +106,7 @@
 
 	<OrderpadLoader />
 {:then schemedata}
+	{@const isNFO = !!schemedata?.nfoStartDate}
 	<!-- Left Side -->
 	{#if !isMobile || !showInvestmentPad}
 		<article class="pb-16">
@@ -112,7 +114,10 @@
 				items={getSchemeDetailsBreadCrumbs(schemedata)}
 				class="my-4 hidden items-center justify-start md:flex"
 			/>
-			<FundOverview schemeDetails={schemedata} />
+			<FundOverview schemeDetails={schemedata} {isNFO} />
+			{#if isNFO}
+				<NfoDetails schemeDetails={schemedata} />
+			{/if}
 			<LockInPeriod schemeDetails={schemedata} />
 			<ReturnEstimator
 				returns3yr={schemedata?.returns3yr}
@@ -120,13 +125,15 @@
 			/>
 			<SchemeInformation schemeDetails={schemedata} />
 			<FundManager schemeDetails={schemedata} />
-			{#await data?.api?.holdingData then fundHoldingData}
-				<FundHoldings {fundHoldingData} />
-			{/await}
-			{#await data?.api?.comparisons then comparisons}
-				<SimilarFunds similarFunds={comparisons?.otherScheme || []} />
-				<OtherFundsByAMC sameAmcScheme={comparisons?.sameAmcScheme} />
-			{/await}
+			{#if !isNFO}
+				{#await data?.api?.holdingData then fundHoldingData}
+					<FundHoldings {fundHoldingData} />
+				{/await}
+				{#await data?.api?.comparisons then comparisons}
+					<SimilarFunds similarFunds={comparisons?.otherScheme || []} />
+					<OtherFundsByAMC sameAmcScheme={comparisons?.sameAmcScheme} />
+				{/await}
+			{/if}
 		</article>
 
 		{#if schemedata}

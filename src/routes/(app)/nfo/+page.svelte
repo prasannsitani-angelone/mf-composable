@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SchemeTable from '$components/SchemeTable.svelte';
+	import NFOTable from './NFOTable.svelte';
 	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
 	import type { PageData } from './$types';
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
@@ -25,7 +25,7 @@
 {#await data.api.nfo}
 	<TableSkeleton />
 {:then nfo}
-	<SchemeTable searchOption={nfo} />
+	<NFOTable searchOption={nfo} />
 {:catch error}
 	<!-- promise was rejected -->
 {/await}

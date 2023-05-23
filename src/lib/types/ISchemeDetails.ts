@@ -73,6 +73,8 @@ export interface SchemeDetails {
 	taxImplications: TaxImplication[];
 	additionalPurchaseAmount: number;
 	isFavourite: boolean;
+	nfoStartDate: number;
+	nfoEndtDate: number;
 }
 
 export interface SchemeHoldings {

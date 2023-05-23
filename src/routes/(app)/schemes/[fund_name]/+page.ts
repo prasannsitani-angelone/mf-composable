@@ -12,6 +12,7 @@ export const load = (async ({ fetch, params }) => {
 	const fundName = params['fund_name'];
 	const schemeMetadata = fundName?.split('-isin-')[1]?.toUpperCase();
 	const [isin = '', schemeCode = ''] = schemeMetadata?.split('-SCHEMECODE-') || [];
+
 	const getSchemeData = async (): Promise<SchemeDetails> => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/${schemeCode}`;
 		let schemeData: SchemeDetails | Error;
