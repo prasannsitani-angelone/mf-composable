@@ -78,7 +78,7 @@
 	>
 		<article class="w-full rounded-t-2xl bg-white pt-6 pb-8 md:w-120 md:rounded-lg">
 			<header
-				class="mb-4 border-b pb-6 pl-4 text-lg font-medium text-black-title md:text-xl lg:px-8"
+				class="pb-4 pl-4 text-lg font-medium text-black-title sm:mb-4 sm:border-b md:text-xl lg:px-8 lg:pb-6"
 			>
 				Remove from Favourites?
 			</header>

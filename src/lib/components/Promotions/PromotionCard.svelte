@@ -6,7 +6,9 @@
 	export let imageClass = '';
 </script>
 
-<Link to={getPromotionsNavigationPath(amcData)} class="block  overflow-hidden {$$props.class || ''}"
+<Link
+	to={getPromotionsNavigationPath(amcData)}
+	class="block overflow-hidden shadow-csm {$$props.class || ''}"
 	><img
 		src={amcData.uri || ''}
 		class="inline-block {imageClass}"

@@ -274,9 +274,9 @@
 	{/if}
 
 	{#if showPortfoliocard && deviceType?.isMobile}
-		<div class="mb-2 overflow-hidden sm:mb-0">
+		<Link to="/investments" class="mb-2 block overflow-hidden sm:mb-0">
 			<PortfolioCard discoverPage={true} on:portfolidataReceived={onPortfolioDataReceived} />
-		</div>
+		</Link>
 	{/if}
 	{#if deviceType?.isMobile && sipPaymentNudges?.length}
 		<SipCard sip={formattedSipNudgeData} sipCount={sipPaymentNudges?.length} />
@@ -354,9 +354,9 @@
 {#if deviceType?.isBrowser}
 	<article>
 		{#if showPortfoliocard}
-			<div class="overflow-hidden">
+			<Link to="/investments" class="block overflow-hidden">
 				<PortfolioCard discoverPage={true} on:portfolidataReceived={onPortfolioDataReceived} />
-			</div>
+			</Link>
 		{:else}
 			<StartNewInvestment />
 		{/if}

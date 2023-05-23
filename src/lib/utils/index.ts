@@ -117,11 +117,11 @@ export const getExploreFundsNavigationPath = (option: SearchOptionsEntity) => {
 };
 
 export const getPromotionsNavigationPath = (option: PromotionsEntity) => {
-	return `/promotions/${option.name?.split(' ').join('-').toLowerCase()}?id=${option.id}`;
+	return `/promotions/${option.header?.split(' ').join('-').toLowerCase()}?id=${option.id}`;
 };
 
 export const capitalizeFirstLetter = (name: string) => {
-	return name?.charAt(0).toUpperCase() + name.slice(1);
+	return name?.charAt(0)?.toUpperCase() + name.slice(1);
 };
 
 export const getNameFromDashedParams = (nameInParam: string) => {
