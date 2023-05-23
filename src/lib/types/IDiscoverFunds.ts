@@ -8,6 +8,12 @@ export interface SearchOptionsEntity {
 	name: string;
 	iconUrl: string;
 }
+export interface PromotionsEntity {
+	header: string,
+	id: string;
+	name: string;
+	uri: string;
+}
 export interface WeeklyTopSchemesEntity {
 	schemeCode: string;
 	isin: string;

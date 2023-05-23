@@ -61,7 +61,8 @@
 	const ordersTabClass = $page.url?.pathname?.includes('/orders/orderspage')
 		? activePageTabClass
 		: inactivePageTabClass;
-	const isFavouritesActive = $page.url?.pathname?.includes('/favourites');
+	let isFavouritesActive: boolean;
+	$: isFavouritesActive = $page.url?.pathname?.includes('/favourites');
 	const dispatch = createEventDispatcher();
 	const handleSearchFocusEvent = (e: { detail: boolean }) => {
 		dispatch('handleSearchFocus', e.detail);
@@ -98,7 +99,11 @@
 					? 'bg-blue-primary'
 					: 'bg-grey-light'}"
 			>
-				<WMSIcon name="bookmark" size="lg" mode={isFavouritesActive ? 'white' : 'blue'} />
+				{#if isFavouritesActive}
+					<WMSIcon name="bookmark" size="lg" mode="white" />
+				{:else}
+					<WMSIcon name="bookmark" size="lg" mode="blue" />
+				{/if}
 			</div>
 		</Link>
 		{#if !isGuest}

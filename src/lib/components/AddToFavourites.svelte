@@ -77,7 +77,9 @@
 		}}
 	>
 		<article class="w-full rounded-t-2xl bg-white pt-6 pb-8 md:w-120 md:rounded-lg">
-			<header class="mb-4 border-b px-8 pb-6 text-lg font-medium text-black-title md:text-xl">
+			<header
+				class="mb-4 border-b pb-6 pl-4 text-lg font-medium text-black-title md:text-xl lg:px-8"
+			>
 				Remove from Favourites?
 			</header>
 			<div class="flex flex-col px-4">

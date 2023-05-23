@@ -1,7 +1,7 @@
 import { profileStore } from '$lib/stores/ProfileStore';
 import { tokenStore } from '$lib/stores/TokenStore';
 import { userStore } from '$lib/stores/UserStore';
-import type { SearchOptionsEntity } from '$lib/types/IDiscoverFunds';
+import type { SearchOptionsEntity, PromotionsEntity } from '$lib/types/IDiscoverFunds';
 import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 
 export interface TableColumnToggle {
@@ -114,4 +114,16 @@ export const getBankLogoUrl = (
 
 export const getExploreFundsNavigationPath = (option: SearchOptionsEntity) => {
 	return `/explorefunds/${option.name?.split(' ').join('-').toLowerCase()}?id=${option.id}`;
+};
+
+export const getPromotionsNavigationPath = (option: PromotionsEntity) => {
+	return `/promotions/${option.name?.split(' ').join('-').toLowerCase()}?id=${option.id}`;
+};
+
+export const capitalizeFirstLetter = (name:string)=> {
+	return name?.charAt(0).toUpperCase() + name.slice(1);
+}
+
+export const getNameFromDashedParams = (nameInParam: string) => {
+	return capitalizeFirstLetter(nameInParam?.split('-').join(' ').toLowerCase());
 };

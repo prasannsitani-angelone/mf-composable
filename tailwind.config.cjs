@@ -75,7 +75,8 @@ module.exports = {
 				'8xl': '85rem'
 			},
 			height: {
-				15: '3.75rem'
+				15: '3.75rem',
+				38: '9.5rem'
 			},
 			zIndex: {
 				60: '60',

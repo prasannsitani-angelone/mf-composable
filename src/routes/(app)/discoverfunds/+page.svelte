@@ -26,6 +26,7 @@
 	import StoriesComponent from '$components/Stories/StoriesComponent.svelte';
 	import Link from '$components/Link.svelte';
 	import Button from '$components/Button.svelte';
+	import PromotionCard from '$components/Promotions/PromotionCard.svelte';
 	import { WMSIcon } from 'wms-ui-component';
 
 	$: showPortfoliocard = true;
@@ -363,8 +364,24 @@
 				<SipCard {sip} />
 			{/each}
 		{/if}
+		{#if data?.searchDashboardData?.amcAd}
+			<PromotionCard
+				amcData={data.searchDashboardData.amcAd}
+				class="mt-3 rounded-lg text-center"
+				imageClass="h-38 md:h-48 lg:h-38 w-full object-cover"
+			/>
+		{/if}
 	</article>
 {/if}
+
+{#if data?.searchDashboardData?.amcAd && !deviceType?.isBrowser}
+	<PromotionCard
+		amcData={data.searchDashboardData.amcAd}
+		class="mt-3 rounded-lg text-center"
+		imageClass="h-38 md:h-48 lg:h-38 w-full object-cover"
+	/>
+{/if}
+
 {#if !appStore.isSparkUser() && deviceType?.isMobile && !isGuest}
 	<article class="flex justify-center sm:hidden">
 		<Button
