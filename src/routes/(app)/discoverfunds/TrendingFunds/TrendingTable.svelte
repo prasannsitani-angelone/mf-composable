@@ -10,6 +10,9 @@
 	import Td from '$components/Table/TD.svelte';
 	import Tr from '$components/Table/TR.svelte';
 	import AddToFavourites from '$components/AddToFavourites.svelte';
+	import { base } from '$app/paths';
+	import { goto } from '$app/navigation';
+	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	let tableData: Array<WeeklyTopSchemesEntity>;
 
 	let currentYearFilter: TableColumnToggle = {
@@ -18,6 +21,20 @@
 	};
 	const sortTable = () => {
 		currentYearFilter = returnYearTableChangeColumn(currentYearFilter.field, yearlyReturnMap);
+	};
+
+	const onTableRowSelect = (schemes: WeeklyTopSchemesEntity) => {
+		const replaceState = false;
+
+		goto(
+			`${base}/${normalizeFundName(
+				schemes?.schemeName,
+				schemes?.isin,
+				schemes?.schemeCode,
+				'schemes'
+			)}`,
+			{ replaceState }
+		);
 	};
 
 	export { tableData };
@@ -33,7 +50,11 @@
 	</THead>
 	<TBody slot="tbody">
 		{#each tableData || [] as schemes}
-			<Tr class="hover"
+			<Tr
+				class="hover cursor-pointer"
+				on:click={() => {
+					onTableRowSelect(schemes);
+				}}
 				><Td class="w-[30%]">
 					<SchemeCard {schemes} />
 				</Td>

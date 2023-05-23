@@ -1,11 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import type { IBottomNavItem } from '$lib/types/IBottomNavItem';
-	import { OnNavigation } from '$lib/utils/navigation';
 	export let navs: IBottomNavItem[];
-
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
-	const noop = () => {};
 </script>
 
 <section class="inset-x-0 z-40 flex-shrink-0 border-t-2 bg-white shadow-lg lg:hidden">
@@ -15,11 +11,7 @@
 				? $page.url.pathname === nav.path ||
 				  $page.url.pathname.includes('/orders/orderspage/sipbook')
 				: $page.url.pathname === nav.path}
-			<a
-				href={nav.path}
-				class="inline-block w-full justify-center py-3 text-center"
-				on:click={nav.isInternalNavigation ? noop : OnNavigation}
-			>
+			<a href={nav.path} class="inline-block w-full justify-center py-3 text-center">
 				<svelte:component this={isActive ? nav.activeIcon : nav.icon} class="m-auto mb-2" />
 				<span
 					class={`block text-[10px] font-semibold uppercase ${

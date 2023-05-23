@@ -13,7 +13,8 @@ export const BOTTOM_NAVBARS = () => [
 		label: 'Discover',
 		path: `${base}/discoverfunds`,
 		icon: DiscoverIcon,
-		activeIcon: DiscoverActiveIcon
+		activeIcon: DiscoverActiveIcon,
+		isInternalNavigation: true
 	},
 	{
 		label: 'Favourites',

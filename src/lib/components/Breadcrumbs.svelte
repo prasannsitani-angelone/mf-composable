@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { base } from '$app/paths';
-	import { OnNavigation } from '$lib/utils/navigation';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import Link from './Link.svelte';
 	import type { Breadcrumbs } from '../types/IBreadcrumbs';
@@ -26,8 +25,7 @@
 				{#if crumb.text?.toLowerCase() === 'home'}
 					<Link
 						to="/discoverfunds"
-						class="text-sm text-grey-body ${crumb.isLast ? 'font-medium' : ''}"
-						on:linkClicked={OnNavigation}>{crumb.text}</Link
+						class="text-sm text-grey-body ${crumb.isLast ? 'font-medium' : ''}">{crumb.text}</Link
 					>
 				{:else}
 					<Link to={crumb.href} class="text-sm text-grey-body ${crumb.isLast ? 'font-medium' : ''}">
