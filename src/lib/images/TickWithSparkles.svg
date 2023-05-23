@@ -1,0 +1,116 @@
+<!-- TODO: Remove this after redemption order summary design revamp -->
+
+<svg width="270" height="112" viewBox="0 0 270 112" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M151.151 53.8682L127.632 78.1319L116.777 67.3477"
+    stroke="#1EC7B6"
+    stroke-width="5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <circle cx="132.953" cy="66" r="45.5" stroke="#1EC7B6" />
+  <circle cx="183.495" cy="10.4923" r="2.0399" stroke="#ADF7E8" stroke-width="1.01995" />
+  <rect
+    x="136.843"
+    y="0.591238"
+    width="3.56982"
+    height="3.56982"
+    transform="rotate(10.0632 136.843 0.591238)"
+    stroke="#D6DCDB"
+    stroke-width="1.01995"
+  />
+  <path
+    d="M31.7832 6.86341L32.7418 6.51171C34.5337 5.85428 36.4836 6.98021 36.8102 8.86099L37.1598 10.8733C37.4864 12.7541 39.4363 13.88 41.2282 13.2226L43.1454 12.5192C44.9373 11.8617 46.8872 12.9877 47.2139 14.8685L47.5634 16.8808C47.8901 18.7615 49.84 19.8875 51.6319 19.2301L52.5905 18.8783"
+    stroke="#FF9893"
+    stroke-opacity="0.6"
+    stroke-width="1.52992"
+    stroke-linecap="round"
+  />
+  <circle
+    cx="3.49881"
+    cy="81.0457"
+    r="2.03571"
+    stroke="#CACD5F"
+    stroke-opacity="0.7"
+    stroke-width="1.01995"
+  />
+  <circle cx="28.4507" cy="99.4975" r="1.49754" fill="#FFDF67" />
+  <circle cx="8.08342" cy="40.5112" r="2.03654" fill="#59EFD1" fill-opacity="0.7" />
+  <circle cx="44.1842" cy="47.9909" r="1.99672" fill="#FFEFB3" />
+  <circle cx="73.5899" cy="38.4747" r="1.52741" fill="#ADF7E8" />
+  <circle cx="68.4805" cy="99.5274" r="1.52741" fill="#FFC1BE" />
+  <circle cx="240.481" cy="51.5274" r="1.52741" fill="#ADF7E8" />
+  <circle cx="98.9467" cy="11.5512" r="2.03654" fill="#FFDF67" />
+  <rect
+    x="0.633603"
+    y="0.344457"
+    width="3.05314"
+    height="3.05314"
+    transform="matrix(0.958959 -0.283543 0.283464 0.958983 33.8815 72.3481)"
+    stroke="#D6DCDB"
+    stroke-width="1.01995"
+  />
+  <rect
+    x="64.0273"
+    y="72.1543"
+    width="1.53737"
+    height="6.14946"
+    rx="0.768683"
+    transform="rotate(30 64.0273 72.1543)"
+    fill="#FFDF67"
+  />
+  <rect
+    x="66.1992"
+    y="76.0723"
+    width="1.53737"
+    height="6.14946"
+    rx="0.768683"
+    transform="rotate(120 66.1992 76.0723)"
+    fill="#FFDF67"
+  />
+  <path
+    d="M258.487 86.5443L257.47 86.4526C255.569 86.2813 253.977 87.8734 254.148 89.7747L254.331 91.809C254.503 93.7102 252.91 95.3024 251.009 95.131L248.975 94.9476C247.074 94.7762 245.482 96.3684 245.653 98.2696L245.836 100.304C246.008 102.205 244.415 103.797 242.514 103.626L241.497 103.534"
+    stroke="#59EFD1"
+    stroke-width="1.52992"
+    stroke-linecap="round"
+  />
+  <circle
+    r="2.03573"
+    transform="matrix(-1 0 0 1 266.501 65.5457)"
+    stroke="#CACD5F"
+    stroke-opacity="0.7"
+    stroke-width="1.01995"
+  />
+  <circle r="2.03657" transform="matrix(-1 0 0 1 261.51 8.45649)" fill="#59EFD1" fill-opacity="0.7" />
+  <circle r="1.99674" transform="matrix(-1 0 0 1 265.949 40.9967)" fill="#FFEFB3" />
+  <circle r="1.52742" transform="matrix(-1 0 0 1 202.957 55.9122)" fill="#ADF7E8" />
+  <circle r="2.03657" transform="matrix(-1 0 0 1 224.612 3.7475)" fill="#FFDF67" />
+  <rect
+    x="-0.633603"
+    y="0.344457"
+    width="3.05318"
+    height="3.05318"
+    transform="matrix(-0.958959 -0.283543 -0.283464 0.958983 222.587 37.0855)"
+    stroke="#D6DCDB"
+    stroke-width="1.01995"
+  />
+  <rect
+    x="-0.387471"
+    y="0.608314"
+    width="3.05318"
+    height="3.05318"
+    transform="matrix(-0.976272 0.216549 0.216486 0.976286 224.032 77.0983)"
+    stroke="#FFDF67"
+    stroke-width="1.01995"
+  />
+  <rect
+    width="3.99347"
+    height="3.99347"
+    rx="1.99674"
+    transform="matrix(-0.927998 0.372584 0.372487 0.928038 199.66 95)"
+    stroke="#FF9893"
+    stroke-opacity="0.6"
+    stroke-width="1.52992"
+    stroke-linecap="round"
+  />
+</svg>

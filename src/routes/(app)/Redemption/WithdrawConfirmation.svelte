@@ -2,7 +2,7 @@
 	import { v4 as uuidv4 } from 'uuid';
 	import type { FolioHoldingType, FolioObject } from '$lib/types/IInvestments';
 	import type { BankDetailsEntity } from '$lib/types/IUserProfile';
-	import { createEventDispatcher, getContext } from 'svelte';
+	import { createEventDispatcher } from 'svelte';
 	import { useFetch } from '$lib/utils/useFetch';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { profileStore } from '$lib/stores/ProfileStore';
@@ -18,9 +18,7 @@
 	import LoadingPopup from '../InvestmentPad/OrderPadComponents/LoadingPopup.svelte';
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
 	import TpinVerification from '$components/TpinFlow/TpinVerification.svelte';
-	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 	import { base } from '$app/paths';
-	import type { AppContext } from '$lib/types/IAppContext';
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
 	import OtpVerification from '$components/OtpFlow/OtpVerification.svelte';
 	import type { IOrderPostData } from '$lib/types/IOrderPostData';
@@ -56,8 +54,6 @@
 	export let redeemAll: boolean;
 
 	const dispatch = createEventDispatcher();
-
-	const appContext: AppContext = getContext('app');
 
 	const closeConfirmationScreen = () => {
 		dispatch('closeWithdrawalConfirmationScreen');
@@ -178,9 +174,8 @@
 			res?.data?.status?.toUpperCase() === STATUS_ARR?.SUCCESS &&
 			res?.data?.data?.orderId !== undefined
 		) {
-			const baseUrl = `${getNavigationBaseUrl(base, appContext?.scheme, appContext?.host)}`;
-			const path = `/orders/redeem/${res?.data?.data?.orderId}`;
-			goto(`${baseUrl}${path}`);
+			const path = `/ordersummary/redeem/${res?.data?.data?.orderId}`;
+			goto(`${base}${path}`);
 		} else {
 			error.visible = true;
 			error.heading = 'Order Failed';

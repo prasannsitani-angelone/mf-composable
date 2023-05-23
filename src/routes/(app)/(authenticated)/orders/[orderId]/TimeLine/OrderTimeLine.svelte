@@ -43,7 +43,7 @@
 						/>
 					</div>
 					<div
-						class="mb-1 mt-2 text-sm text-black-title"
+						class="mb-1 mt-2 text-sm text-black-title {$$props?.titleClass || ''}"
 						class:font-medium={item?.currentState}
 						class:!text-black-title={item?.currentState}
 						class:text-grey-body={item.status === STATUS_ARR.NONE}
@@ -65,7 +65,10 @@
 							class:!text-black-title={item?.currentState}
 						>
 							{#if item?.showSubTitle}
-								<p class="mb-1" class:font-medium={item?.currentState}>
+								<p
+									class="mb-1 {$$props?.subTitleClass || ''}"
+									class:font-medium={item?.currentState}
+								>
 									{item.subTitle}
 								</p>
 							{/if}
@@ -112,7 +115,7 @@
 					</div>
 					<div class="pb-4">
 						<div
-							class="mb-1 text-sm text-grey-body"
+							class="mb-1 text-sm text-grey-body {$$props?.titleClass || ''}"
 							class:!text-black-title={item?.currentState}
 							class:font-medium={item?.currentState}
 							class:!text-grey-body={item.status === STATUS_ARR.NONE}
@@ -143,7 +146,7 @@
 							</div>
 						{:else}
 							<div
-								class="text-xs text-grey-body"
+								class="text-xs text-grey-body {$$props?.subTitleClass || ''}"
 								class:!text-black-title={item?.currentState}
 								class:font-medium={item?.currentState}
 							>
