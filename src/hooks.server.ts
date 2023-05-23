@@ -32,7 +32,8 @@ const handler = (async ({ event, resolve }) => {
 
 	let userDetails: IUserDetails;
 	const scheme = event.url.protocol;
-	const host = event.url.host;
+	// using host from x-forwarded & not url.hostname because otherwise we will get container domain and not cloudfare
+	const host = event.request.headers.get('x-forwarded-host') || event.request.headers.get('host');
 
 	if (!token) {
 		// TODO: Check if Guest token is in Cookie
