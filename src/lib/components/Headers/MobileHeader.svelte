@@ -3,13 +3,21 @@
 	import { appStore } from '$lib/stores/SparkStore';
 	import SearchDarkIcon from '$lib/images/icons/SearchDarkIcon.svelte';
 	import LeftArrowIcon from '$lib/images/icons/LeftArrowIcon.svelte';
-	import CrossIcon from '$lib/images/icons/CrossIcon.svelte';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
+	import { WMSIcon } from 'wms-ui-component';
 
 	export let title = '';
 	export let showSearchIcon = false;
 	export let showBackIcon = false;
 	export let showCloseIcon = false;
+
+	const handleCloseButtonClick = () => {
+		if ($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) {
+			window.location.href = `${window.location.origin}${base}/exit`
+		} else {
+			window.open($appStore.closecta, '_self')
+		}
+	}
 
 	const logoUrl = `${base}/images/mutual-fund-logo.webp`;
 </script>
@@ -23,7 +31,7 @@
 						<LeftArrowIcon class="mr-4 cursor-pointer" onClick={() => history.back()} />
 					{/if}
 					{#if showCloseIcon && (($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID && $appStore.closecta) || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS)}
-						<CrossIcon class="mr-4 cursor-pointer" />
+						<WMSIcon height={24} width={24} name="cross" class="mr-4 cursor-pointer" on:click={handleCloseButtonClick} />
 					{/if}
 				</slot>
 
