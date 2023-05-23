@@ -4,6 +4,7 @@
 	import SearchDarkIcon from '$lib/images/icons/SearchDarkIcon.svelte';
 	import LeftArrowIcon from '$lib/images/icons/LeftArrowIcon.svelte';
 	import CrossIcon from '$lib/images/icons/CrossIcon.svelte';
+	import { PLATFORM_TYPE } from '$lib/constants/platform';
 
 	export let title = '';
 	export let showSearchIcon = false;
@@ -21,7 +22,7 @@
 					{#if showBackIcon}
 						<LeftArrowIcon class="mr-4 cursor-pointer" onClick={() => history.back()} />
 					{/if}
-					{#if showCloseIcon && (($appStore.isSparkAndroidUser() && $appStore.closecta) || $appStore.isSparkIOSUser())}
+					{#if showCloseIcon && (($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID && $appStore.closecta) || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS)}
 						<CrossIcon class="mr-4 cursor-pointer" />
 					{/if}
 				</slot>

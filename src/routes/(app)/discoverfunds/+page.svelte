@@ -28,6 +28,7 @@
 	import Button from '$components/Button.svelte';
 	import PromotionCard from '$components/Promotions/PromotionCard.svelte';
 	import { WMSIcon } from 'wms-ui-component';
+	import { PLATFORM_TYPE } from '$lib/constants/platform';
 
 	$: showPortfoliocard = true;
 	$: deviceType = $page.data.deviceType;
@@ -382,7 +383,7 @@
 	/>
 {/if}
 
-{#if !appStore.isSparkUser() && deviceType?.isMobile && !isGuest}
+{#if !($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) && deviceType?.isMobile && !isGuest}
 	<article class="flex justify-center sm:hidden">
 		<Button
 			variant="transparent"

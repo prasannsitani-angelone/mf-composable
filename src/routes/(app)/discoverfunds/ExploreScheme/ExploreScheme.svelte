@@ -42,7 +42,7 @@
 	<div
 		class="flex cursor-pointer items-center justify-center py-6 text-sm font-semibold uppercase text-blue-primary sm:py-5"
 	>
-		<Link to="/" class="flex items-center">
+		<Link to="/explorefunds/sip-with-100?id=101" class="flex items-center">
 			<span class="uppercase">Explore all funds</span>
 			<RightIcon class="ml-3" stroke="#3F5BD9" />
 		</Link>
