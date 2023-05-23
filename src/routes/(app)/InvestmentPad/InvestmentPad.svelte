@@ -326,6 +326,22 @@
 
 	$: onInputChange(amount); // for on-screen numpad amount input
 
+	const changePaymentMethodScreenImpressionAnalyticsFunc = () => {
+		const eventMetaData = {
+			InvestmentType: activeTab,
+			DefaultPaymentMethod: paymentHandler?.paymentMode,
+			DefaultBank: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
+			ChangeBankAvailable: profileData?.bankDetails?.length > 1
+		};
+		changePaymentMethodScreenImpressionAnalytics(eventMetaData);
+	};
+
+	const showPaymentMethodScreen = () => {
+		changePaymentMethodButtonClickAnalytics();
+		showChangePayment = true;
+		changePaymentMethodScreenImpressionAnalyticsFunc();
+	};
+
 	const prefillParamsData = () => {
 		if (investmentType) {
 			activeTab = investmentType === 'LUMPSUM' ? 'ONETIME' : 'SIP';
@@ -343,8 +359,7 @@
 			setNextSipDate();
 		}
 		if (skipOrderPad && (ftp || activeTab === 'ONETIME')) {
-			// TODO
-			// add logic for skip order pad and directly show payment mode page/modal
+			showPaymentMethodScreen();
 		}
 	};
 
@@ -499,16 +514,6 @@
 		startSipButtonClickAnalytics(eventMetadata);
 	};
 
-	const changePaymentMethodScreenImpressionAnalyticsFunc = () => {
-		const eventMetaData = {
-			InvestmentType: activeTab,
-			DefaultPaymentMethod: paymentHandler?.paymentMode,
-			DefaultBank: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
-			ChangeBankAvailable: profileData?.bankDetails?.length > 1
-		};
-		changePaymentMethodScreenImpressionAnalytics(eventMetaData);
-	};
-
 	// ------------ ***** ---------------
 
 	//  ------- helpers functions -----------
@@ -527,13 +532,11 @@
 	};
 
 	const hidePaymentMethodScreen = () => {
-		showChangePayment = false;
-	};
-
-	const showPaymentMethodScreen = () => {
-		changePaymentMethodButtonClickAnalytics();
-		showChangePayment = true;
-		changePaymentMethodScreenImpressionAnalyticsFunc();
+		if (skipOrderPad) {
+			history.back();
+		} else {
+			showChangePayment = false;
+		}
 	};
 
 	const onAccountChange = (index: number) => {
@@ -1626,7 +1629,11 @@
 		} else if (paymentHandler?.paymentMode === 'NET_BANKING') {
 			submitButtonLumpsumClickAnalyticsFunc();
 			netBankingLumpsumFlow();
-		} else if (paymentHandler?.paymentMode === 'UPI' && activeTab === 'SIP') {
+		} else if (
+			paymentHandler?.paymentMode === 'UPI' &&
+			activeTab === 'SIP' &&
+			redirectedFrom !== 'SIP_PAYMENTS'
+		) {
 			submitButtonSIPClickAnalyticsFunc();
 			upiInitiateScreenAnalytics();
 			upiSIPFlow(inputId);
@@ -1634,7 +1641,7 @@
 			submitButtonLumpsumClickAnalyticsFunc();
 			upiInitiateScreenAnalytics();
 			upiLumpsumFlow(inputId);
-		} else if (activeTab === 'SIP') {
+		} else if (activeTab === 'SIP' && redirectedFrom !== 'SIP_PAYMENTS') {
 			submitButtonSIPClickAnalyticsFunc();
 			walletSIPFlow();
 		} else {
