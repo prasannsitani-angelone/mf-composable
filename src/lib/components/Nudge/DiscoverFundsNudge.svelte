@@ -4,15 +4,12 @@
 	import { goto } from '$app/navigation';
 	import Button from '$components/Button.svelte';
 	import type { INudge } from '$lib/types/INudge';
-	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
-	import type { AppContext } from '$lib/types/IAppContext';
-	import { getContext, onMount } from 'svelte';
-	import { OnNavigation } from '$lib/utils/navigation';
+	import { onMount } from 'svelte';
+	import { base } from '$app/paths';
 	let nudge: INudge;
 	let impressionEvent: () => void;
 	let clickEvent: () => void;
 	let onAction: (() => void) | null = null;
-	const appContext: AppContext = getContext('app');
 	onMount(() => {
 		impressionEvent?.();
 	});
@@ -21,8 +18,7 @@
 		if (onAction) {
 			onAction?.();
 		} else if (nudge?.link) {
-			OnNavigation();
-			goto(`${getNavigationBaseUrl('', appContext.scheme, appContext.host)}${nudge.link}`);
+			goto(`${base}${nudge.link}`);
 		}
 	};
 	export { nudge, impressionEvent, clickEvent, onAction };

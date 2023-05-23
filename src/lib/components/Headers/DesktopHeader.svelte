@@ -2,13 +2,9 @@
 	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
 	import Link from '../Link.svelte';
-	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
-	import { getContext } from 'svelte';
-	import type { AppContext } from '$lib/types/IAppContext';
 	import { page } from '$app/stores';
 	import { createEventDispatcher } from 'svelte';
 	import SearchComponent from '$lib/components/Search/SearchComponent.svelte';
-	import { OnNavigation } from '$lib/utils/navigation';
 	import { WMSIcon } from 'wms-ui-component';
 	import Overlay from '$components/Modal.svelte';
 	import Dropdown from '$components/Dropdown.svelte';
@@ -66,7 +62,6 @@
 		? activePageTabClass
 		: inactivePageTabClass;
 	const isFavouritesActive = $page.url?.pathname?.includes('/favourites');
-	const appContext: AppContext = getContext('app');
 	const dispatch = createEventDispatcher();
 	const handleSearchFocusEvent = (e: { detail: boolean }) => {
 		dispatch('handleSearchFocus', e.detail);
@@ -81,10 +76,7 @@
 				<img src={logoUrl} alt="Angel One Logo" width="127" height="51" />
 			</Link>
 		</div>
-		<Link
-			to={`${getNavigationBaseUrl('', appContext.scheme, appContext.host)}/discoverfunds`}
-			on:linkClicked={OnNavigation}
-		>
+		<Link to="/discoverfunds">
 			<div class={`hidden cursor-pointer uppercase md:block ${discoverFundsTabClass}`}>
 				Discover
 			</div>

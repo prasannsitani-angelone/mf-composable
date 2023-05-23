@@ -4,10 +4,7 @@
 	import Header from '$components/Headers/Header.svelte';
 	import Overlay from '$components/Overlay.svelte';
 	import { BOTTOM_NAVBARS } from '$lib/constants/navItems';
-	import type { AppContext } from '$lib/types/IAppContext';
-	import { getContext } from 'svelte';
 	$: pageMetaData = $page?.data?.layoutConfig;
-	const appContext: AppContext = getContext('app');
 	let searchFocused = false;
 	const handleSearchFocus = (e: { detail: boolean }) => {
 		searchFocused = e.detail;
@@ -35,7 +32,7 @@
 
 	{#if pageMetaData.showBottomNavigation}
 		<footer>
-			<BottomNavigation navs={BOTTOM_NAVBARS(appContext.scheme, appContext.host)} />
+			<BottomNavigation navs={BOTTOM_NAVBARS()} />
 		</footer>
 	{/if}
 </div>

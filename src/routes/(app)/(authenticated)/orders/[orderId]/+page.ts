@@ -2,8 +2,7 @@ import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import {
 	orderDetailsPageCompletedOrdersScreenOpenAnalytics,
 	orderDetailsPageFailedOrdersScreenOpenAnalytics,
-	orderDetailsPageInProgressOrdersScreenOpenAnalytics,
-	orderDetailsPageScreenOpenAnalytics
+	orderDetailsPageInProgressOrdersScreenOpenAnalytics
 } from '$lib/analytics/orders/orders';
 import { NAV_DETAILS, NAV_DETAILS_WITHDRAWAL } from '$lib/constants/order';
 import ORDER_DATA from '$lib/constants/orderDataItems';

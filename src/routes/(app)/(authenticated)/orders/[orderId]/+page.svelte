@@ -8,17 +8,13 @@
 	import Footer from './Footer/Footer.svelte';
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
 	import OrderDetailLoader from './Loader/OrderDetailLoader.svelte';
-	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
-	import type { AppContext } from '$lib/types/IAppContext';
-	import { getContext } from 'svelte';
 	import ErrorView from '$components/ErrorView.svelte';
 	import { base } from '$app/paths';
 	import { WMSIcon } from 'wms-ui-component';
-	const appContext: AppContext = getContext('app');
 	$: breadCrumbs = [
 		{
 			text: 'Home',
-			href: `${getNavigationBaseUrl('', appContext.scheme, appContext.host)}/`
+			href: `/`
 		},
 		{
 			text: 'Orders',

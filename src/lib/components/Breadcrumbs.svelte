@@ -1,9 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { base } from '$app/paths';
-	import { getContext } from 'svelte';
-	import type { AppContext } from '$lib/types/IAppContext';
-	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 	import { OnNavigation } from '$lib/utils/navigation';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import Link from './Link.svelte';
@@ -11,7 +8,6 @@
 
 	export let items: Array<Breadcrumbs>;
 
-	const appContext: AppContext = getContext('app');
 	let breadCrumbsList: Array<Breadcrumbs>;
 	$: breadCrumbsList = items?.map((breadCrumb) => {
 		if ($page.url.pathname === base + breadCrumb.href) {
@@ -29,7 +25,7 @@
 			<li class="mr-1 flex items-center justify-center" class:pointer-events-none={crumb.disabled}>
 				{#if crumb.text?.toLowerCase() === 'home'}
 					<Link
-						to={`${getNavigationBaseUrl('', appContext.scheme, appContext.host)}/discoverfunds`}
+						to="/discoverfunds"
 						class="text-sm text-grey-body ${crumb.isLast ? 'font-medium' : ''}"
 						on:linkClicked={OnNavigation}>{crumb.text}</Link
 					>

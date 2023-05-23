@@ -7,12 +7,11 @@ import OrdersBottomNavbarInactiveIcon from '$lib/images/icons/OrdersBottomNavbar
 import BookmarkNav from '$lib/components/BookmarkNavItems/BookmarkNav.svelte';
 import BookmarkNavFilled from '$lib/components/BookmarkNavItems/BookmarkNavFilled.svelte';
 import { base } from '$app/paths';
-import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 
-export const BOTTOM_NAVBARS = (scheme = '', host = '') => [
+export const BOTTOM_NAVBARS = () => [
 	{
 		label: 'Discover',
-		path: `${getNavigationBaseUrl(base, scheme, host)}/discoverfunds`,
+		path: `${base}/discoverfunds`,
 		icon: DiscoverIcon,
 		activeIcon: DiscoverActiveIcon
 	},
