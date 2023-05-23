@@ -270,6 +270,8 @@
 	const regenerateProceed = () => {
 		dispatch('proceedAfterRegenerateTpin');
 
+		showTpinRegeneratedModal = false;
+
 		handleProceedClick();
 	};
 
@@ -374,83 +376,85 @@
 </script>
 
 <section>
-	<Modal isModalOpen={true} on:backdropclicked={closeTpinActionModal}>
-		<div
-			class="flex w-screen flex-col rounded-t-2xl rounded-b-none bg-white shadow-csm md:w-120 md:rounded-lg"
-		>
-			<slot name="heading">
-				<div class="flex items-center justify-between py-6 px-4 md:px-8">
-					<div class="flex items-center justify-start">
-						<slot name="tpinVerificationHeader">
-							<span class="mr-1 text-xl"> Verify Order with E-DIS </span>
-						</slot>
+	{#if !showAboutEdisModal && !showTpinRegeneratedModal && !showCdslModal && !showTpinVerifiedModal && !loadingState?.isLoading && !error?.visible}
+		<Modal isModalOpen={true} on:backdropclicked={closeTpinActionModal}>
+			<div
+				class="flex w-screen flex-col rounded-t-2xl rounded-b-none bg-white shadow-csm md:w-120 md:rounded-lg"
+			>
+				<slot name="heading">
+					<div class="flex items-center justify-between py-6 px-4 md:px-8">
+						<div class="flex items-center justify-start">
+							<slot name="tpinVerificationHeader">
+								<span class="mr-1 text-xl"> Verify Order with E-DIS </span>
+							</slot>
+							<WMSIcon
+								width={16}
+								height={16}
+								name="info-in-circle"
+								class="ml-1 cursor-default md:cursor-pointer"
+								on:click={handleShowAboutEdisModal}
+							/>
+						</div>
 						<WMSIcon
-							width={16}
-							height={16}
-							name="info-in-circle"
-							class="ml-1 cursor-default md:cursor-pointer"
-							on:click={handleShowAboutEdisModal}
+							id="crossButton"
+							width={24}
+							height={24}
+							name="cross-circle"
+							class="cursor-default md:cursor-pointer"
+							on:click={closeTpinActionModal}
 						/>
 					</div>
-					<WMSIcon
-						id="crossButton"
-						width={24}
-						height={24}
-						name="cross-circle"
-						class="cursor-default md:cursor-pointer"
-						on:click={closeTpinActionModal}
-					/>
-				</div>
-			</slot>
+				</slot>
 
-			<slot name="horizontalLine">
-				<div class="hidden border-t border-grey-line sm:block" />
-			</slot>
+				<slot name="horizontalLine">
+					<div class="hidden border-t border-grey-line sm:block" />
+				</slot>
 
-			<slot name="bodySection">
-				<section class="px-4 py-3 text-base font-medium md:px-8 md:py-6">
-					<article class="rounded text-sm font-normal text-grey-body md:border md:p-4">
-						Once you proceed, you will be redirected to the <span
-							class="font-medium text-black-title">CDSL</span
+				<slot name="bodySection">
+					<section class="px-4 py-3 text-base font-medium md:px-8 md:py-6">
+						<article class="rounded text-sm font-normal text-grey-body md:border md:p-4">
+							Once you proceed, you will be redirected to the <span
+								class="font-medium text-black-title">CDSL</span
+							>
+							website. Please enter your <span class="font-medium text-black-title">TPIN</span> to verify
+							the order.
+						</article>
+
+						<article
+							class="mt-6 flex items-center justify-start rounded bg-grey px-4 py-3 text-sm font-normal text-grey-body"
 						>
-						website. Please enter your <span class="font-medium text-black-title">TPIN</span> to verify
-						the order.
-					</article>
+							<WMSIcon width={25} height={24} name="message" class="mr-3" />
+							<span>
+								If you do not have your TPIN available, you can <span
+									class="font-medium text-black-title">regenerate TPIN</span
+								> below
+							</span>
+						</article>
 
-					<article
-						class="mt-6 flex items-center justify-start rounded bg-grey px-4 py-3 text-sm font-normal text-grey-body"
-					>
-						<WMSIcon width={25} height={24} name="message" class="mr-3" />
-						<span>
-							If you do not have your TPIN available, you can <span
-								class="font-medium text-black-title">regenerate TPIN</span
-							> below
-						</span>
-					</article>
-
-					<article
-						class="mt-8 flex flex-col-reverse items-center justify-between md:mt-16 md:flex-row"
-					>
-						<Button
-							class="mt-1 w-full rounded border-blue-primary !bg-white !text-blue-primary md:mt-0 md:w-48 md:border"
-							variant={isMobile ? 'transparent' : 'outlined'}
-							onClick={handleRegenerateTpinClick}
+						<article
+							class="mt-8 flex flex-col-reverse items-center justify-between md:mt-16 md:flex-row"
 						>
-							REGENERATE TPIN
-						</Button>
+							<Button
+								class="mt-1 w-full rounded border-blue-primary !bg-white !text-blue-primary md:mt-0 md:w-48 md:border"
+								variant={isMobile ? 'transparent' : 'outlined'}
+								onClick={handleRegenerateTpinClick}
+							>
+								REGENERATE TPIN
+							</Button>
 
-						<Button
-							class="w-full rounded border border-blue-primary md:w-48"
-							variant="contained"
-							onClick={handleProceedClick}
-						>
-							PROCEED
-						</Button>
-					</article>
-				</section>
-			</slot>
-		</div>
-	</Modal>
+							<Button
+								class="w-full rounded border border-blue-primary md:w-48"
+								variant="contained"
+								onClick={handleProceedClick}
+							>
+								PROCEED
+							</Button>
+						</article>
+					</section>
+				</slot>
+			</div>
+		</Modal>
+	{/if}
 
 	{#if showAboutEdisModal}
 		<!-- Redeem About Order Verification Modal -->
@@ -474,7 +478,7 @@
 		</InfoModal>
 	{/if}
 
-	{#if showTpinRegeneratedModal}
+	{#if showTpinRegeneratedModal && !loadingState?.isLoading && !error?.visible}
 		<!-- TPIN Regenerated Modal -->
 		<InfoModal
 			showModal={showTpinRegeneratedModal}
@@ -550,7 +554,7 @@
 	</article>
 
 	<!-- TPIN verified modal (to allow user to take action - either PROCEED to place order or GO BACK and cancel) -->
-	{#if tpinVerificationSuccessful && showTpinVerifiedModal && !loadingState?.isLoading}
+	{#if tpinVerificationSuccessful && showTpinVerifiedModal && !loadingState?.isLoading && !error?.visible}
 		<TpinVerified
 			heading="TPIN Verified"
 			subHeading="Your TPIN verification is successful. Please click on proceed to place order"

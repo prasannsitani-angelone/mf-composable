@@ -269,7 +269,7 @@
 </script>
 
 <section>
-	{#if !showAboutOrderVerificationModal && !error?.visible}
+	{#if !showAboutOrderVerificationModal && !loadingState.isLoading && !error?.visible}
 		<Modal isModalOpen={true} on:backdropclicked={closeOtpActionModal}>
 			<div
 				class="flex w-screen flex-col rounded-t-2xl rounded-b-none bg-white shadow-csm md:w-120 md:rounded-lg"
