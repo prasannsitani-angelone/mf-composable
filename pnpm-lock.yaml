@@ -28,6 +28,7 @@ specifiers:
   prettier: ^2.8.8
   prettier-plugin-svelte: ^2.10.0
   prettier-plugin-tailwindcss: ^0.2.8
+  servertime: ^3.1.1
   svelte: 3.58.0
   svelte-calendar: ^3.1.6
   svelte-carousel: 1.0.25
@@ -55,6 +56,7 @@ dependencies:
   date-fns: 2.30.0
   fflate: 0.7.4
   lodash.merge: 4.6.2
+  servertime: 3.1.1
   svelte-chartjs: 3.1.2_dxm4fd7lcnjhpwocw5zmf7bpa4
   svelte-device-detector: 0.2.2
   svelte-flatpickr: 3.3.2_svelte@3.58.0
@@ -1760,6 +1762,11 @@ packages:
     resolution: {integrity: sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==}
     engines: {node: '>= 6'}
 
+  /on-headers/1.0.2:
+    resolution: {integrity: sha512-pZAE+FJLoyITytdqK0U5s+FIpjN0JP3OzFi/u8Rx+EV5/W+JTWGXG8xFzevE7AjBfDqHv/8vL8qQsIhHnqRkrA==}
+    engines: {node: '>= 0.8'}
+    dev: false
+
   /once/1.4.0:
     resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
     dependencies:
@@ -2075,6 +2082,12 @@ packages:
     dependencies:
       lru-cache: 6.0.0
     dev: true
+
+  /servertime/3.1.1:
+    resolution: {integrity: sha512-4V+UzTJvy7jtl1+eGwbvmz5hZMq4ipWOCIDir3pdFBn1t9FN1TN9wAFirCUWw3HPDa/RmamwPrHygJHmc8WKsA==}
+    dependencies:
+      on-headers: 1.0.2
+    dev: false
 
   /set-cookie-parser/2.6.0:
     resolution: {integrity: sha512-RVnVQxTXuerk653XfuliOxBP81Sf0+qfQE73LIYKcyMYHG94AuH0kgrQpRDuTZnSmjpysHmzxJXKNfa6PjFhyQ==}

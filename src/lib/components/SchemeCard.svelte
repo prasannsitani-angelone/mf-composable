@@ -1,5 +1,7 @@
 <script lang="ts">
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import type { WeeklyTopSchemesEntity } from '$lib/types/IDiscoverFunds';
+	import type { ExploreFundsOptions } from '$lib/types/IExploreFunds';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import ChipArqRating from './ChipArqRating.svelte';
 	import ChipOverview from './ChipOverview.svelte';
@@ -7,7 +9,7 @@
 	import Link from './Link.svelte';
 	import SchemeLogo from './SchemeLogo.svelte';
 
-	let schemes: WeeklyTopSchemesEntity;
+	let schemes: WeeklyTopSchemesEntity | ExploreFundsOptions | SchemeDetails;
 	let showLogo = true;
 	let preventRedirectOnSchemeClick = false;
 	let titleClass = '';
@@ -39,12 +41,18 @@
 		</h3>
 		<slot name="rating">
 			<div class="mt-1 flex">
-				<ChipArqRating arqRating={schemes?.arqRating} />
+				{#if schemes?.sortBy2 < 3}
+					<div class="mr-1 bg-green-amount p-1 text-xs font-normal uppercase text-white">
+						recommended
+					</div>
+				{/if}
+
 				<div
-					class="ml-1 bg-grey px-1 group-hover:border group-hover:border-grey-line group-hover:bg-white"
+					class="mr-1 bg-grey px-1 group-hover:border group-hover:border-grey-line group-hover:bg-white"
 				>
 					<span class="text-xs text-grey-body">{schemes?.reInvestmentPlan}</span>
 				</div>
+				<ChipArqRating arqRating={schemes?.arqRating} />
 			</div>
 		</slot>
 	</div>

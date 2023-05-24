@@ -2,7 +2,6 @@ import type { SparkStore } from '$lib/stores/SparkStore';
 import type { TokenStore } from '$lib/stores/TokenStore';
 import type { LayoutServerLoad } from '../$types';
 import type { UserProfile } from '$lib/types/IUserProfile';
-
 import { useProfileFetch } from '$lib/utils/useProfileFetch';
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { useFetch } from '$lib/utils/useFetch';
@@ -65,7 +64,8 @@ export const load = (async ({ url, request, locals, cookies, fetch }) => {
 		userDetails,
 		profileData,
 		token = '',
-		refreshToken = ''
+		refreshToken = '',
+		serverTiming
 	} = locals;
 	const tokenObj: TokenStore = {
 		userToken: {
@@ -105,7 +105,7 @@ export const load = (async ({ url, request, locals, cookies, fetch }) => {
 	}
 	console.log(
 		JSON.stringify({
-			type: 'Initial Application Params',
+			type: 'SSR Navigation',
 			params: {
 				locals: {
 					...locals,
@@ -117,7 +117,11 @@ export const load = (async ({ url, request, locals, cookies, fetch }) => {
 		})
 	);
 
+	serverTiming.start('getsearchDashboardData', 'Timing of getsearchDashboardData');
+
 	const searchDashboardData = await getsearchDashboardData(fetch);
+
+	serverTiming.end('getsearchDashboardData');
 	return {
 		sparkHeaders,
 		profile: localProfileData,

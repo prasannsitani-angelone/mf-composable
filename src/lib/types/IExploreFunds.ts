@@ -20,4 +20,5 @@ export interface ExploreFundsOptions {
 	switchFlag: string;
 	amcCode: number;
 	isFavourite: boolean;
+	sortBy2: number;
 }

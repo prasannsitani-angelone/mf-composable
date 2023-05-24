@@ -1,7 +1,8 @@
 import { browser } from '$app/environment';
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+import type { ExploreFundsOptions } from '$lib/types/IExploreFunds';
 import { useFetch } from '$lib/utils/useFetch';
-import type { ExploreFundsOptions } from '../types';
+
 import type { PageLoad } from './$types';
 
 export const load = (async ({ fetch, url }) => {
@@ -13,10 +14,14 @@ export const load = (async ({ fetch, url }) => {
 
 		if (res.ok) {
 			searchOption = res.data;
+			searchOption = searchOption?.sort(
+				(a: ExploreFundsOptions, b: ExploreFundsOptions) => a.sortBy2 - b.sortBy2
+			);
 		}
 
 		return searchOption;
 	};
+
 	return {
 		api: {
 			searchOption: browser ? getSearchOption() : await getSearchOption()

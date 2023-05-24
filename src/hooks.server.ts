@@ -10,9 +10,11 @@ import type { Handle, HandleFetch, HandleServerError } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { parse } from 'cookie-es';
 import { handleDeviecDetector } from 'sveltekit-device-detector';
+import * as servertime from 'servertime';
 const deviceDetector = handleDeviecDetector({});
 
 const handler = (async ({ event, resolve }) => {
+	const serverTiming = servertime.createTimer();
 	const cookieString = event.request.headers.get('cookie') || '';
 	const cookie: Record<string, string> = parse(cookieString);
 
@@ -40,7 +42,7 @@ const handler = (async ({ event, resolve }) => {
 		token = await getAuthToken('guest');
 		isAuthenticatedUser = false;
 	}
-
+	serverTiming.start('Get profile and User', 'Timing of get Profile and User');
 	const isGuest = isAuthenticatedUser ? false : true;
 	if (!userType && isGuest) {
 		userType = 'B2C';
@@ -48,10 +50,11 @@ const handler = (async ({ event, resolve }) => {
 	} else if (!userType && !event.request.url.includes('/api/profile')) {
 		profileData = await useProfileFetch(event.url.origin, token, fetch);
 		userDetails = await useUserDetailsFetch(token, fetch);
+		serverTiming.start('ssr generation', 'Timing of SSR generation');
 		userType = userDetails?.userType || null;
 		accountType = profileData?.dpNumber ? 'D' : 'P';
 	}
-
+	serverTiming.end('Get profile and User');
 	event.locals = {
 		...event.locals,
 		token,
@@ -62,13 +65,14 @@ const handler = (async ({ event, resolve }) => {
 		accountType,
 		profileData,
 		scheme,
-		host
+		host,
+		serverTiming
 	};
-
+	serverTiming.start('ssr generation', 'Timing of SSR generation');
 	const response = await resolve(event);
-	response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
-	response.headers.set('Pragma', 'no-cache');
-	response.headers.set('Expires', '0');
+	serverTiming.end('ssr generation');
+	const headers = serverTiming.getHeader() || '';
+	response.headers.set('Server-Timing', headers);
 	return response;
 }) satisfies Handle;
 

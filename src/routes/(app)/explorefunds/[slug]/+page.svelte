@@ -1,13 +1,17 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import TaxSavingModal from './TaxSavingModal/TaxSavingModal.svelte';
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
 	import SearchOptionHeader from './SearchOptionHeader/SearchOptionHeader.svelte';
 	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
 	import { onMount } from 'svelte';
 	import { fundCardClick, sExploreMutualFunds, taxSavingInfo } from './analytics';
 	import SchemeTable from '$components/SchemeTable.svelte';
+	import ExploreFundModal from './ExploreFundModal/ExploreFundModal.svelte';
+	import { page } from '$app/stores';
+
 	let data: PageData;
+	$: pageID = data?.pageID;
+	$: modalList = searchDashboardData?.searchOptions?.filter(({ id }) => id === pageID) || [];
 	$: isModalOpen = false;
 	$: breadCrumbs = [
 		{
@@ -31,6 +35,7 @@
 		const { schemes } = event.detail;
 		fundCardClick({ 'Fund Name': `${schemes?.schemeName}(${schemes?.categoryName})` });
 	};
+	const searchDashboardData = $page.data.searchDashboardData;
 
 	onMount(() => {
 		sExploreMutualFunds();
@@ -46,7 +51,7 @@
 		Explore Mutual Funds
 	</h1>
 
-	<SearchOptionHeader {toggleTaxSavingModal} />
+	<SearchOptionHeader {toggleTaxSavingModal} modalList={modalList[0]} />
 
 	<section class="ml-[calc(50%-50vw)] w-screen shadow-csm sm:ml-0 sm:w-full md:bg-white md:pt-4">
 		<section>
@@ -59,5 +64,5 @@
 			{/await}
 		</section>
 	</section>
-	<TaxSavingModal {isModalOpen} {toggleTaxSavingModal} />
+	<ExploreFundModal {isModalOpen} {toggleTaxSavingModal} modalList={modalList[0]} />
 </article>

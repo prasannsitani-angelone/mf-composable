@@ -3,6 +3,7 @@
 import type { DiscoverFund } from '$lib/types/IDiscoverFunds';
 import type { UserProfile } from '$lib/types/IUserProfile';
 import type { DevicePayload } from 'sveltekit-device-detector/dist/types';
+import * as servertime from 'servertime';
 interface LayoutConfig {
 	title: string;
 	showBackIcon: boolean;
@@ -29,6 +30,7 @@ declare global {
 			profileData: UserProfile;
 			refreshToken: string;
 			isGuest: boolean;
+			serverTiming: servertime.ServertimeOptions;
 		}
 		interface PageData {
 			deviceType: DevicePayload;
