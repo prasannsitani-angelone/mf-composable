@@ -6,8 +6,7 @@
 	import '../app.css';
 	import { browser } from '$app/environment';
 	import { deleteCookie } from '$lib/utils/helpers/cookie';
-	import { getUserCookieName } from '$lib/utils/helpers/token';
-	import { isDevMode } from '$lib/utils/helpers/dev';
+	import { getCookieOptions, getUserCookieName } from '$lib/utils/helpers/token';
 	import { base } from '$app/paths';
 
 	export let data;
@@ -49,12 +48,7 @@
 		});
 		update();
 		if (PUBLIC_ENV_NAME === 'prod') {
-			const cookieOptions = {
-				secure: isDevMode() ? false : true,
-				sameSite: 'strict',
-				path: '/'
-			};
-			deleteCookie(getUserCookieName(), cookieOptions);
+			deleteCookie(getUserCookieName(), getCookieOptions(false));
 		}
 	});
 </script>

@@ -2,21 +2,34 @@ import { decompressSync, zlibSync, strToU8 } from 'fflate';
 import { isDevMode } from './dev';
 import { setCookie } from './cookie';
 import { PUBLIC_ENV_NAME, PUBLIC_APP_USER_COOKIE } from '$env/static/public';
-import type { CookieParseOptions } from 'cookie-es';
+import type { CookieParseOptions, CookieSerializeOptions } from 'cookie-es';
+
+export const NON_LOGGED_IN_COOKIE = 'ABNonLoggedInCookie';
 
 export const getUserCookieName = (): string => {
 	return PUBLIC_APP_USER_COOKIE;
 };
 
-export const getUserCookieOptions = () => {
-	const options = {
+export const getUserCookieOptions = (isHttpCookie = true) => {
+	const options: CookieSerializeOptions = {
 		secure: isDevMode() ? false : true,
 		sameSite: 'strict',
-		path: '/'
+		path: '/',
+		httpOnly: isHttpCookie
 	};
 	if (!isDevMode() && PUBLIC_ENV_NAME === 'prod') {
 		options.domain = '.angelone.in';
 	}
+	return options;
+};
+
+export const getCookieOptions = (isHttpCookie = true) => {
+	const options: CookieSerializeOptions = {
+		secure: isDevMode() ? false : true,
+		sameSite: 'strict',
+		path: '/',
+		httpOnly: isHttpCookie
+	};
 	return options;
 };
 

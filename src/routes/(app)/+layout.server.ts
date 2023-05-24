@@ -7,6 +7,13 @@ import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { useFetch } from '$lib/utils/useFetch';
 import { useUserDetailsFetch } from '$lib/utils/useUserDetailsFetch';
 import type { IUserDetails } from '$lib/types/IUserDetails';
+import {
+	NON_LOGGED_IN_COOKIE,
+	encryptToken,
+	getCookieOptions,
+	getUserCookieName,
+	getUserCookieOptions
+} from '$lib/utils/helpers/token';
 const sparkHeadersList: Array<keyof SparkStore> = [
 	'platform',
 	'platformversion',
@@ -77,32 +84,30 @@ export const load = (async ({ url, request, locals, cookies, fetch }) => {
 	};
 	let localProfileData: UserProfile = profileData;
 	let localUserDetails: IUserDetails = userDetails;
-	cookies.set('UserType', userType, {
-		path: '/'
-	});
-	cookies.set('AccountType', accountType, {
-		path: '/'
-	});
+	cookies.set('UserType', userType, getCookieOptions());
+	cookies.set('AccountType', accountType, getCookieOptions());
 
 	if (isGuest) {
 		tokenObj.guestToken = token;
+		cookies.set(NON_LOGGED_IN_COOKIE, tokenObj.guestToken, getCookieOptions(false));
 	} else {
 		tokenObj.userToken = {
 			NTAccessToken: token,
 			NTRefreshToken: refreshToken
 		};
+		cookies.set(
+			getUserCookieName(),
+			encryptToken(tokenObj.userToken) || '',
+			getUserCookieOptions(false)
+		);
 	}
 	if (!localProfileData?.clientId && !isGuest) {
 		localProfileData = await useProfileFetch(url.origin, token, fetch);
-		cookies.set('AccountType', localProfileData?.dpNumber ? 'D' : 'P', {
-			path: '/'
-		});
+		cookies.set('AccountType', localProfileData?.dpNumber ? 'D' : 'P', getCookieOptions());
 	}
 	if (!localUserDetails?.userType && !isGuest) {
 		localUserDetails = await useUserDetailsFetch(token, fetch);
-		cookies.set('UserType', localUserDetails?.userType, {
-			path: '/'
-		});
+		cookies.set('UserType', localUserDetails?.userType, getCookieOptions());
 	}
 	console.log(
 		JSON.stringify({
