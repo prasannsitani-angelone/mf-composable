@@ -83,7 +83,7 @@
 				Remove from Favourites?
 			</header>
 			<div class="flex flex-col px-4">
-				<span class="text-grey-body">Do want to remove this fund from your favourites?</span>
+				<span class="text-grey-body">Do you want to remove this fund from your favourites?</span>
 
 				<div class="mt-9 flex w-full flex-1 gap-4">
 					<Button
