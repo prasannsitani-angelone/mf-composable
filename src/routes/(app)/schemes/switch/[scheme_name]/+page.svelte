@@ -340,7 +340,7 @@
 				</div>
 
 				<div slot="switchIn">
-					{#if Object.keys(switchInFund).length === 0}
+					{#if switchInFund && Object.keys(switchInFund).length === 0}
 						<SwitchInFundSelection {toggleModal} {toggleSwitchCue} />
 					{:else}
 						<SwitchOrderTile
@@ -364,7 +364,7 @@
 				</div>
 			</SwitchOrderTitleCard>
 
-			{#if Object.keys(switchInFund).length !== 0}
+			{#if switchInFund && Object.keys(switchInFund).length !== 0}
 				<FolioSelectionSwitch
 					{folioList}
 					{selectedFolio}
@@ -464,23 +464,25 @@
 		</div>
 
 		<!-- Nominee Update Card -->
-		<section class="mb-20">
-			{#if selectedFolio?.dpFlag?.toUpperCase() === 'N' && (selectedFolio?.rta === 'CAMS' || selectedFolio?.rta === 'KARVY')}
-				<NomineeUpdateCard
-					rta={selectedFolio?.rta}
-					redirectLink={selectedFolio?.rta === 'CAMS'
-						? NomineeUpdateLinks?.CAMS
-						: NomineeUpdateLinks?.KARVY}
-					textForButton="UPDATE NOW"
-				>
-					<svelte:fragment slot="icon">
-						<WMSIcon width={56} height={64} name="alert-icon" />
-					</svelte:fragment>
-				</NomineeUpdateCard>
-			{/if}
-		</section>
+		{#if switchInFund && Object.keys(switchInFund).length !== 0}
+			<section class="mb-20">
+				{#if selectedFolio?.dpFlag?.toUpperCase() === 'N' && (selectedFolio?.rta === 'CAMS' || selectedFolio?.rta === 'KARVY')}
+					<NomineeUpdateCard
+						rta={selectedFolio?.rta}
+						redirectLink={selectedFolio?.rta === 'CAMS'
+							? NomineeUpdateLinks?.CAMS
+							: NomineeUpdateLinks?.KARVY}
+						textForButton="UPDATE NOW"
+					>
+						<svelte:fragment slot="icon">
+							<WMSIcon width={56} height={64} name="alert-icon" />
+						</svelte:fragment>
+					</NomineeUpdateCard>
+				{/if}
+			</section>
+		{/if}
 
-		{#if Object.keys(switchInFund).length !== 0}
+		{#if switchInFund && Object.keys(switchInFund).length !== 0}
 			<section class="mx-3 mt-4 block md:hidden">
 				<section class="fixed inset-0 top-auto bg-white px-4 py-3">
 					<Button
