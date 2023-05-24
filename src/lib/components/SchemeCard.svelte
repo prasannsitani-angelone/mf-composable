@@ -42,13 +42,13 @@
 		<slot name="rating">
 			<div class="mt-1 flex">
 				{#if schemes?.sortBy2 > 0 && schemes?.sortBy2 < 3}
-					<div class="mr-1 bg-green-amount p-1 text-xs font-normal uppercase text-white">
-						recommended
+					<div class="mr-1 rounded bg-green-amount p-1 text-xs font-normal text-white">
+						Recommended
 					</div>
 				{/if}
 
 				<div
-					class="mr-1 bg-grey px-1 group-hover:border group-hover:border-grey-line group-hover:bg-white"
+					class="mr-1 rounded bg-grey px-1 group-hover:border group-hover:border-grey-line group-hover:bg-white"
 				>
 					<span class="text-xs text-grey-body">{schemes?.reInvestmentPlan}</span>
 				</div>
