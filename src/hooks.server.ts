@@ -66,6 +66,7 @@ const handler = (async ({ event, resolve }) => {
 		profileData,
 		scheme,
 		host,
+		sparkHeaders: event.request.headers,
 		serverTiming
 	};
 	serverTiming.start('ssr generation', 'Timing of SSR generation');
@@ -77,12 +78,12 @@ const handler = (async ({ event, resolve }) => {
 }) satisfies Handle;
 
 export const handleFetch = (async ({ event, request, fetch }) => {
-	const { userType = '', accountType = '', token } = event.locals;
+	const { userType = '', accountType = '', token, sparkHeaders } = event.locals;
 	request.headers.set('userType', userType);
 	request.headers.set('accountType', accountType);
 	request.headers.set('authorization', `Bearer ${token}`);
 	request.headers.set('authtoken', token);
-
+	request.headers.set('X-Platform', sparkHeaders?.get('platform') || 'mf-web');
 	Logger.debug({
 		type: 'Network request',
 		params: {

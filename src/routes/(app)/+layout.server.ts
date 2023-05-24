@@ -67,6 +67,7 @@ export const load = (async ({ url, request, locals, cookies, fetch }) => {
 		refreshToken = '',
 		serverTiming
 	} = locals;
+
 	const tokenObj: TokenStore = {
 		userToken: {
 			NTAccessToken: '',
@@ -111,7 +112,8 @@ export const load = (async ({ url, request, locals, cookies, fetch }) => {
 					...locals,
 					token: token ? 'xxxx' : '',
 					refreshToken: refreshToken ? 'xxxx' : '',
-					profileData: localProfileData
+					profileData: localProfileData,
+					sparkHeaders
 				}
 			}
 		})

@@ -48,7 +48,7 @@ function Store() {
 			});
 		},
 		platform: () => {
-			return sparkStore.platform.toLowerCase();
+			return sparkStore.platform.toLowerCase() || 'mf-web';
 		},
 		isSparkAndroidUser: () => {
 			return sparkStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID;
