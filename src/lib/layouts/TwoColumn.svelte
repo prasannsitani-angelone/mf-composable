@@ -24,7 +24,7 @@
 			<Overlay containerClass="!z-60" />
 		{/if}
 		<section class="m-auto flex max-w-8xl flex-wrap justify-center">
-			<section class="w-full lg:grid lg:grid-cols-[66%_34%] lg:gap-5 lg:pt-3 xl:w-4/5">
+			<section class="w-full lg:grid lg:grid-cols-[66%_34%] lg:gap-5 lg:gap-y-1 lg:pt-3 xl:w-4/5">
 				<slot />
 			</section>
 		</section>

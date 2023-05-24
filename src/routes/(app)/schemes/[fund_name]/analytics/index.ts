@@ -25,7 +25,7 @@ interface IAllHoldings {
 }
 interface ICalculateReturnsAmount {
 	InvestmentType: string;
-	Duration: number;
+	Amount: number;
 }
 interface ISortbyReturnYear {
 	ReturnYear: string;

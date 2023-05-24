@@ -25,10 +25,10 @@
 				{#if crumb.text?.toLowerCase() === 'home'}
 					<Link
 						to="/discoverfunds"
-						class="text-sm text-grey-body ${crumb.isLast ? 'font-medium' : ''}">{crumb.text}</Link
+						class="text-sm text-grey-body {crumb.isLast ? 'font-medium' : ''}">{crumb.text}</Link
 					>
 				{:else}
-					<Link to={crumb.href} class="text-sm text-grey-body ${crumb.isLast ? 'font-medium' : ''}">
+					<Link to={crumb.href} class="text-sm text-grey-body {crumb.isLast ? 'font-medium' : ''}">
 						{crumb.text}
 					</Link>
 				{/if}

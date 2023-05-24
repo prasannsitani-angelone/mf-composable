@@ -317,7 +317,7 @@
 				<div class="text-title-black mt-1 text-base font-medium">NFO</div>
 			</div>
 		</Link>
-		<Link to="/sip-calculator">
+		<Link to="/sipCalculator">
 			<div class="mb-2 flex flex-col items-center">
 				<div class="h-9 w-9 rounded-full bg-[#C9F3E1] p-[6px]">
 					<WMSIcon name="fund-calculator" />
