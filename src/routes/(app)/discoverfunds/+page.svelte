@@ -287,7 +287,7 @@
 	</article>
 
 	<!-- External Funds, NFO, Calculator -->
-	<article class="mt-2 flex justify-between rounded bg-white px-4 py-6 shadow-csm">
+	<article class="mt-2 flex justify-around rounded bg-white px-4 py-6 pb-3 shadow-csm">
 		<Link to="/investments?type=all">
 			<!-- <div class="mb-2 flex flex-col items-center relative">
 				<div class="h-9 w-9 rounded-full bg-[#F9BA4D]/[0.24] p-[6px]">
@@ -307,7 +307,7 @@
 				<div class="relative h-9 w-9 rounded-full bg-[#E1D1FC] p-[6px]">
 					{#await data.streamed.nfo then nfo}
 						<div
-							class="absolute right-0 -top-1 h-3 w-3 rounded-full bg-blue-primary text-center text-[8px] text-white"
+							class="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-blue-primary text-center text-xs text-white"
 						>
 							{nfo.length}
 						</div>
