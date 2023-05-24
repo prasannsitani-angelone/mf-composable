@@ -464,13 +464,11 @@
 		<section>
 			{#if selectedFolio?.dpFlag?.toUpperCase() === 'N' && (selectedFolio?.rta === 'CAMS' || selectedFolio?.rta === 'KARVY')}
 				<NomineeUpdateCard
-					class="!mx-0"
 					rta={selectedFolio?.rta}
 					redirectLink={selectedFolio?.rta === 'CAMS'
 						? NomineeUpdateLinks?.CAMS
 						: NomineeUpdateLinks?.KARVY}
 					textForButton="UPDATE NOW"
-					buttonClass="w-[80%]"
 				>
 					<svelte:fragment slot="icon">
 						<WMSIcon width={56} height={64} name="alert-icon" />
