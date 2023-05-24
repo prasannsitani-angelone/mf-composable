@@ -97,10 +97,15 @@
 	const upiPaymentAmountLimit = 100000;
 	const minimumNetBankingAmountLimit = 50;
 
-	let activeTab = 'SIP';
+	let activeTab =
+		(schemeData?.isSipAllowed === 'Y' && 'SIP') ||
+		(schemeData?.isLumpsumAllowed === 'Y' && 'ONETIME') ||
+		'SIP';
 	let amount = '';
 	let showCalendar = false;
-	let sipAllowedDaysArray = schemeData?.sipAllowedDays?.trim()?.split(',') || [];
+	let sipAllowedDaysArray = schemeData?.sipAllowedDays?.length
+		? schemeData?.sipAllowedDays?.trim()?.split(',') || []
+		: [];
 	let dateSuperscript = 'th';
 	let calendarDate = new Date(schemeData?.sipDate)?.getDate();
 	let calendarMonth = new Date(schemeData?.sipDate)?.toLocaleString('default', { month: 'short' });
@@ -175,7 +180,21 @@
 		}
 	}
 
+	const isSelectedInvestmentTypeAllowed = () => {
+		if (activeTab === 'SIP') {
+			return schemeData?.isSipAllowed === 'Y';
+		} else if (activeTab === 'ONETIME') {
+			return schemeData?.isLumpsumAllowed === 'Y';
+		}
+
+		return false;
+	};
+
 	const toggleFirstSipPayment = () => {
+		if (!isSelectedInvestmentTypeAllowed()) {
+			return;
+		}
+
 		firstSipPayment = !firstSipPayment;
 		setNextSipDate();
 	};
@@ -444,6 +463,10 @@
 	});
 
 	const toggleCalendar = () => {
+		if (!showCalendar && !isSelectedInvestmentTypeAllowed()) {
+			return;
+		}
+
 		showCalendar = !showCalendar;
 
 		tempCalendarDate = calendarDate;
@@ -1734,7 +1757,9 @@
 							<label class="mb-2 text-xs font-normal text-black-title">Monthly SIP Date</label>
 							<!-- TODO: add calendar date selection functionality -->
 							<section
-								class="flex items-center justify-between rounded border border-gray-200 md:cursor-pointer"
+								class="flex items-center justify-between rounded border border-gray-200 md:cursor-pointer {isSelectedInvestmentTypeAllowed()
+									? 'md:cursor-pointer'
+									: 'md:cursor-not-allowed'}"
 								on:click={toggleCalendar}
 								on:keypress={() => {
 									// add logic
@@ -1745,7 +1770,9 @@
 									inputmode="numeric"
 									value={`${calendarDate}${dateSuperscript}`}
 									readonly
-									class="w-3/4 rounded bg-white px-3 py-2 text-base font-medium leading-none text-black-title outline-none md:cursor-pointer"
+									class="w-3/4 rounded bg-white px-3 py-2 text-base font-medium leading-none text-black-title outline-none {isSelectedInvestmentTypeAllowed()
+										? 'md:cursor-pointer'
+										: 'md:cursor-not-allowed'}"
 								/>
 								<section class="border-l p-2.5">
 									<CalendarSmallIcon />
@@ -1755,7 +1782,7 @@
 					{/if}
 				</article>
 
-				{#if errorMessage?.length}
+				{#if errorMessage?.length && isSelectedInvestmentTypeAllowed()}
 					<article class="flex justify-center pb-1">
 						<p class="text-xs font-light text-red-sell">
 							{errorMessage}
@@ -1766,7 +1793,9 @@
 				<!-- Checkbox for SIP payment now -->
 				{#if activeTab === 'SIP'}
 					<article
-						class={`flex w-fit items-center justify-start pl-1 pt-2 pb-3 text-xs font-medium text-grey-body ${'md:cursor-pointer'}`}
+						class={`flex w-fit items-center justify-start pl-1 pt-2 pb-3 text-xs font-medium text-grey-body ${
+							isSelectedInvestmentTypeAllowed() ? 'md:cursor-pointer' : 'md:cursor-not-allowed'
+						}`}
 						on:click={toggleFirstSipPayment}
 						on:keypress={() => {
 							// add logic
@@ -1798,7 +1827,7 @@
 					{#if activeTab === 'SIP' && !firstSipPayment}
 						<NextSipDate {calendarDate} {calendarMonth} {calendarYear} />
 					{/if}
-					{#if (activeTab === 'ONETIME' || firstSipPayment) && !firstTimeUser}
+					{#if (activeTab === 'ONETIME' || firstSipPayment) && !firstTimeUser && isSelectedInvestmentTypeAllowed()}
 						<PaymentSleeve
 							selectedMode={paymentHandler?.paymentMode}
 							onPaymentMethodChange={showPaymentMethodScreen}
