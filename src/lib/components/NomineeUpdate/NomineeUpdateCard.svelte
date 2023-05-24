@@ -1,13 +1,11 @@
 <script lang="ts">
-	import Button from '../Button.svelte';
-
+	import { page } from '$app/stores';
+	import Link from '$components/Link.svelte';
 	export let rta = '';
 	export let textForButton = '';
 	export let redirectLink = '';
 	export let buttonClass = '';
-	const openCamsKarvyLink = () => {
-		window.open(redirectLink);
-	};
+	$: os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
 </script>
 
 <section
@@ -30,11 +28,13 @@
 	</slot>
 
 	<slot name="button">
-		<Button
-			class="items-center justify-center rounded !border-0 !bg-transparent !p-0 text-center !text-xs !text-blue-primary {buttonClass}"
-			onClick={openCamsKarvyLink}
+		<Link
+			to={os !== 'Android'
+				? redirectLink
+				: `intent://${redirectLink.split('//', 2)[1]}#Intent;scheme=https;end`}
+			class="inline-flex flex-shrink-0 text-xs font-semibold text-blue-primary {buttonClass}"
 		>
 			{textForButton}
-		</Button>
+		</Link>
 	</slot>
 </section>
