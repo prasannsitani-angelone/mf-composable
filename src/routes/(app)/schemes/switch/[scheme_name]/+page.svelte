@@ -364,9 +364,13 @@
 				</div>
 			</SwitchOrderTitleCard>
 
-			<FolioSelectionSwitch {folioList} {selectedFolio} {toggleFolioSelection} {redemableAmount} />
-
 			{#if Object.keys(switchInFund).length !== 0}
+				<FolioSelectionSwitch
+					{folioList}
+					{selectedFolio}
+					{toggleFolioSelection}
+					{redemableAmount}
+				/>
 				<section class=" mb-2 mt-0.5 rounded rounded-b-lg bg-white p-4 shadow-csm md:p-4">
 					{#if selectedFolio?.blockedunits > 0}
 						<section class="mb-2.5 flex items-center justify-between font-medium">
@@ -460,7 +464,7 @@
 		</div>
 
 		<!-- Nominee Update Card -->
-		<section>
+		<section class="mb-20">
 			{#if selectedFolio?.dpFlag?.toUpperCase() === 'N' && (selectedFolio?.rta === 'CAMS' || selectedFolio?.rta === 'KARVY')}
 				<NomineeUpdateCard
 					rta={selectedFolio?.rta}
@@ -610,6 +614,7 @@
 					<FolioSelection
 						class="w-screen rounded-t-2xl bg-white px-3 py-2"
 						{folioList}
+						switchInSchemeMode={switchInFund?.purchaseTxnMode}
 						selectedFolioNumber={selectedFolio?.folioNumber}
 						on:confirmSelectedFolio={(folioData) => setFolioWithdrawalData(folioData?.detail)}
 					/>

@@ -4,8 +4,8 @@
 	import SkeletonWrapper from '$components/Skeleton/SkeletonWrapper.svelte';
 </script>
 
-<div>
-	<SkeletonWrapper class="border-1 mt-5 mt-[60px]  rounded-lg bg-white py-3">
+<div class="h-[calc(100vh_-_75px)] overflow-hidden md:h-[calc(100vh_-_200px)]">
+	<SkeletonWrapper class="border-1 rounded-lg bg-white py-3 md:mt-5">
 		<div class="flex h-full flex-row space-x-5 border-b border-grey-line">
 			<SkeletonRectangle class="mb-2 ml-4 w-40" />
 		</div>

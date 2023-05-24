@@ -4,7 +4,7 @@
 </script>
 
 <SkeletonWrapper
-	class="mt-[60px]  h-120 w-full rounded-lg rounded-lg bg-white px-3 shadow-csm md:w-[350px] md:py-3"
+	class="mt-5 hidden h-120 w-full rounded-lg bg-white px-3 shadow-csm md:block md:w-[350px] md:py-3"
 >
 	<SkeletonRectangle class="h-72 w-full " />
 	<div class=" mt-2 rounded-lg border border-grey-line bg-white px-3 pt-5 pb-4">

@@ -15,7 +15,12 @@
 	const onSwitchNavigation = () => {
 		if (isMobile) {
 			const { schemeName, isin, schemeCode } = schemeData || {};
-			goto(`${base}/schemes/switch/${normalizeFundName(schemeName, isin, schemeCode)}`);
+			if (isin) {
+				goto(`${base}/schemes/switch/${normalizeFundName(schemeName, isin, schemeCode)}`);
+			} else {
+				const path = $page?.url?.pathname?.split('/');
+				goto(`${base}/schemes/switch/${path[3]}`);
+			}
 		}
 	};
 
