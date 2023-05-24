@@ -75,6 +75,7 @@ export interface SchemeDetails {
 	isFavourite: boolean;
 	nfoStartDate: number;
 	nfoEndtDate: number;
+	nfoScheme: 'Y' | 'N';
 }
 
 export interface SchemeHoldings {

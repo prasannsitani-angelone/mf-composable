@@ -106,7 +106,7 @@
 
 	<OrderpadLoader />
 {:then schemedata}
-	{@const isNFO = !!schemedata?.nfoStartDate}
+	{@const isNFO = schemedata?.nfoScheme === 'Y'}
 	<!-- Left Side -->
 	{#if !isMobile || !showInvestmentPad}
 		<article class="pb-16">

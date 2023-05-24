@@ -41,7 +41,7 @@
 		</h3>
 		<slot name="rating">
 			<div class="mt-1 flex">
-				{#if schemes?.sortBy2 < 3}
+				{#if schemes?.sortBy2 > 0 && schemes?.sortBy2 < 3}
 					<div class="mr-1 bg-green-amount p-1 text-xs font-normal uppercase text-white">
 						recommended
 					</div>
