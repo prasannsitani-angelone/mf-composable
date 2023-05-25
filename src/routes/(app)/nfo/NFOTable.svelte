@@ -92,7 +92,7 @@
 					<Td class="relative text-center">
 						<div class="absolute top-0 bottom-0 right-0 flex items-center justify-center sm:w-full">
 							<div class="flex items-center">
-								<span>{scheme?.navValue}</span>
+								<span>₹{scheme?.navValue}</span>
 							</div>
 						</div>
 					</Td>

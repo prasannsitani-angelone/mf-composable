@@ -22,6 +22,7 @@
 	href={isAbsoluteUrl(to) ? to : `${base}${to}`}
 	class={`${clazz}`}
 	data-sveltekit-replacestate={replaceState ? '' : 'off'}
+	id={$$props.id}
 >
 	<slot />
 </a>

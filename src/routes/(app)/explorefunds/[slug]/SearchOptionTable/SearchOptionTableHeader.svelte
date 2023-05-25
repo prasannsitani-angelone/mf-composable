@@ -6,15 +6,34 @@
 	import Link from '$components/Link.svelte';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import TaxSavingIcon from '$lib/images/icons/TaxSavingIcon.svelte';
+	import { onMount } from 'svelte';
 	import type { ExploreFundNavItem, ExploreModalData } from '../../types';
 	import { exploreMFFilter } from '../analytics';
 
 	let exploreFundsNavigation: ExploreFundNavItem[];
 	let toggleTaxSavingModal: (() => void) | null = null;
+	let pageID: string;
 	const activeLink = 'text-white bg-blue-primary';
 	const inActiveLink = 'border-grey-line  text-grey-body bg-white';
 	let modalList: ExploreModalData;
-	export { exploreFundsNavigation, toggleTaxSavingModal, modalList };
+
+	const setScrollPosition = () => {
+		const currentLink = document.getElementById(`filter-${pageID}`);
+		currentLink?.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'center' });
+	};
+	onMount(() => {
+		// Defer scroll till the DOM is ready, requestIdleCallback not supported in Safari
+		if (typeof window.requestIdleCallback === 'function') {
+			requestIdleCallback(() => {
+				setScrollPosition();
+			});
+		} else {
+			setTimeout(() => {
+				setScrollPosition();
+			}, 66);
+		}
+	});
+	export { exploreFundsNavigation, toggleTaxSavingModal, modalList, pageID };
 </script>
 
 <section class="scrollbar-hide flex w-full gap-2 overflow-x-scroll sm:pt-3">
@@ -26,6 +45,7 @@
 			on:linkClicked={() => {
 				exploreMFFilter(nav.title);
 			}}
+			id="filter-{nav.id}"
 			replaceState={true}
 		>
 			<h2 class="w-28 px-4 py-3 text-center text-xs font-medium">{nav.title}</h2>

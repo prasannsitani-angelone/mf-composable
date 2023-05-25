@@ -63,7 +63,7 @@
 		Explore Mutual Funds
 	</h1>
 
-	<SearchOptionHeader {toggleTaxSavingModal} modalList={modalList[0]} />
+	<SearchOptionHeader {toggleTaxSavingModal} modalList={modalList[0]} {pageID} />
 
 	<section class="ml-[calc(50%-50vw)] w-screen shadow-csm sm:ml-0 sm:w-full md:bg-white md:pt-4">
 		<section>
