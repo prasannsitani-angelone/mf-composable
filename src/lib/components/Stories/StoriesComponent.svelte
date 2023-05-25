@@ -300,6 +300,8 @@
 				src={story?.imageThumbnailUrl}
 				class="h-14 w-14 rounded-full border-[1.5px] border-blue-primary object-cover p-[3.5px]"
 				alt="story thumbnail"
+				width="56"
+				height="56"
 			/>
 			<p class="mt-1 w-14 truncate text-center">
 				{story?.title}
@@ -338,6 +340,8 @@
 							src={selectedStory?.imageThumbnailUrl}
 							class="absolute top-4 left-4 h-12 w-12 rounded-full object-cover text-lg font-medium text-white shadow-csm"
 							alt="video thumbnail"
+							width="48"
+							height="48"
 						/>
 
 						<button
