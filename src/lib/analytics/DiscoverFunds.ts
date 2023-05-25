@@ -49,6 +49,18 @@ export const homepageMultipleSipPaymentDueNudgeImpressionAnalytics = (eventMetaD
 	});
 };
 
+export const tabClickNavigationAnalytics = (eventMetaData: { 'Tab Name': string }) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-Homepage',
+		event_type: 'click',
+		event_sub_type: 'tab',
+		event_name: 'bottom-tab',
+		event_property: null,
+		event_id: '305.0.0.4.23',
+		event_metadata: eventMetaData
+	});
+};
+
 export const homepageSipCalculatorClickAnalytics = () => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-Homepage',

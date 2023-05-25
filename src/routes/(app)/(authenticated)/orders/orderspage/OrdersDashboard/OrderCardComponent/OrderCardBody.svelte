@@ -6,8 +6,9 @@
 	import { base } from '$app/paths';
 	import { WMSIcon } from 'wms-ui-component';
 	import { format } from 'date-fns';
-	import { orderCardClickAnalytics } from '$lib/analytics/orders/orders';
+	import { orderDashboardCardClickAnalytics } from '$lib/analytics/orders/orders';
 	import { INVESTMENT_TYPE } from '$lib/constants/transactionType';
+	import { ORDER_STATUS } from '$lib/constants/orderFlowStatuses';
 
 	export let item: orderItem;
 	let investmentTypeText = '';
@@ -37,6 +38,8 @@
 			orderStatus = 'In Progress';
 		} else if (item?.status?.toUpperCase() === 'ORDER_SCHEDULED') {
 			orderStatus = 'Upcoming';
+		} else if (item?.status?.toUpperCase() === ORDER_STATUS.ORDER_COMPLETE) {
+			orderStatus = 'Completed';
 		} else if (item?.status?.toUpperCase() === 'ORDER_REJECTED') {
 			orderStatus = 'Failed';
 		}
@@ -45,17 +48,14 @@
 	};
 
 	const orderCardAnalytics = () => {
-		// TODO: Analytics Code
 		const eventMetaData = {
 			FundName: item?.schemeName,
-			Order: item?.investmentType,
-			Type: item?.transactionType,
+			Type: item?.investmentType,
 			Amount: item?.amount,
 			Date: format(new Date(item?.createdTs), 'dd/MM/yyyy'),
-			OrderStatus: getOrderStatusString(item)
+			Status: getOrderStatusString(item)
 		};
-
-		orderCardClickAnalytics(eventMetaData);
+		orderDashboardCardClickAnalytics(eventMetaData);
 	};
 
 	const handleBodyClick = () => {

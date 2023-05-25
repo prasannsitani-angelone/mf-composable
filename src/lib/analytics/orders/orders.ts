@@ -11,14 +11,15 @@ export const failedOrdersRetryCtaClickAnalytics = () => {
 	});
 };
 
-export const ordersDashboardScreenOpenAnalytics = () => {
+export const ordersDashboardScreenOpenAnalytics = (eventMetaData: { [key: string]: string }) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-Orders',
 		event_type: 'impression',
 		event_sub_type: 'screen',
 		event_name: 's-Orders',
 		event_property: null,
-		event_id: '305.0.0.1.0'
+		event_id: '305.0.0.1.0',
+		event_metadata: eventMetaData
 	});
 };
 
@@ -103,36 +104,55 @@ export const expectedNavDateModalCloseAnalytics = () => {
 	});
 };
 
-export const clickInProgressCheckboxAnalytics = () => {
+export const allFiltersUncheckedAnalytics = (eventMetaData: {
+	InProgress: string;
+	Completed: string;
+	Failed: string;
+}) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-orders',
+		event_type: 'click',
+		event_sub_type: 'checkbox',
+		event_name: 'Check',
+		event_property: null,
+		event_id: '305.0.0.4.6',
+		event_metadata: eventMetaData
+	});
+};
+
+export const clickInProgressCheckboxAnalytics = (eventMetaData: { InProgress: string }) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-orders',
 		event_type: 'click',
 		event_sub_type: 'checkbox',
 		event_name: 'In Progress',
 		event_property: null,
-		event_id: '305.0.0.4.7'
+		event_id: '305.0.0.4.7',
+		event_metadata: eventMetaData
 	});
 };
 
-export const clickCompletedCheckboxAnalytics = () => {
+export const clickCompletedCheckboxAnalytics = (eventMetaData: { Completed: string }) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-orders',
 		event_type: 'click',
 		event_sub_type: 'checkbox',
 		event_name: 'completed',
 		event_property: null,
-		event_id: '305.0.0.4.8'
+		event_id: '305.0.0.4.8',
+		event_metadata: eventMetaData
 	});
 };
 
-export const clickFailedCheckboxAnalytics = () => {
+export const clickFailedCheckboxAnalytics = (eventMetaData: { Failed: string }) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-orders',
 		event_type: 'click',
 		event_sub_type: 'checkbox',
 		event_name: 'failed',
 		event_property: null,
-		event_id: '305.0.0.4.9'
+		event_id: '305.0.0.4.9',
+		event_metadata: eventMetaData
 	});
 };
 
@@ -229,6 +249,36 @@ export const infoTagClickAnalytics = (eventMetaData: {
 		event_name: 'EXnavdate',
 		event_property: null,
 		event_id: '305.0.0.4.18',
+		event_metadata: eventMetaData
+	});
+};
+
+export const failedOrdersRetryCtaDashboardClickAnalytics = (eventMetaData: { Status: string }) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-orders',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'Retrypayment',
+		event_property: null,
+		event_id: '305.0.0.4.11',
+		event_metadata: eventMetaData
+	});
+};
+
+export const orderDashboardCardClickAnalytics = (eventMetaData: {
+	FundName: string;
+	Type: string;
+	Amount: number;
+	Date: string;
+	Status: string;
+}) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-orders',
+		event_type: 'click',
+		event_sub_type: 'card',
+		event_name: 'orderscard',
+		event_property: null,
+		event_id: '305.0.0.4.22',
 		event_metadata: eventMetaData
 	});
 };

@@ -10,6 +10,7 @@
 	import { userActionStore } from '$lib/stores/UserActionStore';
 	import { logoutAttemptStore } from '$lib/stores/LogoutAttemptStore';
 	import { reportsEntryDesktopAnalytics } from '$lib/analytics/reports/reports';
+	import { tabClickNavigationAnalytics } from '$lib/analytics/DiscoverFunds';
 
 	const onReportsButtonClick = () => {
 		userActionStore.hideUserActionDropDown();
@@ -74,6 +75,12 @@
 	const handleSearchFocusEvent = (e: { detail: boolean }) => {
 		dispatch('handleSearchFocus', e.detail);
 	};
+	const onTabClickAnalytics = (label: string) => {
+		const eventMetaData = {
+			'Tab Name': label
+		};
+		tabClickNavigationAnalytics(eventMetaData);
+	};
 </script>
 
 <section class="p-2 pl-4 text-center shadow-clg md:p-5">
@@ -84,24 +91,24 @@
 				<img src={logoUrl} alt="Angel One Logo" width="127" height="51" />
 			</Link>
 		</div>
-		<Link to="/discoverfunds">
+		<Link to="/discoverfunds" on:linkClicked={() => onTabClickAnalytics('Discover Funds')}>
 			<div class={`hidden cursor-pointer uppercase md:block ${discoverFundsTabClass}`}>
 				Discover
 			</div>
 		</Link>
-		<Link to="/investments">
+		<Link to="/investments" on:linkClicked={() => onTabClickAnalytics('Investments')}>
 			<div class={`hidden cursor-pointer uppercase md:block ${myInvestmentsTabClass}`}>
 				INVESTMENTS
 			</div>
 		</Link>
-		<Link to={`/orders/orderspage`}>
+		<Link to={`/orders/orderspage`} on:linkClicked={() => onTabClickAnalytics('Orders')}>
 			<div class="mr-4 hidden cursor-pointer uppercase md:block {ordersTabClass}">ORDERS</div>
 		</Link>
 		<div class="w-full md:w-2/5">
 			<svelte:component this={SearchDynamicComponent} on:searchFocus={handleSearchFocusEvent} />
 			<!-- <SearchComponent  /> -->
 		</div>
-		<Link to="/favourites">
+		<Link to="/favourites" on:linkClicked={() => onTabClickAnalytics('Favourites')}>
 			<div
 				class="flex h-9 w-9 items-center justify-center rounded-full {isFavouritesActive
 					? 'bg-blue-primary'

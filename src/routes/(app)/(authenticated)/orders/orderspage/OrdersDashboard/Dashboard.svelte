@@ -14,10 +14,12 @@
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import {
+		allFiltersUncheckedAnalytics,
 		clickCompletedCheckboxAnalytics,
 		clickFailedCheckboxAnalytics,
 		clickInProgressCheckboxAnalytics,
-		failedOrdersRetryCtaClickAnalytics
+		failedOrdersRetryCtaDashboardClickAnalytics,
+		ordersDashboardScreenOpenAnalytics
 	} from '$lib/analytics/orders/orders';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
@@ -26,6 +28,7 @@
 	import { REVERSE_INVESTMENT_TYPE } from '$lib/constants/transactionType';
 	import { filterStore } from '$lib/stores/FilterStore';
 	import { userStore } from '$lib/stores/UserStore';
+	import { onMount } from 'svelte';
 	let ordersSummary: OrdersSummary;
 	let inProgressOrders: orderItem[] = [];
 	let failedOrders: orderItem[] = [];
@@ -35,8 +38,11 @@
 	let schemeDetails: SchemeDetails;
 
 	const handleFooterClick = async (e: CustomEvent) => {
-		failedOrdersRetryCtaClickAnalytics();
 		const orderItem: orderItem = e.detail;
+		const eventMetaData = {
+			Status: orderItem?.status?.toUpperCase()
+		};
+		failedOrdersRetryCtaDashboardClickAnalytics(eventMetaData);
 		const schemeUrl = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${orderItem?.isin}/${orderItem?.schemeCode}`;
 		const schemeResponse = await useFetch(schemeUrl);
 		if (schemeResponse.ok) {
@@ -63,18 +69,33 @@
 		orders = [];
 		// const filters = e.detail;
 		if ($filterStore.completed) {
+			const eventMetaData = {
+				Completed: `( ${compeletedOrders.length} )`
+			};
 			orders = [...orders, ...compeletedOrders];
-			clickCompletedCheckboxAnalytics();
+			clickCompletedCheckboxAnalytics(eventMetaData);
 		}
 		if ($filterStore.inprogress) {
+			const eventMetaData = {
+				InProgress: `( ${inProgressOrders.length} )`
+			};
 			orders = [...orders, ...inProgressOrders];
-			clickInProgressCheckboxAnalytics();
+			clickInProgressCheckboxAnalytics(eventMetaData);
 		}
 		if ($filterStore.failed) {
+			const eventMetaData = {
+				Failed: `( ${failedOrders.length} )`
+			};
 			orders = [...orders, ...failedOrders];
-			clickFailedCheckboxAnalytics();
+			clickFailedCheckboxAnalytics(eventMetaData);
 		}
 		if (!$filterStore.completed && !$filterStore.failed && !$filterStore.inprogress) {
+			const eventMetaData = {
+				InProgress: `( ${inProgressOrders.length} )`,
+				Completed: `( ${compeletedOrders.length} )`,
+				Failed: `( ${failedOrders.length} )`
+			};
+			allFiltersUncheckedAnalytics(eventMetaData);
 			orders = [...compeletedOrders, ...failedOrders, ...inProgressOrders];
 		}
 		// Sorting the orders desc by created Timestamp
@@ -84,6 +105,22 @@
 			});
 		}
 	}
+
+	onMount(() => {
+		const eventMetaData: { [key: string]: string } = {
+			'In Progress': `( ${ordersSummary?.totalProcessingOrders} )`,
+			Completed: `( ${ordersSummary?.totalCompletedOrders} )`,
+			Failed: `( ${ordersSummary?.totalFailedOrders} )`
+		};
+		if (
+			!ordersSummary?.totalProcessingOrders &&
+			!ordersSummary?.totalFailedOrders &&
+			!ordersSummary?.totalCompletedOrders
+		) {
+			eventMetaData['Message'] = 'You do not have any orders currently';
+		}
+		ordersDashboardScreenOpenAnalytics(eventMetaData);
+	});
 
 	const userType = userStore.userType();
 	export { ordersSummary, compeletedOrders, inProgressOrders, failedOrders, data };
