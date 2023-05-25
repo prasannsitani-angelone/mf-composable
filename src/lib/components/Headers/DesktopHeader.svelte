@@ -3,8 +3,7 @@
 	import { goto } from '$app/navigation';
 	import Link from '../Link.svelte';
 	import { page } from '$app/stores';
-	import { createEventDispatcher } from 'svelte';
-	import SearchComponent from '$lib/components/Search/SearchComponent.svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import { WMSIcon } from 'wms-ui-component';
 	import Overlay from '$components/Modal.svelte';
 	import Dropdown from '$components/Dropdown.svelte';
@@ -25,7 +24,15 @@
 
 	$: isGuest = $page.data?.isGuest;
 	$: userName = $page.data?.profile?.clientDetails?.fullName || '';
+	$: isBrowser = $page.data.deviceType.isBrowser;
+	let SearchDynamicComponent;
 
+	onMount(async () => {
+		if (isBrowser) {
+			SearchDynamicComponent = (await import('$lib/components/Search/SearchComponent.svelte'))
+				.default;
+		}
+	});
 	$: actionItemList = [
 		{
 			title: userName,
@@ -91,7 +98,8 @@
 			<div class="mr-4 hidden cursor-pointer uppercase md:block {ordersTabClass}">ORDERS</div>
 		</Link>
 		<div class="w-full md:w-2/5">
-			<SearchComponent on:searchFocus={handleSearchFocusEvent} />
+			<svelte:component this={SearchDynamicComponent} on:searchFocus={handleSearchFocusEvent} />
+			<!-- <SearchComponent  /> -->
 		</div>
 		<Link to="/favourites">
 			<div

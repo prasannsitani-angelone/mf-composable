@@ -8,18 +8,24 @@
 	import TaxImplications from './TaxImplications.svelte';
 
 	let schemeDetails: SchemeDetails;
-
-	export { schemeDetails };
+	let isNFO = false;
+	export { schemeDetails, isNFO };
 </script>
 
 <article
 	class="mt-4 max-w-4xl rounded-lg border border-b border-grey-line bg-white text-sm shadow-csm"
 >
-	<SchemeInformationHeader />
+	{#if !isNFO}
+		<SchemeInformationHeader />
+	{/if}
 	<section class="origin-top transition duration-100">
-		<BasicInformation {schemeDetails} />
+		{#if !isNFO}
+			<BasicInformation {schemeDetails} />
+		{/if}
 		<TaxImplications {schemeDetails} />
 		<RiskInvolved {schemeDetails} />
-		<Rating {schemeDetails} />
+		{#if !isNFO}
+			<Rating {schemeDetails} />
+		{/if}
 	</section>
 </article>

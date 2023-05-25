@@ -73,6 +73,7 @@ const handler = (async ({ event, resolve }) => {
 	const response = await resolve(event);
 	serverTiming.end('ssr generation');
 	const headers = serverTiming.getHeader() || '';
+
 	response.headers.set('Server-Timing', headers);
 	return response;
 }) satisfies Handle;

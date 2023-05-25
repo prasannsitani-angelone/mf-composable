@@ -18,7 +18,7 @@ export const load = (async ({ fetch, depends }) => {
 			favouritesFunds = res?.data?.data?.schemes;
 			if (favouritesFunds.length === 0) {
 				if (browser) {
-					goto(`${base}/favourites/nofunds`, { replaceState: true });
+					await goto(`${base}/favourites/nofunds`, { replaceState: true });
 				} else {
 					throw redirect(302, `${base}/favourites/nofunds`);
 				}

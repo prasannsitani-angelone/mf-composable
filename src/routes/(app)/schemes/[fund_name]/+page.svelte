@@ -118,12 +118,14 @@
 			{#if isNFO}
 				<NfoDetails schemeDetails={schemedata} />
 			{/if}
-			<LockInPeriod schemeDetails={schemedata} />
-			<ReturnEstimator
-				returns3yr={schemedata?.returns3yr}
-				categoryName={schemedata?.categoryName}
-			/>
-			<SchemeInformation schemeDetails={schemedata} />
+			<LockInPeriod schemeDetails={schemedata} {isNFO} />
+			{#if !isNFO}
+				<ReturnEstimator
+					returns3yr={schemedata?.returns3yr}
+					categoryName={schemedata?.categoryName}
+				/>
+			{/if}
+			<SchemeInformation schemeDetails={schemedata} {isNFO} />
 			<FundManager schemeDetails={schemedata} />
 			{#if !isNFO}
 				{#await data?.api?.holdingData then fundHoldingData}

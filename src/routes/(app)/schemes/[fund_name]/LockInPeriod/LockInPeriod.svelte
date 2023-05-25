@@ -6,11 +6,11 @@
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 
 	let schemeDetails: SchemeDetails;
-
-	export { schemeDetails };
+	let isNFO = false;
+	export { schemeDetails, isNFO };
 </script>
 
-<article class="mt-4 max-w-4xl rounded-lg bg-white pb-4 text-sm shadow-csm sm:pb-0">
+<article class="mt-4 max-w-4xl rounded-lg bg-white pb-0 text-sm shadow-csm sm:pb-0">
 	<section class="origin-top transition duration-100">
 		<div class="flex flex-col px-3 py-4">
 			<div class="flex gap-2">
@@ -59,19 +59,21 @@
 					</div>
 				</div>
 			</div>
-			<div
-				class="mt-3 flex items-center justify-center rounded border border-grey-line py-2 font-medium text-black-title"
-			>
-				<LockInIcon />
-				<span class="font-semibold"> Lock-in:</span>
-				{#if schemeDetails?.sipLockinPeriodFlag === 'Y'}
-					<div>
-						Fund has {schemeDetails?.sipLockinPeriod}Y lock-in period
-					</div>
-				{:else}
-					Fund has no lock-in period
-				{/if}
-			</div>
+			{#if !isNFO}
+				<div
+					class="mt-3 flex items-center justify-center rounded border border-grey-line py-2 font-medium text-black-title"
+				>
+					<LockInIcon />
+					<span class="font-semibold"> Lock-in:</span>
+					{#if schemeDetails?.sipLockinPeriodFlag === 'Y'}
+						<div>
+							Fund has {schemeDetails?.sipLockinPeriod}Y lock-in period
+						</div>
+					{:else}
+						Fund has no lock-in period
+					{/if}
+				</div>
+			{/if}
 		</div>
 	</section>
 </article>

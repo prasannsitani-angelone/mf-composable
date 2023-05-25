@@ -9,13 +9,13 @@
 	let redirectUrl: string;
 
 	const navigateToRedirectUrl = async () => {
-		await goto(`${base}${redirectUrl}`);
+		await goto(`${base}${redirectUrl}`, { replaceState: true });
 	};
 	export { heading, contentLine, textForButton, redirectUrl };
 </script>
 
 <section
-	class="flex h-[calc(100vh-180px)] flex-col items-center rounded-lg bg-white px-8 pt-12 shadow-csm"
+	class="flex h-[calc(100vh-180px)] flex-col items-center justify-center rounded-lg bg-white px-8 shadow-csm"
 >
 	<slot name="icon" />
 	<slot name="heading">

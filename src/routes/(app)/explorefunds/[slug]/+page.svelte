@@ -33,7 +33,17 @@
 
 	const fundRowClicked = (event) => {
 		const { schemes } = event.detail;
-		fundCardClick({ 'Fund Name': `${schemes?.schemeName}(${schemes?.categoryName})` });
+		const { isin } = schemes;
+
+		const order = schemes?.sortBy2;
+		const recommended = order > 0 && order < 3;
+		const filter = modalList[0]?.name;
+		fundCardClick({
+			'Fund Name': `${schemes?.schemeName}(${schemes?.categoryName})`,
+			isin,
+			recommended,
+			filter
+		});
 	};
 	const searchDashboardData = $page.data.searchDashboardData;
 
@@ -59,8 +69,6 @@
 				<TableSkeleton />
 			{:then searchOption}
 				<SchemeTable {searchOption} on:fundRowClicked={fundRowClicked} />
-			{:catch error}
-				Error...
 			{/await}
 		</section>
 	</section>

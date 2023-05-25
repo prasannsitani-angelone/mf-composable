@@ -30,7 +30,7 @@
 	import { WMSIcon } from 'wms-ui-component';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 
-	$: showPortfoliocard = true;
+	$: showPortfoliocard = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
 	$: isGuest = $page.data.isGuest;
 	let sipPaymentNudges: ISip[] = [];

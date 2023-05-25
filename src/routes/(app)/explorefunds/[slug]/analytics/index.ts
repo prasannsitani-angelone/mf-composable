@@ -5,6 +5,9 @@ interface ITaxSavingInfo {
 }
 interface IFundCardClick {
 	'Fund Name': string;
+	isin: string;
+	filter: string;
+	recommended: boolean;
 }
 
 export const sExploreMutualFunds = () => {
