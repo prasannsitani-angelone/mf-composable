@@ -161,7 +161,7 @@
 			res?.data?.data?.orderId !== undefined
 		) {
 			const baseUrl = `${getNavigationBaseUrl(base, appContext?.scheme, appContext?.host)}`;
-			const path = `/orders/redeem/${res?.data?.data?.orderId}`;
+			const path = `/orders/redeem/${res?.data?.data?.orderId}?orderType=SWITCH`;
 			goto(`${baseUrl}${path}`);
 		} else {
 			error.visible = true;

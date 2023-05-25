@@ -1,11 +1,11 @@
 <script lang="ts">
 	import MobileHeader from './MobileHeader.svelte';
 	import DesktopHeader from './DesktopHeader.svelte';
-	import { userStore } from '$lib/stores/UserStore';
 	import { page } from '$app/stores';
 	import { headerStore } from '$lib/stores/HeaderStore';
 	import { createEventDispatcher } from 'svelte';
 	$: pageMetaData = $page?.data?.layoutConfig;
+	$: userType = $page?.data?.userDetails?.userType || 'B2C';
 	const dispatch = createEventDispatcher();
 	const handleSearchFocusEvent = (e: { detail: boolean }) => {
 		dispatch('handleSearchFocus', e.detail);
@@ -23,7 +23,7 @@
 		>
 			<svelte:fragment slot="title">
 				<h1 class="text-lg font-medium text-black-title">
-					{#if userStore.userType() === 'B2C' && pageMetaData?.title === 'Mutual Funds'}
+					{#if userType === 'B2C' && pageMetaData?.title === 'Mutual Funds'}
 						<span class="ml-1 flex flex-col">
 							<span class="flex"> Direct Mutual Funds</span>
 							<span class="text-left text-xs text-grey-body">Zero commission | Zero fees</span>
