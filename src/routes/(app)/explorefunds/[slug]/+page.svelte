@@ -42,13 +42,15 @@
 			'Fund Name': `${schemes?.schemeName}(${schemes?.categoryName})`,
 			isin,
 			recommended,
-			filter
+			filter,
+			order
 		});
 	};
 	const searchDashboardData = $page.data.searchDashboardData;
 
 	onMount(() => {
-		sExploreMutualFunds();
+		const filter = modalList[0]?.name;
+		sExploreMutualFunds({ filter });
 	});
 
 	export { data };

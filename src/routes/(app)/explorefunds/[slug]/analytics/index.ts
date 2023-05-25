@@ -8,16 +8,18 @@ interface IFundCardClick {
 	isin: string;
 	filter: string;
 	recommended: boolean;
+	order: number;
 }
 
-export const sExploreMutualFunds = () => {
+export const sExploreMutualFunds = (eventMetaData: { filter: string }) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-ExploreMutualFunds',
 		event_type: 'impression',
 		event_sub_type: 'screen',
 		event_name: 's-ExploreMutualFunds',
 		event_property: null,
-		event_id: '308.0.0.2.0'
+		event_id: '308.0.0.2.0',
+		event_metadata: eventMetaData
 	});
 };
 
