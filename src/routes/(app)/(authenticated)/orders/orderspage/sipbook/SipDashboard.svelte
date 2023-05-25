@@ -3,7 +3,7 @@
 	import DiscoverFundsNudge from '$components/Nudge/DiscoverFundsNudge.svelte';
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import { getBankLogoUrl } from '$lib/utils';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import type { PageData } from '../../../../$types';
 	import NoSipScreen from './NoSipScreen.svelte';
 	import SipCard from './SipCard.svelte';
@@ -113,10 +113,11 @@
 		invalidate('app:sipbook');
 	};
 
-	const onAction = (nudge: INudge) => {
+	const onAction = async (nudge: INudge) => {
 		sipID = nudge?.data?.sipID;
 		amount = nudge?.data?.amount;
 		orderDate = nudge?.data?.orderDate;
+		await tick();
 		mandateInstance?.startProcess();
 	};
 
