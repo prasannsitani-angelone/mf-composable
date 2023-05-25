@@ -15,7 +15,8 @@
 		homepageMultipleSipPaymentDueNudgeImpressionAnalytics,
 		homepageSipPaymentDueNudgeImpressionAnalytics,
 		nudgeClick,
-		nudgeImpression
+		nudgeImpression,
+		homepageSipCalculatorClickAnalytics
 	} from '$lib/analytics/DiscoverFunds';
 	import type { PageData } from './$types';
 	import type { StoriesData, videoCtaUrls } from '$lib/types/IStories';
@@ -296,15 +297,17 @@
 				<div class="text-title-black mt-1 text-base font-medium">External Funds</div>
 			</div> -->
 			<div class="mb-2 flex flex-col items-center">
-				<div class="relative flex h-9 w-9 items-center rounded-full bg-[#F9BA4D]/[0.24]">
+				<div
+					class="relative flex h-9 w-9 items-center justify-center rounded-full bg-[#F9BA4D]/[0.24]"
+				>
 					<WMSIcon name="import-external-funds" />
 				</div>
-				<div class="text-title-black mt-1 text-base font-medium">External Funds</div>
+				<div class="text-title-black mt-2 text-sm font-medium lg:text-base">External Funds</div>
 			</div>
 		</Link>
 		<Link to="/nfo">
 			<div class="mb-2 flex flex-col items-center">
-				<div class="relative h-9 w-9 rounded-full bg-[#E1D1FC] p-[6px]">
+				<div class="relative h-9 w-9 items-center justify-center rounded-full bg-[#E1D1FC] p-[6px]">
 					{#await data.streamed.nfo then nfo}
 						<div
 							class="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-blue-primary text-center text-xs text-white"
@@ -314,15 +317,15 @@
 					{/await}
 					<WMSIcon name="announcement" />
 				</div>
-				<div class="text-title-black mt-1 text-base font-medium">NFO</div>
+				<div class="text-title-black mt-2 text-sm font-medium lg:text-base">NFO</div>
 			</div>
 		</Link>
-		<Link to="/sipCalculator">
+		<Link to="/sipCalculator" on:linkClicked={homepageSipCalculatorClickAnalytics}>
 			<div class="mb-2 flex flex-col items-center">
-				<div class="h-9 w-9 rounded-full bg-[#C9F3E1] p-[6px]">
+				<div class="flex h-9 w-9 items-center justify-center rounded-full bg-[#C9F3E1] p-[6px]">
 					<WMSIcon name="fund-calculator" />
 				</div>
-				<div class="text-title-black mt-1 text-base font-medium">SIP Calculator</div>
+				<div class="text-title-black mt-2 text-sm font-medium lg:text-base">SIP Calculator</div>
 			</div>
 		</Link>
 	</article>

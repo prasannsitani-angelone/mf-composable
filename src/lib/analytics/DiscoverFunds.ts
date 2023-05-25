@@ -48,3 +48,14 @@ export const homepageMultipleSipPaymentDueNudgeImpressionAnalytics = (eventMetaD
 		event_metadata: eventMetaData
 	});
 };
+
+export const homepageSipCalculatorClickAnalytics = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-Homepage',
+		event_type: 'click',
+		event_sub_type: 'card',
+		event_name: 'SIPCalculator',
+		event_property: null,
+		event_id: '308.0.0.6.0'
+	});
+};
