@@ -9,6 +9,8 @@
 	let isin: string;
 	let schemeCode: string;
 	let isFavourite: boolean;
+	let diasbaled = false;
+	let entryModeCarousel = false;
 	const dispatch = createEventDispatcher();
 
 	let showDeleteConfirmationPopup = false;
@@ -41,26 +43,38 @@
 		}
 		dispatch('toggleFavourites', { isFavourite });
 		showDeleteConfirmationPopup = false;
+		dispatch('toggle-initiated', { enabled: false });
 	};
 	const toggleFavourites = async (event: Event) => {
 		event.stopPropagation();
-
+		dispatch('toggle-initiated', { enabled: isFavourite });
 		if (isFavourite) {
-			showDeleteConfirmationPopup = true;
+			// showDeleteConfirmationPopup = true;
+			if (entryModeCarousel) {
+				setTimeout(() => {
+					showDeleteConfirmationPopup = true;
+				}, 500);
+			} else {
+				showDeleteConfirmationPopup = true;
+			}
+
 			// await removeFromFavourites();
 		} else {
 			await addToFavourites();
 		}
 	};
 
-	export { isin, schemeCode, isFavourite };
+	export { isin, schemeCode, isFavourite, entryModeCarousel };
 </script>
 
 <Button
 	variant="transparent"
 	class="{$$props.class} items-start"
 	onClick={async (e) => {
+		if (diasbaled) return;
+		diasbaled = true;
 		await toggleFavourites(e);
+		diasbaled = false;
 	}}
 >
 	{#if isFavourite}
@@ -74,9 +88,16 @@
 		isModalOpen={true}
 		on:backdropclicked={() => {
 			showDeleteConfirmationPopup = false;
+			dispatch('toggle-initiated', { enabled: false });
 		}}
 	>
-		<article class="w-full rounded-t-2xl bg-white pt-6 pb-8 md:w-120 md:rounded-lg">
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<article
+			class="w-full cursor-default rounded-t-2xl bg-white pt-6 pb-8 md:w-120 md:rounded-lg"
+			on:click={(e) => {
+				e.stopPropagation();
+			}}
+		>
 			<header
 				class="pb-4 pl-4 text-lg font-medium text-black-title sm:mb-4 sm:border-b md:text-xl lg:px-8 lg:pb-6"
 			>
@@ -92,6 +113,7 @@
 						onClick={(e) => {
 							e.stopPropagation();
 							showDeleteConfirmationPopup = false;
+							dispatch('toggle-initiated', { enabled: false });
 						}}>No</Button
 					>
 					<Button class="flex-1" onClick={removeFromFavourites}>Yes</Button>

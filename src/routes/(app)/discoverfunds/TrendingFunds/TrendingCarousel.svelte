@@ -7,10 +7,20 @@
 
 	let tableData: Array<WeeklyTopSchemesEntity>;
 
+	let carouselInActive = false;
+
+	const favoriteToggled = (e: {
+		detail: {
+			enabled: boolean;
+		};
+	}) => {
+		carouselInActive = e.detail.enabled;
+	};
+
 	export { tableData };
 </script>
 
-<section class="sm:hidden">
+<section class="sm:hidden {carouselInActive ? 'carousel-inactive' : 'carousel-active'}">
 	<Carousel>
 		{#each tableData || [] as schemes}
 			<article class="pt-10 pb-1">
@@ -22,10 +32,12 @@
 							class=" border-line-grey  absolute top-0  left-0 translate-x-1/2 -translate-y-1/2 justify-center bg-white"
 						/>
 						<AddToFavourites
+							entryModeCarousel
 							class="absolute right-0 top-2"
 							isin={schemes?.isin}
 							schemeCode={schemes?.schemeCode}
 							isFavourite={schemes?.isFavourite}
+							on:toggle-initiated={favoriteToggled}
 						/>
 						<div class="w-2/3 pt-5">
 							<SchemeCard {schemes} showLogo={false} />
@@ -40,3 +52,9 @@
 		{/each}
 	</Carousel>
 </section>
+
+<style>
+	.carousel-inactive :global(.sc-carousel__pages-container) {
+		transform: none !important;
+	}
+</style>
