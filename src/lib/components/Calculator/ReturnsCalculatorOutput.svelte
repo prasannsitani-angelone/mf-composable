@@ -13,6 +13,8 @@
 <section class={$$props.class || ''}>
 	<div class="mb-8 flex h-9 justify-center rounded bg-grey align-middle font-normal text-grey-body">
 		<span class="flex items-center gap-1 text-xs leading-9 md:text-sm">
+			<WMSIcon name="rupee-circle-blue" height={14} width={14} />
+
 			<span> When you invest </span>
 			<span class="font-bold text-black-title"
 				><AmountText amount={outputData?.investedAmount || 0} />
