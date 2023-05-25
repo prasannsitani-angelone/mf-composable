@@ -8,8 +8,12 @@ import { useFetch } from '$lib/utils/useFetch';
 import { redirect } from '@sveltejs/kit';
 import { base } from '$app/paths';
 import { goto } from '$app/navigation';
-export const load = (async ({ fetch, params }) => {
+import { decodeToObject } from '$lib/utils/helpers/params';
+export const load = (async ({ fetch, params, url }) => {
+	const queryParam = url?.searchParams?.get('params') || '';
 	const fundName = params['fund_name'];
+	const decodedParams = decodeToObject(queryParam);
+	const { redirectedFrom } = decodedParams || {};
 	const schemeMetadata = fundName?.split('-isin-')[1]?.toUpperCase();
 	const [isin = '', schemeCode = ''] = schemeMetadata?.split('-SCHEMECODE-') || [];
 
@@ -20,7 +24,8 @@ export const load = (async ({ fetch, params }) => {
 			url,
 			{
 				headers: {
-					'X-LRU': 'true'
+					'X-LRU': 'true',
+					'X-Skip-Validation': redirectedFrom === 'SIP_PAYMENTS'
 				}
 			},
 			fetch
