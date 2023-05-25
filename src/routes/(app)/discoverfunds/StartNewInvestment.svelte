@@ -3,9 +3,7 @@
 	import { base } from '$app/paths';
 </script>
 
-<aside
-	class="sticky -top-2 flex flex-col items-center justify-center rounded-lg bg-white p-3 pt-6 shadow-clg"
->
+<aside class="flex flex-col items-center justify-center rounded-lg bg-white p-3 pt-6 shadow-clg">
 	<img
 		src={`${base}/images/StartNewMutualFund.webp`}
 		width="208"

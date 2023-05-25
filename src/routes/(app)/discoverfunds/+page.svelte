@@ -353,25 +353,27 @@
 
 {#if deviceType?.isBrowser}
 	<article>
-		{#if showPortfoliocard}
-			<Link to="/investments" class="block overflow-hidden">
-				<PortfolioCard discoverPage={true} on:portfolidataReceived={onPortfolioDataReceived} />
-			</Link>
-		{:else}
-			<StartNewInvestment />
-		{/if}
-		{#if sipPaymentNudges?.length}
-			{#each sipPaymentNudges as sip, index (sip?.sipId + index)}
-				<SipCard {sip} />
-			{/each}
-		{/if}
-		{#if data?.searchDashboardData?.amcAd}
-			<PromotionCard
-				amcData={data.searchDashboardData.amcAd}
-				class="mt-3 rounded-lg text-center"
-				imageClass="h-38 md:h-48 lg:h-38 w-full object-cover"
-			/>
-		{/if}
+		<div class="sticky -top-2">
+			{#if showPortfoliocard}
+				<Link to="/investments" class="block overflow-hidden">
+					<PortfolioCard discoverPage={true} on:portfolidataReceived={onPortfolioDataReceived} />
+				</Link>
+			{:else}
+				<StartNewInvestment />
+			{/if}
+			{#if sipPaymentNudges?.length}
+				{#each sipPaymentNudges as sip, index (sip?.sipId + index)}
+					<SipCard {sip} />
+				{/each}
+			{/if}
+			{#if data?.searchDashboardData?.amcAd}
+				<PromotionCard
+					amcData={data.searchDashboardData.amcAd}
+					class="mt-3 rounded-lg text-center"
+					imageClass="h-38 md:h-48 lg:h-38 w-full object-cover"
+				/>
+			{/if}
+		</div>
 	</article>
 {/if}
 
