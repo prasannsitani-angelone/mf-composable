@@ -4,6 +4,7 @@
 
 	import type { PageData } from './$types';
 	import { invalidate } from '$app/navigation';
+	import { SEO } from 'wms-ui-component';
 
 	const invalidateFavourites = (event) => {
 		const { isFavourite } = event.detail;
@@ -15,6 +16,7 @@
 	export let data: PageData;
 </script>
 
+<SEO seoTitle="Favourites Funds | Angelone" seoDescription="List of Funds added to Favourites" />
 <article>
 	<header class="hidden sm:block">
 		<h2 class="mb-6 mt-1 text-lg font-medium text-black-title">Favourites</h2>

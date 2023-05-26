@@ -75,7 +75,6 @@
 	<circle cx="51" cy="79" r="11" fill="#E3E7FF" />
 	<rect x="67" y="71" width="43" height="9" rx="0.812499" fill="#E3E7FF" />
 	<rect x="67" y="83" width="76" height="5" rx="0.812499" fill="#E3E7FF" />
-	<circle cx="99.6247" cy="14.625" r="14.625" fill="#F9BA4D" />
 	<defs>
 		<linearGradient
 			id="paint0_linear_1009_14497"

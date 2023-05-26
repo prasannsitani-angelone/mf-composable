@@ -3,6 +3,7 @@
 	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
 	import type { PageData } from './$types';
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
+	import { SEO } from 'wms-ui-component';
 
 	const breadCrumbs = [
 		{
@@ -16,6 +17,8 @@
 	];
 	export let data: PageData;
 </script>
+
+<SEO seoTitle="New Fund Offering, NFO | Angelone" seoDescription="New Fund Offering, NFO" />
 
 <Breadcrumbs items={breadCrumbs} class="my-4 hidden items-center justify-start md:flex" />
 <header class="hidden sm:block">

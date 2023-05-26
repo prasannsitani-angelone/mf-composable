@@ -1,7 +1,10 @@
 <script>
 	import ErrorPage from '$components/ErrorPage.svelte';
 	import NoFavouritesFunds from '$lib/images/icons/NoFavouritesFunds.svelte';
+	import { SEO } from 'wms-ui-component';
 </script>
+
+<SEO seoTitle="No Favourites Funds Added | Angelone" seoDescription="No Favourites Funds Added " />
 
 <ErrorPage
 	heading="No Favourites Added"

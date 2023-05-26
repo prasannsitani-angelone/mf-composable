@@ -70,7 +70,7 @@
 
 <Table class="overflow-hidden rounded-t {$$props.class}">
 	<THead slot="thead" class="rounded-t border-t border-grey-line">
-		<Th class=" w-8/12 !pr-0 sm:w-5/12">Funds</Th>
+		<Th class="w-8/12 !pr-0 normal-case sm:w-5/12">Funds</Th>
 		{#if $page?.data?.deviceType?.isBrowser}
 			<Th wrapperClass="justify-end sm:justify-center">3Y Return</Th>
 
@@ -107,7 +107,7 @@
 						<div
 							class="flex flex-col justify-center text-center align-middle text-base font-medium text-black-title md:text-sm"
 						>
-							<span>₹{scheme?.navValue}</span>
+							<span>₹{scheme?.navValue?.toFixed(2)}</span>
 							<span class:text-green-buy={isNavTrendingUp} class:text-red-sell={!isNavTrendingUp}>
 								{getNavDiffrence(scheme?.navValue, scheme?.previousNavValue)}%
 							</span>
@@ -133,11 +133,19 @@
 					<Td class="relative !py-0 !pr-0">
 						<div class="absolute top-0 bottom-0 right-4 flex">
 							<div class="flex items-center">
-								<span
-									>{`${currentYearFilter.prefix}${scheme[currentYearFilter.field]}${
-										currentYearFilter.suffix
-									}`}</span
-								>
+								{#if currentYearFilter.field === 'navValue'}
+									<span
+										>{`${currentYearFilter.prefix}${scheme[currentYearFilter.field]?.toFixed(2)}${
+											currentYearFilter.suffix
+										}`}</span
+									>
+								{:else}
+									<span
+										>{`${currentYearFilter.prefix}${scheme[currentYearFilter.field]}${
+											currentYearFilter.suffix
+										}`}</span
+									>
+								{/if}
 							</div>
 							{#if !hideFavourites}
 								<AddToFavourites
