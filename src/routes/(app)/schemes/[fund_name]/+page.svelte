@@ -24,6 +24,7 @@
 	import { mobileSchemeDetailsPageInvestButtonClickAnalytics } from './analytics';
 	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 	import NfoDetails from './NFODetails/NFODetails.svelte';
+	import { SEO } from 'wms-ui-component';
 
 	export let data: PageData;
 
@@ -106,6 +107,10 @@
 
 	<OrderpadLoader />
 {:then schemedata}
+	<SEO
+		seoTitle="{schemedata?.schemeName} NAV, Mutual Fund Returns | Angel One"
+		seoDescription="{schemedata?.schemeName} - Get Todays NAV, Historical Returns, Fund Performance, Portfolio. Start Investing in {schemedata?.amcName} online with Angel One."
+	/>
 	{@const isNFO = schemedata?.nfoScheme === 'Y'}
 	<!-- Left Side -->
 	{#if !isMobile || !showInvestmentPad}

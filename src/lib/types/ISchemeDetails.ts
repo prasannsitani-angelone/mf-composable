@@ -35,6 +35,7 @@ export interface SchemeDetails {
 	previousNavValue: number;
 	previousNavDate: string;
 	amcCode: string;
+	amcName: string;
 	benchmarkIndex: string;
 	benchmarkNav: number;
 	bmReturns1Month: number;

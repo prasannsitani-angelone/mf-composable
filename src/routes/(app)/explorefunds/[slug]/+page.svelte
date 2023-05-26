@@ -8,6 +8,7 @@
 	import SchemeTable from '$components/SchemeTable.svelte';
 	import ExploreFundModal from './ExploreFundModal/ExploreFundModal.svelte';
 	import { page } from '$app/stores';
+	import { SEO } from 'wms-ui-component';
 
 	let data: PageData;
 	$: pageID = data?.pageID;
@@ -57,6 +58,10 @@
 </script>
 
 <article class="flex min-h-screen flex-col">
+	<SEO
+		seoTitle="Mutual Funds Screener: Explore All Types of Mutual Funds | Angel One"
+		seoDescription="MF Screener: Explore and filter various types of mutual funds by category, risk, fund size and start investing in Mutual Funds online with Angel One."
+	/>
 	<Breadcrumbs items={breadCrumbs} class="mb-4 hidden items-center justify-start md:flex" />
 
 	<h1 class="hidden pb-6 text-lg font-medium text-black-title sm:mt-3 md:block">

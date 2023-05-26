@@ -28,7 +28,7 @@
 	import Link from '$components/Link.svelte';
 	import Button from '$components/Button.svelte';
 	import PromotionCard from '$components/Promotions/PromotionCard.svelte';
-	import { WMSIcon } from 'wms-ui-component';
+	import { SEO, WMSIcon } from 'wms-ui-component';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 
 	$: showPortfoliocard = !data?.isGuest;
@@ -259,6 +259,10 @@
 	export let data: PageData;
 </script>
 
+<SEO
+	seoTitle="Find The Right Mutual Fund For Your Needs | Angel One"
+	seoDescription="Set your Goals and find the right Mutual Funds to achieve your goal. Explore mutual funds by performance and start your investment journey with Angel One."
+/>
 {#await data?.getNudgeData}
 	<span />
 {:then nudgeData}
