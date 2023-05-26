@@ -23,6 +23,7 @@
 	import LoadingIndicator from '$components/LoadingIndicator.svelte';
 	import { invalidate } from '$app/navigation';
 	import { goTODashBoardButtonAnalytics } from '$components/mandate/analytics';
+	import { SEO } from 'wms-ui-component';
 	export let data: PageData;
 
 	const params = $page.url.searchParams.get('params') || '';
@@ -97,6 +98,8 @@
 		onMountAnalytics();
 	});
 </script>
+
+<SEO seoTitle="Order Summary | Angel One" seoDescription="Summary of your Investment" />
 
 <article class="flex h-full flex-col justify-center">
 	{#await data.api.data}
