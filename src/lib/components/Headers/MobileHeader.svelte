@@ -5,6 +5,7 @@
 	import LeftArrowIcon from '$lib/images/icons/LeftArrowIcon.svelte';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 	import { WMSIcon } from 'wms-ui-component';
+	import { goto } from '$app/navigation';
 
 	export let title = '';
 	export let showSearchIcon = false;
@@ -19,6 +20,14 @@
 		}
 	};
 
+	const handleBackNavigation = async () => {
+		if (window.history.length === 1) {
+			await goto(`${base}/discoverfunds`);
+		} else {
+			history.back();
+		}
+	};
+
 	const logoUrl = `${base}/images/mutual-fund-logo.webp`;
 </script>
 
@@ -28,7 +37,7 @@
 			<article class="flex items-center justify-start">
 				<slot name="icon">
 					{#if showBackIcon}
-						<LeftArrowIcon class="mr-4 cursor-pointer" onClick={() => history.back()} />
+						<LeftArrowIcon class="mr-4 cursor-pointer" onClick={handleBackNavigation} />
 					{/if}
 					{#if showCloseIcon && (($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID && $appStore.closecta) || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS)}
 						<WMSIcon

@@ -3,17 +3,26 @@
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
 	import LeftArrowIcon from '$lib/images/icons/LeftArrowIcon.svelte';
 	import { WMSIcon } from 'wms-ui-component';
+	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 
 	export let heading = '';
 	export let subHeadingText = '';
 	export let subHeaderClass = '';
 	export let status = '';
 	export let title = '';
+	const handleBackNavigation = async () => {
+		if (window.history.length === 1) {
+			await goto(`${base}/orders/orderspage`);
+		} else {
+			history.back();
+		}
+	};
 </script>
 
 <article class={`hidden rounded-t-lg bg-white px-5 py-4 text-center md:flex ${$$props?.class}`}>
 	<article class="flex w-full cursor-pointer items-center justify-start">
-		<LeftArrowIcon class="mr-4 cursor-pointer" onClick={() => history.back()} />
+		<LeftArrowIcon class="mr-4 cursor-pointer" onClick={handleBackNavigation} />
 		<h1 class="text-lg font-medium text-black-title">
 			<div class="truncate text-left">
 				{title}
