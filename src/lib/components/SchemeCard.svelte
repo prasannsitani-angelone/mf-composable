@@ -52,7 +52,9 @@
 				>
 					<span class="text-xs text-grey-body">{schemes?.reInvestmentPlan}</span>
 				</div>
-				<ChipArqRating arqRating={schemes?.arqRating} />
+				<slot name="arqRating">
+					<ChipArqRating arqRating={schemes?.arqRating} />
+				</slot>
 			</div>
 		</slot>
 	</div>

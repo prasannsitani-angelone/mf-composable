@@ -83,8 +83,8 @@ export const nfoTableToggleList: Array<TableColumnToggle> = [
 		suffix: ''
 	},
 	{
-		label: 'Min SIP amount',
-		field: 'minSipAmount',
+		label: 'Min amount',
+		field: 'minPurchaseAmount',
 		prefix: '₹',
 		suffix: ''
 	}

@@ -98,8 +98,8 @@
 	const minimumNetBankingAmountLimit = 50;
 
 	let activeTab =
-		(schemeData?.isSipAllowed === 'Y' && 'SIP') ||
-		(schemeData?.isLumpsumAllowed === 'Y' && 'ONETIME') ||
+		(schemeData?.isSipAllowed === 'Y' && schemeData?.sipMaxAmount > 0 && 'SIP') ||
+		(schemeData?.isLumpsumAllowed === 'Y' && schemeData?.lumpsumMaxAmount > 0 && 'ONETIME') ||
 		'SIP';
 	let amount = '';
 	let showCalendar = false;
@@ -182,9 +182,9 @@
 
 	const isSelectedInvestmentTypeAllowed = () => {
 		if (activeTab === 'SIP') {
-			return schemeData?.isSipAllowed === 'Y';
+			return schemeData?.isSipAllowed === 'Y' && schemeData?.sipMaxAmount > 0;
 		} else if (activeTab === 'ONETIME') {
-			return schemeData?.isLumpsumAllowed === 'Y';
+			return schemeData?.isLumpsumAllowed === 'Y' && schemeData?.lumpsumMaxAmount > 0;
 		}
 
 		return false;

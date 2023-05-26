@@ -3,7 +3,7 @@
 	import { goto } from '$app/navigation';
 	import ErrorView from '$components/ErrorView.svelte';
 	import { base } from '$app/paths';
-	import { WMSIcon } from 'wms-ui-component';
+	import { WMSIcon, SEO } from 'wms-ui-component';
 	import OrderDetailLoader from '../../../orders/[orderId]/Loader/OrderDetailLoader.svelte';
 	import OrderTimeLine from '../../../orders/[orderId]/TimeLine/OrderTimeLine.svelte';
 	import InfoModal from '$components/InfoModal.svelte';
@@ -37,6 +37,11 @@
 	{#await data?.api?.getOrdersData}
 		<OrderDetailLoader />
 	{:then ordersDetails}
+		<SEO
+			seoTitle="Order Summary Details | Angel One"
+			seoDescription="Your order status details with one click including transaction date, id, charges etc."
+		/>
+
 		{#if ordersDetails}
 			<div class="pb-20">
 				<!-- Header -->

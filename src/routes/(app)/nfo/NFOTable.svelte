@@ -69,7 +69,11 @@
 				}}
 			>
 				<Td class="!pr-0">
-					<SchemeCard schemes={scheme} />
+					<SchemeCard schemes={scheme}>
+						<svelte:fragment slot="arqRating">
+							<span />
+						</svelte:fragment>
+					</SchemeCard>
 				</Td>
 
 				{#if $page?.data?.deviceType?.isBrowser}
