@@ -36,6 +36,7 @@
 		skipSipSkippedSuccessModalOpenAnalytics
 	} from '$lib/analytics/sipbook/sipbook';
 	import type { ISip } from '$lib/types/ISipType';
+	import { SEO } from 'wms-ui-component';
 	$: bankDetails = $profileStore?.bankDetails;
 	let showCancelSipActionModal = false;
 	let showSuccessModal = false;
@@ -142,6 +143,10 @@
 	export let data: PageData;
 </script>
 
+<SEO
+	seoTitle="SIP Details | Angel One"
+	seoDescription="Get your sip details with one click including sip id, amount etc."
+/>
 {#await data?.api?.getSipData}
 	<SipDetailLoader />
 {:then sipData}

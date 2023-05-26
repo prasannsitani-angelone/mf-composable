@@ -10,7 +10,7 @@
 	import OrderDetailLoader from './Loader/OrderDetailLoader.svelte';
 	import ErrorView from '$components/ErrorView.svelte';
 	import { base } from '$app/paths';
-	import { WMSIcon } from 'wms-ui-component';
+	import { SEO, WMSIcon } from 'wms-ui-component';
 	$: breadCrumbs = [
 		{
 			text: 'Home',
@@ -33,6 +33,10 @@
 </script>
 
 <article class="flex flex-col">
+	<SEO
+		seoTitle="Order Status Details | Angel One"
+		seoDescription="Get your order status details with one click including transaction date, id, charges etc."
+	/>
 	<Breadcrumbs items={breadCrumbs} class="mb-4 hidden items-center justify-start md:flex" />
 	{#await data?.api?.getOrdersData}
 		<OrderDetailLoader />

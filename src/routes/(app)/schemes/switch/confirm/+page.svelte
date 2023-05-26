@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import SoSipContinuation from '$components/Switch/SOSipContinuation.svelte';
 	import { addCommasToAmountString, getCappedUnitString } from '$lib/utils/helpers/formatAmount';
-	import { SwitchOrderTitleCard } from 'wms-ui-component';
+	import { SEO, SwitchOrderTitleCard } from 'wms-ui-component';
 	import type { PageData } from './[scheme_name]/$types';
 	import { Button } from 'wms-ui-component';
 	import { v4 as uuidv4 } from 'uuid';
@@ -196,6 +196,10 @@
 	export let data: PageData;
 </script>
 
+<SEO
+	seoTitle={`${data?.folioHolding?.schemeName} - Switch Funds | Angel One`}
+	seoDescription={`${data?.folioHolding?.schemeName} - Switch Funds | Angel One`}
+/>
 <SwitchOrderTitleCard
 	switchOutSchemeName={data?.folioHolding?.schemeName}
 	switchOutLogo={data?.folioHolding?.logoUrl}

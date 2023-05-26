@@ -13,6 +13,7 @@
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { restartSipButtonClickAnalytics } from '$lib/analytics/sipbook/sipbook';
 	import { userStore } from '$lib/stores/UserStore';
+	import { SEO } from 'wms-ui-component';
 
 	const userType = userStore.userType();
 	const redirectToOrderPad = (sip: IInactiveSip) => {
@@ -40,6 +41,10 @@
 	export let data: PageData;
 </script>
 
+<SEO
+	seoTitle="Inactive SIPs | Angel One"
+	seoDescription="Get Access to your Mutual Funds inactive sips here."
+/>
 {#await data?.api?.getInactiveSipData}
 	<SipCardLoader />
 {:then inactiveSips}

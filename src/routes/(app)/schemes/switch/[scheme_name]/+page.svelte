@@ -3,7 +3,7 @@
 	import Modal from '$components/Modal.svelte';
 	import SwitchSearch from '$components/Switch/SwitchSearch.svelte';
 	import type { PageData } from '../$types';
-	import { SwitchOrderTitleCard, SwitchOrderTile, Button, WMSIcon } from 'wms-ui-component';
+	import { SwitchOrderTitleCard, SwitchOrderTile, Button, WMSIcon, SEO } from 'wms-ui-component';
 	import SwitchInFundSelection from './SwitchInFundSelection/SwitchInFundSelection.svelte';
 	import type { FolioHoldingType, FolioObject } from '$lib/types/IInvestments';
 	import { NomineeUpdateLinks } from '$components/NomineeUpdate/constants';
@@ -298,6 +298,10 @@
 {:then folioHolding}
 	{(() => updateFolios(folioHolding))()}
 	{#if folioHolding?.schemeName}
+		<SEO
+			seoTitle={`${folioHolding?.schemeName} - Switch Funds | Angel One`}
+			seoDescription={`${folioHolding?.schemeName} - Switch Funds | Angel One`}
+		/>
 		<div>
 			<SwitchOrderTitleCard
 				switchOutSchemeName={folioHolding?.schemeName}

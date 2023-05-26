@@ -1,5 +1,6 @@
 <script lang="ts">
 	import InvalidUrl from '$components/Error/InvalidUrl.svelte';
+	import { SEO } from 'wms-ui-component';
 	import SipHistory from '../SipDetails/SipHistory.svelte';
 	import type { PageData } from './$types';
 	import SipHistoryLoader from './SipHistoryLoader.svelte';
@@ -7,6 +8,10 @@
 	export let data: PageData;
 </script>
 
+<SEO
+	seoTitle="SIP History Details | Angel One"
+	seoDescription="Get your sip history details with one click"
+/>
 {#await data?.api?.getSipData}
 	<SipHistoryLoader />
 {:then sipData}
