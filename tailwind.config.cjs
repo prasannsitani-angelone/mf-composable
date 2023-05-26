@@ -17,7 +17,8 @@ module.exports = {
 					title: '#2A394E',
 					DEFAULT: '#000',
 					neutral: '#1D1E20',
-					key: '#181F29'
+					key: '#181F29',
+					bolder: '#425061'
 				},
 				blue: {
 					primary: '#3F5BD9',

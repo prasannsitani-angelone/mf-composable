@@ -1,19 +1,19 @@
-import DiscoverIcon from '$lib/images/icons/DiscoverIcon.svelte';
-import DiscoverActiveIcon from '$lib/images/icons/DiscoverActiveIcon.svelte';
-import RupeeInCircleActiveIcon from '$lib/images/icons/RupeeInCircleActiveIcon.svelte';
-import RupeeInCircleIcon from '$lib/images/icons/RupeeInCircleIcon.svelte';
-import OrdersBottomNavbarActiveIcon from '$lib/images/icons/OrdersBottomNavbarActiveIcon.svelte';
-import OrdersBottomNavbarInactiveIcon from '$lib/images/icons/OrdersBottomNavbarInactiveIcon.svelte';
 import BookmarkNav from '$lib/components/BookmarkNavItems/BookmarkNav.svelte';
 import BookmarkNavFilled from '$lib/components/BookmarkNavItems/BookmarkNavFilled.svelte';
+import DiscoverNav from '$components/NavItems/DiscoverNav.svelte';
+import DiscoverNavFilled from '$components/NavItems/DiscoverNavFilled.svelte';
+import RupeeNav from '$components/NavItems/RupeeNav.svelte';
+import RupeeNavFilled from '$components/NavItems/RupeeNavFilled.svelte';
+import PadNav from '$components/NavItems/PadNav.svelte';
+import PadNavFilled from '$components/NavItems/PadNavFilled.svelte';
 import { base } from '$app/paths';
 
 export const BOTTOM_NAVBARS = () => [
 	{
 		label: 'Discover',
 		path: `${base}/discoverfunds`,
-		icon: DiscoverIcon,
-		activeIcon: DiscoverActiveIcon,
+		icon: DiscoverNav,
+		activeIcon: DiscoverNavFilled,
 		isInternalNavigation: true
 	},
 	{
@@ -26,15 +26,15 @@ export const BOTTOM_NAVBARS = () => [
 	{
 		label: 'Investments',
 		path: `${base}/investments`,
-		icon: RupeeInCircleIcon,
-		activeIcon: RupeeInCircleActiveIcon,
+		icon: RupeeNav,
+		activeIcon: RupeeNavFilled,
 		isInternalNavigation: true
 	},
 	{
 		label: 'Orders',
 		path: `${base}/orders/orderspage`,
-		icon: OrdersBottomNavbarInactiveIcon,
-		activeIcon: OrdersBottomNavbarActiveIcon,
+		icon: PadNav,
+		activeIcon: PadNavFilled,
 		isInternalNavigation: true
 	}
 ];
