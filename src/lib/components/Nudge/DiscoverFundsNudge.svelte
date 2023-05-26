@@ -49,6 +49,7 @@
 			variant="transparent"
 			class="flex w-full cursor-pointer flex-row items-center justify-end whitespace-nowrap border-t border-grey-line px-3 py-4 !pr-0 text-sm font-semibold text-blue-primary hover:border-grey-line active:opacity-75 sm:border-t-0 sm:px-0 sm:py-0"
 			onClick={navigateToPage}
+			ariaLabel={nudge?.linkHeading}
 		>
 			<span class="mr-3 sm:mr-4">{nudge?.linkHeading}</span>
 			<RightIcon stroke="#3F5BD9" />

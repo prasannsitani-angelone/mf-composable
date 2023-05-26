@@ -8,6 +8,7 @@
 	let sizeClass: string;
 	let size: 'lg' | 'md' | 'sm' | 'xs' = 'md';
 	let disabled = false;
+	let ariaLabel = '';
 	let type: 'button' | 'submit' | 'reset' | null | undefined = 'button';
 	let onClick: svelte.JSX.MouseEventHandler<HTMLButtonElement> | null = null;
 	let startAdornment: typeof SvelteComponent | null = null;
@@ -31,7 +32,8 @@
 		disabled,
 		onClick,
 		type,
-		size
+		size,
+		ariaLabel
 	};
 </script>
 
@@ -41,6 +43,7 @@
 		variant
 	)?.get(color)} ${clazz} ${sizeClass} rounded`}
 	{style}
+	aria-label={ariaLabel}
 	{disabled}
 	on:click={onClick}
 >

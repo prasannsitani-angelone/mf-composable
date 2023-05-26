@@ -76,6 +76,7 @@
 		await toggleFavourites(e);
 		diasbaled = false;
 	}}
+	ariaLabel="bookmark"
 >
 	{#if isFavourite}
 		<WMSIcon name="bookmark-filled" size="xs" mode="tulip" />
@@ -110,13 +111,14 @@
 					<Button
 						class="flex-1"
 						variant="outlined"
+						ariaLabel="no"
 						onClick={(e) => {
 							e.stopPropagation();
 							showDeleteConfirmationPopup = false;
 							dispatch('toggle-initiated', { enabled: false });
 						}}>No</Button
 					>
-					<Button class="flex-1" onClick={removeFromFavourites}>Yes</Button>
+					<Button class="flex-1" ariaLabel="yes" onClick={removeFromFavourites}>Yes</Button>
 				</div>
 			</div>
 		</article>

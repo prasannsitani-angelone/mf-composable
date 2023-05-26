@@ -73,7 +73,10 @@
 		<Link
 			to="/explorefunds/sip-with-500?id=102"
 			class="inset-x-0 bottom-0 block bg-white pt-7 max-sm:fixed max-sm:p-2"
-			><Button onClick={investButtonClickAnalyticsFunction} class="w-full">START INVESTING</Button
+			><Button
+				ariaLabel="start investing"
+				onClick={investButtonClickAnalyticsFunction}
+				class="w-full">START INVESTING</Button
 			></Link
 		>
 	</Card>

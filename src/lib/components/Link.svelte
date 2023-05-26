@@ -6,8 +6,9 @@
 	let clazz = '';
 	let disableRedirect = false;
 	let replaceState = false;
+	let ariaLabel = '';
 	const dispatch = createEventDispatcher();
-	export { to, clazz as class, disableRedirect, replaceState };
+	export { to, clazz as class, disableRedirect, replaceState, ariaLabel };
 	function onLinkClick(e: MouseEvent & { currentTarget: EventTarget & HTMLAnchorElement }) {
 		if (disableRedirect) {
 			e.preventDefault();
@@ -21,6 +22,7 @@
 	on:click={(e) => onLinkClick(e)}
 	href={isAbsoluteUrl(to) ? to : `${base}${to}`}
 	class={`${clazz}`}
+	aria-label={ariaLabel}
 	data-sveltekit-replacestate={replaceState ? '' : 'off'}
 	id={$$props.id}
 >

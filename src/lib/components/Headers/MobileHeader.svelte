@@ -5,6 +5,7 @@
 	import LeftArrowIcon from '$lib/images/icons/LeftArrowIcon.svelte';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 	import { WMSIcon } from 'wms-ui-component';
+	import Link from '$components/Link.svelte';
 	import { goto } from '$app/navigation';
 
 	export let title = '';
@@ -64,9 +65,9 @@
 			<slot name="searchIcon">
 				{#if showSearchIcon}
 					<article class="flex pr-4">
-						<a href={`${base}/search`}>
+						<Link to={`${base}/search`} ariaLabel="search">
 							<SearchDarkIcon class="ml-2 mt-1 h-6 w-6 cursor-pointer" />
-						</a>
+						</Link>
 					</article>
 				{/if}
 			</slot>
