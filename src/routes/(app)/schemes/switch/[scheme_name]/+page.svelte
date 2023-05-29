@@ -52,7 +52,7 @@
 	let fullAmountSelected = false;
 	let showSwitchableAmountInfo = false;
 	let showSwitchCue = false;
-	let dpError = false;
+	$: dpError = false;
 	let showSwitchableAmountDetails = false;
 	let showFolioSelection = false;
 
@@ -83,6 +83,14 @@
 	const optInSwitchScheme = (e: { detail: SchemeDetails }) => {
 		switchInFund = e.detail;
 		dpError = false;
+		if (redemableAmount < minimumRedeemAmount || redemableAmount < minimumSwitchInAmount) {
+			isRedeemableAmountLessThanWithdrawableAmount = true;
+		}
+		if (switchInFund?.schemeName && switchInFund?.schemeName.length > 0) {
+			amountVal = '';
+			errorMessage = '';
+			switchFullAmount = false;
+		}
 		if (
 			(profileStore?.accountType() === 'D' &&
 				switchInFund?.purchaseTxnMode === 'D' &&
@@ -278,7 +286,7 @@
 		setSelectedFolio(folioNumber);
 		redemableAmount = selectedFolio?.redemableAmount;
 		redemableUnits = selectedFolio?.redemableUnits;
-
+		errorMessage = '';
 		amountVal = '';
 		amount = '';
 		fullAmountSelected = false;
