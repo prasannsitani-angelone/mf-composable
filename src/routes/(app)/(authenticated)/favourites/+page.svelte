@@ -1,4 +1,5 @@
 <script lang="ts">
+	import logger from '$lib/utils/logger';
 	import SchemeTable from '$components/SchemeTable.svelte';
 	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
 
@@ -10,7 +11,15 @@
 		const { isFavourite } = event.detail;
 		if (!isFavourite) {
 			invalidate('favourites');
-			invalidate('/schemes/searchDashboard');
+			logger.debug({
+				type: 'BEFORE app:searchDashboard',
+				params: {}
+			});
+			invalidate('app:searchDashboard');
+			logger.debug({
+				type: 'After app:searchDashboard',
+				params: {}
+			});
 		}
 	};
 

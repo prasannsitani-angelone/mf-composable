@@ -29,8 +29,10 @@ const sparkHeadersList: Array<keyof SparkStore> = [
 const getsearchDashboardData = async (fetch) => {
 	const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/searchDashboard?options=true`;
 	const res = await useFetch(url, {}, fetch);
+	console.log('------- Search dashboard data called ------------------------- ', res);
 	if (res.ok) {
 		const discoverFundData = res.data;
+		console.log('------- Search dashboard data - response.ok - discoverFundData ------------------------- ', discoverFundData);
 		return {
 			...discoverFundData
 		};
@@ -129,7 +131,7 @@ export const load = (async ({ url, request, locals, cookies, fetch, depends }) =
 	const searchDashboardData = await getsearchDashboardData(fetch);
 
 	serverTiming.end('getsearchDashboardData');
-	depends('/schemes/searchDashboard');
+	depends('app:searchDashboard');
 	return {
 		sparkHeaders,
 		profile: localProfileData,
