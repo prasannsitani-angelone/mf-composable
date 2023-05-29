@@ -83,13 +83,13 @@
 	const optInSwitchScheme = (e: { detail: SchemeDetails }) => {
 		switchInFund = e.detail;
 		dpError = false;
-		if (redemableAmount < minimumRedeemAmount || redemableAmount < minimumSwitchInAmount) {
-			isRedeemableAmountLessThanWithdrawableAmount = true;
-		}
 		if (switchInFund?.schemeName && switchInFund?.schemeName.length > 0) {
 			amountVal = '';
 			errorMessage = '';
 			switchFullAmount = false;
+			if(folioList.length){
+				selectedFolio = (folioList || [])[0];
+			}
 		}
 		if (
 			(profileStore?.accountType() === 'D' &&
