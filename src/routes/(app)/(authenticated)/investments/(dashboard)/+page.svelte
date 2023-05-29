@@ -20,6 +20,7 @@
 	export let data: PageData;
 
 	import InvestmentTab from './components/InvestmentTab.svelte';
+	import { SEO } from 'wms-ui-component';
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 
@@ -40,6 +41,10 @@
 	$: activeTab = new Map($page.url.searchParams)?.get('type')?.toLocaleLowerCase() || 'Angel One';
 </script>
 
+<SEO
+	seoTitle="Your Mutual Funds Investment | Angel One"
+	seoDescription="Get Access to your Mutual Funds investment here. Check and enhance mutual funds investment portfolio better with Angel One."
+/>
 <section class="col-span-1 sm:col-span-1 sm:col-start-1">
 	<InvestmentTab {activeTab} {tabs} />
 </section>

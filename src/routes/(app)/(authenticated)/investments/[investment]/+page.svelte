@@ -29,6 +29,7 @@
 		switchHamburgerIconClickAnalytics,
 		switchOptionsOpenAnalytics
 	} from '$lib/analytics/switch/switch';
+	import { SEO } from 'wms-ui-component';
 
 	export let data: PageData;
 
@@ -239,6 +240,10 @@
 	<InvestmentDetailsLoader />
 {:then res}
 	{#if res.holdingsData && Object.keys(res.holdingsData)?.length > 0}
+		<SEO
+			seoTitle={`${res.holdingsData?.schemeName} | Angel One`}
+			seoDescription={`${res.holdingsData?.schemeName} | Angel One`}
+		/>
 		<!-- Left Side -->
 		<section>
 			<Breadcrumbs items={breadCrumbs} class="my-4 hidden items-center justify-start md:flex" />

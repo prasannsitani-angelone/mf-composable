@@ -15,6 +15,7 @@
 	import type { FolioSummaryTypes } from '$lib/types/IInvestments';
 	import ErrorLoadingComponent from '$components/ErrorLoadingComponent.svelte';
 	import { portfolioAnalysisScreenOpenAnalytics, graphYearSelectAnalytics } from '../analytics';
+	import { SEO } from 'wms-ui-component';
 
 	const graphYearSelectAnalyticsFunc = (selectedTag) => {
 		let formattedSelectedTag = '';
@@ -101,6 +102,10 @@
 	});
 </script>
 
+<SEO
+	seoTitle="Mutual Fund Investment Portfolio Analysis | Angel One"
+	seoDescription="'Get your mutual fund investment portfolio analysis including portfolio detailed structure and investment returns, etc.'"
+/>
 {#await allResponse}
 	<InvestmentPortfolioLoader />
 {:then response}

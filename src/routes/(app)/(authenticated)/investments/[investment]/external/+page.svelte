@@ -11,6 +11,7 @@
 	import type { FolioHoldingType, ChartData, OrdersData } from '$lib/types/IInvestments';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import isInvestmentAllowed from '$lib/utils/isInvestmentAllowed';
+	import { SEO } from 'wms-ui-component';
 
 	export let data: PageData;
 
@@ -65,6 +66,10 @@
 	const handleErrorNavigation = () => goto('/');
 </script>
 
+<SEO
+	seoTitle="Mutual Fund External Investment Analysis | Angel One"
+	seoDescription="Get your mutual fund external investment"
+/>
 {#await data.api.allResponse}
 	<InvestmentDetailsLoader />
 {:then res}
