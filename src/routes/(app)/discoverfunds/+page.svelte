@@ -369,9 +369,11 @@
 				<StartNewInvestment />
 			{/if}
 			{#if sipPaymentNudges?.length}
-				{#each sipPaymentNudges as sip, index (sip?.sipId + index)}
-					<SipCard {sip} />
-				{/each}
+				<section class="mt-2">
+					{#each sipPaymentNudges as sip, index (sip?.sipId + index)}
+						<SipCard {sip} />
+					{/each}
+				</section>
 			{/if}
 			{#if data?.searchDashboardData?.amcAd}
 				<PromotionCard

@@ -15,6 +15,7 @@
 	import { onMount } from 'svelte';
 	import DateFns from '$lib/utils/asyncDateFns';
 	import { sipCardClickAnalytics } from '$lib/analytics/sipbook/sipbook';
+	import { page } from '$app/stores';
 
 	let sipCount = 0;
 	let alertSleeveText = '';
@@ -24,6 +25,7 @@
 	let isUpcomingSip = false;
 	let isCurrentDateEqualToT3Date = false;
 	let inactiveSip = false;
+	$: deviceType = $page.data.deviceType;
 
 	const timezoneOffset = -330; // should be constant in minutes, as our app should be handled based on Indian Timezone
 	const daysLeft = getTimestampDaysDifference(
@@ -76,7 +78,9 @@
 			});
 			goto(`${base}/${path}?params=${params}&orderpad=INVEST`);
 		} else if (!isCta) {
-			goto(`${base}/sipbook/${sip?.sipId}`);
+			if (deviceType.isMobile) {
+				goto(`${base}/sipbook/${sip?.sipId}`);
+			}
 		}
 	};
 
