@@ -10,7 +10,6 @@
 	let schemeCode: string;
 	let isFavourite: boolean;
 	let diasbaled = false;
-	let entryModeCarousel = false;
 	const dispatch = createEventDispatcher();
 
 	let showDeleteConfirmationPopup = false;
@@ -49,14 +48,7 @@
 		event.stopPropagation();
 		dispatch('toggle-initiated', { enabled: isFavourite });
 		if (isFavourite) {
-			// showDeleteConfirmationPopup = true;
-			if (entryModeCarousel) {
-				setTimeout(() => {
-					showDeleteConfirmationPopup = true;
-				}, 500);
-			} else {
-				showDeleteConfirmationPopup = true;
-			}
+			showDeleteConfirmationPopup = true;
 
 			// await removeFromFavourites();
 		} else {
@@ -64,7 +56,7 @@
 		}
 	};
 
-	export { isin, schemeCode, isFavourite, entryModeCarousel };
+	export { isin, schemeCode, isFavourite };
 </script>
 
 <Button

@@ -71,3 +71,18 @@ input:focus {
 /* .slider-disabled > .track{
 	height: 12px !important;
 } */
+.swiper-wrapper {
+	padding-bottom: 40px;
+}
+
+.swiper-bullet {
+	height: 4px !important;
+	width: 4px !important;
+}
+
+.swiper-active {
+	width: 16px !important;
+	background: #3f5bd9 !important;
+	opacity: 1 !important;
+	border-radius: 100px !important;
+}

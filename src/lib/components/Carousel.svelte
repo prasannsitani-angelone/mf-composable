@@ -1,58 +1,33 @@
 <script>
-	import Carousel from 'svelte-carousel';
+	import { Swiper } from 'swiper/svelte';
 	import { browser } from '$app/environment';
+	import { Pagination, Autoplay } from 'swiper';
+	import 'swiper/css';
+	import 'swiper/css/navigation';
+	import 'swiper/css/pagination';
+	let carouselClass = '';
+	const modules = [Pagination, Autoplay];
+	const pagination = {
+		clickable: true,
+		bulletClass: 'swiper-pagination-bullet swiper-bullet',
+		bulletActiveClass: 'swiper-active'
+	};
+	export { carouselClass };
 </script>
 
 {#if browser}
-	<Carousel
-		arrows={false}
+	<Swiper
+		spaceBetween={20}
 		autoplay={false}
-		pauseOnFocus={true}
-		autoplayDuration={2000}
-		let:currentPageIndex
-		let:pagesCount
-		let:showPage
+		slidesPerView={1}
+		centeredSlides={true}
+		loop={true}
+		{modules}
+		{pagination}
+		class={carouselClass}
 	>
-		<div slot="dots" class="swiper-pagination">
-			{#each Array(pagesCount) as _, index (index)}
-				<div
-					class={`swiper-pagination-bullet swiper-bullet ${
-						index === currentPageIndex ? 'swiper-active' : ''
-					}`}
-					on:click={() => showPage(index)}
-				/>
-			{/each}
-		</div>
 		<slot />
-	</Carousel>
+	</Swiper>
 {:else}
 	<slot />
 {/if}
-
-<style>
-	.swiper-pagination {
-		text-align: center;
-		display: flex;
-		flex-direction: row;
-	}
-	.swiper-pagination-bullet {
-		border-radius: 50%;
-		background: #ccc;
-		cursor: pointer;
-	}
-	.swiper-bullet {
-		height: 4px !important;
-		width: 4px !important;
-		margin-right: 2px;
-		margin-left: 2px;
-	}
-	.swiper-active {
-		background: #3f5bd9 !important;
-		border-radius: 100px !important;
-		opacity: 1 !important;
-		width: 16px !important;
-	}
-	.swiper-pagination {
-		margin-top: 16px;
-	}
-</style>

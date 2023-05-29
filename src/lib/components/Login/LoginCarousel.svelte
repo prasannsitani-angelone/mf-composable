@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { base } from '$app/paths';
 	import Carousel from '../Carousel.svelte';
+	import { SwiperSlide } from 'swiper/svelte';
 
 	const carouselItems = [
 		{
@@ -25,7 +26,7 @@
 	<img src={`${base}/images/AngelOneLogo.webp`} class="mb-6 w-36 md:mb-14" alt="Angelone logo" />
 	<Carousel>
 		{#each carouselItems as item, index (index)}
-			<div class="mb-2 flex flex-col items-center">
+			<SwiperSlide class="mb-2 flex flex-col items-center">
 				<img
 					src={item.imageSrc}
 					class="mb-12 flex flex-row justify-center md:mb-36"
@@ -39,7 +40,7 @@
 						{item.subHeading}
 					</div>
 				</div>
-			</div>
+			</SwiperSlide>
 		{/each}
 	</Carousel>
 </div>
