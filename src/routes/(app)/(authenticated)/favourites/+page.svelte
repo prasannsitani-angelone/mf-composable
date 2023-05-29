@@ -11,15 +11,7 @@
 		const { isFavourite } = event.detail;
 		if (!isFavourite) {
 			invalidate('favourites');
-			logger.debug({
-				type: 'BEFORE app:searchDashboard',
-				params: {}
-			});
 			invalidate('app:searchDashboard');
-			logger.debug({
-				type: 'After app:searchDashboard',
-				params: {}
-			});
 		}
 	};
 

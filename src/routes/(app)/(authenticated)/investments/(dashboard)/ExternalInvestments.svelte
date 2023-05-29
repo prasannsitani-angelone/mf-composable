@@ -83,7 +83,7 @@
 		}
 	};
 
-	const setSuccessScenarioParams = (data: InvestmentEntity[], summaryData: InvestmentSummary) => {
+	const setSuccessScenarioParams = (data: InvestmentEntity[]) => {
 		const partialImports =
 			(Array.isArray(data) &&
 				data.filter((fund) => {
@@ -295,7 +295,7 @@
 		</section>
 		{#await externalInvestmentHoldings then res}
 			<!-- Render Success scenario - partial/ full success  -->
-			{#if setSuccessScenarioParams(res.data?.holdings || [], response.data?.summary)}
+			{#if setSuccessScenarioParams(res.data?.holdings || [])}
 				<section class="col-span-1 sm:col-span-1 sm:col-start-1">
 					{#if res.status === 'success'}<YourInvestments
 							tableData={res.data?.holdings || []}
