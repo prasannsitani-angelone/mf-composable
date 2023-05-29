@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import YourInvestments from './YourInvestments.svelte';
 	import InvestmentDashboardLoader from './Loaders/InvestmentDashboardLoader.svelte';
 	import PortfolioCardLoader from '$components/PortfolioCards/PortfolioCardLoader.svelte';
@@ -66,18 +67,15 @@
 			// INITIATE FIRST TIME IMPORT (TRACK EXTERNAL FUNDS FLOW)
 			return 'firstTimeImport';
 		} else if (summary?.lastImportStatus === 'FAILED' && summary?.investedValue === 0) {
-			allTabClickedAnalytics({ Status: 'Failure', message: 'Import Funds Failed' });
 			// ERROR FETCHING YOUR INVESTMENTS
 			return 'errorFetchingInvestments';
 		} else if (
 			(summary?.lastImportStatus === 'STARTED' || summary?.lastImportStatus === 'PENDING') &&
 			summary?.investedValue === 0
 		) {
-			allTabClickedAnalytics({ Status: 'Success', message: 'Fetching External Investments' });
 			// FETCHING IN PROGRESS
 			return 'FetchingInprogress';
 		} else if (summary?.lastImportStatus === 'COMPLETED' && summary?.investedValue === 0) {
-			allTabClickedAnalytics({ Status: 'Success', message: 'No investments found' });
 			//NO INVESTMENT FOUND
 			return 'noInvestmentFound';
 		} else {
@@ -95,31 +93,6 @@
 		partialImportedFundCount = partialImports.length;
 		totalImportedFundCount = data.length;
 		isPartialImport = isExternal && partialImports.length > 0;
-		if (isPartialImport) {
-			const metaData = {
-				Status: 'yes',
-				Message:
-					'Total Invested and Current Value may not include some of your investments due to a technical issue'
-			};
-			investmentExternalPartialImportScreenOpenAnalytics(metaData);
-		}
-		const metaData = {
-			TotalInvested: summaryData?.investedValue,
-			'Current Value': summaryData?.currentValue,
-			TotalFunds: !isPartialImport
-				? totalImportedFundCount
-				: `${totalImportedFundCount - partialImportedFundCount}/${totalImportedFundCount}`,
-			'Total Returns': summaryData?.returnsAbsolutePer,
-			Refresh: `Last refreshed on ${new Date(
-				summaryData?.lastSuccessfullImportTs
-			).toLocaleDateString('en-GB', {
-				year: 'numeric',
-				month: 'long',
-				day: 'numeric'
-			})}`
-		};
-		allTabScreenOpenAnalytics(metaData);
-
 		return true;
 	};
 
@@ -215,6 +188,73 @@
 			externalInvestmentSummary = responses[0].data;
 		}
 	};
+
+	const initiateTabClickAnalyticsClientSide = (data: InvestmentSummary) => {
+		const summary = data?.data?.summary;
+
+		if (summary?.lastImportStatus === 'FAILED' && summary?.investedValue === 0) {
+			// ERROR FETCHING YOUR INVESTMENTS
+			allTabClickedAnalytics({ Status: 'Failure', message: 'Import Funds Failed' });
+		} else if (
+			(summary?.lastImportStatus === 'STARTED' || summary?.lastImportStatus === 'PENDING') &&
+			summary?.investedValue === 0
+		) {
+			// FETCHING IN PROGRESS
+			allTabClickedAnalytics({ Status: 'Success', message: 'Fetching External Investments' });
+		} else if (summary?.lastImportStatus === 'COMPLETED' && summary?.investedValue === 0) {
+			//NO INVESTMENT FOUND
+			allTabClickedAnalytics({ Status: 'Success', message: 'No investments found' });
+		} else if (summary?.lastImportStatus === 'COMPLETED' && summary?.investedValue !== 0) {
+			// SUCCESS SCENARIO - Full / Partial import
+			allTabClickedAnalytics({ Status: 'Success' });
+		}
+	};
+
+	function initiateScreenOpenAnalytics(data: InvestmentEntity[], summaryData: InvestmentSummary) {
+		const partialImports =
+			(Array.isArray(data) &&
+				data.filter((fund) => {
+					return partialImportCheck(fund);
+				})) ||
+			[];
+		partialImportedFundCount = partialImports.length;
+		totalImportedFundCount = data.length;
+		isPartialImport = isExternal && partialImports.length > 0;
+		if (isPartialImport) {
+			const metaData = {
+				Status: 'yes',
+				Message:
+					'Total Invested and Current Value may not include some of your investments due to a technical issue'
+			};
+			investmentExternalPartialImportScreenOpenAnalytics(metaData);
+		}
+		const metaData = {
+			TotalInvested: summaryData?.investedValue,
+			'Current Value': summaryData?.currentValue,
+			TotalFunds: !isPartialImport
+				? totalImportedFundCount
+				: `${totalImportedFundCount - partialImportedFundCount}/${totalImportedFundCount}`,
+			'Total Returns': summaryData?.returnsAbsolutePer,
+			Refresh: `Last refreshed on ${new Date(
+				summaryData?.lastSuccessfullImportTs
+			).toLocaleDateString('en-GB', {
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric'
+			})}`
+		};
+		allTabScreenOpenAnalytics(metaData);
+	}
+
+	onMount(async () => {
+		const summaryResponse = await externalInvestmentSummary;
+		initiateTabClickAnalyticsClientSide(summaryResponse);
+		const summaryHoldings = await externalInvestmentHoldings;
+		initiateScreenOpenAnalytics(
+			summaryHoldings?.data?.holdings || [],
+			summaryResponse?.data?.summary
+		);
+	});
 </script>
 
 {#await externalInvestmentSummary}
