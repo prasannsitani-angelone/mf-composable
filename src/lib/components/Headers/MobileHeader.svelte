@@ -65,7 +65,7 @@
 			<slot name="searchIcon">
 				{#if showSearchIcon}
 					<article class="flex pr-4">
-						<Link to={`${base}/search`} ariaLabel="search">
+						<Link to={`/search`} ariaLabel="search">
 							<SearchDarkIcon class="ml-2 mt-1 h-6 w-6 cursor-pointer" />
 						</Link>
 					</article>
