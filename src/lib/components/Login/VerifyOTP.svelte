@@ -8,6 +8,8 @@
 
 	import Button from '../Button.svelte';
 	import BaseInput from '../BaseInput.svelte';
+	import { getCaptchaCode } from '$lib/utils/captcha';
+	import { PUBLIC_APP_CAPCHA_SITE_KEY } from '$env/static/public';
 
 	export let heading = '';
 	export let subHeading = '';
@@ -109,7 +111,8 @@
 		}
 	};
 
-	const generateOTPFunc = () => {
+	const generateOTPFunc = async () => {
+		const captchaCode = await getCaptchaCode(PUBLIC_APP_CAPCHA_SITE_KEY);
 		return useFetch('api/generateLoginOTP', {
 			method: 'POST',
 			body: JSON.stringify({
@@ -119,7 +122,8 @@
 				send_otp_on_email: true
 			}),
 			headers: {
-				'X-Source': 'mutualfund'
+				'X-Source': 'mutualfund',
+				'x-captcha': captchaCode
 			}
 		});
 	};
@@ -157,8 +161,8 @@
 	$: buttonDisabled = otp.trim().length !== 6;
 </script>
 
-<div class="flex flex-col items-center px-4 py-8 md:w-1/2 md:py-32">
-	<div class="mb-6 w-full md:mb-12 lg:w-120">
+<div class="flex w-full flex-col items-center lg:w-120">
+	<div class="mb-6 w-full md:mb-12">
 		<div class="text-xl font-medium text-black-neutral">
 			{heading}
 		</div>
@@ -168,7 +172,7 @@
 			</div>
 		{/if}
 	</div>
-	<div class="flex w-full flex-col items-center lg:w-120">
+	<div class="flex w-full flex-col items-center">
 		<div class="w-full">
 			<BaseInput
 				id="otp"
@@ -210,7 +214,7 @@
 		</div>
 	</div>
 	<Button
-		class="mt-6 w-full !rounded-lg !py-3 md:mt-12 lg:w-120"
+		class="mt-6 w-full !rounded-lg !py-3 md:mt-12"
 		disabled={buttonDisabled}
 		onClick={onSubmit}
 	>

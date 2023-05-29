@@ -5,6 +5,8 @@
 	import { filterNumber } from '$lib/utils/helpers/filters';
 	import PhoneIcon from '$lib/images/icons/PhoneIcon.svelte';
 	import { useFetch } from '$lib/utils/useFetch';
+	import { getCaptchaCode } from '$lib/utils/captcha';
+	import { PUBLIC_APP_CAPCHA_SITE_KEY } from '$env/static/public';
 
 	export let onSuccess: (mobileNumber: string, requestId: string) => void = () => undefined;
 
@@ -13,7 +15,8 @@
 	let buttonDisabled = false;
 	let isLoading = false;
 
-	const generateOTPFunc = (mobileNumber: string, otpResend = false) => {
+	const generateOTPFunc = async (mobileNumber: string, otpResend = false) => {
+		const captchaCode = await getCaptchaCode(PUBLIC_APP_CAPCHA_SITE_KEY);
 		return useFetch('api/generateLoginOTP', {
 			method: 'POST',
 			body: JSON.stringify({
@@ -23,7 +26,8 @@
 				send_otp_on_email: true
 			}),
 			headers: {
-				'X-Source': 'mutualfund'
+				'X-Source': 'mutualfund',
+				'x-captcha': captchaCode
 			}
 		});
 	};
@@ -75,11 +79,11 @@
 	$: buttonDisabled = mobileNumber.trim().length !== 10 || isLoading;
 </script>
 
-<div class="flex flex-col items-center px-4 py-8 md:w-1/2 md:py-32">
-	<div class="mb-6 w-full text-xl font-medium text-black-neutral md:mb-12 lg:w-120">
+<div class="flex w-full flex-col items-center lg:w-120">
+	<div class="mb-6 w-full text-xl font-medium text-black-neutral md:mb-12">
 		Login with your mobile number
 	</div>
-	<div class="flex w-full flex-col items-center lg:w-120">
+	<div class="flex w-full flex-col items-center">
 		<BaseInput
 			id="mobile"
 			placeholder="Mobile Number"
@@ -108,18 +112,16 @@
 		</BaseInput>
 	</div>
 	<Button
-		class="mt-6 w-full !rounded-lg !py-3 md:mt-12 lg:w-120"
+		class="mt-6 w-full !rounded-lg !py-3 md:mt-12"
 		disabled={buttonDisabled}
 		onClick={onSubmit}
 	>
 		PROCEED
 	</Button>
-	<div>
-		<div class="mt-5 flex w-full flex-row text-sm text-grey-medium lg:w-120">
-			<span class="mr-2">Don't have an account?</span>
-			<a target="_blank" class="text-blue-primary" href="https://www.angelone.in/open-demat-account"
-				>Register now!</a
-			>
-		</div>
+	<div class="mt-5 flex w-full flex-row justify-center text-sm text-grey-medium md:justify-start">
+		<span class="mr-2">Don't have an account?</span>
+		<a target="_blank" class="text-blue-primary" href="https://www.angelone.in/open-demat-account"
+			>Register now!</a
+		>
 	</div>
 </div>

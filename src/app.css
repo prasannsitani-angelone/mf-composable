@@ -71,6 +71,11 @@ input:focus {
 /* .slider-disabled > .track{
 	height: 12px !important;
 } */
+
+.grecaptcha-badge {
+	visibility: hidden;
+}
+
 .swiper-wrapper {
 	padding-bottom: 40px;
 }
