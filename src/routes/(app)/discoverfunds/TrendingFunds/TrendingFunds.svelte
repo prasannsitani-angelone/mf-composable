@@ -9,6 +9,7 @@
 		header: '',
 		container: ''
 	};
+
 	export { tableData, title, classes };
 </script>
 

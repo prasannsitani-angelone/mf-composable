@@ -62,7 +62,7 @@ const getSparkHeaders = (headers: Headers) => {
 	return sparkHeaders;
 };
 
-export const load = (async ({ url, request, locals, cookies, fetch }) => {
+export const load = (async ({ url, request, locals, cookies, fetch, depends }) => {
 	const sparkHeaders: SparkStore = getSparkHeaders(request.headers);
 	const {
 		isGuest,
@@ -129,6 +129,7 @@ export const load = (async ({ url, request, locals, cookies, fetch }) => {
 	const searchDashboardData = await getsearchDashboardData(fetch);
 
 	serverTiming.end('getsearchDashboardData');
+	depends('/schemes/searchDashboard');
 	return {
 		sparkHeaders,
 		profile: localProfileData,
