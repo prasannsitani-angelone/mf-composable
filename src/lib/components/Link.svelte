@@ -8,7 +8,8 @@
 	let replaceState = false;
 	let ariaLabel = '';
 	const dispatch = createEventDispatcher();
-	export { to, clazz as class, disableRedirect, replaceState, ariaLabel };
+	let preloadData: true | '' | 'hover' | 'tap' | 'off' | null | undefined = 'hover';
+	export { to, clazz as class, disableRedirect, replaceState, ariaLabel, preloadData };
 	function onLinkClick(e: MouseEvent & { currentTarget: EventTarget & HTMLAnchorElement }) {
 		if (disableRedirect) {
 			e.preventDefault();
@@ -23,6 +24,7 @@
 	href={isAbsoluteUrl(to) ? to : `${base}${to}`}
 	class={`${clazz}`}
 	aria-label={ariaLabel}
+	data-sveltekit-preload-data={preloadData}
 	data-sveltekit-replacestate={replaceState ? '' : 'off'}
 	id={$$props.id}
 >

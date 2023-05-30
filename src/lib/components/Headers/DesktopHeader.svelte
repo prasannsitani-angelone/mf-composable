@@ -96,12 +96,20 @@
 				Discover
 			</div>
 		</Link>
-		<Link to="/investments" on:linkClicked={() => onTabClickAnalytics('Investments')}>
+		<Link
+			to="/investments"
+			preloadData={isGuest ? 'tap' : 'hover'}
+			on:linkClicked={() => onTabClickAnalytics('Investments')}
+		>
 			<div class={`hidden cursor-pointer uppercase md:block ${myInvestmentsTabClass}`}>
 				INVESTMENTS
 			</div>
 		</Link>
-		<Link to={`/orders/orderspage`} on:linkClicked={() => onTabClickAnalytics('Orders')}>
+		<Link
+			to={`/orders/orderspage`}
+			preloadData={isGuest ? 'tap' : 'hover'}
+			on:linkClicked={() => onTabClickAnalytics('Orders')}
+		>
 			<div class="mr-4 hidden cursor-pointer uppercase md:block {ordersTabClass}">ORDERS</div>
 		</Link>
 		<div class="w-full md:w-2/5">
