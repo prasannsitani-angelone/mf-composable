@@ -64,7 +64,6 @@
 		changePaymentMethodButtonClickAnalytics,
 		changePaymentMethodScreenImpressionAnalytics
 	} from './analytics/orderpad';
-	import { getNavigationV1Url } from '$lib/utils/helpers/navigation';
 	import { debounce } from '$lib/utils/helpers/debounce';
 
 	export let schemeData: SchemeDetails;
@@ -1598,16 +1597,11 @@
 	};
 	// -------- **** ----------
 
-	const onPaymentTypeSubmit = (inputId: string) => {
+	const onPaymentTypeSubmit = async (inputId: string) => {
 		if ($page?.data?.isGuest) {
-			const pageData = $page?.data;
-			window.location.replace(
-				getNavigationV1Url(
-					pageData?.scheme,
-					pageData?.host,
-					`/login?redirect=${window.location.href}`
-				)
-			);
+			await goto(`${base}/login?redirect=${$page.url.href}`, {
+				replaceState: true
+			});
 			return;
 		}
 

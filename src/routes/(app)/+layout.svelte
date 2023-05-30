@@ -25,14 +25,15 @@
 	import { logout } from '$lib/utils/helpers/logout';
 	import { userStore } from '$lib/stores/UserStore';
 	import { logoutAttemptStore } from '$lib/stores/LogoutAttemptStore';
-	import { VUE_BASE_URL } from '$lib/constants/navigation';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
+	import { base } from '$app/paths';
 
 	$: isModalOpen = $externalNavigation.active;
 	// Update store with Spark headers
 
 	export let data: LayoutData;
-	const { sparkHeaders, tokenObj, profile, userDetails, deviceType, isGuest, scheme, host, token } =
-		data;
+	const { sparkHeaders, tokenObj, profile, userDetails, deviceType, isGuest, token } = data;
 	// Update store with Spark headers
 	onMount(() => {
 		// $externalNavigation.active = false;
@@ -86,7 +87,9 @@
 	});
 	const navigateToLoginPage = async () => {
 		logout();
-		window.location.replace(`${scheme}//${host}/${VUE_BASE_URL}/login`);
+		await goto(`${base}/login?redirect=${$page.url.href}`, {
+			replaceState: true
+		});
 	};
 </script>
 

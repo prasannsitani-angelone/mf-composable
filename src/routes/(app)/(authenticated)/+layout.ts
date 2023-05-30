@@ -2,8 +2,8 @@ import { redirect } from '@sveltejs/kit';
 import type { LayoutData } from '../$types';
 import { browser } from '$app/environment';
 import { goto } from '$app/navigation';
-import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 import logger from '$lib/utils/logger';
+import { base } from '$app/paths';
 
 export const load = (async ({ url, parent }) => {
 	const parentData = await parent();
@@ -19,21 +19,12 @@ export const load = (async ({ url, parent }) => {
 		}
 	});
 	if (!parentData?.tokenObj?.userToken?.NTAccessToken) {
-		const redirectPath = `${parentData.scheme}//${parentData.host}${pathname}`;
-		if (redirectPath) {
-			const withRedirectParam = `${getNavigationBaseUrl(
-				'',
-				parentData.scheme,
-				parentData.host
-			)}/login?redirect=${redirectPath}`;
+		if (pathname) {
+			const withRedirectParam = `${base}/login?redirect=${pathname}`;
 			if (browser) return await goto(withRedirectParam);
 			else throw redirect(302, withRedirectParam);
 		} else {
-			const withOutRedirectParam = `${getNavigationBaseUrl(
-				'',
-				parentData.scheme,
-				parentData.host
-			)}/login`;
+			const withOutRedirectParam = `${base}/login`;
 			if (browser) return await goto(withOutRedirectParam);
 			else throw redirect(302, withOutRedirectParam);
 		}

@@ -22,9 +22,9 @@
 	import FundDetailsLoader from './FundDetailsLoader/FundDetailsLoader.svelte';
 	import OrderpadLoader from './FundDetailsLoader/OrderpadLoader.svelte';
 	import { mobileSchemeDetailsPageInvestButtonClickAnalytics } from './analytics';
-	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 	import NfoDetails from './NFODetails/NFODetails.svelte';
 	import { SEO } from 'wms-ui-component';
+	import { base } from '$app/paths';
 
 	export let data: PageData;
 
@@ -68,12 +68,7 @@
 		mobileSchemeDetailsPageInvestButtonClickAnalytics(eventMetaData);
 
 		if (data?.isGuest) {
-			const pageData = $page?.data;
-			const redirectPath = `${getNavigationBaseUrl(
-				'',
-				pageData?.scheme,
-				pageData?.host
-			)}/login?redirect=${window?.location?.href}`;
+			const redirectPath = `${base}/login?redirect=${$page.url.href}`;
 
 			goto(redirectPath);
 		} else {

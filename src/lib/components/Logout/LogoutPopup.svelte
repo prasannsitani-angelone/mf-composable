@@ -2,24 +2,14 @@
 	import { page } from '$app/stores';
 	import Modal from '../Modal.svelte';
 	import Button from '$components/Button.svelte';
-	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
-	import { getContext } from 'svelte';
-	import type { AppContext } from '$lib/types/IAppContext';
 	import { logout } from '$lib/utils/helpers/logout';
 	import { logoutAttemptStore } from '$lib/stores/LogoutAttemptStore';
 	import { goto } from '$app/navigation';
-	import { OnNavigation } from '$lib/utils/navigation';
+	import { base } from '$app/paths';
 
-	const appContext: AppContext = getContext('app');
-
-	const navigateToLoginPage = () => {
+	const navigateToLoginPage = async () => {
 		logout();
-		OnNavigation();
-		goto(
-			`${getNavigationBaseUrl('', appContext.scheme, appContext.host)}/login?redirect=${
-				$page.url?.href
-			}`
-		);
+		await goto(`${base}/login?redirect=${$page.url.href}`);
 	};
 	const hideAttemptLogoutConfirmationPopup = () => {
 		logoutAttemptStore.hideLogoutConfirmationPopup();

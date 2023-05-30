@@ -11,7 +11,7 @@ export const getCaptchaCode = (key: string) => {
 				.catch(function (err) {
 					logger.error({
 						type: 'Error getting cpaha : ',
-						message: err.toString()
+						message: err?.toString()
 					});
 					resolve('');
 				});
