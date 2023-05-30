@@ -175,6 +175,7 @@
 											item?.isin,
 											item?.schemeCode
 										)}`}
+										preloadData="tap"
 										on:linkClicked={() => searchAnalyticsEvent(item, 'recentSearch')}
 									>
 										<SearchCard data={item} on:click={() => (resultItemClicked = true)} />
@@ -213,6 +214,7 @@
 											item?.isin,
 											item?.schemeCode
 										)}`}
+										preloadData="tap"
 										on:linkClicked={() =>
 											searchAnalyticsEvent(item, 'popularWithOtherInvestorsSearch')}
 									>
@@ -258,6 +260,7 @@
 												item?.isin,
 												item?.schemeCode
 											)}`}
+											preloadData="tap"
 											on:linkClicked={() => searchAnalyticsEvent(item, 'afterSearch')}
 										>
 											<ResultItem data={item} on:click={() => (resultItemClicked = true)} />
@@ -312,6 +315,7 @@
 														item?.isin,
 														item?.schemeCode
 													)}`}
+													preloadData="tap"
 													on:linkClicked={() =>
 														searchAnalyticsEvent(item, 'popularWithOtherInvestorsSearch')}
 												>

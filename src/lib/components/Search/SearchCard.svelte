@@ -13,7 +13,7 @@
 	on:click
 	on:keydown
 >
-	<SchemeCard class="pr-8" schemes={data} />
+	<SchemeCard preloadData="off" class="pr-8" schemes={data} />
 	<slot name="returns">
 		<section class="text-base font-medium text-black-title sm:text-sm">
 			{data?.returns3yr ? data?.returns3yr.toFixed(1) + '%' : '-'}

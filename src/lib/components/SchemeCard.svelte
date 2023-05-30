@@ -14,7 +14,8 @@
 	let preventRedirectOnSchemeClick = false;
 	let titleClass = '';
 	let redirectUrl = '';
-	export { schemes, showLogo, preventRedirectOnSchemeClick, redirectUrl, titleClass };
+	let preloadData: true | '' | 'hover' | 'tap' | 'off' | null | undefined = 'hover';
+	export { schemes, showLogo, preventRedirectOnSchemeClick, redirectUrl, titleClass, preloadData };
 </script>
 
 <Link
@@ -24,6 +25,7 @@
 			? redirectUrl
 			: `/schemes/${normalizeFundName(schemes?.schemeName, schemes?.isin, schemes?.schemeCode)}`
 	}`}
+	{preloadData}
 	class="flex items-start justify-between {$$props.class}"
 >
 	{#if showLogo}
