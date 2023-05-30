@@ -8,6 +8,8 @@
 	import LoginCarousel from '$lib/components/Login/LoginCarousel.svelte';
 	import { setUserTokenInCookie } from '$lib/utils/helpers/token';
 	import { PUBLIC_APP_CAPCHA_SITE_KEY } from '$env/static/public';
+	import { base } from '$app/paths';
+
 	const screen_enum = {
 		GENERATE_OTP: 'GENERATE_OTP',
 		VERIFY_OTP: 'VERIFY_OTP'
@@ -36,7 +38,7 @@
 	const navigateToPage = () => {
 		if (tokenStore.accessToken()) {
 			isLoading = true;
-			const redirectUrl = $page.url.searchParams.get('redirect') || '/';
+			const redirectUrl = $page.url.searchParams.get('redirect') || `${base}/discoverfunds`;
 			goto(redirectUrl, {
 				replaceState: true
 			});
