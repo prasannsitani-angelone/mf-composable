@@ -4,6 +4,7 @@ import { AUTH_URL } from '$env/static/private';
 export const POST = (async ({ request }) => {
 	const url = `${AUTH_URL}/verifyLoginOTP`;
 	try {
+		const source = request.headers.get('X-Source');
 		const body = await request.json();
 		const res = await fetch(url, {
 			method: 'POST',
@@ -14,7 +15,8 @@ export const POST = (async ({ request }) => {
 
 		return new Response(JSON.stringify(data), {
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'X-Source': source
 			},
 			status
 		});
