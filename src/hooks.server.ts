@@ -14,7 +14,7 @@ import * as servertime from 'servertime';
 const deviceDetector = handleDeviecDetector({});
 
 const handler = (async ({ event, resolve }) => {
-	const serverTiming = servertime.createTimer();
+	// const serverTiming = servertime.createTimer();
 	const cookieString = event.request.headers.get('cookie') || '';
 	const cookie: Record<string, string> = parse(cookieString);
 
@@ -42,7 +42,7 @@ const handler = (async ({ event, resolve }) => {
 		token = await getAuthToken('guest');
 		isAuthenticatedUser = false;
 	}
-	serverTiming.start('Get profile and User', 'Timing of get Profile and User');
+	// serverTiming.start('Get profile and User', 'Timing of get Profile and User');
 	const isGuest = isAuthenticatedUser ? false : true;
 	if (!userType && isGuest) {
 		userType = 'B2C';
@@ -50,11 +50,11 @@ const handler = (async ({ event, resolve }) => {
 	} else if (!userType && !event.request.url.includes('/api/profile')) {
 		profileData = await useProfileFetch(event.url.origin, token, fetch);
 		userDetails = await useUserDetailsFetch(token, fetch);
-		serverTiming.start('ssr generation', 'Timing of SSR generation');
+		// serverTiming.start('ssr generation', 'Timing of SSR generation');
 		userType = userDetails?.userType || null;
 		accountType = profileData?.dpNumber ? 'D' : 'P';
 	}
-	serverTiming.end('Get profile and User');
+	// serverTiming.end('Get profile and User');
 	event.locals = {
 		...event.locals,
 		token,
@@ -66,15 +66,16 @@ const handler = (async ({ event, resolve }) => {
 		profileData,
 		scheme,
 		host,
-		sparkHeaders: event.request.headers,
-		serverTiming
+		sparkHeaders: event.request.headers
 	};
-	serverTiming.start('ssr generation', 'Timing of SSR generation');
+	// serverTiming.start('ssr generation', 'Timing of SSR generation');
 	const response = await resolve(event);
-	serverTiming.end('ssr generation');
-	const headers = serverTiming.getHeader() || '';
+	// serverTiming.end('ssr generation');
+	// const headers = serverTiming.getHeader() || '';
 
-	response.headers.set('Server-Timing', headers);
+	// response.headers.set('Server-Timing', headers);
+	// Delete response Link header
+	response.headers.delete('link');
 	return response;
 }) satisfies Handle;
 

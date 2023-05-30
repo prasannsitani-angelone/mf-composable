@@ -71,8 +71,7 @@ export const load = (async ({ url, request, locals, cookies, fetch, depends }) =
 		userDetails,
 		profileData,
 		token = '',
-		refreshToken = '',
-		serverTiming
+		refreshToken = ''
 	} = locals;
 
 	const tokenObj: TokenStore = {
@@ -124,11 +123,11 @@ export const load = (async ({ url, request, locals, cookies, fetch, depends }) =
 		})
 	);
 
-	serverTiming.start('getsearchDashboardData', 'Timing of getsearchDashboardData');
+	// serverTiming.start('getsearchDashboardData', 'Timing of getsearchDashboardData');
 
 	const searchDashboardData = await getsearchDashboardData(fetch);
 
-	serverTiming.end('getsearchDashboardData');
+	// serverTiming.end('getsearchDashboardData');
 	depends('app:searchDashboard');
 	return {
 		sparkHeaders,
