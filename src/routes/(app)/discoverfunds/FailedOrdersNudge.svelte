@@ -11,7 +11,7 @@
 	let order: IRetryPaymentNudge;
 
 	const navigateToInvestmentPad = () => {
-		const reRouteUrl = '/schemes';
+		const reRouteUrl = 'schemes';
 		let routerPath = `${reRouteUrl}/${normalizeFundName(
 			order?.schemeName,
 			order?.isin,
