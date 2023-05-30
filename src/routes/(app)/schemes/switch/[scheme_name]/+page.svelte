@@ -87,7 +87,7 @@
 			amountVal = '';
 			errorMessage = '';
 			switchFullAmount = false;
-			if(folioList.length){
+			if (folioList.length) {
 				selectedFolio = (folioList || [])[0];
 			}
 		}

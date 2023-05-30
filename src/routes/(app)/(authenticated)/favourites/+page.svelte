@@ -1,5 +1,4 @@
 <script lang="ts">
-	import logger from '$lib/utils/logger';
 	import SchemeTable from '$components/SchemeTable.svelte';
 	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
 

@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { invalidate } from '$app/navigation';
+	import { page } from '$app/stores';
+	import { browser } from '$app/environment';
 	import ChipOverview from '$components/ChipOverview.svelte';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
@@ -8,7 +11,7 @@
 
 	import NavCharts from './NavCharts.svelte';
 	import RocketIcon from '$lib/images/icons/RocketIcon.svelte';
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { sFundDetails } from '../analytics';
 	import AddToFavourites from '$components/AddToFavourites.svelte';
 
@@ -82,6 +85,16 @@
 		};
 		sFundDetails(eventMetadata);
 	});
+
+	let pagePathname: string;
+	$: pagePathname = $page.url?.pathname;
+
+	onDestroy(() => {
+		if (browser && !pagePathname.includes('/discoverfunds')) {
+			invalidate('app:searchDashboard');
+		}
+	});
+
 	export { schemeDetails, isNFO };
 </script>
 
