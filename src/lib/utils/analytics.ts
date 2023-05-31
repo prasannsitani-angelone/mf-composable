@@ -25,7 +25,7 @@ class Analytics extends BaseLogger {
 			api_hr: date.getHours(),
 			api_min: date.getMinutes(),
 			api_timestamp: date.getTime(),
-			api_timestamp_unix: format(date, 'yyyy-mm-dd hh:mm:ss.SSS'),
+			api_timestamp_unix: format(date, 'yyyy-MM-dd hh:mm:ss.SSS'),
 			app_id: appStore.deviceid(),
 			app_version_id: 'mf',
 			build_release: PUBLIC_ENV_NAME,
@@ -57,9 +57,9 @@ class Analytics extends BaseLogger {
 		);
 		return {
 			...log,
-			client_timestamp: format(date, 'yyyy-mm-dd hh:mm:ss.SSS'),
+			client_timestamp: format(date, 'yyyy-MM-dd hh:mm:ss.SSS'),
 			client_timestamp_unix: date.getTime(),
-			client_timestamp_utc: format(utcDate, 'yyyy-mm-dd hh:mm:ss.SSS'),
+			client_timestamp_utc: format(utcDate, 'yyyy-MM-dd hh:mm:ss.SSS'),
 			client_timestamp_utc_unix: utcDate
 		};
 	};
