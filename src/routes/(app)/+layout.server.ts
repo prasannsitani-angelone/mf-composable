@@ -84,8 +84,8 @@ export const load = (async ({ url, request, locals, cookies, fetch, depends }) =
 	};
 	let localProfileData: UserProfile = profileData;
 	let localUserDetails: IUserDetails = userDetails;
-	cookies.set('UserType', userType, getCookieOptions());
-	cookies.set('AccountType', accountType, getCookieOptions());
+	cookies.set('UserType', userType, getCookieOptions(false));
+	cookies.set('AccountType', accountType, getCookieOptions(false));
 
 	if (isGuest) {
 		tokenObj.guestToken = token;
@@ -103,11 +103,11 @@ export const load = (async ({ url, request, locals, cookies, fetch, depends }) =
 	}
 	if (!localProfileData?.clientId && !isGuest) {
 		localProfileData = await useProfileFetch(url.origin, token, fetch);
-		cookies.set('AccountType', localProfileData?.dpNumber ? 'D' : 'P', getCookieOptions());
+		cookies.set('AccountType', localProfileData?.dpNumber ? 'D' : 'P', getCookieOptions(false));
 	}
 	if (!localUserDetails?.userType && !isGuest) {
 		localUserDetails = await useUserDetailsFetch(token, fetch);
-		cookies.set('UserType', localUserDetails?.userType, getCookieOptions());
+		cookies.set('UserType', localUserDetails?.userType, getCookieOptions(false));
 	}
 	console.log(
 		JSON.stringify({

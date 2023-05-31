@@ -12,7 +12,7 @@ import { parse } from 'cookie-es';
 import { handleDeviecDetector } from 'sveltekit-device-detector';
 import * as servertime from 'servertime';
 import { PRIVATE_MF_CORE_BASE_URL } from '$env/static/private';
-import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+import { PUBLIC_ENV_NAME, PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { dev } from '$app/environment';
 const deviceDetector = handleDeviecDetector({});
 
@@ -76,8 +76,9 @@ const handler = (async ({ event, resolve }) => {
 	const response = await resolve(event);
 	serverTiming.end('ssr generation');
 	const headers = serverTiming.getHeader() || '';
-
-	response.headers.set('Server-Timing', headers);
+	if (PUBLIC_ENV_NAME !== 'prod') {
+		response.headers.set('Server-Timing', headers);
+	}
 	// Delete response Link header
 	response.headers.delete('link');
 	return response;
