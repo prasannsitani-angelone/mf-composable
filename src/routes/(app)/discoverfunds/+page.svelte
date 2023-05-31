@@ -309,7 +309,7 @@
 				<div class="text-title-black mt-2 text-sm font-medium lg:text-base">External Funds</div>
 			</div>
 		</Link>
-		<Link to="/nfo" preloadData={isGuest ? 'tap' : 'hover'}>
+		<Link to="/nfo">
 			<div class="mb-2 flex flex-col items-center">
 				<div class="relative h-9 w-9 items-center justify-center rounded-full bg-[#E1D1FC] p-[6px]">
 					{#await data.streamed.nfo then nfo}
