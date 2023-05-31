@@ -79,7 +79,7 @@
 	<DoughnutChart
 		data={doughnutData}
 		chartId={parentId}
-		chartClass="h-w-64 m-auto w-64"
+		chartClass="!h-64 m-auto !w-64"
 		{tooltipLength}
 		width={10}
 		height={10}
