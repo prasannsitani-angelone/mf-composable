@@ -115,6 +115,6 @@ export const useFetch = async (
 				error: e.toString()
 			}
 		});
-		throw e;
+		return {};
 	}
 };
