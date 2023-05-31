@@ -80,14 +80,14 @@
 	};
 
 	const setQueryParamsData = () => {
-		if (queryParamsObj?.orderpad === 'INVEST') {
+		if (queryParamsObj?.params?.length) {
+			orderpadParams = decodeToObject(queryParamsObj?.params);
+		}
+
+		if (queryParamsObj?.orderpad === 'INVEST' || orderpadParams?.orderpad === 'INVEST') {
 			showInvestmentPad = true;
 		} else {
 			showInvestmentPad = false;
-		}
-
-		if (queryParamsObj?.params?.length) {
-			orderpadParams = decodeToObject(queryParamsObj?.params);
 		}
 	};
 

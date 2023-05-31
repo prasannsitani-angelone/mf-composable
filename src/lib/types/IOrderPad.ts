@@ -18,4 +18,5 @@ export interface decodedParamsTypes {
 	sipRegistrationNumber?: number;
 	sipDueDate?: number;
 	source?: string;
+	orderpad?: string;
 }
