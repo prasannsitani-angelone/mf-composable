@@ -26,6 +26,14 @@ export const lineChartSchema = {
 			x: {
 				time: {
 					unit: 'month'
+				},
+				ticks: {
+					callback: function (value: number) {
+						const date = new Date(value);
+						const month = date.toLocaleString('default', { month: 'short' });
+						const year = date.getFullYear()?.toString();
+						return ' ' + month + ' ' + year + ' ';
+					}
 				}
 			}
 		}

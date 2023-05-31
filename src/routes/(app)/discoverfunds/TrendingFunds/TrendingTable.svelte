@@ -62,7 +62,7 @@
 				</Td>
 				<Td class="text-center">{schemes[currentYearFilter.field]}%</Td>
 				<Td class="relative text-center">
-					<div class="absolute top-0 bottom-0 right-0 flex justify-end pr-3">
+					<div class=" top-0 bottom-0 right-0 flex justify-end {!isGuest ? 'absolute pr-3' : ''}">
 						<div class="flex items-center">
 							<span>
 								₹{schemes?.minSipAmount}

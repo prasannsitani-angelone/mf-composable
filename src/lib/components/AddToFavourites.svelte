@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import { createEventDispatcher } from 'svelte';
@@ -10,6 +11,7 @@
 	let schemeCode: string;
 	let isFavourite: boolean;
 	let diasbaled = false;
+	let showForAllUsers = false;
 	const dispatch = createEventDispatcher();
 
 	let showDeleteConfirmationPopup = false;
@@ -56,26 +58,30 @@
 		}
 	};
 
-	export { isin, schemeCode, isFavourite };
+	$: showFavourites = $page.data?.isGuest ? (showForAllUsers ? true : false) : true;
+
+	export { isin, schemeCode, isFavourite, showForAllUsers };
 </script>
 
-<Button
-	variant="transparent"
-	class="{$$props.class} items-start"
-	onClick={async (e) => {
-		if (diasbaled) return;
-		diasbaled = true;
-		await toggleFavourites(e);
-		diasbaled = false;
-	}}
-	ariaLabel="bookmark"
->
-	{#if isFavourite}
-		<WMSIcon name="bookmark-filled" size="xs" mode="tulip" />
-	{:else}
-		<WMSIcon name="bookmark" size="xs" mode="tulip" />
-	{/if}
-</Button>
+{#if showFavourites}
+	<Button
+		variant="transparent"
+		class="{$$props.class} items-start"
+		onClick={async (e) => {
+			if (diasbaled) return;
+			diasbaled = true;
+			await toggleFavourites(e);
+			diasbaled = false;
+		}}
+		ariaLabel="bookmark"
+	>
+		{#if isFavourite}
+			<WMSIcon name="bookmark-filled" size="xs" mode="tulip" />
+		{:else}
+			<WMSIcon name="bookmark" size="xs" mode="tulip" />
+		{/if}
+	</Button>
+{/if}
 {#if showDeleteConfirmationPopup}
 	<Modal
 		isModalOpen={true}
