@@ -51,7 +51,7 @@ const handler = (async ({ event, resolve }) => {
 		userType = 'B2C';
 		accountType = 'D';
 	} else if (!userType && !event.request.url.includes('/api/profile')) {
-		profileData = await useProfileFetch(event.url.origin, token, fetch);
+		profileData = await useProfileFetch(`${scheme}//${host}`, token, fetch);
 		userDetails = await useUserDetailsFetch(token, fetch);
 		serverTiming.start('ssr generation', 'Timing of SSR generation');
 		userType = userDetails?.userType || null;

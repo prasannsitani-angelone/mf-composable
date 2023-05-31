@@ -72,7 +72,9 @@ export const load = (async ({ url, request, locals, cookies, fetch, depends }) =
 		profileData,
 		token = '',
 		refreshToken = '',
-		serverTiming
+		serverTiming,
+		scheme,
+		host
 	} = locals;
 
 	const tokenObj: TokenStore = {
@@ -102,7 +104,7 @@ export const load = (async ({ url, request, locals, cookies, fetch, depends }) =
 		);
 	}
 	if (!localProfileData?.clientId && !isGuest) {
-		localProfileData = await useProfileFetch(url.origin, token, fetch);
+		localProfileData = await useProfileFetch(`${scheme}//${host}`, token, fetch);
 		cookies.set('AccountType', localProfileData?.dpNumber ? 'D' : 'P', getCookieOptions(false));
 	}
 	if (!localUserDetails?.userType && !isGuest) {
