@@ -98,7 +98,7 @@
 		</Link>
 		<Link
 			to="/investments"
-			preloadData={isGuest ? 'tap' : 'hover'}
+			preloadData={isGuest ? 'off' : 'hover'}
 			on:linkClicked={() => onTabClickAnalytics('Investments')}
 		>
 			<div class={`hidden cursor-pointer uppercase md:block ${myInvestmentsTabClass}`}>
@@ -107,7 +107,7 @@
 		</Link>
 		<Link
 			to={`/orders/orderspage`}
-			preloadData={isGuest ? 'tap' : 'hover'}
+			preloadData={isGuest ? 'off' : 'hover'}
 			on:linkClicked={() => onTabClickAnalytics('Orders')}
 		>
 			<div class="mr-4 hidden cursor-pointer uppercase md:block {ordersTabClass}">ORDERS</div>
@@ -118,7 +118,7 @@
 		</div>
 		<Link
 			to="/favourites"
-			preloadData={isGuest ? 'tap' : 'hover'}
+			preloadData={isGuest ? 'off' : 'hover'}
 			on:linkClicked={() => onTabClickAnalytics('Favourites')}
 		>
 			<div
