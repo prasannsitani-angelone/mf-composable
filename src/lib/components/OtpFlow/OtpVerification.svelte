@@ -85,10 +85,6 @@
 	};
 
 	const onErrorTryAgain = () => {
-		error.visible = false;
-		error.heading = '';
-		error.subHeading = '';
-
 		closeOtpActionModal();
 		dispatch('redirectOnError');
 	};

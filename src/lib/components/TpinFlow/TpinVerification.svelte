@@ -103,10 +103,6 @@
 			dispatch('serverErrorRetryClick');
 		}
 
-		error.visible = false;
-		error.heading = '';
-		error.subHeading = '';
-
 		closeTpinActionModal();
 		dispatch('redirectOnError');
 	};
