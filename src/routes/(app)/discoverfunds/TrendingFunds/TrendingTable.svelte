@@ -13,12 +13,14 @@
 	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
+	import { page } from '$app/stores';
 	let tableData: Array<WeeklyTopSchemesEntity>;
 
 	let currentYearFilter: TableColumnToggle = {
 		label: '3Y Return',
 		field: 'returns3yr'
 	};
+	$: isGuest = $page.data?.isGuest;
 	const sortTable = () => {
 		currentYearFilter = returnYearTableChangeColumn(currentYearFilter.field, yearlyReturnMap);
 	};
@@ -56,7 +58,7 @@
 					onTableRowSelect(schemes);
 				}}
 				><Td class="w-[30%]">
-					<SchemeCard {schemes} />
+					<SchemeCard preloadData={isGuest ? 'tap' : 'hover'} {schemes} />
 				</Td>
 				<Td class="text-center">{schemes[currentYearFilter.field]}%</Td>
 				<Td class="relative text-center">

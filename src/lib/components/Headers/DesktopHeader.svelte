@@ -116,7 +116,11 @@
 			<svelte:component this={SearchDynamicComponent} on:searchFocus={handleSearchFocusEvent} />
 			<!-- <SearchComponent  /> -->
 		</div>
-		<Link to="/favourites" preloadData={isGuest ? 'tap' : 'hover'} on:linkClicked={() => onTabClickAnalytics('Favourites')}>
+		<Link
+			to="/favourites"
+			preloadData={isGuest ? 'tap' : 'hover'}
+			on:linkClicked={() => onTabClickAnalytics('Favourites')}
+		>
 			<div
 				class="flex h-9 w-9 items-center justify-center rounded-full {isFavouritesActive
 					? 'bg-blue-primary'

@@ -293,7 +293,7 @@
 
 	<!-- External Funds, NFO, Calculator -->
 	<article class="mt-2 flex justify-around rounded bg-white px-4 py-6 pb-3 shadow-csm">
-		<Link to="/investments?type=all">
+		<Link preloadData={isGuest ? 'tap' : 'hover'} to="/investments?type=all">
 			<!-- <div class="mb-2 flex flex-col items-center relative">
 				<div class="h-9 w-9 rounded-full bg-[#F9BA4D]/[0.24] p-[6px]">
 					<WMSIcon name="import-external-funds"/>
@@ -309,7 +309,7 @@
 				<div class="text-title-black mt-2 text-sm font-medium lg:text-base">External Funds</div>
 			</div>
 		</Link>
-		<Link to="/nfo">
+		<Link to="/nfo" preloadData={isGuest ? 'tap' : 'hover'}>
 			<div class="mb-2 flex flex-col items-center">
 				<div class="relative h-9 w-9 items-center justify-center rounded-full bg-[#E1D1FC] p-[6px]">
 					{#await data.streamed.nfo then nfo}
@@ -366,7 +366,7 @@
 					<PortfolioCard discoverPage={true} on:portfolidataReceived={onPortfolioDataReceived} />
 				</Link>
 			{:else}
-				<StartNewInvestment />
+				<StartNewInvestment searchOptions={data?.searchDashboardData?.searchOptions} />
 			{/if}
 			{#if sipPaymentNudges?.length}
 				<section class="mt-2">
