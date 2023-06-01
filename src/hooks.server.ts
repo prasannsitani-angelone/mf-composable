@@ -117,7 +117,7 @@ export const handleFetch = (async ({ event, request, fetch }) => {
 
 export const handle = sequence(deviceDetector, handler);
 
-export const handleError = (async ({ error, event }) => {
+export const handleError = (async ({ error }) => {
 	const errorId = crypto.randomUUID();
 	const errorStr = error?.stack?.toString() || error?.toString();
 	Logger.error({
