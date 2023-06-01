@@ -71,6 +71,6 @@
 		"swiper": "8.2.4",
 		"ua-parser-js": "^1.0.35",
 		"uuid": "^9.0.0",
-		"wms-ui-component": "0.53.0"
+		"wms-ui-component": "0.57.0"
 	}
 }
