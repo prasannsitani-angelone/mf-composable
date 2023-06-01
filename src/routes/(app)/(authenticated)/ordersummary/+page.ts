@@ -1,4 +1,4 @@
-import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+import { PUBLIC_MF_ANDROID_APN, PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { decodeToObject } from '$lib/utils/helpers/params';
 import { useFetch } from '$lib/utils/useFetch';
 import { hydrate } from '$lib/utils/helpers/hydrated';
@@ -62,13 +62,14 @@ export const load = async ({ fetch, url, parent, depends }) => {
 
 	const onClickShareIcon = async () => {
 		const parentData = await parent();
-		const link = `${parentData.scheme}//${parentData.host}${base}/schemes/${normalizeFundName(
+		const link = `https://angeloneapp.page.link/?link=${parentData.scheme}//${
+			parentData.host
+		}${base}/schemes/${normalizeFundName(
 			schemeData?.schemeName,
 			schemeData?.isin,
 			schemeData?.schemeCode
-		)}`;
+		)}&apn=${PUBLIC_MF_ANDROID_APN}`;
 		const message = {
-			title: schemeData?.schemeName,
 			text: `Hey, I just invested in the ${schemeData?.schemeName}. Join me in investing on Angel One - ${link}`
 		};
 		shareMessage(parentData.sparkHeaders, message);

@@ -1,4 +1,4 @@
-import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+import { PUBLIC_MF_ANDROID_APN, PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 
 import type { PageLoad } from './$types';
 import type { SchemeDetails, SchemeHoldings } from '$lib/types/ISchemeDetails';
@@ -49,12 +49,13 @@ export const load = (async ({ fetch, params, url, parent }) => {
 	const onClickShareIcon = async () => {
 		const parentData = await parent();
 		const message = {
-			title: schemeData?.schemeName,
 			text: `Hey, check out this fund - ${
 				schemeData?.schemeName
 			}. It has given ${schemeData?.returns3yr?.toFixed(
 				2
-			)}% returns in the last 3 years. Learn more about this fund on Angel One - ${url?.href}`
+			)}% returns in the last 3 years. Learn more about this fund on Angel One - https://angeloneapp.page.link/?link=${
+				url?.href
+			}&apn=${PUBLIC_MF_ANDROID_APN}`
 		};
 		shareMessage(parentData.sparkHeaders, message);
 	};

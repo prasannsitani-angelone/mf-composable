@@ -3,7 +3,7 @@ import type { SparkStore } from '$lib/stores/SparkStore';
 
 export const shareMessage = async (
 	sparkHeaders: SparkStore,
-	message: { title: string; text: string }
+	message: { title?: string; text: string }
 ) => {
 	if (sparkHeaders.platform?.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) {
 		window?.webkit?.messageHandlers?.callBackHandlerMFShareOption?.postMessage(
