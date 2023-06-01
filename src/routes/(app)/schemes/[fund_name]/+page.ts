@@ -9,17 +9,19 @@ import { redirect } from '@sveltejs/kit';
 import { base } from '$app/paths';
 import { goto } from '$app/navigation';
 import { decodeToObject } from '$lib/utils/helpers/params';
-export const load = (async ({ fetch, params, url }) => {
+import { shareMessage } from '$lib/utils/share';
+
+export const load = (async ({ fetch, params, url, parent }) => {
 	const queryParam = url?.searchParams?.get('params') || '';
 	const fundName = params['fund_name'];
 	const decodedParams = decodeToObject(queryParam);
 	const { redirectedFrom } = decodedParams || {};
 	const schemeMetadata = fundName?.split('-isin-')[1]?.toUpperCase();
 	const [isin = '', schemeCode = ''] = schemeMetadata?.split('-SCHEMECODE-') || [];
+	let schemeData: SchemeDetails;
 
 	const getSchemeData = async (): Promise<SchemeDetails> => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/${schemeCode}`;
-		let schemeData: SchemeDetails | Error;
 		const res = await useFetch(
 			url,
 			{
@@ -42,6 +44,19 @@ export const load = (async ({ fetch, params, url }) => {
 		}
 
 		return schemeData;
+	};
+
+	const onClickShareIcon = async () => {
+		const parentData = await parent();
+		const message = {
+			title: schemeData?.schemeName,
+			text: `Hey, check out this fund - ${
+				schemeData?.schemeName
+			}. It has given ${schemeData?.returns3yr?.toFixed(
+				2
+			)} returns in the last 3 years. Learn more about this fund on Angel One - ${url?.href}`
+		};
+		shareMessage(parentData.sparkHeaders, message);
 	};
 
 	const getFundHoldings = async (): Promise<Array<SchemeHoldings>> => {
@@ -73,7 +88,9 @@ export const load = (async ({ fetch, params, url }) => {
 		layoutConfig: {
 			title: 'Fund Details',
 			showBackIcon: true,
-			layoutType: 'TWO_COLUMN'
+			layoutType: 'TWO_COLUMN',
+			showShareIcon: true,
+			onClickShareIcon: onClickShareIcon
 		},
 		api: {
 			schemeData: browser ? getSchemeData() : await getSchemeData(),

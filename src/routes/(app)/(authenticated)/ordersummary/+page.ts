@@ -7,12 +7,16 @@ import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 import { STATUS_ARR } from './constant';
 import { format } from 'date-fns';
 import type { BankDetailsEntity } from '$lib/types/IUserProfile';
+import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
+import { base } from '$app/paths';
+import { shareMessage } from '$lib/utils/share';
 
 export const load = async ({ fetch, url, parent, depends }) => {
 	const params = url.searchParams.get('params');
 	const decodedParams = decodeToObject(params);
 	const { profile } = await parent();
 	const { orderID, sipID, firstTimePayment } = decodedParams;
+	let schemeData: Record<string, string>;
 	const getOrderDetailsFunc = async () => {
 		try {
 			if (firstTimePayment) {
@@ -56,13 +60,26 @@ export const load = async ({ fetch, url, parent, depends }) => {
 		});
 	};
 
+	const onClickShareIcon = async () => {
+		const parentData = await parent();
+		const link = `${parentData.scheme}//${parentData.host}${base}/schemes/${normalizeFundName(
+			schemeData?.schemeName,
+			schemeData?.isin,
+			schemeData?.schemeCode
+		)}`;
+		const message = {
+			title: schemeData?.schemeName,
+			text: `Hey, I just invested in the ${schemeData?.schemeName}. Join me in investing on Angel One - ${link}`
+		};
+		shareMessage(parentData.sparkHeaders, message);
+	};
+
 	const getAPIData = async () => {
 		const response = await Promise.all([getSIPDetailsFunc(), getOrderDetailsFunc()]);
 		const sipData = response[0];
 		const orderData = response[1];
-
 		const schemeCardItems: Array<SchemeCardItems> = [];
-		const schemeDetails = {};
+		const schemeDetails: Record<string, string> = {};
 		const statusHistoryItems: Array<Record<string, any>> = [];
 		let statusCardHeading = '';
 		const headerContent: Record<string, any> = {
@@ -159,6 +176,8 @@ export const load = async ({ fetch, url, parent, depends }) => {
 				schemeDetails.logoUrl = data?.logoUrl;
 				schemeDetails.schemePlan = data?.schemePlan;
 				schemeDetails.schemeName = data?.schemeName;
+				schemeDetails.isin = data?.isin;
+				schemeDetails.schemeCode = data?.schemeCode;
 			}
 		}
 
@@ -175,6 +194,8 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			schemeDetails.logoUrl = data?.logoUrl;
 			schemeDetails.schemePlan = data?.schemePlan;
 			schemeDetails.schemeName = data?.schemeName;
+			schemeDetails.isin = data?.isin;
+			schemeDetails.schemeCode = data?.schemeCode;
 		}
 		if (!firstTimePayment && sipData?.ok) {
 			const data = sipData?.data?.data;
@@ -188,7 +209,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			headerContent.status = STATUS_ARR.SUCCESS;
 			headerContent.subHeaderClass = 'bg-green-buy/10';
 		}
-
+		schemeData = schemeDetails;
 		return {
 			schemeCardItems,
 			schemeDetails,
@@ -216,7 +237,9 @@ export const load = async ({ fetch, url, parent, depends }) => {
 		},
 		layoutConfig: {
 			layoutType: 'FULL_HEIGHT_WITHOUT_PADDING',
-			title: 'Order Summary'
+			title: 'Order Summary',
+			showShareIcon: true,
+			onClickShareIcon: onClickShareIcon
 		}
 	};
 };

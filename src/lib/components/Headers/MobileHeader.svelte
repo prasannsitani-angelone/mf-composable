@@ -12,6 +12,8 @@
 	export let showSearchIcon = false;
 	export let showBackIcon = false;
 	export let showCloseIcon = false;
+	export let showShareIcon = false;
+	export let onClickShareIcon: (() => void) | null;
 
 	const handleCloseButtonClick = () => {
 		if ($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) {
@@ -56,12 +58,19 @@
 				{/if}
 				<slot name="title">
 					<h1 class="text-lg font-medium text-black-title">
-						<div class="truncate text-left" class:w-80={!showSearchIcon}>
+						<div class="truncate text-left" class:w-80={!showSearchIcon && !showShareIcon}>
 							{title || ''}
 						</div>
 					</h1>
 				</slot>
 			</article>
+			<slot name="shareIcon">
+				{#if showShareIcon}
+					<article class="flex">
+						<WMSIcon name="share" on:click={onClickShareIcon} height={24} width={24} />
+					</article>
+				{/if}
+			</slot>
 			<slot name="searchIcon">
 				{#if showSearchIcon}
 					<article class="flex pr-4">

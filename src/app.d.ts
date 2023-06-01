@@ -10,6 +10,9 @@ interface LayoutConfig {
 	component: class;
 	showBottomNavigation: boolean;
 	showSearchIcon: boolean;
+	showCloseIcon: boolean;
+	showShareIcon: boolean;
+	onClickShareIcon: (() => void) | null;
 	layoutType:
 		| 'TWO_COLUMN'
 		| 'TWO_COLUMN_REVERSE'
