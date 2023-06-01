@@ -13,7 +13,7 @@
 	export let showBackIcon = false;
 	export let showCloseIcon = false;
 	export let showShareIcon = false;
-	export let onClickShareIcon: (() => void) | null;
+	export let onClickShareIcon: (() => void) | null = null;
 
 	const handleCloseButtonClick = () => {
 		if ($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) {
