@@ -10,7 +10,11 @@
 	import CalendarSmallIcon from '$lib/images/icons/CalendarSmallIcon.svelte';
 	import CheckboxCheckedIcon from '$lib/images/icons/CheckboxCheckedIcon.svelte';
 	import CheckboxUncheckedIcon from '$lib/images/icons/CheckboxUncheckedIcon.svelte';
-	import { addCommasToAmountString, formatAmount } from '$lib/utils/helpers/formatAmount';
+	import {
+		addCommasToAmountString,
+		formatAmount,
+		roundOffAmountToNearestThousand
+	} from '$lib/utils/helpers/formatAmount';
 	import TabNotSupported from './OrderPadComponents/TabNotSupported.svelte';
 	import {
 		getCompleteSIPDateBasedonDD,
@@ -65,6 +69,8 @@
 		changePaymentMethodScreenImpressionAnalytics
 	} from './analytics/orderpad';
 	import { debounce } from '$lib/utils/helpers/debounce';
+	import { WMSIcon } from 'wms-ui-component';
+	import LumpsumToSip from './OrderPadComponents/LumpsumToSip.svelte';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -95,6 +101,7 @@
 	const maximumAmountLimit = 999999999;
 	const upiPaymentAmountLimit = 100000;
 	const minimumNetBankingAmountLimit = 50;
+	const lumpsumThreshold = 10_000;
 
 	let activeTab =
 		(schemeData?.isSipAllowed === 'Y' && schemeData?.sipMaxAmount > 0 && 'SIP') ||
@@ -115,6 +122,9 @@
 	let errorMessage = '';
 	let firstSipPayment = true;
 	let showTncModal = false;
+	let isLumpsumToSipEligible = false;
+	let lumpsumToSipAmount = '';
+	let showLumpsumToSipModal = false;
 
 	// payment
 	let xRequestId = '';
@@ -305,6 +315,52 @@
 		amountVal = amount?.length ? `₹${addCommasToAmountString(amount)}` : '';
 	};
 
+	const resetLumpsumToSipData = () => {
+		isLumpsumToSipEligible = false;
+		lumpsumToSipAmount = '';
+		showLumpsumToSipModal = false;
+	};
+
+	const toggleShowLumpsumToSipModal = () => {
+		showLumpsumToSipModal = !showLumpsumToSipModal;
+	};
+
+	const redirectToSip = () => {
+		activeTab = 'SIP';
+		amount = lumpsumToSipAmount;
+
+		if (showChangePayment) {
+			showChangePayment = false;
+		}
+
+		toggleShowLumpsumToSipModal();
+		resetLumpsumToSipData();
+	};
+
+	const lumpsumToSipAmountValidation = () => {
+		if (Number(lumpsumToSipAmount) > schemeData?.sipMaxAmount) {
+			lumpsumToSipAmount = schemeData?.sipMaxAmount?.toString();
+		} else if (Number(lumpsumToSipAmount) < schemeData?.minSipAmount) {
+			lumpsumToSipAmount = schemeData?.minSipAmount?.toString();
+		}
+	};
+
+	const setLumpsumToSipAmountValue = () => {
+		const perMonthAmount = Number(amount) / 10;
+		lumpsumToSipAmount = roundOffAmountToNearestThousand(perMonthAmount)?.toString();
+
+		lumpsumToSipAmountValidation();
+	};
+
+	const lumpsumToSipProcess = () => {
+		if (Number(amount) >= lumpsumThreshold) {
+			isLumpsumToSipEligible = true;
+			setLumpsumToSipAmountValue();
+		} else {
+			resetLumpsumToSipData();
+		}
+	};
+
 	const onInputChange = (val: string | object) => {
 		let inputValue = val;
 
@@ -326,6 +382,10 @@
 		}
 
 		amount = formatAmount(inputValue); // trim, remove alphabets and remove leading zeroes
+
+		if (activeTab === 'ONETIME') {
+			lumpsumToSipProcess();
+		}
 
 		setErrorMessage();
 	};
@@ -418,10 +478,20 @@
 			setErrorMessage();
 			handleShowTabNotSupported();
 			handleAmountInputFocus();
+			resetLumpsumToSipData();
 		}
 	};
 
 	const handleInvestClick = (inputId: string) => {
+		if (activeTab === 'ONETIME' && isLumpsumToSipEligible && lumpsumToSipAmount?.length) {
+			if (!showLumpsumToSipModal) {
+				toggleShowLumpsumToSipModal();
+				return;
+			} else {
+				toggleShowLumpsumToSipModal();
+			}
+		}
+
 		// add logic
 		onPaymentTypeSubmit(inputId);
 	};
@@ -1749,7 +1819,6 @@
 						<article class="flex w-5/12 flex-col items-start p-2">
 							<!-- svelte-ignore a11y-label-has-associated-control -->
 							<label class="mb-2 text-xs font-normal text-black-title">Monthly SIP Date</label>
-							<!-- TODO: add calendar date selection functionality -->
 							<section
 								class="flex items-center justify-between rounded border border-gray-200 md:cursor-pointer {isSelectedInvestmentTypeAllowed()
 									? 'md:cursor-pointer'
@@ -1781,6 +1850,28 @@
 						<p class="text-xs font-light text-red-sell">
 							{errorMessage}
 						</p>
+					</article>
+				{/if}
+
+				{#if activeTab === 'ONETIME' && isLumpsumToSipEligible && !errorMessage?.length}
+					<article class="border-t px-2 py-3">
+						<section
+							class="to flex items-center justify-between rounded bg-gradient-to-r from-green-buy/40 to-white py-2 px-1"
+						>
+							<div class="flex items-start">
+								<WMSIcon class="mr-1" name="double-tick" width={15} height={9} />
+								<p class="w-[80%] text-xs font-light">
+									To reduce the risk of market fluctuations, consider investing this amount as SIP
+								</p>
+							</div>
+							<Button
+								variant="transparent"
+								class="!h-fit !min-h-0 !px-0 !text-[11px] !font-medium"
+								onClick={toggleShowLumpsumToSipModal}
+							>
+								Learn How
+							</Button>
+						</section>
 					</article>
 				{/if}
 
@@ -1993,4 +2084,15 @@
 		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
 		buttonVariant="contained"
 	/>
+{/if}
+
+{#if showLumpsumToSipModal}
+	<Modal isModalOpen={showLumpsumToSipModal} on:backdropclicked={toggleShowLumpsumToSipModal}>
+		<LumpsumToSip
+			class="z-60 sm:w-120"
+			sipAmount={lumpsumToSipAmount}
+			on:primaryCtaClick={redirectToSip}
+			on:secondaryCtaClick={() => handleInvestClick('')}
+		/>
+	</Modal>
 {/if}

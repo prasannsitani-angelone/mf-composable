@@ -101,3 +101,33 @@ export const getCappedUnitString = (units = '', cap = 3) => {
 
 	return `${preDecimal}.${postDecimal?.slice(0, cap)}`;
 };
+
+/**
+ * roundOffAmountToNearestThousand
+ *
+ * Amount                 |   Returned Value
+ * -----------------------|-----------------------
+ * 1250                   |   1000
+ * 1650                   |   2000
+ * 24780                  |   25000
+ *
+ * @param {number} amount
+ * @returns {number}
+ */
+export const roundOffAmountToNearestThousand = (amount: number) => {
+	if (typeof amount === 'string') {
+		amount = Number(amount);
+	}
+
+	const quotient = parseInt((amount / 1000)?.toString());
+	const remainder = amount % 1000;
+	let roundOffFactor = 0;
+
+	if (remainder >= 500) {
+		roundOffFactor = 1;
+	}
+
+	const resultAmount = (quotient + roundOffFactor) * 1000;
+
+	return resultAmount;
+};
