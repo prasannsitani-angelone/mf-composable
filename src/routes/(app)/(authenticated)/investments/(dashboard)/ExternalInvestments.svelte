@@ -17,13 +17,14 @@
 	import { partialImportCheck } from '../utils';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
-	import { getTimestampHoursDifference } from '$lib/utils/helpers/date';
+	import { getTimestampDaysDifference } from '$lib/utils/helpers/date';
 	import {
 		investmentExternalRefreshFlowAnalytics,
 		investmentExternalPartialImportScreenOpenAnalytics,
 		allTabScreenOpenAnalytics,
 		allTabClickedAnalytics
 	} from '../analytics';
+	import { refreshWaitDays } from '../constants';
 
 	import type { PageData } from './$types';
 	import type {
@@ -116,7 +117,6 @@
 	};
 
 	let refreshNotAllowed = false;
-	let refreshErrorType: 'WAIT_TWENTY_FOUR_HOURS' | 'TECHNICAL_ERROR';
 	let otpInitiated = false;
 	let otpFlow: 'INITIAL' | 'REFRESH' = 'INITIAL';
 	let otpStep: 'GENERATE' | 'VERIFY' | 'SUCCESS' = 'GENERATE';
@@ -125,24 +125,13 @@
 		otpInitiated = true;
 	};
 
-	const hasTwentyFourHoursPassed = (summary: InvestmentSummary) => {
-		return getTimestampHoursDifference(Date.now(), summary?.lastSuccessfullImportTs) >= 24;
-	};
-
-	const hasSeventyTwoHoursPassed = (summary: InvestmentSummary) => {
-		return getTimestampHoursDifference(Date.now(), summary?.lastSuccessfullImportTs) >= 72;
-	};
-
-	const refreshAllowedForNormalImports = (summary: InvestmentSummary) => {
-		return !isPartialImport ? hasTwentyFourHoursPassed(summary) : true;
-	};
-
-	const refreshAllowedForPartialImports = (summary: InvestmentSummary) => {
-		return isPartialImport ? hasSeventyTwoHoursPassed(summary) : true;
+	const hasWaitingPeriodPassedPostRefresh = (summary: InvestmentSummary) => {
+		const dayDiff = getTimestampDaysDifference(Date.now(), summary?.lastSuccessfullImportTs);
+		return dayDiff >= refreshWaitDays;
 	};
 
 	const isRefreshAllowed = (data: InvestmentSummary) => {
-		return refreshAllowedForNormalImports(data) && refreshAllowedForPartialImports(data);
+		return hasWaitingPeriodPassedPostRefresh(data);
 	};
 
 	const onRefreshFunds = (summary: InvestmentSummary) => {
@@ -151,11 +140,6 @@
 			otpFlow = 'REFRESH';
 		} else {
 			refreshNotAllowed = true;
-			if (!refreshAllowedForPartialImports(summary)) {
-				refreshErrorType = 'TECHNICAL_ERROR';
-			} else if (!refreshAllowedForNormalImports(summary)) {
-				refreshErrorType = 'WAIT_TWENTY_FOUR_HOURS';
-			}
 		}
 	};
 
@@ -324,15 +308,15 @@
 			</div>
 		{/await}
 	{/if}
+	{#if refreshNotAllowed}
+		<RefreshErrorModal {onModalClick} summary={response.data?.summary} />
+	{:else if otpInitiated}
+		<FetchFundsFlowModal
+			flow={otpFlow}
+			step={otpStep}
+			{data}
+			{onModalClick}
+			onfetchFundsSuccess={updatePageData}
+		/>
+	{/if}
 {/await}
-{#if refreshNotAllowed}
-	<RefreshErrorModal errorType={refreshErrorType} {onModalClick} />
-{:else if otpInitiated}
-	<FetchFundsFlowModal
-		flow={otpFlow}
-		step={otpStep}
-		{data}
-		{onModalClick}
-		onfetchFundsSuccess={updatePageData}
-	/>
-{/if}

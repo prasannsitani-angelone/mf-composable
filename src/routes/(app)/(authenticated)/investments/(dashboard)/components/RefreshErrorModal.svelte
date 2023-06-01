@@ -7,20 +7,29 @@
 		investmentExternalRefreshGotItAnalytics,
 		investmentExternalRefreshFlowAnalytics
 	} from '../../analytics';
+	import type { InvestmentSummary } from '$lib/types/IInvestments';
+	import { getDateTimeString } from '$lib/utils/helpers/date';
+	import { refreshWaitDays } from '../../constants';
 
+	export let summary: InvestmentSummary;
 	export let onModalClick = () => '';
-	export let errorType: 'WAIT_TWENTY_FOUR_HOURS' | 'TECHNICAL_ERROR';
+
 	let onConfirmationClick = () => {
 		onModalClick();
 		investmentExternalRefreshGotItAnalytics();
 	};
-	const technicalErrorMsg =
-		'You can refresh your portfolio once every 72 hours. Please try again after some time.';
-	const waitTwentyFourHoursMsg =
-		'You can refresh your portfolio once every 24 hours. Please try again after some time.';
+	$: technicalErrorMsg = `You can refresh your portfolio once every ${refreshWaitDays} days. You can try again on ${getNextAllowedDateToRefresh(
+		summary
+	)}.`;
+
+	function getNextAllowedDateToRefresh(summary: InvestmentSummary) {
+		const nextAllowedDate = summary.lastSuccessfullImportTs + refreshWaitDays * 24 * 60 * 60 * 1000;
+		const nextAllowedDateString = getDateTimeString(nextAllowedDate, 'DATETIME');
+		return nextAllowedDateString;
+	}
+
 	onMount(() => {
-		let message = errorType === 'TECHNICAL_ERROR' ? technicalErrorMsg : waitTwentyFourHoursMsg;
-		investmentExternalRefreshFlowAnalytics({ status: 'Fail', Message: message });
+		investmentExternalRefreshFlowAnalytics({ status: 'Fail', Message: technicalErrorMsg });
 	});
 </script>
 
@@ -30,15 +39,11 @@
 	>
 		<div class=""><WMSIcon width={92} height={92} name="red-cross-circle" /></div>
 		<div class="mb-3 mt-6 text-xl font-medium">Refresh Not Allowed</div>
-		{#if errorType === 'WAIT_TWENTY_FOUR_HOURS'}
-			<div class=" text-sm font-normal text-grey-body">
-				{waitTwentyFourHoursMsg}
-			</div>
-		{:else if errorType === 'TECHNICAL_ERROR'}
-			<div class=" text-sm font-normal text-grey-body">
-				{technicalErrorMsg}
-			</div>
-		{/if}
+
+		<div class=" text-sm font-normal text-grey-body">
+			{technicalErrorMsg}
+		</div>
+
 		<Button class="mt-8 w-40 px-2" variant="outlined" onClick={onConfirmationClick}>GOT IT</Button>
 	</div>
 </Modal>
