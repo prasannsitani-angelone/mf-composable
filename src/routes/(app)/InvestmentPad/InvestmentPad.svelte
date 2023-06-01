@@ -66,7 +66,10 @@
 		startSipButtonClickAnalytics,
 		payNowLumpsumButtonClickAnalytics,
 		changePaymentMethodButtonClickAnalytics,
-		changePaymentMethodScreenImpressionAnalytics
+		changePaymentMethodScreenImpressionAnalytics,
+		lumspsumToSipSleeveAnalytics,
+		lumspsumToSipSleeveCreateSipCtaClickAnalytics,
+		lumspsumToSipSleeveContinueOtiCtaClickAnalytics
 	} from './analytics/orderpad';
 	import { debounce } from '$lib/utils/helpers/debounce';
 	import { WMSIcon } from 'wms-ui-component';
@@ -323,6 +326,10 @@
 
 	const toggleShowLumpsumToSipModal = () => {
 		showLumpsumToSipModal = !showLumpsumToSipModal;
+
+		if (showLumpsumToSipModal) {
+			lumspsumToSipSleeveAnalytics();
+		}
 	};
 
 	const redirectToSip = () => {
@@ -335,6 +342,7 @@
 
 		toggleShowLumpsumToSipModal();
 		resetLumpsumToSipData();
+		lumspsumToSipSleeveCreateSipCtaClickAnalytics();
 	};
 
 	const lumpsumToSipAmountValidation = () => {
@@ -480,6 +488,12 @@
 			handleAmountInputFocus();
 			resetLumpsumToSipData();
 		}
+	};
+
+	const handleLumpsumToSipOtiClick = () => {
+		lumspsumToSipSleeveContinueOtiCtaClickAnalytics();
+
+		handleInvestClick('');
 	};
 
 	const handleInvestClick = (inputId: string) => {
@@ -2092,7 +2106,7 @@
 			class="z-60 sm:w-120"
 			sipAmount={lumpsumToSipAmount}
 			on:primaryCtaClick={redirectToSip}
-			on:secondaryCtaClick={() => handleInvestClick('')}
+			on:secondaryCtaClick={handleLumpsumToSipOtiClick}
 		/>
 	</Modal>
 {/if}

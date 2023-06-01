@@ -48,3 +48,36 @@ export const changePaymentMethodScreenImpressionAnalytics = (
 		event_metadata: eventMetaData
 	});
 };
+
+export const lumspsumToSipSleeveAnalytics = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipratherthanoti',
+		event_type: 'impression',
+		event_sub_type: 'sleeve',
+		event_name: 'SIPRatherThanOTI',
+		event_property: null,
+		event_id: '310.0.0.1.34'
+	});
+};
+
+export const lumspsumToSipSleeveCreateSipCtaClickAnalytics = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipratherthanoti',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'CreateSIP',
+		event_property: null,
+		event_id: '310.0.0.1.35'
+	});
+};
+
+export const lumspsumToSipSleeveContinueOtiCtaClickAnalytics = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipratherthanoti',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'ContinueWithOTI',
+		event_property: null,
+		event_id: '310.0.0.1.36'
+	});
+};
