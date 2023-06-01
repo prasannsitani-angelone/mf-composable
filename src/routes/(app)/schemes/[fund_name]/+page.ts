@@ -54,7 +54,7 @@ export const load = (async ({ fetch, params, url, parent }) => {
 				schemeData?.schemeName
 			}. It has given ${schemeData?.returns3yr?.toFixed(
 				2
-			)} returns in the last 3 years. Learn more about this fund on Angel One - ${url?.href}`
+			)}% returns in the last 3 years. Learn more about this fund on Angel One - ${url?.href}`
 		};
 		shareMessage(parentData.sparkHeaders, message);
 	};
