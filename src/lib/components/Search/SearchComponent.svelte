@@ -74,14 +74,14 @@
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/searchDashboard`;
 		const res = await useFetch(url);
 		if (res.ok) {
-			try{
+			try {
 				dashboardData = JSON.parse(JSON.stringify(res.data));
-			} catch(e){
+			} catch (e) {
 				dashboardData = {
 					recentlyViewed: [],
 					topInvestSchemes: [],
 					searchOptions: []
-				}
+				};
 			}
 		}
 	};
