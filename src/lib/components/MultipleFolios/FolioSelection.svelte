@@ -39,7 +39,9 @@
 <article class={$$props?.class}>
 	<section class="max-h-full overflow-auto rounded pb-8 md:max-h-96 md:rounded-none">
 		<slot name="header">
-			<h4 class="p-2 text-lg font-medium text-black-title md:p-0">Select Folio for Withdrawal</h4>
+			<h4 class="p-2 text-lg font-medium text-black-title md:hidden md:p-0">
+				Select Folio for Withdrawal
+			</h4>
 		</slot>
 
 		{#each folioList as folio (folio?.folioNumber)}

@@ -46,7 +46,8 @@
 	const SWITCH_VIEWS = {
 		SWITCH_FUNDS: 'Switch Funds',
 		SELECT_SWITCH_FUND: 'Select Switch In Fund',
-		CONFIRM_SWITCH: 'Confirm Switch'
+		CONFIRM_SWITCH: 'Confirm Switch',
+		FOLIO_SWITCH: ' Select Folio for Switch Out '
 	};
 	let isRedeemableAmountLessThanWithdrawableAmount = false;
 
@@ -218,8 +219,11 @@
 		showFolioSelection = val;
 
 		if (showFolioSelection) {
+			currentTitle = SWITCH_VIEWS.FOLIO_SWITCH;
 			switchFolioDataAnalytics(folioList);
 			selectFolioDropdownAnalytics();
+		} else {
+			currentTitle = SWITCH_VIEWS.SWITCH_FUNDS;
 		}
 	};
 
@@ -271,6 +275,7 @@
 		if (selectedFolioObject) {
 			selectedFolio = selectedFolioObject;
 		}
+		currentTitle = SWITCH_VIEWS.SWITCH_FUNDS;
 		showFolioSelection = false;
 	};
 
@@ -326,6 +331,9 @@
 		} else if (currentTitle === SWITCH_VIEWS.CONFIRM_SWITCH) {
 			currentTitle = SWITCH_VIEWS.SWITCH_FUNDS;
 			showSwitchConfirmation = false;
+		} else if (currentTitle === SWITCH_VIEWS.FOLIO_SWITCH) {
+			showFolioSelection = false;
+			currentTitle = SWITCH_VIEWS.SWITCH_FUNDS;
 		}
 	};
 
@@ -355,7 +363,11 @@
 		/>
 	{/if}
 	<div class="md:px-3">
-		<div class={(selectSwitchFund || showSwitchConfirmation) && !isMobile ? 'hidden' : ''}>
+		<div
+			class={(selectSwitchFund || showSwitchConfirmation || showFolioSelection) && !isMobile
+				? 'hidden'
+				: ''}
+		>
 			<SwitchOrderTitleCard
 				switchOutSchemeName={folioHolding?.schemeName}
 				switchOutLogo={folioHolding?.logoUrl}
@@ -529,7 +541,7 @@
 		</div>
 
 		<!-- Nominee Update Card -->
-		{#if !selectSwitchFund && !showSwitchConfirmation && switchInFund && Object.keys(switchInFund).length !== 0}
+		{#if !selectSwitchFund && !showSwitchConfirmation && !showFolioSelection && switchInFund && Object.keys(switchInFund).length !== 0}
 			<section class="mb-20">
 				{#if selectedFolio?.dpFlag?.toUpperCase() === 'N' && (selectedFolio?.rta === 'CAMS' || selectedFolio?.rta === 'KARVY')}
 					<NomineeUpdateCard
@@ -549,7 +561,7 @@
 
 		<!-- PROCEED BUTTON -->
 		{#if switchInFund && Object.keys(switchInFund).length !== 0}
-			{#if !selectSwitchFund && !showSwitchConfirmation}
+			{#if !selectSwitchFund && !showSwitchConfirmation && !showFolioSelection}
 				<section class="mx-3 mt-4 hidden md:block">
 					<Button
 						class="h-12 w-full rounded disabled:bg-grey-line disabled:bg-opacity-100 disabled:text-grey-disabled"
@@ -591,6 +603,16 @@
 				{selectedFolio}
 				{switchInFund}
 				{fullAmountSelected}
+			/>
+		{/if}
+
+		{#if showFolioSelection && !isMobile}
+			<FolioSelection
+				class="bg-white px-3 py-2"
+				{folioList}
+				switchInSchemeMode={switchInFund?.purchaseTxnMode}
+				selectedFolioNumber={selectedFolio?.folioNumber}
+				on:confirmSelectedFolio={(folioData) => setFolioWithdrawalData(folioData?.detail)}
 			/>
 		{/if}
 
@@ -704,11 +726,11 @@
 			</div>
 		</Modal>
 
-		{#if showFolioSelection}
+		{#if showFolioSelection && isMobile}
 			<!-- Folio Selection screen section mobile -->
 			<section class="block rounded text-grey-dark md:hidden">
 				<Modal
-					isModalOpen={showFolioSelection}
+					isModalOpen={showFolioSelection && isMobile}
 					on:backdropclicked={() => toggleFolioSelection(false)}
 				>
 					<FolioSelection
