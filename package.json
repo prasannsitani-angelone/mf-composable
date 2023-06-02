@@ -59,7 +59,7 @@
 		"chartjs-adapter-date-fns": "3.0.0",
 		"daisyui": "2.51.4",
 		"date-fns": "^2.29.3",
-		"fflate": "^0.7.4",
+		"fflate": "0.7.4",
 		"lodash.merge": "^4.6.2",
 		"rollup-plugin-visualizer": "^5.9.0",
 		"servertime": "^3.1.1",

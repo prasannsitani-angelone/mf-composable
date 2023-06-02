@@ -7,19 +7,19 @@ interface ProfileData {
 	data: UserProfile;
 }
 export const GET = (async ({ request }) => {
+	const url = `${MF_PROFILE_BASE_URL}/profile`;
 	try {
 		logger.debug({
 			type: 'Network Request in proxy',
 			params: {
-				url: request.url,
+				url,
 				method: request.method
 			}
 		});
 
 		const authorization = request.headers.get('authorization');
-		const userUrl = `${MF_PROFILE_BASE_URL}/profile`;
 
-		const res = await fetch(userUrl, {
+		const res = await fetch(url, {
 			headers: {
 				authorization,
 				accept: 'application/json',
@@ -29,11 +29,27 @@ export const GET = (async ({ request }) => {
 		let profile: ProfileData = {
 			data: { clientId: '', userType: 'B2C', dpNumber: 'D' }
 		};
-		let status: number;
-		if (res.ok) {
-			profile = await res.json();
-			status = res.status;
-		}
+
+		const status = res.status;
+		logger.debug({
+			type: 'Network Response in proxy before parsing data',
+			params: {
+				url,
+				data: res,
+				status
+			}
+		});
+
+		profile = await res.json();
+
+		logger.debug({
+			type: 'Network Response in proxy',
+			params: {
+				url,
+				response: profile,
+				status
+			}
+		});
 
 		return new Response(JSON.stringify(profile), {
 			headers: {
@@ -45,7 +61,7 @@ export const GET = (async ({ request }) => {
 		const errRes = new Response(
 			JSON.stringify({
 				status: 'error',
-				message: e.toString()
+				message: e?.toString()
 			}),
 			{
 				headers: {
@@ -58,7 +74,8 @@ export const GET = (async ({ request }) => {
 		logger.error({
 			type: 'Network Error in proxy',
 			params: {
-				response: errRes
+				url,
+				error: e?.toString()
 			}
 		});
 

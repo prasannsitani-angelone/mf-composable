@@ -17,71 +17,85 @@ import { dev } from '$app/environment';
 const deviceDetector = handleDeviecDetector({});
 
 const handler = (async ({ event, resolve }) => {
-	const serverTiming = servertime.createTimer();
-	const cookieString = event.request.headers.get('cookie') || '';
-	const cookie: Record<string, string> = parse(cookieString);
+	try {
+		const serverTiming = servertime.createTimer();
+		const cookieString = event.request.headers.get('cookie') || '';
+		const cookie: Record<string, string> = parse(cookieString);
 
-	let isAuthenticatedUser = true;
-	const ABUserCookie = decryptRightUserCookie(cookieString);
-	let token = event.request.headers.get('authtoken') || ABUserCookie?.NTAccessToken || '';
+		let isAuthenticatedUser = true;
+		const ABUserCookie = decryptRightUserCookie(cookieString);
+		const sparkHeaderToken = event.request.headers.get('authtoken');
+		let token = sparkHeaderToken || ABUserCookie?.NTAccessToken || '';
 
-	const refreshToken =
-		event.request.headers.get('refreshtoken') || ABUserCookie?.NTRefreshToken || '';
-	let userType = cookie['UserType'] === 'undefined' ? null : cookie['UserType'];
-	let accountType = cookie['AccountType'] || null;
-	let profileData: UserProfile = {
-		clientId: '',
-		userType: 'B2C',
-		dpNumber: 'D'
-	};
+		const refreshToken =
+			event.request.headers.get('refreshtoken') || ABUserCookie?.NTRefreshToken || '';
+		let userType = cookie['UserType'] === 'undefined' ? null : cookie['UserType'];
+		let accountType = cookie['AccountType'] || null;
+		let profileData: UserProfile = {
+			clientId: '',
+			userType: 'B2C',
+			dpNumber: 'D'
+		};
 
-	let userDetails: IUserDetails;
-	const scheme = event.url.protocol;
-	// using host from x-forwarded & not url.hostname because otherwise we will get container domain and not cloudfare
-	const host = event.request.headers.get('x-forwarded-host') || event.request.headers.get('host');
+		let userDetails: IUserDetails;
+		const scheme = event.url.protocol;
+		// using host from x-forwarded & not url.hostname because otherwise we will get container domain and not cloudfare
+		const host = event.request.headers.get('x-forwarded-host') || event.request.headers.get('host');
 
-	if (!token) {
-		// TODO: Check if Guest token is in Cookie
-		token = await getAuthToken('guest');
-		isAuthenticatedUser = false;
-	}
-	serverTiming.start('Get profile and User', 'Timing of get Profile and User');
-	const isGuest = isAuthenticatedUser ? false : true;
-	if (!userType && isGuest) {
-		userType = 'B2C';
-		accountType = 'D';
-	} else if (!userType && !event.request.url.includes('/api/profile')) {
-		profileData = await useProfileFetch(`${scheme}//${host}`, token, fetch);
-		userDetails = await useUserDetailsFetch(token, fetch);
+		if (!token) {
+			// TODO: Check if Guest token is in Cookie
+			token = await getAuthToken('guest');
+			isAuthenticatedUser = false;
+		}
+		serverTiming.start('Get profile and User', 'Timing of get Profile and User');
+		const isGuest = isAuthenticatedUser ? false : true;
+		if (!userType && isGuest) {
+			userType = 'B2C';
+			accountType = 'D';
+		} else if (!userType && !event.request.url.includes('/api/profile')) {
+			profileData = await useProfileFetch(`${scheme}//${host}`, token, fetch);
+			userDetails = await useUserDetailsFetch(token, fetch);
+			serverTiming.start('ssr generation', 'Timing of SSR generation');
+			userType = userDetails?.userType || null;
+			accountType = profileData?.dpNumber ? 'D' : 'P';
+		}
+		serverTiming.end('Get profile and User');
+		event.locals = {
+			...event.locals,
+			token,
+			refreshToken,
+			isGuest,
+			userType,
+			userDetails,
+			accountType,
+			profileData,
+			scheme,
+			host,
+			sparkHeaders: event.request.headers,
+			serverTiming,
+			shouldSetABUserCookie: sparkHeaderToken  ? true : false
+		};
 		serverTiming.start('ssr generation', 'Timing of SSR generation');
-		userType = userDetails?.userType || null;
-		accountType = profileData?.dpNumber ? 'D' : 'P';
+		const response = await resolve(event);
+		serverTiming.end('ssr generation');
+		const headers = serverTiming.getHeader() || '';
+		if (PUBLIC_ENV_NAME !== 'prod') {
+			response.headers.set('Server-Timing', headers);
+		}
+		// Delete response Link header
+		response.headers.delete('link');
+		return response;
+	} catch (e) {
+		console.log(
+			JSON.stringify({
+				level: 'error',
+				type: 'Runtime Exception in hooks server',
+				params: {
+					error: e?.toString()
+				}
+			})
+		);
 	}
-	serverTiming.end('Get profile and User');
-	event.locals = {
-		...event.locals,
-		token,
-		refreshToken,
-		isGuest,
-		userType,
-		userDetails,
-		accountType,
-		profileData,
-		scheme,
-		host,
-		sparkHeaders: event.request.headers,
-		serverTiming
-	};
-	serverTiming.start('ssr generation', 'Timing of SSR generation');
-	const response = await resolve(event);
-	serverTiming.end('ssr generation');
-	const headers = serverTiming.getHeader() || '';
-	if (PUBLIC_ENV_NAME !== 'prod') {
-		response.headers.set('Server-Timing', headers);
-	}
-	// Delete response Link header
-	response.headers.delete('link');
-	return response;
 }) satisfies Handle;
 
 export const handleFetch = (async ({ event, request, fetch }) => {
@@ -120,13 +134,16 @@ export const handle = sequence(deviceDetector, handler);
 export const handleError = (async ({ error }) => {
 	const errorId = crypto.randomUUID();
 	const errorStr = error?.stack?.toString() || error?.toString();
-	Logger.error({
-		type: 'Runtime Exception in server',
-		params: {
-			error: errorStr,
-			errorId
-		}
-	});
+	console.log(
+		JSON.stringify({
+			level: 'error',
+			type: 'Runtime Exception in server',
+			params: {
+				error: errorStr,
+				errorId
+			}
+		})
+	);
 	return {
 		message: 'Something went wrong',
 		errorId

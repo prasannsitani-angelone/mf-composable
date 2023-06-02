@@ -1,6 +1,7 @@
 import type { RequestHandler } from './$types';
 import { AUTH_URL } from '$env/static/private';
 import { env } from '$env/dynamic/private';
+import logger from '$lib/utils/logger';
 
 const TEST_ACC_CONTACT = '4444444444';
 
@@ -9,6 +10,17 @@ export const POST = (async ({ request }) => {
 	try {
 		const source = request.headers.get('x-source') || '';
 		const body = await request.json();
+
+		logger.debug({
+			type: 'Network Request in proxy',
+			params: {
+				url,
+				method: request.method,
+				body
+			}
+		});
+
+		// test user flow
 		if (body.mob_no === TEST_ACC_CONTACT) {
 			return new Response(
 				JSON.stringify({
@@ -31,6 +43,7 @@ export const POST = (async ({ request }) => {
 				}
 			);
 		}
+
 		const res = await fetch(url, {
 			method: 'POST',
 			body: JSON.stringify(body),
@@ -41,6 +54,16 @@ export const POST = (async ({ request }) => {
 		const data = await res.json();
 		const status = res.status;
 
+		logger.debug({
+			type: 'Network Response in proxy',
+			params: {
+				url,
+				response: data,
+				status,
+				body
+			}
+		});
+
 		return new Response(JSON.stringify(data), {
 			headers: {
 				'Content-Type': 'application/json'
@@ -48,10 +71,18 @@ export const POST = (async ({ request }) => {
 			status
 		});
 	} catch (e) {
+		logger.error({
+			type: 'Network Error in proxy',
+			params: {
+				url,
+				error: e?.toString()
+			}
+		});
+
 		return new Response(
 			JSON.stringify({
 				status: 'error',
-				message: e.toString()
+				message: e?.toString()
 			}),
 			{
 				headers: {

@@ -34,6 +34,7 @@ declare global {
 			refreshToken: string;
 			isGuest: boolean;
 			serverTiming: servertime.ServertimeOptions;
+			shouldSetABUserCookie: boolean;
 		}
 		interface PageData {
 			deviceType: DevicePayload;

@@ -74,7 +74,8 @@ export const load = (async ({ request, locals, cookies, fetch, depends }) => {
 		refreshToken = '',
 		serverTiming,
 		scheme,
-		host
+		host,
+		shouldSetABUserCookie
 	} = locals;
 
 	const tokenObj: TokenStore = {
@@ -97,11 +98,13 @@ export const load = (async ({ request, locals, cookies, fetch, depends }) => {
 			NTAccessToken: token,
 			NTRefreshToken: refreshToken
 		};
-		cookies.set(
-			getUserCookieName(),
-			encryptToken(tokenObj.userToken) || '',
-			getUserCookieOptions(false)
-		);
+		if (shouldSetABUserCookie) {
+			cookies.set(
+				getUserCookieName(),
+				encryptToken(tokenObj.userToken) || '',
+				getUserCookieOptions(false)
+			);
+		}
 	}
 	if (!localProfileData?.clientId && !isGuest) {
 		localProfileData = await useProfileFetch(`${scheme}//${host}`, token, fetch);

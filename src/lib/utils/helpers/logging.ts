@@ -3,6 +3,7 @@ export const removeAuthHeaders = (headers = {}) => {
 
 	delete modifiedHeaders['AccessToken'];
 	delete modifiedHeaders['accesstoken'];
+	delete modifiedHeaders['accessToken'];
 	delete modifiedHeaders['authorization'];
 	delete modifiedHeaders['authtoken'];
 	delete modifiedHeaders['cookie'];

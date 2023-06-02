@@ -77,7 +77,7 @@ export const POST = (async ({ request }) => {
 			return new Response(
 				JSON.stringify({
 					status: 'error',
-					message: e.toString()
+					message: e?.toString()
 				}),
 				{
 					headers: {
