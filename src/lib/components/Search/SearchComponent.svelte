@@ -154,6 +154,7 @@
 		{searchPageLoaded}
 		{parentResultClass}
 		{searchInputClass}
+		{searchMode}
 		on:searchFocus={handleSearchFocus}
 		on:searchInput={handleSearchInput}
 		{resultItemClicked}

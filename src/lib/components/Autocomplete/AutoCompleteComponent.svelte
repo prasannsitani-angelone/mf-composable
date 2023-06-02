@@ -18,6 +18,7 @@
 	let inputVal = '';
 	let parentResultClass = '';
 	let searchInputClass = '';
+	let searchMode: string;
 	let results: WeeklyTopSchemesEntity[] | null = null;
 	let inputRef: HTMLInputElement | null = null;
 	let showResults = deviceType?.isMobile || true;
@@ -32,7 +33,7 @@
 	};
 
 	const handleShowResultSection = (val = false) => {
-		if (deviceType?.isMobile) {
+		if (deviceType?.isMobile || searchMode === 'switch') {
 			return;
 		}
 
@@ -96,7 +97,8 @@
 		resultItemClicked,
 		initialSearchResult,
 		parentResultClass,
-		searchInputClass
+		searchInputClass,
+		searchMode
 	};
 </script>
 
