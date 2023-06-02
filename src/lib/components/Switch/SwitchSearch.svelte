@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ChipOverview from '$components/ChipOverview.svelte';
 	import SchemeCard from '$components/SchemeCard.svelte';
 	import SearchComponent from '$components/Search/SearchComponent.svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
@@ -29,7 +30,7 @@
 	export { toggleModal, amccode, isin };
 </script>
 
-<div class="h-screen w-full origin-top bg-white transition duration-100">
+<div class="h-screen w-full origin-top bg-white transition duration-100 lg:overflow-hidden">
 	<header class="z-[70] flex-shrink-0 bg-white shadow-clg">
 		<section
 			class="flex items-center justify-start bg-white px-3 py-4 text-center shadow-csm md:hidden"
@@ -47,6 +48,8 @@
 			searchPageLoaded={true}
 			shouldFetchSearchDashboard={false}
 			initialSearchText="ALL"
+			parentResultClass="lg:!w-[350px]"
+			searchInputClass="lg:!w-[345px]"
 			filter="amccode:{amccode},switchflag:Y,NOT isin: {isin}"
 			searchMode="switch"
 		>
@@ -57,15 +60,23 @@
 					</article>
 					<article><span class="text-grey-body"> 3Y Returns </span></article>
 				</section>
-				<section class="absolute h-screen w-screen overflow-x-hidden md:w-[350px]">
+				<section class="absolute h-screen w-screen overflow-x-hidden md:w-[350px] md:pb-20">
 					{#each resultsData || [] as scheme}
 						<article
-							class="!m-3 flex cursor-pointer justify-between gap-2 !border-b border-grey-line p-0 pb-4 lg:!m-4 lg:!border-grey-line lg:p-4"
+							class="!m-3 flex cursor-pointer justify-between gap-2 !border-b border-grey-line p-0 pb-4 lg:!m-2 lg:!border-grey-line lg:p-2"
 							on:click|preventDefault={() => {
 								switchSchemeSelected(scheme);
 							}}
 						>
-							<SchemeCard schemes={scheme} class="w-9/12 pr-2" />
+							<SchemeCard schemes={scheme} titleClass="lg:flex-wrap" class="w-9/12 pr-2">
+								<svelte:fragment slot="chip-overview">
+									<ChipOverview
+										headingPrimary={scheme?.categoryName}
+										headingSecondary={scheme?.subcategoryName}
+										class="lg:flex-wrap"
+									/>
+								</svelte:fragment>
+							</SchemeCard>
 							<div class="flex w-3/12 items-center justify-end text-center">
 								{scheme?.returns3yr?.toFixed(2)} %
 							</div>

@@ -39,7 +39,7 @@
 
 <Table class={`rounded-lg ${$$props.class || ''}`}>
 	<THead slot="thead">
-		<Th class={`border-t text-start capitalize`}>
+		<Th class={`border-t text-start capitalize first:!z-[0]`}>
 			{#if deviceType?.isMobile}
 				<div class="flex flex-row items-center justify-start">Order/Date</div>{:else}
 				<div class="flex flex-row items-center justify-start">Date</div>

@@ -33,6 +33,8 @@
 	let shouldFetchSearchDashboard = true;
 	let initialSearchText = '';
 	let searchMode: string;
+	let parentResultClass = '';
+	let searchInputClass = '';
 	const getSearchResults = (val: string) =>
 		val?.length > queryLengthThreshold ? resultsData || [] : null;
 
@@ -133,7 +135,15 @@
 		getSearchDashboardData();
 	}
 
-	export { searchPageLoaded, shouldFetchSearchDashboard, initialSearchText, filter, searchMode };
+	export {
+		searchPageLoaded,
+		shouldFetchSearchDashboard,
+		initialSearchText,
+		filter,
+		searchMode,
+		parentResultClass,
+		searchInputClass
+	};
 </script>
 
 <section class={`${$$props.class}`}>
@@ -142,6 +152,8 @@
 		getResults={getSearchResults}
 		placeholderText="Search by fund name, type or AMC"
 		{searchPageLoaded}
+		{parentResultClass}
+		{searchInputClass}
 		on:searchFocus={handleSearchFocus}
 		on:searchInput={handleSearchInput}
 		{resultItemClicked}

@@ -34,12 +34,10 @@
 	>
 		WITHDRAW
 	</Button>
-	{#if deviceType.isMobile}
-		<Button
-			class="rounded border-none !bg-grey px-6"
-			onClick={() => onButtonClick(investmentDetailsFooterEvents?.MORE_OPTIONS)}
-		>
-			<ThreeVerticalDotsIcon />
-		</Button>
-	{/if}
+	<Button
+		class="rounded border-none !bg-grey px-6"
+		onClick={() => onButtonClick(investmentDetailsFooterEvents?.MORE_OPTIONS)}
+	>
+		<ThreeVerticalDotsIcon />
+	</Button>
 </article>

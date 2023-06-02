@@ -339,6 +339,17 @@
 						{isInvestmentNotAllowed}
 					/>
 				</article>
+			{:else if orderPadActiveTab === investmentDetailsFooterEvents?.MORE_OPTIONS}
+				<article class="sticky -top-2 mt-[52px] h-fit rounded-lg bg-white shadow-csm">
+					<SwitchOptions
+						schemeData={res.schemeData}
+						switchFlags={holdingsData.switchFlag}
+						holdingDetails={holdingsData}
+						redemptionNotAllowedText={withdrawDisableText}
+						on:handleBackButtonNavigation={() =>
+							(orderPadActiveTab = investmentDetailsFooterEvents?.INVEST)}
+					/>
+				</article>
 			{/if}
 		{/if}
 	{:else}

@@ -16,6 +16,8 @@
 	let placeholderText: string;
 	let searchPageLoaded: boolean;
 	let inputVal = '';
+	let parentResultClass = '';
+	let searchInputClass = '';
 	let results: WeeklyTopSchemesEntity[] | null = null;
 	let inputRef: HTMLInputElement | null = null;
 	let showResults = deviceType?.isMobile || true;
@@ -87,14 +89,22 @@
 		}, 300);
 	}
 	let initialSearchResult: WeeklyTopSchemesEntity[];
-	export { getResults, placeholderText, searchPageLoaded, resultItemClicked, initialSearchResult };
+	export {
+		getResults,
+		placeholderText,
+		searchPageLoaded,
+		resultItemClicked,
+		initialSearchResult,
+		parentResultClass,
+		searchInputClass
+	};
 </script>
 
 <article>
 	<section class={`flex flex-col items-center justify-center ${$$props.class}`}>
 		<!-- Search Input -->
 		<div
-			class="flex w-full cursor-text items-center rounded-md border border-gray-200 lg:w-[440px]"
+			class="flex w-full cursor-text items-center rounded-md border border-gray-200 lg:w-[440px] {searchInputClass}"
 			class:rounded-b-none={showResults}
 		>
 			<article class="flex w-full items-center">
@@ -129,7 +139,7 @@
 		<!-- Results Section -->
 		{#if showResults}
 			<slot name="resultSection">
-				<section class="w-full lg:w-[440px]">
+				<section class="w-full lg:w-[440px] {parentResultClass}">
 					<!-- Results Data (List) Div -->
 					{#if results || initialSearchResult}
 						<slot name="resultsData">
