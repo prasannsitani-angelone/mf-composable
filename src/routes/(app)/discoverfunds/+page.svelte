@@ -16,7 +16,8 @@
 		homepageSipPaymentDueNudgeImpressionAnalytics,
 		nudgeClick,
 		nudgeImpression,
-		homepageSipCalculatorClickAnalytics
+		homepageSipCalculatorClickAnalytics,
+		sHomepage
 	} from '$lib/analytics/DiscoverFunds';
 	import type { PageData } from './$types';
 	import type { StoriesData, videoCtaUrls } from '$lib/types/IStories';
@@ -30,6 +31,7 @@
 	import PromotionCard from '$components/Promotions/PromotionCard.svelte';
 	import { SEO, WMSIcon } from 'wms-ui-component';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
+	import { onMount } from 'svelte';
 
 	$: showPortfoliocard = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -255,6 +257,10 @@
 			}
 		]
 	};
+
+	onMount(() => {
+		sHomepage();
+	});
 
 	export let data: PageData;
 </script>

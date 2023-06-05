@@ -4,6 +4,7 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { headerStore } from '$lib/stores/HeaderStore';
+	import { userStore } from '$lib/stores/UserStore';
 	import MobileHeader from '$components/Headers/MobileHeader.svelte';
 	import Button from '$components/Button.svelte';
 	import NumPad from '$components/Keyboard/NumPad.svelte';
@@ -374,7 +375,12 @@
 
 	const lumpsumToSipProcess = () => {
 		if (Number(amount) >= lumpsumThreshold) {
-			isLumpsumToSipEligible = true;
+			if (userStore?.userType() === 'B2C') {
+				isLumpsumToSipEligible = true;
+			} else {
+				isLumpsumToSipEligible = false;
+				return;
+			}
 			setLumpsumToSipAmountValue();
 		} else {
 			resetLumpsumToSipData();

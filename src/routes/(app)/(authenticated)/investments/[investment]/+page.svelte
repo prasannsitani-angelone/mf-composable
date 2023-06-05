@@ -30,6 +30,7 @@
 		switchOptionsOpenAnalytics
 	} from '$lib/analytics/switch/switch';
 	import { SEO } from 'wms-ui-component';
+	import StayInvested from '../../../Redemption/StayInvested.svelte';
 
 	export let data: PageData;
 
@@ -51,6 +52,7 @@
 	let investDisableText = '';
 	let withdrawDisableText = '';
 	let isWithdrawDisableLockInCase = false;
+	let showStayInvestedModal = false;
 
 	async function setPageData(
 		data: Promise<{
@@ -97,11 +99,20 @@
 
 	const investmentHeaderButtonClick = (clickedButton: string) => {
 		if (clickedButton?.length) {
-			orderPadActiveTab = clickedButton;
-
-			if (orderPadActiveTab === 'WITHDRAW') {
+			if (clickedButton === 'WITHDRAW' && orderPadActiveTab !== clickedButton) {
 				withdrawButtonClickAnalytics();
+
+				if (!isInvestmentNotAllowed) {
+					if (showStayInvestedModal) {
+						showStayInvestedModal = false;
+					} else {
+						showStayInvestedModal = true;
+						return;
+					}
+				}
 			}
+
+			orderPadActiveTab = clickedButton;
 		}
 	};
 
@@ -186,13 +197,34 @@
 		setQueryParamsData();
 	});
 
+	const handleStayInvestedWithdrawClick = () => {
+		if (isMobile) {
+			handleWithdrawCtaClick();
+		} else {
+			investmentHeaderButtonClick('WITHDRAW');
+		}
+	};
+
 	const handleWithdrawCtaClick = () => {
+		withdrawButtonClickAnalytics();
+
+		if (!isInvestmentNotAllowed) {
+			if (showStayInvestedModal) {
+				showStayInvestedModal = false;
+			} else {
+				showStayInvestedModal = true;
+				return;
+			}
+		}
+
 		const currentPath = window?.location?.pathname;
 		const redirectPath = `${currentPath}?orderpad=REDEEM`;
 
-		withdrawButtonClickAnalytics();
-
 		goto(redirectPath);
+	};
+
+	const toggleShowStayInvestedModal = () => {
+		showStayInvestedModal = !showStayInvestedModal;
 	};
 
 	const toggleSwitch = () => {
@@ -365,10 +397,24 @@
 	{/if}
 	<Modal isModalOpen={isSwitchModalOpen} closeModal={toggleSwitch}>
 		<SwitchOptions
-			schemeData={res.schemeData}
+			schemeData={res?.schemeData}
 			switchFlags={holdingsData.switchFlag}
 			holdingDetails={holdingsData}
 			redemptionNotAllowedText={withdrawDisableText}
 		/>
 	</Modal>
+
+	{#if showStayInvestedModal}
+		<Modal isModalOpen={showStayInvestedModal} on:backdropclicked={toggleShowStayInvestedModal}>
+			<StayInvested
+				class="z-60 sm:w-120"
+				on:primaryCtaClick={toggleShowStayInvestedModal}
+				on:secondaryCtaClick={handleStayInvestedWithdrawClick}
+				currentValue={holdingsData?.currentValue}
+				categoryName={res?.schemeData?.categoryName}
+				subCategoryName={res?.schemeData?.subCategoryName}
+				exitLoadDetails={res?.schemeData?.exitLoadValue || ''}
+			/>
+		</Modal>
+	{/if}
 {/await}
