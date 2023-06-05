@@ -73,7 +73,7 @@ const handler = (async ({ event, resolve }) => {
 			host,
 			sparkHeaders: event.request.headers,
 			serverTiming,
-			shouldSetABUserCookie: sparkHeaderToken  ? true : false
+			shouldSetABUserCookie: sparkHeaderToken ? true : false
 		};
 		serverTiming.start('ssr generation', 'Timing of SSR generation');
 		const response = await resolve(event);

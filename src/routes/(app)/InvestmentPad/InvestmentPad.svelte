@@ -38,12 +38,7 @@
 	import LoadingPopup from './OrderPadComponents/LoadingPopup.svelte';
 	import UpiTransactionPopup from './OrderPadComponents/UPITransactionPopup.svelte';
 	import UpiClosePopup from './OrderPadComponents/UPIClosePopup.svelte';
-	import getEmandateData from '$lib/api/emandate';
-	import { stringToFloat } from '$lib/utils/helpers/numbers';
-	import { useFetch } from '$lib/utils/useFetch';
-	import { PUBLIC_MF_CORE_BASE_URL, PUBLIC_PAYMENT_BASE_URL } from '$env/static/public';
 	import { format } from 'date-fns';
-	import { getPrimaryAccountMandateData } from '$lib/utils/helpers/emandate';
 	import { base } from '$app/paths';
 	import logger from '$lib/utils/logger';
 	import { encodeObject } from '$lib/utils/helpers/params';
@@ -74,6 +69,21 @@
 	import { debounce } from '$lib/utils/helpers/debounce';
 	import { WMSIcon } from 'wms-ui-component';
 	import LumpsumToSip from './OrderPadComponents/LumpsumToSip.svelte';
+	import {
+		noPaymentFlow,
+		netBankingLumpsumFlow,
+		netBankingSIPFlow,
+		upiSIPFlow,
+		upiLumpsumFlow,
+		walletSIPFlow,
+		walletLumpsumFlow
+	} from '$components/Payment/flow';
+	import {
+		closeNetBankingPaymentWindow,
+		initializeGPayState,
+		initializeUPIState,
+		intializeNetBankingState
+	} from '$components/Payment/util';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -89,7 +99,7 @@
 		skipOrderPad,
 		redirectedFrom,
 		orderId: previousOrderId,
-		pgTxnId,
+		pgTxnId: previousPGTxnId,
 		requestId,
 		sipId,
 		sipRegistrationNumber,
@@ -139,7 +149,6 @@
 	};
 	let inputPaymentError = '';
 	let bankPopupVisible = false;
-	let interval = null;
 	let validateUPILoading = false;
 	let pendingCaseOrderID: number;
 	let pendingCaseSipID: number;
@@ -157,6 +166,9 @@
 	const loadingState = {
 		heading: '',
 		isLoading: false
+	};
+	const state = {
+		interval: null
 	};
 	const upiState = {
 		flow: 0,
@@ -520,7 +532,7 @@
 				type: 'Payment Redirection Response',
 				params: event?.data
 			});
-			closeNetBankingPaymentWindow();
+			closeNetBankingPaymentWindow(netBankingState);
 		}
 	};
 
@@ -539,7 +551,7 @@
 		if (isMobile) {
 			$headerStore.showMobileHeader = true;
 		}
-		resetTransactionInterval();
+		resetState();
 		if (browser) {
 			window.removeEventListener('message', listenerFunc, false);
 		}
@@ -670,6 +682,14 @@
 		loadingState.heading = '';
 	};
 
+	const showUPILoading = () => {
+		validateUPILoading = true;
+	};
+
+	const stopUPILoading = () => {
+		validateUPILoading = false;
+	};
+
 	const displayError = ({ heading = 'Error', errorSubHeading = '' }) => {
 		error.visible = true;
 		error.heading = heading;
@@ -689,13 +709,23 @@
 		pending.subHeading = '';
 		pending.visible = false;
 		if (activeTab === 'ONETIME' || redirectedFrom === 'SIP_PAYMENTS') {
-			navigateToLumpsumCompletePage();
+			navigateToLumpsumCompletePage({
+				orderId: pendingCaseOrderID
+			});
 		} else if (activeTab === 'SIP') {
-			navigateToSipCompletePage();
+			navigateToSipCompletePage({
+				orderId: pendingCaseOrderID,
+				sipId: pendingCaseSipID
+			});
 		}
 	};
 
-	const displayPendingPopup = ({ heading = 'Payment Pending', errorSubHeading = '' }) => {
+	const displayPendingPopup = ({
+		heading = 'Payment Pending',
+		errorSubHeading = '',
+		orderId,
+		sipId
+	}) => {
 		paymentPendingScreenAnalytics({
 			InvestmentType: activeTab === 'SIP' ? 'SIP' : 'OTI',
 			Amount: amount,
@@ -707,6 +737,8 @@
 		pending.visible = true;
 		pending.heading = heading;
 		pending.subHeading = errorSubHeading;
+		pendingCaseOrderID = orderId;
+		pendingCaseSipID = sipId;
 	};
 
 	const showLoading = (heading: string) => {
@@ -734,146 +766,23 @@
 		return format(getSIPDate(), 'yyyy-MM-dd');
 	};
 
-	const closeNetBankingPaymentWindow = () => {
-		if (netBankingState.paymentWindow) {
-			netBankingState.paymentWindow.close();
-			netBankingState.paymentWindow = null;
+	const resetState = () => {
+		if (state.interval) {
+			clearInterval(state.interval);
 		}
+		intializeNetBankingState(netBankingState);
+		initializeUPIState(upiState);
+		initializeGPayState(gpayPaymentState);
 	};
 
-	const intializeNetBankingState = (closePaymentWindow = true) => {
-		if (netBankingState.paymentWindowInterval) {
-			clearInterval(netBankingState.paymentWindowInterval);
-			netBankingState.paymentWindowInterval = null;
-		}
-		if (closePaymentWindow) {
-			closeNetBankingPaymentWindow();
-		}
-	};
-
-	const initializeUPIState = () => {
-		upiState.flow = 0;
-		upiState.timer = 0;
-		if (upiState.timerInterval) {
-			clearInterval(upiState.timerInterval);
-			upiState.timerInterval = null;
-		}
-		if (upiState.paymentWindowInterval) {
-			clearInterval(upiState.paymentWindowInterval);
-			upiState.paymentWindowInterval = null;
-		}
-	};
-
-	const initializeGPayState = () => {
-		if (gpayPaymentState.paymentWindowInterval) {
-			clearInterval(gpayPaymentState.paymentWindowInterval);
-			gpayPaymentState.paymentWindowInterval = null;
-		}
-	};
-
-	const resetTransactionInterval = () => {
-		if (interval) {
-			clearInterval(interval);
-		}
-		intializeNetBankingState();
-		initializeUPIState();
-		initializeGPayState();
-	};
-
-	const isNetBakingPaymentWindowClosed = () => {
-		return (
-			!netBankingState.paymentWindow ||
-			(netBankingState.paymentWindow && netBankingState.paymentWindow.closed)
-		);
-	};
-
-	const transactionRetryLogic = (
-		transactionID: number,
-		retryNumber = 0,
-		retries = 100,
-		retryDelay = 3
-	) => {
-		let transactionPending = false;
-		let transactionResponse = {};
-		return new Promise((resolve) => {
-			interval = setInterval(async () => {
-				if (!transactionPending) {
-					transactionPending = true;
-					transactionResponse = await fetchTransactionDataFunc(transactionID);
-					if (
-						transactionResponse.ok &&
-						(transactionResponse.data?.data?.status === 'success' ||
-							transactionResponse.data?.data?.status === 'failure')
-					) {
-						resetTransactionInterval();
-						resolve(transactionResponse);
-					}
-					transactionPending = false;
-				}
-				retryNumber = retryNumber + 1;
-				if (retryNumber >= retries) {
-					resetTransactionInterval();
-					resolve(transactionResponse);
-				}
-			}, retryDelay * 1000);
-		});
-	};
-
-	const netBankingWindowCloseLogic = (delay = 1) => {
-		return new Promise((resolve) => {
-			netBankingState.paymentWindowInterval = setInterval(() => {
-				if (isNetBakingPaymentWindowClosed()) {
-					resetTransactionInterval();
-					resolve(true);
-				}
-			}, delay * 1000);
-		});
-	};
-
-	const upiWindowCloseLogic = (delay = 1) => {
-		return new Promise((resolve) => {
-			upiState.paymentWindowInterval = setInterval(() => {
-				if (!upiState.flow) {
-					resetTransactionInterval();
-					resolve('WINDOW_CLOSED');
-				}
-			}, delay * 1000);
-		});
-	};
-
-	const googlePayCloseLogic = (delay = 1) => {
-		let counter = 0;
-		return new Promise((resolve) => {
-			gpayPaymentState.paymentWindowInterval = setInterval(() => {
-				if (document.hasFocus()) {
-					showLoading(
-						`This window will close in the next ${
-							gpayPaymentState.waitTime - counter
-						} seconds. Please complete the transaction from your ${
-							paymentHandler?.paymentMode
-						}. Ignore if you have already completed the payment.`
-					);
-					counter++;
-					if (counter >= gpayPaymentState.waitTime) {
-						resetTransactionInterval();
-						resolve('WINDOW_CLOSED');
-					}
-				} else {
-					showLoading('Waiting for payment');
-					counter = 0;
-				}
-			}, delay * 1000);
-		});
-	};
-
-	const navigateToSipCompletePage = async (orderID?: number, sipID?: number) => {
+	const navigateToSipCompletePage = async ({ orderId, sipId }) => {
 		const params = encodeObject({
 			amount: amount,
 			isin: schemeData?.isin,
 			date: calendarDate,
 			firstTimePayment: firstSipPayment,
-			orderID: orderID || pendingCaseOrderID,
-			sipID: sipID || pendingCaseSipID
+			orderID: orderId,
+			sipID: sipId
 		});
 
 		goto(`${base}/ordersummary?params=${params}`, {
@@ -881,9 +790,9 @@
 		});
 	};
 
-	const navigateToLumpsumCompletePage = async (orderID?: number) => {
+	const navigateToLumpsumCompletePage = async ({ orderId }) => {
 		const params = encodeObject({
-			orderID: orderID || pendingCaseOrderID,
+			orderID: orderId,
 			firstTimePayment: true
 		});
 
@@ -952,734 +861,14 @@
 	$: updatePaymentMode(amount);
 	// -------- **** ----------
 
-	//  ------- api calls functions --------
-
-	const orderDeletePatchFunc = async () => {
-		try {
-			if (previousOrderId) {
-				const url = `${PUBLIC_MF_CORE_BASE_URL}/orders/${previousOrderId}`;
-				await useFetch(url, {
-					method: 'PATCH',
-					body: JSON.stringify({
-						paymentReferenceNumber: pgTxnId,
-						paymentRemarks: 'Payment cancel',
-						paymentStatus: 'cancel',
-						pgTxnId,
-						purchaseType: 'SIP'
-					})
-				});
-			}
-		} catch (e) {
-			return;
-		}
+	const upiValidationErrorHandler = (error) => {
+		inputPaymentError = error;
+		showPaymentMethodScreen();
 	};
 
-	const sipOrderPatchFunc = async (transactionData, orderPostData) => {
-		try {
-			const url = `${PUBLIC_MF_CORE_BASE_URL}/sips/${orderPostData?.data?.sipId}`;
-			const response = await useFetch(url, {
-				method: 'PATCH',
-				body: JSON.stringify({
-					paymentReferenceNumber: transactionData?.data?.reference_number,
-					paymentRemarks: transactionData?.data?.response_description,
-					paymentStatus: transactionData?.data?.status,
-					pgTxnId: transactionData?.data?.transaction_id
-				}),
-				headers: {
-					'X-Request-Id': xRequestId,
-					'X-Source': source || 'diy'
-				}
-			});
-			return response;
-		} catch (e) {
-			return {};
-		}
+	const updateUPITimer = (time: number) => {
+		upiState.timer = time;
 	};
-
-	const lumpsumOrderPatchFunc = async (transactionData, orderPostData) => {
-		try {
-			const url = `${PUBLIC_MF_CORE_BASE_URL}/orders/${orderPostData?.data?.orderId}`;
-			const response = await useFetch(url, {
-				method: 'PATCH',
-				body: JSON.stringify({
-					paymentReferenceNumber: transactionData?.data?.reference_number,
-					paymentRemarks: transactionData?.data?.response_description,
-					paymentStatus: transactionData?.data?.status,
-					pgTxnId: transactionData?.data?.transaction_id,
-					purchaseType: 'LUMPSUM'
-				}),
-				headers: {
-					'X-Request-Id': xRequestId,
-					'X-Source': source || 'diy'
-				}
-			});
-			return response;
-		} catch (e) {
-			return {};
-		}
-	};
-
-	const orderPatchFunc = async (transactionData, orderPostData) => {
-		if (activeTab === 'ONETIME' || redirectedFrom === 'SIP_PAYMENTS') {
-			return lumpsumOrderPatchFunc(transactionData, orderPostData);
-		} else if (activeTab === 'SIP') {
-			return sipOrderPatchFunc(transactionData, orderPostData);
-		}
-	};
-
-	const fetchTransactionDataFunc = async (transactionID: number) => {
-		try {
-			const url = `${PUBLIC_PAYMENT_BASE_URL}/transaction?transaction_id=${transactionID}`;
-			const response = await useFetch(url, {
-				headers: {
-					'X-Request-Id': xRequestId,
-					'X-Source': source || 'diy'
-				}
-			});
-			return response;
-		} catch (e) {
-			return {};
-		}
-	};
-
-	const initiateNetBankingPaymentFunc = async () => {
-		const url = `${PUBLIC_PAYMENT_BASE_URL}/net-banking-initiate-payment`;
-		try {
-			const response = await useFetch(url, {
-				method: 'POST',
-				body: JSON.stringify({
-					amount: stringToFloat(amount),
-					bank_account_number: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.accNO,
-					bank_ifsc_code: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.ifscCode,
-					bank_name: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName,
-					client_name: profileData?.clientDetails?.fullName,
-					product: 'mf',
-					request_source: 'mf-web',
-					redirect_url: `${window.location.origin}${base}/paymentCallback`
-				}),
-				headers: {
-					'X-Request-Id': xRequestId,
-					'X-Source': source || 'diy'
-				}
-			});
-			return response;
-		} catch (e) {
-			return {};
-		}
-	};
-
-	const lumpsumOrderPostFunction = async (transactionRefNumber = '') => {
-		const url = `${PUBLIC_MF_CORE_BASE_URL}/orders`;
-		try {
-			const response = await useFetch(url, {
-				method: 'POST',
-				body: JSON.stringify({
-					amount: stringToFloat(amount),
-					bankAccountNo: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.accNO,
-					bankName: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName,
-					dpNumber: profileData?.dpNumber,
-					emailId: profileData?.clientDetails?.email,
-					mobileNo: profileData?.mobile,
-					poaStatus: profileData?.poaStatus,
-					schemeCode: schemeData?.schemeCode,
-					subBrokerCode: profileData?.clientDetails?.subBroker,
-					transactionType: redirectedFrom === 'SIP_PAYMENTS' ? 'SIP_INSTALLMENT' : 'PURCHASE',
-					transactionRefNumber,
-					sipId,
-					sipDueDate,
-					isAdditional: redirectedFrom === 'INVESTMENT_DETAILS' || fromInvestmentDetailsPage
-				}),
-				headers: {
-					'X-Request-Id': xRequestId,
-					'X-Source': source || 'diy'
-				}
-			});
-			return response;
-		} catch (e) {
-			return {};
-		}
-	};
-
-	const sipOrderPostFunction = async (transactionRefNumber = '', emandateId = '') => {
-		const url = `${PUBLIC_MF_CORE_BASE_URL}/sips`;
-		try {
-			const response = await useFetch(url, {
-				method: 'POST',
-				body: JSON.stringify({
-					emandateId,
-					installmentAmount: stringToFloat(amount),
-					dpNumber: profileData?.dpNumber,
-					schemeCode: schemeData?.schemeCode,
-					type: 'SIP',
-					startDate: getFormattedSIPDate(),
-					frequency: schemeData?.sipFrequency,
-					noOfInstallment: schemeData?.sipMaxInstallmentNo,
-					firstOrderToday: firstSipPayment,
-					folioNumber: '',
-					transactionRefNumber
-				}),
-				headers: {
-					'X-Request-Id': xRequestId,
-					'X-Source': source || 'diy'
-				}
-			});
-			return response;
-		} catch (e) {
-			return {};
-		}
-	};
-
-	const getEmandateDataFunc = () => {
-		return getEmandateData(getSIPDate(), stringToFloat(amount));
-	};
-
-	const upiValidateFunc = async (id: string) => {
-		try {
-			validateUPILoading = true;
-			const url = `${PUBLIC_PAYMENT_BASE_URL}/upi-validate-vpa`;
-			const response = await useFetch(url, {
-				method: 'POST',
-				body: JSON.stringify({
-					bank_name:
-						profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName?.toLowerCase() ||
-						'',
-					product: 'mf',
-					vpa: id
-				}),
-				headers: {
-					'X-Request-Id': xRequestId,
-					'X-Source': source || 'diy'
-				}
-			});
-			validateUPILoading = false;
-			return response;
-		} catch (e) {
-			validateUPILoading = false;
-			return {};
-		}
-	};
-
-	const initiateUPIPayment = async () => {
-		try {
-			const url = `${PUBLIC_PAYMENT_BASE_URL}/upi-initiate-payment`;
-			const response = await useFetch(url, {
-				method: 'POST',
-				body: JSON.stringify({
-					amount: stringToFloat(amount),
-					bank_account_number: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO,
-					bank_ifsc_code: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.ifscCode,
-					bank_name: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
-					client_name: profileData.clientDetails.fullName,
-					vpa: paymentHandler.upiId,
-					product: 'mf',
-					request_source: 'mf-web',
-					request_type: 'COLLECT',
-					mf_order_reference_number: sipRegistrationNumber,
-					mf_order_type: redirectedFrom === 'SIP_PAYMENTS' ? 'sip' : undefined
-				}),
-				headers: {
-					'X-Request-Id': xRequestId,
-					'X-Source': source || 'diy'
-				}
-			});
-			return response;
-		} catch (e) {
-			return {};
-		}
-	};
-
-	const initiateWalletPayment = async (name: string) => {
-		try {
-			const url = `${PUBLIC_PAYMENT_BASE_URL}/upi-initiate-payment`;
-			const response = await useFetch(url, {
-				method: 'POST',
-				body: JSON.stringify({
-					amount: stringToFloat(amount),
-					bank_account_number: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO,
-					bank_ifsc_code: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.ifscCode,
-					bank_name: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
-					client_name: profileData.clientDetails.fullName,
-					product: 'mf',
-					request_source: 'mf-web',
-					request_type: 'INTENT',
-					app_name: name,
-					mf_order_reference_number: sipRegistrationNumber,
-					mf_order_type: redirectedFrom === 'SIP_PAYMENTS' ? 'sip' : undefined
-				}),
-				headers: {
-					'X-Request-Id': xRequestId,
-					'X-Source': source || 'diy'
-				}
-			});
-			return response;
-		} catch (e) {
-			return {};
-		}
-	};
-
-	// --------------- **** ----------------
-
-	// ------------ handlers -----------
-
-	const handleTransactionResponse = (transactionResponse, orderPostResponse) => {
-		if (transactionResponse.ok) {
-			if (transactionResponse.data?.data?.status === 'failure') {
-				paymentFailedScreenAnalyticsWithData();
-				stopLoading();
-				orderPatchFunc(transactionResponse.data, orderPostResponse.data);
-				displayError({
-					heading: 'Payment Failed',
-					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
-				});
-				throw new Error('');
-			} else if (transactionResponse.data?.data?.status === 'pending') {
-				pendingCaseOrderID = orderPostResponse.data?.data?.orderId;
-				pendingCaseSipID = orderPostResponse.data?.data?.sipId;
-				stopLoading();
-				displayPendingPopup({
-					heading: 'Payment Pending',
-					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
-				});
-				throw new Error('');
-			}
-		} else {
-			pendingCaseOrderID = orderPostResponse.data?.data?.orderId;
-			pendingCaseSipID = orderPostResponse.data?.data?.sipId;
-			stopLoading();
-			displayPendingPopup({
-				heading: 'Payment Pending',
-				errorSubHeading:
-					transactionResponse?.data?.data?.response_description ||
-					"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
-			});
-			throw new Error('');
-		}
-	};
-
-	const handleNetBankingPaymentWindowClosure = () => {
-		intializeNetBankingState();
-		stopLoading();
-		displayError({
-			heading: 'Payment Cancelled',
-			errorSubHeading:
-				'You have cancelled your payment for this order. Please try again, or use another payment method'
-		});
-		throw new Error('');
-	};
-
-	const handleUPIValidationResponse = (upiValidationResponse) => {
-		if (upiValidationResponse.ok && !upiValidationResponse.data?.data?.valid) {
-			inputPaymentError = 'Please enter valid UPI ID';
-			throw new Error('');
-		} else if (!upiValidationResponse.ok) {
-			inputPaymentError =
-				upiValidationResponse.data?.message || upiValidationResponse.data?.data?.message;
-			showPaymentMethodScreen();
-			throw new Error('');
-		}
-	};
-
-	const handleEmandateResponse = (emandateResponse) => {
-		if (!emandateResponse.ok) {
-			stopLoading();
-			resetTransactionInterval();
-			displayError({
-				heading: 'Error',
-				errorSubHeading:
-					'We are facing some issue at our end. Please try again or contact field support'
-			});
-			throw new Error('');
-		}
-	};
-
-	const handleUPIResponse = (upiResponse) => {
-		if (!upiResponse.ok) {
-			stopLoading();
-			displayError({
-				heading: 'Error',
-				errorSubHeading: upiResponse.data?.message
-			});
-			throw new Error('');
-		}
-	};
-
-	const handleNetBankingResponse = (netBankingResponse) => {
-		if (isNetBakingPaymentWindowClosed()) {
-			handleNetBankingPaymentWindowClosure();
-		} else if (!netBankingResponse.ok) {
-			intializeNetBankingState();
-			stopLoading();
-			displayError({
-				heading: 'Error',
-				errorSubHeading: netBankingResponse.data?.message || netBankingResponse.data?.data?.message
-			});
-			throw new Error('');
-		}
-	};
-
-	const handleOrderPostResponse = (orderPostResponse) => {
-		if (orderPostResponse.ok) {
-			orderDeletePatchFunc();
-		} else {
-			resetTransactionInterval();
-			stopLoading();
-			displayError({
-				heading: 'Error',
-				errorSubHeading: orderPostResponse?.data?.message
-			});
-			throw new Error('');
-		}
-	};
-
-	const handleOrderPatchResponse = (orderPatchResponse) => {
-		if (!orderPatchResponse.ok) {
-			stopLoading();
-			displayError({
-				heading: 'Order Creation Error',
-				errorSubHeading: orderPatchResponse?.data?.message
-			});
-			throw new Error('');
-		}
-	};
-
-	// -------- **** ----------
-
-	// --------- flow functions -----------
-	const noPaymentFlow = async () => {
-		try {
-			showLoading('Getting Mandate Data');
-			const emandateResponse = await getEmandateDataFunc();
-			handleEmandateResponse(emandateResponse);
-			showLoading('Creating your order');
-			const orderPostResponse = await sipOrderPostFunction(
-				'',
-				getPrimaryAccountMandateData(emandateResponse?.data)?.mandateId || ''
-			);
-			handleOrderPostResponse(orderPostResponse);
-			navigateToSipCompletePage(
-				orderPostResponse.data?.data?.orderId,
-				orderPostResponse.data?.data?.sipId
-			);
-		} catch (e) {
-			stopLoading();
-		}
-	};
-
-	const netBankingLumpsumFlow = async () => {
-		try {
-			netBankingState.paymentWindow = window.open(
-				`${window.location.origin}${base}/intermediateLoading`,
-				'PAYMENT_WINDOW'
-			);
-			showLoading('Redirecting to your Bank');
-			const netBankingResponse = await initiateNetBankingPaymentFunc();
-			handleNetBankingResponse(netBankingResponse);
-			showLoading('Creating your order');
-			const orderPostResponse = await lumpsumOrderPostFunction(
-				netBankingResponse.data?.data?.transaction_id
-			);
-			handleOrderPostResponse(orderPostResponse);
-			if (isNetBakingPaymentWindowClosed()) {
-				handleNetBankingPaymentWindowClosure();
-			}
-			netBankingState.paymentWindow.location.replace(netBankingResponse.data?.data?.redirect_url);
-			showLoading('Waiting for payment');
-			await netBankingWindowCloseLogic();
-			showLoading('Checking Payment status');
-			const transactionResponse = await transactionRetryLogic(
-				netBankingResponse.data?.data?.transaction_id,
-				0,
-				5,
-				1
-			);
-			handleTransactionResponse(transactionResponse, orderPostResponse);
-			showLoading('Waiting for order status');
-			const orderPatchResponse = await lumpsumOrderPatchFunc(
-				transactionResponse?.data,
-				orderPostResponse.data
-			);
-			handleOrderPatchResponse(orderPatchResponse);
-			navigateToLumpsumCompletePage(orderPostResponse.data?.data?.orderId);
-		} catch (e) {
-			stopLoading();
-		}
-	};
-
-	const netBankingSIPFlow = async () => {
-		try {
-			netBankingState.paymentWindow = window.open(
-				`${window.location.origin}${base}/intermediateLoading`,
-				'PAYMENT_WINDOW'
-			);
-			showLoading('Getting Mandate Data');
-			const emandateResponse = await getEmandateDataFunc();
-			handleEmandateResponse(emandateResponse);
-			showLoading('Redirecting to your Bank');
-			const netBankingResponse = await initiateNetBankingPaymentFunc();
-			handleNetBankingResponse(netBankingResponse);
-			showLoading('Creating your order');
-			const orderPostResponse = await sipOrderPostFunction(
-				netBankingResponse.data?.data?.transaction_id,
-				getPrimaryAccountMandateData(emandateResponse?.data)?.mandateId || ''
-			);
-			handleOrderPostResponse(orderPostResponse);
-			if (isNetBakingPaymentWindowClosed()) {
-				handleNetBankingPaymentWindowClosure();
-			}
-			netBankingState.paymentWindow.location.replace(netBankingResponse.data?.data?.redirect_url);
-			showLoading('Waiting for payment');
-			await netBankingWindowCloseLogic();
-			showLoading('Checking Payment status');
-			const transactionResponse = await transactionRetryLogic(
-				netBankingResponse.data?.data?.transaction_id,
-				0,
-				5,
-				1
-			);
-			handleTransactionResponse(transactionResponse, orderPostResponse);
-			showLoading('Waiting for order status');
-			const orderPatchResponse = await sipOrderPatchFunc(
-				transactionResponse?.data,
-				orderPostResponse.data
-			);
-			handleOrderPatchResponse(orderPatchResponse);
-			navigateToSipCompletePage(
-				orderPostResponse.data?.data?.orderId,
-				orderPostResponse.data?.data?.sipId
-			);
-		} catch (e) {
-			stopLoading();
-		}
-	};
-
-	const upiLumpsumFlow = async (inputId: string) => {
-		try {
-			paymentHandler.upiId = inputId;
-			const response = await upiValidateFunc(inputId);
-			handleUPIValidationResponse(response);
-			showLoading('Initiating UPI Payment');
-			const upiResponse = await initiateUPIPayment();
-			handleUPIResponse(upiResponse);
-			showLoading('Creating your order');
-			const orderPostResponse = await lumpsumOrderPostFunction(
-				upiResponse.data?.data?.transaction_id
-			);
-			handleOrderPostResponse(orderPostResponse);
-			stopLoading();
-			upiState.flow = 2;
-			upiState.timer = upiResponse.data?.data?.transaction_validity * 60;
-			upiState.timerInterval = setInterval(() => {
-				if (upiState.timer <= 0) {
-					clearInterval(upiState.timerInterval);
-				}
-				upiState.timer = upiState.timer - 1;
-			}, 1000);
-			const promiseResponse = await Promise.any([
-				transactionRetryLogic(
-					upiResponse.data?.data?.transaction_id,
-					0,
-					Math.ceil(upiState.timer / 3),
-					3
-				),
-				upiWindowCloseLogic()
-			]);
-			let transactionResponse = {};
-			if (promiseResponse === 'WINDOW_CLOSED') {
-				showLoading('Waiting for payment');
-				transactionResponse = await transactionRetryLogic(
-					upiResponse.data?.data?.transaction_id,
-					0,
-					5,
-					1
-				);
-			} else {
-				transactionResponse = promiseResponse;
-			}
-			handleTransactionResponse(transactionResponse, orderPostResponse);
-			showLoading('Waiting for order status');
-			const orderPatchResponse = await lumpsumOrderPatchFunc(
-				transactionResponse?.data,
-				orderPostResponse.data
-			);
-			handleOrderPatchResponse(orderPatchResponse);
-			navigateToLumpsumCompletePage(orderPostResponse.data?.data?.orderId);
-		} catch (e) {
-			stopLoading();
-		}
-	};
-
-	const upiSIPFlow = async (inputId: string) => {
-		try {
-			paymentHandler.upiId = inputId;
-			const response = await upiValidateFunc(inputId);
-			handleUPIValidationResponse(response);
-			showLoading('Getting Mandate Data');
-			const emandateResponse = await getEmandateDataFunc();
-			handleEmandateResponse(emandateResponse);
-			showLoading('Initiating UPI Payment');
-			const upiResponse = await initiateUPIPayment();
-			handleUPIResponse(upiResponse);
-			showLoading('Creating your order');
-			const orderPostResponse = await sipOrderPostFunction(
-				upiResponse.data?.data?.transaction_id,
-				getPrimaryAccountMandateData(emandateResponse?.data)?.mandateId || ''
-			);
-			handleOrderPostResponse(orderPostResponse);
-			stopLoading();
-			upiState.flow = 2;
-			upiState.timer = upiResponse.data?.data?.transaction_validity * 60;
-			upiState.timerInterval = setInterval(() => {
-				if (upiState.timer <= 0) {
-					clearInterval(upiState.timerInterval);
-				}
-				upiState.timer = upiState.timer - 1;
-			}, 1000);
-			const promiseResponse = await Promise.any([
-				transactionRetryLogic(
-					upiResponse.data?.data?.transaction_id,
-					0,
-					Math.ceil(upiState.timer / 3),
-					3
-				),
-				upiWindowCloseLogic()
-			]);
-			let transactionResponse = {};
-			if (promiseResponse === 'WINDOW_CLOSED') {
-				showLoading('Waiting for payment');
-				transactionResponse = await transactionRetryLogic(
-					upiResponse.data?.data?.transaction_id,
-					0,
-					5,
-					1
-				);
-			} else {
-				transactionResponse = promiseResponse;
-			}
-			handleTransactionResponse(transactionResponse, orderPostResponse);
-			showLoading('Waiting for order status');
-			const orderPatchResponse = await sipOrderPatchFunc(
-				transactionResponse?.data,
-				orderPostResponse.data
-			);
-			handleOrderPatchResponse(orderPatchResponse);
-			navigateToSipCompletePage(
-				orderPostResponse.data?.data?.orderId,
-				orderPostResponse.data?.data?.sipId
-			);
-		} catch (e) {
-			stopLoading();
-		}
-	};
-
-	const walletLumpsumFlow = async () => {
-		try {
-			showLoading(`Redirecting to ${PAYMENT_MODE[paymentHandler.paymentMode].name}`);
-			const walletResponse = await initiateWalletPayment(
-				PAYMENT_MODE[paymentHandler.paymentMode].apiName
-			);
-			handleUPIResponse(walletResponse);
-			showLoading('Creating your order');
-			const orderPostResponse = await lumpsumOrderPostFunction(
-				walletResponse.data?.data?.transaction_id
-			);
-			handleOrderPostResponse(orderPostResponse);
-			const redirectUrl = walletResponse.data?.data?.ios_deeplink_url;
-			showLoading('Waiting for payment');
-			window.open(redirectUrl, '_self');
-			const promiseResponse = await Promise.any([
-				transactionRetryLogic(
-					walletResponse.data?.data?.transaction_id,
-					0,
-					Math.ceil((walletResponse.data?.data?.transaction_validity * 60) / 3),
-					3
-				),
-				googlePayCloseLogic()
-			]);
-			let transactionResponse = {};
-			if (promiseResponse === 'WINDOW_CLOSED') {
-				showLoading('Waiting for payment');
-				transactionResponse = await transactionRetryLogic(
-					walletResponse.data?.data?.transaction_id,
-					0,
-					5,
-					1
-				);
-			} else {
-				transactionResponse = promiseResponse;
-			}
-			handleTransactionResponse(transactionResponse, orderPostResponse);
-			showLoading('Waiting for order status');
-			const orderPatchResponse = await lumpsumOrderPatchFunc(
-				transactionResponse?.data,
-				orderPostResponse.data
-			);
-			handleOrderPatchResponse(orderPatchResponse);
-			navigateToLumpsumCompletePage(orderPostResponse.data?.data?.orderId);
-		} catch (e) {
-			stopLoading();
-		}
-	};
-
-	const walletSIPFlow = async () => {
-		try {
-			showLoading('Getting Mandate Data');
-			const emandateResponse = await getEmandateDataFunc();
-			handleEmandateResponse(emandateResponse);
-			showLoading(`Redirecting to ${PAYMENT_MODE[paymentHandler.paymentMode].name}`);
-			const walletResponse = await initiateWalletPayment(
-				PAYMENT_MODE[paymentHandler.paymentMode].apiName
-			);
-			handleUPIResponse(walletResponse);
-			showLoading('Creating your order');
-			const orderPostResponse = await sipOrderPostFunction(
-				walletResponse.data?.data?.transaction_id,
-				getPrimaryAccountMandateData(emandateResponse?.data)?.mandateId || ''
-			);
-			handleOrderPostResponse(orderPostResponse);
-			const redirectUrl = walletResponse.data?.data?.ios_deeplink_url;
-			showLoading('Waiting for payment');
-			window.open(redirectUrl, '_self');
-			const promiseResponse = await Promise.any([
-				transactionRetryLogic(
-					walletResponse.data?.data?.transaction_id,
-					0,
-					Math.ceil((walletResponse.data?.data?.transaction_validity * 60) / 3),
-					3
-				),
-				googlePayCloseLogic()
-			]);
-			let transactionResponse = {};
-			if (promiseResponse === 'WINDOW_CLOSED') {
-				showLoading('Waiting for payment');
-				transactionResponse = await transactionRetryLogic(
-					walletResponse.data?.data?.transaction_id,
-					0,
-					5,
-					1
-				);
-			} else {
-				transactionResponse = promiseResponse;
-			}
-			handleTransactionResponse(transactionResponse, orderPostResponse);
-			showLoading('Waiting for order status');
-			const orderPatchResponse = await sipOrderPatchFunc(
-				transactionResponse?.data,
-				orderPostResponse.data
-			);
-			handleOrderPatchResponse(orderPatchResponse);
-			navigateToSipCompletePage(
-				orderPostResponse.data?.data?.orderId,
-				orderPostResponse.data?.data?.sipId
-			);
-		} catch (e) {
-			stopLoading();
-		}
-	};
-	// -------- **** ----------
 
 	const onPaymentTypeSubmit = async (inputId: string) => {
 		if ($page?.data?.isGuest) {
@@ -1717,19 +906,84 @@
 			assignNewRequestId();
 		}
 
+		const commonSIPLumpSumInput = {
+			amount,
+			accNO: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO,
+			ifscCode: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.ifscCode,
+			bankName: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
+			dpNumber: profileData?.dpNumber,
+			fullName: profileData?.clientDetails?.fullName,
+			schemeCode: schemeData?.schemeCode,
+			xRequestId,
+			source,
+			previousOrderId,
+			previousPGTxnId,
+			state,
+			showLoading,
+			stopLoading,
+			displayPendingPopup,
+			displayError,
+			transactionFailedAnalytics: paymentFailedScreenAnalyticsWithData
+		};
+
+		const commonLumpsumInput = {
+			...commonSIPLumpSumInput,
+			email: profileData?.clientDetails?.email,
+			subBroker: profileData?.clientDetails?.subBroker,
+			mobile: profileData?.mobile,
+			poaStatus: profileData?.poaStatus,
+			onSuccess: navigateToLumpsumCompletePage
+		};
+
+		const commonSIPInput = {
+			...commonSIPLumpSumInput,
+			sipFrequency: schemeData?.sipFrequency,
+			sipMaxInstallmentNo: schemeData?.sipMaxInstallmentNo,
+			sipDate: getSIPDate(),
+			onSuccess: navigateToSipCompletePage
+		};
+
+		const sipInstallmentInput = {
+			sipId,
+			sipDueDate,
+			redirectedFrom,
+			sipRegistrationNumber
+		};
+
 		if (NO_SIP_PAYMENT) {
 			submitButtonSIPClickAnalyticsFunc();
-			noPaymentFlow();
+			noPaymentFlow({
+				amount,
+				dpNumber: profileData?.dpNumber,
+				schemeCode: schemeData?.schemeCode,
+				sipFrequency: schemeData?.sipFrequency,
+				sipMaxInstallmentNo: schemeData?.sipMaxInstallmentNo,
+				sipDate: getSIPDate(),
+				xRequestId,
+				source,
+				previousOrderId,
+				previousPGTxnId,
+				stopLoading,
+				displayError,
+				showLoading,
+				onSuccess: navigateToSipCompletePage
+			});
 		} else if (
 			paymentHandler?.paymentMode === 'NET_BANKING' &&
 			activeTab === 'SIP' &&
 			redirectedFrom !== 'SIP_PAYMENTS'
 		) {
 			submitButtonSIPClickAnalyticsFunc();
-			netBankingSIPFlow();
+			netBankingSIPFlow({
+				...commonSIPInput,
+				netBankingState
+			});
 		} else if (paymentHandler?.paymentMode === 'NET_BANKING') {
 			submitButtonLumpsumClickAnalyticsFunc();
-			netBankingLumpsumFlow();
+			netBankingLumpsumFlow({
+				...commonLumpsumInput,
+				netBankingState
+			});
 		} else if (
 			paymentHandler?.paymentMode === 'UPI' &&
 			activeTab === 'SIP' &&
@@ -1737,17 +991,47 @@
 		) {
 			submitButtonSIPClickAnalyticsFunc();
 			upiInitiateScreenAnalytics();
-			upiSIPFlow(inputId);
+			paymentHandler.upiId = inputId;
+			upiSIPFlow({
+				...commonSIPInput,
+				inputId,
+				upiState,
+				showUPILoading,
+				stopUPILoading,
+				onUPIValidationFailure: upiValidationErrorHandler,
+				updateUPITimer
+			});
 		} else if (paymentHandler?.paymentMode === 'UPI') {
 			submitButtonLumpsumClickAnalyticsFunc();
 			upiInitiateScreenAnalytics();
-			upiLumpsumFlow(inputId);
+			paymentHandler.upiId = inputId;
+			upiLumpsumFlow({
+				...commonLumpsumInput,
+				...sipInstallmentInput,
+				inputId,
+				upiState,
+				showUPILoading,
+				stopUPILoading,
+				onUPIValidationFailure: upiValidationErrorHandler,
+				updateUPITimer
+			});
 		} else if (activeTab === 'SIP' && redirectedFrom !== 'SIP_PAYMENTS') {
 			submitButtonSIPClickAnalyticsFunc();
-			walletSIPFlow();
+			walletSIPFlow({
+				...commonSIPInput,
+				paymentModeName: PAYMENT_MODE[paymentHandler.paymentMode].name,
+				paymentModeAPIName: PAYMENT_MODE[paymentHandler.paymentMode].apiName,
+				gpayPaymentState
+			});
 		} else {
 			submitButtonLumpsumClickAnalyticsFunc();
-			walletLumpsumFlow();
+			walletLumpsumFlow({
+				...commonLumpsumInput,
+				...sipInstallmentInput,
+				paymentModeName: PAYMENT_MODE[paymentHandler.paymentMode].name,
+				paymentModeAPIName: PAYMENT_MODE[paymentHandler.paymentMode].apiName,
+				gpayPaymentState
+			});
 		}
 	};
 

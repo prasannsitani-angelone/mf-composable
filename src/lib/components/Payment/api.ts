@@ -1,0 +1,371 @@
+import { base } from '$app/paths';
+import { PUBLIC_MF_CORE_BASE_URL, PUBLIC_PAYMENT_BASE_URL } from '$env/static/public';
+import getEmandateData from '$lib/api/emandate';
+import { stringToFloat } from '$lib/utils/helpers/numbers';
+import { useFetch } from '$lib/utils/useFetch';
+import { getFormattedSIPDate } from './util';
+
+export const orderDeletePatchFunc = async (params) => {
+	try {
+		const { orderId, pgTxnId } = params || {};
+		if (orderId) {
+			const url = `${PUBLIC_MF_CORE_BASE_URL}/orders/${orderId}`;
+			await useFetch(url, {
+				method: 'PATCH',
+				body: JSON.stringify({
+					paymentReferenceNumber: pgTxnId,
+					paymentRemarks: 'Payment cancel',
+					paymentStatus: 'cancel',
+					pgTxnId,
+					purchaseType: 'SIP'
+				})
+			});
+		}
+	} catch (e) {
+		return;
+	}
+};
+
+export const sipOrderPatchFunc = async (params) => {
+	try {
+		const {
+			reference_number,
+			response_description,
+			status,
+			transaction_id,
+			sipId,
+			xRequestId,
+			source
+		} = params || {};
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/sips/${sipId}`;
+		const response = await useFetch(url, {
+			method: 'PATCH',
+			body: JSON.stringify({
+				paymentReferenceNumber: reference_number,
+				paymentRemarks: response_description,
+				paymentStatus: status,
+				pgTxnId: transaction_id
+			}),
+			headers: {
+				'X-Request-Id': xRequestId,
+				'X-Source': source || 'diy'
+			}
+		});
+		return response;
+	} catch (e) {
+		return {};
+	}
+};
+
+export const lumpsumOrderPatchFunc = async (params) => {
+	try {
+		const {
+			reference_number,
+			response_description,
+			status,
+			transaction_id,
+			orderId,
+			xRequestId,
+			source
+		} = params || {};
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/orders/${orderId}`;
+		const response = await useFetch(url, {
+			method: 'PATCH',
+			body: JSON.stringify({
+				paymentReferenceNumber: reference_number,
+				paymentRemarks: response_description,
+				paymentStatus: status,
+				pgTxnId: transaction_id,
+				purchaseType: 'LUMPSUM'
+			}),
+			headers: {
+				'X-Request-Id': xRequestId,
+				'X-Source': source || 'diy'
+			}
+		});
+		return response;
+	} catch (e) {
+		return {};
+	}
+};
+
+export const orderPatchFunc = async (params) => {
+	const {
+		reference_number,
+		response_description,
+		status,
+		transaction_id,
+		orderId,
+		sipId,
+		xRequestId,
+		source,
+		isLumpsum
+	} = params || {};
+	if (isLumpsum) {
+		return lumpsumOrderPatchFunc({
+			reference_number,
+			response_description,
+			status,
+			transaction_id,
+			orderId,
+			xRequestId,
+			source
+		});
+	} else {
+		return sipOrderPatchFunc({
+			reference_number,
+			response_description,
+			status,
+			transaction_id,
+			sipId,
+			xRequestId,
+			source
+		});
+	}
+};
+
+export const fetchTransactionDataFunc = async (params) => {
+	try {
+		const { xRequestId, source, transactionID } = params || {};
+		const url = `${PUBLIC_PAYMENT_BASE_URL}/transaction?transaction_id=${transactionID}`;
+		const response = await useFetch(url, {
+			headers: {
+				'X-Request-Id': xRequestId,
+				'X-Source': source || 'diy'
+			}
+		});
+		return response;
+	} catch (e) {
+		return {};
+	}
+};
+
+export const initiateNetBankingPaymentFunc = async (params) => {
+	const url = `${PUBLIC_PAYMENT_BASE_URL}/net-banking-initiate-payment`;
+	try {
+		const { amount, accNO, ifscCode, bankName, fullName, xRequestId, source } = params || {};
+		const response = await useFetch(url, {
+			method: 'POST',
+			body: JSON.stringify({
+				amount: stringToFloat(amount),
+				bank_account_number: accNO,
+				bank_ifsc_code: ifscCode,
+				bank_name: bankName,
+				client_name: fullName,
+				product: 'mf',
+				request_source: 'mf-web',
+				redirect_url: `${window.location.origin}${base}/paymentCallback`
+			}),
+			headers: {
+				'X-Request-Id': xRequestId,
+				'X-Source': source || 'diy'
+			}
+		});
+		return response;
+	} catch (e) {
+		return {};
+	}
+};
+
+export const lumpsumOrderPostFunction = async (params) => {
+	const url = `${PUBLIC_MF_CORE_BASE_URL}/orders`;
+	try {
+		const {
+			amount,
+			accNO,
+			bankName,
+			dpNumber,
+			email,
+			subBroker,
+			mobile,
+			poaStatus,
+			schemeCode,
+			redirectedFrom,
+			transactionRefNumber,
+			sipId,
+			sipDueDate,
+			xRequestId,
+			source
+		} = params || {};
+		const response = await useFetch(url, {
+			method: 'POST',
+			body: JSON.stringify({
+				amount: stringToFloat(amount),
+				bankAccountNo: accNO,
+				bankName: bankName,
+				dpNumber: dpNumber,
+				emailId: email,
+				mobileNo: mobile,
+				poaStatus: poaStatus,
+				schemeCode: schemeCode,
+				subBrokerCode: subBroker,
+				transactionType: redirectedFrom === 'SIP_PAYMENTS' ? 'SIP_INSTALLMENT' : 'PURCHASE',
+				transactionRefNumber,
+				sipId,
+				sipDueDate,
+				isAdditional: redirectedFrom === 'INVESTMENT_DETAILS'
+			}),
+			headers: {
+				'X-Request-Id': xRequestId,
+				'X-Source': source || 'diy'
+			}
+		});
+		return response;
+	} catch (e) {
+		return {};
+	}
+};
+
+export const sipOrderPostFunction = async (params) => {
+	const url = `${PUBLIC_MF_CORE_BASE_URL}/sips`;
+	try {
+		const {
+			amount,
+			dpNumber,
+			schemeCode,
+			emandateId,
+			transactionRefNumber,
+			sipFrequency,
+			sipMaxInstallmentNo,
+			firstSipPayment,
+			sipDate,
+			xRequestId,
+			source
+		} = params || {};
+		const response = await useFetch(url, {
+			method: 'POST',
+			body: JSON.stringify({
+				emandateId,
+				installmentAmount: stringToFloat(amount),
+				dpNumber: dpNumber,
+				schemeCode: schemeCode,
+				type: 'SIP',
+				startDate: getFormattedSIPDate(sipDate),
+				frequency: sipFrequency,
+				noOfInstallment: sipMaxInstallmentNo,
+				firstOrderToday: firstSipPayment,
+				folioNumber: '',
+				transactionRefNumber
+			}),
+			headers: {
+				'X-Request-Id': xRequestId,
+				'X-Source': source || 'diy'
+			}
+		});
+		return response;
+	} catch (e) {
+		return {};
+	}
+};
+
+export const getEmandateDataFunc = (params) => {
+	const { amount, sipDate } = params || {};
+	return getEmandateData(sipDate, stringToFloat(amount));
+};
+
+export const upiValidateFunc = async (params) => {
+	const { bankName, id, xRequestId, source, showLoading, stopLoading } = params || {};
+	try {
+		showLoading();
+		const url = `${PUBLIC_PAYMENT_BASE_URL}/upi-validate-vpa`;
+		const response = await useFetch(url, {
+			method: 'POST',
+			body: JSON.stringify({
+				bank_name: bankName?.toLowerCase() || '',
+				product: 'mf',
+				vpa: id
+			}),
+			headers: {
+				'X-Request-Id': xRequestId,
+				'X-Source': source || 'diy'
+			}
+		});
+		stopLoading();
+		return response;
+	} catch (e) {
+		stopLoading();
+		return {};
+	}
+};
+
+export const initiateUPIPayment = async (params) => {
+	try {
+		const url = `${PUBLIC_PAYMENT_BASE_URL}/upi-initiate-payment`;
+		const {
+			amount,
+			accNO,
+			bankName,
+			ifscCode,
+			fullName,
+			upiId,
+			redirectedFrom,
+			sipRegistrationNumber,
+			xRequestId,
+			source
+		} = params || {};
+		const response = await useFetch(url, {
+			method: 'POST',
+			body: JSON.stringify({
+				amount: stringToFloat(amount),
+				bank_account_number: accNO,
+				bank_ifsc_code: ifscCode,
+				bank_name: bankName,
+				client_name: fullName,
+				vpa: upiId,
+				product: 'mf',
+				request_source: 'mf-web',
+				request_type: 'COLLECT',
+				mf_order_reference_number: sipRegistrationNumber,
+				mf_order_type: redirectedFrom === 'SIP_PAYMENTS' ? 'sip' : undefined
+			}),
+			headers: {
+				'X-Request-Id': xRequestId,
+				'X-Source': source || 'diy'
+			}
+		});
+		return response;
+	} catch (e) {
+		return {};
+	}
+};
+
+export const initiateWalletPayment = async (params) => {
+	try {
+		const url = `${PUBLIC_PAYMENT_BASE_URL}/upi-initiate-payment`;
+		const {
+			amount,
+			accNO,
+			bankName,
+			ifscCode,
+			fullName,
+			redirectedFrom,
+			sipRegistrationNumber,
+			xRequestId,
+			source,
+			apiName
+		} = params || {};
+		const response = await useFetch(url, {
+			method: 'POST',
+			body: JSON.stringify({
+				amount: stringToFloat(amount),
+				bank_account_number: accNO,
+				bank_ifsc_code: ifscCode,
+				bank_name: bankName,
+				client_name: fullName,
+				product: 'mf',
+				request_source: 'mf-web',
+				request_type: 'INTENT',
+				app_name: apiName,
+				mf_order_reference_number: sipRegistrationNumber,
+				mf_order_type: redirectedFrom === 'SIP_PAYMENTS' ? 'sip' : undefined
+			}),
+			headers: {
+				'X-Request-Id': xRequestId,
+				'X-Source': source || 'diy'
+			}
+		});
+		return response;
+	} catch (e) {
+		return {};
+	}
+};
