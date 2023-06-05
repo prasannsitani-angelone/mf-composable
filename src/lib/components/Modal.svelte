@@ -7,6 +7,7 @@
 	const dispatch = createEventDispatcher();
 	let isModalOpen = false;
 	let closeModal: (() => void) | null = null;
+	let animationDuration = 500;
 	let preventBackDropClick = false;
 	$: deviceType = $page?.data?.deviceType;
 
@@ -18,15 +19,15 @@
 		}
 	};
 
-	export { closeModal, isModalOpen, preventBackDropClick };
+	export { closeModal, isModalOpen, preventBackDropClick, animationDuration };
 </script>
 
 {#if isModalOpen}
 	<Overlay>
 		{#if deviceType?.isMobile}
 			<div
-				class="modal modal-open modal-bottom !bg-transparent sm:modal-middle"
-				in:fly={{ y: 1000, duration: 500 }}
+				class="modal modal-open modal-bottom !bg-transparent sm:modal-middle {$$props.class}"
+				in:fly={{ y: 1000, duration: animationDuration }}
 				on:keydown|self={backDropClicked}
 				on:click|self={backDropClicked}
 			>
@@ -34,8 +35,8 @@
 			</div>
 		{:else}
 			<div
-				class="modal modal-open modal-bottom !bg-transparent sm:modal-middle"
-				in:fade={{ duration: 500 }}
+				class="modal modal-open modal-bottom !bg-transparent sm:modal-middle {$$props.class}"
+				in:fade={{ duration: animationDuration }}
 				on:keydown|self={backDropClicked}
 				on:click|self={backDropClicked}
 			>

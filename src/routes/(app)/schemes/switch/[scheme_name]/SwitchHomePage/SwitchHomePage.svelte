@@ -483,7 +483,7 @@
 						>
 							<input
 								id="switchAmountInput"
-								inputmode="none"
+								inputmode="numeric"
 								maxlength="13"
 								placeholder="₹"
 								value={amountVal}

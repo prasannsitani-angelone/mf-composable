@@ -10,7 +10,9 @@
 	import OrderDetailLoader from './Loader/OrderDetailLoader.svelte';
 	import ErrorView from '$components/ErrorView.svelte';
 	import { base } from '$app/paths';
-	import { SEO, WMSIcon } from 'wms-ui-component';
+	import { Button, SEO, WMSIcon } from 'wms-ui-component';
+	import RightArrowIcon from './RightArrowIcon.svelte';
+	import { encodeObject } from '$lib/utils/helpers/params';
 	$: breadCrumbs = [
 		{
 			text: 'Home',
@@ -27,6 +29,16 @@
 	];
 	const handleErrorNavigation = () => {
 		goto(`${base}/orders/orderspage`);
+	};
+
+	const navigateToFAQ = (tag: string | undefined) => {
+		if (tag) {
+			const params = encodeObject({
+				tag: tag,
+				orderId: data.orderId
+			});
+			goto(`${base}/faq?params=${params}`);
+		}
 	};
 	// const icon = <WMSIcon name="order-details-error"/>
 	export let data: PageData;
@@ -64,6 +76,22 @@
 						</div>
 						<OrderTimeLine items={ordersData?.orderStatusItems || []} />
 					</div>
+					<Button
+						color="white"
+						class="mt-2 !h-auto w-full !transform-none items-center justify-between !rounded-lg !px-3 !py-3 shadow-csm"
+						endAdornment={RightArrowIcon}
+						on:click={() => navigateToFAQ(ordersData?.tag)}
+					>
+						<div class="flex items-center">
+							<WMSIcon name="question-mark-circle" class="mr-3" width={18} height={18} />
+							<div class="text-left">
+								<div class="font-medium capitalize">Need help ?</div>
+								<div class="text-xs font-normal capitalize text-grey-body">
+									Queries related to order status, charges and more
+								</div>
+							</div>
+						</div>
+					</Button>
 					<OrderTransactions
 						orderDetails={ordersData.data}
 						statusItems={ordersData?.statusItems || {}}

@@ -88,6 +88,7 @@ export const load = (async ({ fetch, params, parent }) => {
 	const transactionDetails: IStatusItem[] = [];
 	let bankName = '';
 	let bankAccountNumber = '';
+	let tag = 'orders';
 	const headerContent: Record<string, string> = {
 		heading: 'In Progress',
 		subHeadingText: 'Your order is completed by AMC',
@@ -175,6 +176,12 @@ export const load = (async ({ fetch, params, parent }) => {
 
 			// Fetching SIP details
 			if (isInvestmentSipOrXsip) {
+				tag += '_sip';
+				if (firstOrder?.toUpperCase() === 'Y') {
+					tag += '_ftpy';
+				} else {
+					tag += '_ftpn';
+				}
 				const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips/${sipId}`;
 				const res = await useFetch(sipUrl, {}, fetch);
 				if (res.ok && res?.data?.data) {
@@ -186,6 +193,9 @@ export const load = (async ({ fetch, params, parent }) => {
 				}
 			}
 
+			if (investmentType?.toUpperCase() === 'LUMPSUM') {
+				tag += '_lumpsum';
+			}
 			// Fetching Scheme Details
 			const schemeUrl = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/${schemeCode}`;
 			const schemeResponse = await useFetch(schemeUrl, {}, fetch);
@@ -316,6 +326,18 @@ export const load = (async ({ fetch, params, parent }) => {
 						const filter = [ORDER_DATA.ORDER_DATE, ORDER_DATA.ORDER_ID, ORDER_DATA.BANK_DETAILS];
 						statusItems = filterObject(statusItems, filter);
 					}
+				}
+				if (orderStatus?.toUpperCase() !== ORDER_STATUS.ORDER_COMPLETE) {
+					tag += '_inprogress';
+					if (paymentStatusString?.toUpperCase() === STATUS_ARR.SUCCESS) {
+						tag += '_payment_success';
+					}
+					if (paymentStatusString?.toUpperCase() === STATUS_ARR.PENDING) {
+						tag += '_payment_pending';
+					}
+				}
+				if (orderStatus?.toUpperCase() === ORDER_STATUS.ORDER_COMPLETE) {
+					tag += '_complete';
 				}
 			} else if (transactionType === 'REDEEM') {
 				if (
@@ -553,7 +575,8 @@ export const load = (async ({ fetch, params, parent }) => {
 				bankName,
 				schemeDetails,
 				transactionDetails,
-				bankAccountNumber
+				bankAccountNumber,
+				tag
 			};
 		}
 		return {
