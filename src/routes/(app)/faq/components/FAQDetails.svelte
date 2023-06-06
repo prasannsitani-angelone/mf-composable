@@ -3,7 +3,8 @@
 	import ContactCard from '$components/ContactCard.svelte';
 	import type { FAQ } from '../type';
 	let faq: FAQ;
-	export { faq };
+	let showContactCard: boolean;
+	export { faq, showContactCard };
 </script>
 
 <div class="h-full px-2 py-2 md:px-0 md:py-0">
@@ -12,7 +13,7 @@
 			title: faq?.question
 		}}
 		disableCollapse={true}
-		titleStyle="!ml-0 text-grey-body"
+		titleStyle="!ml-0 text-black-title"
 		titleFontSize="text-sm"
 		class="mb-0 !mt-0 max-w-8xl md:rounded-t-none"
 		headerClass="!p-3 md:!p-4"
@@ -27,7 +28,9 @@
 			</section>
 		</svelte:fragment>
 	</AccordianCardComponent>
-	<ContactCard title="Didn't find what you were looking for?" />
+	{#if showContactCard}
+		<ContactCard title="Didn't find what you were looking for?" />
+	{/if}
 </div>
 
 <style>
@@ -35,6 +38,7 @@
 		display: block;
 		overflow-x: auto;
 		white-space: nowrap;
+		border: 1px solid #425061;
 	}
 	:global(.details-container table th) {
 		background-color: #c2c6cc;
@@ -46,5 +50,9 @@
 	:global(.details-container table td) {
 		text-align: center;
 		font-weight: 500;
+	}
+	:global(.details-container a) {
+		color: #3f5bd9;
+		font-weight: 600;
 	}
 </style>

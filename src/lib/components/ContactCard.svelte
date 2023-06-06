@@ -51,7 +51,7 @@
 
 <section class="mt-2 mb-2 flex items-center gap-4 rounded-lg bg-white p-4 shadow-csm">
 	<div>
-		<WMSIcon name="question-blue-in-circle" width={36} height={36} />
+		<WMSIcon name="message-in-circle" width={36} height={36} />
 	</div>
 	<div class="text-sm font-medium text-black-title">
 		<p>{title}</p>

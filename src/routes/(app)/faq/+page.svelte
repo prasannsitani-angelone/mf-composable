@@ -12,10 +12,12 @@
 	let showAnswer = false;
 	let faq: FAQ;
 	let title = 'FAQs';
-	const navigateToFAQDetails = (faqData: FAQ) => {
+	let selectedIndex = 0;
+	const navigateToFAQDetails = (faqData: FAQ, idx: number) => {
 		faq = faqData;
 		showAnswer = true;
 		title = '';
+		selectedIndex = idx;
 	};
 	const breadCrumbs = [
 		{
@@ -40,6 +42,7 @@
 		if (showAnswer) {
 			showAnswer = false;
 			title = 'FAQs';
+			selectedIndex = 0;
 		} else {
 			history.back();
 		}
@@ -58,26 +61,24 @@
 		{#if !showAnswer}
 			<section class="rounded-t-lg rounded-b-lg bg-white px-3 md:rounded-t-none md:px-4">
 				{#each faqData?.data?.faqs as faq, index (index)}
-					{#if index < faqData?.data?.faqs?.length - 1}
-						<Button
-							color="white"
-							class="flex !h-auto w-full !transform-none flex-nowrap justify-between rounded-none border-b-[1px] border-b-grey-line !px-0 !pt-3 !pb-2 text-left !font-medium !normal-case text-grey-body hover:!transform-none hover:!border-b-grey-line focus:!border-b-grey-line active:!transform-none md:!pt-5 md:!pb-5 {index ===
-								faqData?.data?.faqs.length - 1 && 'border-none !pb-4 md:!pb-5'}"
-							on:click={() => navigateToFAQDetails(faq, index)}
-						>
-							<div>
-								{faq?.question}
-							</div>
-							<div>
-								<WMSIcon name="right-arrow" width={18} height={18} />
-							</div>
-						</Button>
-					{/if}
+					<Button
+						color="white"
+						class="flex !h-auto w-full !transform-none flex-nowrap justify-between rounded-none border-b-[1px] border-b-grey-line !px-0 !pt-3 !pb-2 text-left !font-medium !normal-case text-grey-body hover:!transform-none hover:!border-b-grey-line focus:!border-b-grey-line active:!transform-none md:!pt-5 md:!pb-5 {index ===
+							faqData?.data?.faqs?.length - 1 && 'border-none !pb-4 md:!pb-5'}"
+						on:click={() => navigateToFAQDetails(faq, index)}
+					>
+						<div>
+							{faq?.question}
+						</div>
+						<div>
+							<WMSIcon name="right-arrow" width={18} height={18} />
+						</div>
+					</Button>
 				{/each}
 			</section>
 		{/if}
 		{#if showAnswer && !deviceType.isMobile}
-			<FaqDetails {faq} />
+			<FaqDetails {faq} showContactCard={selectedIndex < faqData?.data?.faqs?.length - 1} />
 		{/if}
 	{/if}
 	<Modal animationDuration={0} isModalOpen={showAnswer && deviceType.isMobile}>
@@ -86,7 +87,7 @@
 		>
 			<FaqHeader {title} {handleBackNavigation} />
 			<div class="h-full overflow-auto">
-				<FaqDetails {faq} />
+				<FaqDetails {faq} showContactCard={selectedIndex < faqData?.data?.faqs?.length - 1} />
 			</div>
 		</div>
 	</Modal>
