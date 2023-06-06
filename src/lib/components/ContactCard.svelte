@@ -10,7 +10,7 @@
 	$: emailCall = window?.webkit?.messageHandlers?.callBackHandlerMFSupportMailOption?.postMessage;
 	let title = '';
 	const onClickTel = () => {
-		if ($page?.data?.sparkHeaders?.platform?.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) {
+		if (typeof phoneCall === 'function') {
 			const message = {
 				phone: contactNumber
 			};
@@ -23,7 +23,7 @@
 	};
 
 	const onClickMail = () => {
-		if ($page?.data?.sparkHeaders?.platform?.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) {
+		if (typeof emailCall === 'function') {
 			const message = {
 				emailId: contactEmail
 			};
@@ -40,7 +40,9 @@
 			typeof type === 'function' ||
 			os?.toLowerCase() === 'android' ||
 			$page?.data?.deviceType?.isBrowser ||
-			$page?.data?.sparkHeaders?.platformvariant?.toLowerCase() === 'webview'
+			(os?.toLowerCase() === 'ios' &&
+				$page?.data?.sparkHeaders?.platform?.toLowerCase() !== PLATFORM_TYPE.SPARK_IOS &&
+				$page?.data?.sparkHeaders?.platform?.toLowerCase() !== PLATFORM_TYPE.ANGELBEE_IOS)
 		);
 	};
 
