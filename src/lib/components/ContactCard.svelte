@@ -14,7 +14,9 @@
 			const message = {
 				phone: contactNumber
 			};
-			phoneCall(JSON.stringify(message));
+			window?.webkit?.messageHandlers?.callBackHandlerMFSupportPhoneCallOption?.postMessage(
+				JSON.stringify(message)
+			);
 		} else {
 			document.location.href = `tel:${contactNumber}`;
 		}
@@ -25,7 +27,9 @@
 			const message = {
 				emailId: contactEmail
 			};
-			emailCall(JSON.stringify(message));
+			window?.webkit?.messageHandlers?.callBackHandlerMFSupportMailOption?.postMessage(
+				JSON.stringify(message)
+			);
 		} else {
 			document.location.href = `mailto:${contactEmail}`;
 		}
@@ -35,7 +39,8 @@
 		return (
 			typeof type === 'function' ||
 			os?.toLowerCase() === 'android' ||
-			$page?.data?.deviceType?.isBrowser
+			$page?.data?.deviceType?.isBrowser ||
+			$page?.data?.sparkHeaders?.platformvariant?.toLowerCase() === 'webview'
 		);
 	};
 
