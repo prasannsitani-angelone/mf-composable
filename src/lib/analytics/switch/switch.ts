@@ -132,3 +132,31 @@ export const folioConfirmSwitchAnalytics = (eventMetaData: {
 		event_metadata: eventMetaData
 	});
 };
+
+export const switchOrderSummaryScreenOpenAnalytics = (eventMetaData: {
+	Message: string;
+	SwitchDetails: string;
+	AmountSwitched: number;
+	EstCompletionTime: string;
+	Status: string | undefined;
+}) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-switchordersummary',
+		event_type: 'impression',
+		event_sub_type: 'card',
+		event_name: 's-switchordersummary',
+		event_property: null,
+		event_id: '311.0.0.1.44',
+		event_metadata: eventMetaData
+	});
+};
+export const switchOrderSummaryFooterCtaClickAnalytics = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-switchordersummary',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'Go To Dashboard',
+		event_property: null,
+		event_id: '311.0.0.1.45'
+	});
+};

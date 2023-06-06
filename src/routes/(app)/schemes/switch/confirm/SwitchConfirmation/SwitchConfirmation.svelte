@@ -31,18 +31,15 @@
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
-	import { getNavigationBaseUrl } from '$lib/utils/helpers/navigation';
 	import OtpVerification from '$components/OtpFlow/OtpVerification.svelte';
 	import { finalSwitchConfirmationAnalytics } from '$lib/analytics/switch/switch';
 	import type { FolioHoldingType, FolioObject } from '$lib/types/IInvestments';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
-	import type { AppContext } from '$lib/types/IAppContext';
-	import { getContext } from 'svelte';
+	import { base } from '$app/paths';
 
 	let showTpinVerificationModal = false;
 	let showOtpVerificationModal = false;
 	let uuid = uuidv4();
-	const appContext: AppContext = getContext('app');
 	const loadingState = {
 		heading: '',
 		isLoading: false
@@ -157,8 +154,8 @@
 			res?.data?.status?.toUpperCase() === STATUS_ARR?.SUCCESS &&
 			res?.data?.data?.orderId !== undefined
 		) {
-			const path = `/orders/redeem/${res?.data?.data?.orderId}`;
-			goto(`${getNavigationBaseUrl('', appContext.scheme, appContext.host)}${path}`);
+			const path = `${base}/orders/redeem/${res?.data?.data?.orderId}`;
+			goto(`${path}`);
 		} else {
 			error.visible = true;
 			error.heading = 'Order Failed';
