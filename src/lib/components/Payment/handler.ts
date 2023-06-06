@@ -1,39 +1,22 @@
-import { orderDeletePatchFunc, orderPatchFunc } from './api';
+import { orderDeletePatchFunc } from './api';
 import { intializeNetBankingState, isNetBakingPaymentWindowClosed } from './util';
 
 export const handleTransactionResponse = (params) => {
 	const {
 		transactionResponse,
-		orderPostResponse,
 		stopLoading,
 		displayError,
 		displayPendingPopup,
 		transactionFailedAnalytics,
-		reference_number,
-		response_description,
-		status,
-		transaction_id,
 		orderId, // for lumpsum
 		sipId, // for sip
-		isLumpsum,
-		xRequestId,
-		source
+		failureCallback
 	} = params;
 	if (transactionResponse.ok) {
 		if (transactionResponse.data?.data?.status === 'failure') {
 			transactionFailedAnalytics();
 			stopLoading();
-			orderPatchFunc({
-				reference_number,
-				response_description,
-				status,
-				transaction_id,
-				orderId,
-				sipId,
-				xRequestId,
-				source,
-				isLumpsum
-			});
+			failureCallback();
 			displayError({
 				heading: 'Payment Failed',
 				errorSubHeading:
@@ -44,8 +27,8 @@ export const handleTransactionResponse = (params) => {
 		} else if (transactionResponse.data?.data?.status === 'pending') {
 			stopLoading();
 			displayPendingPopup({
-				orderId: orderPostResponse.data?.data?.orderId,
-				sipId: orderPostResponse.data?.data?.sipId,
+				orderId,
+				sipId,
 				heading: 'Payment Pending',
 				errorSubHeading:
 					transactionResponse?.data?.data?.response_description ||
@@ -56,8 +39,8 @@ export const handleTransactionResponse = (params) => {
 	} else {
 		stopLoading();
 		displayPendingPopup({
-			orderId: orderPostResponse.data?.data?.orderId,
-			sipId: orderPostResponse.data?.data?.sipId,
+			orderId,
+			sipId,
 			heading: 'Payment Pending',
 			errorSubHeading:
 				transactionResponse?.data?.data?.response_description ||

@@ -89,41 +89,6 @@ export const lumpsumOrderPatchFunc = async (params) => {
 	}
 };
 
-export const orderPatchFunc = async (params) => {
-	const {
-		reference_number,
-		response_description,
-		status,
-		transaction_id,
-		orderId,
-		sipId,
-		xRequestId,
-		source,
-		isLumpsum
-	} = params || {};
-	if (isLumpsum) {
-		return lumpsumOrderPatchFunc({
-			reference_number,
-			response_description,
-			status,
-			transaction_id,
-			orderId,
-			xRequestId,
-			source
-		});
-	} else {
-		return sipOrderPatchFunc({
-			reference_number,
-			response_description,
-			status,
-			transaction_id,
-			sipId,
-			xRequestId,
-			source
-		});
-	}
-};
-
 export const fetchTransactionDataFunc = async (params) => {
 	try {
 		const { xRequestId, source, transactionID } = params || {};
@@ -358,6 +323,64 @@ export const initiateWalletPayment = async (params) => {
 				app_name: apiName,
 				mf_order_reference_number: sipRegistrationNumber,
 				mf_order_type: redirectedFrom === 'SIP_PAYMENTS' ? 'sip' : undefined
+			}),
+			headers: {
+				'X-Request-Id': xRequestId,
+				'X-Source': source || 'diy'
+			}
+		});
+		return response;
+	} catch (e) {
+		return {};
+	}
+};
+
+export const cartPostFunction = async (params) => {
+	const url = `${PUBLIC_MF_CORE_BASE_URL}/carts/items/orders`;
+	try {
+		const { accNO, bankName, cartItemIds, paymentMode, transactionRefNumber, xRequestId, source } =
+			params || {};
+		const response = await useFetch(url, {
+			method: 'POST',
+			body: JSON.stringify({
+				bankAccount: accNO,
+				bankName,
+				cartItemIds,
+				paymentMode,
+				paymentRefNumber: transactionRefNumber
+			}),
+			headers: {
+				'X-Request-Id': xRequestId,
+				'X-Source': source || 'diy'
+			}
+		});
+		return response;
+	} catch (e) {
+		return {};
+	}
+};
+
+export const cartPatchFunction = async (params) => {
+	try {
+		const {
+			orderId,
+			accNO,
+			bankName,
+			status,
+			transaction_id,
+			reference_number,
+			xRequestId,
+			source
+		} = params || {};
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/carts/items/orders/${orderId}`;
+		const response = await useFetch(url, {
+			method: 'PATCH',
+			body: JSON.stringify({
+				accNO,
+				bankName,
+				paymentStatus: status,
+				paymentRefNumber: reference_number,
+				pgTxnId: transaction_id
 			}),
 			headers: {
 				'X-Request-Id': xRequestId,
