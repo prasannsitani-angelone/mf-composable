@@ -326,8 +326,12 @@ export const load = (async ({ fetch, params, parent }) => {
 						const filter = [ORDER_DATA.ORDER_DATE, ORDER_DATA.ORDER_ID, ORDER_DATA.BANK_DETAILS];
 						statusItems = filterObject(statusItems, filter);
 					}
+					tag += '_rejected';
 				}
-				if (orderStatus?.toUpperCase() !== ORDER_STATUS.ORDER_COMPLETE) {
+				if (
+					orderStatus?.toUpperCase() !== ORDER_STATUS.ORDER_COMPLETE &&
+					orderStatus?.toUpperCase() !== ORDER_STATUS.ORDER_REJECTED
+				) {
 					tag += '_inprogress';
 					if (paymentStatusString?.toUpperCase() === STATUS_ARR.SUCCESS) {
 						tag += '_payment_success';
