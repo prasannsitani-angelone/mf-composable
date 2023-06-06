@@ -9,7 +9,7 @@
 	import { returnYearTableChangeColumn, yearlyReturnMap, type TableColumnToggle } from '$lib/utils';
 	import Td from '$components/Table/TD.svelte';
 	import Tr from '$components/Table/TR.svelte';
-	import AddToFavourites from '$components/AddToFavourites.svelte';
+	import AddToCart from '$components/AddToCart.svelte';
 	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
@@ -68,12 +68,7 @@
 								₹{schemes?.minSipAmount}
 							</span>
 						</div>
-						<AddToFavourites
-							class="mt-[2px] flex h-full items-center"
-							isin={schemes?.isin}
-							schemeCode={schemes?.schemeCode}
-							isFavourite={schemes?.isFavourite}
-						/>
+						<AddToCart class="mt-[2px] flex h-full items-center" scheme={schemes} />
 					</div>
 				</Td></Tr
 			>

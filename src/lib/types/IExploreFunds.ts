@@ -21,4 +21,8 @@ export interface ExploreFundsOptions {
 	amcCode: number;
 	isFavourite: boolean;
 	sortBy2: number;
+	isCartItem: boolean;
+	isLumpsumAllowed: string;
+	isSipAllowed: string;
+	minPurchaseAmount: number;
 }

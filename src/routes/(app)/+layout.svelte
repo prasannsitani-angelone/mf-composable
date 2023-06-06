@@ -28,13 +28,18 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { base } from '$app/paths';
+	import { cartStore } from '$lib/stores/CartStore';
+	import AddToCartPopup from '$components/Cart/AddToCartPopup.svelte';
+	import Toast from '$components/Toast/Toast.svelte';
 
 	$: isModalOpen = $externalNavigation.active;
 	// Update store with Spark headers
 
 	export let data: LayoutData;
-	const { sparkHeaders, tokenObj, profile, userDetails, deviceType, isGuest, token } = data;
+	const { sparkHeaders, tokenObj, profile, userDetails, deviceType, isGuest, token, cartItems } =
+		data;
 	// Update store with Spark headers
+
 	onMount(() => {
 		// $externalNavigation.active = false;
 		const authState = isGuest
@@ -56,6 +61,7 @@
 			enabled: PUBLIC_ANALYTICS_ENABLED,
 			initialised: true
 		});
+		cartStore.updateStore(cartItems?.data || []);
 	});
 	// initialising logging again with all new headers for routes of (app)
 	Logger.init({
@@ -145,3 +151,7 @@
 {#if $logoutAttemptStore.logoutAttempt}
 	<LogoutPopup />
 {/if}
+{#if $cartStore.repetetiveAddAttempt}
+	<AddToCartPopup />
+{/if}
+<Toast />

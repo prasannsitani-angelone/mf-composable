@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { tabClickNavigationAnalytics } from '$lib/analytics/DiscoverFunds';
+	import { cartStore } from '$lib/stores/CartStore';
 	import type { IBottomNavItem } from '$lib/types/IBottomNavItem';
 	export let navs: IBottomNavItem[];
 
@@ -28,7 +29,7 @@
 				<span
 					class={`block text-[10px] font-semibold uppercase ${
 						isActive ? 'text-blue-primary' : 'text-black-bolder'
-					}`}>{nav.label}</span
+					}`}>{nav.label} {nav.label === 'Cart' ? '(' + $cartStore.count + ')' : ''}</span
 				>
 			</a>
 		{/each}

@@ -1,5 +1,5 @@
-import BookmarkNav from '$lib/components/BookmarkNavItems/BookmarkNav.svelte';
-import BookmarkNavFilled from '$lib/components/BookmarkNavItems/BookmarkNavFilled.svelte';
+import CartNavItem from '$lib/images/icons/CartNavItem.svelte';
+import CartNavItemActive from '$lib/images/icons/CartNavItemActive.svelte';
 import DiscoverNav from '$components/NavItems/DiscoverNav.svelte';
 import DiscoverNavFilled from '$components/NavItems/DiscoverNavFilled.svelte';
 import RupeeNav from '$components/NavItems/RupeeNav.svelte';
@@ -17,10 +17,10 @@ export const BOTTOM_NAVBARS = () => [
 		isInternalNavigation: true
 	},
 	{
-		label: 'Favourites',
-		path: `${base}/favourites`,
-		icon: BookmarkNav,
-		activeIcon: BookmarkNavFilled,
+		label: 'Cart',
+		path: `${base}/cart`,
+		icon: CartNavItem,
+		activeIcon: CartNavItemActive,
 		isInternalNavigation: true
 	},
 	{

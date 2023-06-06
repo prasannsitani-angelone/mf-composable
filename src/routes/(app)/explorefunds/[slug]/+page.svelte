@@ -1,11 +1,9 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { browser } from '$app/environment';
-	import { invalidate } from '$app/navigation';
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
 	import SearchOptionHeader from './SearchOptionHeader/SearchOptionHeader.svelte';
 	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount } from 'svelte';
 	import { fundCardClick, sExploreMutualFunds, taxSavingInfo } from './analytics';
 	import SchemeTable from '$components/SchemeTable.svelte';
 	import ExploreFundModal from './ExploreFundModal/ExploreFundModal.svelte';
@@ -58,12 +56,6 @@
 
 	let pagePathname: string;
 	$: pagePathname = $page.url?.pathname;
-
-	onDestroy(() => {
-		if (browser && !pagePathname.includes('/discoverfunds')) {
-			invalidate('app:searchDashboard');
-		}
-	});
 
 	export { data };
 </script>

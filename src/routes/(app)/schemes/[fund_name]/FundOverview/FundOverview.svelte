@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { invalidate } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { browser } from '$app/environment';
 	import ChipOverview from '$components/ChipOverview.svelte';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
@@ -11,9 +9,9 @@
 
 	import NavCharts from './NavCharts.svelte';
 	import RocketIcon from '$lib/images/icons/RocketIcon.svelte';
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount } from 'svelte';
 	import { sFundDetails } from '../analytics';
-	import AddToFavourites from '$components/AddToFavourites.svelte';
+	import AddToCart from '$components/AddToCart.svelte';
 
 	let schemeDetails: SchemeDetails;
 	let selectedTag: Tags[];
@@ -89,12 +87,6 @@
 	let pagePathname: string;
 	$: pagePathname = $page.url?.pathname;
 
-	onDestroy(() => {
-		if (browser && !pagePathname.includes('/discoverfunds')) {
-			invalidate('app:searchDashboard');
-		}
-	});
-
 	export { schemeDetails, isNFO };
 </script>
 
@@ -115,11 +107,7 @@
 			</div>
 			<div class="relative {isNFO ? 'mb-auto' : ''}">
 				{#if !isNFO}
-					<AddToFavourites
-						isin={schemeDetails?.isin}
-						schemeCode={schemeDetails?.schemeCode}
-						isFavourite={schemeDetails?.isFavourite}
-					/>
+					<AddToCart scheme={schemeDetails} />
 				{:else}
 					<div>
 						<span class="text-sm font-normal uppercase text-grey-body">Nav</span>

@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
-	import AddToFavourites from '$components/AddToFavourites.svelte';
+	import AddToCart from './AddToCart.svelte';
 	import SchemeCard from '$components/SchemeCard.svelte';
 	import TBody from '$components/Table/TBody.svelte';
 	import Td from '$components/Table/TD.svelte';
@@ -21,8 +21,7 @@
 	import { createEventDispatcher } from 'svelte';
 
 	let hideFavourites = false;
-	// eslint-disable-next-line
-	let toggleFavourites = (_: any) => {};
+
 	let searchOption: ExploreFundsOptions[];
 	const dispatch = createEventDispatcher();
 	const getNavDiffrence = (navValue = 0, previousNavValue = 0) => {
@@ -65,7 +64,7 @@
 		);
 	};
 
-	export { searchOption, toggleFavourites, hideFavourites };
+	export { searchOption, hideFavourites };
 </script>
 
 <Table class="overflow-hidden rounded-t {$$props.class}">
@@ -119,13 +118,7 @@
 								<span>₹{scheme?.minSipAmount}</span>
 							</div>
 							{#if !hideFavourites}
-								<AddToFavourites
-									class="mt-[2px] flex h-full items-center"
-									isin={scheme?.isin}
-									schemeCode={scheme?.schemeCode}
-									isFavourite={scheme?.isFavourite}
-									on:toggleFavourites={toggleFavourites}
-								/>
+								<AddToCart class="mt-[2px] flex h-full items-center" {scheme} />
 							{/if}
 						</div>
 					</Td>
@@ -148,13 +141,7 @@
 								{/if}
 							</div>
 							{#if !hideFavourites}
-								<AddToFavourites
-									class="mt-[2px] flex h-full items-center"
-									isin={scheme?.isin}
-									schemeCode={scheme?.schemeCode}
-									isFavourite={scheme?.isFavourite}
-									on:toggleFavourites={toggleFavourites}
-								/>
+								<AddToCart class="mt-[2px] flex h-full items-center" {scheme} />
 							{/if}
 						</div>
 					</Td>

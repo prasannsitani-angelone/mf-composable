@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AddToFavourites from '$components/AddToFavourites.svelte';
+	import AddToCart from '$components/AddToCart.svelte';
 	import Carousel from '$components/Carousel.svelte';
 	import SchemeCard from '$components/SchemeCard.svelte';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
@@ -9,14 +9,6 @@
 	let tableData: Array<WeeklyTopSchemesEntity>;
 
 	let carouselInActive = false;
-
-	const favoriteToggled = (e: {
-		detail: {
-			enabled: boolean;
-		};
-	}) => {
-		carouselInActive = e.detail.enabled;
-	};
 
 	export { tableData };
 </script>
@@ -32,13 +24,7 @@
 							alt={schemes?.schemeName}
 							class=" border-line-grey  absolute top-0  left-0 translate-x-1/2 -translate-y-1/2 justify-center bg-white"
 						/>
-						<AddToFavourites
-							class="absolute right-0 top-2"
-							isin={schemes?.isin}
-							schemeCode={schemes?.schemeCode}
-							isFavourite={schemes?.isFavourite}
-							on:toggle-initiated={favoriteToggled}
-						/>
+						<AddToCart class="absolute right-0 top-2" scheme={schemes} />
 						<div class="w-2/3 pt-5">
 							<SchemeCard {schemes} showLogo={false} />
 						</div>
@@ -52,16 +38,3 @@
 		{/each}
 	</Carousel>
 </section>
-
-<style>
-	.carousel-inactive :global(.swiper-wrapper) {
-		transform: none !important;
-	}
-	.carousel-inactive :global(.swiper-slide.swiper-slide-active) {
-		transform: none !important;
-	}
-	.carousel-inactive {
-		position: relative;
-		z-index: 70;
-	}
-</style>

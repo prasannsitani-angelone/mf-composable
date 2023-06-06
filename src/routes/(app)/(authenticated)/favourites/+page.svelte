@@ -10,7 +10,6 @@
 		const { isFavourite } = event.detail;
 		if (!isFavourite) {
 			invalidate('favourites');
-			invalidate('app:searchDashboard');
 		}
 	};
 

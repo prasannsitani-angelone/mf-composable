@@ -5,7 +5,8 @@ export const load = (async () => {
 		layoutConfig: {
 			title: 'Cart',
 			showBackIcon: true,
-			layoutType: 'DEFAULT'
+			layoutType: 'DEFAULT',
+			showBottomNavigation: true
 		}
 	};
 }) satisfies PageLoad;

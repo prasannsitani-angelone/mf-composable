@@ -11,6 +11,7 @@
 	import { logoutAttemptStore } from '$lib/stores/LogoutAttemptStore';
 	import { reportsEntryDesktopAnalytics } from '$lib/analytics/reports/reports';
 	import { tabClickNavigationAnalytics } from '$lib/analytics/DiscoverFunds';
+	import { cartStore } from '$lib/stores/CartStore';
 
 	const onReportsButtonClick = () => {
 		userActionStore.hideUserActionDropDown();
@@ -69,8 +70,8 @@
 	const ordersTabClass = $page.url?.pathname?.includes('/orders/orderspage')
 		? activePageTabClass
 		: inactivePageTabClass;
-	let isFavouritesActive: boolean;
-	$: isFavouritesActive = $page.url?.pathname?.includes('/favourites');
+	let isCartActive: boolean;
+	$: isCartActive = $page.url?.pathname?.includes('/cart');
 	const dispatch = createEventDispatcher();
 	const handleSearchFocusEvent = (e: { detail: boolean }) => {
 		dispatch('handleSearchFocus', e.detail);
@@ -117,20 +118,25 @@
 			<!-- <SearchComponent  /> -->
 		</div>
 		<Link
-			to="/favourites"
+			to="/cart"
 			preloadData={isGuest ? 'off' : 'hover'}
 			on:linkClicked={() => onTabClickAnalytics('Favourites')}
 		>
 			<div
-				class="flex h-9 w-9 items-center justify-center rounded-full {isFavouritesActive
+				class="relative flex h-9 w-9 items-center justify-center rounded-full {isCartActive
 					? 'bg-blue-primary'
 					: 'bg-grey-light'}"
 			>
-				{#if isFavouritesActive}
-					<WMSIcon name="bookmark" size="lg" mode="white" />
+				{#if isCartActive}
+					<WMSIcon name="cart-outlined" stroke="white" />
 				{:else}
-					<WMSIcon name="bookmark" size="lg" mode="blue" />
+					<WMSIcon name="cart-filled" />
 				{/if}
+				<div
+					class="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-tulip text-center text-xs font-bold text-white"
+				>
+					{$cartStore.count}
+				</div>
 			</div>
 		</Link>
 		{#if !isGuest}
