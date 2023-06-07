@@ -303,10 +303,6 @@
 		invalidate('app:cart:confirmation');
 	};
 
-	const navigateToOrders = async () => {
-		await goto(`${base}/orders/orderspage`, { replaceState: true });
-	};
-
 	const navigatToOrderSummary = async ({ orderId }) => {
 		const params = encodeObject({
 			orderID: orderId
@@ -324,7 +320,7 @@
 	{:then itemList}
 		{#if itemList.ok}
 			<div class="flex h-full flex-col overflow-hidden sm:overflow-auto">
-				<div class="flex flex-1 flex-col overflow-auto sm:mb-3 sm:overflow-visible">
+				<div class="flex flex-1 flex-col overflow-auto sm:mb-3 sm:flex-initial sm:overflow-visible">
 					<div
 						class="hidden grid-cols-[46%_18%_18%_18%] items-center border-b border-t border-grey-line bg-white px-6 py-4 text-sm font-medium text-grey-dark sm:grid"
 					>
@@ -389,9 +385,6 @@
 				<Button variant="transparent" class="mt-6 w-max self-center" onClick={onRefresh}>
 					REFRESH
 				</Button>
-				<Button variant="transparent" class="mt-6 w-max self-center" onClick={navigateToOrders}>
-					GO TO ORDERS
-				</Button>
 			</div>
 		{/if}
 	{:catch}
@@ -401,9 +394,6 @@
 			</div>
 			<Button variant="transparent" class="mt-6 w-max self-center" onClick={onRefresh}>
 				REFRESH
-			</Button>
-			<Button variant="transparent" class="mt-6 w-max self-center" onClick={navigateToOrders}>
-				GO TO ORDERS
 			</Button>
 		</div>
 	{/await}

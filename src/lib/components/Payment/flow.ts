@@ -475,6 +475,7 @@ export const netBankingSIPFlow = async (params) => {
 			displayError,
 			displayPendingPopup,
 			transactionFailedAnalytics,
+			orderId: orderPostResponse?.data?.data?.orderId,
 			sipId: orderPostResponse?.data?.data?.sipId,
 			failureCallback: orderPatch
 		});
@@ -987,6 +988,7 @@ export const upiSIPFlow = async (params) => {
 			displayError,
 			displayPendingPopup,
 			transactionFailedAnalytics,
+			orderId: orderPostResponse?.data?.orderId,
 			sipId: orderPostResponse?.data?.data?.sipId,
 			failureCallback: orderPatch
 		});
@@ -1438,6 +1440,7 @@ export const walletSIPFlow = async (params) => {
 			displayError,
 			displayPendingPopup,
 			transactionFailedAnalytics,
+			orderId: orderPostResponse?.data?.orderId,
 			sipId: orderPostResponse?.data?.data?.sipId,
 			failureCallback: orderPatch
 		});

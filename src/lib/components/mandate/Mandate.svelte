@@ -39,7 +39,7 @@
 	let emandateWindow = null;
 	let interval = null;
 	const amountInNumber = stringToFloat(amount);
-	const sipDate = getCompleteSIPDateBasedonDD(stringToInteger(date));
+	const sipDate = date ? getCompleteSIPDateBasedonDD(stringToInteger(date)) : new Date();
 
 	$: profileData = $page?.data?.profile;
 
