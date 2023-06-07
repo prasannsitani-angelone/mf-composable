@@ -31,7 +31,7 @@
 	import PromotionCard from '$components/Promotions/PromotionCard.svelte';
 	import { SEO, WMSIcon } from 'wms-ui-component';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 
 	$: showPortfoliocard = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -258,7 +258,8 @@
 		]
 	};
 
-	onMount(() => {
+	onMount(async () => {
+		await tick();
 		sHomepage();
 	});
 

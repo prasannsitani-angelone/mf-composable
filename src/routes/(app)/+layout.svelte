@@ -4,7 +4,7 @@
 	import type { LayoutData } from './$types';
 	import { AUTH_STATE_ENUM, tokenStore } from '$lib/stores/TokenStore';
 	import { profileStore } from '$lib/stores/ProfileStore';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import Logger from '$lib/utils/logger';
 	import Default from '$lib/layouts/Default.svelte';
 	import LogoutPopup from '$components/Logout/LogoutPopup.svelte';
@@ -31,17 +31,16 @@
 	import { cartStore } from '$lib/stores/CartStore';
 	import AddToCartPopup from '$components/Cart/AddToCartPopup.svelte';
 	import Toast from '$components/Toast/Toast.svelte';
+	import RemoveFromCartPopup from '$components/Cart/RemoveFromCartPopup.svelte';
 
 	$: isModalOpen = $externalNavigation.active;
 	// Update store with Spark headers
 
 	export let data: LayoutData;
-	const { sparkHeaders, tokenObj, profile, userDetails, deviceType, isGuest, token, cartItems } =
-		data;
+	const { sparkHeaders, tokenObj, profile, userDetails, deviceType, isGuest, token } = data;
 	// Update store with Spark headers
 
-	onMount(() => {
-		// $externalNavigation.active = false;
+	onMount(async () => {
 		const authState = isGuest
 			? isTokenExpired(tokenObj?.guestToken)
 				? AUTH_STATE_ENUM.GUEST_LOGGED_OUT
@@ -61,7 +60,10 @@
 			enabled: PUBLIC_ANALYTICS_ENABLED,
 			initialised: true
 		});
-		cartStore.updateStore(cartItems?.data || []);
+
+		await tick();
+
+		cartStore.updateCartData(isGuest);
 	});
 	// initialising logging again with all new headers for routes of (app)
 	Logger.init({
@@ -153,5 +155,8 @@
 {/if}
 {#if $cartStore.repetetiveAddAttempt}
 	<AddToCartPopup />
+{/if}
+{#if $cartStore.removeFromCart}
+	<RemoveFromCartPopup />
 {/if}
 <Toast />

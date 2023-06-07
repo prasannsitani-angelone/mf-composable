@@ -1,24 +1,26 @@
 import { writable } from 'svelte/store';
 import type { WeeklyTopSchemesEntity } from '$lib/types/IDiscoverFunds';
-
-interface ICartStore {
-	item: WeeklyTopSchemesEntity[];
-	count: number;
-	repetetiveAddAttempt: boolean;
-	currentSelection: WeeklyTopSchemesEntity | null;
-	addToCartRequestedFromModal: boolean;
-}
+import type { ICartStore, RemoveCartItem } from '$lib/types/ICartStore';
+import { getCartData } from '$lib/services/getCartData';
 
 const initalStore: ICartStore = {
 	item: [],
 	count: 0,
 	repetetiveAddAttempt: false,
+	removeFromCart: false,
 	currentSelection: null,
 	addToCartRequestedFromModal: false
 };
 
 function CreateStore() {
 	const { subscribe, set, update } = writable(initalStore);
+
+	const updateStore = (newItems: WeeklyTopSchemesEntity[]) => {
+		return update((prev: ICartStore) => {
+			return { ...prev, item: newItems, count: newItems.length };
+		});
+	};
+
 	return {
 		subscribe,
 		updateCartItems: (item: WeeklyTopSchemesEntity) => {
@@ -33,28 +35,49 @@ function CreateStore() {
 				};
 			});
 		},
-		updateStore: (newItems: WeeklyTopSchemesEntity[]) => {
+		removeCartItems: (cartItemId: number) => {
+			if (!cartItemId) {
+				return;
+			}
 			return update((prev: ICartStore) => {
-				return { ...prev, item: newItems, count: newItems.length };
+				const item = prev.item.filter((cartItem) => cartItem.cartItemId !== cartItemId);
+				return {
+					...prev,
+					item: item,
+					count: prev.count - 1
+				};
 			});
 		},
+		updateStore,
 		showAddToCartPopup: (item: WeeklyTopSchemesEntity) =>
 			update((v) => {
 				return { ...v, repetetiveAddAttempt: true, currentSelection: item };
 			}),
+		showRemoveFromCartPopup: (item: WeeklyTopSchemesEntity | RemoveCartItem) => {
+			update((v) => {
+				return { ...v, removeFromCart: true, currentSelection: item };
+			});
+		},
+
 		hideAddToCartPopup: () =>
 			update((v) => {
-				return { ...v, repetetiveAddAttempt: false };
+				return { ...v, repetetiveAddAttempt: false, removeFromCart: false };
 			}),
 		hidePopupAndclearCurrentItemSelection: () =>
 			update((v) => {
-				return { ...v, repetetiveAddAttempt: false, currentSelection: null };
+				return { ...v, repetetiveAddAttempt: false, removeFromCart: false, currentSelection: null };
 			}),
 		updateAddToCartRequestFromModal: () =>
 			update((v) => {
 				return { ...v, addToCartRequestedFromModal: !v.addToCartRequestedFromModal };
 			}),
-		set: (store: ICartStore) => set(store)
+		set: (store: ICartStore) => {
+			set(store);
+		},
+		updateCartData: async (isGuest: boolean) => {
+			const cartItems = await getCartData(isGuest);
+			updateStore(cartItems || []);
+		}
 	};
 }
 
