@@ -347,7 +347,8 @@ export const cartPostFunction = async (params) => {
 				bankName,
 				cartItemIds,
 				paymentMode,
-				paymentRefNumber: transactionRefNumber
+				pgTxnId: transactionRefNumber,
+				paymentStatus: 'pending'
 			}),
 			headers: {
 				'X-Request-Id': xRequestId,

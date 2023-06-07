@@ -255,7 +255,7 @@
 		assignNewRequestId();
 
 		const commonInput = {
-			amount: data.api.totalAmount,
+			amount: data.api.itemList?.totalAmount,
 			accNO: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO,
 			ifscCode: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.ifscCode,
 			bankName: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
@@ -349,7 +349,7 @@
 						<div
 							class="text-title-black col-start-4 flex justify-end text-sm font-bold sm:justify-start"
 						>
-							₹{formatAmount(data.api.totalAmount?.toString())}
+							₹{formatAmount(data.api.itemList?.totalAmount?.toString())}
 						</div>
 					</div>
 				</div>
@@ -375,7 +375,7 @@
 						{/if}
 						<div class="px-4 py-3 sm:p-0">
 							<Button class="w-full sm:w-80" onClick={() => onPayment(paymentHandler.upiId)}>
-								PAY ₹{formatAmount(data.api.totalAmount?.toString())} NOW
+								PAY ₹{formatAmount(data.api.itemList?.totalAmount?.toString())} NOW
 							</Button>
 						</div>
 					</div>
@@ -411,7 +411,7 @@
 
 {#if showChangePayment}
 	<ChangePaymentContainer
-		amount={data.api.totalAmount?.toString()}
+		amount={data.api.itemList?.totalAmount?.toString()}
 		onBackClick={hidePaymentMethodScreen}
 		selectedMode={paymentHandler?.paymentMode}
 		onSelect={onPaymentModeSelect}
@@ -438,7 +438,7 @@
 
 {#if upiState.flow === 2}
 	<UpiTransactionPopup
-		amount={data.api.totalAmount?.toString()}
+		amount={data.api.itemList?.totalAmount?.toString()}
 		timer={upiState.timer}
 		onClose={onUPITransactionPopupClose}
 	/>

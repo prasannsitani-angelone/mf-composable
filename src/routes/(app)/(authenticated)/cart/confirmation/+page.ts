@@ -5,9 +5,8 @@ import { useFetch } from '$lib/utils/useFetch';
 export const load = async ({ fetch, depends }) => {
 	depends('app:cart:confirmation');
 
-	let totalAmount = 0;
-
 	const getItemList = async () => {
+		let totalAmount = 0;
 		try {
 			const response = await useFetch(
 				`${PUBLIC_MF_CORE_BASE_URL}/carts/items?status=READY_TO_CHECKOUT`,
@@ -20,9 +19,14 @@ export const load = async ({ fetch, depends }) => {
 					totalAmount += item.amount;
 				});
 			}
-			return response;
+			return {
+				...response,
+				totalAmount
+			};
 		} catch (e) {
-			return {};
+			return {
+				totalAmount
+			};
 		}
 	};
 
@@ -38,7 +42,6 @@ export const load = async ({ fetch, depends }) => {
 	return {
 		api: {
 			itemList: hydrate ? getItemList() : await getItemList(),
-			totalAmount,
 			previousPaymentDetails: hydrate
 				? getPreviousPaymentDetails()
 				: await getPreviousPaymentDetails()
