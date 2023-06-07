@@ -46,13 +46,9 @@ export const load = (async ({ fetch, params }) => {
 					let textColorPending = false;
 					let showSubTitle = true;
 					if (index === 3) {
-						headerContent.subHeading = `Your portfolio will be updated by ${format(
-							new Date(item?.timeStamp || 0),
-							'dd MMMM yyyy'
-						)}`;
-					}
-					if (index === 2) {
-						estimatedETA = format(new Date(item?.timeStamp || 0), 'dd MMMM yyyy');
+						const estimatedDate = format(new Date(item?.timeStamp || 0), 'dd MMMM yyyy')
+                        headerContent.subHeading = `Your portfolio will be updated by ${estimatedDate}`;
+                        estimatedETA = estimatedDate;
 					}
 					if (isNull(previousStepCurrentState) && item.failed) {
 						status = STATUS_ARR.FAILED;

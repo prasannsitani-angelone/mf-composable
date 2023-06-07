@@ -34,8 +34,20 @@
 </div>
 
 <style>
+	@media screen and (max-width: 640px) {
+		:global(.details-container table) {
+			display: block;
+		}
+	}
+	:global(.details-container ol)  {
+		list-style: auto;
+		padding-left: 1rem;
+	}
+	:global(.details-container p)  {
+		user-select: text;
+	}
 	:global(.details-container table) {
-		display: block;
+		width: 100%;
 		overflow-x: auto;
 		white-space: nowrap;
 		border: 1px solid #425061;
