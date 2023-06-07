@@ -148,7 +148,7 @@
 
 <section class={`${$$props.class}`}>
 	<AutocompleteComponent
-		class="relative"
+		class="relative md:px-3"
 		getResults={getSearchResults}
 		placeholderText="Search by fund name, type or AMC"
 		{searchPageLoaded}

@@ -362,11 +362,11 @@
 			seoDescription={`${folioHolding?.schemeName} - Switch Funds | Angel One`}
 		/>
 	{/if}
-	<div class="md:px-3">
+	<div>
 		<div
 			class={(selectSwitchFund || showSwitchConfirmation || showFolioSelection) && !isMobile
 				? 'hidden'
-				: ''}
+				: 'md:px-3'}
 		>
 			<SwitchOrderTitleCard
 				switchOutSchemeName={folioHolding?.schemeName}
@@ -542,7 +542,7 @@
 
 		<!-- Nominee Update Card -->
 		{#if !selectSwitchFund && !showSwitchConfirmation && !showFolioSelection && switchInFund && Object.keys(switchInFund).length !== 0}
-			<section class="mb-20">
+			<section class="mb-20 md:px-3">
 				{#if selectedFolio?.dpFlag?.toUpperCase() === 'N' && (selectedFolio?.rta === 'CAMS' || selectedFolio?.rta === 'KARVY')}
 					<NomineeUpdateCard
 						rta={selectedFolio?.rta}
@@ -595,20 +595,22 @@
 		{/if}
 
 		{#if showSwitchConfirmation && !isMobile}
-			<SwitchConfirmation
-				{folioHolding}
-				{folioList}
-				{numberOfUnits}
-				{amount}
-				{selectedFolio}
-				{switchInFund}
-				{fullAmountSelected}
-			/>
+			<section class="md:px-3">
+				<SwitchConfirmation
+					{folioHolding}
+					{folioList}
+					{numberOfUnits}
+					{amount}
+					{selectedFolio}
+					{switchInFund}
+					{fullAmountSelected}
+				/>
+			</section>
 		{/if}
 
 		{#if showFolioSelection && !isMobile}
 			<FolioSelection
-				class="bg-white px-3 py-2"
+				class="bg-white px-3 py-2 md:px-3"
 				{folioList}
 				switchInSchemeMode={switchInFund?.purchaseTxnMode}
 				selectedFolioNumber={selectedFolio?.folioNumber}

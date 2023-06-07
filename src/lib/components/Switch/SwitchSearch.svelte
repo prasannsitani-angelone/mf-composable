@@ -48,19 +48,19 @@
 			searchPageLoaded={true}
 			shouldFetchSearchDashboard={false}
 			initialSearchText="ALL"
-			parentResultClass="lg:!w-[350px]"
-			searchInputClass="lg:!w-[345px]"
+			parentResultClass="lg:!w-full"
+			searchInputClass="lg:!w-full"
 			filter="amccode:{amccode},switchflag:Y,NOT isin: {isin}"
 			searchMode="switch"
 		>
 			<svelte:fragment slot="resultsData" let:resultsData>
-				<section class="flex items-center justify-between px-3 py-2 pt-2 text-xs lg:pt-2">
+				<section class="flex items-center justify-between px-3 py-2 pt-2 text-xs md:px-0 lg:pt-2">
 					<article>
 						<span class="font-medium text-grey-body"> Available mutual funds from AMC </span>
 					</article>
 					<article><span class="text-grey-body"> 3Y Returns </span></article>
 				</section>
-				<section class="absolute h-screen w-screen overflow-x-hidden md:w-[350px] md:pb-20">
+				<section class="absolute left-0 h-screen w-screen overflow-x-hidden md:w-full md:pb-20">
 					{#each resultsData || [] as scheme}
 						<article
 							class="!m-3 flex cursor-pointer justify-between gap-2 !border-b border-grey-line p-0 pb-4 lg:!m-2 lg:!border-grey-line lg:p-2"
