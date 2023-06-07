@@ -2,9 +2,9 @@
 	import Modal from '$components/Modal.svelte';
 	import { page } from '$app/stores';
 	import type { BankDetailsEntity } from '$lib/types/IUserProfile';
-	import { PAYMENT_MODE } from '../constants';
-	import PaymentMethod from './PaymentMethod.svelte';
 	import PaymentMethodHeader from './PaymentMethodHeader.svelte';
+	import PaymentMethod from '$components/Payment/PaymentMethod.svelte';
+	import { PAYMENT_MODE } from '$components/Payment/constants';
 
 	export let isSIP = false;
 	export let dateSuperscript = '';

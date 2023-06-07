@@ -2,9 +2,9 @@
 	import Modal from '$components/Modal.svelte';
 	import { intervalToDuration } from 'date-fns';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
-	import NotCircleIcon from '../icons/NotCircleIcon.svelte';
-	import CrossBoxCircle from '../icons/CrossBoxCircle.svelte';
-	import TickMessageCircle from '../icons/TickMessageCircle.svelte';
+	import NotCircleIcon from './icons/NotCircleIcon.svelte';
+	import CrossBoxCircle from './icons/CrossBoxCircle.svelte';
+	import TickMessageCircle from './icons/TickMessageCircle.svelte';
 	import CrossInCircleIcon from '$lib/images/icons/CrossInCircleIcon.svelte';
 
 	export let amount = '';

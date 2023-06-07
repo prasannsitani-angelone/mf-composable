@@ -1,13 +1,303 @@
 <script lang="ts">
+	import { v4 as uuidv4 } from 'uuid';
 	import { goto, invalidate } from '$app/navigation';
 	import { base } from '$app/paths';
+	import { page } from '$app/stores';
+	import BankSelectionPopup from '$components/BankSelectionPopup.svelte';
 	import Button from '$components/Button.svelte';
 	import LoadingIndicator from '$components/LoadingIndicator.svelte';
+	import ChangePaymentContainer from '$components/Payment/ChangePaymentContainer.svelte';
+	import LoadingPopup from '$components/Payment/LoadingPopup.svelte';
+	import PaymentSleeve from '$components/Payment/PaymentSleeve.svelte';
+	import UpiClosePopup from '$components/Payment/UPIClosePopup.svelte';
+	import UpiTransactionPopup from '$components/Payment/UPITransactionPopup.svelte';
+	import { PAYMENT_MODE } from '$components/Payment/constants';
+	import ResultPopup from '$components/Popup/ResultPopup.svelte';
+	import { profileStore } from '$lib/stores/ProfileStore';
 	import { formatAmount } from '$lib/utils/helpers/formatAmount';
+	import { encodeObject } from '$lib/utils/helpers/params';
 	import ReadOnlyTile from '../components/ReadOnlyTile.svelte';
 	import type { PageData } from './$types';
+	import { netBankingCartFlow, upiCartFlow, walletCartFlow } from '$components/Payment/flow';
+	import { onDestroy, onMount } from 'svelte';
+	import { browser } from '$app/environment';
+	import logger from '$lib/utils/logger';
+	import {
+		closeNetBankingPaymentWindow,
+		initializeGPayState,
+		initializeUPIState,
+		intializeNetBankingState
+	} from '$components/Payment/util';
 
 	export let data: PageData;
+
+	const os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
+	$: profileData = $page?.data?.profile;
+
+	let xRequestId = '';
+	let paymentHandler = {
+		selectedAccount: 0,
+		paymentMode: '',
+		upiId: ''
+	};
+	let firstTimeUser = false;
+	let showChangePayment = false;
+	let inputPaymentError = '';
+	let bankPopupVisible = false;
+	let validateUPILoading = false;
+	let pendingCaseOrderID: number;
+	const error = {
+		visible: false,
+		heading: '',
+		subHeading: ''
+	};
+	const pending = {
+		visible: false,
+		heading: '',
+		subHeading: ''
+	};
+	const loadingState = {
+		heading: '',
+		isLoading: false
+	};
+	const state = {
+		interval: null
+	};
+	const upiState = {
+		flow: 0,
+		timer: 0,
+		timerInterval: null,
+		paymentWindowInterval: null
+	};
+	const netBankingState = {
+		paymentWindow: null,
+		paymentWindowInterval: null
+	};
+	const gpayPaymentState = {
+		paymentWindowInterval: null,
+		waitTime: 10
+	};
+
+	const listenerFunc = (event) => {
+		if (location.origin === event?.origin && event?.data?.source === 'paymentCallback') {
+			logger.info({
+				type: 'Payment Redirection Response',
+				params: event?.data
+			});
+			closeNetBankingPaymentWindow(netBankingState);
+		}
+	};
+
+	onMount(() => {
+		window.addEventListener('message', listenerFunc);
+	});
+
+	onDestroy(() => {
+		resetState();
+		if (browser) {
+			window.removeEventListener('message', listenerFunc, false);
+		}
+	});
+
+	const resetState = () => {
+		if (state.interval) {
+			clearInterval(state.interval);
+		}
+		intializeNetBankingState(netBankingState);
+		initializeUPIState(upiState);
+		initializeGPayState(gpayPaymentState);
+	};
+
+	const defaultValueToPaymentHandler = () => {
+		paymentHandler.paymentMode = '';
+		paymentHandler.upiId = '';
+		paymentHandler.selectedAccount = 0;
+		firstTimeUser = true;
+	};
+
+	const assignPreviousPaymentDetails = async (promise, profileData) => {
+		const previousPaymentDetails = await promise;
+		if (previousPaymentDetails?.ok) {
+			const data = previousPaymentDetails?.data;
+			const bankDetails = profileData?.bankDetails;
+			const index = profileStore.bankAccountIndexByAccountNumberOnServer(
+				bankDetails,
+				data?.accountNo
+			);
+			if (index < 0) {
+				defaultValueToPaymentHandler();
+				return;
+			}
+			paymentHandler.upiId = data?.upiId;
+			paymentHandler.selectedAccount = index;
+			const paymentMode = data?.paymentMode;
+			if (
+				(paymentMode === 'GOOGLEPAY' || paymentMode === 'PHONEPE') &&
+				os !== 'Android' &&
+				os !== 'iOS'
+			) {
+				paymentHandler.paymentMode = 'UPI';
+			} else {
+				paymentHandler.paymentMode = paymentMode;
+			}
+		} else {
+			defaultValueToPaymentHandler();
+		}
+	};
+
+	$: assignPreviousPaymentDetails(data?.api?.previousPaymentDetails, profileData);
+
+	const showPaymentMethodScreen = () => {
+		showChangePayment = true;
+	};
+
+	const hidePaymentMethodScreen = () => {
+		showChangePayment = false;
+	};
+
+	const onPaymentModeSelect = (paymentMode: string) => {
+		paymentHandler.paymentMode = paymentMode;
+		firstTimeUser = false;
+	};
+
+	const onAccountChange = (index: number) => {
+		paymentHandler.selectedAccount = index;
+	};
+
+	const resetInputPaymentError = () => {
+		inputPaymentError = '';
+	};
+
+	const showBankPopup = () => {
+		bankPopupVisible = true;
+	};
+
+	const hideBankPopup = () => {
+		bankPopupVisible = false;
+	};
+
+	const showLoading = (heading: string) => {
+		loadingState.isLoading = true;
+		loadingState.heading = heading;
+	};
+
+	const stopLoading = () => {
+		loadingState.isLoading = false;
+		loadingState.heading = '';
+	};
+
+	const showUPILoading = () => {
+		validateUPILoading = true;
+	};
+
+	const stopUPILoading = () => {
+		validateUPILoading = false;
+	};
+
+	const displayError = ({ heading = 'Error', errorSubHeading = '' }) => {
+		error.visible = true;
+		error.heading = heading;
+		error.subHeading = errorSubHeading;
+	};
+
+	const closeErrorPopup = () => {
+		error.heading = '';
+		error.subHeading = '';
+		error.visible = false;
+	};
+
+	const displayPendingPopup = ({ heading = 'Payment Pending', errorSubHeading = '', orderId }) => {
+		pending.visible = true;
+		pending.heading = heading;
+		pending.subHeading = errorSubHeading;
+		pendingCaseOrderID = orderId;
+	};
+
+	const closePendingPopup = () => {
+		pending.heading = '';
+		pending.subHeading = '';
+		pending.visible = false;
+		navigatToOrderSummary({
+			orderId: pendingCaseOrderID
+		});
+	};
+
+	const onUPITransactionPopupClose = () => {
+		upiState.flow = 3;
+	};
+
+	const onUPITransactionContinuation = () => {
+		upiState.flow = 2;
+	};
+
+	const upiCloseLogic = async () => {
+		upiState.flow = 0;
+	};
+
+	const onUPIValidationFailure = (error) => {
+		inputPaymentError = error;
+		showPaymentMethodScreen();
+	};
+
+	const updateUPITimer = (time: number) => {
+		upiState.timer = time;
+	};
+
+	const assignNewRequestId = () => {
+		xRequestId = uuidv4();
+	};
+
+	const onPayment = (inputId: string) => {
+		if (firstTimeUser) {
+			showPaymentMethodScreen();
+			return;
+		}
+		assignNewRequestId();
+
+		const commonInput = {
+			amount: data.api.totalAmount,
+			accNO: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO,
+			ifscCode: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.ifscCode,
+			bankName: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
+			fullName: profileData?.clientDetails?.fullName,
+			cartItemIds: data.api.itemList?.data?.data?.map((item) => item.cartItemId) || [],
+			paymentMode: paymentHandler?.paymentMode,
+			xRequestId,
+			state,
+			showLoading,
+			stopLoading,
+			displayPendingPopup,
+			displayError,
+			onSuccess: navigatToOrderSummary
+		};
+
+		hidePaymentMethodScreen();
+
+		if (paymentHandler?.paymentMode === 'NET_BANKING') {
+			netBankingCartFlow({
+				...commonInput,
+				netBankingState
+			});
+		} else if (paymentHandler?.paymentMode === 'UPI') {
+			paymentHandler.upiId = inputId;
+			upiCartFlow({
+				...commonInput,
+				inputId,
+				upiState,
+				showUPILoading,
+				stopUPILoading,
+				onUPIValidationFailure,
+				updateUPITimer
+			});
+		} else {
+			walletCartFlow({
+				...commonInput,
+				paymentModeName: PAYMENT_MODE[paymentHandler.paymentMode].name,
+				paymentModeAPIName: PAYMENT_MODE[paymentHandler.paymentMode].apiName,
+				gpayPaymentState
+			});
+		}
+	};
 
 	const onRefresh = async () => {
 		invalidate('app:cart:confirmation');
@@ -16,6 +306,16 @@
 	const navigateToOrders = async () => {
 		await goto(`${base}/orders/orderspage`, { replaceState: true });
 	};
+
+	const navigatToOrderSummary = async ({ orderId }) => {
+		const params = encodeObject({
+			orderID: orderId
+		});
+
+		goto(`${base}/cart/ordersummary?params=${params}`, {
+			replaceState: true
+		});
+	};
 </script>
 
 <article class="flex h-full flex-col">
@@ -23,8 +323,8 @@
 		<LoadingIndicator svgClass="!w-12 !h-12" class="self-center" />
 	{:then itemList}
 		{#if itemList.ok}
-			<div>
-				<div>
+			<div class="flex h-full flex-col overflow-hidden sm:overflow-auto">
+				<div class="flex flex-1 flex-col overflow-auto sm:mb-3 sm:overflow-visible">
 					<div
 						class="hidden grid-cols-[46%_18%_18%_18%] items-center border-b border-t border-grey-line bg-white px-6 py-4 text-sm font-medium text-grey-dark sm:grid"
 					>
@@ -53,6 +353,33 @@
 						</div>
 					</div>
 				</div>
+				{#await data.api.previousPaymentDetails}
+					<div />
+				{:then}
+					<div
+						class="flex flex-col bg-white sm:flex-row sm:items-center sm:justify-between sm:px-4 sm:py-3"
+					>
+						{#if !firstTimeUser}
+							<div>
+								<PaymentSleeve
+									class="border-t border-b border-grey-line sm:border-0"
+									selectedMode={paymentHandler?.paymentMode}
+									onPaymentMethodChange={showPaymentMethodScreen}
+									bankName={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName}
+									bankAccount={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO}
+									upiId={paymentHandler.upiId}
+								/>
+							</div>
+						{:else}
+							<div />
+						{/if}
+						<div class="px-4 py-3 sm:p-0">
+							<Button class="w-full sm:w-80" onClick={() => onPayment(paymentHandler.upiId)}>
+								PAY ₹{formatAmount(data.api.totalAmount?.toString())} NOW
+							</Button>
+						</div>
+					</div>
+				{/await}
 			</div>
 		{:else}
 			<div class="flex h-full flex-col items-center self-center px-4 py-4">
@@ -81,3 +408,69 @@
 		</div>
 	{/await}
 </article>
+
+{#if showChangePayment}
+	<ChangePaymentContainer
+		amount={data.api.totalAmount?.toString()}
+		onBackClick={hidePaymentMethodScreen}
+		selectedMode={paymentHandler?.paymentMode}
+		onSelect={onPaymentModeSelect}
+		onSubmit={onPayment}
+		bankAccounts={profileData?.bankDetails}
+		selectedAccount={paymentHandler?.selectedAccount}
+		inputError={inputPaymentError}
+		resetInputError={resetInputPaymentError}
+		defaultInputVal={paymentHandler?.upiId || ''}
+		onChangeBank={showBankPopup}
+		class={$$props.class}
+		isLoading={loadingState.isLoading || validateUPILoading}
+	/>
+{/if}
+
+{#if bankPopupVisible}
+	<BankSelectionPopup
+		bankAccounts={profileData?.bankDetails}
+		selectedAccount={paymentHandler?.selectedAccount}
+		{onAccountChange}
+		onClose={hideBankPopup}
+	/>
+{/if}
+
+{#if upiState.flow === 2}
+	<UpiTransactionPopup
+		amount={data.api.totalAmount?.toString()}
+		timer={upiState.timer}
+		onClose={onUPITransactionPopupClose}
+	/>
+{:else if upiState.flow === 3}
+	<UpiClosePopup onClose={onUPITransactionContinuation} onConfirm={upiCloseLogic} />
+{/if}
+
+{#if loadingState.isLoading}
+	<LoadingPopup heading={loadingState.heading} />
+{:else if pending.visible}
+	<ResultPopup
+		popupType="PENDING"
+		title={pending.heading}
+		text={pending.subHeading}
+		class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+		isModalOpen
+		handleButtonClick={closePendingPopup}
+		buttonTitle="CLOSE"
+		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
+		buttonVariant="contained"
+	/>
+{:else if error.visible}
+	<ResultPopup
+		popupType="FAILURE"
+		title={error.heading}
+		text={error.subHeading}
+		class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+		isModalOpen
+		handleButtonClick={closeErrorPopup}
+		closeModal={closeErrorPopup}
+		buttonTitle="TRY AGAIN"
+		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
+		buttonVariant="contained"
+	/>
+{/if}

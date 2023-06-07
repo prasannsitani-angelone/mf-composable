@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Button from '$components/Button.svelte';
-	import { PAYMENT_MODE } from '../constants';
+	import { PAYMENT_MODE } from './constants';
 
 	export let selectedMode = '';
 	export let bankName = '';
@@ -9,11 +9,11 @@
 	export let onPaymentMethodChange = (): void => undefined;
 </script>
 
-<div class="flex w-full flex-row items-center border-t border-grey-line px-4 py-3">
+<div class="flex w-full flex-row items-center border-t border-grey-line px-4 py-3 {$$props.class}">
 	<div>
 		<svelte:component this={PAYMENT_MODE[selectedMode]?.sleeveIcon} />
 	</div>
-	<div class="ml-5 flex w-full flex-col">
+	<div class="ml-5 mr-3 flex w-full flex-col">
 		<div class="text-xs font-medium text-black-title">
 			{selectedMode === 'UPI'
 				? upiId?.length

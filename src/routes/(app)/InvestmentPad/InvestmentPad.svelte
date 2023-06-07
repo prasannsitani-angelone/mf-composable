@@ -31,14 +31,9 @@
 	import type { decodedParamsTypes } from '$lib/types/IOrderPad';
 	import TncModal from '$components/TnC/TncModal.svelte';
 	import NotAllowed from './OrderPadComponents/NotAllowed.svelte';
-	import { PAYMENT_MODE } from './constants';
-	import PaymentSleeve from './OrderPadComponents/PaymentSleeve.svelte';
 	import ChangePaymentContainer from './OrderPadComponents/ChangePaymentContainer.svelte';
 	import BankSelectionPopup from '$components/BankSelectionPopup.svelte';
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
-	import LoadingPopup from './OrderPadComponents/LoadingPopup.svelte';
-	import UpiTransactionPopup from './OrderPadComponents/UPITransactionPopup.svelte';
-	import UpiClosePopup from './OrderPadComponents/UPIClosePopup.svelte';
 	import { format } from 'date-fns';
 	import { base } from '$app/paths';
 	import logger from '$lib/utils/logger';
@@ -85,6 +80,11 @@
 		initializeUPIState,
 		intializeNetBankingState
 	} from '$components/Payment/util';
+	import UpiClosePopup from '$components/Payment/UPIClosePopup.svelte';
+	import UpiTransactionPopup from '$components/Payment/UPITransactionPopup.svelte';
+	import LoadingPopup from '$components/Payment/LoadingPopup.svelte';
+	import PaymentSleeve from '$components/Payment/PaymentSleeve.svelte';
+	import { PAYMENT_MODE } from '$components/Payment/constants';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
