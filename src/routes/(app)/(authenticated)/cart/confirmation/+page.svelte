@@ -28,6 +28,7 @@
 		initializeUPIState,
 		intializeNetBankingState
 	} from '$components/Payment/util';
+	import { WMSIcon } from 'wms-ui-component';
 
 	export let data: PageData;
 
@@ -303,6 +304,10 @@
 		invalidate('app:cart:confirmation');
 	};
 
+	const goBack = async () => {
+		window.history.back();
+	};
+
 	const navigatToOrderSummary = async ({ orderId }) => {
 		const params = encodeObject({
 			orderID: orderId
@@ -313,6 +318,15 @@
 		});
 	};
 </script>
+
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<div
+	class="text-title-black hidden flex-row items-center pt-3 pb-6 text-lg font-medium active:opacity-80 sm:flex"
+	on:click={goBack}
+>
+	<WMSIcon name="left-arrow" height={16} width={16} class="mr-4" />
+	Confirm Order
+</div>
 
 <article class="flex h-full flex-col">
 	{#await data.api.itemList}

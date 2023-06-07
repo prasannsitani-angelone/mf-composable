@@ -46,9 +46,10 @@
 						items={ordersData?.data?.data?.checkedOutItems?.length}
 						totalAmount={ordersData.totalAmount}
 						onClick={navigateToOrders}
+						schemeLogoUrl={ordersData.schemeLogoUrl}
 					/>
 				</div>
-				{#if ordersData.isMandateLinked && ordersData.investmentType === 'SIP'}
+				{#if !ordersData.isMandateLinked && ordersData.investmentType === 'SIP'}
 					<AutopaySetupTile onSubmit={navigateToEmandate} />
 				{/if}
 			</div>

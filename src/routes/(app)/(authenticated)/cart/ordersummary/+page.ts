@@ -20,6 +20,7 @@ export const load = async ({ fetch, url, depends }) => {
 		let investmentType = '';
 		let totalAmount = 0;
 		let isMandateLinked = false;
+		let schemeLogoUrl = '';
 		try {
 			const response = await useFetch(
 				`${PUBLIC_MF_CORE_BASE_URL}/carts/items/orders/${orderID}`,
@@ -68,6 +69,7 @@ export const load = async ({ fetch, url, depends }) => {
 				data?.checkedOutItems.map((item) => {
 					totalAmount += item.amount;
 					isMandateLinked = isMandateLinked || item.isMandateLinked;
+					schemeLogoUrl = item.logoUrl;
 					investmentType =
 						investmentType.toUpperCase() === 'SIP' || item?.investmentType?.toUpperCase() === 'SIP'
 							? 'SIP'
@@ -80,14 +82,16 @@ export const load = async ({ fetch, url, depends }) => {
 				headerContent,
 				investmentType,
 				totalAmount,
-				isMandateLinked
+				isMandateLinked,
+				schemeLogoUrl
 			};
 		} catch (e) {
 			return {
 				headerContent,
 				investmentType,
 				totalAmount,
-				isMandateLinked
+				isMandateLinked,
+				schemeLogoUrl
 			};
 		}
 	};

@@ -39,11 +39,11 @@
 			display: block;
 		}
 	}
-	:global(.details-container ol)  {
+	:global(.details-container ol) {
 		list-style: auto;
 		padding-left: 1rem;
 	}
-	:global(.details-container p)  {
+	:global(.details-container p) {
 		user-select: text;
 	}
 	:global(.details-container table) {

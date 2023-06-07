@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Button from '$components/Button.svelte';
 	import type { RemoveCartItem } from '$lib/types/ICartStore';
+	import { getDateSuperscript } from '$lib/utils/helpers/date';
 	import { formatAmount } from '$lib/utils/helpers/formatAmount';
 	import { WMSIcon } from 'wms-ui-component';
 
@@ -36,7 +37,7 @@
 			<div
 				class="col-start-2 row-start-2 flex justify-end text-xs font-medium text-black-title sm:col-start-3 sm:row-start-1 sm:justify-start"
 			>
-				{`SIP Date : ${sipDate}`}
+				SIP Date : {sipDate?.toString().padStart(2, '0')}{getDateSuperscript(sipDate)}
 			</div>
 		{:else}
 			<div class="col-start-2 row-start-2 sm:col-start-3 sm:row-start-1" />
