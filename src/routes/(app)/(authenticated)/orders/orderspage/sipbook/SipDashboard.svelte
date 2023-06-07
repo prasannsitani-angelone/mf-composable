@@ -144,6 +144,7 @@
 								{#if nudge?.nudgesType === 'mandate'}
 									<DiscoverFundsNudge
 										{nudge}
+										onAction={() => onAction(nudge)}
 										clickEvent={nudgeClick}
 										impressionEvent={nudgeImpression}
 										class="mt-2 sm:mt-4"

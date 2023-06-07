@@ -25,11 +25,9 @@ export const POST = (async ({ request }) => {
 			return new Response(
 				JSON.stringify({
 					data: {
-						data: {
-							PartyCodeDetails: {
-								TEST: {
-									non_trading_access_token: env.TEST_NON_TRADING_ACCESS_TOKEN || ''
-								}
+						PartyCodeDetails: {
+							TEST: {
+								non_trading_access_token: env.TEST_NON_TRADING_ACCESS_TOKEN || ''
 							}
 						}
 					},
