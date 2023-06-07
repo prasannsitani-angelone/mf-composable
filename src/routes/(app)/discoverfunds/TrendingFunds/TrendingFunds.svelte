@@ -1,8 +1,7 @@
 <script lang="ts">
 	import type { WeeklyTopSchemesEntity } from '$lib/types/IDiscoverFunds';
-	import TrendingTable from './TrendingTable.svelte';
 	import TrendingCarousel from './TrendingCarousel.svelte';
-	let title = 'Popular With Other Investors';
+	let title = 'Most Bought on Angel One';
 
 	let tableData: Array<WeeklyTopSchemesEntity>;
 	let classes = {
@@ -19,7 +18,6 @@
 	<header class={`flex flex-col p-6 ${classes.header}`}>
 		<h2 class="text-lg font-medium text-black-title">{title}</h2>
 	</header>
-	<TrendingTable {tableData} />
 	<TrendingCarousel {tableData} />
 	<slot name="footer" />
 </section>

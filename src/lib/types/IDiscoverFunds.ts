@@ -40,4 +40,5 @@ export interface WeeklyTopSchemesEntity {
 	isLumpsumAllowed: string;
 	isSipAllowed: string;
 	minPurchaseAmount: number;
+	noOfClientInvested: number;
 }

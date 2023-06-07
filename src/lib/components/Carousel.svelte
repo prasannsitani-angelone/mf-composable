@@ -13,15 +13,20 @@
 		bulletClass: 'swiper-pagination-bullet swiper-bullet',
 		bulletActiveClass: 'swiper-active'
 	};
-	export { carouselClass, autoplay };
+	let slidesPerView = 1;
+	let centeredSlides = true;
+	let spaceBetween = 20;
+	let navigation = false;
+	export { carouselClass, autoplay, slidesPerView, centeredSlides, spaceBetween, navigation };
 </script>
 
 {#if browser}
 	<Swiper
-		spaceBetween={20}
+		{navigation}
+		{spaceBetween}
 		{autoplay}
-		slidesPerView={1}
-		centeredSlides={true}
+		{slidesPerView}
+		{centeredSlides}
 		loop={true}
 		{modules}
 		{pagination}
