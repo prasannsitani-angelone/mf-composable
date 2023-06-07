@@ -129,7 +129,7 @@
 			<FundManager schemeDetails={schemedata} />
 			{#if !isNFO}
 				{#await data?.api?.holdingData then fundHoldingData}
-					<FundHoldings {fundHoldingData} />
+					<FundHoldings {fundHoldingData} aum={schemedata?.aum} />
 				{/await}
 				{#await data?.api?.comparisons then comparisons}
 					<SimilarFunds similarFunds={comparisons?.otherScheme || []} />

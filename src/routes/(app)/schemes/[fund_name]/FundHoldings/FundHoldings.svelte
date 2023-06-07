@@ -12,7 +12,7 @@
 
 	$: showAllHoldings = false;
 	let remaningHoldings: TopHolding[];
-
+	let aum: number;
 	let fundHoldingData: Array<SchemeHoldings>;
 	const graphColor = ['#F9BA4D', '#4BD9EA', '#581DBE', '#1EC7B6', '#F65E5A', '#3F5BD9'];
 
@@ -20,7 +20,7 @@
 	const doughnutChartOptions = {
 		plugins: {
 			tooltipLine: {
-				heading: '15,120',
+				heading: `₹${aum?.toFixed(0)?.toString()}`,
 				subHeading: 'Crores'
 			}
 		}
@@ -84,7 +84,7 @@
 		allHoldings(eventMetadata);
 		showAllHoldings = !showAllHoldings;
 	};
-	export { fundHoldingData };
+	export { fundHoldingData, aum };
 </script>
 
 <article class="mt-4 max-w-4xl rounded-lg bg-white pb-4 text-sm shadow-csm">
