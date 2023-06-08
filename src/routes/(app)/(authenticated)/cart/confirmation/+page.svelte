@@ -208,9 +208,11 @@
 		error.heading = '';
 		error.subHeading = '';
 		error.visible = false;
-		navigatToOrderSummary({
-			orderId: failureCaseOrderID
-		});
+		if (failureCaseOrderID) {
+			navigatToOrderSummary({
+				orderId: failureCaseOrderID
+			});
+		}
 	};
 
 	const displayPendingPopup = ({ heading = 'Payment Pending', errorSubHeading = '', orderId }) => {
@@ -254,20 +256,20 @@
 		xRequestId = uuidv4();
 	};
 
-	const onPayment = (inputId: string) => {
+	const onPayment = async (inputId: string) => {
 		if (firstTimeUser) {
 			showPaymentMethodScreen();
 			return;
 		}
 		assignNewRequestId();
-
+		const itemList = await data.api.itemList;
 		const commonInput = {
-			amount: data.api.itemList?.totalAmount,
+			amount: itemList?.totalAmount,
 			accNO: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO,
 			ifscCode: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.ifscCode,
 			bankName: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
 			fullName: profileData?.clientDetails?.fullName,
-			cartItemIds: data.api.itemList?.data?.data?.map((item) => item.cartItemId) || [],
+			cartItemIds: itemList?.data?.data?.map((item) => item.cartItemId) || [],
 			paymentMode: paymentHandler?.paymentMode,
 			xRequestId,
 			state,
@@ -366,7 +368,7 @@
 						<div
 							class="text-title-black col-start-4 flex justify-end text-sm font-bold sm:justify-start"
 						>
-							₹{formatAmount(data.api.itemList?.totalAmount?.toString())}
+							₹{formatAmount(itemList?.totalAmount?.toString())}
 						</div>
 					</div>
 				</div>
@@ -392,7 +394,7 @@
 						{/if}
 						<div class="px-4 py-3 sm:p-0">
 							<Button class="w-full sm:w-80" onClick={() => onPayment(paymentHandler.upiId)}>
-								PAY ₹{formatAmount(data.api.itemList?.totalAmount?.toString())} NOW
+								PAY ₹{formatAmount(itemList?.totalAmount?.toString())} NOW
 							</Button>
 						</div>
 					</div>
@@ -408,6 +410,70 @@
 				</Button>
 			</div>
 		{/if}
+		{#if showChangePayment}
+			<ChangePaymentContainer
+				amount={itemList?.totalAmount?.toString()}
+				onBackClick={hidePaymentMethodScreen}
+				selectedMode={paymentHandler?.paymentMode}
+				onSelect={onPaymentModeSelect}
+				onSubmit={onPayment}
+				bankAccounts={profileData?.bankDetails}
+				selectedAccount={paymentHandler?.selectedAccount}
+				inputError={inputPaymentError}
+				resetInputError={resetInputPaymentError}
+				defaultInputVal={paymentHandler?.upiId || ''}
+				onChangeBank={showBankPopup}
+				class={$$props.class}
+				isLoading={loadingState.isLoading || validateUPILoading}
+			/>
+		{/if}
+
+		{#if bankPopupVisible}
+			<BankSelectionPopup
+				bankAccounts={profileData?.bankDetails}
+				selectedAccount={paymentHandler?.selectedAccount}
+				{onAccountChange}
+				onClose={hideBankPopup}
+			/>
+		{/if}
+
+		{#if upiState.flow === 2}
+			<UpiTransactionPopup
+				amount={itemList?.totalAmount?.toString()}
+				timer={upiState.timer}
+				onClose={onUPITransactionPopupClose}
+			/>
+		{:else if upiState.flow === 3}
+			<UpiClosePopup onClose={onUPITransactionContinuation} onConfirm={upiCloseLogic} />
+		{/if}
+
+		{#if loadingState.isLoading}
+			<LoadingPopup heading={loadingState.heading} />
+		{:else if pending.visible}
+			<ResultPopup
+				popupType="PENDING"
+				title={pending.heading}
+				text={pending.subHeading}
+				class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+				isModalOpen
+				handleButtonClick={closePendingPopup}
+				buttonTitle="CLOSE"
+				buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
+				buttonVariant="contained"
+			/>
+		{:else if error.visible}
+			<ResultPopup
+				popupType="FAILURE"
+				title={error.heading}
+				text={error.subHeading}
+				class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+				isModalOpen
+				handleButtonClick={closeErrorPopup}
+				buttonTitle="CLOSE"
+				buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
+				buttonVariant="contained"
+			/>
+		{/if}
 	{:catch}
 		<div class="flex h-full flex-col items-center self-center px-4 py-4">
 			<div class="mb-4 text-center text-base font-medium text-black-title">
@@ -419,68 +485,3 @@
 		</div>
 	{/await}
 </article>
-
-{#if showChangePayment}
-	<ChangePaymentContainer
-		amount={data.api.itemList?.totalAmount?.toString()}
-		onBackClick={hidePaymentMethodScreen}
-		selectedMode={paymentHandler?.paymentMode}
-		onSelect={onPaymentModeSelect}
-		onSubmit={onPayment}
-		bankAccounts={profileData?.bankDetails}
-		selectedAccount={paymentHandler?.selectedAccount}
-		inputError={inputPaymentError}
-		resetInputError={resetInputPaymentError}
-		defaultInputVal={paymentHandler?.upiId || ''}
-		onChangeBank={showBankPopup}
-		class={$$props.class}
-		isLoading={loadingState.isLoading || validateUPILoading}
-	/>
-{/if}
-
-{#if bankPopupVisible}
-	<BankSelectionPopup
-		bankAccounts={profileData?.bankDetails}
-		selectedAccount={paymentHandler?.selectedAccount}
-		{onAccountChange}
-		onClose={hideBankPopup}
-	/>
-{/if}
-
-{#if upiState.flow === 2}
-	<UpiTransactionPopup
-		amount={data.api.itemList?.totalAmount?.toString()}
-		timer={upiState.timer}
-		onClose={onUPITransactionPopupClose}
-	/>
-{:else if upiState.flow === 3}
-	<UpiClosePopup onClose={onUPITransactionContinuation} onConfirm={upiCloseLogic} />
-{/if}
-
-{#if loadingState.isLoading}
-	<LoadingPopup heading={loadingState.heading} />
-{:else if pending.visible}
-	<ResultPopup
-		popupType="PENDING"
-		title={pending.heading}
-		text={pending.subHeading}
-		class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
-		isModalOpen
-		handleButtonClick={closePendingPopup}
-		buttonTitle="CLOSE"
-		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
-		buttonVariant="contained"
-	/>
-{:else if error.visible}
-	<ResultPopup
-		popupType="FAILURE"
-		title={error.heading}
-		text={error.subHeading}
-		class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
-		isModalOpen
-		handleButtonClick={closeErrorPopup}
-		buttonTitle="CLOSE"
-		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
-		buttonVariant="contained"
-	/>
-{/if}

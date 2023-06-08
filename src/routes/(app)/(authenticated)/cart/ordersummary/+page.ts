@@ -44,7 +44,7 @@ export const load = async ({ fetch, url, depends }) => {
 					];
 					headerContent.status = STATUS_ARR.SUCCESS;
 					headerContent.subHeaderClass = 'bg-green-buy/10';
-				} else if (data?.paymentStatus === STATUS_ARR.FAILED) {
+				} else if (data?.paymentStatus?.toUpperCase() === STATUS_ARR.FAILURE) {
 					headerContent.heading = 'Order Failed';
 					headerContent.subHeadingArr = [
 						{
@@ -54,7 +54,7 @@ export const load = async ({ fetch, url, depends }) => {
 					];
 					headerContent.status = STATUS_ARR.FAILED;
 					headerContent.subHeaderClass = 'bg-yellow-secondary/20';
-				} else if (data?.paymentStatus === STATUS_ARR.PENDING) {
+				} else if (data?.paymentStatus?.toUpperCase() === STATUS_ARR.PENDING) {
 					headerContent.heading = 'Order Pending';
 					headerContent.subHeadingArr = [
 						{
