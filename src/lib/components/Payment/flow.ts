@@ -111,10 +111,12 @@ export const netBankingCartFlow = async (params) => {
 		stopLoading,
 		displayPendingPopup,
 		displayError,
+		onStart,
 		onSuccess,
 		transactionFailedAnalytics = () => undefined
 	} = params || {};
 	try {
+		onStart();
 		netBankingState.paymentWindow = window.open(
 			`${window.location.origin}${base}/intermediateLoading`,
 			'PAYMENT_WINDOW'
@@ -519,6 +521,7 @@ export const upiCartFlow = async (params) => {
 		onUPIValidationFailure,
 		displayPendingPopup,
 		transactionFailedAnalytics = () => undefined,
+		onStart,
 		onSuccess
 	} = params || {};
 	try {
@@ -534,6 +537,7 @@ export const upiCartFlow = async (params) => {
 			upiValidationResponse,
 			onUPIValidationFailure
 		});
+		onStart();
 		showLoading('Initiating UPI Payment');
 		const upiResponse = await initiateUPIPayment({
 			amount,
@@ -1030,9 +1034,11 @@ export const walletCartFlow = async (params) => {
 		displayError,
 		displayPendingPopup,
 		transactionFailedAnalytics,
+		onStart,
 		onSuccess
 	} = params || {};
 	try {
+		onStart();
 		showLoading(`Redirecting to ${paymentModeName}`);
 		const walletResponse = await initiateWalletPayment({
 			amount,

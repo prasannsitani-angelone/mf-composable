@@ -50,7 +50,7 @@
 				{placeholder}
 				{type}
 				maxlength={maxLength}
-				class={`w-full border-0 text-center text-sm font-medium text-black-title outline-none outline ${classes.input}`}
+				class={`w-full border-0 text-center text-base font-medium text-black-title outline-none outline ${classes.input}`}
 				on:input={onInput}
 				on:keyup={handleEnter}
 				on:click={onClick}

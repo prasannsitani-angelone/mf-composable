@@ -70,7 +70,7 @@
 							label: '',
 							error: '',
 							container: 'px-3 py-3 shadow-none border',
-							input: 'text-base text-start',
+							input: 'text-start',
 							parent: 'flex-1 bg-white'
 						}}
 					/>

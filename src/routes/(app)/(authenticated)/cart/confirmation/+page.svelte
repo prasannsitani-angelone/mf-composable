@@ -240,6 +240,7 @@
 	};
 
 	const upiCloseLogic = async () => {
+		showLoading('Waiting for payment');
 		upiState.flow = 0;
 	};
 
@@ -277,10 +278,9 @@
 			stopLoading,
 			displayPendingPopup,
 			displayError,
+			onStart: hidePaymentMethodScreen,
 			onSuccess: navigatToOrderSummary
 		};
-
-		hidePaymentMethodScreen();
 
 		if (paymentHandler?.paymentMode === 'NET_BANKING') {
 			netBankingCartFlow({
@@ -393,7 +393,11 @@
 							<div />
 						{/if}
 						<div class="px-4 py-3 sm:p-0">
-							<Button class="w-full sm:w-80" onClick={() => onPayment(paymentHandler.upiId)}>
+							<Button
+								class="w-full sm:w-80"
+								onClick={() => onPayment(paymentHandler.upiId)}
+								disabled={loadingState.isLoading || validateUPILoading}
+							>
 								PAY ₹{formatAmount(itemList?.totalAmount?.toString())} NOW
 							</Button>
 						</div>
