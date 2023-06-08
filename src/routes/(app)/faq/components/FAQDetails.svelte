@@ -40,8 +40,8 @@
 		}
 	}
 	:global(.details-container ol) {
-		list-style: auto;
-		padding-left: 1rem;
+		list-style: decimal;
+		list-style-position: inside;
 	}
 	:global(.details-container p) {
 		user-select: text;
