@@ -66,7 +66,7 @@
 			</article>
 			<slot name="shareIcon">
 				{#if showShareIcon}
-					<article class="flex">
+					<article id="share-icon" class="flex">
 						<WMSIcon name="share" on:click={onClickShareIcon} height={24} width={24} />
 					</article>
 				{/if}

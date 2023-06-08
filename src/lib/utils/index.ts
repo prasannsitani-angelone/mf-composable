@@ -1,3 +1,4 @@
+import { browser } from '$app/environment';
 import { PLATFORM_TYPE } from '$lib/constants/platform';
 import { profileStore } from '$lib/stores/ProfileStore';
 import { tokenStore } from '$lib/stores/TokenStore';
@@ -167,9 +168,10 @@ export const shouldDisplayShare = (parentData: PageParentData) => {
 	const platform = parentData?.sparkHeaders.platform;
 	const platformvariant = parentData?.sparkHeaders?.platformvariant;
 	return (
-		typeof window?.webkit?.messageHandlers?.callBackHandlerMFShareOption?.postMessage ===
-			'function' ||
-		typeof window?.ShareDataHandler?.share === 'function' ||
+		(browser &&
+			typeof window?.webkit?.messageHandlers?.callBackHandlerMFShareOption?.postMessage ===
+				'function') ||
+		(browser && typeof window?.ShareDataHandler?.share === 'function') ||
 		(osName?.toLowerCase() === 'ios' &&
 			platform?.toLowerCase() !== PLATFORM_TYPE.SPARK_IOS &&
 			platform?.toLowerCase() !== PLATFORM_TYPE.ANGELBEE_IOS) ||

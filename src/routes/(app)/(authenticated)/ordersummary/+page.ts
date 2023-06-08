@@ -11,6 +11,7 @@ import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 import { base } from '$app/paths';
 import { shareMessage } from '$lib/utils/share';
 import { shouldDisplayShare } from '$lib/utils';
+import { shareOrderSummaryClickAnalytics } from '$lib/analytics/orders/orders';
 
 export const load = async ({ fetch, url, parent, depends }) => {
 	const params = url.searchParams.get('params');
@@ -19,6 +20,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 	const { orderID, sipID, firstTimePayment } = decodedParams;
 	let schemeData: Record<string, string>;
 	const parentData = await parent();
+	let installmentAmount = 0;
 	const showShare = shouldDisplayShare(parentData);
 	const getOrderDetailsFunc = async () => {
 		try {
@@ -64,6 +66,10 @@ export const load = async ({ fetch, url, parent, depends }) => {
 	};
 
 	const onClickShareIcon = async () => {
+		shareOrderSummaryClickAnalytics({
+			Fundname: schemeData?.schemeName,
+			Amount: addCommasToAmountString(installmentAmount)
+		});
 		const link = `https://angeloneapp.page.link/?link=${parentData.scheme}//${
 			parentData.host
 		}${base}/schemes/${normalizeFundName(
@@ -172,6 +178,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 				});
 			}
 			if (isLumpsumOrder) {
+				installmentAmount = data?.amount || 0;
 				schemeCardItems.push({
 					title: 'One Time Investment Amount',
 					value: `₹ ${addCommasToAmountString(data?.amount)}`
@@ -186,6 +193,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 
 		if (sipData?.ok) {
 			const data = sipData?.data?.data;
+			installmentAmount = data?.installmentAmount || 0;
 			schemeCardItems.push({
 				title: 'Amount',
 				value: `₹ ${addCommasToAmountString(data?.installmentAmount)}`
