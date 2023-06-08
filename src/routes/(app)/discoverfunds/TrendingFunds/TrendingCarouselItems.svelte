@@ -7,9 +7,12 @@
 	import { base } from '$app/paths';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { WMSIcon } from 'wms-ui-component';
+	import { createEventDispatcher } from 'svelte';
 
 	export let schemes: WeeklyTopSchemesEntity;
 	export let clazz = '';
+
+	let dispatch = createEventDispatcher();
 
 	function gotoSchemeDetails() {
 		const schemeDetailsPath = `${base}/schemes/${normalizeFundName(
@@ -18,18 +21,19 @@
 			schemes?.schemeCode
 		)}`;
 		goto(schemeDetailsPath);
+		dispatch('onCardClick');
 	}
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div on:click={gotoSchemeDetails} class={`flex cursor-pointer flex-col ${clazz}`}>
-	<div class="mb-2 flex flex-row items-center">
-		<SchemeLogo src={schemes?.logoUrl} alt={schemes?.schemeName} class="border-line-grey h-6 w-6" />
+	<div class="mb-3 flex flex-row items-start">
+		<SchemeLogo src={schemes?.logoUrl} alt={schemes?.schemeName} class="border-line-grey" />
 		<h3 class={`whitespace-normal text-sm font-medium text-black-title md:text-sm`}>
 			{schemes?.schemeName}
 		</h3>
 		<div class="flex-1" />
-		<AddToCart class="m-0 ml-1 p-0" scheme={schemes} />
+		<AddToCart on:onCartClick class="m-0 ml-1 mt-[-10px] p-0" scheme={schemes} />
 	</div>
 
 	<div class="flex flex-col">

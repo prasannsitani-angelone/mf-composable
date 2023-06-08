@@ -91,3 +91,9 @@ input:focus {
 	opacity: 1 !important;
 	border-radius: 100px !important;
 }
+
+.swiper-button-disabled {
+	opacity: 0.5;
+	cursor: auto;
+	pointer-events: none;
+}

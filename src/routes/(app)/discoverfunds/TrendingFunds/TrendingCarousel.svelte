@@ -4,6 +4,11 @@
 	import { SwiperSlide } from 'swiper/svelte';
 	import TrendingCarouselItems from './TrendingCarouselItems.svelte';
 	import { page } from '$app/stores';
+	import {
+		trendingCardImpressionEvent,
+		trendingCardClickEvent,
+		trendingCartClickEvent
+	} from './analytics';
 
 	let tableData: Array<WeeklyTopSchemesEntity>;
 
@@ -11,20 +16,52 @@
 
 	export { tableData };
 
-	$: isMobile = $page.data.deviceType.isMobile;
+	$: isMobile = $page.data.deviceType.isMobile || false;
+
+	function handleCardVisible(event: CustomEvent) {
+		let index = event.detail.index;
+		let scheme = tableData[index];
+		const eventMetaData = {
+			Fundname: scheme.schemeName,
+			Cardrank: (index + 1).toString()
+		};
+		trendingCardImpressionEvent(eventMetaData);
+	}
+
+	function handleCardClick(event: CustomEvent, index: number) {
+		let schemes = tableData[index];
+		const eventMetaData = {
+			Fundname: schemes.schemeName,
+			Cardrank: (index + 1).toString()
+		};
+		trendingCardClickEvent(eventMetaData);
+	}
+
+	function handleCartClick(event: CustomEvent, index: number) {
+		let schemes = tableData[index];
+		const eventMetaData = {
+			Fundname: schemes.schemeName,
+			Cardrank: (index + 1).toString()
+		};
+		trendingCartClickEvent(eventMetaData);
+	}
 </script>
 
 <section class={carouselInActive ? 'carousel-inactive' : 'carousel-active'}>
 	<Carousel
-		slidesPerView={isMobile ? 1.15 : 2}
+		on:onIndexChange={handleCardVisible}
+		slidesPerView={isMobile ? 1.1 : 2}
 		centeredSlides={false}
-		spaceBetween={isMobile ? 0 : -15}
-		navigation={false}
+		spaceBetween={-20}
+		navigation={!isMobile && tableData.length > 0}
+		loop={isMobile}
 	>
-		{#each tableData || [] as schemes}
+		{#each tableData || [] as schemes, index}
 			<SwiperSlide>
 				<TrendingCarouselItems
-					clazz="{isMobile ? 'ml-5' : 'mx-5'} rounded-lg border p-5"
+					on:onCartClick={(e) => handleCartClick(e, index)}
+					on:onCardClick={(e) => handleCardClick(e, index)}
+					clazz="mx-5 rounded-lg border p-3"
 					{schemes}
 				/>
 			</SwiperSlide>

@@ -9,12 +9,15 @@
 
 	import { cartStore } from '$lib/stores/CartStore';
 	import { toastStore } from '$lib/stores/ToastStore';
+	import { createEventDispatcher } from 'svelte';
 
 	const baseUrl = PUBLIC_MF_CORE_BASE_URL;
 	const cartsUrl = '/carts/items';
 
 	export let scheme: ExploreFundsOptions | WeeklyTopSchemesEntity;
 	export let showForAllUsers = false;
+
+	let dispatch = createEventDispatcher();
 
 	let diasbaled = false; // To prevent user for clicking on the cart icon if a cart addition request is already in progress
 
@@ -142,6 +145,7 @@
 			if (diasbaled) return;
 			diasbaled = true;
 			await initiateAddToCart();
+			dispatch('onCartClick');
 		}}
 	>
 		<WMSIcon name="cart-plus" />
