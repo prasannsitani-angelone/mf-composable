@@ -7,7 +7,7 @@ import type { PageLoad } from './$types';
 export const load = (async ({ fetch, url }) => {
 	const params = url.searchParams.get('params') || undefined;
 	const decodedParams = decodeToObject(params);
-	const { tag, orderId } = decodedParams;
+	const { tag, orderId, Status } = decodedParams;
 
 	const getFAQS = async () => {
 		try {
@@ -22,6 +22,7 @@ export const load = (async ({ fetch, url }) => {
 			getFAQS: browser ? getFAQS() : await getFAQS()
 		},
 		orderId,
+		Status,
 		layoutConfig: {
 			title: 'FAQs',
 			showBackIcon: true,

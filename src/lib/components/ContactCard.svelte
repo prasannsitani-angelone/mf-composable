@@ -8,8 +8,11 @@
 	$: phoneCall =
 		window?.webkit?.messageHandlers?.callBackHandlerMFSupportPhoneCallOption?.postMessage;
 	$: emailCall = window?.webkit?.messageHandlers?.callBackHandlerMFSupportMailOption?.postMessage;
+	let helpAnalytics: (() => void) | null = null;
+
 	let title = '';
 	const onClickTel = () => {
+		helpAnalytics?.();
 		if (typeof phoneCall === 'function') {
 			const message = {
 				phone: contactNumber
@@ -23,6 +26,7 @@
 	};
 
 	const onClickMail = () => {
+		helpAnalytics?.();
 		if (typeof emailCall === 'function') {
 			const message = {
 				emailId: contactEmail
@@ -46,7 +50,7 @@
 		);
 	};
 
-	export { title };
+	export { title, helpAnalytics };
 </script>
 
 <section class="mt-2 mb-2 flex items-center gap-4 rounded-lg bg-white p-4 shadow-csm">

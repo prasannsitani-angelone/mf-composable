@@ -297,3 +297,39 @@ export const shareOrderSummaryClickAnalytics = (eventMetaData: {
 		event_metadata: eventMetaData
 	});
 };
+
+export const needHelpClickAnalytics = (eventMetaData: { Status: string | undefined }) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-orders',
+		event_type: 'click',
+		event_sub_type: 'dropdown',
+		event_name: 'Needhelp',
+		event_property: null,
+		event_id: '305.0.0.4.19',
+		event_metadata: eventMetaData
+	});
+};
+
+export const faqClickAnalytics = (eventMetaData: { Status: string; Message: string }) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-FAQ',
+		event_type: 'click',
+		event_sub_type: 'Click',
+		event_name: 'FAQ',
+		event_property: null,
+		event_id: '305.0.0.4.20',
+		event_metadata: eventMetaData
+	});
+};
+
+export const faqHelpClickAnalytics = (eventMetaData: { Status: string; Message: string }) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-FAQ',
+		event_type: 'click',
+		event_sub_type: 'Click',
+		event_name: 'FAQ-help',
+		event_property: null,
+		event_id: '305.0.0.4.21',
+		event_metadata: eventMetaData
+	});
+};

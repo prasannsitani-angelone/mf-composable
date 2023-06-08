@@ -8,6 +8,7 @@
 	import FaqDetails from './components/FAQDetails.svelte';
 	import FaqSkeletonLoader from './components/FAQSkeletonLoader.svelte';
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
+	import { faqClickAnalytics } from '$lib/analytics/orders/orders';
 	export let data: PageData;
 	let showAnswer = false;
 	let faq: FAQ;
@@ -18,6 +19,10 @@
 		showAnswer = true;
 		title = '';
 		selectedIndex = idx;
+		faqClickAnalytics({
+			Status: data?.Status,
+			Message: faqData?.question
+		});
 	};
 	const breadCrumbs = [
 		{

@@ -14,6 +14,7 @@
 	import { Button, SEO, WMSIcon } from 'wms-ui-component';
 	import RightArrowIcon from './RightArrowIcon.svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
+	import { needHelpClickAnalytics } from '$lib/analytics/orders/orders';
 	$: breadCrumbs = [
 		{
 			text: 'Home',
@@ -32,11 +33,13 @@
 		goto(`${base}/orders/orderspage`);
 	};
 
-	const navigateToFAQ = (tag: string | undefined) => {
+	const navigateToFAQ = (tag: string | undefined, Status: string | undefined) => {
 		if (tag) {
+			needHelpClickAnalytics({ Status });
 			const params = encodeObject({
 				tag: tag,
-				orderId: data.orderId
+				orderId: data.orderId,
+				Status
 			});
 			goto(`${base}/faq?params=${params}`);
 		}
@@ -82,7 +85,7 @@
 							color="white"
 							class="mt-2 !h-auto w-full !transform-none items-center justify-between !rounded-lg !px-3 !py-3 shadow-csm"
 							endAdornment={RightArrowIcon}
-							on:click={() => navigateToFAQ(ordersData?.tag)}
+							on:click={() => navigateToFAQ(ordersData?.tag, ordersData?.headerContent?.heading)}
 						>
 							<div class="flex items-center">
 								<WMSIcon name="question-mark-circle" class="mr-3" width={18} height={18} />

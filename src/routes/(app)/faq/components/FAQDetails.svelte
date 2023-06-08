@@ -1,9 +1,19 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import AccordianCardComponent from '$components/Accordian/AccordianCardComponent.svelte';
 	import ContactCard from '$components/ContactCard.svelte';
+	import { faqHelpClickAnalytics } from '$lib/analytics/orders/orders';
 	import type { FAQ } from '../type';
 	let faq: FAQ;
 	let showContactCard: boolean;
+	$: eventMetaData = {
+		Status: $page?.data?.Status || '',
+		Message: 'Didn’t find what you were looking for? Call us or Write to us'
+	};
+
+	const faqHelpAnalytics = () => {
+		faqHelpClickAnalytics(eventMetaData);
+	};
 	export { faq, showContactCard };
 </script>
 
@@ -29,7 +39,7 @@
 		</svelte:fragment>
 	</AccordianCardComponent>
 	{#if showContactCard}
-		<ContactCard title="Didn't find what you were looking for?" />
+		<ContactCard title="Didn't find what you were looking for?" helpAnalytics={faqHelpAnalytics} />
 	{/if}
 </div>
 
