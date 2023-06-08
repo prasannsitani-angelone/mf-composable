@@ -11,6 +11,7 @@ import { goto } from '$app/navigation';
 import { decodeToObject } from '$lib/utils/helpers/params';
 import { shareMessage } from '$lib/utils/share';
 import { shouldDisplayShare } from '$lib/utils';
+import { shareFundDetailClickAnalytics } from './analytics';
 
 export const load = (async ({ fetch, params, url, parent }) => {
 	const queryParam = url?.searchParams?.get('params') || '';
@@ -50,6 +51,12 @@ export const load = (async ({ fetch, params, url, parent }) => {
 	};
 
 	const onClickShareIcon = async () => {
+		shareFundDetailClickAnalytics({
+			Fundname: schemeData?.schemeName,
+			FundType: schemeData?.reInvestmentPlan,
+			AssetType: schemeData?.categoryName,
+			SubAssetType: schemeData?.subcategoryName
+		});
 		const message = {
 			text: `Hey, check out this fund - ${
 				schemeData?.schemeName

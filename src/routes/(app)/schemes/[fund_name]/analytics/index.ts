@@ -143,3 +143,20 @@ export const mobileSchemeDetailsPageInvestButtonClickAnalytics = (
 		event_metadata: eventMetaData
 	});
 };
+
+export const shareFundDetailClickAnalytics = (eventMetaData: {
+	Fundname: string;
+	FundType: string;
+	AssetType: string;
+	SubAssetType: string;
+}) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-FundDetails',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'Share',
+		event_property: null,
+		event_id: '301.0.0.1.15',
+		event_metadata: eventMetaData
+	});
+};
