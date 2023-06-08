@@ -38,7 +38,8 @@
 
 <section class="scrollbar-hide flex w-full gap-2 overflow-x-scroll sm:pt-3">
 	{#each exploreFundsNavigation as nav}
-		{@const isActive = `${$page.url.pathname}${$page.url.search}` === `${base}${nav.href}`}
+		{@const isActive =
+			`${$page.url.pathname}?id=${$page.url.searchParams.get('id')}` === `${base}${nav.href}`}
 		<Link
 			to={nav.href}
 			class={`w-28 cursor-pointer rounded border ${isActive ? activeLink : inActiveLink}`}

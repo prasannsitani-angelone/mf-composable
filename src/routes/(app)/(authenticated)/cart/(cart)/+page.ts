@@ -39,7 +39,6 @@ export const load = (async ({ fetch }) => {
 		},
 		layoutConfig: {
 			title: 'Cart',
-			showBackIcon: true,
 			layoutType: 'DEFAULT',
 			showBottomNavigation: true
 		}

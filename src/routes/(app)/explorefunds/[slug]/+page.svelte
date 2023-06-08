@@ -54,7 +54,6 @@
 		sExploreMutualFunds({ filter });
 	});
 
-	let pagePathname: string;
 	$: pagePathname = $page.url?.pathname;
 
 	export { data };
