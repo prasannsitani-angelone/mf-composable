@@ -14,12 +14,11 @@
 		inputValue = e.target.value;
 		inputValue = formatAmount(inputValue); // trim, remove alphabets and remove leading zeroes
 		inputError = setErrorMessage(cartItem, cartItem.investmentType, inputValue);
-		console.log('inputError       -- ', inputError);
 	}
 	function InputChangeDone() {
 		if (!inputError && inputValue) {
 			hasInputUpdated = true;
-			cartItem.amount = inputValue;
+			cartItem.amount = Number(inputValue);
 		}
 	}
 
@@ -31,9 +30,7 @@
 </script>
 
 <div
-	class="cart-input-box relative relative flex items-center sm:h-full {inputError
-		? 'input-has-error'
-		: ''}"
+	class="cart-input-box relative flex items-center sm:h-full {inputError ? 'input-has-error' : ''}"
 >
 	<!-- on:input={onInputChange} -->
 	<Input
