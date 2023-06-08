@@ -22,8 +22,8 @@
 		<div class="mb-4 mt-6 text-2xl font-medium text-black-key">Add to cart</div>
 
 		<div class=" text-sm font-normal text-black-key">
-			You already have {$cartStore.currentSelection?.schemeName || 'this fund'} in your cart. Are you
-			sure you want to add it again ?
+			You already have '{$cartStore.currentSelection?.schemeName || 'this fund'}' in your cart. Are
+			you sure you want to add it again ?
 		</div>
 
 		<section class="flex w-full flex-row gap-4 bg-white pt-6 pb-2 sm:pt-10">

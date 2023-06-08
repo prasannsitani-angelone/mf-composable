@@ -3,6 +3,7 @@
 	import { WMSIcon } from 'wms-ui-component';
 	import { setErrorMessage } from '$lib/utils/helpers/investmentOrder';
 	import type { CartEntity } from '$lib/types/ICartStore';
+	import clickOutside from '$lib/utils/useClickOutside';
 
 	export let cartItem: CartEntity;
 
@@ -57,9 +58,12 @@
 		}
 		hasInputUpdated = true;
 		activeSelection = selected;
-		isDDOptionsVisible = false;
+		closeDropDown();
 		cartItem.investmentType = selected.value;
 		setPreselectedAmount();
+	}
+	function closeDropDown() {
+		isDDOptionsVisible = false;
 	}
 	generateDDoptions(cartItem);
 </script>
@@ -67,7 +71,7 @@
 <div class="relative flex items-center sm:h-full">
 	<Button
 		variant="transparent"
-		class="relative flex items-center justify-between rounded-sm !bg-purple-background !p-1  max-sm:!h-auto"
+		class="relative flex w-20 items-center justify-between rounded-sm !bg-purple-background !p-1  max-sm:!h-auto"
 		size="xs"
 		onClick={toggleDropdown}
 	>
@@ -75,12 +79,19 @@
 		><span><WMSIcon width={12} height={6} name="arrow-expand" /></span>
 	</Button>
 	{#if isDDOptionsVisible}
-		<div class="absolute top-6 left-0 w-24 border bg-white text-left">
+		<div
+			class=" absolute top-9 left-0 flex w-28 flex-col rounded-sm border bg-white text-left shadow-csm"
+			use:clickOutside
+			on:outclick={closeDropDown}
+		>
 			{#each options as option}
 				<Button
 					variant="transparent"
 					size="xs"
-					class="!w-full justify-start !rounded-none !border-b !border-inherit !text-xs !font-normal !text-black-title"
+					class=" !w-full justify-start !rounded-none !border-b !border-inherit !text-xs font-medium !text-black-title {option.value ===
+					activeSelection.value
+						? '!bg-purple-background !font-normal !text-blue-primary'
+						: ''}"
 					onClick={(e) => {
 						e.stopPropagation();
 						dropdownItemSelected(option);

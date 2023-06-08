@@ -15,6 +15,7 @@
 	import { getPrimaryAccountMandateData } from '$lib/utils/helpers/emandate';
 	import { getFormattedSIPDate } from '$components/Payment/util';
 	import type { CartEntity } from '$lib/types/ICartStore';
+
 	export let cartItems: CartEntity[];
 
 	let isSelectAllChecked = false;
