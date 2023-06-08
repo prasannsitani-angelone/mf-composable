@@ -1,7 +1,7 @@
 import type { RequestHandler } from './$types';
 import { AUTH_URL } from '$env/static/private';
-import { env } from '$env/dynamic/private';
 import logger from '$lib/utils/logger';
+import getAuthToken from '$lib/server/getAuthToken';
 
 const TEST_ACC_CONTACT = '4444444444';
 
@@ -22,12 +22,13 @@ export const POST = (async ({ request }) => {
 
 		// test user flow
 		if (body.mob_no === TEST_ACC_CONTACT) {
+			const guestToken = await getAuthToken('guest');
 			return new Response(
 				JSON.stringify({
 					data: {
 						PartyCodeDetails: {
 							TEST: {
-								non_trading_access_token: env.TEST_NON_TRADING_ACCESS_TOKEN || ''
+								non_trading_access_token: guestToken || ''
 							}
 						}
 					},

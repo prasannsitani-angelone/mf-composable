@@ -8,6 +8,7 @@
 	import { deleteCookie } from '$lib/utils/helpers/cookie';
 	import { getCookieOptions, getUserCookieName } from '$lib/utils/helpers/token';
 	import { base } from '$app/paths';
+	import Analytics from '$lib/utils/analytics';
 
 	export let data;
 	// Update store with Spark headers
@@ -51,6 +52,12 @@
 			deleteCookie(getUserCookieName(), getCookieOptions(false));
 		}
 	});
+
+	const beforeUnload = () => {
+		Logger?.flush();
+		Analytics?.flush();
+	};
 </script>
 
+<svelte:window on:beforeunload={beforeUnload} />
 <slot />
