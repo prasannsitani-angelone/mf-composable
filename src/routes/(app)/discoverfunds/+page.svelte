@@ -32,6 +32,7 @@
 	import { SEO, WMSIcon } from 'wms-ui-component';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 	import { onMount, tick } from 'svelte';
+	import Analytics from '$lib/utils/analytics';
 
 	$: showPortfoliocard = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -261,6 +262,7 @@
 	onMount(async () => {
 		await tick();
 		sHomepage();
+		Analytics.flush();
 	});
 
 	export let data: PageData;
