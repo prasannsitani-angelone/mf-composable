@@ -10,7 +10,8 @@ module.exports = {
 			boxShadow: {
 				csm: '0px 2px 8px rgba(138, 141, 153, 0.16);',
 				clg: '6px 6px 28px rgba(43, 47, 63, 0.100934)',
-				fab: '0px 1px 6px rgba(138, 141, 153, 0.24);'
+				fab: '0px 1px 6px rgba(138, 141, 153, 0.24);',
+				top: '0px -2px 4px rgba(138, 141, 153, 0.16);'
 			},
 			colors: {
 				black: {
@@ -90,6 +91,12 @@ module.exports = {
 			},
 			backgroundOpacity: {
 				12: '0.12'
+			},
+			inset: {
+				18: '4.5rem'
+			},
+			bottom: {
+				18: '4.5rem'
 			}
 		}
 	},

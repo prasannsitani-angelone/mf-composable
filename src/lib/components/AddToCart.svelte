@@ -33,7 +33,11 @@
 		if (res.ok) {
 			// Update the cart store on client for further process as we are not calling the page api again and again
 			// on cart store update in order to acheive better performance
-			cartStore.updateCartItems(scheme);
+			const addedItemCartId = Array.isArray(res.data?.data?.itemsId) && res.data.data.itemsId[0];
+			const dataForStoreUpdate = addedItemCartId
+				? { ...scheme, cartItemId: addedItemCartId }
+				: { ...scheme };
+			cartStore.updateCartItems(dataForStoreUpdate);
 			// Show Suceess Toast on successful addition
 			toastStore.updateToastQueue({
 				type: 'SUCCESS',

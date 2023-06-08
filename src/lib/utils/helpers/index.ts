@@ -23,3 +23,18 @@ export const compareVersion = (version1 = '', version2: string): boolean => {
 	}
 	return true;
 };
+
+export const groupByArrayElements = (arr, key: string) => {
+	if (!Array.isArray(arr)) {
+		return {};
+	}
+	const group = {};
+	arr.forEach((item) => {
+		if (group[item[key]]) {
+			group[item[key]].push(item);
+		} else {
+			group[item[key]] = [item];
+		}
+	});
+	return group;
+};

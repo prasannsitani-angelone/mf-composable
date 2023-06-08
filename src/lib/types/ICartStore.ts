@@ -12,3 +12,26 @@ export interface ICartStore {
 	currentSelection: WeeklyTopSchemesEntity | RemoveCartItem | null;
 	addToCartRequestedFromModal: boolean;
 }
+export interface CartEntity {
+	cartItemId: number;
+	schemeCode: string;
+	isin: string;
+	schemeName: string;
+	logoUrl: string;
+	investmentType: string;
+	amount: number;
+	minSipAmount: number;
+	minPurchaseAmount: number;
+	sipMultiplierAmount: number;
+	sipMaxAmount: number;
+	sipAllowedDays: string;
+	lumpsumMaxAmount: number;
+	isLumpsumAllowed: string;
+	lumpsumMultiplierAmount: number;
+	isSipAllowed: string;
+	purchaseTxnMode: string;
+	isSelected: boolean;
+	sipDay: number;
+	frequency: string;
+	installmentNo: number;
+}

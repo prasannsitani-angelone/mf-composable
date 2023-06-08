@@ -15,7 +15,8 @@
 </script>
 
 <section
-	class="flex h-[calc(100vh-180px)] flex-col items-center justify-center rounded-lg bg-white px-8 shadow-csm sm:justify-start sm:pt-16"
+	class="flex h-[calc(100vh-180px)] flex-col items-center justify-center rounded-lg bg-white px-8 shadow-csm sm:justify-start sm:pt-16 {$$props.class ||
+		''}"
 >
 	<slot name="icon" />
 	<slot name="heading">
