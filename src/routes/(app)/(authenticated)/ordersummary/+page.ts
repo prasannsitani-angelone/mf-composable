@@ -10,6 +10,7 @@ import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 import { base } from '$app/paths';
 import { shareMessage } from '$lib/utils/share';
+import { shouldDisplayShare } from '$lib/utils';
 
 export const load = async ({ fetch, url, parent, depends }) => {
 	const params = url.searchParams.get('params');
@@ -17,6 +18,8 @@ export const load = async ({ fetch, url, parent, depends }) => {
 	const { profile } = await parent();
 	const { orderID, sipID, firstTimePayment } = decodedParams;
 	let schemeData: Record<string, string>;
+	const parentData = await parent();
+	const showShare = shouldDisplayShare(parentData);
 	const getOrderDetailsFunc = async () => {
 		try {
 			if (firstTimePayment) {
@@ -61,7 +64,6 @@ export const load = async ({ fetch, url, parent, depends }) => {
 	};
 
 	const onClickShareIcon = async () => {
-		const parentData = await parent();
 		const link = `https://angeloneapp.page.link/?link=${parentData.scheme}//${
 			parentData.host
 		}${base}/schemes/${normalizeFundName(
@@ -72,7 +74,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 		const message = {
 			text: `Hey, I just invested in the ${schemeData?.schemeName}. Join me in investing on Angel One - ${link}`
 		};
-		shareMessage(parentData.sparkHeaders, message);
+		shareMessage(message);
 	};
 
 	const getAPIData = async () => {
@@ -239,7 +241,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 		layoutConfig: {
 			layoutType: 'FULL_HEIGHT_WITHOUT_PADDING',
 			title: 'Order Summary',
-			showShareIcon: true,
+			showShareIcon: showShare,
 			onClickShareIcon: onClickShareIcon
 		}
 	};

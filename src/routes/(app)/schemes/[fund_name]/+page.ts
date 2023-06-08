@@ -10,6 +10,7 @@ import { base } from '$app/paths';
 import { goto } from '$app/navigation';
 import { decodeToObject } from '$lib/utils/helpers/params';
 import { shareMessage } from '$lib/utils/share';
+import { shouldDisplayShare } from '$lib/utils';
 
 export const load = (async ({ fetch, params, url, parent }) => {
 	const queryParam = url?.searchParams?.get('params') || '';
@@ -19,6 +20,8 @@ export const load = (async ({ fetch, params, url, parent }) => {
 	const schemeMetadata = fundName?.split('-isin-')[1]?.toUpperCase();
 	const [isin = '', schemeCode = ''] = schemeMetadata?.split('-SCHEMECODE-') || [];
 	let schemeData: SchemeDetails;
+	const parentData = await parent();
+	const showShare = shouldDisplayShare(parentData);
 
 	const getSchemeData = async (): Promise<SchemeDetails> => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/${schemeCode}`;
@@ -47,7 +50,6 @@ export const load = (async ({ fetch, params, url, parent }) => {
 	};
 
 	const onClickShareIcon = async () => {
-		const parentData = await parent();
 		const message = {
 			text: `Hey, check out this fund - ${
 				schemeData?.schemeName
@@ -57,7 +59,7 @@ export const load = (async ({ fetch, params, url, parent }) => {
 				url?.href
 			}&apn=${PUBLIC_MF_ANDROID_APN}`
 		};
-		shareMessage(parentData.sparkHeaders, message);
+		shareMessage(message);
 	};
 
 	const getFundHoldings = async (): Promise<Array<SchemeHoldings>> => {
@@ -90,7 +92,7 @@ export const load = (async ({ fetch, params, url, parent }) => {
 			title: 'Fund Details',
 			showBackIcon: true,
 			layoutType: 'TWO_COLUMN',
-			showShareIcon: true,
+			showShareIcon: showShare,
 			onClickShareIcon: onClickShareIcon
 		},
 		api: {

@@ -1,8 +1,10 @@
+import { PLATFORM_TYPE } from '$lib/constants/platform';
 import { profileStore } from '$lib/stores/ProfileStore';
 import { tokenStore } from '$lib/stores/TokenStore';
 import { userStore } from '$lib/stores/UserStore';
 import type { SearchOptionsEntity, PromotionsEntity } from '$lib/types/IDiscoverFunds';
 import type { BankDetailsEntity } from '$lib/types/IUserProfile';
+import type { PageParentData } from '../../routes/(app)/schemes/[fund_name]/$types';
 
 export interface TableColumnToggle {
 	label: string;
@@ -158,4 +160,19 @@ export const capitalizeFirstLetter = (name: string) => {
 
 export const getNameFromDashedParams = (nameInParam: string) => {
 	return capitalizeFirstLetter(nameInParam?.split('-').join(' ').toLowerCase());
+};
+
+export const shouldDisplayShare = (parentData: PageParentData) => {
+	const osName = parentData?.deviceType?.osName || parentData?.deviceType?.os;
+	const platform = parentData?.sparkHeaders.platform;
+	const platformvariant = parentData?.sparkHeaders?.platformvariant;
+	return (
+		typeof window?.webkit?.messageHandlers?.callBackHandlerMFShareOption?.postMessage ===
+			'function' ||
+		typeof window?.ShareDataHandler?.share === 'function' ||
+		(osName?.toLowerCase() === 'ios' &&
+			platform?.toLowerCase() !== PLATFORM_TYPE.SPARK_IOS &&
+			platform?.toLowerCase() !== PLATFORM_TYPE.ANGELBEE_IOS) ||
+		(osName?.toLowerCase() === 'android' && platformvariant?.toLowerCase() !== 'webview')
+	);
 };
