@@ -204,6 +204,7 @@ export const netBankingCartFlow = async (params) => {
 		showLoading('Waiting for order status');
 		const orderPatchResponse = await cartPatch();
 		handleOrderPatchResponse({
+			orderId: orderPostResponse?.data?.orderId,
 			orderPatchResponse,
 			stopLoading,
 			displayError
@@ -638,6 +639,7 @@ export const upiCartFlow = async (params) => {
 		showLoading('Waiting for order status');
 		const orderPatchResponse = await orderPatch();
 		handleOrderPatchResponse({
+			orderId: orderPostResponse?.data?.orderId,
 			orderPatchResponse,
 			stopLoading,
 			displayError
@@ -1132,6 +1134,7 @@ export const walletCartFlow = async (params) => {
 		showLoading('Waiting for order status');
 		const orderPatchResponse = await orderPatch();
 		handleOrderPatchResponse({
+			orderId: orderPostResponse?.data?.orderId,
 			orderPatchResponse,
 			stopLoading,
 			displayError

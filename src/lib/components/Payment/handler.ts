@@ -18,6 +18,8 @@ export const handleTransactionResponse = (params) => {
 			stopLoading();
 			failureCallback();
 			displayError({
+				orderId,
+				sipId,
 				heading: 'Payment Failed',
 				errorSubHeading:
 					transactionResponse?.data?.data?.response_description ||
@@ -137,10 +139,11 @@ export const handleOrderPostResponse = (params) => {
 };
 
 export const handleOrderPatchResponse = (params) => {
-	const { orderPatchResponse, stopLoading, displayError } = params || {};
+	const { orderPatchResponse, stopLoading, displayError, orderId } = params || {};
 	if (!orderPatchResponse.ok) {
 		stopLoading();
 		displayError({
+			orderId,
 			heading: 'Order Creation Error',
 			errorSubHeading: orderPatchResponse?.data?.message
 		});

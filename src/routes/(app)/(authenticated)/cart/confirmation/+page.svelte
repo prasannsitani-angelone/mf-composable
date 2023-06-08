@@ -29,6 +29,7 @@
 		intializeNetBankingState
 	} from '$components/Payment/util';
 	import { WMSIcon } from 'wms-ui-component';
+	import { cartStore } from '$lib/stores/CartStore';
 
 	export let data: PageData;
 
@@ -47,6 +48,7 @@
 	let bankPopupVisible = false;
 	let validateUPILoading = false;
 	let pendingCaseOrderID: number;
+	let failureCaseOrderID: number;
 	const error = {
 		visible: false,
 		heading: '',
@@ -195,16 +197,20 @@
 		validateUPILoading = false;
 	};
 
-	const displayError = ({ heading = 'Error', errorSubHeading = '' }) => {
+	const displayError = ({ heading = 'Error', errorSubHeading = '', orderId }) => {
 		error.visible = true;
 		error.heading = heading;
 		error.subHeading = errorSubHeading;
+		failureCaseOrderID = orderId;
 	};
 
 	const closeErrorPopup = () => {
 		error.heading = '';
 		error.subHeading = '';
 		error.visible = false;
+		navigatToOrderSummary({
+			orderId: failureCaseOrderID
+		});
 	};
 
 	const displayPendingPopup = ({ heading = 'Payment Pending', errorSubHeading = '', orderId }) => {
@@ -309,6 +315,7 @@
 	};
 
 	const navigatToOrderSummary = async ({ orderId }) => {
+		cartStore.updateCartData(false);
 		const params = encodeObject({
 			orderID: orderId
 		});
@@ -472,8 +479,7 @@
 		class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
 		isModalOpen
 		handleButtonClick={closeErrorPopup}
-		closeModal={closeErrorPopup}
-		buttonTitle="TRY AGAIN"
+		buttonTitle="CLOSE"
 		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
 		buttonVariant="contained"
 	/>
