@@ -36,7 +36,7 @@
 </script>
 
 {#if browser}
-	<div class="flex flex-row items-center">
+	<div class="flex flex-row items-center w-full">
 		{#if navigation}
 			<WMSIcon
 				width={40}
