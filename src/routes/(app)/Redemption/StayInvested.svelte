@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import Button from '$components/Button.svelte';
 	import BigDotIcon from '$lib/images/icons/BigDotIcon.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { WMSIcon } from 'wms-ui-component';
 	import { calculateLumpsumReturns } from '../(authenticated)/investments/utils';
+	import { stayInvestedImpressionAnalytics } from '$lib/analytics/redemption/redemption';
 
 	export let currentValue: number;
 	export let categoryName: string;
@@ -62,6 +63,10 @@
 
 	get3YearReturns();
 	get5YearReturns();
+
+	onMount(() => {
+		stayInvestedImpressionAnalytics();
+	});
 
 	const graphData = [
 		{

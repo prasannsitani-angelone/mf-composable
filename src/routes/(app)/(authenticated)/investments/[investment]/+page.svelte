@@ -24,7 +24,11 @@
 	import { format } from 'date-fns';
 	import Modal from '$components/Modal.svelte';
 	import SwitchOptions from '$components/Switch/SwitchOptions.svelte';
-	import { withdrawFlowStartClickAnalytics } from '$lib/analytics/redemption/redemption';
+	import {
+		stayInvestedPrimaryCtaClickAnalytics,
+		stayInvestedSecondaryCtaClickAnalytics,
+		withdrawFlowStartClickAnalytics
+	} from '$lib/analytics/redemption/redemption';
 	import {
 		switchHamburgerIconClickAnalytics,
 		switchOptionsOpenAnalytics
@@ -197,7 +201,9 @@
 		setQueryParamsData();
 	});
 
-	const handleStayInvestedWithdrawClick = () => {
+	const handleStayInvestedModalWithdrawClick = () => {
+		stayInvestedSecondaryCtaClickAnalytics();
+
 		if (isMobile) {
 			handleWithdrawCtaClick();
 		} else {
@@ -223,7 +229,11 @@
 		goto(redirectPath);
 	};
 
-	const toggleShowStayInvestedModal = () => {
+	const toggleShowStayInvestedModal = (primaryCta?: boolean) => {
+		if (primaryCta && showStayInvestedModal) {
+			stayInvestedPrimaryCtaClickAnalytics();
+		}
+
 		showStayInvestedModal = !showStayInvestedModal;
 	};
 
@@ -405,11 +415,14 @@
 	</Modal>
 
 	{#if showStayInvestedModal}
-		<Modal isModalOpen={showStayInvestedModal} on:backdropclicked={toggleShowStayInvestedModal}>
+		<Modal
+			isModalOpen={showStayInvestedModal}
+			on:backdropclicked={() => toggleShowStayInvestedModal()}
+		>
 			<StayInvested
 				class="z-60 sm:w-120"
-				on:primaryCtaClick={toggleShowStayInvestedModal}
-				on:secondaryCtaClick={handleStayInvestedWithdrawClick}
+				on:primaryCtaClick={() => toggleShowStayInvestedModal(true)}
+				on:secondaryCtaClick={handleStayInvestedModalWithdrawClick}
 				currentValue={holdingsData?.currentValue}
 				categoryName={res?.schemeData?.categoryName}
 				subCategoryName={res?.schemeData?.subCategoryName}

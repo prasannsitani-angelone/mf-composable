@@ -333,3 +333,36 @@ export const withdrawableAmountLessThanMinimumLimitAnalytics = (eventMetaData) =
 		event_metadata: eventMetaData
 	});
 };
+
+export const stayInvestedImpressionAnalytics = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 'bs-potentialreturns',
+		event_type: 'impression',
+		event_sub_type: 'screen',
+		event_name: 'potentialreturns',
+		event_property: null,
+		event_id: '307.0.0.1.36'
+	});
+};
+
+export const stayInvestedPrimaryCtaClickAnalytics = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 'bs-potentialreturns',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'StayInvested',
+		event_property: null,
+		event_id: '307.0.0.1.37'
+	});
+};
+
+export const stayInvestedSecondaryCtaClickAnalytics = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 'bs-potentialreturns',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'Withdraw',
+		event_property: null,
+		event_id: '307.0.0.1.38'
+	});
+};
