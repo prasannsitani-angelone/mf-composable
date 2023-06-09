@@ -668,30 +668,32 @@
 	{/if}
 
 	{#if showFolioSelection}
-		<!-- Folio Selection screen section mobile -->
-		<section class="block rounded text-grey-dark md:hidden">
-			<Modal
-				isModalOpen={showFolioSelection}
-				on:backdropclicked={() => toggleFolioSelection(false)}
-			>
+		{#if isMobile}
+			<!-- Folio Selection screen section mobile -->
+			<section class="rounded text-grey-dark">
+				<Modal
+					isModalOpen={showFolioSelection}
+					on:backdropclicked={() => toggleFolioSelection(false)}
+				>
+					<FolioSelection
+						class="w-screen rounded-t-2xl bg-white px-3 py-2"
+						{folioList}
+						selectedFolioNumber={selectedFolio?.folioNumber}
+						on:confirmSelectedFolio={(folioData) => setFolioWithdrawalData(folioData?.detail)}
+					/>
+				</Modal>
+			</section>
+		{:else}
+			<!-- Folio Selection screen section desktop -->
+			<section class="rounded px-3 text-grey-dark">
+				<!-- Folio List -->
 				<FolioSelection
-					class="w-screen rounded-t-2xl bg-white px-3 py-2"
 					{folioList}
 					selectedFolioNumber={selectedFolio?.folioNumber}
 					on:confirmSelectedFolio={(folioData) => setFolioWithdrawalData(folioData?.detail)}
 				/>
-			</Modal>
-		</section>
-
-		<!-- Folio Selection screen section desktop -->
-		<section class="hidden rounded px-3 text-grey-dark md:block">
-			<!-- Folio List -->
-			<FolioSelection
-				{folioList}
-				selectedFolioNumber={selectedFolio?.folioNumber}
-				on:confirmSelectedFolio={(folioData) => setFolioWithdrawalData(folioData?.detail)}
-			/>
-		</section>
+			</section>
+		{/if}
 	{/if}
 
 	{#if showWithdrawConfirmation}

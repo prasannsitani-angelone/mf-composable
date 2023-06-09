@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Button from '$components/Button.svelte';
+	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { createEventDispatcher } from 'svelte';
 	import { WMSIcon } from 'wms-ui-component';
 
@@ -58,7 +59,7 @@
 	{/each}
 
 	<Button variant="contained" class="my-2" onClick={primaryCtaClick}>
-		START SIP OF ₹{sipAmount}/MONTH
+		START SIP OF ₹{addCommasToAmountString(sipAmount)}/MONTH
 	</Button>
 
 	<Button variant="transparent" onClick={secondaryCtaClick}>CONTINUE WITH ONE-TIME PAYMENT</Button>

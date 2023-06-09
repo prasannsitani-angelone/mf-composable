@@ -1163,8 +1163,8 @@
 							class="to flex items-center justify-between rounded bg-gradient-to-r from-green-buy/40 to-white py-2 px-1"
 						>
 							<div class="flex items-start">
-								<WMSIcon class="mr-1" name="double-tick" width={15} height={9} />
-								<p class="w-[80%] text-xs font-light">
+								<WMSIcon class="mr-1 mt-1" name="double-tick" width={15} height={9} />
+								<p class="w-[80%] text-xs font-medium text-black-title">
 									To reduce the risk of market fluctuations, consider investing this amount as SIP
 								</p>
 							</div>

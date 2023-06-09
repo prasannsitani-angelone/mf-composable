@@ -4,8 +4,8 @@
 	import BigDotIcon from '$lib/images/icons/BigDotIcon.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { WMSIcon } from 'wms-ui-component';
-	import { calculateLumpsumReturns } from '../(authenticated)/investments/utils';
 	import { stayInvestedImpressionAnalytics } from '$lib/analytics/redemption/redemption';
+	import { calculateLumpsumReturns } from '$lib/utils/helpers/returns';
 
 	export let currentValue: number;
 	export let categoryName: string;
@@ -83,7 +83,7 @@
 			returnPercentage: threeYearGainLossPercentage,
 			xAxisTitle1: 'After',
 			xAxisTitle2: '3 Years',
-			barHeight: 16
+			barHeight: 20
 		},
 		{
 			type: '5Y_RETURN',
@@ -91,7 +91,7 @@
 			returnPercentage: fiveYearGainLossPercentage,
 			xAxisTitle1: 'After',
 			xAxisTitle2: '5 Years',
-			barHeight: 24
+			barHeight: 32
 		}
 	];
 
