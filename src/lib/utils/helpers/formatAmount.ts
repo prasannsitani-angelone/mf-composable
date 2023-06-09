@@ -103,18 +103,18 @@ export const getCappedUnitString = (units = '', cap = 3) => {
 };
 
 /**
- * roundOffAmountToNearestThousand
+ * roundUpAmountToNearestThousand
  *
  * Amount                 |   Returned Value
  * -----------------------|-----------------------
- * 1250                   |   1000
+ * 1250                   |   2000
  * 1650                   |   2000
- * 24780                  |   25000
+ * 24380                  |   25000
  *
  * @param {number} amount
  * @returns {number}
  */
-export const roundOffAmountToNearestThousand = (amount: number) => {
+export const roundUpAmountToNearestThousand = (amount: number) => {
 	if (typeof amount === 'string') {
 		amount = Number(amount);
 	}
@@ -123,7 +123,7 @@ export const roundOffAmountToNearestThousand = (amount: number) => {
 	const remainder = amount % 1000;
 	let roundOffFactor = 0;
 
-	if (remainder >= 500) {
+	if (remainder > 0) {
 		roundOffFactor = 1;
 	}
 

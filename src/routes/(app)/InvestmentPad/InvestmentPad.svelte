@@ -14,7 +14,7 @@
 	import {
 		addCommasToAmountString,
 		formatAmount,
-		roundOffAmountToNearestThousand
+		roundUpAmountToNearestThousand
 	} from '$lib/utils/helpers/formatAmount';
 	import TabNotSupported from './OrderPadComponents/TabNotSupported.svelte';
 	import {
@@ -368,7 +368,7 @@
 
 	const setLumpsumToSipAmountValue = () => {
 		const perMonthAmount = Number(amount) / 10;
-		lumpsumToSipAmount = roundOffAmountToNearestThousand(perMonthAmount)?.toString();
+		lumpsumToSipAmount = roundUpAmountToNearestThousand(perMonthAmount)?.toString();
 
 		lumpsumToSipAmountValidation();
 	};
