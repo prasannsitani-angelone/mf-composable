@@ -35,6 +35,8 @@
 	} from '$lib/analytics/switch/switch';
 	import { SEO } from 'wms-ui-component';
 	import StayInvested from '../../../Redemption/StayInvested.svelte';
+	import InvestmentDetailsFooterLoader from './components/InvestmentDetailsFooterLoader.svelte';
+	import { hydrate } from '$lib/utils/helpers/hydrated';
 
 	export let data: PageData;
 
@@ -301,20 +303,26 @@
 				/>
 
 				{#if res.holdingsData}
-					<!-- Investment Details Page Footer (Mobile Layout) -->
-					<InvestmentDetailsFooter
-						parentPage={orderpadParentPage?.INVESTMENT}
-						investmentAllowed={holdingsData?.investmentAllowed &&
-							!isInvestmentNotAllowed &&
-							!investDisableText?.length}
-						redemptionAllowed={holdingsData?.redemptionAllowed && !withdrawDisableText?.length}
-						investmentDisableText={investDisableText}
-						redemptionDisableText={withdrawDisableText}
-						{isWithdrawDisableLockInCase}
-						on:investButtonClick={handleInvestMoreCtaClick}
-						on:withdrawButtonClick={handleWithdrawCtaClick}
-						on:moreOptionsButtonClick={handleMoreOptionsClick}
-					/>
+					{#if hydrate}
+						<!-- Investment Details Page Footer (Mobile Layout) -->
+						<InvestmentDetailsFooter
+							parentPage={orderpadParentPage?.INVESTMENT}
+							investmentAllowed={holdingsData?.investmentAllowed &&
+								!isInvestmentNotAllowed &&
+								!investDisableText?.length}
+							redemptionAllowed={holdingsData?.redemptionAllowed && !withdrawDisableText?.length}
+							investmentDisableText={investDisableText}
+							redemptionDisableText={withdrawDisableText}
+							{isWithdrawDisableLockInCase}
+							on:investButtonClick={handleInvestMoreCtaClick}
+							on:withdrawButtonClick={handleWithdrawCtaClick}
+							on:moreOptionsButtonClick={handleMoreOptionsClick}
+						/>
+					{:else}
+						<article class="fixed inset-0 top-auto z-20 block bg-white p-2 md:hidden">
+							<InvestmentDetailsFooterLoader />
+						</article>
+					{/if}
 				{/if}
 			{:else}
 				<!-- Invest/Redeem Pages (Mobile Layout) -->
