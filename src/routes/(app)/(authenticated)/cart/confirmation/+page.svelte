@@ -337,12 +337,12 @@
 	Confirm Order
 </div>
 
-<article class="flex h-full flex-col">
+<article class="flex h-full flex-col sm:h-max">
 	{#await data.api.itemList}
 		<LoadingIndicator svgClass="!w-12 !h-12" class="self-center" />
 	{:then itemList}
 		{#if itemList.ok}
-			<div class="flex h-full flex-col overflow-hidden sm:overflow-auto">
+			<div class="flex h-full flex-col overflow-hidden sm:h-max sm:overflow-auto">
 				<div class="flex flex-1 flex-col overflow-auto sm:mb-3 sm:flex-initial sm:overflow-visible">
 					<div
 						class="hidden grid-cols-[46%_18%_18%_18%] items-center border-b border-t border-grey-line bg-white px-6 py-4 text-sm font-medium text-grey-dark sm:grid"

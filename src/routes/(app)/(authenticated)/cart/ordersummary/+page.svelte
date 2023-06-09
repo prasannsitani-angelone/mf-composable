@@ -26,12 +26,12 @@
 	};
 </script>
 
-<article class="flex h-full flex-col">
+<article class="flex h-full flex-col sm:h-max">
 	{#await data.api.ordersData}
 		<LoadingIndicator svgClass="!w-12 !h-12" class="self-center" />
 	{:then ordersData}
 		{#if ordersData.ok}
-			<div class="flex h-full flex-col overflow-hidden sm:overflow-auto">
+			<div class="flex h-full flex-col overflow-hidden sm:h-max sm:overflow-auto">
 				<HeaderComponent
 					heading={ordersData.headerContent?.heading}
 					subHeadingArr={ordersData.headerContent?.subHeadingArr}
