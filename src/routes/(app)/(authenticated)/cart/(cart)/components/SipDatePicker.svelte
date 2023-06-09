@@ -75,6 +75,7 @@
 	function getDisplayDate(selectedDate: number) {
 		return selectedDate + getDateSuperscript(selectedDate);
 	}
+	handleDateSelect({ detail: cartItem.sipDay });
 </script>
 
 <div class="relative flex items-center max-sm:justify-end sm:h-full">

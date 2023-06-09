@@ -15,6 +15,7 @@
 	export let showBackIcon = false;
 	export let showCloseIcon = false;
 	export let showShareIcon = false;
+	export let showCartIcon = false;
 	export let onClickShareIcon: (() => void) | null = null;
 
 	const handleCloseButtonClick = () => {
@@ -32,8 +33,6 @@
 			history.back();
 		}
 	};
-
-	$: isCartIconVisible = $page.data?.layoutConfig?.showCartIcon || false;
 
 	const logoUrl = `${base}/images/mutual-fund-logo.webp`;
 </script>
@@ -68,31 +67,33 @@
 					</h1>
 				</slot>
 			</article>
-			<slot name="cartIcon">
-				{#if isCartIconVisible}
-					<article id="cart-icon" class="mr-3 flex flex-1 justify-end">
-						{#await $page.data?.api?.schemeData then schemeData}
-							<AddToCart scheme={schemeData} class="px-0" iconColor="#425061" />
-						{/await}
-					</article>
-				{/if}
-			</slot>
-			<slot name="shareIcon">
-				{#if showShareIcon}
-					<article id="share-icon" class="flex">
-						<WMSIcon name="share" on:click={onClickShareIcon} height={24} width={24} />
-					</article>
-				{/if}
-			</slot>
-			<slot name="searchIcon">
-				{#if showSearchIcon}
-					<article class="flex pr-4">
-						<Link to={`/search`} ariaLabel="search">
-							<SearchDarkIcon class="ml-2 mt-1 h-6 w-6 cursor-pointer" />
-						</Link>
-					</article>
-				{/if}
-			</slot>
+			<div class="flex items-center justify-end">
+				<slot name="cartIcon">
+					{#if showCartIcon}
+						<article id="cart-icon" class="mr-3 flex justify-end">
+							{#await $page.data?.api?.schemeData then schemeData}
+								<AddToCart scheme={schemeData} class="px-0" iconColor="#425061" />
+							{/await}
+						</article>
+					{/if}
+				</slot>
+				<slot name="shareIcon">
+					{#if showShareIcon}
+						<article id="share-icon" class="flex">
+							<WMSIcon name="share" on:click={onClickShareIcon} height={24} width={24} />
+						</article>
+					{/if}
+				</slot>
+				<slot name="searchIcon">
+					{#if showSearchIcon}
+						<article class="flex pr-4">
+							<Link to={`/search`} ariaLabel="search">
+								<SearchDarkIcon class="ml-2 mt-1 h-6 w-6 cursor-pointer" />
+							</Link>
+						</article>
+					{/if}
+				</slot>
+			</div>
 		</article>
 	</article>
 </section>

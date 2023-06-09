@@ -20,6 +20,7 @@
 			showBackIcon={pageMetaData?.showBackIcon}
 			showCloseIcon={pageMetaData?.showCloseIcon}
 			showShareIcon={pageMetaData?.showShareIcon}
+			showCartIcon={pageMetaData?.showCartIcon}
 			onClickShareIcon={pageMetaData?.onClickShareIcon}
 			class="bg-white"
 		>
