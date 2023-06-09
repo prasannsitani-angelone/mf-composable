@@ -12,6 +12,7 @@ interface LayoutConfig {
 	showSearchIcon: boolean;
 	showCloseIcon: boolean;
 	showShareIcon: boolean;
+	showCartIcon: boolean;
 	onClickShareIcon: (() => void) | null;
 	layoutType:
 		| 'TWO_COLUMN'

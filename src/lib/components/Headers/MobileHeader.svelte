@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { base } from '$app/paths';
 	import { appStore } from '$lib/stores/SparkStore';
 	import SearchDarkIcon from '$lib/images/icons/SearchDarkIcon.svelte';
@@ -6,6 +7,7 @@
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 	import { WMSIcon } from 'wms-ui-component';
 	import Link from '$components/Link.svelte';
+	import AddToCart from '$components/AddToCart.svelte';
 	import { goto } from '$app/navigation';
 
 	export let title = '';
@@ -30,6 +32,8 @@
 			history.back();
 		}
 	};
+
+	$: isCartIconVisible = $page.data?.layoutConfig?.showCartIcon || false;
 
 	const logoUrl = `${base}/images/mutual-fund-logo.webp`;
 </script>
@@ -64,6 +68,15 @@
 					</h1>
 				</slot>
 			</article>
+			<slot name="cartIcon">
+				{#if isCartIconVisible}
+					<article id="cart-icon" class="mr-3 flex flex-1 justify-end">
+						{#await $page.data?.api?.schemeData then schemeData}
+							<AddToCart scheme={schemeData} class="px-0" iconColor="#425061" />
+						{/await}
+					</article>
+				{/if}
+			</slot>
 			<slot name="shareIcon">
 				{#if showShareIcon}
 					<article id="share-icon" class="flex">

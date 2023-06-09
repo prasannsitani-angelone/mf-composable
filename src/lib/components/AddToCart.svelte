@@ -16,6 +16,7 @@
 
 	export let scheme: ExploreFundsOptions | WeeklyTopSchemesEntity;
 	export let showForAllUsers = false;
+	export let iconColor = '#3F5BD9';
 
 	let dispatch = createEventDispatcher();
 
@@ -148,6 +149,6 @@
 			dispatch('onCartClick');
 		}}
 	>
-		<WMSIcon name="cart-plus" />
+		<WMSIcon name="cart-plus" stroke={iconColor} />
 	</Button>
 {/if}

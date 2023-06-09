@@ -80,7 +80,7 @@
 	</Button>
 	{#if isDDOptionsVisible}
 		<div
-			class=" absolute top-9 left-0 flex w-28 flex-col rounded-sm border bg-white text-left shadow-csm"
+			class=" absolute top-6 left-0 z-10 flex w-28 flex-col rounded-sm border bg-white text-left shadow-csm sm:top-9"
 			use:clickOutside
 			on:outclick={closeDropDown}
 		>

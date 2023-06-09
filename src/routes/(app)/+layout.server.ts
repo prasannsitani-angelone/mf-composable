@@ -42,26 +42,6 @@ const getsearchDashboardData = async (fetch) => {
 	}
 };
 
-const getCartData = async (fetch, isGuest: boolean) => {
-	if (isGuest) {
-		return {
-			data: []
-		};
-	}
-	const url = `${PUBLIC_MF_CORE_BASE_URL}/carts/items`;
-	const res = await useFetch(url, {}, fetch);
-	if (res.ok) {
-		const cartItems = res.data;
-		return {
-			...cartItems
-		};
-	} else {
-		return {
-			data: []
-		};
-	}
-};
-
 const getSparkHeaders = (headers: Headers) => {
 	const sparkHeaders: SparkStore = {
 		platform: '',
@@ -153,7 +133,6 @@ export const load = (async ({ request, locals, cookies, fetch }) => {
 	serverTiming.start('getsearchDashboardData', 'Timing of getsearchDashboardData');
 
 	const searchDashboardData = await getsearchDashboardData(fetch);
-	const cartItems = await getCartData(fetch, isGuest);
 
 	serverTiming.end('getsearchDashboardData');
 	return {
@@ -161,7 +140,6 @@ export const load = (async ({ request, locals, cookies, fetch }) => {
 		profile: localProfileData,
 		tokenObj,
 		searchDashboardData,
-		cartItems,
 		isGuest,
 		userDetails: localUserDetails
 	};

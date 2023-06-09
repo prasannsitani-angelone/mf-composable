@@ -167,7 +167,7 @@
 		<div
 			class="flex w-screen flex-col items-center justify-between rounded-t-2xl rounded-b-none bg-white p-4 text-center sm:!w-[460px] sm:rounded-lg sm:px-20 sm:py-8"
 		>
-			<div class=""><WMSIcon width={92} height={92} name="red-exclamation" /></div>
+			<div class=""><WMSIcon width={92} height={92} name="red-exclamation-thin" /></div>
 			<div class="mb-4 mt-6 text-2xl font-medium text-black-key">Order size limit exceeded</div>
 
 			<div class=" text-sm font-normal text-black-key">

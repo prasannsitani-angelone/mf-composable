@@ -25,7 +25,8 @@ export const load = (async ({ fetch }) => {
 		layoutConfig: {
 			title: 'Cart',
 			layoutType: 'DEFAULT',
-			showBottomNavigation: true
+			showBottomNavigation: true,
+			showBackIcon: true
 		}
 	};
 }) satisfies PageLoad;

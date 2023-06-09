@@ -6,6 +6,7 @@
 	import { formatDate } from '$lib/utils';
 	import { tags } from '$lib/constants/tags';
 	import type { Tags } from '$lib/types/ITags';
+	import FundRating from './FundRating.svelte';
 
 	import NavCharts from './NavCharts.svelte';
 	import RocketIcon from '$lib/images/icons/RocketIcon.svelte';
@@ -107,7 +108,8 @@
 			</div>
 			<div class="relative {isNFO ? 'mb-auto' : ''}">
 				{#if !isNFO}
-					<AddToCart scheme={schemeDetails} />
+					<FundRating class="ml-4 sm:hidden" />
+					<AddToCart scheme={schemeDetails} class="hidden sm:flex" />
 				{:else}
 					<div>
 						<span class="text-sm font-normal uppercase text-grey-body">Nav</span>

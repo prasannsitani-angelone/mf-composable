@@ -122,15 +122,11 @@
 			preloadData={isGuest ? 'off' : 'hover'}
 			on:linkClicked={() => onTabClickAnalytics('Favourites')}
 		>
-			<div
-				class="relative flex h-9 w-9 items-center justify-center rounded-full {isCartActive
-					? 'bg-blue-primary'
-					: 'bg-grey-light'}"
-			>
+			<div class="relative flex h-9 w-9 items-center justify-center rounded-full bg-grey-light">
 				{#if isCartActive}
-					<WMSIcon name="cart-outlined" stroke="white" />
-				{:else}
 					<WMSIcon name="cart-filled" />
+				{:else}
+					<WMSIcon name="cart-outlined" stroke="#3F5BD9" />
 				{/if}
 				<div
 					class="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-tulip text-center text-xs font-bold text-white"

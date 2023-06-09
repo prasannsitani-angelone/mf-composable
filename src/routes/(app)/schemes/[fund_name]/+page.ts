@@ -100,6 +100,7 @@ export const load = (async ({ fetch, params, url, parent }) => {
 			showBackIcon: true,
 			layoutType: 'TWO_COLUMN',
 			showShareIcon: showShare,
+			showCartIcon: true,
 			onClickShareIcon: onClickShareIcon
 		},
 		api: {
