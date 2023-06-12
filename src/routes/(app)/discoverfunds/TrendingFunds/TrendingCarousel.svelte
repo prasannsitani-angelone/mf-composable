@@ -54,7 +54,7 @@
 		centeredSlides={false}
 		spaceBetween={-20}
 		navigation={!isMobile && tableData.length > 0}
-		loop={isMobile}
+		loop={false}
 	>
 		{#each tableData || [] as schemes, index}
 			<SwiperSlide>
