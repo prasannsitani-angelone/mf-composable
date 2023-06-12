@@ -175,7 +175,7 @@
 			res?.data?.data?.orderId !== undefined
 		) {
 			const path = `/ordersummary/redeem/${res?.data?.data?.orderId}`;
-			goto(`${base}${path}`);
+			goto(`${base}${path}`, { replaceState: true });
 		} else {
 			error.visible = true;
 			error.heading = 'Order Failed';
