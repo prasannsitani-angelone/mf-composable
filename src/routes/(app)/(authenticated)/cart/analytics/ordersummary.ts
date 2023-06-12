@@ -1,6 +1,6 @@
 import Analytics from '$lib/utils/analytics';
 
-export const mountAnalytics = (eventMetaData: Record<string, string>) => {
+export const mountAnalytics = (eventMetaData: Record<string, number | Array<object>>) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-CartPaymentSuccessful',
 		event_type: 'impression',

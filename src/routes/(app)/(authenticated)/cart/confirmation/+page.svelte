@@ -14,7 +14,7 @@
 	import { PAYMENT_MODE } from '$components/Payment/constants';
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
 	import { profileStore } from '$lib/stores/ProfileStore';
-	import { formatAmount } from '$lib/utils/helpers/formatAmount';
+	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import ReadOnlyTile from '../components/ReadOnlyTile.svelte';
 	import type { PageData } from './$types';
@@ -30,6 +30,17 @@
 	} from '$components/Payment/util';
 	import { WMSIcon } from 'wms-ui-component';
 	import { cartStore } from '$lib/stores/CartStore';
+	import {
+		changePaymentMethodAnalytics,
+		clickCheckoutAnalytics,
+		mountAnalytics,
+		mountChangePaymentMethodAnalytics,
+		paymentFailedScreenAnalytics,
+		paymentFailedScreenCloseButtonAnalytics,
+		paymentModeScreenPayButtonClickAnalytics,
+		paymentPendingScreenAnalytics,
+		paymentPendingScreenCloseButtonAnalytics
+	} from '../analytics/confirmation';
 
 	export let data: PageData;
 
@@ -99,6 +110,7 @@
 		resetState();
 		if (browser) {
 			window.removeEventListener('message', listenerFunc, false);
+			mountAnalytics();
 		}
 	});
 
@@ -151,7 +163,13 @@
 	$: assignPreviousPaymentDetails(data?.api?.previousPaymentDetails, profileData);
 
 	const showPaymentMethodScreen = () => {
+		changePaymentMethodAnalytics();
 		showChangePayment = true;
+		mountChangePaymentMethodAnalytics({
+			DefaultPaymentMethod: paymentHandler?.paymentMode,
+			DefaultBank: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
+			ChangeBankAvailable: profileData?.bankDetails?.length > 1
+		});
 	};
 
 	const hidePaymentMethodScreen = () => {
@@ -197,7 +215,15 @@
 		validateUPILoading = false;
 	};
 
-	const displayError = ({ heading = 'Error', errorSubHeading = '', orderId }) => {
+	const displayError = async ({ heading = 'Error', errorSubHeading = '', orderId }) => {
+		const itemList = await data.api.itemList;
+		paymentFailedScreenAnalytics({
+			Amount: itemList?.totalAmount,
+			PaymentMethod: paymentHandler?.paymentMode,
+			PaymentBank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName,
+			PaymentFailed:
+				'IF the money has been debited from your bank account, please do not worry, it will be refunded automatically'
+		});
 		error.visible = true;
 		error.heading = heading;
 		error.subHeading = errorSubHeading;
@@ -205,6 +231,7 @@
 	};
 
 	const closeErrorPopup = () => {
+		paymentFailedScreenCloseButtonAnalytics();
 		error.heading = '';
 		error.subHeading = '';
 		error.visible = false;
@@ -215,7 +242,19 @@
 		}
 	};
 
-	const displayPendingPopup = ({ heading = 'Payment Pending', errorSubHeading = '', orderId }) => {
+	const displayPendingPopup = async ({
+		heading = 'Payment Pending',
+		errorSubHeading = '',
+		orderId
+	}) => {
+		const itemList = await data.api.itemList;
+		paymentPendingScreenAnalytics({
+			Amount: itemList?.totalAmount,
+			PaymentMethod: paymentHandler?.paymentMode,
+			PaymentBank: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
+			PaymentPending:
+				'we are confirming the status of your payment. This Usually takes few minutes. We will notify you once we have an update'
+		});
 		pending.visible = true;
 		pending.heading = heading;
 		pending.subHeading = errorSubHeading;
@@ -223,6 +262,7 @@
 	};
 
 	const closePendingPopup = () => {
+		paymentPendingScreenCloseButtonAnalytics();
 		pending.heading = '';
 		pending.subHeading = '';
 		pending.visible = false;
@@ -258,19 +298,32 @@
 	};
 
 	const onPayment = async (inputId: string) => {
+		// analytics
+		const itemList = await data.api.itemList;
+		if (showChangePayment) {
+			paymentModeScreenPayButtonClickAnalytics({
+				NoOfFunds: itemList?.shortenedFundList?.length,
+				CheckedFundsList: itemList?.shortenedFundList
+			});
+		} else {
+			clickCheckoutAnalytics({
+				NoOfFunds: itemList?.shortenedFundList?.length,
+				CheckedFundsList: itemList?.shortenedFundList
+			});
+		}
+
 		if (firstTimeUser) {
 			showPaymentMethodScreen();
 			return;
 		}
 		assignNewRequestId();
-		const itemList = await data.api.itemList;
 		const commonInput = {
 			amount: itemList?.totalAmount,
 			accNO: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO,
 			ifscCode: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.ifscCode,
 			bankName: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
 			fullName: profileData?.clientDetails?.fullName,
-			cartItemIds: itemList?.data?.data?.map((item) => item.cartItemId) || [],
+			cartItemIds: itemList?.cartIDArray || [],
 			paymentMode: paymentHandler?.paymentMode,
 			xRequestId,
 			state,
@@ -368,7 +421,7 @@
 						<div
 							class="text-title-black col-start-4 flex justify-end text-sm font-bold sm:justify-start"
 						>
-							₹{formatAmount(itemList?.totalAmount?.toString())}
+							₹{addCommasToAmountString(itemList?.totalAmount?.toString())}
 						</div>
 					</div>
 				</div>
@@ -398,7 +451,7 @@
 								onClick={() => onPayment(paymentHandler.upiId)}
 								disabled={loadingState.isLoading || validateUPILoading}
 							>
-								PAY ₹{formatAmount(itemList?.totalAmount?.toString())} NOW
+								PAY ₹{addCommasToAmountString(itemList?.totalAmount?.toString())} NOW
 							</Button>
 						</div>
 					</div>

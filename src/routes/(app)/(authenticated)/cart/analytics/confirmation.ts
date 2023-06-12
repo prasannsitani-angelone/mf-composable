@@ -11,7 +11,7 @@ export const mountAnalytics = () => {
 	});
 };
 
-export const clickCheckoutAnalytics = (eventMetaData: Record<string, string>) => {
+export const clickCheckoutAnalytics = (eventMetaData: Record<string, number | Array<object>>) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-CheckOutConfirmation',
 		event_type: 'click',
@@ -34,7 +34,9 @@ export const changePaymentMethodAnalytics = () => {
 	});
 };
 
-export const mountChangePaymentMethodAnalytics = (eventMetaData: Record<string, string>) => {
+export const mountChangePaymentMethodAnalytics = (
+	eventMetaData: Record<string, string | boolean>
+) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-ChangeCartPaymentmethod',
 		event_type: 'impression',
@@ -46,7 +48,9 @@ export const mountChangePaymentMethodAnalytics = (eventMetaData: Record<string, 
 	});
 };
 
-export const paymentModeScreenPayButtonClickAnalytics = (eventMetaData: Record<string, string>) => {
+export const paymentModeScreenPayButtonClickAnalytics = (
+	eventMetaData: Record<string, number | Array<object>>
+) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-ChangeCartPaymentmethod',
 		event_type: 'click',
@@ -58,7 +62,9 @@ export const paymentModeScreenPayButtonClickAnalytics = (eventMetaData: Record<s
 	});
 };
 
-export const paymentPendingScreenAnalytics = (eventMetaData: Record<string, string> | null) => {
+export const paymentPendingScreenAnalytics = (
+	eventMetaData: Record<string, string | number> | null
+) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 'bs-paymenpending',
 		event_type: 'impression',
@@ -81,7 +87,9 @@ export const paymentPendingScreenCloseButtonAnalytics = () => {
 	});
 };
 
-export const paymentFailedScreenAnalytics = (eventMetaData: Record<string, string> | null) => {
+export const paymentFailedScreenAnalytics = (
+	eventMetaData: Record<string, string | number> | null
+) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 'bs-paymenfailed',
 		event_type: 'impression',

@@ -2,7 +2,7 @@
 	import Button from '$components/Button.svelte';
 	import type { RemoveCartItem } from '$lib/types/ICartStore';
 	import { getDateSuperscript } from '$lib/utils/helpers/date';
-	import { formatAmount } from '$lib/utils/helpers/formatAmount';
+	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { WMSIcon } from 'wms-ui-component';
 
 	export let schemeLogo = '';
@@ -24,7 +24,7 @@
 			<div
 				class="mr-2 flex h-6 w-6 min-w-[24px] items-center rounded-full border border-grey-line bg-white shadow-csm sm:h-12 sm:w-12 sm:min-w-[48px]"
 			>
-				<img src={schemeLogo} alt="scheme logo" />
+				<img src={schemeLogo} alt="scheme logo" class="h-full w-full" />
 			</div>
 			<div class="text-sm font-medium text-black-title">{schemeName}</div>
 		</div>
@@ -45,7 +45,7 @@
 		<div
 			class="col-start-2 row-start-1 flex justify-end text-sm text-black sm:col-start-4 sm:justify-start"
 		>
-			<span>₹{formatAmount(amount?.toString())}</span>
+			<span>₹{addCommasToAmountString(amount?.toString())}</span>
 		</div>
 	</div>
 	{#if showDelete}

@@ -4,16 +4,31 @@
 	import Button from '$components/Button.svelte';
 	import LoadingIndicator from '$components/LoadingIndicator.svelte';
 	import Mandate from '$components/mandate/Mandate.svelte';
+	import { onMount } from 'svelte';
 	import AutopaySetupTile from '../../ordersummary/AutopaySetupTile/AutopaySetupTile.svelte';
 	import HeaderComponent from '../../ordersummary/Header/HeaderComponent.svelte';
 	import OrdersTile from '../components/OrdersTile.svelte';
 	import type { PageData } from './$types';
+	import {
+		goToOrders,
+		mountAnalytics,
+		setUpAutoPayClickAnalytics
+	} from '../analytics/ordersummary';
 
 	export let data: PageData;
+
+	onMount(async () => {
+		const ordersData = await data.api.ordersData;
+		mountAnalytics({
+			NoOfunds: ordersData?.data?.data?.checkedOutItems?.length,
+			TotalAmount: ordersData?.totalAmount
+		});
+	});
 
 	let mandateInstance = null;
 
 	const navigateToOrders = async () => {
+		goToOrders();
 		await goto(`${base}/orders/orderspage`, { replaceState: true });
 	};
 
@@ -22,6 +37,7 @@
 	};
 
 	const navigateToEmandate = () => {
+		setUpAutoPayClickAnalytics();
 		mandateInstance.startProcess();
 	};
 </script>

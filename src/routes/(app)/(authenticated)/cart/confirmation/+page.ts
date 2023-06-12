@@ -7,6 +7,8 @@ export const load = async ({ fetch, depends }) => {
 
 	const getItemList = async () => {
 		let totalAmount = 0;
+		const cartIDArray: Array<number> = [];
+		const shortenedFundList: Array<object> = [];
 		try {
 			const response = await useFetch(
 				`${PUBLIC_MF_CORE_BASE_URL}/carts/items?status=READY_TO_CHECKOUT`,
@@ -17,14 +19,25 @@ export const load = async ({ fetch, depends }) => {
 				totalAmount = 0;
 				response?.data?.data.forEach((item) => {
 					totalAmount += item.amount;
+					cartIDArray.push(item.cartItemId);
+					shortenedFundList.push({
+						name: item.schemeName,
+						type: item.investmentType,
+						amount: item.amount,
+						date: item.sipDay
+					});
 				});
 			}
 			return {
 				...response,
+				shortenedFundList,
+				cartIDArray,
 				totalAmount
 			};
 		} catch (e) {
 			return {
+				shortenedFundList,
+				cartIDArray,
 				totalAmount
 			};
 		}
