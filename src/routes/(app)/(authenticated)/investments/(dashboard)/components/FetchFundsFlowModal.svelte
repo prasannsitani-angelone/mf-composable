@@ -193,7 +193,11 @@
 					class="pb-11"
 					disableResend={isResendDisabled()}
 				/>
-				<Button type="submit" class="w-full" disabled={isVerifyDisabled()}>VERIFY</Button>
+				<Button
+					type="submit"
+					class="w-full disabled:bg-grey-line disabled:text-white "
+					disabled={isVerifyDisabled()}>VERIFY</Button
+				>
 			</form>
 			{#if loading}
 				<div class="absolute inset-0 flex items-center justify-center bg-black-title/80">

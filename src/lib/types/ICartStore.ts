@@ -34,4 +34,5 @@ export interface CartEntity {
 	sipDay: number;
 	frequency: string;
 	installmentNo: number;
+	inputError?: string;
 }

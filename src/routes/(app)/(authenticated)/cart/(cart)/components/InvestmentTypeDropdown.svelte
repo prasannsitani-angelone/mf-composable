@@ -50,6 +50,7 @@
 			cartItem.amount = cartItem.minPurchaseAmount;
 		}
 		inputError = setErrorMessage(cartItem, cartItem.investmentType, String(cartItem.amount));
+		cartItem.inputError = inputError;
 	}
 	function dropdownItemSelected(selected: Option) {
 		// Return if clicked on same item

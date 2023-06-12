@@ -9,6 +9,13 @@
 	export let cartItems: CartEntity[];
 	export let selectedFunds: CartEntity[];
 
+	const notAllowedToProceed = (items: CartEntity[]) => {
+		return (
+			selectedFunds?.length === 0 ||
+			(Array.isArray(items) && items.some((item) => item.isSelected && item.inputError))
+		);
+	};
+
 	$: totalSelectedAmount = (selectedFunds || []).reduce((acc, curr) => acc + curr.amount, 0);
 </script>
 
@@ -39,8 +46,8 @@
 			class="col-span-1 col-start-1 row-span-1 row-start-2 sm:col-start-2 sm:row-start-1 sm:text-right"
 		>
 			<Button
-				disabled={selectedFunds?.length === 0}
-				class="w-full !font-medium sm:max-w-fit sm:px-16"
+				disabled={notAllowedToProceed(cartItems)}
+				class="w-full !font-medium disabled:bg-grey-line disabled:text-white sm:max-w-fit sm:px-16 "
 				onClick={onProceedButtonClick}>PROCEED TO PLACE ORDER</Button
 			>
 		</div>

@@ -14,6 +14,7 @@
 		inputValue = e.target.value;
 		inputValue = formatAmount(inputValue); // trim, remove alphabets and remove leading zeroes
 		inputError = setErrorMessage(cartItem, cartItem.investmentType, inputValue);
+		cartItem.inputError = inputError;
 	}
 	function InputChangeDone() {
 		if (!inputError && inputValue) {
@@ -24,7 +25,7 @@
 
 	const classess = {
 		input:
-			'cart-input w-full bg-white text-base font-medium leading-none text-black-title outline !rounded',
+			'cart-input w-full bg-white text-base font-medium leading-none text-black-title outline !rounded border-0',
 		container: 'cart-input-container'
 	};
 </script>
