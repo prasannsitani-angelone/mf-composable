@@ -97,15 +97,14 @@
 	 */
 	const doesItemExistInCart = () => {
 		return (
-			scheme.isCartItem ||
-			(Array.isArray($cartStore.item) &&
-				$cartStore.item.filter((eachItem) => {
-					if (eachItem && scheme) {
-						return eachItem.schemeCode === scheme.schemeCode;
-					} else {
-						return false;
-					}
-				}).length > 0)
+			Array.isArray($cartStore.item) &&
+			$cartStore.item.filter((eachItem) => {
+				if (eachItem && scheme) {
+					return eachItem.schemeCode === scheme.schemeCode;
+				} else {
+					return false;
+				}
+			}).length > 0
 		);
 	};
 

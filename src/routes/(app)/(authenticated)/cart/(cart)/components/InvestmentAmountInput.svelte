@@ -24,7 +24,7 @@
 
 	const classess = {
 		input:
-			'cart-input w-full bg-white text-sm font-medium leading-none text-black-title outline !rounded',
+			'cart-input w-full bg-white text-base font-medium leading-none text-black-title outline !rounded',
 		container: 'cart-input-container'
 	};
 </script>

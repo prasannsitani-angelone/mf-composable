@@ -66,7 +66,7 @@
 				isSelected: true,
 				mandateId: fund.investmentType === 'SIP' ? emandateId : '',
 				noOfInstallment: setParamForSIPs(fund, 'installmentNo', 0),
-				selectedSipDay: setParamForSIPs(fund, 'sipDay', 0),
+				selectedSipDay: setParamForSIPs(fund, 'sipDay', 4),
 				startDate: fund.investmentType === 'SIP' ? getFormattedSIPDate(getSIPDate(fund.sipDay)) : ''
 			};
 		});

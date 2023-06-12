@@ -52,7 +52,7 @@
 			schemeName={cartItem?.schemeName}
 			schemeLogo={cartItem?.logoUrl}
 			sipDate={4}
-			isSip={true}
+			isSip={cartItem.investmentType === 'SIP'}
 		/>
 	{/each}
 {/await}
