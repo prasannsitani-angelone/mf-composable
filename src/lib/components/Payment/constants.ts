@@ -6,7 +6,8 @@ import GPayIcon from './icons/GPayIcon.svelte';
 import {
 	selectNetBankingPaymentModeAnalytics,
 	selectUpiPaymentModeAnalytics,
-	selectGooglePayPaymentModeAnalytics
+	selectGooglePayPaymentModeAnalytics,
+	selectPhonePePaymentModeAnalytics
 } from './analytics/changePayment';
 
 const MAX_LIMIT = 100000;
@@ -17,7 +18,7 @@ export const PAYMENT_MODE = {
 		sleeveIcon: PhonePe,
 		name: 'PhonePe',
 		apiName: 'PHONEPE',
-		analytics: () => undefined,
+		analytics: selectPhonePePaymentModeAnalytics,
 		enabled: (amountInNumber: number, os: string) => {
 			if (os === 'Android' || os === 'iOS') {
 				return amountInNumber <= MAX_LIMIT;

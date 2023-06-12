@@ -32,3 +32,14 @@ export const selectGooglePayPaymentModeAnalytics = () => {
 		event_id: '310.0.0.1.12'
 	});
 };
+
+export const selectPhonePePaymentModeAnalytics = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-ChangePaymentmethod',
+		event_type: 'click',
+		event_sub_type: 'radiobutton',
+		event_name: 'phonepe',
+		event_property: null,
+		event_id: '310.0.0.1.37'
+	});
+};
