@@ -6,6 +6,11 @@
 	import Button from './Button.svelte';
 	import type { ExploreFundsOptions } from '$lib/types/IExploreFunds';
 	import type { WeeklyTopSchemesEntity } from '$lib/types/IDiscoverFunds';
+	import {
+		addToCartToastNavAnalytics,
+		addToCartIconClickedAnalytics,
+		addAgainToCartIconClickedAnalytics
+	} from '../../routes/(app)/(authenticated)/cart/analytics/cart';
 
 	import { cartStore } from '$lib/stores/CartStore';
 	import { toastStore } from '$lib/stores/ToastStore';
@@ -17,6 +22,7 @@
 	export let scheme: ExploreFundsOptions | WeeklyTopSchemesEntity;
 	export let showForAllUsers = false;
 	export let iconColor = '#3F5BD9';
+	export let entryPoint = '';
 
 	let dispatch = createEventDispatcher();
 
@@ -47,7 +53,10 @@
 				type: 'SUCCESS',
 				message: 'Mutual Fund added to cart',
 				redirectText: 'VIEW CART',
-				redirectLink: `/cart`
+				redirectLink: `/cart`,
+				callback: () => {
+					addToCartToastNavAnalytics();
+				}
 			});
 		} else {
 			// Show Error Toast on successful addition
@@ -79,11 +88,18 @@
 	}
 
 	const initiateAddToCart = async () => {
+		const metaData = {
+			'Fund Name': scheme?.schemeName,
+			source: entryPoint
+		};
+
 		// check if item already exist in cart - check the response and the local store,
 		// If Item exist on Cart, Open confirmation modal
 		if (doesItemExistInCart()) {
+			addAgainToCartIconClickedAnalytics(metaData);
 			cartStore.showAddToCartPopup(scheme);
 		} else {
+			addToCartIconClickedAnalytics(metaData);
 			// If Item does not exist in cart, update cart directly
 			await requestAddToCart();
 		}

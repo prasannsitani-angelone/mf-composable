@@ -120,7 +120,7 @@
 		<Link
 			to="/cart"
 			preloadData={isGuest ? 'off' : 'hover'}
-			on:linkClicked={() => onTabClickAnalytics('Favourites')}
+			on:linkClicked={() => onTabClickAnalytics('Cart')}
 		>
 			<div class="relative flex h-9 w-9 items-center justify-center rounded-full bg-grey-light">
 				{#if isCartActive}

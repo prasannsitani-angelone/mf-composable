@@ -9,6 +9,7 @@
 	import ExploreFundModal from './ExploreFundModal/ExploreFundModal.svelte';
 	import { page } from '$app/stores';
 	import { SEO } from 'wms-ui-component';
+	import { capitalizeFirstLetter } from '$lib/utils';
 
 	let data: PageData;
 	$: pageID = data?.pageID;
@@ -54,8 +55,15 @@
 		sExploreMutualFunds({ filter });
 	});
 
-	$: pagePathname = $page.url?.pathname;
+	const setEntryPoint = (slug: string) => {
+		const splittedArray = (slug?.split('-') || []).map((item: string) =>
+			capitalizeFirstLetter(item)
+		);
+		return splittedArray.join('');
+	};
 
+	$: pagePathname = $page.url?.pathname;
+	let entryPoint = setEntryPoint($page.params?.slug || '');
 	export { data };
 </script>
 
@@ -77,7 +85,7 @@
 			{#await data?.api?.searchOption}
 				<TableSkeleton />
 			{:then searchOption}
-				<SchemeTable {searchOption} on:fundRowClicked={fundRowClicked} />
+				<SchemeTable {searchOption} on:fundRowClicked={fundRowClicked} {entryPoint} />
 			{/await}
 		</section>
 	</section>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { WMSIcon } from 'wms-ui-component';
+	import { onMount } from 'svelte/internal';
 	import Modal from '../Modal.svelte';
 	import Button from '$components/Button.svelte';
 	import { cartStore } from '$lib/stores/CartStore';
@@ -7,12 +8,21 @@
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { invalidate } from '$app/navigation';
 	import { toastStore } from '$lib/stores/ToastStore';
+	import {
+		deleteCartSleeveAnalytics,
+		deletCartConfirmationAnalytics
+	} from '../../../routes/(app)/(authenticated)/cart/analytics/cart';
 
 	const cancelAddToCart = () => {
 		cartStore.hidePopupAndclearCurrentItemSelection();
 	};
 
 	const onAttemptAddToCartConfirmation = async (cartItemId: number) => {
+		const metaData = {
+			FundName: ($cartStore?.item || []).filter((each) => each.cartItemId === cartItemId)[0]
+				?.schemeName
+		};
+		deletCartConfirmationAnalytics(metaData);
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/carts/items/${cartItemId}`;
 		const res = await useFetch(url, {
 			method: 'DELETE'
@@ -34,6 +44,9 @@
 			});
 		}
 	};
+	onMount(() => {
+		deleteCartSleeveAnalytics();
+	});
 </script>
 
 <Modal closeModal={cancelAddToCart} isModalOpen>

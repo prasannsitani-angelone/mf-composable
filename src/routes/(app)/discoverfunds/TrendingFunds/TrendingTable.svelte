@@ -68,7 +68,11 @@
 								₹{schemes?.minSipAmount}
 							</span>
 						</div>
-						<AddToCart class="mt-[2px] flex h-full items-center" scheme={schemes} />
+						<AddToCart
+							class="mt-[2px] flex h-full items-center"
+							scheme={schemes}
+							entryPoint="PopularFunds"
+						/>
 					</div>
 				</Td></Tr
 			>

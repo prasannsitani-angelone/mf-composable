@@ -14,13 +14,16 @@
 	import { getEmandateDataFunc } from '$components/Payment/api';
 	import { getPrimaryAccountMandateData } from '$lib/utils/helpers/emandate';
 	import { getFormattedSIPDate } from '$components/Payment/util';
+	import { ProceedToCheckoutClickAnalytics } from '../analytics/cart';
 	import type { CartEntity } from '$lib/types/ICartStore';
+	import { createCartEventMetaDataAnalytics } from './utils';
 
 	export let cartItems: CartEntity[];
 
 	let isSelectAllChecked = false;
+	let proceedNotAllowedMessage = '';
 
-	let showOrderLimitExceededModal = false;
+	let showProceedNotAllowedModal = false;
 	let selectedItems = getSelectedItems(cartItems);
 
 	let bulkUpdateModalType = '';
@@ -41,7 +44,12 @@
 		bulkUpdateCartItems(payload);
 	}
 	function isProceedAllowed(selected: CartEntity[]) {
-		return Array.isArray(selected) && selected.length <= maxCheckoutItems;
+		return (
+			Array.isArray(selected) &&
+			selected.length > 0 &&
+			selected.length <= maxCheckoutItems &&
+			selected.every((item) => !item.inputError)
+		);
 	}
 	function getSelectedItems(items: CartEntity[]) {
 		return (Array.isArray(items) && items.filter((item) => item.isSelected)) || [];
@@ -93,6 +101,7 @@
 	}
 
 	async function bulkUpdateSelectedFunds(selections: CartEntity[]) {
+		ProceedToCheckoutClickAnalytics(createCartEventMetaDataAnalytics(cartItems));
 		const allSipFunds = selections.filter((item) => item.investmentType === 'SIP');
 
 		const maxAmountForADayForSIP = getMaxAmountForADay(allSipFunds, 'sipDay');
@@ -121,11 +130,18 @@
 			await bulkUpdateSelectedFunds(selectedItems);
 		} else {
 			// Show the modal
-			showOrderLimitExceededModal = true;
+			showProceedNotAllowedModal = true;
+			if (Array.isArray(selectedItems) && selectedItems.length > maxCheckoutItems) {
+				proceedNotAllowedMessage = `You can place order for a maximum of 15 items at a time. Your selection currently has ${selectedItems.length}
+				items. Please remove item(s) to place an order`;
+			} else {
+				proceedNotAllowedMessage = 'One or more of above selected field has an error';
+			}
 		}
 	}
 	function closeOrderLimitExceedModal() {
-		showOrderLimitExceededModal = false;
+		showProceedNotAllowedModal = false;
+		proceedNotAllowedMessage = '';
 	}
 	function closeBulkUpdateConfirmationModal() {
 		bulkUpdateModalType = '';
@@ -162,7 +178,7 @@
 	selectedFunds={selectedItems}
 	{cartItems}
 />
-{#if showOrderLimitExceededModal}
+{#if showProceedNotAllowedModal}
 	<Modal closeModal={closeOrderLimitExceedModal} isModalOpen>
 		<div
 			class="flex w-screen flex-col items-center justify-between rounded-t-2xl rounded-b-none bg-white p-4 text-center sm:!w-[460px] sm:rounded-lg sm:px-20 sm:py-8"
@@ -171,8 +187,7 @@
 			<div class="mb-4 mt-6 text-2xl font-medium text-black-key">Order size limit exceeded</div>
 
 			<div class=" text-sm font-normal text-black-key">
-				You can place order for a maximum of 15 items at a time. Your selection currently has {selectedItems.length}
-				items. Please remove item(s) to place an order
+				{proceedNotAllowedMessage}
 			</div>
 
 			<section class="flex w-full flex-row gap-4 bg-white pt-6 pb-2 sm:pt-10">

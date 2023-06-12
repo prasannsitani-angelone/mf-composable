@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte/internal';
 	import { SEO, WMSIcon } from 'wms-ui-component';
 	import type { PageData } from './$types';
 	import { cartStore } from '$lib/stores/CartStore';
@@ -6,14 +7,21 @@
 	import type { RemoveCartItem } from '$lib/types/ICartStore';
 	import SkeletonWrapper from '$components/Skeleton/SkeletonWrapper.svelte';
 	import SkeletonRectangle from '$components/Skeleton/SkeletonRectangle.svelte';
+	import { mountManageCartAnalytics, deleteFromCartAnalytics } from '../analytics/cart';
 
 	const onFundDelete = (item: RemoveCartItem) => {
 		cartStore.showRemoveFromCartPopup(item);
+		deleteFromCartAnalytics();
 	};
 
 	const handleBackNavigation = () => {
 		history.back();
 	};
+
+	onMount(() => {
+		mountManageCartAnalytics();
+	});
+
 	export let data: PageData;
 </script>
 

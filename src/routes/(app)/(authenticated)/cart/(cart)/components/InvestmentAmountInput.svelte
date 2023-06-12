@@ -1,20 +1,36 @@
 <script lang="ts">
-	import { Input } from 'wms-ui-component';
 	import { setErrorMessage } from '$lib/utils/helpers/investmentOrder';
 	import { formatAmount } from '$lib/utils/helpers/formatAmount';
 	import type { CartEntity } from '$lib/types/ICartStore';
+	import { debounce } from '$lib/utils/helpers/debounce';
 	export let cartItem: CartEntity;
 	export let hasInputUpdated = false;
 
-	let inputValue: string;
+	let inputValue =
+		cartItem.inputAmount || String(cartItem.inputAmount) === '0'
+			? String(cartItem.inputAmount)
+			: String(cartItem.amount);
 
 	export let inputError = '';
+
+	const setInputValue = (data: CartEntity) => {
+		inputValue =
+			data.inputAmount || String(data.inputAmount) === '0'
+				? String(data.inputAmount)
+				: String(data.amount);
+	};
+	$: {
+		setInputValue(cartItem);
+	}
+	const debouncedInputChangeDone = debounce(InputChangeDone);
 
 	function onInputChange(e: { target: { value: string } }) {
 		inputValue = e.target.value;
 		inputValue = formatAmount(inputValue); // trim, remove alphabets and remove leading zeroes
 		inputError = setErrorMessage(cartItem, cartItem.investmentType, inputValue);
 		cartItem.inputError = inputError;
+		cartItem.inputAmount = Number(inputValue);
+		debouncedInputChangeDone();
 	}
 	function InputChangeDone() {
 		if (!inputError && inputValue) {
@@ -22,31 +38,28 @@
 			cartItem.amount = Number(inputValue);
 		}
 	}
-
-	const classess = {
-		input:
-			'cart-input w-full bg-white text-base font-medium leading-none text-black-title outline !rounded border-0',
-		container: 'cart-input-container'
-	};
 </script>
 
 <div
-	class="cart-input-box relative flex items-center sm:h-full {inputError ? 'input-has-error' : ''}"
+	class="cart-input-box relative flex items-center max-sm:ml-2 sm:h-full {inputError
+		? 'input-has-error'
+		: ''}"
 >
 	<!-- on:input={onInputChange} -->
-	<Input
-		id="switchAmountInput"
+	<span class=" absolute left-1">₹</span>
+	<input
+		id={'switchAmountInput' + cartItem.cartItemId}
 		inputmode="numeric"
 		type="number"
 		maxlength="13"
 		placeholder=""
-		value={cartItem?.amount}
-		{onInputChange}
-		on:blur={InputChangeDone}
-		classes={classess}
+		value={inputValue}
+		on:input={onInputChange}
+		class=" cart-input !h-7 w-full !rounded border-0 bg-white pl-3.5 text-base font-medium !leading-none text-black-title !outline !outline-1 !outline-blue-primary focus:outline-offset-0"
 		size={100}
-		disabled={false}><span class="relative left-3" slot="preinput">₹</span></Input
-	>
+		disabled={false}
+	/>
+	<!-- on:blur={InputChangeDone} -->
 </div>
 
 <style>
@@ -57,13 +70,5 @@
 	.cart-input-box :global(input[type='number']::-webkit-outer-spin-button) {
 		-webkit-appearance: none;
 		margin: 0;
-	}
-	.cart-input-box :global(.input) {
-		outline: 1px solid #3f5bd9 !important;
-		outline-offset: initial;
-	}
-	.input-has-error.cart-input-box :global(.input) {
-		outline: 1px solid #f65e5a !important;
-		outline-offset: initial;
 	}
 </style>

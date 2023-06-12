@@ -32,7 +32,11 @@
 			<TableSkeleton />
 		{:then promotions}
 			{#if promotions.length}
-				<SchemeTable searchOption={promotions} toggleFavourites={invalidateFavourites} />
+				<SchemeTable
+					searchOption={promotions}
+					toggleFavourites={invalidateFavourites}
+					entryPoint="HotnNew"
+				/>
 			{:else}
 				<ErrorView
 					Icon={PortfolioEmptyIcon}

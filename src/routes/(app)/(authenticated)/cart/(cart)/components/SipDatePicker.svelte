@@ -81,11 +81,11 @@
 <div class="relative flex items-center max-sm:justify-end sm:h-full">
 	<Button
 		variant="transparent"
-		class="relative flex !h-auto !w-full !max-w-fit items-center justify-between rounded-sm !bg-purple-background !p-1"
+		class="relative flex !h-auto !w-full !max-w-fit flex-nowrap items-center justify-between rounded-sm !bg-purple-background !p-1"
 		size="xs"
 		onClick={toggleCalendar}
 	>
-		<span class="mr-1 text-1xs font-medium leading-3 text-black-title"
+		<span class="mr-1 text-left text-1xs font-medium leading-3 text-black-title"
 			>SIP Date : {calanderDisplayDate}</span
 		>
 		<WMSIcon name="calander-icon" width={10} height={10} />

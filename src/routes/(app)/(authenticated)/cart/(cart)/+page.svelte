@@ -7,6 +7,8 @@
 	import EmptyCartScreen from './components/EmptyCartScreen.svelte';
 	import { cartStore } from '$lib/stores/CartStore';
 	import type { CartEntity } from '$lib/types/ICartStore';
+	import { mountAddToCartAnalytics } from '../analytics/cart';
+	import { createCartEventMetaDataAnalytics } from './utils';
 
 	import type { PageData } from './$types';
 
@@ -19,6 +21,7 @@
 	onMount(() => {
 		data.api.cart.then((res: { data: CartEntity[] }) => {
 			updateCartStore(res.data);
+			mountAddToCartAnalytics(createCartEventMetaDataAnalytics(res.data));
 		});
 	});
 </script>

@@ -36,6 +36,11 @@
 
 	function handleCheckboxChange() {
 		cartItem.isSelected = !cartItem.isSelected;
+		if (cartItem.isSelected && inputError) {
+			inputError = '';
+			cartItem.inputError = '';
+			cartItem.inputAmount = cartItem.amount;
+		}
 		hasInputUpdated = true;
 	}
 

@@ -109,7 +109,7 @@
 			<div class="relative {isNFO ? 'mb-auto' : ''}">
 				{#if !isNFO}
 					<FundRating class="ml-4 sm:hidden" />
-					<AddToCart scheme={schemeDetails} class="hidden sm:flex" />
+					<AddToCart scheme={schemeDetails} class="hidden sm:flex" entryPoint="FundDetailsPage" />
 				{:else}
 					<div>
 						<span class="text-sm font-normal uppercase text-grey-body">Nav</span>

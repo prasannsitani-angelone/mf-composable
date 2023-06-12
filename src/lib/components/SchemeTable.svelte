@@ -24,6 +24,7 @@
 
 	let searchOption: ExploreFundsOptions[];
 	const dispatch = createEventDispatcher();
+	let entryPoint = '';
 	const getNavDiffrence = (navValue = 0, previousNavValue = 0) => {
 		let navChange = parseFloat(
 			(((navValue - previousNavValue) / previousNavValue) * 100)?.toFixed(2)
@@ -64,7 +65,7 @@
 		);
 	};
 
-	export { searchOption, hideFavourites };
+	export { searchOption, hideFavourites, entryPoint };
 </script>
 
 <Table class="overflow-hidden rounded-t {$$props.class}">
@@ -118,7 +119,7 @@
 								<span>₹{scheme?.minSipAmount}</span>
 							</div>
 							{#if !hideFavourites}
-								<AddToCart class="mt-[2px] flex h-full items-center" {scheme} />
+								<AddToCart class="mt-[2px] flex h-full items-center" {scheme} {entryPoint} />
 							{/if}
 						</div>
 					</Td>
@@ -141,7 +142,7 @@
 								{/if}
 							</div>
 							{#if !hideFavourites}
-								<AddToCart class="mt-[2px] flex h-full items-center" {scheme} />
+								<AddToCart class="mt-[2px] flex h-full items-center" {scheme} {entryPoint} />
 							{/if}
 						</div>
 					</Td>

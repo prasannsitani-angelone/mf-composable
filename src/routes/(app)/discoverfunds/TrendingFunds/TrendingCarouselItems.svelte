@@ -33,7 +33,12 @@
 			{schemes?.schemeName}
 		</h3>
 		<div class="flex-1" />
-		<AddToCart on:onCartClick class="m-0 ml-1 mt-[-10px] p-0" scheme={schemes} />
+		<AddToCart
+			on:onCartClick
+			class="m-0 ml-1 mt-[-10px] p-0"
+			scheme={schemes}
+			entryPoint="PopularFunds"
+		/>
 	</div>
 
 	<div class="flex flex-col">

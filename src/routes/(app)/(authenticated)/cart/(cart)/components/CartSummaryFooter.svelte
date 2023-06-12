@@ -16,7 +16,9 @@
 		);
 	};
 
-	$: totalSelectedAmount = (selectedFunds || []).reduce((acc, curr) => acc + curr.amount, 0);
+	$: totalSelectedAmount = (selectedFunds || [])
+		.filter((fund) => !fund.inputError)
+		.reduce((acc, curr) => acc + curr.amount, 0);
 </script>
 
 <section class="fixed bottom-18 left-0 right-0 bg-white px-3 py-4 max-sm:shadow-top sm:static">
@@ -46,7 +48,7 @@
 			class="col-span-1 col-start-1 row-span-1 row-start-2 sm:col-start-2 sm:row-start-1 sm:text-right"
 		>
 			<Button
-				disabled={notAllowedToProceed(cartItems)}
+				disabled={notAllowedToProceed(selectedFunds)}
 				class="w-full !font-medium disabled:bg-grey-line disabled:text-white sm:max-w-fit sm:px-16 "
 				onClick={onProceedButtonClick}>PROCEED TO PLACE ORDER</Button
 			>

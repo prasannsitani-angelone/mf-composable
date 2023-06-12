@@ -25,7 +25,11 @@
 		{#await data.api.favourites}
 			<TableSkeleton />
 		{:then favourites}
-			<SchemeTable searchOption={favourites} toggleFavourites={invalidateFavourites} />
+			<SchemeTable
+				searchOption={favourites}
+				toggleFavourites={invalidateFavourites}
+				entryPoint="Favourites"
+			/>
 		{/await}
 	</section>
 </article>
