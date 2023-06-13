@@ -142,7 +142,7 @@
 								{/if}
 							</div>
 							{#if !hideFavourites}
-								<AddToCart class="mt-[2px] flex h-full items-center" {scheme} {entryPoint} />
+								<AddToCart class="mt-[2px] flex h-full items-center pl-1" {scheme} {entryPoint} />
 							{/if}
 						</div>
 					</Td>

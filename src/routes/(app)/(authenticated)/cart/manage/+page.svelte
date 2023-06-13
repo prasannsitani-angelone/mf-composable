@@ -42,14 +42,18 @@
 		{/each}
 	</SkeletonWrapper>
 {:then cartItems}
-	<div
-		class="hidden grid-cols-[46%_16%_16%_16%_6%] items-center rounded-t border-b border-t border-grey-line bg-white px-6 py-4 text-sm font-medium text-grey-dark sm:grid"
-	>
-		<div>Fund</div>
-		<div>Investment Type</div>
-		<div>SIP Date</div>
-		<div>Amount</div>
-		<div class="h-6 w-6 pr-3" />
+	<div class="hidden bg-white sm:flex">
+		<div
+			class="w-full grid-cols-[55%_45%] items-center gap-y-2 rounded-t border-b border-t border-grey-line bg-white px-6 py-4 text-sm font-medium text-grey-dark sm:grid sm:grid-cols-[46%_18%_18%_18%] sm:items-center sm:px-6 sm:py-4"
+		>
+			<div>Fund</div>
+			<div>Investment Type</div>
+			<div>SIP Date</div>
+			<div>Amount</div>
+		</div>
+		<div class="border-b sm:flex sm:items-center sm:pr-12 sm:pl-4">
+			<WMSIcon name="trash-icon" width={14} height={14} />
+		</div>
 	</div>
 	{#each cartItems as cartItem}
 		<ReadOnlyTile
