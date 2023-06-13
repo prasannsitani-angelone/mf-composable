@@ -60,7 +60,13 @@
 		changePaymentMethodScreenImpressionAnalytics,
 		lumspsumToSipSleeveAnalytics,
 		lumspsumToSipSleeveCreateSipCtaClickAnalytics,
-		lumspsumToSipSleeveContinueOtiCtaClickAnalytics
+		lumspsumToSipSleeveContinueOtiCtaClickAnalytics,
+		investmentPadScreenOpenAnalytics,
+		investmentPadTabSwitchAnalytics,
+		calendarIconClickAnalytics,
+		dateSelectConfirmButtonClickAnalytics,
+		firstTimePaymentCheckboxClickAnalytics,
+		tncButtonClickAnalytics
 	} from './analytics/orderpad';
 	import { debounce } from '$lib/utils/helpers/debounce';
 	import { WMSIcon } from 'wms-ui-component';
@@ -223,6 +229,8 @@
 
 		firstSipPayment = !firstSipPayment;
 		setNextSipDate();
+
+		firstTimePaymentCheckboxClickAnalyticsFunc();
 	};
 
 	const setErrorMessage = () => {
@@ -507,6 +515,8 @@
 			handleAmountInputFocus();
 			resetLumpsumToSipData();
 		}
+
+		investmentPadTabSwitchAnalyticsFunc();
 	};
 
 	const handleLumpsumToSipOtiClick = () => {
@@ -531,6 +541,10 @@
 
 	const toggleTncModal = () => {
 		showTncModal = !showTncModal;
+
+		if (showTncModal) {
+			tncButtonClickAnalytics();
+		}
 	};
 
 	const listenerFunc = (event) => {
@@ -543,6 +557,41 @@
 		}
 	};
 
+	const investmentPadScreenOpenAnalyticsFunc = () => {
+		const eventMetaData = {
+			Fundname: schemeData?.schemeName,
+			FundType: schemeData?.reInvestmentPlan,
+			AssetType: schemeData?.categoryName,
+			SubAssetType: schemeData?.subcategoryName
+		};
+
+		investmentPadScreenOpenAnalytics(eventMetaData);
+	};
+
+	const investmentPadTabSwitchAnalyticsFunc = () => {
+		const eventMetaData = {
+			InvestmentType: activeTab
+		};
+
+		investmentPadTabSwitchAnalytics(eventMetaData);
+	};
+
+	const dateSelectConfirmButtonClickAnalyticsFunc = (dateValue: number) => {
+		const eventMetaData = {
+			selectedDate: dateValue
+		};
+
+		dateSelectConfirmButtonClickAnalytics(eventMetaData);
+	};
+
+	const firstTimePaymentCheckboxClickAnalyticsFunc = () => {
+		const eventMetaData = {
+			firstTimePayment: firstSipPayment ? 'Y' : 'N'
+		};
+
+		firstTimePaymentCheckboxClickAnalytics(eventMetaData);
+	};
+
 	onMount(() => {
 		handleShowTabNotSupported();
 
@@ -550,6 +599,8 @@
 			handleAmountInputFocus();
 
 			$headerStore.showMobileHeader = false;
+
+			investmentPadScreenOpenAnalyticsFunc();
 		}
 		window.addEventListener('message', listenerFunc);
 	});
@@ -578,6 +629,8 @@
 
 		if (!showCalendar) {
 			handleAmountInputFocus();
+		} else {
+			calendarIconClickAnalytics();
 		}
 	};
 
@@ -599,6 +652,8 @@
 
 		setNextSipDate();
 		toggleCalendar();
+
+		dateSelectConfirmButtonClickAnalyticsFunc(calendarDate);
 	};
 
 	//  ---------- payment flow code ---------------
