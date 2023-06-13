@@ -70,7 +70,7 @@
 			<div class="flex items-center justify-end">
 				<slot name="cartIcon">
 					{#if showCartIcon}
-						<article id="cart-icon" class="mr-3 flex justify-end">
+						<article id="cart-icon" class="flex justify-end">
 							{#await $page.data?.api?.schemeData then schemeData}
 								<AddToCart
 									scheme={schemeData}
@@ -84,7 +84,7 @@
 				</slot>
 				<slot name="shareIcon">
 					{#if showShareIcon}
-						<article id="share-icon" class="flex">
+						<article id="share-icon" class="ml-3 flex">
 							<WMSIcon name="share" on:click={onClickShareIcon} height={24} width={24} />
 						</article>
 					{/if}

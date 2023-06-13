@@ -32,10 +32,7 @@
 							<span class="text-left text-xs text-grey-body">Zero commission | Zero fees</span>
 						</span>
 					{:else}
-						<div
-							class="flex truncate text-left"
-							class:w-80={!pageMetaData?.showSearchIcon && !pageMetaData?.showShareIcon}
-						>
+						<div class="flex truncate text-left">
 							{pageMetaData?.title || ''}
 						</div>
 					{/if}
