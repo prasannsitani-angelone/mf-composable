@@ -4,6 +4,9 @@
 	import { maxCheckoutItems } from '../../constants';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import type { CartEntity } from '$lib/types/ICartStore';
+	import SkeletonRectangle from '$components/Skeleton/SkeletonRectangle.svelte';
+	import SkeletonWrapper from '$components/Skeleton/SkeletonWrapper.svelte';
+	import { hydrate } from '$lib/utils/helpers/hydrated';
 
 	export let onProceedButtonClick = () => '';
 	export let cartItems: CartEntity[];
@@ -47,11 +50,19 @@
 		<div
 			class="col-span-1 col-start-1 row-span-1 row-start-2 sm:col-start-2 sm:row-start-1 sm:text-right"
 		>
-			<Button
-				disabled={notAllowedToProceed(selectedFunds)}
-				class="w-full !font-medium disabled:bg-grey-line disabled:text-white sm:max-w-fit sm:px-16 "
-				onClick={onProceedButtonClick}>PROCEED TO PLACE ORDER</Button
-			>
+			{#if hydrate}
+				<Button
+					disabled={notAllowedToProceed(selectedFunds)}
+					class="w-full !font-medium disabled:bg-grey-line disabled:text-white sm:max-w-fit sm:px-16 "
+					onClick={onProceedButtonClick}>PROCEED TO PLACE ORDER</Button
+				>
+			{:else}
+				<div class="flex w-full justify-end">
+					<SkeletonWrapper class="w-full">
+						<SkeletonRectangle class="!h-12 w-full sm:w-72" />
+					</SkeletonWrapper>
+				</div>
+			{/if}
 		</div>
 	</div>
 </section>

@@ -216,11 +216,11 @@
 				</div>
 			{:else if bulkUpdateModalType === 'success'}
 				<div class=""><WMSIcon width={92} height={92} name="checkbox-checked-circle" /></div>
-				<div class="mb-4 mt-6 text-2xl font-medium text-black-key">Updated Success</div>
+				<div class="mb-4 mt-6 text-2xl font-medium text-black-key">Processing your request.</div>
 			{:else if bulkUpdateModalType === 'failure'}
 				<div class=""><WMSIcon width={92} height={92} name="red-cross-circle" /></div>
 				<div class="mb-4 mt-6 text-2xl font-medium text-black-key">
-					Unacle to process your request.
+					Unable to process your request.
 				</div>
 			{/if}
 			{#if bulkUpdateModalType === 'failure'}
