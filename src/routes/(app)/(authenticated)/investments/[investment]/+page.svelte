@@ -47,6 +47,7 @@
 	let breadCrumbs: BreadcrumbType[];
 	$: breadCrumbs = [];
 	$: isMobile = $page?.data?.deviceType?.isMobile;
+	$: isTablet = $page?.data?.deviceType?.isTablet;
 	$: showInvestmentPad = false;
 	$: showRedemptionPad = false;
 	$: holdingsData = <FolioHoldingType>{};
@@ -206,7 +207,7 @@
 	const handleStayInvestedModalWithdrawClick = () => {
 		stayInvestedSecondaryCtaClickAnalytics();
 
-		if (isMobile) {
+		if (isMobile || isTablet) {
 			handleWithdrawCtaClick();
 		} else {
 			investmentHeaderButtonClick('WITHDRAW');
@@ -292,7 +293,7 @@
 		<section>
 			<Breadcrumbs items={breadCrumbs} class="my-4 hidden items-center justify-start md:flex" />
 
-			{#if !isMobile || !(showInvestmentPad || showRedemptionPad)}
+			{#if (!isMobile && !isTablet) || !(showInvestmentPad || showRedemptionPad)}
 				<!-- Investment Details Page (Mobile and Desktop Layout) -->
 				<LeftSideView
 					holdings={res.holdingsData}
@@ -350,7 +351,7 @@
 		</section>
 
 		<!-- Right Side (Desktop Layout) -->
-		{#if !isMobile}
+		{#if !isMobile && !isTablet}
 			{#if orderPadActiveTab === investmentDetailsFooterEvents?.INVEST}
 				<!-- Investment Pad -->
 				{#await data?.api?.previousPaymentDetails}

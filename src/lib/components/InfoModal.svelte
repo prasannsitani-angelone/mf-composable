@@ -18,7 +18,7 @@
 	<Modal isModalOpen={showModal} on:backdropclicked={crossButtonClicked}>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
-			class="animate-bottomTransition flex w-screen flex-col rounded-t-2xl rounded-b-none bg-white shadow-csm md:w-120 md:animate-none md:rounded-lg"
+			class="animate-bottomTransition flex w-screen flex-col rounded-t-2xl rounded-b-none bg-white shadow-csm sm:w-120 sm:animate-none sm:rounded-lg"
 		>
 			<slot name="heading">
 				<div class="flex items-center justify-between px-4 pt-6 pb-3 md:py-6 md:px-8">
@@ -28,7 +28,7 @@
 						</span>
 					</slot>
 					<slot name="crossIconSlot">
-						<span class="cursor-default md:cursor-pointer" on:click={crossButtonClicked}>
+						<span class="cursor-default lg:cursor-pointer" on:click={crossButtonClicked}>
 							<CrossInCircleIcon />
 						</span>
 					</slot>

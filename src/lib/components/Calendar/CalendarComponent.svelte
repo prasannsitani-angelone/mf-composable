@@ -43,7 +43,7 @@
 
 {#if visible}
 	<div
-		class={`flex w-full flex-col rounded-t-2xl rounded-b-none bg-white shadow-clg md:rounded-lg ${$$props?.class}`}
+		class={`flex w-full flex-col rounded-t-2xl rounded-b-none bg-white shadow-clg sm:rounded-lg ${$$props?.class}`}
 	>
 		<div
 			class={`flex flex-row justify-center py-6 px-8 pb-0 md:pb-6 ${classes?.header} ${

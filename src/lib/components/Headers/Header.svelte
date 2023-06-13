@@ -12,7 +12,7 @@
 	};
 </script>
 
-{#if $page?.data?.deviceType?.isMobile}
+{#if $page?.data?.deviceType?.isMobile || $page?.data?.deviceType?.isTablet}
 	{#if $headerStore?.showMobileHeader}
 		<MobileHeader
 			title={pageMetaData?.title}

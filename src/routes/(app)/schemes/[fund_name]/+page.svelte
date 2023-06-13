@@ -30,6 +30,7 @@
 	export let data: PageData;
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
+	$: isTablet = $page?.data?.deviceType?.isTablet;
 	$: showInvestmentPad = false;
 	$: queryParamsObj = <OrderPadTypes>{};
 	$: orderpadParams = <decodedParamsTypes>{};
@@ -110,7 +111,7 @@
 	/>
 	{@const isNFO = schemedata?.nfoScheme === 'Y'}
 	<!-- Left Side -->
-	{#if !isMobile || !showInvestmentPad}
+	{#if (!isMobile && !isTablet) || !showInvestmentPad}
 		<article class="pb-16">
 			<Breadcrumbs
 				items={getSchemeDetailsBreadCrumbs(schemedata)}
@@ -156,12 +157,13 @@
 				schemeData={schemedata}
 				{previousPaymentDetails}
 				params={orderpadParams}
+				fromInvestmentDetailsPage={false}
 			/>
 		{/await}
 	{/if}
 
 	<!-- Right Side -->
-	{#if !isMobile}
+	{#if !isMobile && !isTablet}
 		{#await data?.api?.previousPaymentDetails}
 			<div />
 		{:then previousPaymentDetails}
@@ -170,6 +172,7 @@
 				schemeData={schemedata}
 				{previousPaymentDetails}
 				params={orderpadParams}
+				fromInvestmentDetailsPage={false}
 			/>
 		{/await}
 	{/if}

@@ -197,6 +197,7 @@
 	$: showTabNotSupported = false;
 	$: tabNotSupportedType = '';
 	$: isMobile = $page?.data?.deviceType?.isMobile;
+	$: isTablet = $page?.data?.deviceType?.isTablet;
 	$: profileData = $page?.data?.profile;
 
 	let dateArray: Array<dateArrayTypes> = [{ value: 1, disabled: false }];
@@ -399,7 +400,7 @@
 	const onInputChange = (val: string | object) => {
 		let inputValue = val;
 
-		if (isMobile) {
+		if (isMobile || isTablet) {
 			if (!val || typeof val === 'object') {
 				resetAmountVal();
 				return;
@@ -431,7 +432,7 @@
 	};
 
 	const handleAmountInputBlur = () => {
-		if (isMobile && os === 'Android') {
+		if ((isMobile || isTablet) && os === 'Android') {
 			const debouncedRemoveAmountInputFocus = debounce(removeAmountInputFocus, 250);
 			debouncedRemoveAmountInputFocus();
 		}
@@ -595,7 +596,7 @@
 	onMount(() => {
 		handleShowTabNotSupported();
 
-		if (isMobile) {
+		if (isMobile || isTablet) {
 			handleAmountInputFocus();
 
 			$headerStore.showMobileHeader = false;
@@ -606,7 +607,7 @@
 	});
 
 	onDestroy(() => {
-		if (isMobile) {
+		if (isMobile || isTablet) {
 			$headerStore.showMobileHeader = true;
 		}
 		resetState();
@@ -1113,7 +1114,7 @@
 				Your Investment Pad
 			</section>
 		</slot>
-		{#if isMobile && !$headerStore?.showMobileHeader}
+		{#if (isMobile || isTablet) && !$headerStore?.showMobileHeader}
 			<slot name="customMobileHeader">
 				<MobileHeader
 					title={schemeData?.schemeName}
