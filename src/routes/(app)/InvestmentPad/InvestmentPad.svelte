@@ -85,6 +85,7 @@
 	import LoadingPopup from '$components/Payment/LoadingPopup.svelte';
 	import PaymentSleeve from '$components/Payment/PaymentSleeve.svelte';
 	import { PAYMENT_MODE } from '$components/Payment/constants';
+	import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -620,7 +621,8 @@
 			Amount: amount,
 			InvestmentType: activeTab,
 			PaymentMethod: paymentHandler?.paymentMode,
-			Bank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName
+			Bank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName,
+			URL: getDeeplinkForUrl($page.url)
 		};
 		payNowLumpsumButtonClickAnalytics(eventMetadata);
 	};
@@ -633,7 +635,8 @@
 			PaymentMethod: paymentHandler?.paymentMode,
 			Bank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName,
 			SipDate: getFormattedSIPDate(),
-			FirstSipPayment: firstSipPayment ? 'Y' : 'N'
+			FirstSipPayment: firstSipPayment ? 'Y' : 'N',
+			URL: getDeeplinkForUrl($page.url)
 		};
 		startSipButtonClickAnalytics(eventMetadata);
 	};

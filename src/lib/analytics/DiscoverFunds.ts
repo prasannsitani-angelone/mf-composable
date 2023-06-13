@@ -3,7 +3,7 @@ import Analytics from '$lib/utils/analytics';
 
 export const sHomepage = () => {
 	Analytics.logAnalyticEvent({
-		screen_name: 's-Homepage',
+		screen_name: 'mf-homepage',
 		event_type: 'impression',
 		event_sub_type: 'screen',
 		event_name: 'mf-Homepage',

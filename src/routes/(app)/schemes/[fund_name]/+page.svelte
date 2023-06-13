@@ -25,6 +25,7 @@
 	import NfoDetails from './NFODetails/NFODetails.svelte';
 	import { SEO } from 'wms-ui-component';
 	import { base } from '$app/paths';
+	import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
 
 	export let data: PageData;
 
@@ -62,7 +63,8 @@
 			SubAssetType: schemeData?.subcategoryName,
 			FundType: schemeData?.reInvestmentPlan,
 			Rating: schemeData?.arqRating,
-			NAV: schemeData?.navValue
+			NAV: schemeData?.navValue,
+			URL: getDeeplinkForUrl($page.url)
 		};
 
 		mobileSchemeDetailsPageInvestButtonClickAnalytics(eventMetaData);

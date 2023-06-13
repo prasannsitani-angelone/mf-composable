@@ -13,6 +13,7 @@
 	import { onMount } from 'svelte';
 	import { sFundDetails } from '../analytics';
 	import AddToCart from '$components/AddToCart.svelte';
+	import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
 
 	let schemeDetails: SchemeDetails;
 	let selectedTag: Tags[];
@@ -80,7 +81,8 @@
 			Rating: arqRating,
 			Nav: navValue,
 			'Exit Load': exitLoadValue,
-			'Expense Ratio': expenseRatio
+			'Expense Ratio': expenseRatio,
+			URL: getDeeplinkForUrl($page.url)
 		};
 		sFundDetails(eventMetadata);
 	});

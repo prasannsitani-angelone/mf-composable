@@ -1,11 +1,24 @@
 <script lang="ts">
 	import Link from '$components/Link.svelte';
+	import { base } from '$app/paths';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import type { SearchOptionsEntity } from '$lib/types/IDiscoverFunds';
 	import { getExploreFundsNavigationPath } from '$lib/utils';
+	import { exploreCardClickEvent } from './analytics';
+	import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
+	import { page } from '$app/stores';
 	let searchOptions: SearchOptionsEntity[];
 
 	export { searchOptions };
+
+	function onExploreFundsClickEvent(option: SearchOptionsEntity) {
+		const url = `${$page.url.origin}${base}${getExploreFundsNavigationPath(option)}`;
+		const eventMetaData = {
+			Type: option.name,
+			URL: getDeeplinkForUrl(url)
+		};
+		exploreCardClickEvent(eventMetaData);
+	}
 </script>
 
 <header class="flex flex-col p-6 pb-5">
@@ -19,6 +32,7 @@
 			<Link
 				to={getExploreFundsNavigationPath(option)}
 				class="flex flex-col items-center lg:flex-row"
+				on:linkClicked={() => onExploreFundsClickEvent(option)}
 			>
 				<div
 					class="flex h-9 w-9 items-center justify-center rounded-full border p-2 group-hover:bg-white lg:h-14 lg:w-14"
