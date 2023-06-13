@@ -10,7 +10,8 @@ import {
 	selectPhonePePaymentModeAnalytics
 } from './analytics/changePayment';
 
-const MAX_LIMIT = 100000;
+export const UPI_MAX_LIMIT = 100000;
+export const NET_BANKING_MIN_LIMIT = 50;
 
 export const PAYMENT_MODE = {
 	PHONEPE: {
@@ -21,7 +22,7 @@ export const PAYMENT_MODE = {
 		analytics: selectPhonePePaymentModeAnalytics,
 		enabled: (amountInNumber: number, os: string) => {
 			if (os === 'Android' || os === 'iOS') {
-				return amountInNumber <= MAX_LIMIT;
+				return amountInNumber <= UPI_MAX_LIMIT;
 			}
 			return false;
 		},
@@ -35,7 +36,7 @@ export const PAYMENT_MODE = {
 		analytics: selectGooglePayPaymentModeAnalytics,
 		enabled: (amountInNumber: number, os: string) => {
 			if (os === 'Android' || os === 'iOS') {
-				return amountInNumber <= MAX_LIMIT;
+				return amountInNumber <= UPI_MAX_LIMIT;
 			}
 			return false;
 		},
@@ -47,7 +48,7 @@ export const PAYMENT_MODE = {
 		name: 'UPI',
 		analytics: selectUpiPaymentModeAnalytics,
 		enabled: (amountInNumber: number) => {
-			return amountInNumber <= MAX_LIMIT;
+			return amountInNumber <= UPI_MAX_LIMIT;
 		},
 		showInput: true
 	},
@@ -57,7 +58,7 @@ export const PAYMENT_MODE = {
 		name: 'Net Banking',
 		analytics: selectNetBankingPaymentModeAnalytics,
 		enabled: (amount: number, os: string, redirectedFrom: string) => {
-			return redirectedFrom !== 'SIP_PAYMENTS' && amount >= 50;
+			return redirectedFrom !== 'SIP_PAYMENTS' && NET_BANKING_MIN_LIMIT >= 50;
 		},
 		showInput: false
 	}

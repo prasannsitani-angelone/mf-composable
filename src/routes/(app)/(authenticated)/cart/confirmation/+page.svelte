@@ -11,7 +11,11 @@
 	import PaymentSleeve from '$components/Payment/PaymentSleeve.svelte';
 	import UpiClosePopup from '$components/Payment/UPIClosePopup.svelte';
 	import UpiTransactionPopup from '$components/Payment/UPITransactionPopup.svelte';
-	import { PAYMENT_MODE } from '$components/Payment/constants';
+	import {
+		NET_BANKING_MIN_LIMIT,
+		PAYMENT_MODE,
+		UPI_MAX_LIMIT
+	} from '$components/Payment/constants';
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
@@ -130,8 +134,9 @@
 		firstTimeUser = true;
 	};
 
-	const assignPreviousPaymentDetails = async (promise, profileData) => {
+	const assignPreviousPaymentDetails = async (promise, itemList) => {
 		const previousPaymentDetails = await promise;
+		const profileData = $page?.data?.profile;
 		if (previousPaymentDetails?.ok) {
 			const data = previousPaymentDetails?.data;
 			const bankDetails = profileData?.bankDetails;
@@ -146,7 +151,11 @@
 			paymentHandler.upiId = data?.upiId;
 			paymentHandler.selectedAccount = index;
 			const paymentMode = data?.paymentMode;
-			if (
+			if (itemList?.totalAmount > UPI_MAX_LIMIT) {
+				paymentHandler.paymentMode = 'NET_BANKING';
+			} else if (paymentMode === 'NET_BANKING' && itemList?.totalAmount < NET_BANKING_MIN_LIMIT) {
+				paymentHandler.paymentMode = 'UPI';
+			} else if (
 				(paymentMode === 'GOOGLEPAY' || paymentMode === 'PHONEPE') &&
 				os !== 'Android' &&
 				os !== 'iOS'
@@ -159,8 +168,6 @@
 			defaultValueToPaymentHandler();
 		}
 	};
-
-	$: assignPreviousPaymentDetails(data?.api?.previousPaymentDetails, profileData);
 
 	const showPaymentMethodScreen = () => {
 		changePaymentMethodAnalytics();
@@ -425,7 +432,7 @@
 						</div>
 					</div>
 				</div>
-				{#await data.api.previousPaymentDetails}
+				{#await assignPreviousPaymentDetails(data.api.previousPaymentDetails, itemList)}
 					<div />
 				{:then}
 					<div

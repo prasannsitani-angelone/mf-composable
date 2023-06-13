@@ -22,7 +22,9 @@
 </script>
 
 <Modal isModalOpen={true}>
-	<div class="flex h-full w-full flex-col bg-white shadow-csm sm:h-max sm:max-h-[640px] sm:w-max">
+	<div
+		class="flex h-full w-full flex-col bg-white shadow-csm sm:h-max sm:max-h-[640px] sm:w-max sm:min-w-[490px]"
+	>
 		<PaymentMethodHeader {onBackClick} />
 		<PaymentMethod
 			paymentModes={Object.keys(PAYMENT_MODE)}
