@@ -72,12 +72,14 @@
 					{#if showCartIcon}
 						<article id="cart-icon" class="flex justify-end">
 							{#await $page.data?.api?.schemeData then schemeData}
-								<AddToCart
-									scheme={schemeData}
-									class="px-0"
-									iconColor="#425061"
-									entryPoint="FundDetailsPage"
-								/>
+								{#if schemeData?.nfoScheme === 'N'}
+									<AddToCart
+										scheme={schemeData}
+										class="px-0"
+										iconColor="#425061"
+										entryPoint="FundDetailsPage"
+									/>
+								{/if}
 							{/await}
 						</article>
 					{/if}
