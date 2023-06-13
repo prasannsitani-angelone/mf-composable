@@ -49,6 +49,7 @@
 		} else if (cartItem.investmentType === 'LUMPSUM') {
 			cartItem.amount = cartItem.minPurchaseAmount;
 		}
+		cartItem.inputAmount = cartItem.amount;
 		inputError = setErrorMessage(cartItem, cartItem.investmentType, String(cartItem.amount));
 		cartItem.inputError = inputError;
 	}
