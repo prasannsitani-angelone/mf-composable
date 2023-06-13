@@ -6,7 +6,7 @@
 	import type { PageData } from '../../../../../$types';
 	let data: PageData;
 	const classes = {
-		header: 'p-4 pb-0',
+		header: 'p-4',
 		container: `!pb-0 ${$$props.class}`
 	};
 	export { data };

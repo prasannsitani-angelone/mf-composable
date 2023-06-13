@@ -53,7 +53,7 @@
 		}
 	});
 
-	const beforeUnload = (e: Event) => {
+	const onVisibilityChange = (e: Event) => {
 		if (e?.target?.visibilityState === 'hidden') {
 			Logger?.flush();
 			Analytics?.flush();
@@ -61,5 +61,5 @@
 	};
 </script>
 
-<svelte:window on:visibilitychange={beforeUnload} />
+<svelte:window on:visibilitychange={onVisibilityChange} />
 <slot />
