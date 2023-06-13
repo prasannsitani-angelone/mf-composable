@@ -36,6 +36,8 @@ declare global {
 			isGuest: boolean;
 			serverTiming: servertime.ServertimeOptions;
 			shouldSetABUserCookie: boolean;
+			pageUrl: string;
+			isMissingHeaders: boolean;
 		}
 		interface PageData {
 			deviceType: DevicePayload;

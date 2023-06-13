@@ -64,6 +64,7 @@ const getSparkHeaders = (headers: Headers) => {
 
 export const load = (async ({ request, locals, cookies, fetch }) => {
 	const sparkHeaders: SparkStore = getSparkHeaders(request.headers);
+
 	const {
 		isGuest,
 		userType,

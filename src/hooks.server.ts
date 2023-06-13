@@ -21,6 +21,7 @@ const handler = (async ({ event, resolve }) => {
 		const serverTiming = servertime.createTimer();
 		const cookieString = event.request.headers.get('cookie') || '';
 		const cookie: Record<string, string> = parse(cookieString);
+		const deviceidFromQuery: string | null = event.url.searchParams.get('deviceid');
 
 		let isAuthenticatedUser = true;
 		const ABUserCookie = decryptRightUserCookie(cookieString);
@@ -60,6 +61,10 @@ const handler = (async ({ event, resolve }) => {
 			accountType = profileData?.dpNumber ? 'D' : 'P';
 		}
 		serverTiming.end('Get profile and User');
+
+		const isMissingHeaders: boolean =
+			(deviceidFromQuery && !event?.request?.headers?.get('deviceid')) || false;
+
 		event.locals = {
 			...event.locals,
 			token,
@@ -73,7 +78,9 @@ const handler = (async ({ event, resolve }) => {
 			host,
 			sparkHeaders: event.request.headers,
 			serverTiming,
-			shouldSetABUserCookie: sparkHeaderToken ? true : false
+			shouldSetABUserCookie: sparkHeaderToken ? true : false,
+			isMissingHeaders,
+			pageUrl: event.request.url
 		};
 		serverTiming.start('ssr generation', 'Timing of SSR generation');
 		const response = await resolve(event);
