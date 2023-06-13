@@ -26,6 +26,8 @@
 	import { SEO } from 'wms-ui-component';
 	import { base } from '$app/paths';
 	import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
+	import InvestmentDetailsFooterLoader from '../../(authenticated)/investments/[investment]/components/InvestmentDetailsFooterLoader.svelte';
+	import { hydrate } from '$lib/utils/helpers/hydrated';
 
 	export let data: PageData;
 
@@ -142,11 +144,17 @@
 		</article>
 
 		{#if schemedata}
-			<InvestmentDetailsFooter
-				parentPage={orderpadParentPage?.SCHEME}
-				investmentAllowed={true}
-				on:investButtonClick={handleInvestMoreCtaClick}
-			/>
+			{#if hydrate}
+				<InvestmentDetailsFooter
+					parentPage={orderpadParentPage?.SCHEME}
+					investmentAllowed={true}
+					on:investButtonClick={handleInvestMoreCtaClick}
+				/>
+			{:else}
+				<article class="fixed inset-0 top-auto z-20 block bg-white p-2 md:hidden">
+					<InvestmentDetailsFooterLoader isSchemeDetailsPage />
+				</article>
+			{/if}
 		{/if}
 	{:else}
 		{#await data?.api?.previousPaymentDetails}
