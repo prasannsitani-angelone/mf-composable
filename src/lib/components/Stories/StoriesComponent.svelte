@@ -8,7 +8,7 @@
 	import { deviceStore } from '$lib/stores/DeviceStore';
 	import type { Story, Video, videoQuery } from '$lib/types/IStories';
 	import { getQueryParamsObj } from '$lib/utils/helpers/params';
-	import { afterUpdate, onDestroy, onMount } from 'svelte';
+	import { afterUpdate, onDestroy } from 'svelte';
 	import { WMSIcon } from 'wms-ui-component';
 	import {
 		startSipClickAnalytics,
@@ -51,10 +51,19 @@
 		goto(redirectPath);
 	};
 
-	const playStoryVideo = (story?: Story, playClicked = false, clickedIndex = 0) => {
+	const playStoryVideo = (
+		story?: Story,
+		playClicked = false,
+		clickedIndex = 0,
+		userClicked = false
+	) => {
 		if (browser && isMobile) {
 			document?.addEventListener('touchstart', setStartTouchPoints);
 			document?.addEventListener('touchend', setEndTouchPoints);
+		}
+
+		if (userClicked) {
+			clickOnStoryAnalyticsFunc();
 		}
 
 		storyImpressionAnalyticsFunc();
@@ -237,15 +246,12 @@
 
 	const clickOnStoryAnalyticsFunc = () => {
 		const eventMetadata = {
-			Stories: stories
+			StoryIndex: stories[selectedStoryIndex]?.storyId,
+			StoryTitle: stories[selectedStoryIndex]?.title
 		};
 
 		clickOnStoryAnalytics(eventMetadata);
 	};
-
-	onMount(() => {
-		clickOnStoryAnalyticsFunc();
-	});
 
 	onDestroy(() => {
 		if (browser) {
@@ -256,7 +262,8 @@
 
 	const ctaClickAnalyticsFunc = () => {
 		const eventMetadata = {
-			Story: selectedStory?.title
+			StoryIndex: stories[selectedStoryIndex]?.storyId,
+			StoryTitle: stories[selectedStoryIndex]?.title
 		};
 
 		startSipClickAnalytics(eventMetadata);
@@ -264,7 +271,8 @@
 
 	const closeStoryAnalyticsFunc = () => {
 		const eventMetadata = {
-			Story: selectedStory?.title
+			StoryIndex: stories[selectedStoryIndex]?.storyId,
+			StoryTitle: stories[selectedStoryIndex]?.title
 		};
 
 		closeStoryAnalytics(eventMetadata);
@@ -272,7 +280,8 @@
 
 	const storySliderAnalyticsFunc = () => {
 		const eventMetadata = {
-			Story: stories[selectedStoryIndex]?.title
+			StoryIndex: stories[selectedStoryIndex]?.storyId,
+			StoryTitle: stories[selectedStoryIndex]?.title
 		};
 
 		storySliderAnalytics(eventMetadata);
@@ -280,7 +289,8 @@
 
 	const storyImpressionAnalyticsFunc = () => {
 		const eventMetadata = {
-			Story: stories[selectedStoryIndex]?.title
+			StoryIndex: stories[selectedStoryIndex]?.storyId,
+			StoryTitle: stories[selectedStoryIndex]?.title
 		};
 
 		storyImpressionAnalytics(eventMetadata);
@@ -294,7 +304,7 @@
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<article
 			class="mr-8 w-16 text-[10px] font-medium md:cursor-pointer"
-			on:click={() => playStoryVideo(story, true, index)}
+			on:click={() => playStoryVideo(story, true, index, true)}
 		>
 			<img
 				src={story?.imageThumbnailUrl}

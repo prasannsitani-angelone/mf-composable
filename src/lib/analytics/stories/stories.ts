@@ -5,7 +5,7 @@ export const clickOnStoryAnalytics = (eventMetaData) => {
 		screen_name: 's-StoryView',
 		event_type: 'click',
 		event_sub_type: 'button',
-		event_name: 'CTA',
+		event_name: 'storyicon',
 		event_property: null,
 		event_id: '308.0.0.6.4',
 		event_metadata: eventMetaData
