@@ -1,10 +1,5 @@
 <script lang="ts">
-	import {
-		PUBLIC_LOG_LEVEL,
-		PUBLIC_LOG_ENABLED,
-		PUBLIC_ENV_NAME,
-		PUBLIC_MF_CORE_BASE_URL
-	} from '$env/static/public';
+	import { PUBLIC_LOG_LEVEL, PUBLIC_LOG_ENABLED, PUBLIC_ENV_NAME } from '$env/static/public';
 	import Logger from '$lib/utils/logger';
 	import { onMount, setContext } from 'svelte';
 	import { update } from '$lib/utils/helpers/hydrated';
@@ -57,7 +52,6 @@
 			deleteCookie(getUserCookieName(), getCookieOptions(false));
 		}
 	});
-	const mfCoreBase = PUBLIC_MF_CORE_BASE_URL?.replace('/v1', '');
 	const onVisibilityChange = (e: Event) => {
 		if (e?.target?.visibilityState === 'hidden') {
 			Logger?.flush();
@@ -66,9 +60,5 @@
 	};
 </script>
 
-<svelte:head>
-	<link rel="preconnect" href="https://d3usff6y6s0r8b.cloudfront.net" crossorigin='anonymous'/>
-	<link rel="preconnect" href={mfCoreBase}  crossorigin='anonymous'/>
-</svelte:head>
 <svelte:window on:visibilitychange={onVisibilityChange} />
 <slot />
