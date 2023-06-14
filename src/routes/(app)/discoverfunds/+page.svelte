@@ -269,7 +269,7 @@
 </script>
 
 <svelte:head>
-	<link rel="preconnect" href="https://cdn.angelone.in" />
+	<link rel="preconnect" href="https://cdn.angelone.in"  crossorigin='anonymous' />
 </svelte:head>
 <SEO
 	seoTitle="Find The Right Mutual Fund For Your Needs | Angel One"

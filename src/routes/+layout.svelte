@@ -67,8 +67,8 @@
 </script>
 
 <svelte:head>
-	<link rel="preconnect" href="https://d3usff6y6s0r8b.cloudfront.net" />
-	<link rel="preconnect" href={mfCoreBase} />
+	<link rel="preconnect" href="https://d3usff6y6s0r8b.cloudfront.net" crossorigin='anonymous'/>
+	<link rel="preconnect" href={mfCoreBase}  crossorigin='anonymous'/>
 </svelte:head>
 <svelte:window on:visibilitychange={onVisibilityChange} />
 <slot />
