@@ -385,7 +385,13 @@
 
 	const lumpsumToSipProcess = () => {
 		if (Number(amount) >= lumpsumThreshold) {
-			if (userStore?.userType() === 'B2C') {
+			if (
+				userStore?.userType() === 'B2C' &&
+				schemeData?.isSipAllowed === 'Y' &&
+				schemeData?.sipMaxAmount > 0 &&
+				schemeData?.isLumpsumAllowed === 'Y' &&
+				schemeData?.lumpsumMaxAmount > 0
+			) {
 				isLumpsumToSipEligible = true;
 			} else {
 				isLumpsumToSipEligible = false;
@@ -527,6 +533,8 @@
 	};
 
 	const handleInvestClick = (inputId: string) => {
+		paymentHandler.upiId = inputId;
+
 		if (activeTab === 'ONETIME' && isLumpsumToSipEligible && lumpsumToSipAmount?.length) {
 			if (!showLumpsumToSipModal) {
 				toggleShowLumpsumToSipModal();
