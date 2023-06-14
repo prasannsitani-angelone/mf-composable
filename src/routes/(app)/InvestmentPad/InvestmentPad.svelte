@@ -92,6 +92,7 @@
 	import PaymentSleeve from '$components/Payment/PaymentSleeve.svelte';
 	import { PAYMENT_MODE } from '$components/Payment/constants';
 	import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
+	import OrderpadReturns from './OrderPadComponents/OrderpadReturns.svelte';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -124,10 +125,11 @@
 	const minimumNetBankingAmountLimit = 50;
 	const lumpsumThreshold = 10_000;
 
+	let isSipInvestmentAllowed = schemeData?.isSipAllowed === 'Y' && schemeData?.sipMaxAmount > 0;
+	let isLumpsumInvestmentAllowed =
+		schemeData?.isLumpsumAllowed === 'Y' && schemeData?.lumpsumMaxAmount > 0;
 	let activeTab =
-		(schemeData?.isSipAllowed === 'Y' && schemeData?.sipMaxAmount > 0 && 'SIP') ||
-		(schemeData?.isLumpsumAllowed === 'Y' && schemeData?.lumpsumMaxAmount > 0 && 'ONETIME') ||
-		'SIP';
+		(isSipInvestmentAllowed && 'SIP') || (isLumpsumInvestmentAllowed && 'ONETIME') || 'SIP';
 	let amount = '';
 	let showCalendar = false;
 	let sipAllowedDaysArray = schemeData?.sipAllowedDays?.length
@@ -215,9 +217,9 @@
 
 	const isSelectedInvestmentTypeAllowed = () => {
 		if (activeTab === 'SIP') {
-			return schemeData?.isSipAllowed === 'Y' && schemeData?.sipMaxAmount > 0;
+			return isSipInvestmentAllowed;
 		} else if (activeTab === 'ONETIME') {
-			return schemeData?.isLumpsumAllowed === 'Y' && schemeData?.lumpsumMaxAmount > 0;
+			return isLumpsumInvestmentAllowed;
 		}
 
 		return false;
@@ -385,13 +387,7 @@
 
 	const lumpsumToSipProcess = () => {
 		if (Number(amount) >= lumpsumThreshold) {
-			if (
-				userStore?.userType() === 'B2C' &&
-				schemeData?.isSipAllowed === 'Y' &&
-				schemeData?.sipMaxAmount > 0 &&
-				schemeData?.isLumpsumAllowed === 'Y' &&
-				schemeData?.lumpsumMaxAmount > 0
-			) {
+			if (userStore?.userType() === 'B2C' && isSipInvestmentAllowed && isLumpsumInvestmentAllowed) {
 				isLumpsumToSipEligible = true;
 			} else {
 				isLumpsumToSipEligible = false;
@@ -1244,6 +1240,13 @@
 							</Button>
 						</section>
 					</article>
+				{/if}
+
+				{#if activeTab === 'SIP' && isSipInvestmentAllowed && amount?.length && !errorMessage?.length}
+					<OrderpadReturns
+						investedAmount={Number(amount)}
+						threeYearReturns={schemeData?.returns3yr}
+					/>
 				{/if}
 
 				<!-- Checkbox for SIP payment now -->
