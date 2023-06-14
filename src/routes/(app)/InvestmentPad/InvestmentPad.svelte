@@ -523,7 +523,7 @@
 	const handleLumpsumToSipOtiClick = () => {
 		lumspsumToSipSleeveContinueOtiCtaClickAnalytics();
 
-		handleInvestClick('');
+		handleInvestClick(paymentHandler?.upiId);
 	};
 
 	const handleInvestClick = (inputId: string) => {
