@@ -66,6 +66,8 @@
 			/>
 		{/if}
 	</div>
+{:else if $$slots.hydrating}
+	<slot name="hydrating" />
 {:else}
 	<slot />
 {/if}

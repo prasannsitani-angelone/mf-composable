@@ -296,6 +296,8 @@
 		<SipCard sip={formattedSipNudgeData} sipCount={sipPaymentNudges?.length} />
 	{/if}
 
+	<TrendingFunds tableData={data?.searchDashboardData?.weeklyTopSchemes} />
+
 	<article class="max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:mt-0">
 		<ExploreScheme searchOptions={data?.searchDashboardData?.searchOptions} />
 	</article>
@@ -364,7 +366,6 @@
 			</section>
 		{/each}
 	{/if}
-	<TrendingFunds tableData={data?.searchDashboardData?.weeklyTopSchemes} />
 </article>
 
 {#if deviceType?.isBrowser}
