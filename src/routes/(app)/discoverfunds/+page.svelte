@@ -268,6 +268,9 @@
 	export let data: PageData;
 </script>
 
+<svelte:head>
+	<link rel="preconnect" href="https://cdn.angelone.in" />
+</svelte:head>
 <SEO
 	seoTitle="Find The Right Mutual Fund For Your Needs | Angel One"
 	seoDescription="Set your Goals and find the right Mutual Funds to achieve your goal. Explore mutual funds by performance and start your investment journey with Angel One."
