@@ -30,13 +30,13 @@
 	seoTitle="Your Mutual Funds Investment | Angel One"
 	seoDescription="Get Access to your Mutual Funds investment here. Check and enhance mutual funds investment portfolio better with Angel One."
 />
-<section class="col-span-1 hidden sm:col-span-1 sm:col-start-1 md:block">
+<section class="col-span-1 row-span-1 row-start-1 hidden sm:col-span-1 sm:col-start-1 sm:block">
 	<InvestmentTab {activeTab} {tabs} />
 </section>
 {#if activeTab === 'all'}
 	<ExternalInvestments {data} />
 {:else}
-	<section class="col-span-1 sm:col-span-1 sm:col-start-1">
+	<section class="col-span-1 row-start-3 sm:col-span-1 sm:col-start-1 sm:row-start-2">
 		{#await data.api.investment}
 			<InvestmentDashboardLoader />
 		{:then response}
@@ -91,7 +91,7 @@
 	</section>
 
 	<!-- Right Side Contents -->
-	<section class="col-span-1 row-start-2 sm:col-span-1 sm:col-start-2 sm:row-span-3 sm:row-start-1">
+	<section class="col-span-1 row-start-1 sm:col-span-1 sm:col-start-2 sm:row-span-3">
 		<!-- Portfolio cards: All scenarios -->
 		<article class="mb-2 overflow-hidden sm:mb-0">
 			<PortfolioCard />

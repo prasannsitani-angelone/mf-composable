@@ -39,7 +39,7 @@
 
 <button
 	{type}
-	class={`btn border-0 text-sm font-semibold capitalize disabled:bg-opacity-50 ${BUTTON_STYLE?.get(
+	class={`btn border-0 text-sm font-semibold capitalize disabled:bg-grey-line ${BUTTON_STYLE?.get(
 		variant
 	)?.get(color)} ${clazz} ${sizeClass} rounded`}
 	{style}

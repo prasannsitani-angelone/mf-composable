@@ -195,7 +195,7 @@
 				/>
 				<Button
 					type="submit"
-					class="w-full disabled:bg-grey-line disabled:text-white "
+					class="w-full disabled:bg-grey-line disabled:text-grey-disabled"
 					disabled={isVerifyDisabled()}>VERIFY</Button
 				>
 			</form>

@@ -53,7 +53,7 @@
 			{#if hydrate}
 				<Button
 					disabled={notAllowedToProceed(selectedFunds)}
-					class="w-full !font-medium disabled:bg-grey-line disabled:text-white sm:max-w-fit sm:px-16 "
+					class="w-full !font-medium disabled:bg-grey-line disabled:text-grey-disabled sm:max-w-fit sm:px-16 "
 					onClick={onProceedButtonClick}>PROCEED TO PLACE ORDER</Button
 				>
 			{:else}

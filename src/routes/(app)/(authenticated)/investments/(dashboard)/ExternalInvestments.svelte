@@ -252,7 +252,7 @@
 	<!-- Check for unhappy scenarios -->
 	{#if getUnhappyScenario(response)}
 		<!-- Render Left side for unhapy scenario -->
-		<section class="col-span-1 sm:col-span-1 sm:col-start-1">
+		<section class="col-span-1 row-start-2 sm:col-span-1 sm:col-start-1">
 			<svelte:component
 				this={UnhappyComponentsMap[getUnhappyScenario(response)].info}
 				onConfirmation={onInitiateFundsFetch}
@@ -260,9 +260,7 @@
 			/>
 		</section>
 		<!-- Render Right Side of Unhappy Scenario -->
-		<section
-			class="col-span-1 row-start-2 sm:col-span-1 sm:col-start-2 sm:row-span-3 sm:row-start-1"
-		>
+		<section class="col-span-1 row-start-1 sm:col-span-1 sm:col-start-2 sm:row-span-3">
 			<svelte:component
 				this={UnhappyComponentsMap[getUnhappyScenario(response)].card}
 				scenario={getUnhappyScenario(response)}
@@ -271,7 +269,7 @@
 	{:else}
 		<!-- Success scenarios -->
 		<!-- Render Refresh component for both partial/ full success scenario -->
-		<section class="col-span-1 sm:col-span-1 sm:col-start-1">
+		<section class="col-span-1 row-start-2 sm:col-span-1 sm:col-start-1">
 			<RefreshFunds
 				summary={response.data?.summary}
 				onButtonClick={() => onRefreshFunds(response.data?.summary)}
@@ -280,7 +278,7 @@
 		{#await externalInvestmentHoldings then res}
 			<!-- Render Success scenario - partial/ full success  -->
 			{#if setSuccessScenarioParams(res.data?.holdings || [])}
-				<section class="col-span-1 sm:col-span-1 sm:col-start-1">
+				<section class="col-span-1 row-start-3 sm:col-span-1 sm:col-start-1">
 					{#if res.status === 'success'}<YourInvestments
 							tableData={res.data?.holdings || []}
 						/>{:else}<ErrorLoadingComponent
@@ -288,9 +286,7 @@
 							message="We could not fetch your investment list due to a technical error. Please try again"
 						/>{/if}
 				</section>
-				<section
-					class="col-span-1 row-start-2 sm:col-span-1 sm:col-start-2 sm:row-span-3 sm:row-start-1"
-				>
+				<section class="col-span-1 row-start-1 sm:col-span-1 sm:col-start-2 sm:row-span-3">
 					<ExternalFundsPortfolioCard
 						investmentSummary={response.data?.summary}
 						{partialImportedFundCount}
