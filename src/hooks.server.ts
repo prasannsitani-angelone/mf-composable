@@ -90,7 +90,7 @@ const handler = (async ({ event, resolve }) => {
 			response.headers.set('Server-Timing', headers);
 		}
 		// Delete response Link header
-		// response.headers.delete('link');
+		response.headers.delete('link');
 		return response;
 	} catch (e) {
 		console.log(

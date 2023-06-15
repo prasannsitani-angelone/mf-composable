@@ -33,7 +33,7 @@
 				month = returns[0].months;
 			}
 		});
-		return month;
+		return month || 240;
 	})();
 
 	let lineData = {};
