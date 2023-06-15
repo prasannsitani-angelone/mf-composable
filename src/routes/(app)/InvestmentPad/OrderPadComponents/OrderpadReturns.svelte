@@ -18,7 +18,7 @@
 	};
 </script>
 
-{#if threeYearReturnsValue > 0}
+{#if threeYearReturns > 0}
 	<section class="border-b py-3 px-4 {$$props?.class}">
 		<article class="flex items-center">
 			<WMSIcon width={10} height={13} name="green-uparrow-trending-fund" />
@@ -56,7 +56,8 @@
 			<section class="px-4 pt-0 pb-12 text-sm md:px-8 md:pt-6">
 				<article>
 					<p class="font-normal text-black-bolder">
-						Current value if you had invested ₹500 monthly for the last 3 years
+						Current value if you had invested <AmountText amount={investedAmount} /> monthly for the
+						last 3 years
 					</p>
 
 					<div class="mt-4 text-[28px] font-bold text-green-teal">
