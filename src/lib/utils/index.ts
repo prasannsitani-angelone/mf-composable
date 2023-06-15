@@ -6,6 +6,7 @@ import { userStore } from '$lib/stores/UserStore';
 import type { SearchOptionsEntity, PromotionsEntity } from '$lib/types/IDiscoverFunds';
 import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 import type { PageParentData } from '../../routes/(app)/schemes/[fund_name]/$types';
+import { appStore } from '$lib/stores/SparkStore';
 
 export interface TableColumnToggle {
 	label: string;
@@ -178,3 +179,10 @@ export const shouldDisplayShare = (parentData: PageParentData) => {
 		(osName?.toLowerCase() === 'android' && platformvariant?.toLowerCase() !== 'webview')
 	);
 };
+
+export function shouldDisplayAngelBeeBanner() {
+	const dpNumber = profileStore.accountType();
+	const isAngelBeeUser = appStore.isAngelBeeAndroidUser() || appStore.isAngelBeeIosUser();
+	const accessToken = tokenStore.accessToken();
+	return accessToken && dpNumber === 'D' && isAngelBeeUser;
+}

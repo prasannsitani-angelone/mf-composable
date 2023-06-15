@@ -53,6 +53,12 @@ function Store() {
 		isSparkAndroidUser: () => {
 			return sparkStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID;
 		},
+		isAngelBeeAndroidUser: () => {
+			return sparkStore.platform.toLowerCase() === PLATFORM_TYPE.ANGELBEE_ANDROID;
+		},
+		isAngelBeeIosUser: () => {
+			return sparkStore.platform.toLowerCase() === PLATFORM_TYPE.ANGELBEE_IOS;
+		},
 		isSparkIOSUser: () => {
 			return sparkStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS;
 		},

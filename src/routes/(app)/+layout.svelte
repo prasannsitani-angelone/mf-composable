@@ -32,6 +32,8 @@
 	import AddToCartPopup from '$components/Cart/AddToCartPopup.svelte';
 	import Toast from '$components/Toast/Toast.svelte';
 	import RemoveFromCartPopup from '$components/Cart/RemoveFromCartPopup.svelte';
+	import { shouldDisplayAngelBeeBanner } from '$lib/utils';
+	import AngelBeeBannerComponent from '../banner/AngelBeeBannerComponent.svelte';
 
 	$: isModalOpen = $externalNavigation.active;
 	// Update store with Spark headers
@@ -39,6 +41,8 @@
 	export let data: LayoutData;
 	const { sparkHeaders, tokenObj, profile, userDetails, deviceType, isGuest, token } = data;
 	// Update store with Spark headers
+
+	let showAngelBeeBanner = false;
 
 	onMount(async () => {
 		const authState = isGuest
@@ -64,6 +68,8 @@
 		await tick();
 
 		cartStore.updateCartData(isGuest);
+
+		showAngelBeeBanner = shouldDisplayAngelBeeBanner();
 	});
 	// initialising logging again with all new headers for routes of (app)
 	Logger.init({
@@ -158,5 +164,8 @@
 {/if}
 {#if $cartStore.removeFromCart}
 	<RemoveFromCartPopup />
+{/if}
+{#if showAngelBeeBanner}
+	<AngelBeeBannerComponent />
 {/if}
 <Toast />
