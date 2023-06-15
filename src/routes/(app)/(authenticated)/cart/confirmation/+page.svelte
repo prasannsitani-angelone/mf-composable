@@ -458,6 +458,7 @@
 									bankName={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName}
 									bankAccount={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO}
 									upiId={paymentHandler.upiId}
+									amount={itemList?.totalAmount}
 								/>
 							</div>
 						{:else}

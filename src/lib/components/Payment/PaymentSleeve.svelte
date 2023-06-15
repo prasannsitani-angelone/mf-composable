@@ -2,6 +2,7 @@
 	import Button from '$components/Button.svelte';
 	import { PAYMENT_MODE } from './constants';
 
+	export let amount: number;
 	export let selectedMode = '';
 	export let bankName = '';
 	export let bankAccount = '';
@@ -29,11 +30,13 @@
 			{selectedMode === 'UPI' ? 'app' : ''}
 		</div>
 	</div>
-	<Button
-		variant="transparent"
-		class="!h-fit !min-h-0 !px-0 text-xs !uppercase"
-		onClick={onPaymentMethodChange}
-	>
-		Change
-	</Button>
+	{#if amount > 0}
+		<Button
+			variant="transparent"
+			class="!h-fit !min-h-0 !px-0 text-xs !uppercase"
+			onClick={onPaymentMethodChange}
+		>
+			Change
+		</Button>
+	{/if}
 </div>

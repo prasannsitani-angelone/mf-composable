@@ -92,6 +92,7 @@
 	import PaymentSleeve from '$components/Payment/PaymentSleeve.svelte';
 	import { PAYMENT_MODE } from '$components/Payment/constants';
 	import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
+	import { stringToInteger } from '$lib/utils/helpers/numbers';
 	import OrderpadReturns from './OrderPadComponents/OrderpadReturns.svelte';
 
 	export let schemeData: SchemeDetails;
@@ -1300,6 +1301,7 @@
 							bankName={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName}
 							bankAccount={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO}
 							upiId={paymentHandler.upiId}
+							amount={stringToInteger(amount)}
 						/>
 					{/if}
 					<article class="rounded-b-lg bg-white px-4 pt-3 md:px-3">
@@ -1410,6 +1412,10 @@
 		onChangeBank={showBankPopup}
 		class={$$props.class}
 		isLoading={loadingState.isLoading || validateUPILoading}
+		isSchemeDisabled={(activeTab === 'SIP' &&
+			(schemeData?.isSipAllowed !== 'Y' || !schemeData?.sipMaxAmount)) ||
+			(activeTab === 'ONETIME' &&
+				(schemeData?.isLumpsumAllowed !== 'Y' || !schemeData?.lumpsumMaxAmount))}
 	>
 		<svelte:fragment slot="header">
 			<slot name="header">

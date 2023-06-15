@@ -58,7 +58,7 @@ export const PAYMENT_MODE = {
 		name: 'Net Banking',
 		analytics: selectNetBankingPaymentModeAnalytics,
 		enabled: (amount: number, os: string, redirectedFrom: string) => {
-			return redirectedFrom !== 'SIP_PAYMENTS' && NET_BANKING_MIN_LIMIT >= 50;
+			return redirectedFrom !== 'SIP_PAYMENTS' && amount >= NET_BANKING_MIN_LIMIT;
 		},
 		showInput: false
 	}

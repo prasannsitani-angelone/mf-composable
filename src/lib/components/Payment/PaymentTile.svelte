@@ -15,6 +15,7 @@
 	export let inputError = '';
 	export let defaultInputVal = '';
 	export let isLoading = false;
+	export let isSchemeDisabled = false;
 
 	export let onSelect: (identifier: string) => void = () => undefined;
 	export let onSubmit: (text: string) => void = () => undefined;
@@ -109,7 +110,10 @@
 			</div>
 			<Button
 				class="rounded"
-				disabled={!amount?.length || (showInput && !inputText.length) || isLoading}
+				disabled={!amount?.length ||
+					(showInput && !inputText.length) ||
+					isLoading ||
+					isSchemeDisabled}
 				onClick={() => onSubmit(inputText)}
 			>
 				PAY {amount?.length ? `₹${amount}` : ''}

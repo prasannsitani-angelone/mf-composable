@@ -14,6 +14,7 @@
 	export let redirectedFrom = '';
 	export let defaultInputVal = '';
 	export let isLoading = false;
+	export let isSchemeDisabled = false;
 
 	export let onSelect: (payload: string) => void = () => undefined;
 	export let onSubmit = (): void => undefined;
@@ -43,6 +44,7 @@
 				showChangeBank={bankAccounts.length > 1}
 				defaultInputVal={defaultInputVal || ''}
 				{isLoading}
+				{isSchemeDisabled}
 				changeBank={onChangeBankClick}
 			>
 				<svelte:component this={PAYMENT_MODE[paymentModeKey].logo} slot="icon" />

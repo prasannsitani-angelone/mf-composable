@@ -13,6 +13,7 @@
 	export let selectedMode = '';
 	export let defaultInputVal = '';
 	export let isLoading = false;
+	export let isSchemeDisabled = false;
 
 	export let onBackClick = (): void => undefined;
 	export let onSelect = (): void => undefined;
@@ -40,6 +41,7 @@
 			{defaultInputVal}
 			onChangeBankClick={onChangeBank}
 			{isLoading}
+			{isSchemeDisabled}
 			class="sm:px-8 sm:py-8"
 		/>
 	</div>
