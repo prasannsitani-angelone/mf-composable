@@ -13,14 +13,14 @@
 </script>
 
 {#if !deviceType.isBrowser}
-	<section class="left-0 w-full border-b">
+	<section class="left-0 w-full border-b bg-grey">
 		<article
-			class="flex items-center justify-evenly bg-white px-6 pt-5 text-center text-sm font-semibold"
+			class="flex items-center justify-evenly rounded-t-xl bg-white px-6 pt-5 text-center text-sm font-semibold"
 		>
 			{#each tabs as tab}
 				<Button
 					variant="transparent"
-					class={`!px-0 !pt-0  ${activeTab === tab.name ? activeTabClass : inactiveTabClass}`}
+					class={`w-[46%] !pt-0  ${activeTab === tab.name ? activeTabClass : inactiveTabClass}`}
 					onClick={tab.onClick}
 				>
 					{tab.name}

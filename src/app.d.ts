@@ -8,6 +8,8 @@ interface LayoutConfig {
 	title: string;
 	showBackIcon: boolean;
 	component: class;
+	titleClass: string;
+	headerClass: string;
 	showBottomNavigation: boolean;
 	showSearchIcon: boolean;
 	showCloseIcon: boolean;

@@ -16,6 +16,7 @@
 	export let showCloseIcon = false;
 	export let showShareIcon = false;
 	export let showCartIcon = false;
+	export let titleClass = '';
 	export let onClickShareIcon: (() => void) | null = null;
 
 	const handleCloseButtonClick = () => {
@@ -60,7 +61,7 @@
 					<img src={logoUrl} alt="Angel one Logo" width="32" height="32" class="mr-1 h-8 w-8" />
 				{/if}
 				<slot name="title">
-					<h1 class="text-lg font-medium text-black-title">
+					<h1 class="text-lg font-medium text-black-title {titleClass || ''}">
 						<div class="truncate text-left" class:w-80={!showSearchIcon && !showShareIcon}>
 							{title || ''}
 						</div>

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { goto } from '$app/navigation';
 	import YourInvestments from './YourInvestments.svelte';
 	import ReportsSection from './ReportsSection.svelte';
 	import NoOrders from '$components/NoOrders.svelte';
@@ -14,29 +13,15 @@
 
 	import TrendingFunds from '../../../discoverfunds/TrendingFunds/TrendingFunds.svelte';
 	import type { PageData } from './$types';
-	import type { ITab } from '$lib/types/ITab';
-	import { angeloneTabClickedAnalytics } from '../analytics';
 
 	export let data: PageData;
 
 	import InvestmentTab from './components/InvestmentTab.svelte';
 	import { SEO } from 'wms-ui-component';
+	import { tabs } from '../constants';
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 
-	const tabs: ITab[] = [
-		{
-			name: 'Angel One',
-			onClick: () => {
-				angeloneTabClickedAnalytics();
-				goto('./investments');
-			}
-		},
-		{
-			name: 'All',
-			onClick: () => goto('./investments?type=all')
-		}
-	];
 	let activeTab: string;
 	$: activeTab = new Map($page.url.searchParams)?.get('type')?.toLocaleLowerCase() || 'Angel One';
 </script>
@@ -45,7 +30,7 @@
 	seoTitle="Your Mutual Funds Investment | Angel One"
 	seoDescription="Get Access to your Mutual Funds investment here. Check and enhance mutual funds investment portfolio better with Angel One."
 />
-<section class="col-span-1 sm:col-span-1 sm:col-start-1">
+<section class="col-span-1 hidden sm:col-span-1 sm:col-start-1 md:block">
 	<InvestmentTab {activeTab} {tabs} />
 </section>
 {#if activeTab === 'all'}

@@ -2,6 +2,7 @@ import { browser } from '$app/environment';
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
+import MobileInvestmentTab from './components/MobileInvestmentTab.svelte';
 
 export const load = (async ({ fetch, url }) => {
 	const isExternal = url.searchParams.get('type') === 'all';
@@ -53,7 +54,10 @@ export const load = (async ({ fetch, url }) => {
 		layoutConfig: {
 			title: 'Investment Dashboard',
 			showBottomNavigation: true,
-			layoutType: 'TWO_COLUMN_REVERSE'
+			layoutType: 'TWO_COLUMN_REVERSE',
+			titleClass: '!text-2xl',
+			headerClass: '!bg-grey !p-5',
+			component: MobileInvestmentTab
 		}
 	};
 }) satisfies PageLoad;

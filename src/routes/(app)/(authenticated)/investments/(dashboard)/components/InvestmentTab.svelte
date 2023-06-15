@@ -12,15 +12,15 @@
 </script>
 
 <section
-	class="relative left-0 z-10 w-full overflow-hidden border-b max-sm:-mt-2 max-sm:ml-[calc(50%-50vw)] max-sm:mb-2 max-sm:w-screen sm:rounded-t-lg"
+	class="relative left-0 z-10 w-full overflow-hidden border-b bg-grey max-sm:ml-[calc(50%-50vw)]"
 >
 	<article
-		class="flex items-center justify-evenly bg-white px-6 pt-4 text-center text-sm font-semibold"
+		class="flex items-center justify-evenly rounded-t-xl bg-white px-6 pt-4 text-center text-sm font-semibold"
 	>
 		{#each tabs as tab}
 			<Button
 				variant="transparent"
-				class={`min-w-[80px] !px-0 !pt-0  ${
+				class={`w-[46%] !px-0 !pt-0 md:w-auto md:min-w-[80px]  ${
 					activeTab?.toLowerCase() === tab.name?.toLowerCase() ? activeTabClass : inactiveTabClass
 				}`}
 				onClick={tab.onClick}

@@ -131,9 +131,6 @@
 		<OrderFilter {ordersSummary} />
 	</article>
 	<article>
-		<article class="block md:hidden">
-			<OrderFilter {ordersSummary} />
-		</article>
 		{#if orders.length}
 			{#each orders as item (item?.orderId)}
 				<article class="mb-1 rounded-lg border bg-white px-2 py-4 md:px-4">

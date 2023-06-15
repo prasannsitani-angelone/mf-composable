@@ -16,16 +16,17 @@
 	{#if $headerStore?.showMobileHeader}
 		<MobileHeader
 			title={pageMetaData?.title}
+			titleClass={pageMetaData?.titleClass}
 			showSearchIcon={pageMetaData?.showSearchIcon}
 			showBackIcon={pageMetaData?.showBackIcon}
 			showCloseIcon={pageMetaData?.showCloseIcon}
 			showShareIcon={pageMetaData?.showShareIcon}
 			showCartIcon={pageMetaData?.showCartIcon}
 			onClickShareIcon={pageMetaData?.onClickShareIcon}
-			class="bg-white"
+			class="bg-white {pageMetaData?.headerClass || ''}"
 		>
 			<svelte:fragment slot="title">
-				<h1 class="text-lg font-medium text-black-title">
+				<h1 class="text-lg font-medium text-black-title {pageMetaData?.titleClass || ''}">
 					{#if userType === 'B2C' && pageMetaData?.title === 'Mutual Funds'}
 						<span class="ml-1 flex flex-col">
 							<span class="flex"> Direct Mutual Funds</span>
