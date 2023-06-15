@@ -36,6 +36,7 @@
 	import type { FolioHoldingType, FolioObject } from '$lib/types/IInvestments';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { base } from '$app/paths';
+	import { page } from '$app/stores';
 
 	let showTpinVerificationModal = false;
 	let showOtpVerificationModal = false;
@@ -121,13 +122,17 @@
 	const postSwitchOrder = async (orderPostData?: IOrderPostData) => {
 		showLoading('Placing Switch Order');
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/orders`;
+		const optionHeaders = {
+			'X-Request-Id': $page?.url.searchParams.get('requestId') || uuid,
+			'X-SESSION-ID': uuid,
+			'X-device-type': 'WEB'
+		};
+		if ($page.url.searchParams.get('appsource')) {
+			optionHeaders['X-Source'] = $page.url.searchParams.get('appsource');
+		}
 		const res = await useFetch(url, {
 			method: 'POST',
-			headers: {
-				'X-Request-Id': uuid,
-				'X-SESSION-ID': uuid,
-				'X-device-type': 'WEB'
-			},
+			headers: optionHeaders,
 			body: JSON.stringify({
 				amount: fullAmountSelected ? selectedFolio?.redemableAmount : parseInt(amount),
 				dpNumber: $profileStore?.dpNumber,
