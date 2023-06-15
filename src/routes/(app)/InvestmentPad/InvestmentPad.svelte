@@ -166,7 +166,8 @@
 	const error = {
 		visible: false,
 		heading: '',
-		subHeading: ''
+		subHeading: '',
+		type: ''
 	};
 	const pending = {
 		visible: false,
@@ -759,17 +760,24 @@
 		validateUPILoading = false;
 	};
 
-	const displayError = ({ heading = 'Error', errorSubHeading = '' }) => {
+	const displayError = ({ heading = 'Error', errorSubHeading = '', type = '' }) => {
+		if (error.type === 'PAYMENT_FAILED') {
+			paymentFailedScreenAnalyticsWithData();
+		}
 		error.visible = true;
 		error.heading = heading;
 		error.subHeading = errorSubHeading;
+		error.type = type;
 	};
 
 	const closeErrorPopup = () => {
-		paymentFailedScreenCloseButtonAnalytics();
+		if (error.type === 'PAYMENT_FAILED') {
+			paymentFailedScreenCloseButtonAnalytics();
+		}
 		error.heading = '';
 		error.subHeading = '';
 		error.visible = false;
+		error.type = '';
 	};
 
 	const closePendingPopup = () => {
@@ -991,8 +999,7 @@
 			showLoading,
 			stopLoading,
 			displayPendingPopup,
-			displayError,
-			transactionFailedAnalytics: paymentFailedScreenAnalyticsWithData
+			displayError
 		};
 
 		const commonLumpsumInput = {

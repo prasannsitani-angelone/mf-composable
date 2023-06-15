@@ -1,53 +1,18 @@
 import { orderDeletePatchFunc } from './api';
 import { intializeNetBankingState, isNetBakingPaymentWindowClosed } from './util';
 
-export const handleTransactionResponse = (params) => {
-	const {
-		transactionResponse,
-		stopLoading,
-		displayError,
-		displayPendingPopup,
-		transactionFailedAnalytics,
-		orderId, // for lumpsum
-		sipId, // for sip
-		failureCallback
-	} = params;
+export const handleTransactionResponse = async (params) => {
+	const { transactionResponse, failureCallback, pendingCallback } = params;
 	if (transactionResponse.ok) {
 		if (transactionResponse.data?.data?.status === 'failure') {
-			transactionFailedAnalytics();
-			stopLoading();
-			failureCallback();
-			displayError({
-				orderId,
-				sipId,
-				heading: 'Payment Failed',
-				errorSubHeading:
-					transactionResponse?.data?.data?.response_description ||
-					'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
-			});
+			await failureCallback();
 			throw new Error('');
 		} else if (transactionResponse.data?.data?.status === 'pending') {
-			stopLoading();
-			displayPendingPopup({
-				orderId,
-				sipId,
-				heading: 'Payment Pending',
-				errorSubHeading:
-					transactionResponse?.data?.data?.response_description ||
-					"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
-			});
+			await pendingCallback();
 			throw new Error('');
 		}
 	} else {
-		stopLoading();
-		displayPendingPopup({
-			orderId,
-			sipId,
-			heading: 'Payment Pending',
-			errorSubHeading:
-				transactionResponse?.data?.data?.response_description ||
-				"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
-		});
+		await pendingCallback();
 		throw new Error('');
 	}
 };
@@ -143,6 +108,7 @@ export const handleOrderPatchResponse = (params) => {
 	if (!orderPatchResponse.ok) {
 		stopLoading();
 		displayError({
+			type: 'PATCH_FAILED',
 			orderId,
 			heading: 'Order Creation Error',
 			errorSubHeading: orderPatchResponse?.data?.message

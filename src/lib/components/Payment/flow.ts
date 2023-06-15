@@ -46,10 +46,10 @@ export const noPaymentFlow = async (params) => {
 		source = '',
 		previousOrderId = '', // for previous order deletion
 		previousPGTxnId = '', // for previous order deletion
-		stopLoading,
-		displayError,
-		showLoading,
-		onSuccess
+		stopLoading = () => undefined,
+		displayError = () => undefined,
+		showLoading = () => undefined,
+		onSuccess = () => undefined
 	} = params || {};
 	try {
 		showLoading('Getting Mandate Data');
@@ -105,15 +105,14 @@ export const netBankingCartFlow = async (params) => {
 		paymentMode,
 		xRequestId,
 		source = '',
-		netBankingState,
-		state,
-		showLoading,
-		stopLoading,
-		displayPendingPopup,
-		displayError,
-		onStart,
-		onSuccess,
-		transactionFailedAnalytics = () => undefined
+		netBankingState = {},
+		state = {},
+		showLoading = () => undefined,
+		stopLoading = () => undefined,
+		displayPendingPopup = () => undefined,
+		displayError = () => undefined,
+		onStart = () => undefined,
+		onSuccess = () => undefined
 	} = params || {};
 	try {
 		onStart();
@@ -183,7 +182,7 @@ export const netBankingCartFlow = async (params) => {
 			},
 			state
 		});
-		const cartPatch = () =>
+		const orderPatch = () =>
 			cartPatchFunction({
 				accNO,
 				bankName,
@@ -194,17 +193,33 @@ export const netBankingCartFlow = async (params) => {
 				xRequestId,
 				source
 			});
-		handleTransactionResponse({
+		await handleTransactionResponse({
 			transactionResponse,
-			stopLoading,
-			displayError,
-			displayPendingPopup,
-			transactionFailedAnalytics,
-			orderId: orderPostResponse?.data?.orderId,
-			failureCallback: cartPatch
+			failureCallback: async () => {
+				const orderPatchResponse = await orderPatch();
+				stopLoading();
+				displayError({
+					type: orderPatchResponse.ok ? 'PAYMENT_FAILED' : 'PAYMENT_PATCH_FAILED',
+					orderId: orderPostResponse?.data?.orderId,
+					heading: 'Payment Failed',
+					errorSubHeading:
+						transactionResponse?.data?.data?.response_description ||
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+				});
+			},
+			pendingCallback: () => {
+				stopLoading();
+				displayPendingPopup({
+					orderId: orderPostResponse?.data?.orderId,
+					heading: 'Payment Pending',
+					errorSubHeading:
+						transactionResponse?.data?.data?.response_description ||
+						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+				});
+			}
 		});
 		showLoading('Waiting for order status');
-		const orderPatchResponse = await cartPatch();
+		const orderPatchResponse = await orderPatch();
 		handleOrderPatchResponse({
 			orderId: orderPostResponse?.data?.orderId,
 			orderPatchResponse,
@@ -236,14 +251,13 @@ export const netBankingLumpsumFlow = async (params) => {
 		source = '',
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
-		netBankingState,
-		state,
-		showLoading,
-		stopLoading,
-		displayPendingPopup,
-		displayError,
-		onSuccess,
-		transactionFailedAnalytics
+		netBankingState = {},
+		state = {},
+		showLoading = () => undefined,
+		stopLoading = () => undefined,
+		displayPendingPopup = () => undefined,
+		displayError = () => undefined,
+		onSuccess = () => undefined
 	} = params || {};
 	try {
 		netBankingState.paymentWindow = window.open(
@@ -329,14 +343,30 @@ export const netBankingLumpsumFlow = async (params) => {
 				xRequestId,
 				source
 			});
-		handleTransactionResponse({
+		await handleTransactionResponse({
 			transactionResponse,
-			stopLoading,
-			displayError,
-			displayPendingPopup,
-			transactionFailedAnalytics,
-			orderId: orderPostResponse?.data?.data?.orderId,
-			failureCallback: orderPatch
+			failureCallback: () => {
+				stopLoading();
+				orderPatch();
+				displayError({
+					type: 'PAYMENT_FAILED',
+					orderId: orderPostResponse?.data?.data?.orderId,
+					heading: 'Payment Failed',
+					errorSubHeading:
+						transactionResponse?.data?.data?.response_description ||
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+				});
+			},
+			pendingCallback: () => {
+				stopLoading();
+				displayPendingPopup({
+					orderId: orderPostResponse?.data?.data?.orderId,
+					heading: 'Payment Pending',
+					errorSubHeading:
+						transactionResponse?.data?.data?.response_description ||
+						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+				});
+			}
 		});
 		showLoading('Waiting for order status');
 		const orderPatchResponse = await orderPatch();
@@ -369,14 +399,13 @@ export const netBankingSIPFlow = async (params) => {
 		source = '',
 		previousOrderId = '', // for previous order deletion
 		previousPGTxnId = '', // for previous order deletion
-		state,
-		netBankingState,
-		showLoading,
-		stopLoading,
-		displayPendingPopup,
-		displayError,
-		onSuccess,
-		transactionFailedAnalytics
+		state = {},
+		netBankingState = {},
+		showLoading = () => undefined,
+		stopLoading = () => undefined,
+		displayPendingPopup = () => undefined,
+		displayError = () => undefined,
+		onSuccess = () => undefined
 	} = params || {};
 	try {
 		netBankingState.paymentWindow = window.open(
@@ -472,15 +501,32 @@ export const netBankingSIPFlow = async (params) => {
 				xRequestId,
 				source
 			});
-		handleTransactionResponse({
+		await handleTransactionResponse({
 			transactionResponse,
-			stopLoading,
-			displayError,
-			displayPendingPopup,
-			transactionFailedAnalytics,
-			orderId: orderPostResponse?.data?.data?.orderId,
-			sipId: orderPostResponse?.data?.data?.sipId,
-			failureCallback: orderPatch
+			failureCallback: () => {
+				stopLoading();
+				orderPatch();
+				displayError({
+					type: 'PAYMENT_FAILED',
+					orderId: orderPostResponse?.data?.data?.orderId,
+					sipId: orderPostResponse?.data?.data?.sipId,
+					heading: 'Payment Failed',
+					errorSubHeading:
+						transactionResponse?.data?.data?.response_description ||
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+				});
+			},
+			pendingCallback: () => {
+				stopLoading();
+				displayPendingPopup({
+					orderId: orderPostResponse?.data?.data?.orderId,
+					sipId: orderPostResponse?.data?.data?.sipId,
+					heading: 'Payment Pending',
+					errorSubHeading:
+						transactionResponse?.data?.data?.response_description ||
+						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+				});
+			}
 		});
 		showLoading('Waiting for order status');
 		const orderPatchResponse = await orderPatch();
@@ -510,19 +556,18 @@ export const upiCartFlow = async (params) => {
 		bankName,
 		xRequestId,
 		source = '',
-		upiState,
-		state,
-		showUPILoading,
-		stopUPILoading,
-		showLoading,
-		stopLoading,
-		displayError,
-		updateUPITimer,
-		onUPIValidationFailure,
-		displayPendingPopup,
-		transactionFailedAnalytics = () => undefined,
-		onStart,
-		onSuccess
+		upiState = {},
+		state = {},
+		showUPILoading = () => undefined,
+		stopUPILoading = () => undefined,
+		showLoading = () => undefined,
+		stopLoading = () => undefined,
+		displayError = () => undefined,
+		updateUPITimer = () => undefined,
+		onUPIValidationFailure = () => undefined,
+		displayPendingPopup = () => undefined,
+		onStart = () => undefined,
+		onSuccess = () => undefined
 	} = params || {};
 	try {
 		const upiValidationResponse = await upiValidateFunc({
@@ -631,14 +676,30 @@ export const upiCartFlow = async (params) => {
 				xRequestId,
 				source
 			});
-		handleTransactionResponse({
+		await handleTransactionResponse({
 			transactionResponse,
-			stopLoading,
-			displayError,
-			displayPendingPopup,
-			transactionFailedAnalytics,
-			orderId: orderPostResponse?.data?.orderId,
-			failureCallback: orderPatch
+			failureCallback: async () => {
+				const orderPatchResponse = await orderPatch();
+				stopLoading();
+				displayError({
+					type: orderPatchResponse.ok ? 'PAYMENT_FAILED' : 'PAYMENT_PATCH_FAILED',
+					orderId: orderPostResponse?.data?.orderId,
+					heading: 'Payment Failed',
+					errorSubHeading:
+						transactionResponse?.data?.data?.response_description ||
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+				});
+			},
+			pendingCallback: () => {
+				stopLoading();
+				displayPendingPopup({
+					orderId: orderPostResponse?.data?.orderId,
+					heading: 'Payment Pending',
+					errorSubHeading:
+						transactionResponse?.data?.data?.response_description ||
+						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+				});
+			}
 		});
 		showLoading('Waiting for order status');
 		const orderPatchResponse = await orderPatch();
@@ -678,18 +739,17 @@ export const upiLumpsumFlow = async (params) => {
 		sipRegistrationNumber, // for sip installments
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
-		upiState,
-		state,
-		showUPILoading,
-		stopUPILoading,
-		showLoading,
-		stopLoading,
-		displayError,
-		updateUPITimer,
-		onUPIValidationFailure,
-		displayPendingPopup,
-		transactionFailedAnalytics,
-		onSuccess
+		upiState = {},
+		state = {},
+		showUPILoading = () => undefined,
+		stopUPILoading = () => undefined,
+		showLoading = () => undefined,
+		stopLoading = () => undefined,
+		displayError = () => undefined,
+		updateUPITimer = () => undefined,
+		onUPIValidationFailure = () => undefined,
+		displayPendingPopup = () => undefined,
+		onSuccess = () => undefined
 	} = params || {};
 	try {
 		const upiValidationResponse = await upiValidateFunc({
@@ -808,14 +868,30 @@ export const upiLumpsumFlow = async (params) => {
 				xRequestId,
 				source
 			});
-		handleTransactionResponse({
+		await handleTransactionResponse({
 			transactionResponse,
-			stopLoading,
-			displayError,
-			displayPendingPopup,
-			transactionFailedAnalytics,
-			orderId: orderPostResponse?.data?.data?.orderId,
-			failureCallback: orderPatch
+			failureCallback: () => {
+				stopLoading();
+				orderPatch();
+				displayError({
+					type: 'PAYMENT_FAILED',
+					orderId: orderPostResponse?.data?.data?.orderId,
+					heading: 'Payment Failed',
+					errorSubHeading:
+						transactionResponse?.data?.data?.response_description ||
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+				});
+			},
+			pendingCallback: () => {
+				stopLoading();
+				displayPendingPopup({
+					orderId: orderPostResponse?.data?.data?.orderId,
+					heading: 'Payment Pending',
+					errorSubHeading:
+						transactionResponse?.data?.data?.response_description ||
+						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+				});
+			}
 		});
 		showLoading('Waiting for order status');
 		const orderPatchResponse = await orderPatch();
@@ -849,18 +925,17 @@ export const upiSIPFlow = async (params) => {
 		source = '',
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
-		upiState,
-		state,
-		showUPILoading,
-		stopUPILoading,
-		showLoading,
-		stopLoading,
-		displayError,
-		updateUPITimer,
-		onUPIValidationFailure,
-		displayPendingPopup,
-		transactionFailedAnalytics,
-		onSuccess
+		upiState = {},
+		state = {},
+		showUPILoading = () => undefined,
+		stopUPILoading = () => undefined,
+		showLoading = () => undefined,
+		stopLoading = () => undefined,
+		displayError = () => undefined,
+		updateUPITimer = () => undefined,
+		onUPIValidationFailure = () => undefined,
+		displayPendingPopup = () => undefined,
+		onSuccess = () => undefined
 	} = params || {};
 	try {
 		const upiValidationResponse = await upiValidateFunc({
@@ -988,15 +1063,32 @@ export const upiSIPFlow = async (params) => {
 				xRequestId,
 				source
 			});
-		handleTransactionResponse({
+		await handleTransactionResponse({
 			transactionResponse,
-			stopLoading,
-			displayError,
-			displayPendingPopup,
-			transactionFailedAnalytics,
-			orderId: orderPostResponse.data?.data?.orderId,
-			sipId: orderPostResponse?.data?.data?.sipId,
-			failureCallback: orderPatch
+			failureCallback: () => {
+				stopLoading();
+				orderPatch();
+				displayError({
+					type: 'PAYMENT_FAILED',
+					orderId: orderPostResponse?.data?.data?.orderId,
+					sipId: orderPostResponse?.data?.data?.sipId,
+					heading: 'Payment Failed',
+					errorSubHeading:
+						transactionResponse?.data?.data?.response_description ||
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+				});
+			},
+			pendingCallback: () => {
+				stopLoading();
+				displayPendingPopup({
+					orderId: orderPostResponse?.data?.data?.orderId,
+					sipId: orderPostResponse?.data?.data?.sipId,
+					heading: 'Payment Pending',
+					errorSubHeading:
+						transactionResponse?.data?.data?.response_description ||
+						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+				});
+			}
 		});
 		showLoading('Waiting for order status');
 		const orderPatchResponse = await orderPatch();
@@ -1027,15 +1119,14 @@ export const walletCartFlow = async (params) => {
 		bankName,
 		xRequestId,
 		source = '',
-		gpayPaymentState,
-		state,
-		showLoading,
-		stopLoading,
-		displayError,
-		displayPendingPopup,
-		transactionFailedAnalytics,
-		onStart,
-		onSuccess
+		gpayPaymentState = {},
+		state = {},
+		showLoading = () => undefined,
+		stopLoading = () => undefined,
+		displayError = () => undefined,
+		displayPendingPopup = () => undefined,
+		onStart = () => undefined,
+		onSuccess = () => undefined
 	} = params || {};
 	try {
 		onStart();
@@ -1128,14 +1219,30 @@ export const walletCartFlow = async (params) => {
 				xRequestId,
 				source
 			});
-		handleTransactionResponse({
+		await handleTransactionResponse({
 			transactionResponse,
-			stopLoading,
-			displayError,
-			displayPendingPopup,
-			transactionFailedAnalytics,
-			orderId: orderPostResponse?.data?.orderId,
-			failureCallback: orderPatch
+			failureCallback: async () => {
+				const orderPatchResponse = await orderPatch();
+				stopLoading();
+				displayError({
+					type: orderPatchResponse.ok ? 'PAYMENT_FAILED' : 'PAYMENT_PATCH_FAILED',
+					orderId: orderPostResponse?.data?.orderId,
+					heading: 'Payment Failed',
+					errorSubHeading:
+						transactionResponse?.data?.data?.response_description ||
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+				});
+			},
+			pendingCallback: () => {
+				stopLoading();
+				displayPendingPopup({
+					orderId: orderPostResponse?.data?.orderId,
+					heading: 'Payment Pending',
+					errorSubHeading:
+						transactionResponse?.data?.data?.response_description ||
+						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+				});
+			}
 		});
 		showLoading('Waiting for order status');
 		const orderPatchResponse = await orderPatch();
@@ -1176,14 +1283,13 @@ export const walletLumpsumFlow = async (params) => {
 		sipRegistrationNumber, // for sip installments
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
-		gpayPaymentState,
-		state,
-		showLoading,
-		stopLoading,
-		displayError,
-		displayPendingPopup,
-		transactionFailedAnalytics,
-		onSuccess
+		gpayPaymentState = {},
+		state = {},
+		showLoading = () => undefined,
+		stopLoading = () => undefined,
+		displayError = () => undefined,
+		displayPendingPopup = () => undefined,
+		onSuccess = () => undefined
 	} = params || {};
 	try {
 		showLoading(`Redirecting to ${paymentModeName}`);
@@ -1286,14 +1392,30 @@ export const walletLumpsumFlow = async (params) => {
 				xRequestId,
 				source
 			});
-		handleTransactionResponse({
+		await handleTransactionResponse({
 			transactionResponse,
-			stopLoading,
-			displayError,
-			displayPendingPopup,
-			transactionFailedAnalytics,
-			orderId: orderPostResponse?.data?.data?.orderId,
-			failureCallback: orderPatch
+			failureCallback: () => {
+				stopLoading();
+				orderPatch();
+				displayError({
+					type: 'PAYMENT_FAILED',
+					orderId: orderPostResponse?.data?.data?.orderId,
+					heading: 'Payment Failed',
+					errorSubHeading:
+						transactionResponse?.data?.data?.response_description ||
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+				});
+			},
+			pendingCallback: () => {
+				stopLoading();
+				displayPendingPopup({
+					orderId: orderPostResponse?.data?.data?.orderId,
+					heading: 'Payment Pending',
+					errorSubHeading:
+						transactionResponse?.data?.data?.response_description ||
+						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+				});
+			}
 		});
 		showLoading('Waiting for order status');
 		const orderPatchResponse = await orderPatch();
@@ -1328,14 +1450,13 @@ export const walletSIPFlow = async (params) => {
 		source = '',
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
-		gpayPaymentState,
-		state,
-		showLoading,
-		stopLoading,
-		displayError,
-		displayPendingPopup,
-		transactionFailedAnalytics,
-		onSuccess
+		gpayPaymentState = {},
+		state = {},
+		showLoading = () => undefined,
+		stopLoading = () => undefined,
+		displayError = () => undefined,
+		displayPendingPopup = () => undefined,
+		onSuccess = () => undefined
 	} = params || {};
 	try {
 		showLoading('Getting Mandate Data');
@@ -1443,15 +1564,32 @@ export const walletSIPFlow = async (params) => {
 				xRequestId,
 				source
 			});
-		handleTransactionResponse({
+		await handleTransactionResponse({
 			transactionResponse,
-			stopLoading,
-			displayError,
-			displayPendingPopup,
-			transactionFailedAnalytics,
-			orderId: orderPostResponse.data?.data?.orderId,
-			sipId: orderPostResponse?.data?.data?.sipId,
-			failureCallback: orderPatch
+			failureCallback: () => {
+				stopLoading();
+				orderPatch();
+				displayError({
+					type: 'PAYMENT_FAILED',
+					orderId: orderPostResponse?.data?.data?.orderId,
+					sipId: orderPostResponse?.data?.data?.sipId,
+					heading: 'Payment Failed',
+					errorSubHeading:
+						transactionResponse?.data?.data?.response_description ||
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+				});
+			},
+			pendingCallback: () => {
+				stopLoading();
+				displayPendingPopup({
+					orderId: orderPostResponse?.data?.data?.orderId,
+					sipId: orderPostResponse?.data?.data?.sipId,
+					heading: 'Payment Pending',
+					errorSubHeading:
+						transactionResponse?.data?.data?.response_description ||
+						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+				});
+			}
 		});
 		showLoading('Waiting for order status');
 		const orderPatchResponse = await orderPatch();

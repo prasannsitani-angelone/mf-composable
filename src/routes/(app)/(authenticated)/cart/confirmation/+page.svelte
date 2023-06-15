@@ -63,11 +63,11 @@
 	let bankPopupVisible = false;
 	let validateUPILoading = false;
 	let pendingCaseOrderID: number;
-	let failureCaseOrderID: number;
 	const error = {
 		visible: false,
 		heading: '',
-		subHeading: ''
+		subHeading: '',
+		type: ''
 	};
 	const pending = {
 		visible: false,
@@ -222,7 +222,7 @@
 		validateUPILoading = false;
 	};
 
-	const displayError = async ({ heading = 'Error', errorSubHeading = '', orderId }) => {
+	const paymentFailedScreenAnalyticsWithData = async () => {
 		const itemList = await data.api.itemList;
 		paymentFailedScreenAnalytics({
 			Amount: itemList?.totalAmount,
@@ -231,22 +231,33 @@
 			PaymentFailed:
 				'IF the money has been debited from your bank account, please do not worry, it will be refunded automatically'
 		});
+	};
+
+	const displayError = ({ heading = 'Error', errorSubHeading = '', type = '' }) => {
+		if (type === 'PAYMENT_FAILED' || type === 'PAYMENT_PATCH_FAILED') {
+			paymentFailedScreenAnalyticsWithData();
+		}
 		error.visible = true;
 		error.heading = heading;
 		error.subHeading = errorSubHeading;
-		failureCaseOrderID = orderId;
+		error.type = type;
 	};
 
 	const closeErrorPopup = () => {
-		paymentFailedScreenCloseButtonAnalytics();
 		error.heading = '';
 		error.subHeading = '';
 		error.visible = false;
-		if (failureCaseOrderID) {
-			navigatToOrderSummary({
-				orderId: failureCaseOrderID
-			});
+		if (error.type === 'PATCH_FAILED') {
+			goBack();
+		} else if (error.type === 'PAYMENT_PATCH_FAILED') {
+			paymentFailedScreenCloseButtonAnalytics();
+			goBack();
+		} else if (error.type === 'PAYMENT_FAILED') {
+			paymentFailedScreenCloseButtonAnalytics();
+			cartStore.updateCartData(false);
+			onRefresh();
 		}
+		error.type = '';
 	};
 
 	const displayPendingPopup = async ({
@@ -533,7 +544,9 @@
 				class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
 				isModalOpen
 				handleButtonClick={closeErrorPopup}
-				buttonTitle="CLOSE"
+				buttonTitle={error.type === 'PATCH_FAILED' || error.type === 'PAYMENT_PATCH_FAILED'
+					? 'CLOSE'
+					: 'RETRY'}
 				buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
 				buttonVariant="contained"
 			/>
