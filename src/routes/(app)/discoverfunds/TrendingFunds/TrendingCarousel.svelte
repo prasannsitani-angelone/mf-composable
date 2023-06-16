@@ -1,7 +1,5 @@
 <script lang="ts">
-	import Carousel from '$components/Carousel.svelte';
 	import type { WeeklyTopSchemesEntity } from '$lib/types/IDiscoverFunds';
-	import { SwiperSlide } from 'swiper/svelte';
 	import TrendingCarouselItems from './TrendingCarouselItems.svelte';
 	import { page } from '$app/stores';
 	import {
@@ -9,6 +7,8 @@
 		trendingCardClickEvent,
 		trendingCartClickEvent
 	} from './analytics';
+	import CarouselNative from '$components/Carousel/CarouselNative.svelte';
+	import CarouselItem from '$components/Carousel/CarouselItem.svelte';
 
 	let tableData: Array<WeeklyTopSchemesEntity>;
 
@@ -48,41 +48,22 @@
 </script>
 
 <section class={carouselInActive ? 'carousel-inactive' : 'carousel-active'}>
-	<Carousel
+	<CarouselNative
+		navigation={!isMobile && tableData?.length > 0}
+		totalElements={tableData?.length}
 		on:onIndexChange={handleCardVisible}
-		slidesPerView={isMobile ? 1.1 : 2}
-		centeredSlides={false}
 		spaceBetween={-20}
-		navigation={!isMobile && tableData.length > 0}
-		loop={false}
+		slidesPerView={isMobile ? 1.1 : 2}
 	>
 		{#each tableData || [] as schemes, index}
-			<SwiperSlide>
+			<CarouselItem {index}>
 				<TrendingCarouselItems
 					on:onCartClick={(e) => handleCartClick(e, index)}
 					on:onCardClick={(e) => handleCardClick(e, index)}
 					clazz="mx-5 rounded-lg border p-3"
 					{schemes}
 				/>
-			</SwiperSlide>
+			</CarouselItem>
 		{/each}
-
-		<div slot="hydrating" class="overflow-hidden">
-			<!--the styling attributes and values are to match that of the swiper styling for desktop/mobile view-->
-			<div
-				class={isMobile
-					? 'flex flex-row flex-nowrap pl-5 pb-10'
-					: 'mx-12 flex flex-row overflow-hidden pb-10'}
-			>
-				{#each tableData as schemes, index}
-					<TrendingCarouselItems
-						clazz={isMobile
-							? 'rounded-lg border p-3 basis-[85%] shrink-0 mr-5'
-							: 'mx-2 rounded-lg border p-3 basis-[48%] shrink-0'}
-						{schemes}
-					/>
-				{/each}
-			</div>
-		</div>
-	</Carousel>
+	</CarouselNative>
 </section>
