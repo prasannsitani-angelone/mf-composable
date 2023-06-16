@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import { WMSIcon } from 'wms-ui-component';
+	import AngelOneBanner from '$lib/images/AngelOneBanner.svelte';
 
 	const os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
 
@@ -22,7 +22,7 @@
 		Explore the new Angel One app: a faster, better mutual fund experience
 	</div>
 	<div class="my-0">
-		<WMSIcon name="angel-one-banner" class="h-full w-full" />
+		<AngelOneBanner class="h-full w-full" />
 	</div>
 	<div>
 		<div class="text-medium px-1 pb-3 text-center font-normal text-black-title">

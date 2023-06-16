@@ -68,18 +68,17 @@
 		{/each}
 
 		<div slot="hydrating" class="overflow-hidden">
-			{@const schemesSliceArray = tableData.slice(0, 2) || []}
-			<!--the styling attributes and values are to match that of the swiper styling for desktop view-->
+			<!--the styling attributes and values are to match that of the swiper styling for desktop/mobile view-->
 			<div
 				class={isMobile
 					? 'flex flex-row flex-nowrap pl-5 pb-10'
-					: 'flex flex-row justify-center pb-10'}
+					: 'mx-12 flex flex-row overflow-hidden pb-10'}
 			>
-				{#each schemesSliceArray as schemes, index}
+				{#each tableData as schemes, index}
 					<TrendingCarouselItems
 						clazz={isMobile
 							? 'rounded-lg border p-3 basis-[85%] shrink-0 mr-5'
-							: 'mx-2 rounded-lg border p-3 basis-[41%] shrink-1'}
+							: 'mx-2 rounded-lg border p-3 basis-[48%] shrink-0'}
 						{schemes}
 					/>
 				{/each}
