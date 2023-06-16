@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import AngelOneBanner from '$lib/images/AngelOneBanner.svelte';
+	import { base } from '$app/paths';
 
 	const os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
 
@@ -22,7 +22,7 @@
 		Explore the new Angel One app: a faster, better mutual fund experience
 	</div>
 	<div class="my-0">
-		<AngelOneBanner class="h-full w-full" />
+		<img src={`${base}/images/AngelOneBannerIcon.webp`} alt="Explore Mutual Funds" />
 	</div>
 	<div>
 		<div class="text-medium px-1 pb-3 text-center font-normal text-black-title">
