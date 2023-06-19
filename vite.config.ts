@@ -12,6 +12,11 @@ const config: UserConfig = {
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}']
 	},
+	build: {
+		modulePreload: {
+			resolveDependencies: () => []
+		}
+	},
 	server: {
 		port: 3000,
 		strictPort: false

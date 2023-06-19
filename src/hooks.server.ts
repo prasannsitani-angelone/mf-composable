@@ -16,6 +16,13 @@ import { PUBLIC_ENV_NAME, PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { dev } from '$app/environment';
 const deviceDetector = handleDeviecDetector({});
 
+const addPreloadLinkHeaders = (linkHeader = '', url: string) => {
+	linkHeader = `<./fonts/7cHqv4kjgoGqM7E3_-gs51ostz0rdg.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin,<./fonts/7cHpv4kjgoGqM7E_DMs5ynghnQ.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin,<./fonts/7cHqv4kjgoGqM7E30-8s51ostz0rdg.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin,${linkHeader}`;
+	if (url.includes('/discoverfunds')) {
+		linkHeader = `<https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail1c1.webp>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail2c1.webp>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail3c1.webp>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail4c1.webp>;rel="preload";as="image";nopush,${linkHeader}`;
+	}
+	return linkHeader;
+};
 const handler = (async ({ event, resolve }) => {
 	try {
 		const serverTiming = servertime.createTimer();
@@ -89,8 +96,17 @@ const handler = (async ({ event, resolve }) => {
 		if (PUBLIC_ENV_NAME !== 'prod') {
 			response.headers.set('Server-Timing', headers);
 		}
-		// Delete response Link header
-		response.headers.delete('link');
+
+		if (response.headers.get('Content-Type') === 'text/html') {
+			let linkHeader = response.headers.get('link') || '';
+			// Add preload link headers
+			linkHeader = addPreloadLinkHeaders(linkHeader, event.request.url);
+
+			// Reset and set link headers
+			response.headers.delete('link');
+			response.headers.set('link', linkHeader);
+		}
+
 		return response;
 	} catch (e) {
 		console.log(
