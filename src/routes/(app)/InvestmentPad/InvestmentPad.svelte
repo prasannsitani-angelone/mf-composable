@@ -1412,10 +1412,7 @@
 		onChangeBank={showBankPopup}
 		class={$$props.class}
 		isLoading={loadingState.isLoading || validateUPILoading}
-		isSchemeDisabled={(activeTab === 'SIP' &&
-			(schemeData?.isSipAllowed !== 'Y' || !schemeData?.sipMaxAmount)) ||
-			(activeTab === 'ONETIME' &&
-				(schemeData?.isLumpsumAllowed !== 'Y' || !schemeData?.lumpsumMaxAmount))}
+		isSchemeDisabled={!isSelectedInvestmentTypeAllowed()}
 	>
 		<svelte:fragment slot="header">
 			<slot name="header">

@@ -18,6 +18,7 @@
 	export let selectedMode = '';
 	export let defaultInputVal = '';
 	export let isLoading = false;
+	export let isSchemeDisabled = false;
 
 	export let onBackClick = (): void => undefined;
 	export let onSelect = (): void => undefined;
@@ -54,6 +55,7 @@
 				{defaultInputVal}
 				onChangeBankClick={onChangeBank}
 				{isLoading}
+				{isSchemeDisabled}
 			/>
 		</div>
 	</Modal>
@@ -83,6 +85,7 @@
 			{defaultInputVal}
 			onChangeBankClick={onChangeBank}
 			{isLoading}
+			{isSchemeDisabled}
 		/>
 	</section>
 {/if}
