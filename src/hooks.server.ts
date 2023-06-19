@@ -60,9 +60,13 @@ const handler = (async ({ event, resolve }) => {
 		if (!userType && isGuest) {
 			userType = 'B2C';
 			accountType = 'D';
-		} else if (!userType && !event.request.url.includes('/api/profile')) {
-			profileData = await useProfileFetch(`${scheme}//${host}`, token, fetch);
-			userDetails = await useUserDetailsFetch(token, fetch);
+		} else if (!event.request.url.includes('/api/') && !event.request.url.includes('data.json')) {
+			const profilePromise = useProfileFetch(`${scheme}//${host}`, token, fetch);
+			const userPromise = useUserDetailsFetch(token, fetch);
+			const userData = await Promise.allSettled([profilePromise, userPromise]);
+			profileData = userData[0]?.value;
+			userDetails = userData[1]?.value;
+
 			serverTiming.start('ssr generation', 'Timing of SSR generation');
 			userType = userDetails?.userType || null;
 			accountType = profileData?.dpNumber ? 'D' : 'P';
@@ -98,12 +102,11 @@ const handler = (async ({ event, resolve }) => {
 		}
 
 		if (response.headers.get('Content-Type') === 'text/html') {
+			response.headers.delete('link');
 			let linkHeader = response.headers.get('link') || '';
 			// Add preload link headers
 			linkHeader = addPreloadLinkHeaders(linkHeader, event.request.url);
 
-			// Reset and set link headers
-			response.headers.delete('link');
 			response.headers.set('link', linkHeader);
 		}
 

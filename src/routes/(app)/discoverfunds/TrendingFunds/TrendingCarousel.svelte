@@ -62,6 +62,7 @@
 					on:onCardClick={(e) => handleCardClick(e, index)}
 					clazz="mx-5 rounded-lg border p-3"
 					{schemes}
+					{index}
 				/>
 			</CarouselItem>
 		{/each}

@@ -11,7 +11,7 @@
 
 	export let schemes: WeeklyTopSchemesEntity;
 	export let clazz = '';
-
+	export let index;
 	let dispatch = createEventDispatcher();
 
 	function gotoSchemeDetails() {
@@ -28,7 +28,12 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div on:click={gotoSchemeDetails} class={`flex cursor-pointer flex-col ${clazz}`}>
 	<div class="mb-3 flex flex-row items-start">
-		<SchemeLogo src={schemes?.logoUrl} alt={schemes?.schemeName} class="border-line-grey" />
+		<SchemeLogo
+			src={schemes?.logoUrl}
+			alt={schemes?.schemeName}
+			class="border-line-grey"
+			lazy={index > 1 ? 'lazy' : 'eager'}
+		/>
 		<h3 class="line-clamp-2 whitespace-normal text-sm font-medium text-black-title md:text-sm">
 			{schemes?.schemeName}
 		</h3>

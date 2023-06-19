@@ -43,6 +43,7 @@
 						height="18"
 						class="md:h-6 md:w-6"
 						alt="option.name"
+						loading="lazy"
 					/>
 				</div>
 				<h2 class="mt-2 text-sm font-medium text-black-title lg:mt-0 lg:ml-3 lg:text-base">
