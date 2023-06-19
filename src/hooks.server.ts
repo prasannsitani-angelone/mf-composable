@@ -17,7 +17,7 @@ import { dev } from '$app/environment';
 const deviceDetector = handleDeviecDetector({});
 
 const addPreloadLinkHeaders = (linkHeader = '', url: string) => {
-	linkHeader = `<./fonts/7cHqv4kjgoGqM7E3_-gs51ostz0rdg.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin,<./fonts/7cHpv4kjgoGqM7E_DMs5ynghnQ.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin,<./fonts/7cHqv4kjgoGqM7E30-8s51ostz0rdg.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin,${linkHeader}`;
+	linkHeader = `</mutual-funds/fonts/7cHqv4kjgoGqM7E3_-gs51ostz0rdg.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin,</mutual-funds/fonts/7cHpv4kjgoGqM7E_DMs5ynghnQ.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin,</mutual-funds/fonts/7cHqv4kjgoGqM7E30-8s51ostz0rdg.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin,${linkHeader}`;
 	if (url.includes('/discoverfunds')) {
 		linkHeader = `<https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail1c1.webp>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail2c1.webp>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail3c1.webp>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail4c1.webp>;rel="preload";as="image";nopush,${linkHeader}`;
 	}
