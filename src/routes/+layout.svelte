@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { PUBLIC_LOG_LEVEL, PUBLIC_LOG_ENABLED, PUBLIC_ENV_NAME } from '$env/static/public';
 	import Logger from '$lib/utils/logger';
-	import { onMount, setContext } from 'svelte';
+	import { onMount } from 'svelte';
 	import { update } from '$lib/utils/helpers/hydrated';
 	import '../app.css';
 	import { browser } from '$app/environment';
@@ -13,10 +13,6 @@
 	export let data;
 	// Update store with Spark headers
 	const { scheme, host, deviceType, token } = data;
-	setContext('app', {
-		scheme,
-		host
-	});
 	// initialising logging for routes outside of (app) like login page
 	Logger.init({
 		batchSize: browser ? 10 : 1,

@@ -8,7 +8,7 @@
 	import { base } from '$app/paths';
 
 	const navigateToLoginPage = async () => {
-		logout();
+		await logout();
 		await goto(`${base}/login?redirect=${$page.url.href}`);
 	};
 	const hideAttemptLogoutConfirmationPopup = () => {
