@@ -5,7 +5,6 @@
 	import { page } from '$app/stores';
 	import BankSelectionPopup from '$components/BankSelectionPopup.svelte';
 	import Button from '$components/Button.svelte';
-	import LoadingIndicator from '$components/LoadingIndicator.svelte';
 	import ChangePaymentContainer from '$components/Payment/ChangePaymentContainer.svelte';
 	import LoadingPopup from '$components/Payment/LoadingPopup.svelte';
 	import PaymentSleeve from '$components/Payment/PaymentSleeve.svelte';
@@ -45,6 +44,7 @@
 		paymentPendingScreenAnalytics,
 		paymentPendingScreenCloseButtonAnalytics
 	} from '../analytics/confirmation';
+	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
 
 	export let data: PageData;
 
@@ -410,7 +410,7 @@
 
 <article class="flex h-full flex-col sm:h-max">
 	{#await data.api.itemList}
-		<LoadingIndicator svgClass="!w-12 !h-12" class="self-center" />
+		<TableSkeleton />
 	{:then itemList}
 		{#if itemList.ok}
 			<div class="flex h-full flex-col overflow-hidden sm:h-max sm:overflow-auto">

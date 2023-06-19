@@ -2,7 +2,6 @@
 	import { goto, invalidate } from '$app/navigation';
 	import { base } from '$app/paths';
 	import Button from '$components/Button.svelte';
-	import LoadingIndicator from '$components/LoadingIndicator.svelte';
 	import Mandate from '$components/mandate/Mandate.svelte';
 	import { onMount } from 'svelte';
 	import AutopaySetupTile from '../../ordersummary/AutopaySetupTile/AutopaySetupTile.svelte';
@@ -14,6 +13,7 @@
 		mountAnalytics,
 		setUpAutoPayClickAnalytics
 	} from '../analytics/ordersummary';
+	import OrderSummaryLoader from '../components/OrderSummaryLoader.svelte';
 
 	export let data: PageData;
 
@@ -44,7 +44,7 @@
 
 <article class="flex h-full flex-col sm:h-max">
 	{#await data.api.ordersData}
-		<LoadingIndicator svgClass="!w-12 !h-12" class="self-center" />
+		<OrderSummaryLoader />
 	{:then ordersData}
 		{#if ordersData.ok}
 			<div class="flex h-full flex-col overflow-hidden sm:h-max sm:overflow-auto">
