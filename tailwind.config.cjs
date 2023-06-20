@@ -32,7 +32,8 @@ module.exports = {
 					line: '#E8EBF1',
 					dark: '#5d5e63',
 					light: '#f5f6fa',
-					medium: '#919294'
+					medium: '#919294',
+					dashed: '#ADBBD7'
 				},
 				green: {
 					buy: '#1EC7B6',

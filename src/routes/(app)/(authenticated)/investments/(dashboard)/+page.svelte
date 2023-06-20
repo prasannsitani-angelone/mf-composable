@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import YourInvestments from './YourInvestments.svelte';
+	import YourInvestmentsNew from './YourInvestmentsNew.svelte';
 	import ReportsSection from './ReportsSection.svelte';
 	import NoOrders from '$components/NoOrders.svelte';
-	import PortfolioCard from '$components/PortfolioCards/PortfolioCard.svelte';
+	import PortfolioCardInvestment from '$components/PortfolioCards/PortfolioCardInvestment.svelte';
 	import InvestmentOrders from './InvestmentOrders.svelte';
 	import ExternalInvestments from './ExternalInvestments.svelte';
 	import Link from '$components/Link.svelte';
@@ -19,6 +19,12 @@
 	import InvestmentTab from './components/InvestmentTab.svelte';
 	import { SEO } from 'wms-ui-component';
 	import { tabs } from '../constants';
+
+	let isXIRRModalOpen = false;
+
+	const showXirrModal = () => {
+		isXIRRModalOpen = true;
+	};
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 
@@ -42,7 +48,7 @@
 		{:then response}
 			{#if response && response.status === 'success' && Array.isArray(response.data.holdings) && response.data.holdings.length > 0}
 				<!-- Show Users investment if exist -->
-				<YourInvestments tableData={response.data?.holdings || []} />
+				<YourInvestmentsNew tableData={response.data?.holdings || []} bind:isXIRRModalOpen />
 			{:else}
 				<!-- Show No orders component and TendingFunds Table in case user investment does not exist or not processed -->
 				<article class="mt-2 hidden max-w-4xl rounded-lg bg-white text-sm shadow-csm md:block">
@@ -92,15 +98,17 @@
 
 	<!-- Right Side Contents -->
 	<section class="col-span-1 row-start-1 sm:col-span-1 sm:col-start-2 sm:row-span-3">
-		<!-- Portfolio cards: All scenarios -->
-		<article class="mb-2 overflow-hidden sm:mb-0">
-			<PortfolioCard />
-		</article>
-		<!-- Order cards: Visible only in desktop and tablet -->
-		{#if !isMobile}
-			<article class="mt-5">
-				<InvestmentOrders />
+		<section class="sm:sticky sm:top-0">
+			<!-- Portfolio cards: All scenarios -->
+			<article class="mb-2 overflow-hidden sm:mb-0">
+				<PortfolioCardInvestment onInfoClick={showXirrModal} />
 			</article>
-		{/if}
+			<!-- Order cards: Visible only in desktop and tablet -->
+			{#if !isMobile}
+				<article class="mt-5">
+					<InvestmentOrders />
+				</article>
+			{/if}
+		</section>
 	</section>
 {/if}

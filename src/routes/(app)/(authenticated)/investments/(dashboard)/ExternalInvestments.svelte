@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import YourInvestments from './YourInvestments.svelte';
+	import YourInvestmentsNew from './YourInvestmentsNew.svelte';
 	import InvestmentDashboardLoader from './Loaders/InvestmentDashboardLoader.svelte';
 	import PortfolioCardLoader from '$components/PortfolioCards/PortfolioCardLoader.svelte';
 	import ExternalFundsPortfolioCard from '$components/PortfolioCards/ExternalFundsPortfolioCard.svelte';
@@ -279,9 +279,9 @@
 			<!-- Render Success scenario - partial/ full success  -->
 			{#if setSuccessScenarioParams(res.data?.holdings || [])}
 				<section class="col-span-1 row-start-3 sm:col-span-1 sm:col-start-1">
-					{#if res.status === 'success'}<YourInvestments
-							tableData={res.data?.holdings || []}
-						/>{:else}<ErrorLoadingComponent
+					{#if res.status === 'success'}
+						<YourInvestmentsNew tableData={res.data?.holdings || []} />
+					{:else}<ErrorLoadingComponent
 							title="Error Fetching Investments"
 							message="We could not fetch your investment list due to a technical error. Please try again"
 						/>{/if}

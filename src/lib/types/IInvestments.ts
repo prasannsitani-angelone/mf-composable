@@ -268,3 +268,10 @@ export interface DistributorListEntity {
 	distributor: string;
 	folio: string;
 }
+
+export interface ToggleButtonParam {
+	name: string;
+	id: string;
+	primary?: boolean;
+	disabled?: boolean;
+}

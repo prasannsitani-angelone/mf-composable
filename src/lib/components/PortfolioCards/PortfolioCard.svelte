@@ -12,22 +12,24 @@
 	import PortfolioCardLoader from './PortfolioCardLoader.svelte';
 	import { useFetch } from '$lib/utils/useFetch';
 	import type { InvestmentSummary } from '$lib/types/IInvestments';
-
-	// import { viewPortfolioAnalysisAnalytics } from '@/analytics/investment/investment'
+	import { viewPortfolioAnalysisAnalytics } from '../../../routes/(app)/(authenticated)/investments/analytics';
 
 	const dispatch = createEventDispatcher<{
 		portfolidataReceived: { investmentSummary: InvestmentSummary };
 	}>();
 
 	const viewPortfolioAnalysisAnalyticsFunc = () => {
-		// TODO: Add analytics code
-		//   const eventMetaData = {
-		//     CurrentValue: parseFloat(props?.investmentSummary?.currentValue?.toFixed(2)),
-		//     TotalInvestment: parseFloat(props?.investmentSummary?.investedValue?.toFixed(2)),
-		//     OverallReturn: `${props?.investmentSummary?.returnsValue?.toFixed(2)} (${props?.investmentSummary?.returnsAbsolutePer?.toFixed(2)}%)`,
-		//     TodaysReturn: `${props?.investmentSummary?.previousDayReturns?.toFixed(2)} (${props?.investmentSummary?.previousDayReturnPercentage?.toFixed(2)}%)`
-		//   }
-		//   viewPortfolioAnalysisAnalytics(eventMetaData)
+		const eventMetaData = {
+			CurrentValue: parseFloat(investmentSummary?.currentValue?.toFixed(2)),
+			TotalInvestment: parseFloat(investmentSummary?.investedValue?.toFixed(2)),
+			OverallReturn: `${investmentSummary?.returnsValue?.toFixed(
+				2
+			)} (${investmentSummary?.returnsAbsolutePer?.toFixed(2)}%)`,
+			TodaysReturn: `${investmentSummary?.previousDayReturns?.toFixed(
+				2
+			)} (${investmentSummary?.previousDayReturnPercentage?.toFixed(2)}%)`
+		};
+		viewPortfolioAnalysisAnalytics(eventMetaData);
 	};
 
 	export let discoverPage = false;
@@ -193,7 +195,7 @@
 				}`}
 			>
 				<article>
-					<Link to="/investments/portfolio" on:click={viewPortfolioAnalysisAnalyticsFunc}>
+					<Link to="/investments/portfolio" on:linkClicked={viewPortfolioAnalysisAnalyticsFunc}>
 						<div
 							class="px-17 flex cursor-pointer items-center justify-center pt-4 text-center text-sm font-semibold lg:rounded lg:border lg:border-white lg:py-4"
 						>

@@ -13,7 +13,7 @@
 	export let isPartialImport = false;
 </script>
 
-<PortfolioCard class="overflow-hidden sm:sticky sm:top-0" variant="secondary">
+<PortfolioCard variant="secondary" wrapperClass="sm:sticky sm:top-0">
 	<section class="flex items-center justify-between lg:mx-0">
 		<article class="flex flex-col items-start">
 			<div class="text-xs md:text-sm">Total Invested</div>
