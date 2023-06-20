@@ -126,7 +126,7 @@
 			<LockInPeriod schemeDetails={schemedata} {isNFO} />
 			{#if !isNFO}
 				<ReturnEstimator
-					returns3yr={schemedata?.returns3yr}
+					returns3yr={schemedata?.returns3yr > 30 ? 30 : schemedata?.returns3yr}
 					categoryName={schemedata?.categoryName}
 				/>
 			{/if}

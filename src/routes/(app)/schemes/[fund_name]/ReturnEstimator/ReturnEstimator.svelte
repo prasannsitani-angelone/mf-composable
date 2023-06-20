@@ -53,12 +53,11 @@
 		</section>
 	</header>
 	<section class="origin-top">
-		<div class="mt-6 px-4 pb-9 lg:px-20">
+		<div class="mt-6 px-4 pb-0 sm:pb-9 lg:px-20">
 			<ReturnsCalculatorInput
 				{returns3yr}
 				{categoryName}
 				bind:outputValues={calculatedOutput}
-				hideReturnsSlider
 				class="max-sm:pb-0"
 				amontSelectionChanged={onAmountChange}
 				durationSelectionChanged={onYearChange}
