@@ -44,15 +44,18 @@
 		: '--';
 </script>
 
-<section class="flex justify-between py-2 sm:bg-white sm:px-6">
+<section class="flex justify-between py-2 sm:border-b sm:bg-white sm:px-6">
 	<div class="pt-1 text-xs sm:pt-[2px] sm:text-sm">
 		Last Refreshed On {lastSuccessfulImportDate}
 	</div>
 	{#if !showRefreshButton}
 		<div class="text-xs sm:text-sm">REFRESHING...</div>
 	{:else}
-		<Button size="xs" variant="transparent" class="text-xs sm:text-sm" onClick={onButtonClick}
-			>REFRESH</Button
+		<Button
+			size="xs"
+			variant="transparent"
+			class="text-xs sm:px-0 sm:text-sm"
+			onClick={onButtonClick}>REFRESH</Button
 		>
 	{/if}
 </section>

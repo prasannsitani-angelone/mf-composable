@@ -36,7 +36,7 @@
 	    	 platform : angelbeeios
 
 ### Enhancements
- - **Add a testid attribute for E2E testing - only if needed** 
+ - **Add a 'data-testid' attribute for E2E testing - only if needed** 
 	 - To elements/containers having readonly data  
 	 - Interactive elements/containers
  - **Browser testing**

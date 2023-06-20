@@ -65,9 +65,11 @@
 </script>
 
 <section>
-	<section id="investmentFilterContainer">
-		<PageFilter {onXirrClick} onFilterButtonClick={onFilterButtonToggle} />
-	</section>
+	{#if !isExternal}
+		<section data-testid="investmentFilterContainer">
+			<PageFilter {onXirrClick} onFilterButtonClick={onFilterButtonToggle} />
+		</section>
+	{/if}
 	<section>
 		{#each tableDataToDisplay as schemes, index}
 			<Link
@@ -80,13 +82,13 @@
 				on:linkClicked={() => handleRowClick(schemes)}
 			>
 				<Card
-					class="mb-2 px-3 pt-2 pb-4 sm:mb-0 sm:rounded-none sm:border-b sm:px-6 sm:pt-3 sm:pb-6 sm:shadow-none {schemes?.sipEnabled
-						? 'pt-2'
-						: 'pt-4'}"
+					class="mb-2 px-3 pt-2 pb-4 sm:mb-0 sm:rounded-none sm:border-b sm:px-6 sm:shadow-none {schemes?.sipEnabled
+						? 'pt-2 sm:pb-6'
+						: 'pt-4 sm:pb-4'}"
 					on:click={() => handleRowClick(schemes)}
 				>
 					{#if schemes?.sipEnabled}
-						<div id={'sip-' + schemes?.isin + index}>
+						<div data-testid={'sip-' + schemes?.isin + index} class="sip-enabled-here">
 							<ChipOverview
 								class="border-b-0 pb-2 sm:text-xs"
 								headingPrimary={schemes?.sipEnabled ? 'ACTIVE SIP' : ''}
@@ -100,9 +102,12 @@
 							</ChipOverview>
 						</div>
 					{/if}
-					<div id={'content-' + schemes?.isin + index} class="flex flex-col sm:flex-row">
+					<div
+						data-testid={'content-' + schemes?.isin + index}
+						class="scheme-card-content flex flex-col sm:flex-row"
+					>
 						<div class="flex w-full max-sm:pb-3 sm:w-[71%] sm:pr-[2%]">
-							<div class="flex w-[79%] items-center sm:w-[82%]">
+							<div class="flex w-[75%] items-center sm:w-[82%]">
 								<SchemeLogo
 									alt="bank logo"
 									src={schemes.logoUrl}
@@ -116,7 +121,7 @@
 									{schemes?.schemeName}
 								</h3>
 							</div>
-							<div class="flex w-[21%] flex-col text-right sm:w-[18%] sm:text-left">
+							<div class="flex w-[25%] flex-col text-right sm:w-[18%] sm:text-left">
 								<span class="text-xs font-medium text-grey-body sm:text-sm">Current</span><span
 									class="scheme-current-value text-sm font-medium text-black-title sm:font-semibold"
 									>₹{schemes?.currentValue?.toString()
@@ -135,7 +140,7 @@
 										<article class="text-black-title lg:text-center">- -</article>
 									{:else}
 										<div
-											id={'invested-' + schemes?.isin + index}
+											data-testid={'invested-' + schemes?.isin + index}
 											class="scheme-invested-value text-xs font-medium text-black-key sm:text-sm sm:font-semibold"
 										>
 											₹{schemes?.investedValue?.toString()
@@ -158,7 +163,7 @@
 												class="flex flex-wrap items-center justify-end text-black-title lg:text-right"
 											>
 												<span
-													id={'returnsAmount-' + schemes?.isin + index}
+													data-testid={'returnsAmount-' + schemes?.isin + index}
 													class="scheme-returns-value text-xs font-medium text-black-key sm:text-sm sm:font-semibold"
 												>
 													₹{schemes?.returnsValue?.toString()
@@ -168,7 +173,7 @@
 														: '-'}
 												</span>
 												<span
-													id="id={'returnsPercentage-' + schemes?.isin + index}"
+													data-testid={'returnsPercentage-' + schemes?.isin + index}
 													class="scheme-percentage-returns ml-1 text-xs font-medium sm:text-sm sm:font-semibold {schemes?.returnsAbsolutePer <
 													0
 														? 'text-red-sell'
@@ -193,15 +198,15 @@
 										{:else}
 											<article class="flex items-center text-black-title lg:text-right">
 												<span
-													id={'xirr-' + schemes?.isin + index}
+													data-testid={'xirr-' + schemes?.isin + index}
 													class="scheme-xirr-returns text-xs font-medium sm:text-sm sm:font-semibold {schemes?.xirrPer <
 													0
 														? 'text-red-sell'
 														: 'text-green-buy'}"
 												>
-													({schemes?.xirrPer > 0 ? '+' : ''}{schemes?.xirrPer?.toString()
+													{schemes?.xirrPer > 0 ? '+' : ''}{schemes?.xirrPer?.toString()
 														? schemes?.xirrPer?.toFixed(2)
-														: '-'}%)
+														: '-'}%
 												</span>
 											</article>
 										{/if}
@@ -212,7 +217,7 @@
 					</div>
 					{#if isPartialImport(schemes)}
 						<div
-							id={'partialImport-' + schemes?.isin + index}
+							data-testid={'partialImport-' + schemes?.isin + index}
 							class={`partial-import-message mt-3 flex items-center rounded-lg bg-blue-background px-2 py-1 sm:items-start sm:px-3`}
 						>
 							<div class="mr-3">
@@ -235,7 +240,7 @@
 			class="w-screen rounded-t-2xl rounded-b-none bg-white px-4 py-6 sm:!w-[460px] sm:rounded-lg sm:p-8"
 		>
 			<div
-				id="investmentXirrModal"
+				data-testid="investmentXirrModal"
 				class=" pb-6 text-lg font-medium text-black-title sm:pb-3 sm:text-xl"
 			>
 				What is XIRR?
@@ -251,7 +256,7 @@
 				the specific dates and amounts of your purchases and withdrawal. XIRR gives you a more accurate
 				picture of how well your investment is doing compared to other measures.
 			</div>
-			<div id="investmentXirrModalBtn" class="hidden pt-8 text-center sm:block">
+			<div data-testid="investmentXirrModalBtn" class="hidden pt-8 text-center sm:block">
 				<Button class="px-12" variant="outlined" onClick={onModalClick}>GOT IT</Button>
 			</div>
 		</div>

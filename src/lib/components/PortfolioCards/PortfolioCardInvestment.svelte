@@ -69,10 +69,10 @@
 	<PortfolioCardLoader {discoverPage} />
 {:else}
 	<PortfolioCard class="!px-3 !py-4">
-		<section class=" flex items-start justify-between lg:mx-0" id="portfolioTopSection">
+		<section class=" flex items-start justify-between lg:mx-0" data-testid="portfolioTopSection">
 			<article class="flex flex-col items-start">
 				<div class="text-xs">Current Value</div>
-				<div id="portfolioCurrentValue" class=" text-lg font-medium">
+				<div data-testid="portfolioCurrentValue" class=" text-lg font-medium">
 					₹{investmentSummary?.currentValue
 						? addCommasToAmountString(investmentSummary?.currentValue?.toFixed(2))
 						: '0.00'}
@@ -106,7 +106,7 @@
 				<div class="flex w-full">
 					<article class=" flex-1 border-r border-dashed border-grey-dashed text-left">
 						<div class=" text-xs font-normal">Total Invested</div>
-						<div class=" text-sm font-medium" id="portfolioInvestedValue">
+						<div class=" text-sm font-medium" data-testid="portfolioInvestedValue">
 							₹{investmentSummary?.investedValue
 								? addCommasToAmountString(investmentSummary?.investedValue?.toFixed(2))
 								: '0.00'}
@@ -114,23 +114,29 @@
 					</article>
 					<article class=" flex-1 text-right">
 						<div class=" text-xs font-normal">Total Returns</div>
-						<div class="flex items-center justify-end text-sm" id="portfolioReturnsValue">
-							<span class="mr-1 font-medium">
-								{#if investmentSummary?.returnsValue && investmentSummary.returnsValue >= 0}
-									<WMSIcon width={18} height={18} name="gain-double-stacked" />
-								{:else}
-									<WMSIcon width={12} height={12} name="loss-double-stacked" />
-								{/if}
-							</span>
-							<span class="mr-1 font-medium"
-								>{investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
-									? '-'
-									: ''}₹{investmentSummary?.returnsValue
-									? addCommasToAmountString(Math.abs(investmentSummary?.returnsValue)?.toFixed(2))
-									: '0.00'}
-							</span>
+						<div
+							class="flex flex-wrap items-center justify-end text-sm"
+							data-testid="portfolioReturnsValue"
+						>
+							<div class="flex items-center">
+								<span class="mr-1 font-medium">
+									{#if investmentSummary?.returnsValue && investmentSummary.returnsValue >= 0}
+										<WMSIcon width={18} height={18} name="gain-double-stacked" />
+									{:else}
+										<WMSIcon width={12} height={12} name="loss-double-stacked" />
+									{/if}
+								</span>
+								<span class="font-medium"
+									>{investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
+										? '-'
+										: ''}₹{investmentSummary?.returnsValue
+										? addCommasToAmountString(Math.abs(investmentSummary?.returnsValue)?.toFixed(2))
+										: '0.00'}
+								</span>
+							</div>
+
 							<span
-								class="font-semibold {investmentSummary?.returnsValue &&
+								class="ml-1 font-semibold {investmentSummary?.returnsValue &&
 								investmentSummary.returnsValue >= 0
 									? 'text-green-buy'
 									: 'text-red-sell'}"
@@ -148,7 +154,10 @@
 				{#if !cardCollapsed}
 					<div class=" mt-4 flex w-full">
 						<article class="flex-1 border-r border-dashed border-grey-dashed text-left">
-							<div id="xirrCardTitle" class="investment-xirr flex items-center text-xs font-normal">
+							<div
+								data-testid="xirrCardTitle"
+								class="investment-xirr flex items-center text-xs font-normal"
+							>
 								XIRR <WMSIcon
 									name="info-in-circle-dark"
 									class="xirr-exclamation ml-1 cursor-pointer"
@@ -158,14 +167,14 @@
 									on:click={onInfoClick}
 								/>
 							</div>
-							<div class=" text-sm font-medium" id="portfolioXirrValue">
-								{Math.abs(investmentSummary?.xirr || 0)?.toFixed(2)}
+							<div class=" text-sm font-medium" data-testid="portfolioXirrValue">
+								{Math.abs(investmentSummary?.xirr || 0)?.toFixed(2)}%
 							</div>
 						</article>
 						<article class="flex-1 text-right">
 							<div class=" text-xs font-normal">1 Day Return</div>
-							<div class="flex justify-end text-sm" id="portfolioOneDayReturn">
-								<span class="mr-1 font-medium">
+							<div class="flex flex-wrap justify-end text-sm" data-testid="portfolioOneDayReturn">
+								<span class=" font-medium">
 									{investmentSummary?.previousDayReturns && investmentSummary.previousDayReturns < 0
 										? '-'
 										: ''}₹{investmentSummary?.previousDayReturns
@@ -175,8 +184,8 @@
 										: '0.00'}
 								</span>
 								<span
-									class="mr-1 font-semibold {investmentSummary?.returnsValue &&
-									investmentSummary.returnsValue >= 0
+									class="ml-1 font-semibold {investmentSummary?.previousDayReturns &&
+									investmentSummary.previousDayReturns >= 0
 										? 'text-green-buy'
 										: 'text-red-sell'}"
 								>
@@ -198,7 +207,7 @@
 					discoverPage ? 'max-sm:hidden' : ''
 				}`}
 			>
-				<article id="viewPortfolioAnalysis">
+				<article data-testid="viewPortfolioAnalysis">
 					<Link to="/investments/portfolio" on:linkClicked={viewPortfolioAnalysisAnalyticsFunc}>
 						<div
 							class="px-17 flex cursor-pointer items-center justify-center pt-4 text-center text-sm font-semibold"
