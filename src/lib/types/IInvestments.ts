@@ -274,4 +274,5 @@ export interface ToggleButtonParam {
 	id: string;
 	primary?: boolean;
 	disabled?: boolean;
+	class?: string;
 }

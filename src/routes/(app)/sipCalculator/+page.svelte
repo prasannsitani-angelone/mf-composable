@@ -67,7 +67,7 @@
 		</div>
 	</Card>
 </section>
-<section class="col-span-1 col-start-2 row-start-2 max-sm:mb-16">
+<section class="col-span-1 col-start-1 row-start-3 max-sm:mb-16 sm:col-start-2 sm:row-start-2">
 	<Card class="max-sm:rounded-none  max-sm:pt-2 max-sm:shadow-none"
 		><ReturnsCalculatorOutput isStandAlone outputData={calculatedOutput} class="pt-4" />
 		<Link

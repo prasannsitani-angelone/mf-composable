@@ -12,7 +12,8 @@
 </script>
 
 <section
-	class="relative left-0 z-10 w-full overflow-hidden border-b bg-grey max-sm:ml-[calc(50%-50vw)]"
+	class="relative left-0 z-10 w-full overflow-hidden border-b bg-grey max-sm:ml-[calc(50%-50vw)] {$$props.class ||
+		''}"
 >
 	<article
 		class="flex items-center justify-evenly rounded-t-xl bg-white px-6 pt-4 text-center text-sm font-semibold"

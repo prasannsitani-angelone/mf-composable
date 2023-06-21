@@ -5,37 +5,42 @@
 
 	export let onXirrClick = () => '';
 	export let onFilterButtonClick = (a: ToggleButtonParam) => a;
+	export let activeSelection = '';
 
 	const buttons = [
 		{
 			name: 'Absolute',
 			id: 'absolute',
 			primary: true,
-			disabled: false
+			disabled: false,
+			class: 'min-w-[4.25rem]'
 		},
 		{
 			name: 'XIRR',
-			id: 'xirr'
+			id: 'xirr',
+			class: 'min-w-[4.25rem]'
 		}
 	];
 </script>
 
-<section class="px-1 pt-4 pb-3 sm:bg-white sm:px-6 sm:py-4">
-	<div class="flex items-start justify-between sm:justify-end">
+<section class="px-1 pt-1 pb-3 sm:bg-white sm:px-6 sm:py-4 sm:pt-4">
+	<div class="flex items-center justify-between sm:justify-end">
 		<div class=" text-base font-medium text-black-key sm:hidden">Your Investments</div>
 		<div class="flex items-center">
-			<span class=" mr-2 text-1xs font-medium text-grey-body">Show</span>
+			<!-- <span class=" mr-2 text-1xs font-medium text-grey-body">Show</span> -->
 			<ToggleButton buttonParams={buttons} onToggle={onFilterButtonClick} />
 		</div>
 	</div>
-	<div class=" text-right">
-		<Button
-			variant="transparent"
-			size="xs"
-			onClick={onXirrClick}
-			class=" cursor-pointer px-0 pt-3 text-right text-xs font-medium text-blue-primary"
-		>
-			What is XIRR?
-		</Button>
-	</div>
+	{#if activeSelection === 'xirr'}
+		<div class=" text-right">
+			<Button
+				variant="transparent"
+				size="xs"
+				onClick={onXirrClick}
+				class=" cursor-pointer px-0 pt-3 text-right text-xs font-medium text-blue-primary"
+			>
+				What is XIRR?
+			</Button>
+		</div>
+	{/if}
 </section>

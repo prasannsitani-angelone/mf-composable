@@ -68,7 +68,7 @@
 {#if loading}
 	<PortfolioCardLoader {discoverPage} />
 {:else}
-	<PortfolioCard class="!px-3 !py-4">
+	<PortfolioCard class="!px-3 !pt-4 !pb-3">
 		<section class=" flex items-start justify-between lg:mx-0" data-testid="portfolioTopSection">
 			<article class="flex flex-col items-start">
 				<div class="text-xs">Current Value</div>
@@ -121,12 +121,12 @@
 							<div class="flex items-center">
 								<span class="mr-1 font-medium">
 									{#if investmentSummary?.returnsValue && investmentSummary.returnsValue >= 0}
-										<WMSIcon width={18} height={18} name="gain-double-stacked" />
+										<WMSIcon width={12} height={12} name="gain-double-stacked" />
 									{:else}
 										<WMSIcon width={12} height={12} name="loss-double-stacked" />
 									{/if}
 								</span>
-								<span class="font-medium"
+								<span class=" font-semibold"
 									>{investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
 										? '-'
 										: ''}₹{investmentSummary?.returnsValue
@@ -136,14 +136,14 @@
 							</div>
 
 							<span
-								class="ml-1 font-semibold {investmentSummary?.returnsValue &&
+								class="ml-1 font-medium {investmentSummary?.returnsValue &&
 								investmentSummary.returnsValue >= 0
 									? 'text-green-buy'
 									: 'text-red-sell'}"
 							>
 								({investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
 									? '-'
-									: '+'}{investmentSummary?.returnsAbsolutePer
+									: ''}{investmentSummary?.returnsAbsolutePer
 									? Math.abs(investmentSummary?.returnsAbsolutePer)?.toFixed(2)
 									: '0.00'}%)
 							</span>
@@ -161,8 +161,8 @@
 								XIRR <WMSIcon
 									name="info-in-circle-dark"
 									class="xirr-exclamation ml-1 cursor-pointer"
-									width={14}
-									height={14}
+									width={12}
+									height={12}
 									stroke="#fff"
 									on:click={onInfoClick}
 								/>
@@ -174,7 +174,7 @@
 						<article class="flex-1 text-right">
 							<div class=" text-xs font-normal">1 Day Return</div>
 							<div class="flex flex-wrap justify-end text-sm" data-testid="portfolioOneDayReturn">
-								<span class=" font-medium">
+								<span class=" font-semibold">
 									{investmentSummary?.previousDayReturns && investmentSummary.previousDayReturns < 0
 										? '-'
 										: ''}₹{investmentSummary?.previousDayReturns
@@ -184,7 +184,7 @@
 										: '0.00'}
 								</span>
 								<span
-									class="ml-1 font-semibold {investmentSummary?.previousDayReturns &&
+									class="ml-1 font-medium {investmentSummary?.previousDayReturns &&
 									investmentSummary.previousDayReturns >= 0
 										? 'text-green-buy'
 										: 'text-red-sell'}"
@@ -192,7 +192,7 @@
 									({investmentSummary?.previousDayReturns &&
 									investmentSummary.previousDayReturns < 0
 										? '-'
-										: '+'}{investmentSummary?.previousDayReturnPercentage
+										: ''}{investmentSummary?.previousDayReturnPercentage
 										? Math.abs(investmentSummary?.previousDayReturnPercentage)?.toFixed(2)
 										: '0.00'}%)
 								</span>
@@ -210,7 +210,7 @@
 				<article data-testid="viewPortfolioAnalysis">
 					<Link to="/investments/portfolio" on:linkClicked={viewPortfolioAnalysisAnalyticsFunc}>
 						<div
-							class="px-17 flex cursor-pointer items-center justify-center pt-4 text-center text-sm font-semibold"
+							class="px-17 flex cursor-pointer items-center justify-center pt-3 text-center text-sm font-semibold"
 						>
 							<span> VIEW PORTFOLIO ANALYSIS </span>
 							<RightIcon class="ml-2" stroke="white" />

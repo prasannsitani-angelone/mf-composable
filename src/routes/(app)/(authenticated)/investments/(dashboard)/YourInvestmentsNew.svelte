@@ -64,10 +64,14 @@
 	};
 </script>
 
-<section>
+<section class="overflow-hidden rounded-b-xl sm:shadow-csm">
 	{#if !isExternal}
 		<section data-testid="investmentFilterContainer">
-			<PageFilter {onXirrClick} onFilterButtonClick={onFilterButtonToggle} />
+			<PageFilter
+				{onXirrClick}
+				onFilterButtonClick={onFilterButtonToggle}
+				activeSelection={activeFilter}
+			/>
 		</section>
 	{/if}
 	<section>
@@ -79,14 +83,12 @@
 					schemes?.isin,
 					schemes?.schemeCode
 				)}${isExternal ? '/external' : ''}`}
+				class="mb-2 block rounded-lg bg-white p-4 px-3 pt-2 pb-4 text-sm shadow-csm last:border-none sm:mb-0 sm:rounded-none sm:border-b sm:px-6 sm:shadow-none {schemes?.sipEnabled
+					? 'pt-2 sm:pb-6'
+					: 'pt-4 sm:pb-4'}"
 				on:linkClicked={() => handleRowClick(schemes)}
 			>
-				<Card
-					class="mb-2 px-3 pt-2 pb-4 sm:mb-0 sm:rounded-none sm:border-b sm:px-6 sm:shadow-none {schemes?.sipEnabled
-						? 'pt-2 sm:pb-6'
-						: 'pt-4 sm:pb-4'}"
-					on:click={() => handleRowClick(schemes)}
-				>
+				<Card class="rounded-none !p-0 shadow-none" on:click={() => handleRowClick(schemes)}>
 					{#if schemes?.sipEnabled}
 						<div data-testid={'sip-' + schemes?.isin + index} class="sip-enabled-here">
 							<ChipOverview
@@ -123,7 +125,7 @@
 							</div>
 							<div class="flex w-[25%] flex-col text-right sm:w-[18%] sm:text-left">
 								<span class="text-xs font-medium text-grey-body sm:text-sm">Current</span><span
-									class="scheme-current-value text-sm font-medium text-black-title sm:font-semibold"
+									class="scheme-current-value text-sm font-semibold text-black-title"
 									>₹{schemes?.currentValue?.toString()
 										? addCommasToAmountString(schemes?.currentValue?.toFixed(2)?.toString())
 										: '-'}</span
@@ -133,15 +135,20 @@
 						<div
 							class="flex w-full justify-between border-t max-sm:pt-3 sm:w-[29%] sm:border-none sm:text-left"
 						>
-							<div class="flex items-center sm:flex-col sm:items-start sm:pr-2">
-								<div class="mr-1 text-xs font-medium text-grey-body sm:text-sm">Invested</div>
+							<div class="flex flex-col justify-center sm:items-start sm:pr-2">
+								<div class="mr-1 text-xs font-medium text-grey-body sm:hidden sm:text-sm">
+									Invested Amount
+								</div>
+								<div class="mr-1 text-xs font-medium text-grey-body max-sm:hidden sm:text-sm">
+									Invested
+								</div>
 								<div>
 									{#if isPartialImport(schemes)}
 										<article class="text-black-title lg:text-center">- -</article>
 									{:else}
 										<div
 											data-testid={'invested-' + schemes?.isin + index}
-											class="scheme-invested-value text-xs font-medium text-black-key sm:text-sm sm:font-semibold"
+											class="scheme-invested-value text-xs font-medium text-black-key max-sm:text-sm sm:text-sm sm:font-semibold"
 										>
 											₹{schemes?.investedValue?.toString()
 												? addCommasToAmountString(schemes?.investedValue?.toFixed(2)?.toString())
@@ -150,69 +157,63 @@
 									{/if}
 								</div>
 							</div>
-							{#if activeFilter === 'absolute'}
-								<div class=" flex items-center sm:flex-col sm:items-end sm:text-left">
-									<div class="text-xs font-medium text-grey-body max-sm:mr-1 sm:text-sm">
-										Returns
-									</div>
-									<div>
-										{#if isPartialImport(schemes)}
-											<article class=" text-black-title lg:text-right">- -</article>
-										{:else}
-											<article
-												class="flex flex-wrap items-center justify-end text-black-title lg:text-right"
+
+							<div class=" flex flex-col items-end justify-center sm:text-left">
+								{#if activeFilter === 'absolute'}
+									<div class="text-xs font-medium text-grey-body sm:text-sm">Returns</div>
+								{:else}
+									<div class="text-xs font-medium text-grey-body sm:text-sm">XIRR</div>
+								{/if}
+								<div>
+									{#if isPartialImport(schemes)}
+										<article class=" text-black-title lg:text-right">- -</article>
+									{:else}
+										<article
+											class="flex flex-wrap items-center justify-end text-black-title lg:text-right"
+										>
+											<span
+												data-testid={'returnsAmount-' + schemes?.isin + index}
+												class="scheme-returns-value text-sm font-medium text-black-key sm:font-semibold"
 											>
-												<span
-													data-testid={'returnsAmount-' + schemes?.isin + index}
-													class="scheme-returns-value text-xs font-medium text-black-key sm:text-sm sm:font-semibold"
-												>
-													₹{schemes?.returnsValue?.toString()
-														? addCommasToAmountString(
-																Math.abs(schemes?.returnsValue)?.toFixed(2)?.toString()
-														  )
-														: '-'}
-												</span>
+												{schemes?.returnsValue?.toString() && schemes?.returnsValue < 0
+													? '-'
+													: ''}₹{schemes?.returnsValue?.toString()
+													? addCommasToAmountString(
+															Math.abs(schemes?.returnsValue)?.toFixed(2)?.toString()
+													  )
+													: '0.00'}
+											</span>
+											{#if activeFilter === 'absolute'}
 												<span
 													data-testid={'returnsPercentage-' + schemes?.isin + index}
-													class="scheme-percentage-returns ml-1 text-xs font-medium sm:text-sm sm:font-semibold {schemes?.returnsAbsolutePer <
+													class="scheme-percentage-returns ml-1 font-medium sm:text-sm sm:font-semibold {schemes?.returnsAbsolutePer <
 													0
 														? 'text-red-sell'
 														: 'text-green-buy'}"
 												>
 													({schemes?.returnsAbsolutePer > 0
-														? '+'
+														? ''
 														: ''}{schemes?.returnsAbsolutePer?.toString()
 														? schemes?.returnsAbsolutePer?.toFixed(2)
 														: '-'}%)
 												</span>
-											</article>
-										{/if}
-									</div>
-								</div>
-							{:else}
-								<div class=" flex items-center sm:flex-col sm:items-end sm:text-left">
-									<div class="mr-1 text-xs font-medium text-grey-body sm:text-sm">XIRR</div>
-									<div>
-										{#if isPartialImport(schemes)}
-											<article class=" text-black-title lg:text-right">- -</article>
-										{:else}
-											<article class="flex items-center text-black-title lg:text-right">
+											{:else}
 												<span
 													data-testid={'xirr-' + schemes?.isin + index}
-													class="scheme-xirr-returns text-xs font-medium sm:text-sm sm:font-semibold {schemes?.xirrPer <
+													class="scheme-xirr-returns ml-1 font-medium sm:text-sm sm:font-semibold {schemes?.xirrPer <
 													0
 														? 'text-red-sell'
 														: 'text-green-buy'}"
 												>
-													{schemes?.xirrPer > 0 ? '+' : ''}{schemes?.xirrPer?.toString()
+													({schemes?.xirrPer > 0 ? '' : ''}{schemes?.xirrPer?.toString()
 														? schemes?.xirrPer?.toFixed(2)
-														: '-'}%
+														: '-'}%)
 												</span>
-											</article>
-										{/if}
-									</div>
+											{/if}
+										</article>
+									{/if}
 								</div>
-							{/if}
+							</div>
 						</div>
 					</div>
 					{#if isPartialImport(schemes)}

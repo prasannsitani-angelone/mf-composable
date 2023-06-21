@@ -5,7 +5,7 @@ export const load = (() => {
 		layoutConfig: {
 			title: 'SIP Calculator',
 			showBackIcon: true,
-			layoutType: 'TWO_COLUMN'
+			layoutType: 'TWO_COLUMN_REVERSE'
 		}
 	};
 }) satisfies PageLoad;

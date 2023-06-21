@@ -37,7 +37,7 @@
 	seoDescription="Get Access to your Mutual Funds investment here. Check and enhance mutual funds investment portfolio better with Angel One."
 />
 <section class="col-span-1 row-span-1 row-start-1 hidden sm:col-span-1 sm:col-start-1 sm:block">
-	<InvestmentTab {activeTab} {tabs} />
+	<InvestmentTab {activeTab} {tabs} class=" shadow-csm" />
 </section>
 {#if activeTab === 'all'}
 	<ExternalInvestments {data} />

@@ -36,7 +36,9 @@
 		<Button
 			onClick={() => onButtonToggle(btn)}
 			size="sm"
-			class=" rounded-none !text-1xs !font-medium {index === 0 ? 'rounded-l-sm' : 'rounded-r-sm'} "
+			class=" rounded-none !text-1xs !font-medium {index === 0
+				? 'rounded-l-sm'
+				: 'rounded-r-sm'} {btn.class || ''}"
 			variant={btn.primary ? 'contained' : 'outlined'}
 			disabled={btn.disabled}>{btn.name}</Button
 		>
