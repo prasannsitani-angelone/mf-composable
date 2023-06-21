@@ -4,7 +4,8 @@ export const setCookie = (cname: string, cvalue: string, options?: object) => {
 	let secureFlag = '';
 	let domainStr = '';
 	let pathStr = '';
-	const { sameSite, secure, exDays, domain, path } = options || {};
+	let cookieAge = '';
+	const { sameSite, secure, exDays, domain, path, maxAge } = options || {};
 	if (exDays) {
 		const d = new Date();
 		d.setTime(d.getTime() + exDays * 24 * 60 * 60 * 1000);
@@ -22,8 +23,11 @@ export const setCookie = (cname: string, cvalue: string, options?: object) => {
 	if (path) {
 		pathStr = `path=${path};`;
 	}
+	if (maxAge) {
+		cookieAge = `max-age=${maxAge * 24 * 60 * 60}`;
+	}
 
-	document.cookie = `${cname}=${cvalue};${expires}${ss}${secureFlag}${domainStr}${pathStr}`;
+	document.cookie = `${cname}=${cvalue};${expires}${ss}${secureFlag}${domainStr}${pathStr}${cookieAge}`;
 };
 
 export const getCookie = (cname: string) => {

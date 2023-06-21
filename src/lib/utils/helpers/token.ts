@@ -15,7 +15,8 @@ export const getUserCookieOptions = (isHttpCookie = true) => {
 		secure: isDevMode() ? false : true,
 		sameSite: 'strict',
 		path: '/',
-		httpOnly: isHttpCookie
+		httpOnly: isHttpCookie,
+		maxAge: 30
 	};
 	if (!isDevMode() && PUBLIC_ENV_NAME === 'prod') {
 		options.domain = '.angelone.in';
@@ -28,7 +29,8 @@ export const getCookieOptions = (isHttpCookie = true) => {
 		secure: isDevMode() ? false : true,
 		sameSite: 'strict',
 		path: '/',
-		httpOnly: isHttpCookie
+		httpOnly: isHttpCookie,
+		maxAge: 30
 	};
 	return options;
 };
@@ -91,7 +93,7 @@ export const encryptToken = (token: object | null) => {
 export const setUserTokenInCookie = (token: object) => {
 	const encryptedToken = encryptToken(token);
 	if (encryptedToken) {
-		setCookie(getUserCookieName(), encryptedToken, getUserCookieOptions());
+		setCookie(getUserCookieName(), encryptedToken, getUserCookieOptions(false));
 	}
 };
 
