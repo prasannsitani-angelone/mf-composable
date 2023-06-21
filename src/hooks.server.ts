@@ -14,6 +14,9 @@ import * as servertime from 'servertime';
 import { PRIVATE_MF_CORE_BASE_URL } from '$env/static/private';
 import { PUBLIC_ENV_NAME, PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { dev } from '$app/environment';
+import { getHoldingSummary } from '$lib/api/holdings';
+import type { InvestmentSummary } from '$lib/types/IInvestments';
+import { getsearchDashboardData } from '$lib/api/getSearchDashboard';
 const deviceDetector = handleDeviecDetector({});
 
 const addPreloadLinkHeaders = (linkHeader = '', url: string) => {
@@ -26,6 +29,7 @@ const addPreloadLinkHeaders = (linkHeader = '', url: string) => {
 const handler = (async ({ event, resolve }) => {
 	try {
 		const serverTiming = servertime.createTimer();
+		serverTiming.start('ssr generation', 'Timing of SSR generation');
 		const cookieString = event.request.headers.get('cookie') || '';
 		const cookie: Record<string, string> = parse(cookieString);
 		const deviceidFromQuery: string | null = event.url.searchParams.get('deviceid');
@@ -37,14 +41,15 @@ const handler = (async ({ event, resolve }) => {
 
 		const refreshToken =
 			event.request.headers.get('refreshtoken') || ABUserCookie?.NTRefreshToken || '';
-		let userType = cookie['UserType'] === 'undefined' ? null : cookie['UserType'];
-		let accountType = cookie['AccountType'] || null;
+		let userType = cookie['UserType'] === 'undefined' ? '' : cookie['UserType'];
+		let accountType = cookie['AccountType'] || '';
 		let profileData: UserProfile = {
 			clientId: '',
 			userType: 'B2C',
 			dpNumber: 'D'
 		};
 
+		let investementSummary: InvestmentSummary = {};
 		let userDetails: IUserDetails;
 		const scheme = event.url.protocol;
 		// using host from x-forwarded & not url.hostname because otherwise we will get container domain and not cloudfare
@@ -57,19 +62,37 @@ const handler = (async ({ event, resolve }) => {
 		}
 		serverTiming.start('Get profile and User', 'Timing of get Profile and User');
 		const isGuest = isAuthenticatedUser ? false : true;
+		const searchDashboardPromise = getsearchDashboardData(token, fetch);
+		let searchDashboardData;
 		if (!userType && isGuest) {
 			userType = 'B2C';
 			accountType = 'D';
-		} else if (!event.request.url.includes('/api/') && !event.request.url.includes('data.json')) {
+			searchDashboardData = await searchDashboardPromise;
+		} else if (
+			isAuthenticatedUser &&
+			!event.request.url.includes('/api/') &&
+			!event.request.url.includes('data.json')
+		) {
+			const investementSummaryPromise = getHoldingSummary(token, fetch);
+
 			const profilePromise = useProfileFetch(`${scheme}//${host}`, token, fetch);
 			const userPromise = useUserDetailsFetch(token, fetch);
-			const userData = await Promise.allSettled([profilePromise, userPromise]);
+			const userData = await Promise.allSettled([
+				profilePromise,
+				userPromise,
+				investementSummaryPromise,
+				searchDashboardPromise
+			]);
+
 			profileData = userData[0]?.value;
 			userDetails = userData[1]?.value;
+			investementSummary = userData[2]?.value;
+			searchDashboardData = userData[3]?.value;
 
-			serverTiming.start('ssr generation', 'Timing of SSR generation');
 			userType = userDetails?.userType || null;
 			accountType = profileData?.dpNumber ? 'D' : 'P';
+		} else {
+			searchDashboardData = await searchDashboardPromise;
 		}
 		serverTiming.end('Get profile and User');
 
@@ -88,14 +111,15 @@ const handler = (async ({ event, resolve }) => {
 			scheme,
 			host,
 			sparkHeaders: event.request.headers,
-			serverTiming,
 			shouldSetABUserCookie: sparkHeaderToken ? true : false,
 			isMissingHeaders,
-			pageUrl: event.request.url
+			pageUrl: event.request.url,
+			investementSummary,
+			searchDashboardData
 		};
-		serverTiming.start('ssr generation', 'Timing of SSR generation');
+
 		const response = await resolve(event);
-		serverTiming.end('ssr generation');
+
 		const headers = serverTiming.getHeader() || '';
 		if (PUBLIC_ENV_NAME !== 'prod') {
 			response.headers.set('Server-Timing', headers);
@@ -109,7 +133,7 @@ const handler = (async ({ event, resolve }) => {
 
 			response.headers.set('link', linkHeader);
 		}
-
+		serverTiming.end('ssr generation');
 		return response;
 	} catch (e) {
 		console.log(

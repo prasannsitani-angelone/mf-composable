@@ -2,10 +2,7 @@ import type { SparkStore } from '$lib/stores/SparkStore';
 import type { TokenStore } from '$lib/stores/TokenStore';
 import type { LayoutServerLoad } from '../$types';
 import type { UserProfile } from '$lib/types/IUserProfile';
-import { useProfileFetch } from '$lib/utils/useProfileFetch';
-import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
-import { useFetch } from '$lib/utils/useFetch';
-import { useUserDetailsFetch } from '$lib/utils/useUserDetailsFetch';
+
 import type { IUserDetails } from '$lib/types/IUserDetails';
 import {
 	NON_LOGGED_IN_COOKIE,
@@ -25,22 +22,6 @@ const sparkHeadersList: Array<keyof SparkStore> = [
 	'closecta',
 	'deviceosversion'
 ];
-
-const getsearchDashboardData = async (fetch) => {
-	const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/searchDashboard?options=true`;
-	const res = await useFetch(url, {}, fetch);
-	if (res.ok) {
-		const discoverFundData = res.data;
-		return {
-			...discoverFundData
-		};
-	} else {
-		return {
-			searchOptions: [],
-			weeklyTopSchemes: []
-		};
-	}
-};
 
 const getSparkHeaders = (headers: Headers) => {
 	const sparkHeaders: SparkStore = {
@@ -62,7 +43,7 @@ const getSparkHeaders = (headers: Headers) => {
 	return sparkHeaders;
 };
 
-export const load = (async ({ request, locals, cookies, fetch }) => {
+export const load = (async ({ request, locals, cookies }) => {
 	const sparkHeaders: SparkStore = getSparkHeaders(request.headers);
 
 	const {
@@ -73,10 +54,9 @@ export const load = (async ({ request, locals, cookies, fetch }) => {
 		profileData,
 		token = '',
 		refreshToken = '',
-		serverTiming,
-		scheme,
-		host,
-		shouldSetABUserCookie
+		shouldSetABUserCookie,
+		investementSummary,
+		searchDashboardData
 	} = locals;
 
 	const tokenObj: TokenStore = {
@@ -86,8 +66,8 @@ export const load = (async ({ request, locals, cookies, fetch }) => {
 		},
 		guestToken: ''
 	};
-	let localProfileData: UserProfile = profileData;
-	let localUserDetails: IUserDetails = userDetails;
+	const localProfileData: UserProfile = profileData;
+	const localUserDetails: IUserDetails = userDetails;
 	cookies.set('UserType', userType, getCookieOptions(false));
 	cookies.set('AccountType', accountType, getCookieOptions(false));
 
@@ -107,14 +87,7 @@ export const load = (async ({ request, locals, cookies, fetch }) => {
 			);
 		}
 	}
-	if (!localProfileData?.clientId && !isGuest) {
-		localProfileData = await useProfileFetch(`${scheme}//${host}`, token, fetch);
-		cookies.set('AccountType', localProfileData?.dpNumber ? 'D' : 'P', getCookieOptions(false));
-	}
-	if (!localUserDetails?.userType && !isGuest) {
-		localUserDetails = await useUserDetailsFetch(token, fetch);
-		cookies.set('UserType', localUserDetails?.userType, getCookieOptions(false));
-	}
+
 	console.log(
 		JSON.stringify({
 			type: 'SSR Navigation',
@@ -130,18 +103,13 @@ export const load = (async ({ request, locals, cookies, fetch }) => {
 			}
 		})
 	);
-
-	serverTiming.start('getsearchDashboardData', 'Timing of getsearchDashboardData');
-
-	const searchDashboardData = await getsearchDashboardData(fetch);
-
-	serverTiming.end('getsearchDashboardData');
 	return {
 		sparkHeaders,
 		profile: localProfileData,
 		tokenObj,
 		searchDashboardData,
 		isGuest,
-		userDetails: localUserDetails
+		userDetails: localUserDetails,
+		investementSummary
 	};
 }) satisfies LayoutServerLoad;

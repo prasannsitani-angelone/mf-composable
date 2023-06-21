@@ -3,7 +3,6 @@
 	import StartNewInvestment from './StartNewInvestment.svelte';
 	import ExploreScheme from './ExploreScheme/ExploreScheme.svelte';
 	import PortfolioCard from '$components/PortfolioCards/PortfolioCard.svelte';
-	import type { InvestmentSummary } from '$lib/types/IInvestments';
 	import { page } from '$app/stores';
 	import SipCard from '../(authenticated)/orders/orderspage/sipbook/SipCard.svelte';
 	import type { INudge, IRetryPaymentNudge, NudgeDataType } from '$lib/types/INudge';
@@ -46,14 +45,6 @@
 
 	let formattedRetryPaymentNudgeData: IRetryPaymentNudge;
 
-	const onPortfolioDataReceived = (
-		event: CustomEvent<{ investmentSummary: InvestmentSummary }>
-	) => {
-		const { currentValue } = event.detail.investmentSummary;
-		if (!currentValue) {
-			showPortfoliocard = false;
-		}
-	};
 	const getNudgeData = async () => {
 		let nudgesData: NudgeDataType = {
 			nudges: []
@@ -306,7 +297,7 @@
 
 	{#if showPortfoliocard && deviceType?.isMobile}
 		<Link to="/investments" class="mb-2 block overflow-hidden sm:mb-0">
-			<PortfolioCard discoverPage={true} on:portfolidataReceived={onPortfolioDataReceived} />
+			<PortfolioCard discoverPage={true} investmentSummary={data.investementSummary} />
 		</Link>
 	{/if}
 	{#if deviceType?.isMobile && sipPaymentNudges?.length}
@@ -350,7 +341,7 @@
 		<div class="sticky -top-2">
 			{#if showPortfoliocard}
 				<Link to="/investments" class="block overflow-hidden">
-					<PortfolioCard discoverPage={true} on:portfolidataReceived={onPortfolioDataReceived} />
+					<PortfolioCard discoverPage={true} investmentSummary={data.investementSummary} />
 				</Link>
 			{:else}
 				<StartNewInvestment searchOptions={data?.searchDashboardData?.searchOptions} />

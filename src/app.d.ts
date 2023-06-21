@@ -41,6 +41,8 @@ declare global {
 			shouldSetABUserCookie: boolean;
 			pageUrl: string;
 			isMissingHeaders: boolean;
+			investementSummary: InvestmentSummary;
+			searchDashboardData: DiscoverFund;
 		}
 		interface PageData {
 			deviceType: DevicePayload;
