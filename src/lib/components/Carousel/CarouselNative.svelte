@@ -65,6 +65,8 @@
 		carouselItem?.forEach((node) => {
 			node.addEventListener('touchstart', handleTouchStart, { passive: true });
 			node.addEventListener('touchmove', handleTouchMove, { passive: true });
+			node.addEventListener('mousedown', (e) => handleTouchStart(e, true), { passive: true });
+			node.addEventListener('mouseup', (e) => handleTouchMove(e, true), { passive: true });
 			nodes.push(node);
 		});
 		if (!fixedWidth && slidesPerView > 1) {
@@ -109,8 +111,8 @@
 		checkPrevButton(currentIndex);
 	};
 
-	const handleTouchStart = (e: Event) => {
-		const touchDown = e?.touches[0]?.clientX;
+	const handleTouchStart = (e: Event, isMouseEvent = false) => {
+		const touchDown = isMouseEvent ? e?.clientX : e?.touches[0]?.clientX;
 		touchPosition = touchDown;
 	};
 
@@ -130,14 +132,14 @@
 		}
 	};
 
-	const handleTouchMove = (e: Event) => {
+	const handleTouchMove = (e: Event, isMouseEvent = false) => {
 		const touchDown = touchPosition;
 
 		if (touchDown === null) {
 			return;
 		}
 
-		const currentTouch = e?.touches[0]?.clientX;
+		const currentTouch = isMouseEvent ? e?.clientX : e?.touches[0]?.clientX;
 		const diff = touchDown - currentTouch;
 
 		if (diff > 5) {
