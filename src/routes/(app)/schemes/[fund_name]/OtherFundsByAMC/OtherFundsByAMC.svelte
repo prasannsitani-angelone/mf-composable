@@ -114,7 +114,7 @@
 											headingSecondary={schemes?.subcategoryName}
 										/>
 										<h3
-											class="block w-full whitespace-pre-wrap text-base font-medium text-black-title sm:text-sm"
+											class="block w-full whitespace-pre-wrap font-medium text-black-title sm:text-sm"
 										>
 											{schemes?.schemeName}
 										</h3>

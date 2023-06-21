@@ -16,7 +16,6 @@
 		homepageSipPaymentDueNudgeImpressionAnalytics,
 		nudgeClick,
 		nudgeImpression,
-		homepageSipCalculatorClickAnalytics,
 		sHomepage
 	} from '$lib/analytics/DiscoverFunds';
 	import type { PageData } from './$types';
@@ -29,10 +28,13 @@
 	import Link from '$components/Link.svelte';
 	import Button from '$components/Button.svelte';
 	import PromotionCard from '$components/Promotions/PromotionCard.svelte';
-	import { SEO, WMSIcon } from 'wms-ui-component';
+	import { SEO } from 'wms-ui-component';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 	import { onMount, tick } from 'svelte';
 	import Analytics from '$lib/utils/analytics';
+	import ExternalFundsNfoCalculatorCard from './ExternalFundsNfoCalculatorCard/ExternalFundsNfoCalculatorCard.svelte';
+	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+	import { useFetch } from '$lib/utils/useFetch';
 
 	$: showPortfoliocard = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -52,7 +54,22 @@
 			showPortfoliocard = false;
 		}
 	};
+	const getNudgeData = async () => {
+		let nudgesData: NudgeDataType = {
+			nudges: []
+		};
 
+		if (!$page.data.isGuest) {
+			const url = `${PUBLIC_MF_CORE_BASE_URL}/nudges`;
+			const res = await useFetch(url, {}, fetch);
+			if (res.ok) {
+				nudgesData = res?.data;
+				return nudgesData;
+			}
+			return nudgesData;
+		}
+		return nudgesData;
+	};
 	const setSipNudgesData = (nudgeData: NudgeDataType) => {
 		sipPaymentNudges = [];
 		nudgeData?.nudges?.forEach((nudge: INudge) => {
@@ -263,6 +280,13 @@
 		await tick();
 		sHomepage();
 		Analytics.flush();
+
+		getNudgeData().then(nudgeData => {
+			setNudgeData(nudgeData);
+			setSipNudgesData(nudgeData);
+			setRetryPaymentNudgesData(nudgeData);
+		})
+		
 	});
 
 	export let data: PageData;
@@ -272,13 +296,7 @@
 	seoTitle="Find The Right Mutual Fund For Your Needs | Angel One"
 	seoDescription="Set your Goals and find the right Mutual Funds to achieve your goal. Explore mutual funds by performance and start your investment journey with Angel One."
 />
-{#await data?.getNudgeData}
-	<span />
-{:then nudgeData}
-	{(() => setNudgeData(nudgeData))()}
-	{(() => setSipNudgesData(nudgeData))()}
-	{(() => setRetryPaymentNudgesData(nudgeData))()}
-{/await}
+
 <article>
 	<!-- <InvestmentsStories /> -->
 
@@ -303,47 +321,7 @@
 	</article>
 
 	<!-- External Funds, NFO, Calculator -->
-	<article class="mt-2 flex justify-around rounded bg-white px-4 py-6 pb-3 shadow-csm">
-		<Link preloadData={isGuest ? 'off' : 'hover'} to="/investments?type=all">
-			<!-- <div class="mb-2 flex flex-col items-center relative">
-				<div class="h-9 w-9 rounded-full bg-[#F9BA4D]/[0.24] p-[6px]">
-					<WMSIcon name="import-external-funds"/>
-				</div>
-				<div class="text-title-black mt-1 text-base font-medium">External Funds</div>
-			</div> -->
-			<div class="mb-2 flex flex-col items-center">
-				<div
-					class="relative flex h-9 w-9 items-center justify-center rounded-full bg-[#F9BA4D]/[0.24]"
-				>
-					<WMSIcon name="import-external-funds" />
-				</div>
-				<div class="text-title-black mt-2 text-sm font-medium lg:text-base">External Funds</div>
-			</div>
-		</Link>
-		<Link to="/nfo">
-			<div class="mb-2 flex flex-col items-center">
-				<div class="relative h-9 w-9 items-center justify-center rounded-full bg-[#E1D1FC] p-[6px]">
-					{#await data.streamed.nfo then nfo}
-						<div
-							class="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-blue-primary text-center text-xs text-white"
-						>
-							{nfo.length}
-						</div>
-					{/await}
-					<WMSIcon name="announcement" />
-				</div>
-				<div class="text-title-black mt-2 text-sm font-medium lg:text-base">NFO</div>
-			</div>
-		</Link>
-		<Link to="/sipCalculator" on:linkClicked={homepageSipCalculatorClickAnalytics}>
-			<div class="mb-2 flex flex-col items-center">
-				<div class="flex h-9 w-9 items-center justify-center rounded-full bg-[#C9F3E1] p-[6px]">
-					<WMSIcon name="fund-calculator" />
-				</div>
-				<div class="text-title-black mt-2 text-sm font-medium lg:text-base">SIP Calculator</div>
-			</div>
-		</Link>
-	</article>
+	<ExternalFundsNfoCalculatorCard {isGuest} />
 
 	<!-- Retry Payment Nudge -->
 	{#if retryPaymentNudges?.length}

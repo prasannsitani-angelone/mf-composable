@@ -1,12 +1,12 @@
-import { base } from '$app/paths';
 import type { FetchType } from '$lib/types/Fetch';
 import type { UserProfile } from '$lib/types/IUserProfile';
 import { useFetch } from './useFetch';
+import { MF_PROFILE_BASE_URL } from '$env/static/private';
 
 export const useProfileFetch = async (origin: string, token: string, fetch: FetchType) => {
 	try {
 		const profileData = await useFetch(
-			`${origin}${base}/api/profile`,
+			`${MF_PROFILE_BASE_URL}/profile`,
 			{
 				headers: {
 					authorization: `Bearer ${token}`,

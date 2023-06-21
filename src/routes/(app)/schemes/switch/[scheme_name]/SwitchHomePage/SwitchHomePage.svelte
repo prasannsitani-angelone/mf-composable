@@ -161,7 +161,6 @@
 	const onInputChange = (e) => {
 		let inputValue = e.target.value;
 		inputValue = formatAmount(inputValue); // trim, remove alphabets and remove leading zeroes
-		console.log('inputValue ', inputValue);
 		resetAmountVal();
 		amount = inputValue;
 

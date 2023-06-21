@@ -39,7 +39,6 @@
 		val?.length > queryLengthThreshold ? resultsData || [] : null;
 
 	const handleSearchFocus = (e: { detail: boolean }) => {
-		console.log('Search focus', e);
 		if (!e?.detail) {
 			dashboardData = null;
 			resultsData = [];

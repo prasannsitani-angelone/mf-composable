@@ -9,6 +9,7 @@ export const getCartData = async (isGuest: boolean, fetch?: FetchType) => {
 
 	const url = `${PUBLIC_MF_CORE_BASE_URL}/carts/items`;
 	const res = await useFetch(url, {}, fetch);
+
 	if (res.ok) {
 		cartItems = res.data?.data;
 	}

@@ -21,8 +21,8 @@
 	let searchOption: NFOList[];
 
 	let currentYearFilter: TableColumnToggle = {
-		label: 'Open Date',
-		field: 'nfoStartDate',
+		label: 'Close Date',
+		field: 'nfoEndDate',
 		prefix: '',
 		suffix: ''
 	};

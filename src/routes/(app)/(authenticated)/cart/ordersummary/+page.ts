@@ -30,7 +30,6 @@ export const load = async ({ fetch, url, depends }) => {
 
 			if (response.ok) {
 				const data = response?.data?.data;
-				console.log(data);
 				if (data?.paymentStatus?.toUpperCase() === STATUS_ARR.SUCCESS) {
 					headerContent.heading = 'Order Placed Successfully';
 					headerContent.subHeadingArr = [
