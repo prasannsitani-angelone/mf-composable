@@ -7,7 +7,7 @@
 	export let handleCheckboxChange = () => '';
 </script>
 
-<section class=" flex justify-between bg-grey-line px-3 py-4">
+<section class="!mt-[-1rem] flex justify-between bg-grey-line px-3 py-4">
 	<div class=" flex items-center text-xs font-medium">
 		<Checkbox checked={isSelectAllChecked} on:click={handleCheckboxChange} label="Select All" />
 	</div>

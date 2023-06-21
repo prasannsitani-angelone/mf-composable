@@ -21,8 +21,8 @@ export const load = (async ({ fetch, depends }) => {
 	return {
 		layoutConfig: {
 			title: 'All Orders',
-			titleClass: '!text-2xl',
-			headerClass: '!bg-grey !p-4',
+			titleClass: '!text-[22px]',
+			headerClass: '!bg-grey !py-3.5 !px-4',
 			component: SipTabSelection,
 			showBottomNavigation: true
 		},

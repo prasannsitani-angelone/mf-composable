@@ -55,8 +55,8 @@ export const load = (async ({ fetch, url }) => {
 			title: 'Investment Dashboard',
 			showBottomNavigation: true,
 			layoutType: 'TWO_COLUMN_REVERSE',
-			titleClass: '!text-2xl',
-			headerClass: '!bg-grey !p-4',
+			titleClass: '!text-[22px]',
+			headerClass: '!bg-grey !py-3.5 !px-4',
 			component: MobileInvestmentTab
 		}
 	};
