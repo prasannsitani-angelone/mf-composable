@@ -52,15 +52,19 @@
 		navigation={!isMobile && tableData?.length > 0}
 		totalElements={tableData?.length}
 		on:onIndexChange={handleCardVisible}
-		spaceBetween={-20}
+		fixedWidth={true}
+		loop={true}
 		slidesPerView={isMobile ? 1.1 : 2}
 	>
 		{#each tableData || [] as schemes, index}
-			<CarouselItem {index}>
+			<CarouselItem
+				class="!w-[calc(100vw/1.2)] sm:!w-[calc(100vw/2.3)] lg:!w-[calc(100vw/3.6)]  xl:!w-[calc(100vw/4.8)]"
+				{index}
+			>
 				<TrendingCarouselItems
 					on:onCartClick={(e) => handleCartClick(e, index)}
 					on:onCardClick={(e) => handleCardClick(e, index)}
-					clazz="mx-5 rounded-lg border p-3"
+					clazz="ml-5 rounded-lg border p-3"
 					{schemes}
 					{index}
 				/>

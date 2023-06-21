@@ -9,6 +9,7 @@
 	let navigation = false;
 	let autoplay = false;
 	let pagination = true;
+	let fixedWidth = false;
 	let autoPlayTime = 3000;
 	let autoplayTimer: ReturnType<typeof setInterval>;
 	let totalElements = 0;
@@ -55,17 +56,25 @@
 	};
 
 	onMount(() => {
+		let carouselItem = document?.querySelectorAll('.carousel-item');
+		let carouselNext = document.querySelector('.carousel-next');
+		let carouselPrev = document.querySelector('.carousel-prev');
+		let containerWidth = document?.querySelector('.carousel-container')?.clientWidth || 0;
+		let nodes: Array<Element> = [];
 		childrens = document?.querySelectorAll('.carousel-item')?.length;
-		document?.querySelectorAll('.carousel-item').forEach((node) => {
+		carouselItem?.forEach((node) => {
 			node.addEventListener('touchstart', handleTouchStart, { passive: true });
 			node.addEventListener('touchmove', handleTouchMove, { passive: true });
-			node.style.width = `${
-				(document?.querySelector('.carousel-container')?.clientWidth || 0) / slidesPerView
-			}px`;
-			node.style.marginRight = `${spaceBetween}px`;
+			nodes.push(node);
 		});
-		document.querySelector('.carousel-next')?.addEventListener('click', nextSlide);
-		document.querySelector('.carousel-prev')?.addEventListener('click', prevSlide);
+		if (!fixedWidth && slidesPerView > 1) {
+			nodes?.forEach((node) => {
+				node.style.width = `${containerWidth / slidesPerView}px`;
+				node.style.marginRight = `${spaceBetween}px`;
+			});
+		}
+		carouselNext?.addEventListener('click', nextSlide);
+		carouselPrev?.addEventListener('click', prevSlide);
 		if (autoplay) {
 			loop = true;
 			autoplayTimer = setInterval(() => {
@@ -73,13 +82,13 @@
 			}, autoPlayTime);
 		}
 		return () => {
-			document?.querySelectorAll('.carousel-item').forEach((node) => {
+			carouselItem?.forEach((node) => {
 				node.removeEventListener('touchstart', handleTouchStart);
 				node.removeEventListener('touchmove', handleTouchMove);
 			});
 			clearInterval(autoplayTimer);
-			document.querySelector('.carousel-next')?.removeEventListener('click', nextSlide);
-			document.querySelector('.carousel-prev')?.removeEventListener('click', prevSlide);
+			carouselNext?.removeEventListener('click', nextSlide);
+			carouselPrev?.removeEventListener('click', prevSlide);
 		};
 	});
 
@@ -150,7 +159,8 @@
 		totalElements,
 		loop,
 		autoplay,
-		autoPlayTime
+		autoPlayTime,
+		fixedWidth
 	};
 </script>
 
