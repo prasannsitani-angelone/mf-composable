@@ -15,7 +15,9 @@
 	<header class="z-[70] flex-shrink-0 bg-white">
 		<Header on:handleSearchFocus={handleSearchFocus} />
 	</header>
-	<main class="scroll-lock w-full flex-grow overflow-auto px-2 py-2 lg:pb-20">
+	<main
+		class="scroll-lock w-full flex-grow overflow-auto px-2 py-2 lg:pb-20 {pageMetaData?.layoutClass}"
+	>
 		{#if searchFocused}
 			<Overlay containerClass="!z-60" />
 		{/if}

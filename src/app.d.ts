@@ -9,6 +9,7 @@ interface LayoutConfig {
 	showBackIcon: boolean;
 	component: class;
 	titleClass: string;
+	layoutClass: string;
 	headerClass: string;
 	showBottomNavigation: boolean;
 	showSearchIcon: boolean;
