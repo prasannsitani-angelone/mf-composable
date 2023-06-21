@@ -119,6 +119,7 @@ const handler = (async ({ event, resolve }) => {
 		};
 
 		const response = await resolve(event);
+		serverTiming.end('ssr generation');
 
 		const headers = serverTiming.getHeader() || '';
 		if (PUBLIC_ENV_NAME !== 'prod') {
@@ -133,7 +134,6 @@ const handler = (async ({ event, resolve }) => {
 
 			response.headers.set('link', linkHeader);
 		}
-		serverTiming.end('ssr generation');
 		return response;
 	} catch (e) {
 		console.log(
