@@ -7,7 +7,10 @@
 	let slidesPerView = 1;
 	let spaceBetween = 0;
 	let navigation = false;
+	let autoplay = false;
 	let pagination = true;
+	let autoPlayTime = 3000;
+	let autoplayTimer: ReturnType<typeof setInterval>;
 	let totalElements = 0;
 	let containerClass = '';
 	let touchPosition: number | null = null;
@@ -56,16 +59,25 @@
 		document?.querySelectorAll('.carousel-item').forEach((node) => {
 			node.addEventListener('touchstart', handleTouchStart, { passive: true });
 			node.addEventListener('touchmove', handleTouchMove, { passive: true });
-			node.style.width = `${100 / slidesPerView}%`;
+			node.style.width = `${
+				(document?.querySelector('.carousel-container')?.clientWidth || 0) / slidesPerView
+			}px`;
 			node.style.marginRight = `${spaceBetween}px`;
 		});
 		document.querySelector('.carousel-next')?.addEventListener('click', nextSlide);
 		document.querySelector('.carousel-prev')?.addEventListener('click', prevSlide);
+		if (autoplay) {
+			loop = true;
+			autoplayTimer = setInterval(() => {
+				nextSlide();
+			}, autoPlayTime);
+		}
 		return () => {
 			document?.querySelectorAll('.carousel-item').forEach((node) => {
 				node.removeEventListener('touchstart', handleTouchStart);
 				node.removeEventListener('touchmove', handleTouchMove);
 			});
+			clearInterval(autoplayTimer);
 			document.querySelector('.carousel-next')?.removeEventListener('click', nextSlide);
 			document.querySelector('.carousel-prev')?.removeEventListener('click', prevSlide);
 		};
@@ -130,7 +142,16 @@
 		touchPosition = null;
 	};
 
-	export { navigation, slidesPerView, spaceBetween, pagination, totalElements, loop };
+	export {
+		navigation,
+		slidesPerView,
+		spaceBetween,
+		pagination,
+		totalElements,
+		loop,
+		autoplay,
+		autoPlayTime
+	};
 </script>
 
 <div class="flex w-full flex-row items-center {$$props?.class || ''}">

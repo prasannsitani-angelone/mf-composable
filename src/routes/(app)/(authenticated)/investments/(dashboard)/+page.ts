@@ -56,7 +56,7 @@ export const load = (async ({ fetch, url }) => {
 			showBottomNavigation: true,
 			layoutType: 'TWO_COLUMN_REVERSE',
 			titleClass: '!text-2xl',
-			headerClass: '!bg-grey !p-5',
+			headerClass: '!bg-grey !p-4',
 			component: MobileInvestmentTab
 		}
 	};

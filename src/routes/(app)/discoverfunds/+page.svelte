@@ -281,12 +281,11 @@
 		sHomepage();
 		Analytics.flush();
 
-		getNudgeData().then(nudgeData => {
+		getNudgeData().then((nudgeData) => {
 			setNudgeData(nudgeData);
 			setSipNudgesData(nudgeData);
 			setRetryPaymentNudgesData(nudgeData);
-		})
-		
+		});
 	});
 
 	export let data: PageData;
