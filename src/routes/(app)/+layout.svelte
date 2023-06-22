@@ -53,7 +53,6 @@
 			? AUTH_STATE_ENUM.LOGGED_OUT
 			: AUTH_STATE_ENUM.LOGGED_IN;
 		tokenStore.updateStore({ ...tokenObj, state: authState });
-		appStore.updateStore({ ...sparkHeaders });
 		profileStore.updateStore({ ...profile });
 		userStore.updateStore({ ...userDetails });
 		deviceStore.updateStore({ ...deviceType });
@@ -69,7 +68,7 @@
 
 		cartStore.updateCartData(isGuest);
 
-		showAngelBeeBanner = shouldDisplayAngelBeeBanner();
+		showAngelBeeBanner = shouldDisplayAngelBeeBanner(data);
 	});
 	// initialising logging again with all new headers for routes of (app)
 	Logger.init({

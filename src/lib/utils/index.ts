@@ -3,10 +3,11 @@ import { PLATFORM_TYPE } from '$lib/constants/platform';
 import { profileStore } from '$lib/stores/ProfileStore';
 import { tokenStore } from '$lib/stores/TokenStore';
 import { userStore } from '$lib/stores/UserStore';
-import type { SearchOptionsEntity, PromotionsEntity } from '$lib/types/IDiscoverFunds';
+import type { PromotionsEntity, SearchOptionsEntity } from '$lib/types/IDiscoverFunds';
 import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 import type { PageParentData } from '../../routes/(app)/schemes/[fund_name]/$types';
 import { appStore } from '$lib/stores/SparkStore';
+import type { LayoutData } from '../../../.svelte-kit/types/src/routes/(app)/$types';
 
 export interface TableColumnToggle {
 	label: string;
@@ -180,9 +181,9 @@ export const shouldDisplayShare = (parentData: PageParentData) => {
 	);
 };
 
-export function shouldDisplayAngelBeeBanner() {
-	const dpNumber = profileStore.accountType();
+export function shouldDisplayAngelBeeBanner(data: LayoutData) {
+	const dpNumber = data.profile?.dpDetails?.dpIdNo || '';
 	const isAngelBeeUser = appStore.isAngelBeeAndroidUser() || appStore.isAngelBeeIosUser();
 	const accessToken = tokenStore.accessToken();
-	return accessToken && dpNumber === 'D' && isAngelBeeUser;
+	return accessToken && dpNumber && isAngelBeeUser;
 }

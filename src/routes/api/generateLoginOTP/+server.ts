@@ -5,6 +5,7 @@ import logger from '$lib/utils/logger';
 const TEST_ACC_CONTACT = '4444444444';
 
 export const POST = (async ({ request }) => {
+	// const url = `${AUTH_URL}/generateLoginOTP`;
 	const url = `${AUTH_URL}/generateOTPPostCaptcha`;
 	try {
 		const source = request.headers.get('x-source') || '';

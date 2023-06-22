@@ -15,7 +15,6 @@ const isObjectWithNonEmptyKeys = (obj: Record<string, string | null>) => {
 		return false;
 	}
 };
-
 const hydrateSessionData = (sparkHeaders: SparkStore) => {
 	const sessionStorageData = sessionStorage.getObject('sparkStore');
 	const data = {
@@ -73,10 +72,10 @@ const hydrateAppVariables = (sparkHeaders: SparkStore) => {
 		//   })
 	}
 };
-
 export const load = (async ({ data }) => {
+	const hydrated = browser ? hydrateAppVariables(data.sparkHeaders) : data.sparkHeaders;
 	return {
 		...data,
-		sparkHeaders: browser ? hydrateAppVariables(data.sparkHeaders) : data.sparkHeaders
+		sparkHeaders: hydrated
 	};
 }) satisfies PageLoad;

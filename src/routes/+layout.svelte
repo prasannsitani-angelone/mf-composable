@@ -9,11 +9,13 @@
 	import { getCookieOptions, getUserCookieName } from '$lib/utils/helpers/token';
 	import { base } from '$app/paths';
 	import Analytics from '$lib/utils/analytics';
+	import { appStore } from '$lib/stores/SparkStore';
 
 	export let data;
 	// Update store with Spark headers
-	const { scheme, host, deviceType, token } = data;
+	const { scheme, host, deviceType, token, sparkHeaders } = data;
 	// initialising logging for routes outside of (app) like login page
+
 	Logger.init({
 		batchSize: browser ? 10 : 1,
 		baseUrl: `${scheme}//${host}${base}/api`,
@@ -43,6 +45,9 @@
 		Logger.info({
 			type: 'App Mounted on Client'
 		});
+		// update headers
+		appStore.updateStore({ ...sparkHeaders });
+
 		update();
 		if (PUBLIC_ENV_NAME === 'prod') {
 			deleteCookie(getUserCookieName(), getCookieOptions(false));

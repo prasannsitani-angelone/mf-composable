@@ -14,6 +14,8 @@ export interface SparkStore {
 	isSparkAndroidUser: () => boolean;
 	isSparkIOSUser: () => boolean;
 	isSparkUser: () => boolean;
+	isAngelBeeAndroidUser: () => boolean;
+	isAngelBeeIosUser: () => boolean;
 }
 
 const initalStore: SparkStore = {
@@ -33,6 +35,12 @@ const initalStore: SparkStore = {
 		return false;
 	},
 	isSparkUser: () => {
+		return false;
+	},
+	isAngelBeeAndroidUser: () => {
+		return false;
+	},
+	isAngelBeeIosUser: () => {
 		return false;
 	}
 };
@@ -72,7 +80,7 @@ function Store() {
 		platformversion: () => sparkStore.platformversion,
 		platformvariant: () => sparkStore.platformvariant,
 		deviceid: () => sparkStore.deviceid,
-
+		get: () => sparkStore,
 		isTWA() {
 			return sparkStore.platformvariant.toLowerCase() === 'twa';
 		},
