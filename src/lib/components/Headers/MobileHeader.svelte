@@ -77,7 +77,7 @@
 									<AddToCart
 										scheme={schemeData}
 										class="px-0"
-										iconColor="#425061"
+										color="grey"
 										entryPoint="FundDetailsPage"
 									/>
 								{/if}

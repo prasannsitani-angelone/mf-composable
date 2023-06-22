@@ -2,7 +2,6 @@
 	import { page } from '$app/stores';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
-	import { WMSIcon } from 'wms-ui-component';
 	import Button from './Button.svelte';
 	import type { ExploreFundsOptions } from '$lib/types/IExploreFunds';
 	import type { WeeklyTopSchemesEntity } from '$lib/types/IDiscoverFunds';
@@ -15,13 +14,14 @@
 	import { cartStore } from '$lib/stores/CartStore';
 	import { toastStore } from '$lib/stores/ToastStore';
 	import { createEventDispatcher } from 'svelte';
+	import { base } from '$app/paths';
 
 	const baseUrl = PUBLIC_MF_CORE_BASE_URL;
 	const cartsUrl = '/carts/items';
 
 	export let scheme: ExploreFundsOptions | WeeklyTopSchemesEntity;
 	export let showForAllUsers = false;
-	export let iconColor = '#3F5BD9';
+	export let color: 'blue' | 'grey' = 'blue';
 	export let entryPoint = '';
 
 	let dispatch = createEventDispatcher();
@@ -148,6 +148,13 @@
 		];
 	};
 
+	const buttonImgUrl =
+		color === 'blue'
+			? `${base}/images/AddToCartBlue.svg`
+			: color === 'grey'
+			? `${base}/images/AddToCartGrey.svg`
+			: '';
+
 	$: showCartIcon = $page.data?.isGuest ? (showForAllUsers ? true : false) : true;
 </script>
 
@@ -164,6 +171,6 @@
 			dispatch('onCartClick');
 		}}
 	>
-		<WMSIcon name="cart-plus" stroke={iconColor} />
+		<img src={buttonImgUrl} width="24" height="24" loading="lazy" alt="Add Scheme to Cart" />
 	</Button>
 {/if}
