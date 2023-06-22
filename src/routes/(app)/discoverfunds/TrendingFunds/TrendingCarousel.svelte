@@ -53,7 +53,6 @@
 		totalElements={tableData?.length}
 		on:onIndexChange={handleCardVisible}
 		fixedWidth={true}
-		loop={true}
 		slidesPerView={isMobile ? 1.1 : 2}
 	>
 		{#each tableData || [] as schemes, index}
