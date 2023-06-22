@@ -1,6 +1,10 @@
 <script lang="ts">
 	import Link from '$components/Link.svelte';
-	import { homepageSipCalculatorClickAnalytics } from '$lib/analytics/DiscoverFunds';
+	import {
+		homepageExternalFundsClickAnalytics,
+		homepageNfoClickAnalytics,
+		homepageSipCalculatorClickAnalytics
+	} from '$lib/analytics/DiscoverFunds';
 	import getactiveNfo from '$lib/api/nfo';
 	import { onMount, tick } from 'svelte';
 	import { WMSIcon } from 'wms-ui-component';
@@ -18,7 +22,11 @@
 </script>
 
 <article class="mt-2 flex justify-around rounded bg-white px-4 py-6 pb-3 shadow-csm">
-	<Link preloadData={isGuest ? 'off' : 'hover'} to="/investments?type=all">
+	<Link
+		preloadData={isGuest ? 'off' : 'hover'}
+		to="/investments?type=all"
+		on:linkClicked={homepageExternalFundsClickAnalytics}
+	>
 		<div class="mb-2 flex flex-col items-center">
 			<div
 				class="relative flex h-9 w-9 items-center justify-center rounded-full bg-[#F9BA4D]/[0.24]"
@@ -28,7 +36,7 @@
 			<div class="text-title-black mt-2 text-sm font-medium lg:text-base">External Funds</div>
 		</div>
 	</Link>
-	<Link to="/nfo">
+	<Link to="/nfo" on:linkClicked={() => homepageNfoClickAnalytics(openNfo)}>
 		<div class="mb-2 flex flex-col items-center">
 			<div class="relative h-9 w-9 items-center justify-center rounded-full bg-[#E1D1FC] p-[6px]">
 				<div

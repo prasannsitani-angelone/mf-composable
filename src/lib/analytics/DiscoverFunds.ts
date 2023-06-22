@@ -82,3 +82,26 @@ export const homepageSipCalculatorClickAnalytics = () => {
 		event_id: '308.0.0.6.0'
 	});
 };
+
+export const homepageNfoClickAnalytics = (nfoCount: number) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-Homepage',
+		event_type: 'click',
+		event_sub_type: 'card',
+		event_name: 'NFOEntryPoint',
+		event_property: null,
+		event_id: '308.0.0.6.10',
+		event_metadata: { NumberOfNFO: nfoCount }
+	});
+};
+
+export const homepageExternalFundsClickAnalytics = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-Homepage',
+		event_type: 'click',
+		event_sub_type: 'card',
+		event_name: 'TrackExternalFundsIcon',
+		event_property: null,
+		event_id: '308.0.0.6.11'
+	});
+};
