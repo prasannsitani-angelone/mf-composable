@@ -7,19 +7,38 @@
 	import OverlayLoading from '$lib/components/OverlayLoading.svelte';
 	import LoginCarousel from '$lib/components/Login/LoginCarousel.svelte';
 	import { setUserTokenInCookie } from '$lib/utils/helpers/token';
-	import { PUBLIC_APP_CAPCHA_SITE_KEY } from '$env/static/public';
+	import { PUBLIC_APP_CAPCHA_SITE_KEY, PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { base } from '$app/paths';
+	import { appStore } from '$lib/stores/SparkStore';
+	import { useFetch } from '$lib/utils/useFetch';
+	import MpinLogin from '$components/Login/MpinFlow/MpinLogin.svelte';
+	import MpinSetup from '$components/Login/MpinFlow/MpinSetup.svelte';
 
 	const screen_enum = {
 		GENERATE_OTP: 'GENERATE_OTP',
-		VERIFY_OTP: 'VERIFY_OTP'
+		VERIFY_OTP: 'VERIFY_OTP',
+		LOGIN_MPIN: 'LOGIN_MPIN',
+		SETUP_MPIN: 'SETUP_MPIN',
+		FORGOT_MPIN_VERIFY_OTP: 'FORGOT_MPIN_VERIFY_OTP'
 	};
 
+	const mpinEligible = appStore.isAngelBeeAndroidUser() || appStore.isAngelBeeIosUser() || false;
+
+	interface userCookieTypes {
+		NTAccessToken: string;
+		NTRefreshToken: string;
+	}
+
+	let userCookie: userCookieTypes;
+	let userCookieProperty = '';
 	let screen = screen_enum.GENERATE_OTP;
 	let mobileNumber = '';
 	let requestID = '';
 	let otpScreenHeading = '';
+	let otpScreenSubHeading = '';
 	let isLoading = false;
+	let firstName = '';
+	let clientCode = '';
 
 	const onGenerateOTPSuccess = (number: string, id: string) => {
 		mobileNumber = number;
@@ -35,6 +54,77 @@
 		});
 	};
 
+	const startAgain = () => {
+		screen = screen_enum.GENERATE_OTP;
+	};
+
+	const forgotPin = (id: string) => {
+		requestID = id;
+		otpScreenSubHeading = `OTP has been sent to +91 ${mobileNumber}`;
+		screen = screen_enum.FORGOT_MPIN_VERIFY_OTP;
+	};
+
+	const checkMpinFunc = async () => {
+		const baseUrl = PUBLIC_MF_CORE_BASE_URL;
+		const url = `${baseUrl}/mpin`;
+
+		return useFetch(url, {
+			method: 'GET',
+			headers: {
+				'X-Source': 'mutualfund',
+				authorization: `Bearer ${userCookie?.NTAccessToken}`
+			}
+		});
+	};
+
+	const setCookieAndRedirect = () => {
+		storeUserCookie(userCookie);
+		navigateToPage();
+	};
+
+	const onValidateOTPSuccess = async (partyCodeDetails) => {
+		for (const property in partyCodeDetails) {
+			userCookie = {
+				NTAccessToken: partyCodeDetails[property].non_trading_access_token,
+				NTRefreshToken: partyCodeDetails[property].non_trading_refresh_token
+			};
+			userCookieProperty = property;
+		}
+
+		if (mpinEligible) {
+			const checkMpinData = await checkMpinFunc();
+
+			if (
+				checkMpinData?.status === 200 &&
+				checkMpinData?.data?.status?.toUpperCase() === 'SUCCESS'
+			) {
+				screen = screen_enum?.LOGIN_MPIN;
+			} else if (checkMpinData?.data?.errorCode === 'MF-SVC-MPIN-02') {
+				screen = screen_enum?.SETUP_MPIN;
+			} else {
+				screen = screen_enum?.LOGIN_MPIN;
+			}
+
+			firstName = partyCodeDetails[userCookieProperty].first_name;
+			clientCode = userCookieProperty;
+		} else {
+			setCookieAndRedirect();
+		}
+	};
+
+	const onValidateOTPSuccessViaForgotPin = (partyCodeDetails) => {
+		for (const property in partyCodeDetails) {
+			userCookie = {
+				NTAccessToken: partyCodeDetails[property].non_trading_access_token,
+				NTRefreshToken: partyCodeDetails[property].non_trading_refresh_token
+			};
+			userCookieProperty = property;
+		}
+		firstName = partyCodeDetails[userCookieProperty].first_name;
+		clientCode = userCookieProperty;
+		screen = screen_enum?.SETUP_MPIN;
+	};
+
 	const navigateToPage = () => {
 		if (tokenStore.accessToken()) {
 			isLoading = true;
@@ -45,15 +135,8 @@
 		}
 	};
 
-	const onValidateOTPSuccess = async (partyCodeDetails) => {
-		for (const property in partyCodeDetails) {
-			const userToken = {
-				NTAccessToken: partyCodeDetails[property].non_trading_access_token,
-				NTRefreshToken: partyCodeDetails[property].non_trading_refresh_token
-			};
-			storeUserCookie(userToken);
-			navigateToPage();
-		}
+	const onMpinSuccess = () => {
+		setCookieAndRedirect();
 	};
 </script>
 
@@ -81,6 +164,26 @@
 						{requestID}
 						heading={otpScreenHeading}
 					/>
+				{:else if screen === screen_enum.LOGIN_MPIN}
+					<MpinLogin
+						usersName={firstName}
+						{clientCode}
+						{mobileNumber}
+						token={userCookie?.NTAccessToken}
+						on:startAgain={startAgain}
+						on:forgotPin={(reqId) => forgotPin(reqId)}
+						on:onSuccess={onMpinSuccess}
+					/>
+				{:else if screen === screen_enum.FORGOT_MPIN_VERIFY_OTP}
+					<VerifyOTP
+						onSuccess={onValidateOTPSuccessViaForgotPin}
+						{mobileNumber}
+						{requestID}
+						heading={otpScreenHeading}
+						subHeading={otpScreenSubHeading}
+					/>
+				{:else if screen === screen_enum.SETUP_MPIN}
+					<MpinSetup token={userCookie?.NTAccessToken} on:onSuccess={onMpinSuccess} />
 				{/if}
 				<div
 					class="mt-4 w-full justify-center text-center text-sm md:justify-start md:text-start lg:w-120"
