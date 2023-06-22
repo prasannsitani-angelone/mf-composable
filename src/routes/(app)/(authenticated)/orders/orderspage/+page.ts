@@ -68,8 +68,8 @@ export const load = (async ({ fetch }) => {
 		// We are uisng hydrate here, because if we use browser and  as we are awaiting for promise.allSettled the hydrate gets updated because of which we see difference in CSR and SSR so API gets called again in client side
 		layoutConfig: {
 			title: 'All Orders',
-			titleClass: '!text-[22px]',
-			headerClass: '!bg-grey !py-3.5 !px-4',
+			titleClass: '!text-xl',
+			headerClass: '!bg-grey !py-2.5 !px-4',
 			component: OrderTabSelection,
 			showBottomNavigation: true,
 			layoutType: 'TWO_COLUMN_RIGHT_LARGE'
