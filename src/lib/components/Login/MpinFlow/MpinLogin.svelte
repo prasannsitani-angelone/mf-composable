@@ -57,7 +57,6 @@
 	const onForgotPin = async () => {
 		error = '';
 		const generateOTPData = await generateOTPFunc();
-		console.log(generateOTPData);
 
 		if (generateOTPData?.data?.is_guest_user) {
 			error = 'User is not registered with us';
@@ -65,7 +64,7 @@
 			generateOTPData?.status === 200 &&
 			generateOTPData?.data?.status?.toUpperCase() === 'SUCCESS'
 		) {
-			dispatch('forgotPin', generateOTPData?.data?.request_id);
+			dispatch('forgotPin', generateOTPData?.data?.data?.request_id);
 		} else if (generateOTPData?.data?.message?.length) {
 			error = generateOTPData?.data?.message;
 		} else {

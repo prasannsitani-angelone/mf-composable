@@ -171,7 +171,7 @@
 						{mobileNumber}
 						token={userCookie?.NTAccessToken}
 						on:startAgain={startAgain}
-						on:forgotPin={(reqId) => forgotPin(reqId)}
+						on:forgotPin={(e) => forgotPin(e?.detail)}
 						on:onSuccess={onMpinSuccess}
 					/>
 				{:else if screen === screen_enum.FORGOT_MPIN_VERIFY_OTP}
