@@ -62,38 +62,46 @@ const handler = (async ({ event, resolve }) => {
 		}
 		serverTiming.start('Get profile and User', 'Timing of get Profile and User');
 		const isGuest = isAuthenticatedUser ? false : true;
-		const searchDashboardPromise = getsearchDashboardData(token, fetch);
 		let searchDashboardData;
-		if (!userType && isGuest) {
-			userType = 'B2C';
-			accountType = 'D';
-			searchDashboardData = await searchDashboardPromise;
-		} else if (
-			isAuthenticatedUser &&
-			!event.request.url.includes('/api/') &&
-			!event.request.url.includes('data.json')
-		) {
-			const investementSummaryPromise = getHoldingSummary(token, fetch);
+		if (!event.request.url.includes('/api/')) {
+			const searchDashboardPromise = getsearchDashboardData(token, fetch, PRIVATE_MF_CORE_BASE_URL);
 
-			const profilePromise = useProfileFetch(`${scheme}//${host}`, token, fetch);
-			const userPromise = useUserDetailsFetch(token, fetch);
-			const userData = await Promise.allSettled([
-				profilePromise,
-				userPromise,
-				investementSummaryPromise,
-				searchDashboardPromise
-			]);
+			if (!userType && isGuest) {
+				userType = 'B2C';
+				accountType = 'D';
+				searchDashboardData = await searchDashboardPromise;
+			} else if (isAuthenticatedUser) {
+				const investementSummaryPromise = getHoldingSummary(token, fetch, PRIVATE_MF_CORE_BASE_URL);
 
-			profileData = userData[0]?.value;
-			userDetails = userData[1]?.value;
-			investementSummary = userData[2]?.value;
-			searchDashboardData = userData[3]?.value;
+				const profilePromise = useProfileFetch(`${scheme}//${host}`, token, fetch);
+				const userPromise = useUserDetailsFetch(token, fetch, PRIVATE_MF_CORE_BASE_URL);
+				const userData = await Promise.allSettled([
+					profilePromise,
+					userPromise,
+					investementSummaryPromise,
+					searchDashboardPromise
+				]);
 
-			userType = userDetails?.userType || null;
-			accountType = profileData?.dpNumber ? 'D' : 'P';
-		} else {
-			searchDashboardData = await searchDashboardPromise;
+				profileData = userData[0]?.value;
+				userDetails = userData[1]?.value;
+				investementSummary = userData[2]?.value;
+				searchDashboardData = userData[3]?.value;
+
+				userType = userDetails?.userType || null;
+				accountType = profileData?.dpNumber ? 'D' : 'P';
+			} else {
+				searchDashboardData = await searchDashboardPromise;
+			}
+			if (userType === 'B2B') {
+				searchDashboardData = await getsearchDashboardData(
+					token,
+					fetch,
+					PRIVATE_MF_CORE_BASE_URL,
+					userType
+				);
+			}
 		}
+
 		serverTiming.end('Get profile and User');
 
 		const isMissingHeaders: boolean =

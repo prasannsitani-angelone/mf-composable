@@ -18,10 +18,8 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test:unit": "vitest",
 		"lint": "eslint --cache .",
-		"lint:old": "prettier --plugin-search-dir . --check . && eslint --cache .",
 		"format": "prettier --plugin-search-dir . --cache --write .",
-		"prepare": "husky install",
-		"lint:diff": "eslint $(git diff --name-only HEAD | xargs)"
+		"prepare": "husky install"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
