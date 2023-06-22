@@ -101,7 +101,10 @@
 		<section class="sm:sticky sm:top-0">
 			<!-- Portfolio cards: All scenarios -->
 			<article class="mb-2 overflow-hidden sm:mb-0">
-				<PortfolioCardInvestment onInfoClick={showXirrModal} />
+				<PortfolioCardInvestment
+					onInfoClick={showXirrModal}
+					investmentSummary={data.investementSummary}
+				/>
 			</article>
 			<!-- Order cards: Visible only in desktop and tablet -->
 			{#if !isMobile}

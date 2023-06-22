@@ -5,8 +5,7 @@
 	import { cartStore } from '$lib/stores/CartStore';
 	import ReadOnlyTile from '../components/ReadOnlyTile.svelte';
 	import type { RemoveCartItem } from '$lib/types/ICartStore';
-	import SkeletonWrapper from '$components/Skeleton/SkeletonWrapper.svelte';
-	import SkeletonRectangle from '$components/Skeleton/SkeletonRectangle.svelte';
+	import ManageCartSkeletanLoader from './ManageCartSkeletanLoader.svelte';
 	import { mountManageCartAnalytics, deleteFromCartAnalytics } from '../analytics/cart';
 
 	const onFundDelete = (item: RemoveCartItem) => {
@@ -36,11 +35,7 @@
 	/> <span class="text-lg font-medium text-black-title">Manage Cart</span>
 </section>
 {#await data?.api?.cartItems}
-	<SkeletonWrapper>
-		{#each [1, 2, 3, 4, 5] as _}
-			<SkeletonRectangle class="mb-2 h-20" />
-		{/each}
-	</SkeletonWrapper>
+	<ManageCartSkeletanLoader />
 {:then cartItems}
 	<div class="hidden bg-white sm:flex">
 		<div
@@ -51,7 +46,7 @@
 			<div>SIP Date</div>
 			<div>Amount</div>
 		</div>
-		<div class="border-b sm:flex sm:items-center sm:pr-12 sm:pl-4">
+		<div class="border-b border-t sm:flex sm:items-center sm:pr-12 sm:pl-4">
 			<WMSIcon name="trash-icon" width={14} height={14} />
 		</div>
 	</div>

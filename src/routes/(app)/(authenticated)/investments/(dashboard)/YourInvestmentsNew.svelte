@@ -135,7 +135,7 @@
 						<div
 							class="flex w-full justify-between border-t max-sm:pt-3 sm:w-[29%] sm:border-none sm:text-left"
 						>
-							<div class="flex flex-col justify-center sm:items-start sm:pr-2">
+							<div class="flex flex-col max-sm:justify-center sm:items-start sm:pr-2">
 								<div class="mr-1 text-xs font-medium text-grey-body sm:hidden sm:text-sm">
 									Invested Amount
 								</div>
@@ -158,7 +158,7 @@
 								</div>
 							</div>
 
-							<div class=" flex flex-col items-end justify-center sm:text-left">
+							<div class=" flex flex-col items-end max-sm:justify-center sm:text-left">
 								{#if activeFilter === 'absolute'}
 									<div class="text-xs font-medium text-grey-body sm:text-sm">Returns</div>
 								{:else}
@@ -171,19 +171,20 @@
 										<article
 											class="flex flex-wrap items-center justify-end text-black-title lg:text-right"
 										>
-											<span
-												data-testid={'returnsAmount-' + schemes?.isin + index}
-												class="scheme-returns-value text-sm font-medium text-black-key sm:font-semibold"
-											>
-												{schemes?.returnsValue?.toString() && schemes?.returnsValue < 0
-													? '-'
-													: ''}₹{schemes?.returnsValue?.toString()
-													? addCommasToAmountString(
-															Math.abs(schemes?.returnsValue)?.toFixed(2)?.toString()
-													  )
-													: '0.00'}
-											</span>
 											{#if activeFilter === 'absolute'}
+												<span
+													data-testid={'returnsAmount-' + schemes?.isin + index}
+													class="scheme-returns-value text-sm font-medium text-black-key sm:font-semibold"
+												>
+													{schemes?.returnsValue?.toString() && schemes?.returnsValue < 0
+														? '- '
+														: ''}₹{schemes?.returnsValue?.toString()
+														? addCommasToAmountString(
+																Math.abs(schemes?.returnsValue)?.toFixed(2)?.toString()
+														  )
+														: '0.00'}
+												</span>
+
 												<span
 													data-testid={'returnsPercentage-' + schemes?.isin + index}
 													class="scheme-percentage-returns ml-1 font-medium sm:text-sm sm:font-semibold {schemes?.returnsAbsolutePer <
@@ -203,11 +204,13 @@
 													class="scheme-xirr-returns ml-1 font-medium sm:text-sm sm:font-semibold {schemes?.xirrPer <
 													0
 														? 'text-red-sell'
-														: 'text-green-buy'}"
+														: schemes?.xirrPer > 0
+														? 'text-green-buy'
+														: ''}"
 												>
-													({schemes?.xirrPer > 0 ? '' : ''}{schemes?.xirrPer?.toString()
-														? schemes?.xirrPer?.toFixed(2)
-														: '-'}%)
+													{schemes?.xirrPer > 0 ? '' : ''}{schemes?.xirrPer
+														? schemes?.xirrPer?.toFixed(2) + '%'
+														: '- -'}
 												</span>
 											{/if}
 										</article>
@@ -216,7 +219,7 @@
 							</div>
 						</div>
 					</div>
-					{#if isPartialImport(schemes)}
+					{#if (schemes?.xirrPer?.toString() === '0' && activeFilter === 'xirr') || isPartialImport(schemes)}
 						<div
 							data-testid={'partialImport-' + schemes?.isin + index}
 							class={`partial-import-message mt-3 flex items-center rounded-lg bg-blue-background px-2 py-1 sm:items-start sm:px-3`}
@@ -224,10 +227,15 @@
 							<div class="mr-3">
 								<WMSIcon name="polygon-red-warning" width={16} height={16} />
 							</div>
-
-							<div class="text-xs text-black-title">
-								We are facing some technical issues identifying this investment
-							</div>
+							{#if isPartialImport(schemes)}
+								<div class="text-xs text-black-title">
+									We are facing some technical issues identifying this investment
+								</div>
+							{:else if schemes?.xirrPer?.toString() === '0'}
+								<div class="text-xs text-black-title">
+									We are facing some technical issue calculating the XIRR for this investment
+								</div>
+							{/if}
 						</div>
 					{/if}
 				</Card>
@@ -247,15 +255,10 @@
 				What is XIRR?
 			</div>
 			<div class=" text-sm font-normal text-grey-body">
-				XIRR stands for Extended Internal Rate of Return. XIRR is a useful tool for evaluating the
-				performance of mutual funds as it considers the irregular cash flows (Purchases and
-				withdrawals) associated with mutual funds. Mutual funds typically involve periodic
-				investments and withdrawals at different points in time.
-				<br />
-				<br />
-				XIRR helps calculate the annualized rate of return of your mutual fund investment, considering
-				the specific dates and amounts of your purchases and withdrawal. XIRR gives you a more accurate
-				picture of how well your investment is doing compared to other measures.
+				XIRR stands for Extended Internal Rate of Return. XIRR helps calculate the annualized rate
+				of return of your mutual fund investment, considering the specific dates and amounts of your
+				purchases and withdrawal. XIRR gives you a more accurate picture of how well your investment
+				is doing compared to other measures.
 			</div>
 			<div data-testid="investmentXirrModalBtn" class="hidden pt-8 text-center sm:block">
 				<Button class="px-12" variant="outlined" onClick={onModalClick}>GOT IT</Button>

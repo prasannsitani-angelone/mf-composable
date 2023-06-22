@@ -24,7 +24,6 @@
 	import { appStore } from '$lib/stores/SparkStore';
 	import { logoutAttemptStore } from '$lib/stores/LogoutAttemptStore';
 	import StoriesComponent from '$components/Stories/StoriesComponent.svelte';
-	import Link from '$components/Link.svelte';
 	import Button from '$components/Button.svelte';
 	import PromotionCard from '$components/Promotions/PromotionCard.svelte';
 	import { SEO } from 'wms-ui-component';
@@ -296,9 +295,9 @@
 	{/if}
 
 	{#if showPortfoliocard && deviceType?.isMobile}
-		<Link to="/investments" class="mb-2 block overflow-hidden sm:mb-0">
+		<div class="mb-2 block overflow-hidden sm:mb-0">
 			<PortfolioCard discoverPage={true} investmentSummary={data.investementSummary} />
-		</Link>
+		</div>
 	{/if}
 	{#if deviceType?.isMobile && sipPaymentNudges?.length}
 		<SipCard sip={formattedSipNudgeData} sipCount={sipPaymentNudges?.length} />
@@ -340,9 +339,9 @@
 	<article>
 		<div class="sticky -top-2">
 			{#if showPortfoliocard}
-				<Link to="/investments" class="block overflow-hidden">
+				<div class="block overflow-hidden">
 					<PortfolioCard discoverPage={true} investmentSummary={data.investementSummary} />
-				</Link>
+				</div>
 			{:else}
 				<StartNewInvestment searchOptions={data?.searchDashboardData?.searchOptions} />
 			{/if}

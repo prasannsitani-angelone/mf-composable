@@ -58,7 +58,7 @@
 				>
 			{:else}
 				<div class="flex w-full justify-end">
-					<SkeletonWrapper class="w-full">
+					<SkeletonWrapper class="max-sm:w-full sm:mx-0">
 						<SkeletonRectangle class="!h-12 w-full sm:w-72" />
 					</SkeletonWrapper>
 				</div>

@@ -77,7 +77,8 @@
 		size="xs"
 		onClick={toggleDropdown}
 	>
-		<span class="text-1xs font-medium leading-3 text-black-title">{activeSelection.label}</span
+		<span class="text-1xs font-medium leading-3 text-black-title"
+			>{activeSelection?.label || '-'}</span
 		><span><WMSIcon width={12} height={6} name="arrow-expand" /></span>
 	</Button>
 	{#if isDDOptionsVisible}

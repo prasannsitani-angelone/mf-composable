@@ -24,8 +24,8 @@
 </script>
 
 <section class="px-1 pt-1 pb-3 sm:bg-white sm:px-6 sm:py-4 sm:pt-4">
-	<div class="flex items-center justify-between sm:justify-end">
-		<div class=" text-base font-medium text-black-key sm:hidden">Your Investments</div>
+	<div class="flex items-center justify-between sm:justify-between">
+		<div class=" text-base font-medium text-black-key sm:text-lg">Your Investments</div>
 		<div class="flex items-center">
 			<!-- <span class=" mr-2 text-1xs font-medium text-grey-body">Show</span> -->
 			<ToggleButton buttonParams={buttons} onToggle={onFilterButtonClick} />
