@@ -28,8 +28,10 @@
 		<div class="text-medium px-1 pb-3 text-center font-normal text-black-title">
 			Simply log in with your <b>Angel One registered mobile number</b> to access all existing holdings
 		</div>
-		<div class="text-medium mt-4 rounded bg-blue-primary py-4 px-4 text-center text-white">
-			<a href={getRedirectUrl()}> EXPLORE NOW </a>
-		</div>
+		<a href={getRedirectUrl()}>
+			<div class="text-medium mt-4 rounded bg-blue-primary py-4 px-4 text-center text-white">
+				EXPLORE NOW
+			</div>
+		</a>
 	</div>
 </div>
