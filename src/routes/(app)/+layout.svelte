@@ -88,10 +88,10 @@
 			isCrawler: deviceType?.isCrawler,
 			platform: deviceType?.platform,
 			userId: profile?.clientId || '',
-			deviceID: sparkHeaders.deviceid,
-			sparkPlatform: sparkHeaders.platform,
-			platformVariant: sparkHeaders.platformvariant,
-			platformVersion: sparkHeaders.platformversion,
+			deviceID: sparkHeaders?.deviceid,
+			sparkPlatform: sparkHeaders?.platform,
+			platformVariant: sparkHeaders?.platformvariant,
+			platformVersion: sparkHeaders?.platformversion,
 			isGuest
 			// isLoggedIn: tokenStore.logInState === USER_STATE_ENUM.LOGGED_IN_USER,
 			// loggedInState: tokenStore.logInState,
@@ -105,6 +105,17 @@
 		});
 	};
 </script>
+
+<noscript>
+	<iframe
+		title="JS is disabled"
+		src="/mutual-funds/no-js"
+		frameborder="0"
+		width="0"
+		height="0"
+		style="visibility: hidden;"
+	/>
+</noscript>
 
 {#if $appPage.data?.layoutConfig?.layoutType === 'TWO_COLUMN'}
 	<TwoColumn>

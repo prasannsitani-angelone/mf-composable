@@ -1,7 +1,6 @@
 import type { SparkStore } from '$lib/stores/SparkStore';
 import type { PageLoad } from './$types';
 import { v4 as uuidv4 } from 'uuid';
-// import logger from '$lib/utils/logger';
 import { browser } from '$app/environment';
 import sessionStorage from '$lib/utils/sessionStorage';
 
@@ -66,10 +65,7 @@ const hydrateAppVariables = (sparkHeaders: SparkStore) => {
 			...localStorageData
 		};
 	} catch (e) {
-		//   logger.error({
-		//     type: 'Cookie Error',
-		//     error: e.toString()
-		//   })
+		return sparkHeaders;
 	}
 };
 export const load = (async ({ data }) => {

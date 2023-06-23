@@ -3,13 +3,19 @@
 	import DesktopHeader from './DesktopHeader.svelte';
 	import { page } from '$app/stores';
 	import { headerStore } from '$lib/stores/HeaderStore';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	$: pageMetaData = $page?.data?.layoutConfig;
 	$: userType = $page?.data?.userDetails?.userType || 'B2C';
 	const dispatch = createEventDispatcher();
 	const handleSearchFocusEvent = (e: { detail: boolean }) => {
 		dispatch('handleSearchFocus', e.detail);
 	};
+
+	let cookieEnabled = true;
+
+	onMount(() => {
+		cookieEnabled = navigator?.cookieEnabled;
+	});
 </script>
 
 {#if $page?.data?.deviceType?.isMobile || $page?.data?.deviceType?.isTablet}
@@ -47,3 +53,14 @@
 {#if pageMetaData?.component}
 	<svelte:component this={pageMetaData.component} />
 {/if}
+{#if !cookieEnabled}
+	<div class="bg-yellow-secondary px-4 py-2 text-lg font-medium text-black-title">
+		Enable your browser cookies to enjoy a seamless experience in investing in Mutual Funds.
+	</div>
+{/if}
+<noscript>
+	<div class="bg-yellow-secondary px-4 py-2 text-lg font-medium text-black-title">
+		Enable Javascript in your Chrome Settings to enjoy a seamless experience in investing in Mutual
+		Funds.
+	</div>
+</noscript>

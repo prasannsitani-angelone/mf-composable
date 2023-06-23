@@ -56,7 +56,7 @@ export const load = (async ({ request, locals, cookies }) => {
 
 	console.log(
 		JSON.stringify({
-			type: 'SSR Navigation',
+			type: 'SSR Navigation App Level',
 			params: {
 				locals: {
 					...locals,

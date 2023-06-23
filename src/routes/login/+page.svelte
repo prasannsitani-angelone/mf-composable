@@ -14,6 +14,13 @@
 	import MpinLogin from '$components/Login/MpinFlow/MpinLogin.svelte';
 	import MpinSetup from '$components/Login/MpinFlow/MpinSetup.svelte';
 	import { onMount, tick } from 'svelte';
+	import Logger from '$lib/utils/logger';
+	import type { PageData } from './$types';
+	import { impressionWithoutHeaders } from './analytics';
+
+	export let data: PageData;
+
+	const { isMissingHeaders, isGuest } = data;
 
 	const screen_enum = {
 		GENERATE_OTP: 'GENERATE_OTP',
@@ -141,6 +148,17 @@
 	};
 
 	onMount(async () => {
+		if (isMissingHeaders) {
+			Logger.info({
+				type: 'Redirected to Login Page without headers',
+				params: {
+					isGuest
+				}
+			});
+			impressionWithoutHeaders({
+				isGuest
+			});
+		}
 		await tick();
 		mpinEligible = appStore.isAngelBeeAndroidUser() || appStore.isAngelBeeIosUser() || false;
 	});

@@ -10,10 +10,13 @@
 	import { base } from '$app/paths';
 	import Analytics from '$lib/utils/analytics';
 	import { appStore } from '$lib/stores/SparkStore';
+	import { appMount } from '$lib/analytics/AppMounted';
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 
 	export let data;
 	// Update store with Spark headers
-	const { scheme, host, deviceType, token, sparkHeaders } = data;
+	const { scheme, host, deviceType, token, sparkHeaders, isMissingHeaders, isGuest } = data;
 	// initialising logging for routes outside of (app) like login page
 
 	Logger.init({
@@ -37,14 +40,49 @@
 			browserVersion: deviceType?.browserFullVersion,
 			browserName: deviceType?.browserName,
 			isCrawler: deviceType?.isCrawler,
-			platform: deviceType?.platform
+			platform: deviceType?.platform,
+			deviceID: sparkHeaders?.deviceid,
+			sparkPlatform: sparkHeaders?.platform,
+			platformVariant: sparkHeaders?.platformvariant,
+			platformVersion: sparkHeaders?.platformversion,
+			isGuest
 		}
 	});
 
-	onMount(() => {
-		Logger.debug({
-			type: 'App Mounted on Client'
+	onMount(async () => {
+		// to delete device id once app is loaded
+		if ($page.url.searchParams.get('deviceid')) {
+			$page.url.searchParams.delete('deviceid');
+			await goto($page.url, {
+				replaceState: true
+			});
+		}
+		// connection details
+		const connectionDetails = {
+			downlink: navigator?.connection?.downlink,
+			effectiveType: navigator?.connection?.effectiveType,
+			rtt: navigator?.connection?.rtt,
+			saveData: navigator?.connection?.saveData
+		};
+		Logger.info({
+			type: 'App Mounted on Client',
+			params: {
+				...connectionDetails,
+				isGuest,
+				cookieDisabled: !window?.navigator?.cookieEnabled
+			}
 		});
+		appMount({
+			isGuest,
+			cookieDisabled: !window?.navigator?.cookieEnabled,
+			sparkPlatform: sparkHeaders?.platform,
+			platformVariant: sparkHeaders?.platformvariant,
+			browserVersion: deviceType?.browserFullVersion,
+			browserName: deviceType?.browserName,
+			isMissingHeaders,
+			...connectionDetails
+		});
+		Logger.flush();
 		// update headers
 		appStore.updateStore({ ...sparkHeaders });
 
