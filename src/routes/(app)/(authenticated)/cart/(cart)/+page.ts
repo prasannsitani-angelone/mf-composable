@@ -28,8 +28,7 @@ export const load = (async ({ fetch }) => {
 			layoutClass: 'pt-0 md:pt-2',
 			titleClass: '!text-xl',
 			headerClass: '!bg-grey !py-2.5 !px-4 !shadow-none',
-			showBottomNavigation: true,
-			showBackIcon: true
+			showBottomNavigation: true
 		}
 	};
 }) satisfies PageLoad;
