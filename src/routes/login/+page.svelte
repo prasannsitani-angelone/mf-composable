@@ -13,6 +13,7 @@
 	import { useFetch } from '$lib/utils/useFetch';
 	import MpinLogin from '$components/Login/MpinFlow/MpinLogin.svelte';
 	import MpinSetup from '$components/Login/MpinFlow/MpinSetup.svelte';
+	import { onMount, tick } from 'svelte';
 
 	const screen_enum = {
 		GENERATE_OTP: 'GENERATE_OTP',
@@ -22,7 +23,7 @@
 		FORGOT_MPIN_VERIFY_OTP: 'FORGOT_MPIN_VERIFY_OTP'
 	};
 
-	const mpinEligible = appStore.isAngelBeeAndroidUser() || appStore.isAngelBeeIosUser() || false;
+	let mpinEligible = false;
 
 	interface userCookieTypes {
 		NTAccessToken: string;
@@ -138,6 +139,11 @@
 	const onMpinSuccess = () => {
 		setCookieAndRedirect();
 	};
+
+	onMount(async () => {
+		await tick();
+		mpinEligible = appStore.isAngelBeeAndroidUser() || appStore.isAngelBeeIosUser() || false;
+	});
 </script>
 
 <svelte:head>
