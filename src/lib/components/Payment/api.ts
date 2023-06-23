@@ -146,6 +146,7 @@ export const lumpsumOrderPostFunction = async (params) => {
 			poaStatus,
 			schemeCode,
 			redirectedFrom,
+			fromInvestmentDetailsPage,
 			transactionRefNumber,
 			sipId,
 			sipDueDate,
@@ -168,7 +169,7 @@ export const lumpsumOrderPostFunction = async (params) => {
 				transactionRefNumber,
 				sipId,
 				sipDueDate,
-				isAdditional: redirectedFrom === 'INVESTMENT_DETAILS'
+				isAdditional: redirectedFrom === 'INVESTMENT_DETAILS' || fromInvestmentDetailsPage
 			}),
 			headers: {
 				'X-Request-Id': xRequestId,

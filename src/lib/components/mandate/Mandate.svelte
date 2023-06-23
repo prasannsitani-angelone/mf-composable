@@ -118,7 +118,7 @@
 
 	const listenerFunc = (event) => {
 		if (location.origin === event?.origin && event?.data?.source === 'emandateCallback') {
-			logger.info({
+			logger.debug({
 				type: 'Emandate Redirection Response',
 				params: event?.data
 			});

@@ -82,7 +82,7 @@ export const useFetch = async (
 			statusCode: res.status
 		};
 		if (res.ok) {
-			Logger.info({
+			Logger.debug({
 				type: 'Network Response Success',
 				params
 			});

@@ -251,6 +251,8 @@ export const netBankingLumpsumFlow = async (params) => {
 		source = '',
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
+		redirectedFrom, // for redirection
+		fromInvestmentDetailsPage, // for redirection
 		netBankingState = {},
 		state = {},
 		showLoading = () => undefined,
@@ -291,6 +293,8 @@ export const netBankingLumpsumFlow = async (params) => {
 			mobile,
 			poaStatus,
 			schemeCode,
+			redirectedFrom,
+			fromInvestmentDetailsPage,
 			transactionRefNumber: netBankingResponse.data?.data?.transaction_id,
 			xRequestId,
 			source
@@ -735,8 +739,9 @@ export const upiLumpsumFlow = async (params) => {
 		source = '',
 		sipId, // for sip installments
 		sipDueDate, // for sip installments
-		redirectedFrom, // for sip installments
 		sipRegistrationNumber, // for sip installments
+		redirectedFrom, // for redirection
+		fromInvestmentDetailsPage, // for redirection
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
 		upiState = {},
@@ -794,6 +799,7 @@ export const upiLumpsumFlow = async (params) => {
 			poaStatus,
 			schemeCode,
 			redirectedFrom,
+			fromInvestmentDetailsPage,
 			transactionRefNumber: upiResponse.data?.data?.transaction_id,
 			sipId,
 			sipDueDate,
@@ -1279,8 +1285,9 @@ export const walletLumpsumFlow = async (params) => {
 		source = '',
 		sipId, // for sip installments
 		sipDueDate, // for sip installments
-		redirectedFrom, // for sip installments
 		sipRegistrationNumber, // for sip installments
+		redirectedFrom, // for redirection
+		fromInvestmentDetailsPage, // for redirection
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
 		gpayPaymentState = {},
@@ -1322,6 +1329,7 @@ export const walletLumpsumFlow = async (params) => {
 			poaStatus,
 			schemeCode,
 			redirectedFrom,
+			fromInvestmentDetailsPage,
 			transactionRefNumber: walletResponse.data?.data?.transaction_id,
 			sipId,
 			sipDueDate,

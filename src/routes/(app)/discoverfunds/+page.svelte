@@ -30,6 +30,7 @@
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 	import { onMount, tick } from 'svelte';
 	import Analytics from '$lib/utils/analytics';
+	import logger from '$lib/utils/logger';
 	import ExternalFundsNfoCalculatorCard from './ExternalFundsNfoCalculatorCard/ExternalFundsNfoCalculatorCard.svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
@@ -268,8 +269,23 @@
 
 	onMount(async () => {
 		await tick();
-		sHomepage();
+		const connectionDetails = {
+			downlink: navigator?.connection?.downlink,
+			effectiveType: navigator?.connection?.effectiveType,
+			rtt: navigator?.connection?.rtt,
+			saveData: navigator?.connection?.saveData
+		};
+		logger.info({
+			type: 'Connection Details',
+			params: {
+				...connectionDetails
+			}
+		});
+		sHomepage({
+			...connectionDetails
+		});
 		Analytics.flush();
+		logger.flush();
 
 		getNudgeData().then((nudgeData) => {
 			setNudgeData(nudgeData);

@@ -98,7 +98,7 @@
 
 	const listenerFunc = (event) => {
 		if (location.origin === event?.origin && event?.data?.source === 'paymentCallback') {
-			logger.info({
+			logger.debug({
 				type: 'Payment Redirection Response',
 				params: event?.data
 			});

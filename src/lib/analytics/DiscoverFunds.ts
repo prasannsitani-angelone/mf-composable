@@ -1,14 +1,15 @@
 import type { IDueSips } from '$lib/types/ISipType';
 import Analytics from '$lib/utils/analytics';
 
-export const sHomepage = () => {
+export const sHomepage = (eventMetaData: Record<string, string>) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 'mf-homepage',
 		event_type: 'impression',
 		event_sub_type: 'screen',
 		event_name: 'mf-Homepage',
 		event_property: null,
-		event_id: '308.0.0.1.0'
+		event_id: '308.0.0.1.0',
+		event_metadata: eventMetaData
 	});
 };
 

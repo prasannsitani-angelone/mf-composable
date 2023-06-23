@@ -556,7 +556,7 @@
 
 	const listenerFunc = (event) => {
 		if (location.origin === event?.origin && event?.data?.source === 'paymentCallback') {
-			logger.info({
+			logger.debug({
 				type: 'Payment Redirection Response',
 				params: event?.data
 			});
@@ -1009,7 +1009,9 @@
 			subBroker: profileData?.clientDetails?.subBroker,
 			mobile: profileData?.mobile,
 			poaStatus: profileData?.poaStatus,
-			onSuccess: navigateToLumpsumCompletePage
+			onSuccess: navigateToLumpsumCompletePage,
+			redirectedFrom,
+			fromInvestmentDetailsPage
 		};
 
 		const commonSIPInput = {
@@ -1023,7 +1025,6 @@
 		const sipInstallmentInput = {
 			sipId,
 			sipDueDate,
-			redirectedFrom,
 			sipRegistrationNumber
 		};
 

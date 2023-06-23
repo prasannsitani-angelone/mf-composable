@@ -42,7 +42,7 @@
 	});
 
 	onMount(() => {
-		Logger.info({
+		Logger.debug({
 			type: 'App Mounted on Client'
 		});
 		// update headers
