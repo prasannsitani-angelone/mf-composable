@@ -48,11 +48,11 @@
 
 	function oneDayReturn(scheme: SchemeDetails): string {
 		const { navValue, previousNavValue } = scheme || {};
-		const oneDReturn = ((navValue - previousNavValue) / previousNavValue) * 100;
-
+		let oneDReturn = ((navValue - previousNavValue) / previousNavValue) * 100 || 0;
+		oneDReturn = isFinite(oneDReturn) ? oneDReturn : 0;
 		if (oneDReturn <= 0) {
 			oneDayReturnClass = 'text-red-sell';
-			oneDayReturnSuffix = '-';
+			oneDayReturnSuffix = '';
 		} else {
 			oneDayReturnClass = 'text-green-buy ';
 			oneDayReturnSuffix = '+';

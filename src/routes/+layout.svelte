@@ -10,11 +10,17 @@
 	import { base } from '$app/paths';
 	import Analytics from '$lib/utils/analytics';
 	import { appStore } from '$lib/stores/SparkStore';
-	import { appMount } from '$lib/analytics/AppMounted';
+	import { appMount, webVitalsAnalytics } from '$lib/analytics/AppMounted';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-
+	import logger from '$lib/utils/logger';
 	export let data;
+	interface WebVitals {
+		type: string;
+		entry: object;
+	}
+	$: webVitals = <WebVitals[]>[];
+
 	// Update store with Spark headers
 	const { scheme, host, deviceType, token, sparkHeaders, isMissingHeaders, isGuest, sparkQuery } =
 		data;
@@ -49,6 +55,18 @@
 			isGuest
 		}
 	});
+
+	const sendWebVitalsLogs = (vitals: WebVitals[]) => {
+		if (vitals.length === 3) {
+			webVitalsAnalytics(webVitals);
+			logger.info({
+				type: 'WebVitals',
+				params: webVitals
+			});
+			Analytics.flush();
+			Logger.flush();
+		}
+	};
 
 	onMount(async () => {
 		// to delete device id once app is loaded
@@ -90,9 +108,47 @@
 		appStore.updateStore({ ...sparkHeaders });
 
 		update();
+
 		if (PUBLIC_ENV_NAME === 'prod') {
 			deleteCookie(getUserCookieName(), getCookieOptions(false));
 		}
+		const lcpObserver = new PerformanceObserver((list) => {
+			const entries = list.getEntries();
+			const lastEntry = entries[entries.length - 1];
+
+			webVitals.push({
+				type: 'LCP',
+				entry: lastEntry
+			});
+			lcpObserver.disconnect();
+			sendWebVitalsLogs(webVitals);
+		});
+		const fcpObserver = new PerformanceObserver((list) => {
+			const paints = {};
+			list.getEntries().forEach((entry) => {
+				paints[entry.name] = entry.startTime;
+			});
+			webVitals.push({
+				type: 'Paints',
+				entry: paints
+			});
+			fcpObserver.disconnect();
+			sendWebVitalsLogs(webVitals);
+		});
+		const ttfbObserver = new PerformanceObserver((entryList) => {
+			const [pageNav] = entryList.getEntriesByType('navigation');
+
+			webVitals.push({
+				type: 'TTFB',
+				entry: pageNav.responseStart
+			});
+			ttfbObserver.disconnect();
+			sendWebVitalsLogs(webVitals);
+		});
+
+		fcpObserver.observe({ type: 'paint', buffered: true });
+		lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true });
+		ttfbObserver.observe({ type: 'navigation', buffered: true });
 	});
 	const onVisibilityChange = (e: Event) => {
 		if (e?.target?.visibilityState === 'hidden') {
