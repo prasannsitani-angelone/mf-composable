@@ -37,14 +37,15 @@ export const load = (async ({ request, locals }) => {
 	// Device type will be available in PageData across the app
 	const sparkHeaders = getSparkHeaders(request.headers);
 
-	const { scheme, host, deviceType, token, isMissingHeaders, isGuest } = locals;
+	const { scheme, host, deviceType, token, isMissingHeaders, isGuest, sparkQuery } = locals;
 
 	console.log(
 		JSON.stringify({
 			type: 'SSR Navigation Route Level',
 			params: {
 				locals: {
-					sparkHeaders
+					sparkHeaders,
+					sparkQuery
 				},
 				url: request?.url
 			}
@@ -58,6 +59,7 @@ export const load = (async ({ request, locals }) => {
 		token,
 		isGuest,
 		sparkHeaders,
-		isMissingHeaders
+		isMissingHeaders,
+		sparkQuery
 	};
 }) satisfies LayoutServerLoad;

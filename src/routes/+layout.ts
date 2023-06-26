@@ -17,14 +17,14 @@ const isObjectWithNonEmptyKeys = (obj: Record<string, string | null>) => {
 const hydrateSessionData = (sparkHeaders: SparkStore) => {
 	const sessionStorageData = sessionStorage.getObject('sparkStore');
 	const data = {
-		platform: sparkHeaders.platform,
-		platformversion: sparkHeaders.platformversion,
-		platformvariant: sparkHeaders.platformvariant,
-		theme: sparkHeaders.theme,
-		clevertapclientid: sparkHeaders.clevertapclientid,
-		guest: sparkHeaders.guest,
-		closecta: sparkHeaders.closecta,
-		deviceosversion: sparkHeaders.deviceosversion
+		platform: sparkHeaders?.platform,
+		platformversion: sparkHeaders?.platformversion,
+		platformvariant: sparkHeaders?.platformvariant,
+		theme: sparkHeaders?.theme,
+		clevertapclientid: sparkHeaders?.clevertapclientid,
+		guest: sparkHeaders?.guest,
+		closecta: sparkHeaders?.closecta,
+		deviceosversion: sparkHeaders?.deviceosversion
 	};
 	if (isObjectWithNonEmptyKeys(data)) {
 		sessionStorage.setObject('sparkStore', data);
@@ -35,8 +35,8 @@ const hydrateSessionData = (sparkHeaders: SparkStore) => {
 	return {};
 };
 
-const hydrateLocalStorageData = (sparkHeaders: SparkStore) => {
-	const deviceid = sparkHeaders.deviceid;
+const hydrateLocalStorageData = (sparkHeaders: SparkStore, sparkQuery: SparkStore) => {
+	const deviceid = sparkHeaders.deviceid || sparkQuery?.deviceid;
 	const localStorageDeviceID = localStorage.getItem('deviceid');
 	if (!deviceid && !localStorageDeviceID) {
 		const generatedDeviceID = uuidv4();
@@ -56,10 +56,10 @@ const hydrateLocalStorageData = (sparkHeaders: SparkStore) => {
 	}
 };
 
-const hydrateAppVariables = (sparkHeaders: SparkStore) => {
+const hydrateAppVariables = (sparkHeaders: SparkStore, sparkQuery: SparkStore) => {
 	try {
 		const sessionData = hydrateSessionData(sparkHeaders);
-		const localStorageData = hydrateLocalStorageData(sparkHeaders);
+		const localStorageData = hydrateLocalStorageData(sparkHeaders, sparkQuery);
 		return {
 			...sessionData,
 			...localStorageData
@@ -69,7 +69,9 @@ const hydrateAppVariables = (sparkHeaders: SparkStore) => {
 	}
 };
 export const load = (async ({ data }) => {
-	const hydrated = browser ? hydrateAppVariables(data.sparkHeaders) : data.sparkHeaders;
+	const hydrated = browser
+		? hydrateAppVariables(data.sparkHeaders, data.sparkQuery)
+		: data.sparkHeaders;
 	return {
 		...data,
 		sparkHeaders: hydrated

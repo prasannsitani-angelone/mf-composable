@@ -16,7 +16,7 @@
 	import { onMount, tick } from 'svelte';
 	import Logger from '$lib/utils/logger';
 	import type { PageData } from './$types';
-	import { impressionWithoutHeaders } from './analytics';
+	import { impressionWithoutHeaders, successLoginWithoutHeaders } from './analytics';
 
 	export let data: PageData;
 
@@ -135,6 +135,17 @@
 
 	const navigateToPage = () => {
 		if (tokenStore.accessToken()) {
+			if (isMissingHeaders) {
+				Logger.info({
+					type: 'Successful login without headers',
+					params: {
+						isGuest
+					}
+				});
+				successLoginWithoutHeaders({
+					isGuest
+				});
+			}
 			isLoading = true;
 			const redirectUrl = $page.url.searchParams.get('redirect') || `${base}/discoverfunds`;
 			goto(redirectUrl, {

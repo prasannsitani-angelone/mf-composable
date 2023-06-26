@@ -59,7 +59,7 @@ export const useFetch = async (
 		...options,
 		headers: {
 			...defaultOptions?.headers,
-			'X-Platform': appStore.platform(),
+			'X-Platform': `${appStore.platform()}_${appStore.platformvariant()}`,
 			authorization: `Bearer ${tokenStore.activeToken()}`,
 			userType: userStore.userType(),
 			accountType: `${profileStore.accountType()}`,

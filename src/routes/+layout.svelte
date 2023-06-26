@@ -16,7 +16,8 @@
 
 	export let data;
 	// Update store with Spark headers
-	const { scheme, host, deviceType, token, sparkHeaders, isMissingHeaders, isGuest } = data;
+	const { scheme, host, deviceType, token, sparkHeaders, isMissingHeaders, isGuest, sparkQuery } =
+		data;
 	// initialising logging for routes outside of (app) like login page
 
 	Logger.init({
@@ -41,7 +42,7 @@
 			browserName: deviceType?.browserName,
 			isCrawler: deviceType?.isCrawler,
 			platform: deviceType?.platform,
-			deviceID: sparkHeaders?.deviceid,
+			deviceID: sparkHeaders?.deviceid || sparkQuery?.deviceid,
 			sparkPlatform: sparkHeaders?.platform,
 			platformVariant: sparkHeaders?.platformvariant,
 			platformVersion: sparkHeaders?.platformversion,
@@ -69,7 +70,8 @@
 			params: {
 				...connectionDetails,
 				isGuest,
-				cookieDisabled: !window?.navigator?.cookieEnabled
+				cookieDisabled: !window?.navigator?.cookieEnabled,
+				isMissingHeaders
 			}
 		});
 		appMount({
@@ -83,6 +85,7 @@
 			...connectionDetails
 		});
 		Logger.flush();
+		Analytics.flush();
 		// update headers
 		appStore.updateStore({ ...sparkHeaders });
 

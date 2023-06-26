@@ -119,6 +119,9 @@ const handler = (async ({ event, resolve }) => {
 			scheme,
 			host,
 			sparkHeaders: event.request.headers,
+			sparkQuery: {
+				deviceid: deviceidFromQuery
+			},
 			shouldSetABUserCookie: sparkHeaderToken ? true : false,
 			isMissingHeaders,
 			pageUrl: event.request.url,
@@ -162,7 +165,10 @@ export const handleFetch = (async ({ event, request, fetch }) => {
 	request.headers.set('accountType', accountType);
 	request.headers.set('authorization', `Bearer ${token}`);
 	request.headers.set('authtoken', token);
-	request.headers.set('X-Platform', sparkHeaders?.get('platform') || 'mf-web');
+	request.headers.set(
+		'X-Platform',
+		`${sparkHeaders?.get('platform') || 'mf-web'}_${sparkHeaders?.get('platformvariant') || 'web'}`
+	);
 
 	/* Use MF core internal API for SSR rendered app to avoid internet roundtrip during SSR
 	 * Disabled in dev mode

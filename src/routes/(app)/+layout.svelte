@@ -39,7 +39,8 @@
 	// Update store with Spark headers
 
 	export let data: LayoutData;
-	const { sparkHeaders, tokenObj, profile, userDetails, deviceType, isGuest, token } = data;
+	const { sparkHeaders, tokenObj, profile, userDetails, deviceType, isGuest, token, sparkQuery } =
+		data;
 	// Update store with Spark headers
 
 	let showAngelBeeBanner = false;
@@ -88,7 +89,7 @@
 			isCrawler: deviceType?.isCrawler,
 			platform: deviceType?.platform,
 			userId: profile?.clientId || '',
-			deviceID: sparkHeaders?.deviceid,
+			deviceID: sparkHeaders?.deviceid || sparkQuery?.deviceid,
 			sparkPlatform: sparkHeaders?.platform,
 			platformVariant: sparkHeaders?.platformvariant,
 			platformVersion: sparkHeaders?.platformversion,

@@ -9,16 +9,20 @@ let initalStore: IOrderFilter = {
 };
 
 if (browser) {
-	initalStore = JSON.parse(
-		window.sessionStorage.getItem('filter') ||
-			'{"failed":false,"completed":false,"inprogress":false}'
-	);
+	try {
+		initalStore = JSON.parse(
+			window.sessionStorage.getItem('filter') ||
+				'{"failed":false,"completed":false,"inprogress":false}'
+		);
+	} catch {
+		initalStore = { failed: false, completed: false, inprogress: false };
+	}
 }
 
 function CreateStore() {
 	const { subscribe, update } = writable(initalStore);
 	subscribe((v) => {
-		if (browser) {
+		if (browser && window?.navigator?.cookieEnabled) {
 			window.sessionStorage.setItem('filter', JSON.stringify(v));
 		}
 	});
