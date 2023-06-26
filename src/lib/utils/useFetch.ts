@@ -53,7 +53,7 @@ export const useFetch = async (
 	fetchServer?: FetchType,
 	isNonJsonFetch = false
 ) => {
-	const baseFetch = hydrate ? fetch : fetchServer;
+	const baseFetch = hydrate ? fetch : fetchServer || fetch;
 	const opts = {
 		...defaultOptions,
 		...options,
@@ -67,6 +67,16 @@ export const useFetch = async (
 		}
 	};
 	try {
+		Logger.debug({
+			type: 'Making an API call',
+			params: {
+				url,
+				fetchServerExist: !!fetchServer,
+				fetch: !!fetch,
+				hydrate,
+				browser
+			}
+		});
 		const res = await baseFetch(url, opts);
 		let data = res;
 		if (!isNonJsonFetch) {
