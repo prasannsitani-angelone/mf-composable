@@ -18,6 +18,8 @@
 			data.inputAmount || String(data.inputAmount) === '0'
 				? String(data.inputAmount)
 				: String(data.amount);
+		inputError = setErrorMessage(data, data.investmentType, inputValue);
+		cartItem.inputError = inputError;
 	};
 	$: {
 		setInputValue(cartItem);
@@ -55,7 +57,9 @@
 		placeholder=""
 		value={inputValue}
 		on:input={onInputChange}
-		class=" cart-input !h-7 w-full !rounded border-0 bg-white pl-3.5 text-base font-medium !leading-none text-black-title !outline !outline-1 !outline-blue-primary focus:outline-offset-0"
+		class="{inputError
+			? '!outline-red-sell'
+			: '!outline-blue-primary '}   cart-input !h-7 w-full !rounded border-0 bg-white pl-3.5 text-base font-medium !leading-none text-black-title !outline !outline-1 focus:outline-offset-0"
 		size={100}
 		disabled={false}
 	/>
