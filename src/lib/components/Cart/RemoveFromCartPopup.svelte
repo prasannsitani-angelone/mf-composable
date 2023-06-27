@@ -30,7 +30,6 @@
 
 		if (res.ok) {
 			cartStore.hideAddToCartPopup();
-			cartStore.updateAddToCartRequestFromModal();
 			cartStore.removeCartItems(cartItemId);
 			toastStore.updateToastQueue({
 				type: 'SUCCESS',
