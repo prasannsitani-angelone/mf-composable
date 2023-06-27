@@ -12,7 +12,7 @@
 	import Button from '$components/Button.svelte';
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
-	import { goto } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
@@ -71,9 +71,11 @@
 			skipSipSkippedSuccessModalOpenAnalytics({
 				value: `SIP Instalment skipped,Your SIP instalment for ${sipData?.schemeName} for ${
 					getDateTimeProperties(sipData?.nextSipDueDate).month
-				}
-								${getDateTimeProperties(sipData?.nextSipDueDate).year}
-							will be skipped. Next SIP order is scheduled for ${getNextMonthDate(sipData?.nextSipDueDate)}`
+				} ${
+					getDateTimeProperties(sipData?.nextSipDueDate).year
+				} will be skipped. Next SIP order is scheduled for ${getNextMonthDate(
+					sipData?.nextSipDueDate
+				)}`
 			});
 		}
 	};
@@ -321,7 +323,10 @@
 				buttonTitle="DONE"
 				class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
 				buttonClass="mt-8 w-40 border border-blue-primary rounded !bg-white !text-blue-primary cursor-default md:cursor-pointer"
-				handleButtonClick={() => window.location.reload()}
+				handleButtonClick={() => {
+					invalidate('skipsip');
+					showSkipSuccessModal = false;
+				}}
 			>
 				<svelte:fragment slot="popupBody">
 					<article class="mt-6 text-center">

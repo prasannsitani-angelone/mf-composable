@@ -10,7 +10,7 @@ import { getDateTimeString } from '$lib/utils/helpers/date';
 import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
 
-export const load = (async ({ fetch, params }) => {
+export const load = (async ({ fetch, params, depends }) => {
 	const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips/${params?.sipId}`;
 	let sipData: ISip;
 	const getSipData = async () => {
@@ -51,7 +51,7 @@ export const load = (async ({ fetch, params }) => {
 		}
 		return sipData;
 	};
-
+	depends('skipsip');
 	return {
 		layoutConfig: {
 			title: 'SIP Details',
