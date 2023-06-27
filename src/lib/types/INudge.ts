@@ -1,3 +1,5 @@
+import type { ISip } from './ISipType';
+
 export interface INudge {
 	type: string;
 	heading: string;
@@ -5,7 +7,8 @@ export interface INudge {
 	link: string;
 	linkHeading: string;
 	nudgesType?: string;
-	data?: ISip | IRetryPaymentNudge;
+	data?: ISip | IRetryPaymentNudge | StartFirstSipNudgeType;
+	id: string;
 }
 
 export interface IRetryPaymentNudge {
@@ -30,4 +33,22 @@ export interface IRetryPaymentNudge {
 
 export type NudgeDataType = {
 	nudges: INudge[];
+};
+
+export type StartFirstSipNudgeType = {
+	type: string;
+	heading: string;
+	description: string;
+	nudgesType: string;
+	data: {
+		b2b: {
+			isin: string;
+			schemeCode: string;
+		};
+		b2c: {
+			isin: string;
+			schemeCode: string;
+		};
+	};
+	id: string;
 };
