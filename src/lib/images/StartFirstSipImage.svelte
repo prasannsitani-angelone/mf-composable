@@ -1,4 +1,9 @@
-<svg width="246" height="173" viewBox="0 0 246 173" fill="none" xmlns="http://www.w3.org/2000/svg">
+<script lang="ts">
+	export let width = '246';
+	export let height = '173';
+</script>
+
+<svg {width} {height} viewBox="0 0 246 173" fill="none" xmlns="http://www.w3.org/2000/svg">
 	<path d="M130.84 121.022H99.8497V150.38H130.84V121.022Z" fill="#7398F0" />
 	<path d="M126.19 121.022H99.8497V150.38H126.19V121.022Z" fill="#9BAAFF" />
 	<path d="M93.0941 135.762H62.0627V150.502H93.0941V135.762Z" fill="#7398F0" />

@@ -1,14 +1,20 @@
 <script lang="ts">
-	// import type { StartFirstSipNudgeType } from '$lib/types/INudge';
+	import type { StartFirstSipNudgeType } from '$lib/types/INudge';
 	import Button from '$components/Button.svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import StartFirstSipImage from '$lib/images/StartFirstSipImage.svelte';
+	import { userStore } from '$lib/stores/UserStore';
 
-	// export let nudgeData: StartFirstSipNudgeType;
+	export let nudgeData: StartFirstSipNudgeType;
+
+	const schemeData = nudgeData?.data[userStore?.userType()?.toLowerCase()];
+	const { isin, schemeCode } = schemeData || {};
 
 	const redirectToStartFirstSipLandingPage = () => {
-		goto(`${base}/startfirstsip`);
+		const redirectUrl = `${base}/startfirstsip/isin-${isin}-schemecode-${schemeCode}`;
+
+		goto(redirectUrl);
 	};
 </script>
 

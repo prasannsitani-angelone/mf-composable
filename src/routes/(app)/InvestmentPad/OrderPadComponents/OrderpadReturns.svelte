@@ -6,6 +6,8 @@
 
 	export let investedAmount: number;
 	export let threeYearReturns: number;
+	export let textClass = '';
+	export let amountClass = '';
 
 	$: threeYearReturnsValue =
 		Math.round(calculateSipReturns(investedAmount, 3, threeYearReturns)?.matuarityAmount * 100) /
@@ -22,17 +24,23 @@
 	<section class="border-b py-3 px-4 {$$props?.class}">
 		<article class="flex items-center">
 			<WMSIcon width={10} height={13} name="green-uparrow-trending-fund" />
-			<div class="ml-1 text-sm font-normal text-grey-body">
-				<span class="font-bold text-green-teal"><AmountText amount={threeYearReturnsValue} /></span>
-				in 3Y at {threeYearReturns?.toFixed(2)}% return
+			<div class="ml-1 text-sm font-normal text-grey-body {textClass}">
+				<span class="font-bold text-green-teal {amountClass}"
+					><AmountText amount={threeYearReturnsValue} /></span
+				>
+				<slot name="supporting-text">
+					in 3Y at {threeYearReturns?.toFixed(2)}% return
+				</slot>
 			</div>
-			<WMSIcon
-				width={12}
-				height={12}
-				name="info-in-circle-dark"
-				class="ml-1 mt-0.5 cursor-default lg:cursor-pointer"
-				on:click={toggleShowthreeYearReturnsInfoModal}
-			/>
+			<slot name="info-icon">
+				<WMSIcon
+					width={12}
+					height={12}
+					name="info-in-circle-dark"
+					class="ml-1 mt-0.5 cursor-default lg:cursor-pointer"
+					on:click={toggleShowthreeYearReturnsInfoModal}
+				/>
+			</slot>
 		</article>
 	</section>
 {/if}
