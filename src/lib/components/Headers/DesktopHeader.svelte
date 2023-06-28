@@ -4,7 +4,7 @@
 	import Link from '../Link.svelte';
 	import { page } from '$app/stores';
 	import { createEventDispatcher, onMount } from 'svelte';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import Overlay from '$components/Modal.svelte';
 	import Dropdown from '$components/Dropdown.svelte';
 	import { userActionStore } from '$lib/stores/UserActionStore';

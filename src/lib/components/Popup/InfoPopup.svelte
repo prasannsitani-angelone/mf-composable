@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Modal from '$components/Modal.svelte';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	let heading = '';
 	let detailText = '';
 	let isModalOpen = false;

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { Button, SEO, WMSIcon } from 'wms-ui-component';
+	import { Button, SEO } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
+
 	import type { FAQ } from './type';
 	import Modal from '$components/Modal.svelte';
 	import FaqHeader from './components/FAQHeader.svelte';

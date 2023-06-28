@@ -9,7 +9,7 @@
 	import { addCommasToAmountString, getCappedUnitString } from '$lib/utils/helpers/formatAmount';
 	import { goto } from '$app/navigation';
 	import type { UtilsMetaData } from '$lib/types/IRedemption';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import { getDateTimeString } from '$lib/utils/helpers/date';
 	import Button from '$components/Button.svelte';
 	import InfoModal from '$components/InfoModal.svelte';

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import { page } from '$app/stores';
 	import LoadingIndicator from '$components/LoadingIndicator.svelte';
 	import Modal from '$components/Modal.svelte';

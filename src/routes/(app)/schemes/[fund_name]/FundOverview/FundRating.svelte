@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	export let rating = 5;
 	export let ratingSecId = '';
 </script>

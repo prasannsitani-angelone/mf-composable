@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import type { InvestmentEntity } from '$lib/types/IInvestments';
 	import ActiveSipIcon from '$lib/images/icons/ActiveSipIcon.svelte';

@@ -4,7 +4,7 @@
 	import type { orderItem } from '$lib/types/IOrderItem';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { base } from '$app/paths';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import { format } from 'date-fns';
 	import { orderDashboardCardClickAnalytics } from '$lib/analytics/orders/orders';
 	import { INVESTMENT_TYPE } from '$lib/constants/transactionType';

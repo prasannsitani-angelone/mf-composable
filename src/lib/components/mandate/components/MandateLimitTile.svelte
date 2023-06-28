@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 
 	export let mandateLimit: string;

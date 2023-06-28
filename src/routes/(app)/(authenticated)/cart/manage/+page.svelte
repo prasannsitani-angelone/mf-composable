@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte/internal';
-	import { SEO, WMSIcon } from 'wms-ui-component';
+	import { SEO } from 'wms-ui-component';
 	import type { PageData } from './$types';
 	import { cartStore } from '$lib/stores/CartStore';
 	import ReadOnlyTile from '../components/ReadOnlyTile.svelte';
 	import type { RemoveCartItem } from '$lib/types/ICartStore';
 	import ManageCartSkeletanLoader from './ManageCartSkeletanLoader.svelte';
 	import { mountManageCartAnalytics, deleteFromCartAnalytics } from '../analytics/cart';
-
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	const onFundDelete = (item: RemoveCartItem) => {
 		cartStore.showRemoveFromCartPopup(item);
 		deleteFromCartAnalytics();

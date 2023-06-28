@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { getDateTimeProperties } from '$lib/utils/helpers/date';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	let schemeDetails: SchemeDetails;
 	const nfoStartDate = getDateTimeProperties(schemeDetails?.nfoStartDate);

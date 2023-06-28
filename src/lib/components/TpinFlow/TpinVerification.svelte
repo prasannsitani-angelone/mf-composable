@@ -9,7 +9,7 @@
 	import { getCappedUnitString } from '$lib/utils/helpers/formatAmount';
 	import Modal from '$components/Modal.svelte';
 	import InfoModal from '$components/InfoModal.svelte';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import Button from '$components/Button.svelte';
 	import LoadingPopup from '../../../routes/(app)/InvestmentPad/OrderPadComponents/LoadingPopup.svelte';
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';

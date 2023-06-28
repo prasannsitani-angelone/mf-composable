@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import type { StatusHistoryItem } from '../../../ordersummary/type';
 	$: deviceType = $page?.data?.deviceType;
 	let items: Array<StatusHistoryItem>;

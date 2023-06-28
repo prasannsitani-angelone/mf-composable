@@ -2,7 +2,7 @@
 	import Button from '$components/Button.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { createEventDispatcher } from 'svelte';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	export let sipAmount = '';
 

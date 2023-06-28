@@ -2,7 +2,9 @@
 	import { goto } from '$app/navigation';
 	import Modal from '$components/Modal.svelte';
 	import SwitchSearch from '$components/Switch/SwitchSearch.svelte';
-	import { SwitchOrderTitleCard, SwitchOrderTile, Button, WMSIcon, SEO } from 'wms-ui-component';
+	import { SwitchOrderTitleCard, SwitchOrderTile, Button, SEO } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
+
 	import SwitchInFundSelection from '../SwitchInFundSelection/SwitchInFundSelection.svelte';
 	import type { FolioHoldingType, FolioObject } from '$lib/types/IInvestments';
 	import { NomineeUpdateLinks } from '$components/NomineeUpdate/constants';

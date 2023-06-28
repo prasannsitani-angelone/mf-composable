@@ -2,7 +2,7 @@
 	import ErrorIcon from '$lib/images/icons/FailureCrossIcon.svelte';
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
 	import LeftArrowIcon from '$lib/images/icons/LeftArrowIcon.svelte';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 

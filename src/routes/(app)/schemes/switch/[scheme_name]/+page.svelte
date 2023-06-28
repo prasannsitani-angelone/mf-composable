@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from '../$types';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import ErrorPage from '$components/ErrorPage.svelte';
 	import SwitchSkeletonLoader from './SwitchSkeletonLoader.svelte';
 	import SwitchHomePage from './SwitchHomePage/SwitchHomePage.svelte';

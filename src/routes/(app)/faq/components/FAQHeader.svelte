@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	let handleBackNavigation: (() => void) | null = null;
 	let title = '';
 	export { handleBackNavigation, title };

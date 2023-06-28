@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Modal from '$components/Modal.svelte';
 	import { onMount } from 'svelte';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import Button from '$components/Button.svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';

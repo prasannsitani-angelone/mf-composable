@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import ImportFunds from '$lib/images/ImportFunds.svg';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import PortfolioHighlights from './PortfolioHighlights.svelte';
 	import HighlightsLineChart from './HighlightsLineChart.svelte';
 	import Card from '$components/Card.svelte';

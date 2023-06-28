@@ -1,6 +1,6 @@
 <script lang="ts">
 	import CrossInCircleIcon from '$lib/images/icons/CrossInCircleIcon.svelte';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	export let onBackClick: () => void = () => undefined;
 </script>

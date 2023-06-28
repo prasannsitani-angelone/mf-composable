@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { afterNavigate } from '$app/navigation';
 	import { toastStore } from '$lib/stores/ToastStore';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import Link from '$components/Link.svelte';
 	import { fade, fly } from 'svelte/transition';
 	import type { ToastItem } from '$lib/types/IToast';

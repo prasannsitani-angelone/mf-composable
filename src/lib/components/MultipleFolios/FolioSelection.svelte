@@ -4,7 +4,7 @@
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import type { FolioObject } from '$lib/types/IInvestments';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	export let folioList: Array<FolioObject>;
 	export let selectedFolioNumber: string;

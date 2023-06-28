@@ -3,7 +3,7 @@
 	import TransactionHistorytable from './components/TransactionHistorytable.svelte';
 	import type { OrdersEntity } from '$lib/types/IInvestments';
 	import { page } from '$app/stores';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import { investmentDetailsExternalFolioSectionCtaClick } from '../analytics';
 
 	export let transactionList: OrdersEntity[] = [];

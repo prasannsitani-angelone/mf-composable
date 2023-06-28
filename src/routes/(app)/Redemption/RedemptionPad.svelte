@@ -6,7 +6,7 @@
 	import { headerStore } from '$lib/stores/HeaderStore';
 	import type { FolioHoldingType } from '$lib/types/IInvestments';
 	import { addCommasToAmountString, formatAmount } from '$lib/utils/helpers/formatAmount';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import NotAllowed from '../InvestmentPad/OrderPadComponents/NotAllowed.svelte';
 	import FolioSelection from '$components/MultipleFolios/FolioSelection.svelte';
 	import Modal from '$components/Modal.svelte';

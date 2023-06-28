@@ -3,7 +3,7 @@
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
 	import BigGreenTickIcon from '$lib/images/icons/BigGreenTickIcon.svelte';
 	import BigRedCrossIcon from '$lib/images/icons/BigRedCrossIcon.svelte';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	interface txnItem {
 		title: string;
 		subTitle: string;

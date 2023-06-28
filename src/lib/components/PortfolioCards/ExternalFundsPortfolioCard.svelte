@@ -4,7 +4,7 @@
 	import LossArrowIcon from '$lib/images/icons/LossArrowIcon.svelte';
 	import VerticalLineSeparatorIcon from '$lib/images/icons/VerticalLineSeparatorIcon.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import type { InvestmentSummary } from '$lib/types/IInvestments';
 
 	export let investmentSummary: InvestmentSummary;

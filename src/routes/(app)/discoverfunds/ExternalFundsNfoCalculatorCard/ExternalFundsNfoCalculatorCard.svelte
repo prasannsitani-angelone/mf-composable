@@ -7,7 +7,7 @@
 	} from '$lib/analytics/DiscoverFunds';
 	import getactiveNfo from '$lib/api/nfo';
 	import { onMount, tick } from 'svelte';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	$: openNfo = 0;
 

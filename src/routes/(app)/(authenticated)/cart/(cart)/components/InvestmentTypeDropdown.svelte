@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Button from '$components/Button.svelte';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import { setErrorMessage } from '$lib/utils/helpers/investmentOrder';
 	import type { CartEntity } from '$lib/types/ICartStore';
 	import clickOutside from '$lib/utils/useClickOutside';

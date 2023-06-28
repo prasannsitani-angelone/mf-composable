@@ -7,7 +7,7 @@
 	import { getNameInitials } from '$lib/utils/helpers/mpin';
 	import { useFetch } from '$lib/utils/useFetch';
 	import { createEventDispatcher } from 'svelte';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	export let usersName: string;
 	export let clientCode: string;

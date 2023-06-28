@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
 	import MandateLimitTile from './MandateLimitTile.svelte';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	export let buttonTitle: string;
 	export let onSubmit = (): void => undefined;

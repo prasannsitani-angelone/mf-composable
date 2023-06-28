@@ -4,7 +4,9 @@
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { encodeObject } from '$lib/utils/helpers/params';
-	import { WMSIcon, Button } from 'wms-ui-component';
+	import { Button } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
+
 	import { goto } from '$app/navigation';
 	import type { IRetryPaymentNudge } from '$lib/types/INudge';
 	let orderCount = 0;

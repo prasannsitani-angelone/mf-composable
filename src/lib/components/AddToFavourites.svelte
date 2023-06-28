@@ -5,7 +5,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import Button from './Button.svelte';
 	import Modal from './Modal.svelte';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	let isin: string;
 	let schemeCode: string;

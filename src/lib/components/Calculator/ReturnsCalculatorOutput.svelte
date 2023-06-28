@@ -1,7 +1,7 @@
 <script lang="ts">
 	import AmountText from '$lib/components/AmountText.svelte';
 	import CalenderIcon from '$lib/images/icons/CalenderIcon.svelte';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import type { CalculatedValue } from '$lib/types/IStandaloneCalculator';
 
 	export let outputData: CalculatedValue = {};

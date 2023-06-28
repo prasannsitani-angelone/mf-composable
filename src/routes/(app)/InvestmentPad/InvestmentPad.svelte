@@ -69,7 +69,7 @@
 		tncButtonClickAnalytics
 	} from './analytics/orderpad';
 	import { debounce } from '$lib/utils/helpers/debounce';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import LumpsumToSip from './OrderPadComponents/LumpsumToSip.svelte';
 	import {
 		noPaymentFlow,

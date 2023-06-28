@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import Modal from '$components/Modal.svelte';
 	import Button from '$components/Button.svelte';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import {
 		investmentExternalRefreshGotItAnalytics,
 		investmentExternalRefreshFlowAnalytics

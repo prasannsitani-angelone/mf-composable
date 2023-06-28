@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { Button, WMSIcon } from 'wms-ui-component';
+	import { Button } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
+
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { getFundUrlDetails, normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import type { FolioHoldingType } from '$lib/types/IInvestments';

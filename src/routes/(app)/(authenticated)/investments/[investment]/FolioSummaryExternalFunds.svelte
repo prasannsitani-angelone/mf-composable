@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import Card from '$components/Card.svelte';
 	import FolioHeadExternalInvestments from './components/FolioHeadExternalInvestments.svelte';

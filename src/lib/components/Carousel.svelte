@@ -5,7 +5,7 @@
 	import 'swiper/css';
 	import 'swiper/css/navigation';
 	import 'swiper/css/pagination';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import { createEventDispatcher } from 'svelte';
 	let carouselClass = '';
 	let autoplay = false;

@@ -2,7 +2,7 @@
 	import AmountText from '$components/AmountText.svelte';
 	import InfoModal from '$components/InfoModal.svelte';
 	import { calculateSipReturns } from '$lib/utils/helpers/returns';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	export let investedAmount: number;
 	export let threeYearReturns: number;

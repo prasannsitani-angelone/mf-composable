@@ -4,7 +4,7 @@
 	import { getMaskedEmail, getMaskedMobileNumberSuffix } from '$lib/utils/helpers/masked';
 	import { OrderType } from '$lib/constants/transactionType';
 	import { useFetch } from '$lib/utils/useFetch';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import Button from '$components/Button.svelte';
 	import InfoModal from '$components/InfoModal.svelte';
 	import LoadingPopup from '../../../routes/(app)/InvestmentPad/OrderPadComponents/LoadingPopup.svelte';

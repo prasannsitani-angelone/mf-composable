@@ -3,7 +3,7 @@
 	import Modal from '$components/Modal.svelte';
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
 	import FailedIcon from '$lib/images/icons/FailedIcon.svelte';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import SuccessTickInCircleIcon from '$lib/images/icons/SuccessTickInCircleIcon.svelte';
 	let popupType = '';
 	let title = '';

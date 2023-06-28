@@ -10,12 +10,6 @@ export const GET = (async () => {
 		localTime: new Date(),
 		service: {
 			name: 'mf-support-web'
-		},
-		env: {
-			nodeEnv: process.env.NODE_ENV,
-			nodeVersion: process.version,
-			processName: process.title,
-			pid: process.pid
 		}
 	});
 }) satisfies RequestHandler;

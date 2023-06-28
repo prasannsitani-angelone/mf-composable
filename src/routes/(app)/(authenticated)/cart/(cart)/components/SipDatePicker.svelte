@@ -3,7 +3,7 @@
 	import CalendarComponent from '$components/Calendar/CalendarComponent.svelte';
 	import Modal from '$components/Modal.svelte';
 	import NextSipDate from '$components/Calendar/NextSipDate.svelte';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import type { dateArrayTypes } from '$lib/types/Calendar/ICalendar';
 	import {
 		getDateSuperscript,

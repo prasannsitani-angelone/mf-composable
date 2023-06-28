@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import { onMount } from 'svelte/internal';
 	import Modal from '../Modal.svelte';
 	import Button from '$components/Button.svelte';

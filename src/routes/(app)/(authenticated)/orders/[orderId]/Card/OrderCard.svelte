@@ -7,7 +7,7 @@
 	import InfoPopup from '$components/Popup/InfoPopup.svelte';
 	import { NAV_DETAILS } from '$lib/constants/order';
 	import type { IOrderDetails } from '$lib/types/IOrderDetails';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import { getExpectedCreditDate, getExpectedNavDate } from '$lib/utils/helpers/order';
 	import {
 		expectedNavDateCloseAnalytics,

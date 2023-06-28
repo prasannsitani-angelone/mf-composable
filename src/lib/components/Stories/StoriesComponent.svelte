@@ -9,7 +9,7 @@
 	import type { Story, Video, videoQuery } from '$lib/types/IStories';
 	import { getQueryParamsObj } from '$lib/utils/helpers/params';
 	import { afterUpdate, onDestroy } from 'svelte';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import {
 		startSipClickAnalytics,
 		closeStoryAnalytics,

@@ -31,7 +31,7 @@
 		initializeUPIState,
 		intializeNetBankingState
 	} from '$components/Payment/util';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import { cartStore } from '$lib/stores/CartStore';
 	import {
 		changePaymentMethodAnalytics,

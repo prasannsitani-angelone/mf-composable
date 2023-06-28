@@ -5,7 +5,7 @@
 	import SearchDarkIcon from '$lib/images/icons/SearchDarkIcon.svelte';
 	import LeftArrowIcon from '$lib/images/icons/LeftArrowIcon.svelte';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import Link from '$components/Link.svelte';
 	import AddToCart from '$components/AddToCart.svelte';
 	import { goto } from '$app/navigation';

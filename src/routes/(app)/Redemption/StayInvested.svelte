@@ -3,7 +3,7 @@
 	import Button from '$components/Button.svelte';
 	import BigDotIcon from '$lib/images/icons/BigDotIcon.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import { stayInvestedImpressionAnalytics } from '$lib/analytics/redemption/redemption';
 	import { calculateLumpsumReturns } from '$lib/utils/helpers/returns';
 

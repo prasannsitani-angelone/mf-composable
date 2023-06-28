@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 </script>
 
 <section class={`mb-0 flex items-center rounded-lg px-3 pt-1 pb-3 md:py-3.5 lg:mx-0`}>

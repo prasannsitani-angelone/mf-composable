@@ -2,7 +2,9 @@
 	import { goto } from '$app/navigation';
 	import SoSipContinuation from '$components/Switch/SOSipContinuation.svelte';
 	import { addCommasToAmountString, getCappedUnitString } from '$lib/utils/helpers/formatAmount';
-	import { SwitchOrderTitleCard, WMSIcon } from 'wms-ui-component';
+	import { SwitchOrderTitleCard } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
+
 	import { Button } from 'wms-ui-component';
 	import { v4 as uuidv4 } from 'uuid';
 	import { profileStore } from '$lib/stores/ProfileStore';

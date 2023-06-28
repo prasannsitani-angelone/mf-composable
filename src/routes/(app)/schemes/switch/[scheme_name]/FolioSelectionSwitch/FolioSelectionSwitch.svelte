@@ -2,7 +2,7 @@
 	import type { FolioObject } from '$lib/types/IInvestments';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	let folioList: Array<FolioObject>;
 	let selectedFolio: FolioObject;
 	let redemableAmount: number;

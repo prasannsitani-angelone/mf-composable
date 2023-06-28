@@ -1,7 +1,7 @@
 <script lang="ts">
 	import AccordianCardComponent from '$components/Accordian/AccordianCardComponent.svelte';
 	import InfoPopup from '$components/Popup/InfoPopup.svelte';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import type { IStatusObject } from '../type';
 	import {
 		expectedNavDateCloseAnalytics,

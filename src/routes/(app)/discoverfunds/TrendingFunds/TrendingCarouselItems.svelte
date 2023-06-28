@@ -6,7 +6,7 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import { createEventDispatcher } from 'svelte';
 
 	export let schemes: WeeklyTopSchemesEntity;

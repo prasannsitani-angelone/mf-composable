@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import ResultItem from '$components/Autocomplete/ResultItem.svelte';
 	import type { IOrderDetails } from '$lib/types/IOrderDetails';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import type { IStatusItem } from '../../../orders/[orderId]/type';
 	import { createEventDispatcher } from 'svelte';
 	import ORDER_DATA from '$lib/constants/orderDataItems';

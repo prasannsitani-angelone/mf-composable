@@ -10,3 +10,5 @@ vite.config.ts.timestamp-*
 .eslintcache
 /.idea/
 /package-lock.json
+
+src/lib/wms_icons/*

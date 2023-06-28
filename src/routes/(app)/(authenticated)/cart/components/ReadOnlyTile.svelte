@@ -3,7 +3,7 @@
 	import type { RemoveCartItem } from '$lib/types/ICartStore';
 	import { getDateSuperscript } from '$lib/utils/helpers/date';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	export let schemeLogo = '';
 	export let schemeName = '';

@@ -5,7 +5,7 @@
 	import { filterNumber } from '$lib/utils/helpers/filters';
 	import { useFetch } from '$lib/utils/useFetch';
 	import { createEventDispatcher } from 'svelte';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	export let token: string;
 

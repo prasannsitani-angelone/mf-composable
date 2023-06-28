@@ -18,3 +18,5 @@ yarn.lock
 README.md
 postcss.config.cjs 
 playwright.config.ts
+
+src/lib/wms_icons/*

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import UnitsAllocatedIcon from '$lib/images/icons/UnitsAllocatedIcon.svelte';
 	import CurrentNavIcon from '$lib/images/icons/CurrentNavIcon.svelte';
 	import AverageNavIcon from '$lib/images/icons/AverageNavIcon.svelte';

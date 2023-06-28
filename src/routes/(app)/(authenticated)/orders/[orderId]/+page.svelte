@@ -11,7 +11,9 @@
 	import ErrorView from '$components/ErrorView.svelte';
 	import { base } from '$app/paths';
 	import { TRANSACTION_TYPE } from '$lib/constants/transactionType';
-	import { Button, SEO, WMSIcon } from 'wms-ui-component';
+	import { Button, SEO } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
+
 	import RightArrowIcon from './RightArrowIcon.svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { needHelpClickAnalytics } from '$lib/analytics/orders/orders';

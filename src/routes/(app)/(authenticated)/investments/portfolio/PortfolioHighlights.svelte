@@ -6,7 +6,7 @@
 	import GraphUpIcon from '$lib/images/icons/GraphUpIcon.svelte';
 	import GraphDownIcon from '$lib/images/icons/GraphDownIcon.svelte';
 	import type { FolioSummaryTypes } from '$lib/types/IInvestments';
-	import { WMSIcon } from 'wms-ui-component';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	export let data: FolioSummaryTypes;
 	export let isPartialImport: boolean;
