@@ -4,19 +4,65 @@
 	import { SEO } from 'wms-ui-component';
 	import OrderpadReturns from '../../../InvestmentPad/OrderPadComponents/OrderpadReturns.svelte';
 	import { page } from '$app/stores';
-	import AmountSection from './AmountSection.svelte';
-	import StartFirstSipStatic from './StartFirstSipStatic.svelte';
+	import AmountSection from './AmountInputOrderpad/AmountSection.svelte';
+	import StartFirstSipStatic from './AmountInputOrderpad/StartFirstSipStatic.svelte';
+	import FirstInvestmentConfirmation from './ConfirmationScreen/FirstInvestmentConfirmation.svelte';
+	import { goto } from '$app/navigation';
+	import { decodeToObject, encodeObject, getQueryParamsObj } from '$lib/utils/helpers/params';
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	import { afterUpdate } from 'svelte';
+	import StartFirstSipSkeleton from './AmountInputOrderpad/StartFirstSipSkeleton.svelte';
 
 	export let data: PageData;
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 	$: isTablet = $page?.data?.deviceType?.isTablet;
 
-	let amount = 500; // initial amount
-
-	const handleProceedClick = () => {
-		// add redirection
+	type queryParamsObjTypes = {
+		amount: number;
+		threeYearReturnsValue: number;
+		showConfirmationScreen: boolean;
+		isin?: string;
+		schemeCode?: string;
 	};
+
+	let amount = 500; // initial amount
+	let threeYearReturnsValue = 0;
+	let queryParamsObj: queryParamsObjTypes;
+
+	let showConfirmationScreen = false;
+
+	const handleProceedClick = (schemeData: SchemeDetails) => {
+		const currentPath = window?.location?.pathname;
+		const params = encodeObject({
+			showConfirmationScreen: true,
+			isin: schemeData?.isin,
+			schemeCode: schemeData?.schemeCode,
+			amount,
+			threeYearReturnsValue
+		});
+
+		const redirectPath = `${currentPath}?params=${params}`;
+
+		goto(redirectPath);
+	};
+
+	const setQueryParamsData = () => {
+		if (queryParamsObj?.amount > 0) {
+			amount = queryParamsObj?.amount;
+		}
+		if (queryParamsObj?.threeYearReturnsValue > 0) {
+			threeYearReturnsValue = queryParamsObj?.threeYearReturnsValue;
+		}
+
+		showConfirmationScreen = queryParamsObj?.showConfirmationScreen ?? false;
+	};
+
+	afterUpdate(() => {
+		queryParamsObj = getQueryParamsObj();
+		queryParamsObj = decodeToObject(queryParamsObj?.params);
+		setQueryParamsData();
+	});
 
 	const handlePlusClick = () => {
 		if (amount >= 100 && amount < 500) {
@@ -39,10 +85,14 @@
 	const handleQuickInputClick = (pillAmount: number) => {
 		amount = pillAmount;
 	};
+
+	const setThreeYearReturnsValue = (amount: number) => {
+		threeYearReturnsValue = amount;
+	};
 </script>
 
 {#await data?.api?.schemeData}
-	Loading...
+	<StartFirstSipSkeleton />
 {:then schemeData}
 	<SEO
 		seoTitle="Start Your First Investment | Angel One"
@@ -50,50 +100,62 @@
 	/>
 
 	{#if isMobile || isTablet}
-		<article
-			class="-mx-2 -my-2 bg-gradient-to-b from-purple-background via-white to-purple-background"
-		>
-			<section class="mb-80 h-full px-6 py-6">
-				<StartFirstSipStatic />
-			</section>
-			<section
-				class="fixed inset-0 top-auto z-20 block rounded-t-lg bg-white px-3 py-6 shadow-csm md:hidden"
+		{#if !showConfirmationScreen}
+			<article
+				class="-mx-2 -my-2 bg-gradient-to-b from-purple-background via-white to-purple-background"
+				data-testid="startFirstSipPage"
 			>
-				<div class="text-lg font-semibold text-black-key">Choose monthly investment amount</div>
-
-				<div class="text-xs font-medium text-black-bolder">
-					Start investing with just ₹100 monthly!
-				</div>
-
-				<section class="mt-6">
-					<AmountSection
-						{amount}
-						{quickInputs}
-						on:plusClick={handlePlusClick}
-						on:minusClick={handleMinusClick}
-						on:quickInputClick={(e) => handleQuickInputClick(e?.detail)}
-					/>
+				<section class="mb-72 h-full px-6 py-6">
+					<StartFirstSipStatic />
 				</section>
+				<section
+					class="fixed inset-0 top-auto z-20 block rounded-t-lg bg-white px-3 py-6 shadow-csm md:hidden"
+				>
+					<div class="text-lg font-semibold text-black-key">Choose monthly investment amount</div>
 
-				<section class="mb-6">
-					<OrderpadReturns
-						class="border-none !px-0 !py-0"
-						investedAmount={Number(amount)}
-						threeYearReturns={schemeData?.returns3yr}
-						textClass={'flex items-center'}
-						amountClass={'text-xl'}
+					<div class="text-xs font-medium text-black-bolder">
+						Start investing with just ₹100 monthly!
+					</div>
+
+					<section class="mt-6">
+						<AmountSection
+							{amount}
+							{quickInputs}
+							on:plusClick={handlePlusClick}
+							on:minusClick={handleMinusClick}
+							on:quickInputClick={(e) => handleQuickInputClick(e?.detail)}
+						/>
+					</section>
+
+					<section class="mb-6">
+						<OrderpadReturns
+							class="border-none !px-0 !py-0"
+							investedAmount={Number(amount)}
+							threeYearReturns={schemeData?.returns3yr}
+							textClass={'flex items-center'}
+							amountClass={'text-xl'}
+							on:threeYearReturnsValue={(e) => setThreeYearReturnsValue(e?.detail)}
+						>
+							<svelte:fragment slot="supporting-text">
+								<span class="ml-1">Expected 3Y Returns</span>
+							</svelte:fragment>
+							<svelte:fragment slot="info-icon">
+								<span />
+							</svelte:fragment>
+						</OrderpadReturns>
+					</section>
+
+					<Button class="w-full rounded" onClick={() => handleProceedClick(schemeData)}
+						>PROCEED</Button
 					>
-						<svelte:fragment slot="supporting-text">
-							<span class="ml-1">Expected 3Y Returns</span>
-						</svelte:fragment>
-						<svelte:fragment slot="info-icon">
-							<span />
-						</svelte:fragment>
-					</OrderpadReturns>
 				</section>
-
-				<Button class="w-full rounded" onClick={handleProceedClick}>PROCEED</Button>
-			</section>
-		</article>
+			</article>
+		{:else if showConfirmationScreen}
+			<FirstInvestmentConfirmation
+				scheme={schemeData}
+				expected3yReturns={threeYearReturnsValue}
+				{amount}
+			/>
+		{/if}
 	{/if}
 {/await}

@@ -77,6 +77,12 @@ export interface SchemeDetails {
 	nfoStartDate: number;
 	nfoEndtDate: number;
 	nfoScheme: 'Y' | 'N';
+	minPurchaseAmount: number;
+	noOfClientInvested: number;
+	swpFlag: string;
+	stpFlag: string;
+	switchFlag: string;
+	isCartItem: boolean;
 }
 
 export interface SchemeHoldings {

@@ -12,9 +12,14 @@
 	export let schemes: WeeklyTopSchemesEntity;
 	export let clazz = '';
 	export let index;
+	export let disableRedirection = false;
 	let dispatch = createEventDispatcher();
 
 	function gotoSchemeDetails() {
+		if (disableRedirection) {
+			return;
+		}
+
 		const schemeDetailsPath = `${base}/schemes/${normalizeFundName(
 			schemes?.schemeName,
 			schemes?.isin,
@@ -38,42 +43,57 @@
 			{schemes?.schemeName}
 		</h3>
 		<div class="flex-1" />
-		<AddToCart
-			on:onCartClick
-			class="m-0 ml-1 mt-[-10px] p-0"
-			scheme={schemes}
-			entryPoint="PopularFunds"
-		/>
+		<slot name="topRightSection">
+			<AddToCart
+				on:onCartClick
+				class="m-0 ml-1 mt-[-10px] p-0"
+				scheme={schemes}
+				entryPoint="PopularFunds"
+			/>
+		</slot>
 	</div>
 
-	<div class="flex flex-col">
-		<div class="relative w-full overflow-hidden">
-			<WMSIcon name="trending-funds" class="absolute h-full w-full" />
-			<div class=" flex flex-row rounded-t-lg p-2 opacity-[.99]">
-				<div class="flex flex-col items-start">
-					<p class="text-xs font-normal">Min. SIP Amount</p>
-					<p class="text-base font-medium">
-						₹ {addCommasToAmountString(schemes?.minSipAmount?.toString()) || schemes?.minSipAmount}
-					</p>
-				</div>
-				<div class="flex-1" />
-				<div class="flex flex-col items-end">
-					<p class="text-xs font-normal">3 Year Return</p>
-					<div class="flex flex-row items-center">
-						<WMSIcon class="mr-1 h-3 w-2.5" name="green-uparrow-trending-fund" />
-						<p class="text-xs font-normal">
-							<span class="text-base font-medium">{schemes?.returns3yr}%</span> p.a
-						</p>
-					</div>
+	<slot name="detailsContainer">
+		<div class="flex flex-col">
+			<div class="relative w-full overflow-hidden">
+				<WMSIcon name="trending-funds" class="absolute h-full w-full" />
+				<div class="flex flex-row rounded-t-lg p-2 opacity-[.99]">
+					<slot name="detailsLeft">
+						<div class="flex flex-col items-start">
+							<p class="text-xs font-normal">Min. SIP Amount</p>
+							<p class="text-base font-medium">
+								₹ {addCommasToAmountString(schemes?.minSipAmount?.toString()) ||
+									schemes?.minSipAmount}
+							</p>
+						</div>
+					</slot>
+					<div class="flex-1" />
+					<slot name="detailsRight">
+						<div class="flex flex-col items-end">
+							<p class="text-xs font-normal">3 Year Return</p>
+							<div class="flex flex-row items-center">
+								<WMSIcon class="mr-1 h-3 w-2.5" name="green-uparrow-trending-fund" />
+								<p class="text-xs font-normal">
+									<span class="text-base font-medium">{schemes?.returns3yr}%</span> p.a
+								</p>
+							</div>
+						</div>
+					</slot>
 				</div>
 			</div>
+			<slot name="detailsFooter">
+				<div class="flex flex-row items-center rounded-b-lg bg-[#D1D8F6] p-2">
+					<WMSIcon class="mr-2 p-1" name="people-icon" />
+					<p class="text-xs">
+						<span class=" font-semibold">
+							{addCommasToAmountString(schemes?.noOfClientInvested)}
+						</span>
+						people have invested in this fund
+					</p>
+				</div>
+			</slot>
 		</div>
-		<div class="flex flex-row items-center rounded-b-lg bg-[#D1D8F6] p-2">
-			<WMSIcon class="mr-2 p-1" name="people-icon" />
-			<p class="text-xs">
-				<span class=" font-semibold"> {addCommasToAmountString(schemes?.noOfClientInvested)} </span>
-				people have invested in this fund
-			</p>
-		</div>
-	</div>
+	</slot>
+
+	<slot name="cardFooter" />
 </div>

@@ -18,7 +18,10 @@
 	};
 </script>
 
-<article class="mb-2 rounded-lg bg-white py-3 px-4 text-black-title shadow-csm">
+<article
+	class="mb-2 rounded-lg bg-white py-3 px-4 text-black-title shadow-csm"
+	data-testid="startFirstSipNudge"
+>
 	<div class="text-lg font-medium">Start your Investment Journey</div>
 	<div class="font-sm mt-2">Step-by-Step guide to make your first investment</div>
 	<div class="mt-3 flex justify-center">

@@ -3,21 +3,29 @@
 	import InfoModal from '$components/InfoModal.svelte';
 	import { calculateSipReturns } from '$lib/utils/helpers/returns';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 
 	export let investedAmount: number;
 	export let threeYearReturns: number;
 	export let textClass = '';
 	export let amountClass = '';
 
+	const dispatch = createEventDispatcher();
+
 	$: threeYearReturnsValue =
 		Math.round(calculateSipReturns(investedAmount, 3, threeYearReturns)?.matuarityAmount * 100) /
 		100;
+	$: dispatch('threeYearReturnsValue', threeYearReturnsValue);
 
 	let showthreeYearReturnsInfoModal = false;
 
 	const toggleShowthreeYearReturnsInfoModal = () => {
 		showthreeYearReturnsInfoModal = !showthreeYearReturnsInfoModal;
 	};
+
+	onMount(() => {
+		dispatch('threeYearReturnsValue', threeYearReturnsValue);
+	});
 </script>
 
 {#if threeYearReturns > 0}

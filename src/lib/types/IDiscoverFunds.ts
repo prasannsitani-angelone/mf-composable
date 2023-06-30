@@ -34,9 +34,9 @@ export interface WeeklyTopSchemesEntity {
 	swpFlag: string;
 	stpFlag: string;
 	switchFlag: string;
-	amcCode: number;
-	isFavourite: true;
-	isCartItem: false;
+	amcCode: string;
+	isFavourite: boolean;
+	isCartItem: boolean;
 	isLumpsumAllowed: string;
 	isSipAllowed: string;
 	minPurchaseAmount: number;
