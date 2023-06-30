@@ -187,19 +187,21 @@
 		{#if pagination}
 			{@const totalNoOfElements = childrens - (Math.round(slidesPerView) - 1)}
 			<div class="my-4 flex items-center justify-center gap-2">
-				{#each Array(totalNoOfElements) as page, index (index)}
-					{#if currentIndex === index}
-						<WMSIcon width={16} height={4} name="rectangle" />
-					{:else}
-						<WMSIcon
-							width={4}
-							height={4}
-							class="cursor-pointer"
-							name="eclipse"
-							on:click={() => goToSlide(index)}
-						/>
-					{/if}
-				{/each}
+				{#if totalNoOfElements > 0}
+					{#each Array(totalNoOfElements) as page, index (index)}
+						{#if currentIndex === index}
+							<WMSIcon width={16} height={4} name="rectangle" />
+						{:else}
+							<WMSIcon
+								width={4}
+								height={4}
+								class="cursor-pointer"
+								name="eclipse"
+								on:click={() => goToSlide(index)}
+							/>
+						{/if}
+					{/each}
+				{/if}
 			</div>
 		{/if}
 	</div>
