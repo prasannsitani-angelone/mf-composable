@@ -43,6 +43,8 @@ export interface IOrderDetails {
 	subCategory: string;
 	transactionRefNumber: string;
 	transactionType: string;
+	settlementType?: string;
+	isNfoClosed?: boolean;
 	units: number;
 	updatedTs: number;
 	toIsin: string;

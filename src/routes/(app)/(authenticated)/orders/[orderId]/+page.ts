@@ -4,7 +4,7 @@ import {
 	orderDetailsPageFailedOrdersScreenOpenAnalytics,
 	orderDetailsPageInProgressOrdersScreenOpenAnalytics
 } from '$lib/analytics/orders/orders';
-import { NAV_DETAILS, NAV_DETAILS_WITHDRAWAL } from '$lib/constants/order';
+import { NAV_DETAILS, NAV_DETAILS_WITHDRAWAL, SETTLEMENT_TYPES } from '$lib/constants/order';
 import ORDER_DATA from '$lib/constants/orderDataItems';
 import STATUS_ARR, { ORDER_STATUS } from '$lib/constants/orderFlowStatuses';
 import { TRANSACTION_TYPE } from '$lib/constants/transactionType';
@@ -45,7 +45,7 @@ export const load = (async ({ fetch, params, parent }) => {
 		},
 		[ORDER_DATA.NAV_DATE]: {
 			title: ORDER_DATA.NAV_DATE,
-			value: ''
+			value: '-'
 		},
 		[ORDER_DATA.EXPECTED_NAV_DATE]: {
 			title: ORDER_DATA.EXPECTED_NAV_DATE,
@@ -165,7 +165,9 @@ export const load = (async ({ fetch, params, parent }) => {
 				units,
 				quantity,
 				isin,
-				schemeCode
+				schemeCode,
+				settlementType,
+				isNfoClosed
 			} = res.data.data;
 			bankName = bankname;
 			bankAccountNumber = bankAcc;
@@ -213,18 +215,20 @@ export const load = (async ({ fetch, params, parent }) => {
 				(state: { status: string }) => state.status === 'ORDER_SENT_TO_RTA'
 			)?.timeStamp;
 
-			if (transactionType === 'REDEEM' && ExpectedNavDate) {
-				statusItems[ORDER_DATA.EXPECTED_NAV_DATE].value = format(
-					new Date(ExpectedNavDate * 1000),
-					'dd MMM yyyy'
-				);
-				statusItems[ORDER_DATA.EXPECTED_NAV_DATE].informationSubheading = NAV_DETAILS_WITHDRAWAL;
-			} else if (expectedNavDate && transactionType !== TRANSACTION_TYPE.SWITCH) {
-				statusItems[ORDER_DATA.EXPECTED_NAV_DATE].value = format(
-					new Date(expectedNavDate),
-					'dd MMM yyyy'
-				);
-				statusItems[ORDER_DATA.EXPECTED_NAV_DATE].informationSubheading = NAV_DETAILS;
+			if (settlementType?.toUpperCase() !== SETTLEMENT_TYPES.MF) {
+				if (transactionType === 'REDEEM' && ExpectedNavDate) {
+					statusItems[ORDER_DATA.EXPECTED_NAV_DATE].value = format(
+						new Date(ExpectedNavDate * 1000),
+						'dd MMM yyyy'
+					);
+					statusItems[ORDER_DATA.EXPECTED_NAV_DATE].informationSubheading = NAV_DETAILS_WITHDRAWAL;
+				} else if (expectedNavDate && transactionType !== TRANSACTION_TYPE.SWITCH) {
+					statusItems[ORDER_DATA.EXPECTED_NAV_DATE].value = format(
+						new Date(expectedNavDate),
+						'dd MMM yyyy'
+					);
+					statusItems[ORDER_DATA.EXPECTED_NAV_DATE].informationSubheading = NAV_DETAILS;
+				}
 			}
 
 			statusItems[ORDER_DATA.ORDER_ID].value =
@@ -558,7 +562,8 @@ export const load = (async ({ fetch, params, parent }) => {
 				(transactionType === TRANSACTION_TYPE.PURCHASE ||
 					transactionType === TRANSACTION_TYPE.REDEEM) &&
 				orderStatus === ORDER_STATUS.ORDER_REJECTED &&
-				investmentType !== 'XSIP';
+				investmentType !== 'XSIP' &&
+				!isNfoClosed;
 
 			if (paymentStatusString?.length) {
 				if (paymentStatusString === STATUS_ARR?.PENDING) {

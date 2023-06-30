@@ -39,6 +39,8 @@ export interface orderItem {
 	mandateRefNo: string;
 	ExpectedNavDate: number;
 	nfoScheme: string;
+	settlementType: string;
+	isNfoClosed: boolean;
 }
 
 export interface StatusHistoryTypes {
