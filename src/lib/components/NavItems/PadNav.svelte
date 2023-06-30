@@ -1,5 +1,5 @@
 <script>
-	import WMSIcon from '$lib/components/WMSIcon.svelte';
+	import PadBolder from '$lib/wms_icons/PadBolder.svelte';
 </script>
 
-<WMSIcon name="pad-bold" width={15} height={20} class={$$props.class} />
+<PadBolder class={$$props.class} />

@@ -1,5 +1,5 @@
 <script>
-	import WMSIcon from '$lib/components/WMSIcon.svelte';
+	import PadActive from '$lib/wms_icons/PadActive.svelte';
 </script>
 
-<WMSIcon name="pad-active" width={15} height={20} class={$$props.class} />
+<PadActive class={$$props.class} />

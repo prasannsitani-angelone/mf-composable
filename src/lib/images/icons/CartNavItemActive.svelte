@@ -1,9 +1,9 @@
 <script>
-	import WMSIcon from '$lib/components/WMSIcon.svelte';
+	import CartFilled from '$lib/wms_icons/CartFilled.svelte';
 	export let height = 20;
 	export let width = 23;
 </script>
 
 <section>
-	<WMSIcon name="cart-filled" {height} {width} class={$$props.class} />
+	<CartFilled {height} {width} class={$$props.class} />
 </section>

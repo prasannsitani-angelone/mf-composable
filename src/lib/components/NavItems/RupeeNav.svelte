@@ -1,5 +1,5 @@
 <script>
-	import WMSIcon from '$lib/components/WMSIcon.svelte';
+	import RupeeInCircleBolder from '$lib/wms_icons/RupeeInCircleBolder.svelte';
 </script>
 
-<WMSIcon name="rupee-circle-bolder" width={25} height={24} class={$$props.class} />
+<RupeeInCircleBolder class={$$props.class} />

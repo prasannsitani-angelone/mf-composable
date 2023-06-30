@@ -6,6 +6,8 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
+	import TrendingFundsBackground from '$lib/images/TrendingFundsBackground.svg';
+
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import { createEventDispatcher } from 'svelte';
 
@@ -52,48 +54,50 @@
 			/>
 		</slot>
 	</div>
-
-	<slot name="detailsContainer">
-		<div class="flex flex-col">
-			<div class="relative w-full overflow-hidden">
-				<WMSIcon name="trending-funds" class="absolute h-full w-full" />
-				<div class="flex flex-row rounded-t-lg p-2 opacity-[.99]">
-					<slot name="detailsLeft">
-						<div class="flex flex-col items-start">
-							<p class="text-xs font-normal">Min. SIP Amount</p>
-							<p class="text-base font-medium">
-								₹ {addCommasToAmountString(schemes?.minSipAmount?.toString()) ||
-									schemes?.minSipAmount}
+	<div class="flex flex-col">
+		<div class="relative w-full overflow-hidden">
+			<img
+				src={TrendingFundsBackground}
+				class="absolute h-full w-full"
+				decoding="async"
+				alt="Trending Funds"
+			/>
+			<div class=" flex flex-row rounded-t-lg p-2 opacity-[.99]">
+				<slot name="detailsLeft">
+					<div class="flex flex-col items-start">
+						<p class="text-xs font-normal">Min. SIP Amount</p>
+						<p class="text-base font-medium">
+							₹ {addCommasToAmountString(schemes?.minSipAmount?.toString()) ||
+								schemes?.minSipAmount}
+						</p>
+					</div>
+				</slot>
+				<div class="flex-1" />
+				<slot name="detailsRight">
+					<div class="flex flex-col items-end">
+						<p class="text-xs font-normal">3 Year Return</p>
+						<div class="flex flex-row items-center">
+							<WMSIcon class="mr-1 h-3 w-2.5" name="green-uparrow-trending-fund" />
+							<p class="text-xs font-normal">
+								<span class="text-base font-medium">{schemes?.returns3yr}%</span> p.a
 							</p>
 						</div>
-					</slot>
-					<div class="flex-1" />
-					<slot name="detailsRight">
-						<div class="flex flex-col items-end">
-							<p class="text-xs font-normal">3 Year Return</p>
-							<div class="flex flex-row items-center">
-								<WMSIcon class="mr-1 h-3 w-2.5" name="green-uparrow-trending-fund" />
-								<p class="text-xs font-normal">
-									<span class="text-base font-medium">{schemes?.returns3yr}%</span> p.a
-								</p>
-							</div>
-						</div>
-					</slot>
-				</div>
+					</div>
+				</slot>
 			</div>
-			<slot name="detailsFooter">
-				<div class="flex flex-row items-center rounded-b-lg bg-[#D1D8F6] p-2">
-					<WMSIcon class="mr-2 p-1" name="people-icon" />
-					<p class="text-xs">
-						<span class=" font-semibold">
-							{addCommasToAmountString(schemes?.noOfClientInvested)}
-						</span>
-						people have invested in this fund
-					</p>
-				</div>
-			</slot>
 		</div>
-	</slot>
+		<slot name="detailsFooter">
+			<div class="flex flex-row items-center rounded-b-lg bg-[#D1D8F6] p-2">
+				<WMSIcon class="mr-2 p-1" name="people-icon" />
+				<p class="text-xs">
+					<span class=" font-semibold">
+						{addCommasToAmountString(schemes?.noOfClientInvested)}
+					</span>
+					people have invested in this fund
+				</p>
+			</div>
+		</slot>
+	</div>
 
 	<slot name="cardFooter" />
 </div>

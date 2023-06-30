@@ -1,5 +1,5 @@
 <script>
-	import WMSIcon from '$lib/components/WMSIcon.svelte';
+	import CompassActiveIcon from '$lib/wms_icons/CompassActiveIcon.svelte';
 </script>
 
-<WMSIcon name="compass-active" width={25} height={24} class={$$props.class} />
+<CompassActiveIcon class={$$props.class} />
