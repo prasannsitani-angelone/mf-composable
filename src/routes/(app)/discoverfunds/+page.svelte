@@ -5,6 +5,7 @@
 	import PortfolioCard from '$components/PortfolioCards/PortfolioCard.svelte';
 	import { page } from '$app/stores';
 	import SipCard from '../(authenticated)/orders/orderspage/sipbook/SipCard.svelte';
+	import IntersectionObserver from 'svelte-intersection-observer';
 	import type {
 		INudge,
 		IRetryPaymentNudge,
@@ -35,10 +36,9 @@
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 	import { onMount, tick } from 'svelte';
 	import Analytics from '$lib/utils/analytics';
-	import ExternalFundsNfoCalculatorCard from './ExternalFundsNfoCalculatorCard/ExternalFundsNfoCalculatorCard.svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
-	import StartFirstSipNudge from '$components/StartFirstSip/StartFirstSipNudge.svelte';
+	import LazyComponent from '$components/LazyComponent.svelte';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -49,7 +49,8 @@
 	let nudgesData: NudgeDataType;
 	let formattedRetryPaymentNudgeData: IRetryPaymentNudge;
 	let startFirstSipNudgeData: StartFirstSipNudgeType;
-
+	let elementOnce: HTMLElement;
+	let intersectOnce: boolean;
 	const getNudgeData = async () => {
 		let nudgesData: NudgeDataType = {
 			nudges: []
@@ -312,7 +313,11 @@
 
 	<!-- 2. <Portfolio Card / Start First SIP Nudge /> -->
 	{#if isLoggedInUser && deviceType?.isMobile && startFirstSipNudgeData}
-		<StartFirstSipNudge nudgeData={startFirstSipNudgeData} />
+		<LazyComponent
+			nudgeData={startFirstSipNudgeData}
+			when={isLoggedInUser && deviceType?.isMobile && startFirstSipNudgeData}
+			component={async () => await import('$components/StartFirstSip/StartFirstSipNudge.svelte')}
+		/>
 	{:else if isLoggedInUser && deviceType?.isMobile}
 		<div class="mb-2 block overflow-hidden sm:mb-0">
 			<PortfolioCard discoverPage={true} investmentSummary={data.investementSummary} />
@@ -330,8 +335,17 @@
 	</article>
 
 	<!-- External Funds, NFO, Calculator -->
-	<ExternalFundsNfoCalculatorCard {isGuest} />
 
+	<IntersectionObserver once element={elementOnce} bind:intersecting={intersectOnce}>
+		<div bind:this={elementOnce}>
+			<LazyComponent
+				{isGuest}
+				when={intersectOnce}
+				component={async () =>
+					await import('./ExternalFundsNfoCalculatorCard/ExternalFundsNfoCalculatorCard.svelte')}
+			/>
+		</div>
+	</IntersectionObserver>
 	<!-- Retry Payment Nudge -->
 	{#if retryPaymentNudges?.length}
 		<FailedOrdersNudge

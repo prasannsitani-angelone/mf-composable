@@ -7,8 +7,8 @@
 	import { base } from '$app/paths';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import TrendingFundsBackground from '$lib/images/TrendingFundsBackground.svg';
-
-	import WMSIcon from '$lib/components/WMSIcon.svelte';
+	import GreenUpArrowTrendingFund from '$lib/images/GreenUpArrowTrendingFund.svg';
+	import PeopleIcon from '$lib/images/PeopleIcon.svg';
 	import { createEventDispatcher } from 'svelte';
 
 	export let schemes: WeeklyTopSchemesEntity;
@@ -77,7 +77,14 @@
 					<div class="flex flex-col items-end">
 						<p class="text-xs font-normal">3 Year Return</p>
 						<div class="flex flex-row items-center">
-							<WMSIcon class="mr-1 h-3 w-2.5" name="green-uparrow-trending-fund" />
+							<img
+								src={GreenUpArrowTrendingFund}
+								class="mr-1 h-3 w-2.5"
+								decoding="async"
+								alt="Trending Funds Up Arrow"
+								width="10"
+								height="12"
+							/>
 							<p class="text-xs font-normal">
 								<span class="text-base font-medium">{schemes?.returns3yr}%</span> p.a
 							</p>
@@ -88,7 +95,14 @@
 		</div>
 		<slot name="detailsFooter">
 			<div class="flex flex-row items-center rounded-b-lg bg-[#D1D8F6] p-2">
-				<WMSIcon class="mr-2 p-1" name="people-icon" />
+				<img
+					src={PeopleIcon}
+					class="mr-2 p-1"
+					decoding="async"
+					alt="Number of people invested"
+					width="24"
+					height="24"
+				/>
 				<p class="text-xs">
 					<span class=" font-semibold">
 						{addCommasToAmountString(schemes?.noOfClientInvested)}

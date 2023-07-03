@@ -7,7 +7,6 @@
 	import { onMount, tick } from 'svelte';
 	import Logger from '$lib/utils/logger';
 	import Default from '$lib/layouts/Default.svelte';
-	import LogoutPopup from '$components/Logout/LogoutPopup.svelte';
 	import TwoColumn from '$lib/layouts/TwoColumn.svelte';
 	import TwoColumnReverse from '$lib/layouts/TwoColumnReverse.svelte';
 	import TwoColumnRightLarge from '$lib/layouts/TwoColumnRightLarge.svelte';
@@ -25,15 +24,13 @@
 	import { logout } from '$lib/utils/helpers/logout';
 	import { userStore } from '$lib/stores/UserStore';
 	import { logoutAttemptStore } from '$lib/stores/LogoutAttemptStore';
+
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { base } from '$app/paths';
 	import { cartStore } from '$lib/stores/CartStore';
-	import AddToCartPopup from '$components/Cart/AddToCartPopup.svelte';
-	import Toast from '$components/Toast/Toast.svelte';
-	import RemoveFromCartPopup from '$components/Cart/RemoveFromCartPopup.svelte';
 	import { shouldDisplayAngelBeeBanner } from '$lib/utils';
-	import AngelBeeBannerComponent from '../banner/AngelBeeBannerComponent.svelte';
+	import LazyComponent from '$components/LazyComponent.svelte';
 
 	$: isModalOpen = $externalNavigation.active;
 	// Update store with Spark headers
@@ -139,6 +136,7 @@
 		<slot />
 	</Default>
 {/if}
+
 {#if isModalOpen}
 	<Overlay containerClass="!justify-center sm:!justify-center">
 		<LoadingIndicator svgClass={'!w-16 !h-16'} />
@@ -167,16 +165,24 @@
 		buttonVariant="contained"
 	/>
 {/if}
-{#if $logoutAttemptStore.logoutAttempt}
-	<LogoutPopup />
-{/if}
-{#if $cartStore.repetetiveAddAttempt}
-	<AddToCartPopup />
-{/if}
-{#if $cartStore.removeFromCart}
-	<RemoveFromCartPopup />
-{/if}
-{#if showAngelBeeBanner}
-	<AngelBeeBannerComponent />
-{/if}
-<Toast />
+
+<LazyComponent
+	when={$logoutAttemptStore.logoutAttempt}
+	component={async () => await import('$components/Logout/LogoutPopup.svelte')}
+/>
+<LazyComponent
+	when={$cartStore.repetetiveAddAttempt}
+	component={async () => await import('$components/Cart/AddToCartPopup.svelte')}
+/>
+
+<LazyComponent
+	when={$cartStore.removeFromCart}
+	component={async () => await import('$components/Cart/RemoveFromCartPopup.svelte')}
+/>
+
+<LazyComponent
+	when={showAngelBeeBanner}
+	component={async () => await import('../banner/AngelBeeBannerComponent.svelte')}
+/>
+
+<LazyComponent when={true} component={async () => await import('$components/Toast/Toast.svelte')} />

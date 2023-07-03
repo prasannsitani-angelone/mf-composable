@@ -1,3 +1,4 @@
+/* eslint-disable */
 export interface LogMsgObj {
 	type: string;
 	params?: any;

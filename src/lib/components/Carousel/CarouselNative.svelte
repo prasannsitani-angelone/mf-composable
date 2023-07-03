@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { createEventDispatcher, onMount } from 'svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
+	import RectangleIcon from '$lib/images/RectangleIcon.svg';
+	import EclipseIcon from '$lib/images/EclipseIcon.svg';
+
 	let translateX = 0;
 	let currentIndex = 0;
 	let loop = false;
@@ -190,13 +193,21 @@
 				{#if totalNoOfElements > 0}
 					{#each Array(totalNoOfElements) as page, index (index)}
 						{#if currentIndex === index}
-							<WMSIcon width={16} height={4} name="rectangle" />
+							<img
+								src={RectangleIcon}
+								decoding="async"
+								alt="Carousel Swipe button active"
+								width="16"
+								height="4"
+							/>
 						{:else}
-							<WMSIcon
-								width={4}
-								height={4}
-								class="cursor-pointer"
-								name="eclipse"
+							<img
+								src={EclipseIcon}
+								class="h-1 w-1 cursor-pointer"
+								decoding="async"
+								alt="Carousel Swipe button inactive"
+								width="4"
+								height="4"
 								on:click={() => goToSlide(index)}
 							/>
 						{/if}
