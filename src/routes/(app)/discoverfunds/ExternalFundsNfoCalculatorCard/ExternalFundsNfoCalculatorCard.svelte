@@ -21,7 +21,9 @@
 	export { isGuest };
 </script>
 
-<article class="mt-2 flex justify-around rounded bg-white px-4 py-6 pb-3 shadow-csm">
+<article
+	class="mt-2 flex justify-around rounded bg-white px-4 py-6 pb-3 shadow-csm {$$props.class}"
+>
 	<Link
 		preloadData={isGuest ? 'off' : 'hover'}
 		to="/investments?type=all"

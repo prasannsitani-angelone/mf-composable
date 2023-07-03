@@ -134,7 +134,7 @@
 </script>
 
 <article
-	class="mb-2 rounded-lg bg-white shadow-csm"
+	class="mb-2 rounded-lg bg-white shadow-csm {$$props.class}"
 	on:click={handleClick}
 	on:keydown={handleClick}
 >

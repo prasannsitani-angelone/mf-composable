@@ -298,7 +298,7 @@
 </script>
 
 <section
-	class="scrollbar-hide mb-2 flex justify-start overflow-auto rounded-lg bg-white px-4 py-3 shadow-csm md:mb-4 md:justify-center"
+	class="scrollbar-hide mb-2 flex justify-start overflow-auto rounded-lg bg-white px-4 py-3 shadow-csm md:mb-4 md:justify-center {$$props.class}"
 >
 	{#each stories as story, index (story?.storyId)}
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
