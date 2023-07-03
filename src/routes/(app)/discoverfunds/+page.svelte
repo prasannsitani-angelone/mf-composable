@@ -301,22 +301,20 @@
 />
 
 <article>
-	<!-- <InvestmentsStories /> -->
-
 	<!-- Stories section -->
 	{#if storiesData?.stories?.length}
 		<StoriesComponent stories={storiesData?.stories} />
 	{/if}
 
+	<!-- 2. <Portfolio Card / Start First SIP Nudge /> -->
 	{#if isLoggedInUser && deviceType?.isMobile && startFirstSipNudgeData}
 		<StartFirstSipNudge nudgeData={startFirstSipNudgeData} />
-	{/if}
-
-	{#if isLoggedInUser && deviceType?.isMobile}
+	{:else if isLoggedInUser && deviceType?.isMobile}
 		<div class="mb-2 block overflow-hidden sm:mb-0">
 			<PortfolioCard discoverPage={true} investmentSummary={data.investementSummary} />
 		</div>
 	{/if}
+
 	{#if deviceType?.isMobile && sipPaymentNudges?.length}
 		<SipCard sip={formattedSipNudgeData} sipCount={sipPaymentNudges?.length} />
 	{/if}

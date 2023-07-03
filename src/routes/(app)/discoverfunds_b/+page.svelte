@@ -2,7 +2,12 @@
 	import PortfolioCard from '$components/PortfolioCards/PortfolioCard.svelte';
 	import { page } from '$app/stores';
 	import SipCard from '../(authenticated)/orders/orderspage/sipbook/SipCard.svelte';
-	import type { INudge, IRetryPaymentNudge, NudgeDataType } from '$lib/types/INudge';
+	import type {
+		INudge,
+		IRetryPaymentNudge,
+		NudgeDataType,
+		StartFirstSipNudgeType
+	} from '$lib/types/INudge';
 	import { format } from 'date-fns';
 	import type { IDueSips, ISip } from '$lib/types/ISipType';
 
@@ -34,14 +39,16 @@
 	import ExternalFundsNfoCalculatorCard from '../discoverfunds/ExternalFundsNfoCalculatorCard/ExternalFundsNfoCalculatorCard.svelte';
 	import FailedOrdersNudge from '../discoverfunds/FailedOrdersNudge.svelte';
 	import StartNewInvestment from '../discoverfunds/StartNewInvestment.svelte';
+	import StartFirstSipNudge from '$components/StartFirstSip/StartFirstSipNudge.svelte';
 
-	$: showPortfoliocard = !data?.isGuest;
+	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
 	$: isGuest = $page.data.isGuest;
 	let sipPaymentNudges: ISip[] = [];
 	let retryPaymentNudges: IRetryPaymentNudge[] = [];
 	let formattedSipNudgeData: ISip;
 	let nudgesData: NudgeDataType;
+	let startFirstSipNudgeData: StartFirstSipNudgeType;
 
 	let formattedRetryPaymentNudgeData: IRetryPaymentNudge;
 
@@ -143,6 +150,14 @@
 	const setNudgeData = (nudgeData: NudgeDataType) => {
 		nudgesData = nudgeData;
 		return '';
+	};
+
+	const setStartFirstSipNudgeData = () => {
+		(nudgesData?.nudges || [])?.forEach((item) => {
+			if (item?.nudgesType === 'CREATE_YOUR_FIRST_SIP') {
+				startFirstSipNudgeData = item;
+			}
+		});
 	};
 
 	const setStoryCtaUrl = (vidId: number) => {
@@ -275,6 +290,7 @@
 			setNudgeData(nudgeData);
 			setSipNudgesData(nudgeData);
 			setRetryPaymentNudgesData(nudgeData);
+			setStartFirstSipNudgeData();
 		});
 	});
 
@@ -321,10 +337,12 @@
 />
 
 <article class="grid grid-cols-[100%]">
-	<!-- 1. <InvestmentsStories /> -->
-	<div class="row-start-{placementMapping.investments?.rowStart} col-start-1 mb-2 sm:hidden">
-		{#if showPortfoliocard}
-			<div class="block overflow-hidden">
+	<!-- 1. <Portfolio Card / Start First SIP Nudge /> -->
+	<div class="row-start-{placementMapping.investments?.rowStart} col-start-1 sm:hidden">
+		{#if isLoggedInUser && deviceType?.isMobile && startFirstSipNudgeData}
+			<StartFirstSipNudge nudgeData={startFirstSipNudgeData} />
+		{:else if isLoggedInUser && deviceType?.isMobile}
+			<div class="mb-2 block overflow-hidden">
 				<PortfolioCard discoverPage={true} investmentSummary={data.investementSummary} />
 			</div>
 		{/if}
@@ -373,7 +391,7 @@
 		{#if nudgesData?.nudges?.length}
 			{#each nudgesData?.nudges as nudge, index (index)}
 				<section>
-					{#if nudge?.nudgesType !== 'mandate' && nudge?.nudgesType !== 'SIP_INSTALLMENT' && nudge?.nudgesType !== 'PAYMENT_FAILED'}
+					{#if nudge?.nudgesType !== 'mandate' && nudge?.nudgesType !== 'SIP_INSTALLMENT' && nudge?.nudgesType !== 'PAYMENT_FAILED' && nudge?.nudgesType !== 'CREATE_YOUR_FIRST_SIP'}
 						<DiscoverFundsNudge
 							{nudge}
 							clickEvent={nudgeClick}
@@ -421,7 +439,7 @@
 
 <article class="sticky -top-2 hidden grid-cols-[100%] sm:grid" style="height:min-content">
 	<div class="row-start-{placementMapping.investments?.rowStart} col-start-1">
-		{#if showPortfoliocard}
+		{#if isLoggedInUser}
 			<div class="block overflow-hidden">
 				<PortfolioCard discoverPage={true} investmentSummary={data.investementSummary} />
 			</div>
