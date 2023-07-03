@@ -8,8 +8,9 @@
 		header: '',
 		container: ''
 	};
+	let version: string;
 
-	export { tableData, title, classes };
+	export { tableData, title, classes, version };
 </script>
 
 <section
@@ -18,6 +19,6 @@
 	<header class={`flex flex-col px-6 py-3 sm:py-6 ${classes.header}`}>
 		<h2 class="text-lg font-medium text-black-title">{title}</h2>
 	</header>
-	<TrendingCarousel {tableData} />
+	<TrendingCarousel {tableData} {version} />
 	<slot name="footer" />
 </section>

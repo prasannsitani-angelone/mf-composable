@@ -102,7 +102,7 @@
 						PayBefore: format(new Date(sip?.sipAmountPayTillDate), 'dd-MMM-yyyy')
 					});
 				});
-				homepageMultipleSipPaymentDueNudgeImpressionAnalytics({ dueSips });
+				homepageMultipleSipPaymentDueNudgeImpressionAnalytics({ dueSips, version: 'A' });
 			} else {
 				const eventMetaData = {
 					FundName: sipPaymentNudges?.[0]?.schemeName,
@@ -282,7 +282,11 @@
 
 	onMount(async () => {
 		await tick();
-		sHomepage();
+		sHomepage({
+			version: 'A',
+			userType: $page?.data?.userDetails?.userType || 'B2C',
+			storyVisible: storiesData?.stories?.length > 0 ? 'Y' : 'N'
+		});
 		Analytics.flush();
 		getNudgeData().then((nudgeData) => {
 			setNudgeData(nudgeData);
@@ -303,7 +307,7 @@
 <article>
 	<!-- Stories section -->
 	{#if storiesData?.stories?.length}
-		<StoriesComponent stories={storiesData?.stories} />
+		<StoriesComponent stories={storiesData?.stories} version="A" />
 	{/if}
 
 	<!-- 2. <Portfolio Card / Start First SIP Nudge /> -->
@@ -319,7 +323,7 @@
 		<SipCard sip={formattedSipNudgeData} sipCount={sipPaymentNudges?.length} />
 	{/if}
 
-	<TrendingFunds tableData={data?.searchDashboardData?.weeklyTopSchemes} />
+	<TrendingFunds tableData={data?.searchDashboardData?.weeklyTopSchemes} version="A" />
 
 	<article class="max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:mt-0">
 		<ExploreScheme searchOptions={data?.searchDashboardData?.searchOptions} />

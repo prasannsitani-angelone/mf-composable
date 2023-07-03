@@ -104,7 +104,7 @@
 						PayBefore: format(new Date(sip?.sipAmountPayTillDate), 'dd-MMM-yyyy')
 					});
 				});
-				homepageMultipleSipPaymentDueNudgeImpressionAnalytics({ dueSips });
+				homepageMultipleSipPaymentDueNudgeImpressionAnalytics({ dueSips, version: 'B' });
 			} else {
 				const eventMetaData = {
 					FundName: sipPaymentNudges?.[0]?.schemeName,
@@ -284,7 +284,11 @@
 
 	onMount(async () => {
 		await tick();
-		sHomepage();
+		sHomepage({
+			version: 'B',
+			userType: $page?.data?.userDetails?.userType || 'B2C',
+			storyVisible: storiesData?.stories?.length > 0 ? 'Y' : 'N'
+		});
 		Analytics.flush();
 		getNudgeData().then((nudgeData) => {
 			setNudgeData(nudgeData);
@@ -353,6 +357,7 @@
 		<StoriesComponent
 			class="row-start-{placementMapping.stories?.rowStart} col-start-1 !mb-0"
 			stories={storiesData?.stories}
+			version="B"
 		/>
 	{/if}
 
@@ -360,6 +365,7 @@
 	<TrendingFunds
 		class="row-start-{placementMapping.trendingFunds?.rowStart} col-start-1"
 		tableData={data?.searchDashboardData?.weeklyTopSchemes}
+		version="B"
 	/>
 
 	<!-- 4. Sip Nudges -->

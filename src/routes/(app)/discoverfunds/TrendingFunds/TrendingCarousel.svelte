@@ -15,6 +15,7 @@
 	let carouselInActive = false;
 
 	export { tableData };
+	export let version: string;
 
 	$: isMobile = $page.data.deviceType.isMobile || false;
 
@@ -32,7 +33,8 @@
 		let schemes = tableData[index];
 		const eventMetaData = {
 			Fundname: schemes.schemeName,
-			Cardrank: (index + 1).toString()
+			Cardrank: (index + 1).toString(),
+			version
 		};
 		trendingCardClickEvent(eventMetaData);
 	}

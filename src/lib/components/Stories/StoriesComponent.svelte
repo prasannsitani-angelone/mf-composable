@@ -19,6 +19,7 @@
 	} from '$lib/analytics/stories/stories';
 
 	export let stories: Array<Story>;
+	export let version: string;
 
 	let os: string = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os || '';
 	let isMobile = $page?.data?.deviceType?.isMobile;
@@ -247,7 +248,8 @@
 	const clickOnStoryAnalyticsFunc = () => {
 		const eventMetadata = {
 			StoryIndex: stories[selectedStoryIndex]?.storyId,
-			StoryTitle: stories[selectedStoryIndex]?.title
+			StoryTitle: stories[selectedStoryIndex]?.title,
+			version
 		};
 
 		clickOnStoryAnalytics(eventMetadata);
