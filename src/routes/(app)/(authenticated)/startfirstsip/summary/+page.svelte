@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 	import { invalidate } from '$app/navigation';
 	import Button from '$components/Button.svelte';
 	import SummaryMan from './components/SummaryMan.svelte';
@@ -11,7 +12,7 @@
 	export let data;
 
 	const navigateToOrders = async () => {
-		await goto('orders/orderspage', { replaceState: true });
+		await goto(`${base}/orders/orderspage`, { replaceState: true });
 	};
 
 	const onRefresh = async () => {
@@ -62,7 +63,7 @@
 				</div>
 			{/if}
 			<div class=" text-center">
-				<Button variant="transparent">VIEW ORDER DETAILS</Button>
+				<Button onClick={navigateToOrders} variant="transparent">VIEW ORDER DETAILS</Button>
 			</div>
 		{:else}
 			<div class="flex h-full flex-col items-center self-center px-4 py-4">

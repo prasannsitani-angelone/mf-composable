@@ -196,23 +196,29 @@ export const sipOrderPostFunction = async (params) => {
 			firstSipPayment,
 			sipDate,
 			xRequestId,
-			source
+			source,
+			isFirstSip
 		} = params || {};
+		
+		const payload = {
+			emandateId,
+			installmentAmount: stringToFloat(amount),
+			dpNumber: dpNumber,
+			schemeCode: schemeCode,
+			type: 'SIP',
+			startDate: getFormattedSIPDate(sipDate),
+			frequency: sipFrequency,
+			noOfInstallment: sipMaxInstallmentNo,
+			firstOrderToday: firstSipPayment,
+			folioNumber: '',
+			transactionRefNumber
+		};
+		if (isFirstSip) {
+			payload.veryFirstSip = true;
+		}
 		const response = await useFetch(url, {
 			method: 'POST',
-			body: JSON.stringify({
-				emandateId,
-				installmentAmount: stringToFloat(amount),
-				dpNumber: dpNumber,
-				schemeCode: schemeCode,
-				type: 'SIP',
-				startDate: getFormattedSIPDate(sipDate),
-				frequency: sipFrequency,
-				noOfInstallment: sipMaxInstallmentNo,
-				firstOrderToday: firstSipPayment,
-				folioNumber: '',
-				transactionRefNumber
-			}),
+			body: JSON.stringify(payload),
 			headers: {
 				'X-Request-Id': xRequestId,
 				'X-Source': source || 'diy'

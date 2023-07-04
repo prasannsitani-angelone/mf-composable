@@ -25,6 +25,7 @@
 	export let onSubmit = (): void => undefined;
 	export let resetInputError = (): void => undefined;
 	export let onChangeBank = (): void => undefined;
+	export let allowedPaymentmethods = Object.keys(PAYMENT_MODE);
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 </script>
@@ -42,7 +43,7 @@
 				clazz="shadow-csm"
 			/>
 			<PaymentMethod
-				paymentModes={Object.keys(PAYMENT_MODE)}
+				paymentModes={allowedPaymentmethods}
 				{selectedMode}
 				{onSelect}
 				{onSubmit}
@@ -72,7 +73,7 @@
 			clazz="my-2"
 		/>
 		<PaymentMethod
-			paymentModes={Object.keys(PAYMENT_MODE)}
+			paymentModes={allowedPaymentmethods}
 			{selectedMode}
 			{onSelect}
 			{onSubmit}

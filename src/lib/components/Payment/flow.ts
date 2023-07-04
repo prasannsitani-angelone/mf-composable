@@ -941,7 +941,8 @@ export const upiSIPFlow = async (params) => {
 		updateUPITimer = () => undefined,
 		onUPIValidationFailure = () => undefined,
 		displayPendingPopup = () => undefined,
-		onSuccess = () => undefined
+		onSuccess = () => undefined,
+		isFirstSip = false
 	} = params || {};
 	try {
 		const upiValidationResponse = await upiValidateFunc({
@@ -997,7 +998,8 @@ export const upiSIPFlow = async (params) => {
 			firstSipPayment: true,
 			sipDate,
 			xRequestId,
-			source
+			source,
+			isFirstSip
 		});
 		handleOrderPostResponse({
 			orderPostResponse,
@@ -1464,7 +1466,8 @@ export const walletSIPFlow = async (params) => {
 		stopLoading = () => undefined,
 		displayError = () => undefined,
 		displayPendingPopup = () => undefined,
-		onSuccess = () => undefined
+		onSuccess = () => undefined,
+		isFirstSip = false
 	} = params || {};
 	try {
 		showLoading('Getting Mandate Data');
@@ -1506,7 +1509,8 @@ export const walletSIPFlow = async (params) => {
 			firstSipPayment: true,
 			sipDate,
 			xRequestId,
-			source
+			source,
+			isFirstSip
 		});
 		handleOrderPostResponse({
 			orderPostResponse,

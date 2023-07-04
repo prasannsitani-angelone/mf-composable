@@ -11,6 +11,8 @@
 	import { page } from '$app/stores';
 	import { headerStore } from '$lib/stores/HeaderStore';
 	import MobileHeader from '$components/Headers/MobileHeader.svelte';
+	import FirstPayment from './payment/FirstPayment.svelte';
+	import { getDateSuperscript } from '$lib/utils/helpers/date';
 
 	type calendarDataType = {
 		calendarDate: number;
@@ -30,9 +32,8 @@
 	let calendarDate: number;
 	let calendarMonth: string;
 	let calendarYear: number;
-
-	// TODO: @nitish
-	// const veryFirstSip = true; // for First SIP Investment use case: send this flag in POST /sips request payload
+	let intiatePayment = false;
+	let dateSuperscript = 'th';
 
 	const toggleShowWhyThisFundModal = () => {
 		showWhyThisFundModal = !showWhyThisFundModal;
@@ -69,10 +70,16 @@
 		calendarDate = calendarData?.calendarDate;
 		calendarMonth = calendarData?.calendarMonth;
 		calendarYear = calendarData?.calendarYear;
+		dateSuperscript = getDateSuperscript(calendarDate);
 	};
 
 	const handleProceedClick = () => {
 		// add payments and order placement logic
+		intiatePayment = true;
+	};
+
+	const hidePaymentMethodScreen = () => {
+		intiatePayment = false;
 	};
 </script>
 
@@ -190,4 +197,7 @@
 			<span />
 		</svelte:fragment>
 	</InfoModal>
+{/if}
+{#if intiatePayment}
+	<FirstPayment {scheme} {amount} {calendarDate} {dateSuperscript} {hidePaymentMethodScreen} />
 {/if}
