@@ -41,7 +41,8 @@ module.exports = {
 					DEFAULT: '#E4F8F6',
 					lite: '#E4F6F5',
 					amount: '#008F75',
-					teal: '#007560'
+					teal: '#007560',
+					pale: '#F4FCFB'
 				},
 				red: {
 					sell: '#F65E5A',

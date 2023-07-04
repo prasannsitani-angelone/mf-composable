@@ -117,6 +117,7 @@
 		'green-uparrow-trending-fund': 'GreenUpArrowTrendingFund',
 		rectangle: 'RectangleIcon',
 		eclipse: 'EclipseIcon',
+		'raised-hands': 'RaisedHands',
 		'lock-icon': 'LockIcon',
 		'rupee-circle-bolder': 'RupeeInCircleBolder',
 		'rupee-circle-blue': 'RupeeCircleBlue',
