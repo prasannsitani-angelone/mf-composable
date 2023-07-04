@@ -28,6 +28,9 @@
 
 	let bulkUpdateModalType = '';
 
+	const nextSipDateBufferDaysWithFtp = 31;
+	const nextSipDateBufferDaysWithoutFtp = 10;
+
 	function upDateLocalStateOnCartUpdate(items: CartEntity[]) {
 		selectedItems = getSelectedItems(items);
 		isSelectAllChecked = selectedItems.length === items?.length;
@@ -56,7 +59,11 @@
 	}
 	const getSIPDate = (calendarDate: number) => {
 		const firstSipPayment = true;
-		return getCompleteSIPDateBasedonDD(calendarDate, new Date(), firstSipPayment ? 30 : 10);
+		return getCompleteSIPDateBasedonDD(
+			calendarDate,
+			new Date(),
+			firstSipPayment ? nextSipDateBufferDaysWithFtp : nextSipDateBufferDaysWithoutFtp
+		);
 	};
 
 	function setParamForSIPs(fund: CartEntity, param: string, fallback: string | number) {

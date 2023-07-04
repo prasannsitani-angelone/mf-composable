@@ -175,7 +175,7 @@ export const getNextMonthDate = (
 export const getSIPMonthIncrementBasedOnDate = (
 	calendarDate: number,
 	date: Date = new Date(),
-	bufferDays = 30
+	bufferDays = 31
 ) => {
 	const daysInCurrentMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(); // Total number of days in the ongoing month
 	let monthIncrementFactor = 1; // default value is 1 (for current month)
@@ -204,7 +204,7 @@ export const getSIPMonthIncrementBasedOnDate = (
 export const getSIPMonthBasedOnDate = (
 	calendarDate: number,
 	date: Date = new Date(),
-	bufferDays = 30
+	bufferDays = 31
 ) => {
 	return date?.getMonth() + getSIPMonthIncrementBasedOnDate(calendarDate, date, bufferDays);
 };
@@ -212,7 +212,7 @@ export const getSIPMonthBasedOnDate = (
 export const getSIPYearBasedOnDate = (
 	calendarDate: number,
 	date: Date = new Date(),
-	bufferDays = 30
+	bufferDays = 31
 ) => {
 	const month = getSIPMonthBasedOnDate(calendarDate, date, bufferDays);
 	return month > 12 ? date.getFullYear() + 1 : date.getFullYear();
@@ -221,7 +221,7 @@ export const getSIPYearBasedOnDate = (
 export const getCompleteSIPDateBasedonDD = (
 	calendarDate: number,
 	date: Date = new Date(),
-	bufferDays = 30
+	bufferDays = 31
 ) => {
 	const month = getSIPMonthBasedOnDate(calendarDate, date, bufferDays) - 1;
 	const year = date?.getFullYear();

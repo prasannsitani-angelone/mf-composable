@@ -150,6 +150,9 @@
 	let lumpsumToSipAmount = '';
 	let showLumpsumToSipModal = false;
 
+	const nextSipDateBufferDaysWithFtp = 31;
+	const nextSipDateBufferDaysWithoutFtp = 10;
+
 	// payment
 	let xRequestId = '';
 	let showChangePayment = false;
@@ -326,11 +329,19 @@
 
 	const setNextSipDate = () => {
 		const now = new Date();
-		const month = getSIPMonthBasedOnDate(calendarDate, now, firstSipPayment ? 30 : 10);
+		const month = getSIPMonthBasedOnDate(
+			calendarDate,
+			now,
+			firstSipPayment ? nextSipDateBufferDaysWithFtp : nextSipDateBufferDaysWithoutFtp
+		);
 		calendarMonth = new Date(now?.getFullYear(), month, 0)?.toLocaleString('default', {
 			month: 'short'
 		});
-		calendarYear = getSIPYearBasedOnDate(calendarDate, now, firstSipPayment ? 30 : 10);
+		calendarYear = getSIPYearBasedOnDate(
+			calendarDate,
+			now,
+			firstSipPayment ? nextSipDateBufferDaysWithFtp : nextSipDateBufferDaysWithoutFtp
+		);
 	};
 
 	setNextSipDate();
@@ -645,12 +656,20 @@
 		tempCalendarDate = value?.detail;
 
 		const now = new Date();
-		const month = getSIPMonthBasedOnDate(tempCalendarDate, now, firstSipPayment ? 30 : 10);
+		const month = getSIPMonthBasedOnDate(
+			tempCalendarDate,
+			now,
+			firstSipPayment ? nextSipDateBufferDaysWithFtp : nextSipDateBufferDaysWithoutFtp
+		);
 		tempCalendarMonth = new Date(now?.getFullYear(), month, 0)?.toLocaleString('default', {
 			month: 'short'
 		});
 
-		tempCalendarYear = getSIPYearBasedOnDate(tempCalendarDate, now, firstSipPayment ? 30 : 10);
+		tempCalendarYear = getSIPYearBasedOnDate(
+			tempCalendarDate,
+			now,
+			firstSipPayment ? nextSipDateBufferDaysWithFtp : nextSipDateBufferDaysWithoutFtp
+		);
 	};
 
 	const handleDateChange = (value: unknown) => {
@@ -837,7 +856,11 @@
 	};
 
 	const getSIPDate = () => {
-		return getCompleteSIPDateBasedonDD(calendarDate, new Date(), firstSipPayment ? 30 : 10);
+		return getCompleteSIPDateBasedonDD(
+			calendarDate,
+			new Date(),
+			firstSipPayment ? nextSipDateBufferDaysWithFtp : nextSipDateBufferDaysWithoutFtp
+		);
 	};
 
 	const getFormattedSIPDate = () => {
@@ -1139,7 +1162,7 @@
 			</slot>
 		{/if}
 		{#if !investmentNotAllowedText?.length}
-			<article class="mb-4 rounded-lg bg-white text-black-title md:mx-3 md:mt-2">
+			<article class="rounded-lg bg-white text-black-title md:mx-3 md:mb-4 md:mt-2">
 				<!-- Tab Section (SIP | ONE TIME) -->
 				<section class="bg-whites flex rounded-lg rounded-b-none text-black-title">
 					<button

@@ -33,6 +33,9 @@
 
 	let dateArray: Array<dateArrayTypes> = [{ value: 1, disabled: false }];
 
+	const nextSipDateBufferDaysWithFtp = 31;
+	const nextSipDateBufferDaysWithoutFtp = 10;
+
 	$: {
 		dateArray.pop();
 
@@ -55,12 +58,20 @@
 		tempCalendarDate = value?.detail;
 
 		const now = new Date();
-		const month = getSIPMonthBasedOnDate(tempCalendarDate, now, firstSipPayment ? 30 : 10);
+		const month = getSIPMonthBasedOnDate(
+			tempCalendarDate,
+			now,
+			firstSipPayment ? nextSipDateBufferDaysWithFtp : nextSipDateBufferDaysWithoutFtp
+		);
 		tempCalendarMonth = new Date(now?.getFullYear(), month, 0)?.toLocaleString('default', {
 			month: 'short'
 		});
 
-		tempCalendarYear = getSIPYearBasedOnDate(tempCalendarDate, now, firstSipPayment ? 30 : 10);
+		tempCalendarYear = getSIPYearBasedOnDate(
+			tempCalendarDate,
+			now,
+			firstSipPayment ? nextSipDateBufferDaysWithFtp : nextSipDateBufferDaysWithoutFtp
+		);
 	};
 
 	const handleDateChange = (value: unknown) => {
