@@ -1,11 +1,11 @@
-import CartNavItem from '$lib/images/icons/CartNavItem.svelte';
-import CartNavItemActive from '$lib/images/icons/CartNavItemActive.svelte';
-import DiscoverNav from '$components/NavItems/DiscoverNav.svelte';
-import DiscoverNavFilled from '$components/NavItems/DiscoverNavFilled.svelte';
-import RupeeNav from '$components/NavItems/RupeeNav.svelte';
-import RupeeNavFilled from '$components/NavItems/RupeeNavFilled.svelte';
-import PadNav from '$components/NavItems/PadNav.svelte';
-import PadNavFilled from '$components/NavItems/PadNavFilled.svelte';
+import CartNavItem from '$lib/images/CartOutlined.svg';
+import CartNavItemActive from '$lib/images/CartFilled.svg';
+import DiscoverNav from '$lib/images/CompassBolderIcon.svg';
+import DiscoverNavFilled from '$lib/images/CompassActiveIcon.svg';
+import RupeeNav from '$lib/images/RupeeInCircleBolder.svg';
+import RupeeNavFilled from '$lib/images/RupeeCircleBlueFilled.svg';
+import PadNav from '$lib/images/PadBolder.svg';
+import PadNavFilled from '$lib/images/PadActive.svg';
 import { base } from '$app/paths';
 
 export const BOTTOM_NAVBARS = (version) => [
@@ -14,27 +14,35 @@ export const BOTTOM_NAVBARS = (version) => [
 		path: version ? `${base}/discoverfunds_${version?.toLowerCase()}` : `${base}/discoverfunds`,
 		icon: DiscoverNav,
 		activeIcon: DiscoverNavFilled,
-		isInternalNavigation: true
+		isInternalNavigation: true,
+		width: 25,
+		height: 24
 	},
 	{
 		label: 'Cart',
 		path: `${base}/cart`,
 		icon: CartNavItem,
 		activeIcon: CartNavItemActive,
-		isInternalNavigation: true
+		isInternalNavigation: true,
+		width: 25,
+		height: 25
 	},
 	{
 		label: 'Investments',
 		path: `${base}/investments`,
 		icon: RupeeNav,
 		activeIcon: RupeeNavFilled,
-		isInternalNavigation: true
+		isInternalNavigation: true,
+		width: 24,
+		height: 24
 	},
 	{
 		label: 'Orders',
 		path: `${base}/orders/orderspage`,
 		icon: PadNav,
 		activeIcon: PadNavFilled,
-		isInternalNavigation: true
+		isInternalNavigation: true,
+		width: 15,
+		height: 20
 	}
 ];

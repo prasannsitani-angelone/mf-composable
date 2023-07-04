@@ -1,9 +1,9 @@
-import type { SvelteComponent } from 'svelte';
-
 export interface IBottomNavItem {
 	label: string;
 	path: string;
-	icon: typeof SvelteComponent;
-	activeIcon: typeof SvelteComponent;
+	icon: string;
+	activeIcon: string;
 	isInternalNavigation?: boolean;
+	width: number;
+	height: number;
 }

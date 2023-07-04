@@ -25,7 +25,14 @@
 				on:click={() => bottomNavClickAnalytics(nav.label)}
 				class="inline-block w-full justify-center py-3 text-center"
 			>
-				<svelte:component this={isActive ? nav.activeIcon : nav.icon} class="m-auto mb-2" />
+				<img
+					width={nav.width}
+					height={nav.height}
+					src={isActive ? nav.activeIcon : nav.icon}
+					class="m-auto mb-2"
+					alt="{nav.label} Navigation"
+					decoding="async"
+				/>
 				<span
 					class={`block text-[10px] font-semibold uppercase ${
 						isActive ? 'text-blue-primary' : 'text-black-bolder'

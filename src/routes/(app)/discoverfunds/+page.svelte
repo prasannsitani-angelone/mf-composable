@@ -4,7 +4,6 @@
 	import ExploreScheme from './ExploreScheme/ExploreScheme.svelte';
 	import PortfolioCard from '$components/PortfolioCards/PortfolioCard.svelte';
 	import { page } from '$app/stores';
-	import SipCard from '../(authenticated)/orders/orderspage/sipbook/SipCard.svelte';
 	import IntersectionObserver from 'svelte-intersection-observer';
 	import type {
 		INudge,
@@ -14,8 +13,6 @@
 	} from '$lib/types/INudge';
 	import { format } from 'date-fns';
 	import type { IDueSips, ISip } from '$lib/types/ISipType';
-	import FailedOrdersNudge from './FailedOrdersNudge.svelte';
-	import DiscoverFundsNudge from '$components/Nudge/DiscoverFundsNudge.svelte';
 	import {
 		homepageMultipleSipPaymentDueNudgeImpressionAnalytics,
 		homepageSipPaymentDueNudgeImpressionAnalytics,
@@ -31,7 +28,6 @@
 	import { logoutAttemptStore } from '$lib/stores/LogoutAttemptStore';
 	import StoriesComponent from '$components/Stories/StoriesComponent.svelte';
 	import Button from '$components/Button.svelte';
-	import PromotionCard from '$components/Promotions/PromotionCard.svelte';
 	import { SEO } from 'wms-ui-component';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 	import { onMount, tick } from 'svelte';
@@ -325,9 +321,13 @@
 		</div>
 	{/if}
 
-	{#if deviceType?.isMobile && sipPaymentNudges?.length}
-		<SipCard sip={formattedSipNudgeData} sipCount={sipPaymentNudges?.length} />
-	{/if}
+	<LazyComponent
+		sip={formattedSipNudgeData}
+		sipCount={sipPaymentNudges?.length}
+		when={deviceType?.isMobile && sipPaymentNudges?.length}
+		component={async () =>
+			await import('../(authenticated)/orders/orderspage/sipbook/SipCard.svelte')}
+	/>
 
 	<TrendingFunds tableData={data?.searchDashboardData?.weeklyTopSchemes} version="A" />
 
@@ -349,20 +349,24 @@
 	</IntersectionObserver>
 	<!-- Retry Payment Nudge -->
 	{#if retryPaymentNudges?.length}
-		<FailedOrdersNudge
+		<LazyComponent
 			order={formattedRetryPaymentNudgeData}
 			orderCount={retryPaymentNudges?.length}
+			when={retryPaymentNudges?.length > 0}
+			component={async () => await import('./FailedOrdersNudge.svelte')}
 		/>
 	{/if}
 	{#if nudgesData?.nudges?.length}
 		{#each nudgesData?.nudges as nudge, index (index)}
 			<section>
 				{#if nudge?.nudgesType !== 'mandate' && nudge?.nudgesType !== 'SIP_INSTALLMENT' && nudge?.nudgesType !== 'PAYMENT_FAILED' && nudge?.nudgesType !== 'CREATE_YOUR_FIRST_SIP'}
-					<DiscoverFundsNudge
+					<LazyComponent
 						{nudge}
 						clickEvent={nudgeClick}
 						impressionEvent={nudgeImpression}
 						class="mt-2 sm:mt-4"
+						when={nudgesData?.nudges?.length > 0}
+						component={async () => await import('$components/Nudge/DiscoverFundsNudge.svelte')}
 					/>
 				{/if}
 			</section>
@@ -383,27 +387,44 @@
 			{#if sipPaymentNudges?.length}
 				<section class="mt-2">
 					{#each sipPaymentNudges as sip, index (sip?.sipId + index)}
-						<SipCard {sip} />
+						<LazyComponent
+							{sip}
+							when={sipPaymentNudges?.length}
+							component={async () =>
+								await import('../(authenticated)/orders/orderspage/sipbook/SipCard.svelte')}
+						/>
 					{/each}
 				</section>
 			{/if}
 			{#if data?.searchDashboardData?.amcAd}
-				<PromotionCard
-					amcData={data.searchDashboardData.amcAd}
-					class="mt-3 rounded-lg text-center"
-					imageClass="h-32 md:h-42 lg:h-32 w-full object-cover"
-				/>
+				<IntersectionObserver once element={elementOnce} bind:intersecting={intersectOnce}>
+					<div bind:this={elementOnce}>
+						<LazyComponent
+							amcData={data.searchDashboardData.amcAd}
+							class="mt-3 rounded-lg text-center"
+							imageClass="h-32 md:h-42 lg:h-32 w-full object-cover"
+							when={intersectOnce}
+							component={async () => await import('$components/Promotions/PromotionCard.svelte')}
+						/>
+					</div>
+				</IntersectionObserver>
 			{/if}
 		</div>
 	</article>
 {/if}
 
 {#if data?.searchDashboardData?.amcAd && !deviceType?.isBrowser}
-	<PromotionCard
-		amcData={data.searchDashboardData.amcAd}
-		class="mt-3 rounded-lg text-center"
-		imageClass="h-32 md:h-42 lg:h-32 w-full object-cover"
-	/>
+	<IntersectionObserver once element={elementOnce} bind:intersecting={intersectOnce}>
+		<div bind:this={elementOnce}>
+			<LazyComponent
+				amcData={data.searchDashboardData.amcAd}
+				class="mt-3 rounded-lg text-center"
+				imageClass="h-32 md:h-42 lg:h-32 w-full object-cover"
+				when={deviceType?.isBrowser && intersectOnce}
+				component={async () => await import('$components/Promotions/PromotionCard.svelte')}
+			/>
+		</div>
+	</IntersectionObserver>
 {/if}
 
 {#if !($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) && deviceType?.isMobile && !isGuest}
