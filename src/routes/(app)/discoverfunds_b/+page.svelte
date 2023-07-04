@@ -39,8 +39,8 @@
 	import ExternalFundsNfoCalculatorCard from '../discoverfunds/ExternalFundsNfoCalculatorCard/ExternalFundsNfoCalculatorCard.svelte';
 	import FailedOrdersNudge from '../discoverfunds/FailedOrdersNudge.svelte';
 	import StartNewInvestment from '../discoverfunds/StartNewInvestment.svelte';
-	import StartFirstSipNudge from '$components/StartFirstSip/StartFirstSipNudge.svelte';
 	import { versionStore } from '$lib/stores/VersionStore';
+	import LazyComponent from '$components/LazyComponent.svelte';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -347,7 +347,12 @@
 	<!-- 1. <Portfolio Card / Start First SIP Nudge /> -->
 	<div class="row-start-{placementMapping.investments?.rowStart} col-start-1 sm:hidden">
 		{#if isLoggedInUser && deviceType?.isMobile && startFirstSipNudgeData}
-			<StartFirstSipNudge nudgeData={startFirstSipNudgeData} />
+			<LazyComponent
+				when={isLoggedInUser && deviceType?.isMobile && startFirstSipNudgeData}
+				component={async () => await import('$components/StartFirstSip/StartFirstSipNudge.svelte')}
+				nudgeData={startFirstSipNudgeData}
+				version="B"
+			/>
 		{:else if isLoggedInUser && deviceType?.isMobile}
 			<div class="mb-2 block overflow-hidden">
 				<PortfolioCard discoverPage={true} investmentSummary={data.investementSummary} />

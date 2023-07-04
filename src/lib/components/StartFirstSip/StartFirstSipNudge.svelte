@@ -5,17 +5,28 @@
 	import { base } from '$app/paths';
 	import StartFirstSipImage from '$lib/images/StartFirstSipImage.svelte';
 	import { userStore } from '$lib/stores/UserStore';
+	import { onMount } from 'svelte';
+	import {
+		firstSipCardGetStartedButtonClickAnalytics,
+		firstSipCardMountedAnalytics
+	} from '$lib/analytics/startFirstSip/startFirstSip';
 
 	export let nudgeData: StartFirstSipNudgeType;
+	export let version: string;
 
 	const schemeData = nudgeData?.data[userStore?.userType()?.toLowerCase()];
 	const { isin, schemeCode } = schemeData || {};
 
 	const redirectToStartFirstSipLandingPage = () => {
-		const redirectUrl = `${base}/startfirstsip/isin-${isin}-schemecode-${schemeCode}`;
+		firstSipCardGetStartedButtonClickAnalytics({ version });
 
+		const redirectUrl = `${base}/startfirstsip/isin-${isin}-schemecode-${schemeCode}`;
 		goto(redirectUrl);
 	};
+
+	onMount(() => {
+		firstSipCardMountedAnalytics({ version });
+	});
 </script>
 
 <article

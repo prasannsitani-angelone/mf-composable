@@ -13,6 +13,12 @@
 	import MobileHeader from '$components/Headers/MobileHeader.svelte';
 	import FirstPayment from './payment/FirstPayment.svelte';
 	import { getDateSuperscript } from '$lib/utils/helpers/date';
+	import {
+		startFirstSipConfirmationScreenImpressionAnalytics,
+		startFirstSipConfirmationScreenLearnMoreClickAnalytics,
+		startFirstSipConfirmationScreenProceedClickAnalytics,
+		startFirstSipConfirmationScreenWhyThisFundClickAnalytics
+	} from '$lib/analytics/startFirstSip/startFirstSip';
 
 	type calendarDataType = {
 		calendarDate: number;
@@ -37,10 +43,18 @@
 
 	const toggleShowWhyThisFundModal = () => {
 		showWhyThisFundModal = !showWhyThisFundModal;
+
+		if (showWhyThisFundModal) {
+			startFirstSipConfirmationScreenWhyThisFundClickAnalytics();
+		}
 	};
 
 	const toggleShowCalendarLearnMoreModal = () => {
 		showCalendarLearnMoreModal = !showCalendarLearnMoreModal;
+
+		if (showCalendarLearnMoreModal) {
+			startFirstSipConfirmationScreenLearnMoreClickAnalytics();
+		}
 	};
 
 	const whyThisFundModalData = {
@@ -58,6 +72,11 @@
 		if (isMobile || isTablet) {
 			$headerStore.showMobileHeader = false;
 		}
+
+		startFirstSipConfirmationScreenImpressionAnalytics({
+			FundIsin: scheme?.isin,
+			MonthlyAmount: `${amount}`
+		});
 	});
 
 	onDestroy(() => {
@@ -73,9 +92,21 @@
 		dateSuperscript = getDateSuperscript(calendarDate);
 	};
 
+	const startFirstSipConfirmationScreenProceedClickAnalyticsFunc = () => {
+		const eventMetaData = {
+			FundISIN: scheme?.isin,
+			MonthlyAmount: `${amount}`,
+			SipDate: `${calendarDate}-${
+				new Date(`${calendarMonth} 1, ${calendarYear}`).getMonth() + 1
+			}-${calendarYear}`
+		};
+		startFirstSipConfirmationScreenProceedClickAnalytics(eventMetaData);
+	};
+
 	const handleProceedClick = () => {
-		// add payments and order placement logic
 		intiatePayment = true;
+
+		startFirstSipConfirmationScreenProceedClickAnalyticsFunc();
 	};
 
 	const hidePaymentMethodScreen = () => {

@@ -10,8 +10,14 @@
 	import { goto } from '$app/navigation';
 	import { decodeToObject, encodeObject, getQueryParamsObj } from '$lib/utils/helpers/params';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
-	import { afterUpdate } from 'svelte';
+	import { afterUpdate, onMount } from 'svelte';
 	import StartFirstSipSkeleton from './AmountInputOrderpad/StartFirstSipSkeleton.svelte';
+	import {
+		startFirstSipScreenImpressionAnalytics,
+		startFirstSipScreenIncreaseDecreaseClickAnalytics,
+		startFirstSipScreenPredefinedAmountClickAnalytics,
+		startFirstSipScreenProceedClickAnalytics
+	} from '$lib/analytics/startFirstSip/startFirstSip';
 
 	export let data: PageData;
 
@@ -42,8 +48,9 @@
 			threeYearReturnsValue
 		});
 
-		const redirectPath = `${currentPath}?params=${params}`;
+		startFirstSipScreenProceedClickAnalytics({ Amount: `${amount}` });
 
+		const redirectPath = `${currentPath}?params=${params}`;
 		goto(redirectPath);
 	};
 
@@ -70,6 +77,8 @@
 		} else if (amount >= 500 && amount < 5000) {
 			amount += 500;
 		}
+
+		startFirstSipScreenIncreaseDecreaseClickAnalytics({ AmountChanged: 'Increase' });
 	};
 
 	const handleMinusClick = () => {
@@ -78,17 +87,25 @@
 		} else if (amount > 500 && amount <= 5000) {
 			amount -= 500;
 		}
+
+		startFirstSipScreenIncreaseDecreaseClickAnalytics({ AmountChanged: 'Decrease' });
 	};
 
 	const quickInputs = [1000, 1500, 2000];
 
 	const handleQuickInputClick = (pillAmount: number) => {
 		amount = pillAmount;
+
+		startFirstSipScreenPredefinedAmountClickAnalytics({ AmountSelected: `${pillAmount}` });
 	};
 
 	const setThreeYearReturnsValue = (amount: number) => {
 		threeYearReturnsValue = amount;
 	};
+
+	onMount(() => {
+		startFirstSipScreenImpressionAnalytics();
+	});
 </script>
 
 {#await data?.api?.schemeData}
