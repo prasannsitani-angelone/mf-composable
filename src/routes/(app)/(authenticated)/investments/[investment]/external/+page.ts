@@ -9,7 +9,8 @@ export const load = (async ({ fetch, params }) => {
 	const fundName = params['investment'];
 	const schemeMetadata = fundName?.split('-isin-')[1]?.toUpperCase();
 
-	const [isin = '', schemeCode = ''] = schemeMetadata?.split('-SCHEMECODE-') || [];
+	const [isin = '', schemeCodeAndRTA = ''] = schemeMetadata?.split('-SCHEMECODE-') || [];
+	const [schemeCode = '', rtaSchemeCode = ''] = schemeCodeAndRTA?.split('-RTASCHEMECODE-') || [];
 
 	const getSchemeData = () => {
 		if (isExternal) {
@@ -33,7 +34,7 @@ export const load = (async ({ fetch, params }) => {
 	};
 
 	const getOrdersData = () => {
-		const reqQuery = `?isin=${isin}&${queryParam}`;
+		const reqQuery = `?isin=${isin}&schemeCode=${rtaSchemeCode}&${queryParam}`;
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/orders${reqQuery}`;
 		return useFetch(url, {}, fetch);
 	};

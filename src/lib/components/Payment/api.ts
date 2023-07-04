@@ -199,7 +199,7 @@ export const sipOrderPostFunction = async (params) => {
 			source,
 			isFirstSip
 		} = params || {};
-		
+
 		const payload = {
 			emandateId,
 			installmentAmount: stringToFloat(amount),

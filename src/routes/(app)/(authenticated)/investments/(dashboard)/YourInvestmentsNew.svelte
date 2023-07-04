@@ -37,7 +37,9 @@
 	export { tableData };
 
 	const handleRowClick = (selectedRow: InvestmentEntity) => {
-		const dParam = `${isExternal ? '/external' : ''}`;
+		const dParam = `${
+			isExternal ? '-rtaSchemeCode-' + selectedRow?.rtaSchemeCode + '/external' : ''
+		}`;
 		if (isExternal) {
 			const meteData = { FundName: selectedRow.schemeName, CurrentValue: selectedRow.currentValue };
 			investmentRowClickAnalytics(meteData);
@@ -82,7 +84,7 @@
 					schemes?.schemeName,
 					schemes?.isin,
 					schemes?.schemeCode
-				)}${isExternal ? '/external' : ''}`}
+				)}${isExternal ? '-rtaSchemeCode-' + schemes?.rtaSchemeCode + '/external' : ''}`}
 				class="mb-2 block rounded-lg bg-white p-4 px-3 pt-2 pb-4 text-sm shadow-csm last:border-none sm:mb-0 sm:rounded-none sm:border-b sm:px-6 sm:shadow-none {schemes?.sipEnabled
 					? 'pt-2 sm:pb-6'
 					: 'pt-4 sm:pb-4'}"

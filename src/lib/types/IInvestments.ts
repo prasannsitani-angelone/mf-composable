@@ -30,6 +30,7 @@ export interface InvestmentEntity {
 	nfoScheme: string;
 	externalFundImportStatus: string;
 	externalImportFailed: boolean;
+	rtaSchemeCode: string;
 }
 
 export interface OrdersSummary {
