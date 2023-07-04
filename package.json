@@ -12,7 +12,7 @@
 		"build:uat": "cp .env.uat .env && vite build",
 		"build:cug": "cp .env.cug .env && vite build",
 		"build:prod": "cp .env.prod .env && vite build",
-		"preview": "JWT_SYMMETRIC_KEY=db3a62b2-45f6-4b6c-a74b-80ce27491bb7 vite preview --host",
+		"preview": "vite preview --host",
 		"test": "playwright test",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",

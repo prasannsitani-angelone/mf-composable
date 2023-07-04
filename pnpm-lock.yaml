@@ -46,7 +46,7 @@ specifiers:
   uuid: ^9.0.0
   vite: 4.3.1
   vitest: ^0.25.3
-  wms-ui-component: 0.80.0
+  wms-ui-component: 0.81.0
   word-wrap: ^1.2.3
 
 dependencies:
@@ -69,7 +69,7 @@ dependencies:
   swiper: 8.2.4
   ua-parser-js: 1.0.35
   uuid: 9.0.0
-  wms-ui-component: 0.80.0_hzid2lolqd7azhiv3pfmmt4eaa
+  wms-ui-component: 0.81.0_hzid2lolqd7azhiv3pfmmt4eaa
   word-wrap: 1.2.3
 
 devDependencies:
@@ -2749,8 +2749,8 @@ packages:
       isexe: 2.0.0
     dev: true
 
-  /wms-ui-component/0.80.0_hzid2lolqd7azhiv3pfmmt4eaa:
-    resolution: {integrity: sha512-qI89JUb86K8zs2vhXyg66mvl0jzXmYsR4gXzo+Pp8hlIAiHd33ZckyXwmRFmLbN4ZviRCSFCED++BW/7THRRGw==}
+  /wms-ui-component/0.81.0_hzid2lolqd7azhiv3pfmmt4eaa:
+    resolution: {integrity: sha512-xgQZKl3yYrL3F63VJ+U/WaBJ2K8ZNuBDo4FRATsNvbvliCMUn2xMr9Lu7aZdaSfXzhxOLFpWwK7hhZP4V/r6NA==}
     requiresBuild: true
     peerDependencies:
       svelte: ^3.54.0
