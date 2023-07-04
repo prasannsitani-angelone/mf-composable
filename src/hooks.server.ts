@@ -164,7 +164,6 @@ export const handleFetch = (async ({ event, request, fetch }) => {
 	request.headers.set('userType', userType);
 	request.headers.set('accountType', accountType);
 	request.headers.set('authorization', `Bearer ${token}`);
-	request.headers.set('authtoken', token);
 	request.headers.set(
 		'X-Platform',
 		`${sparkHeaders?.get('platform') || 'mf-web'}_${sparkHeaders?.get('platformvariant') || 'web'}`

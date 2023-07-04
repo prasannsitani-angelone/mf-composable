@@ -18,8 +18,7 @@ export const getHoldingSummary = async (
 			url,
 			{
 				headers: {
-					authorization: `Bearer ${token}`,
-					authtoken: token
+					authorization: `Bearer ${token}`
 				}
 			},
 			fetch
