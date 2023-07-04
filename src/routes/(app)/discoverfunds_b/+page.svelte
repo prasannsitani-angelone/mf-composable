@@ -40,6 +40,7 @@
 	import FailedOrdersNudge from '../discoverfunds/FailedOrdersNudge.svelte';
 	import StartNewInvestment from '../discoverfunds/StartNewInvestment.svelte';
 	import StartFirstSipNudge from '$components/StartFirstSip/StartFirstSipNudge.svelte';
+	import { versionStore } from '$lib/stores/VersionStore';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -333,6 +334,8 @@
 		// above is mocked api response now we will put actula position according to presence
 	};
 	setPlacement();
+
+	versionStore.setVersion('B');
 </script>
 
 <SEO

@@ -4,11 +4,17 @@
 	import Header from '$components/Headers/Header.svelte';
 	import Overlay from '$components/Overlay.svelte';
 	import { BOTTOM_NAVBARS } from '$lib/constants/navItems';
+	import { versionStore } from '$lib/stores/VersionStore';
 	$: pageMetaData = $page?.data?.layoutConfig;
 	let searchFocused = false;
 	const handleSearchFocus = (e: { detail: boolean }) => {
 		searchFocused = e.detail;
 	};
+	let version = '';
+
+	versionStore.subscribe((value) => {
+		version = value.version;
+	});
 </script>
 
 <div class="flex-no-wrap fixed flex h-full w-full flex-col bg-grey">
@@ -29,7 +35,7 @@
 	</main>
 	{#if pageMetaData?.showBottomNavigation}
 		<footer>
-			<BottomNavigation navs={BOTTOM_NAVBARS()} />
+			<BottomNavigation navs={BOTTOM_NAVBARS(version)} />
 		</footer>
 	{/if}
 </div>

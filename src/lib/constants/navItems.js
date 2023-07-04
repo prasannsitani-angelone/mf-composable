@@ -8,10 +8,10 @@ import PadNav from '$components/NavItems/PadNav.svelte';
 import PadNavFilled from '$components/NavItems/PadNavFilled.svelte';
 import { base } from '$app/paths';
 
-export const BOTTOM_NAVBARS = () => [
+export const BOTTOM_NAVBARS = (version) => [
 	{
 		label: 'Discover',
-		path: `${base}/discoverfunds`,
+		path: version ? `${base}/discoverfunds_${version?.toLowerCase()}` : `${base}/discoverfunds`,
 		icon: DiscoverNav,
 		activeIcon: DiscoverNavFilled,
 		isInternalNavigation: true
