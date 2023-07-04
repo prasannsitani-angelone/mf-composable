@@ -167,7 +167,8 @@ export const load = (async ({ fetch, params, parent }) => {
 				isin,
 				schemeCode,
 				settlementType,
-				isNfoClosed
+				isNfoClosed,
+				createdBy
 			} = res.data.data;
 			bankName = bankname;
 			bankAccountNumber = bankAcc;
@@ -216,7 +217,12 @@ export const load = (async ({ fetch, params, parent }) => {
 			)?.timeStamp;
 
 			if (settlementType?.toUpperCase() !== SETTLEMENT_TYPES.MF) {
-				if (transactionType === 'REDEEM' && ExpectedNavDate) {
+				if (
+					(transactionType === 'REDEEM' ||
+						investmentType === 'LUMPSUM' ||
+						(investmentType?.toUpperCase() === 'SIP' && firstOrder?.toUpperCase() === 'Y')) &&
+					ExpectedNavDate
+				) {
 					statusItems[ORDER_DATA.EXPECTED_NAV_DATE].value = format(
 						new Date(ExpectedNavDate * 1000),
 						'dd MMM yyyy'
@@ -569,6 +575,9 @@ export const load = (async ({ fetch, params, parent }) => {
 				if (paymentStatusString === STATUS_ARR?.PENDING) {
 					headerContent.status = paymentStatusString;
 				}
+			}
+			if (createdBy?.toLowerCase() === 'nudge') {
+				tag += '_nudge';
 			}
 			orderDetailsPageAnalytics(res.data.data, isInvestmentSipOrXsip, lumpsumMandateOrder);
 			return {

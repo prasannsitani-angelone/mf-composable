@@ -7,8 +7,12 @@ export const getExpectedNavDate = (data: IOrderDetails) => {
 	const expectedNavDate = data?.statusHistory?.find(
 		(state) => state.status === 'ORDER_SENT_TO_RTA'
 	)?.timeStamp;
-
-	if (data?.transactionType === 'REDEEM' && data?.ExpectedNavDate) {
+	if (
+		(data?.transactionType === 'REDEEM' ||
+			data?.investmentType === 'LUMPSUM' ||
+			(data?.investmentType?.toUpperCase() === 'SIP' && data?.firstOrder?.toUpperCase() === 'Y')) &&
+		data?.ExpectedNavDate
+	) {
 		formattedExpectedNavDate = format(new Date(data?.ExpectedNavDate * 1000), 'dd MMM yyyy');
 	} else if (expectedNavDate && data?.transactionType !== TRANSACTION_TYPE.SWITCH) {
 		formattedExpectedNavDate = format(new Date(expectedNavDate), 'dd MMM yyyy');
