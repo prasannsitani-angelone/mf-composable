@@ -131,3 +131,13 @@ export const roundUpAmountToNearestThousand = (amount: number) => {
 
 	return resultAmount;
 };
+
+/**
+ * roundDownToNearestHundred
+ *
+ * @param {number} num
+ * @returns {number}
+ */
+export const roundDownToNearestHundred = (num: number): number => {
+	return Math.floor(num / 100) * 100;
+};

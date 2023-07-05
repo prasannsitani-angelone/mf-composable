@@ -130,9 +130,7 @@
 				>
 					<div class="text-lg font-semibold text-black-key">Choose monthly investment amount</div>
 
-					<div class="text-xs font-medium text-black-bolder">
-						Start investing with just ₹100 monthly!
-					</div>
+					<div class="text-xs font-medium text-black-bolder">Start investing with just ₹100!</div>
 
 					<section class="mt-6">
 						<AmountSection
@@ -151,6 +149,7 @@
 							threeYearReturns={schemeData?.returns3yr}
 							textClass={'flex items-center'}
 							amountClass={'text-xl'}
+							roundDownToNearestHundredRequired={true}
 							on:threeYearReturnsValue={(e) => setThreeYearReturnsValue(e?.detail)}
 						>
 							<svelte:fragment slot="supporting-text">

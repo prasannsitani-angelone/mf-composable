@@ -194,6 +194,7 @@
 	<InfoModal
 		showModal={showWhyThisFundModal}
 		heading={whyThisFundModalData?.heading}
+		headingClass={'!font-medium'}
 		on:crossClicked={toggleShowWhyThisFundModal}
 	>
 		<svelte:fragment slot="crossIconSlot">
@@ -222,6 +223,7 @@
 		showModal={showCalendarLearnMoreModal}
 		heading="Monthly SIP Date"
 		detailText="Date on which your monthly instalment is due for investment"
+		headingClass={'!font-medium'}
 		on:crossClicked={toggleShowCalendarLearnMoreModal}
 	>
 		<svelte:fragment slot="crossIconSlot">

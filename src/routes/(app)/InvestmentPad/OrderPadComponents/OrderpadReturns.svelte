@@ -4,17 +4,22 @@
 	import { calculateSipReturns } from '$lib/utils/helpers/returns';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import { createEventDispatcher, onMount } from 'svelte';
+	import { roundDownToNearestHundred } from '$lib/utils/helpers/formatAmount';
 
 	export let investedAmount: number;
 	export let threeYearReturns: number;
 	export let textClass = '';
 	export let amountClass = '';
+	export let roundDownToNearestHundredRequired = false;
 
 	const dispatch = createEventDispatcher();
 
 	$: threeYearReturnsValue =
 		Math.round(calculateSipReturns(investedAmount, 3, threeYearReturns)?.matuarityAmount * 100) /
 		100;
+	$: if (roundDownToNearestHundredRequired) {
+		threeYearReturnsValue = roundDownToNearestHundred(threeYearReturnsValue);
+	}
 	$: dispatch('threeYearReturnsValue', threeYearReturnsValue);
 
 	let showthreeYearReturnsInfoModal = false;

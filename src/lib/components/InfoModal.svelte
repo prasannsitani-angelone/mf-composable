@@ -5,6 +5,7 @@
 
 	export let heading = '';
 	export let detailText = '';
+	export let headingClass = '';
 	export let showModal: boolean;
 
 	const dispatch = createEventDispatcher();
@@ -23,7 +24,7 @@
 			<slot name="heading">
 				<div class="flex items-center justify-between px-4 pt-6 pb-3 md:py-6 md:px-8">
 					<slot name="headingDetails">
-						<span class="text-lg font-normal text-black-title md:text-xl">
+						<span class="text-lg font-normal text-black-title md:text-xl {headingClass}">
 							{heading}
 						</span>
 					</slot>

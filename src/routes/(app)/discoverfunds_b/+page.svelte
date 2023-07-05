@@ -346,17 +346,20 @@
 <article class="grid grid-cols-[100%]">
 	<!-- 1. <Portfolio Card / Start First SIP Nudge /> -->
 	<div class="row-start-{placementMapping.investments?.rowStart} col-start-1 sm:hidden">
-		{#if isLoggedInUser && deviceType?.isMobile && startFirstSipNudgeData}
-			<LazyComponent
-				when={isLoggedInUser && deviceType?.isMobile && startFirstSipNudgeData}
-				component={async () => await import('$components/StartFirstSip/StartFirstSipNudge.svelte')}
-				nudgeData={startFirstSipNudgeData}
-				version="B"
-			/>
-		{:else if isLoggedInUser && deviceType?.isMobile}
-			<div class="mb-2 block overflow-hidden">
-				<PortfolioCard discoverPage={true} investmentSummary={data.investementSummary} />
-			</div>
+		{#if isLoggedInUser && deviceType?.isMobile && nudgesData}
+			{#if startFirstSipNudgeData}
+				<LazyComponent
+					when={isLoggedInUser && deviceType?.isMobile && startFirstSipNudgeData}
+					component={async () =>
+						await import('$components/StartFirstSip/StartFirstSipNudge.svelte')}
+					nudgeData={startFirstSipNudgeData}
+					version="B"
+				/>
+			{:else}
+				<div class="mb-2 block overflow-hidden">
+					<PortfolioCard discoverPage={true} investmentSummary={data.investementSummary} />
+				</div>
+			{/if}
 		{/if}
 	</div>
 
