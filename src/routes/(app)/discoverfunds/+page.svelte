@@ -35,6 +35,7 @@
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import LazyComponent from '$components/LazyComponent.svelte';
+	import { setStoriesData, videoCtaList } from '$components/Stories/utils';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -155,6 +156,8 @@
 		});
 	};
 
+	let storiesData: StoriesData;
+
 	const setStoryCtaUrl = (vidId: number) => {
 		const selectedVid: videoCtaUrls | undefined = videoCtaList?.find(
 			(vid) => vid?.videoId === vidId
@@ -173,112 +176,11 @@
 		return '/';
 	};
 
-	const videoCtaList: Array<videoCtaUrls> = [
-		{
-			videoId: 1,
-			ctaList: {
-				genericUrl: '/explorefunds/sip-with-100?id=101'
-			}
-		},
-		{
-			videoId: 2,
-			ctaList: {
-				genericUrl: '/explorefunds/index-funds?id=103'
-			}
-		},
-		{
-			videoId: 3,
-			ctaList: {
-				B2C_D:
-					'/schemes/sbi-large-and-midcap-fund-direct-plan-growth-isin-inf200k01uj5-schemecode-sbd017g-gr',
-				B2C_P:
-					'/schemes/sbi-large-and-midcap-fund-direct-plan-growth-isin-inf200k01uj5-schemecode-sbd017g-gr',
-				B2B_D:
-					'/schemes/sbi-large-and-midcap-fund-regular-plan-growth-isin-inf200k01305-schemecode-017g',
-				B2B_P:
-					'/schemes/sbi-large-and-midcap-fund-regular-plan-growth-isin-inf200k01305-schemecode-017g',
-				genericUrl: ''
-			}
-		},
-		{
-			videoId: 4,
-			ctaList: {
-				B2C_D:
-					'/schemes/hdfc-balanced-advantage-fund-growth-plan-direct-plan-isin-inf179k01wa6-schemecode-gfgt-gr',
-				B2C_P:
-					'/schemes/hdfc-balanced-advantage-fund-growth-plan-direct-plan-isin-inf179k01wa6-schemecode-gfgt-gr',
-				B2B_D:
-					'/schemes/hdfc-balanced-advantage-fund-growth-plan-isin-inf179k01830-schemecode-gfg-hdfc',
-				B2B_P:
-					'/schemes/hdfc-balanced-advantage-fund-growth-plan-isin-inf179k01830-schemecode-gfg-hdfc',
-				genericUrl: ''
-			}
-		}
-	];
-
-	let storiesData: StoriesData = {
-		stories: [
-			{
-				storyId: 1,
-				title: 'Start a SIP',
-				videos: [
-					{
-						videoId: 1,
-						videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video1c4.mp4'
-					}
-				],
-				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail1c1.webp',
-				ctaType: '',
-				ctaText: 'START SIP NOW',
-				ctaUrl: setStoryCtaUrl(1)
-			},
-			{
-				storyId: 2,
-				title: 'Index Funds!',
-				videos: [
-					{
-						videoId: 2,
-						videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video2c4.mp4'
-					}
-				],
-				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail2c1.webp',
-				ctaType: '',
-				ctaText: 'START SIP NOW',
-				ctaUrl: setStoryCtaUrl(2)
-			},
-			{
-				storyId: 3,
-				title: 'Best of SBI',
-				videos: [
-					{
-						videoId: 3,
-						videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video3c4.mp4'
-					}
-				],
-				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail3c1.webp',
-				ctaType: '',
-				ctaText: 'START SIP NOW',
-				ctaUrl: setStoryCtaUrl(3)
-			},
-			{
-				storyId: 4,
-				title: 'All Season Fund',
-				videos: [
-					{
-						videoId: 4,
-						videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video4c4.mp4'
-					}
-				],
-				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail4c1.webp',
-				ctaType: '',
-				ctaText: 'START SIP NOW',
-				ctaUrl: setStoryCtaUrl(4)
-			}
-		]
-	};
-
 	onMount(async () => {
 		await tick();
+
+		storiesData = setStoriesData(setStoryCtaUrl);
+
 		sHomepage({
 			version: 'A',
 			userType: $page?.data?.userDetails?.userType || 'B2C',
