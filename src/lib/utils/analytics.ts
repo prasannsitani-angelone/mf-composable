@@ -40,6 +40,10 @@ class Analytics extends BaseLogger {
 			//   session_id: tokenStore.sessionID,
 			release_code: 'analytics2.0',
 			user_id: '',
+			source_metadata: {
+				platformVariant: appStore.platformvariant(),
+				platformVersion: appStore.platformversion()
+			},
 			eventList: logs
 		};
 	};
