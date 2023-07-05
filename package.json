@@ -70,7 +70,7 @@
 		"swiper": "8.2.4",
 		"ua-parser-js": "^1.0.35",
 		"uuid": "^9.0.0",
-		"wms-ui-component": "0.81.0",
+		"wms-ui-component": "0.82.0",
 		"word-wrap": "^1.2.3"
 	}
 }
