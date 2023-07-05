@@ -180,7 +180,9 @@ export const getSIPMonthIncrementBasedOnDate = (
 	const daysInCurrentMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(); // Total number of days in the ongoing month
 	let monthIncrementFactor = 1; // default value is 1 (for current month)
 
-	if (bufferDays >= 30) {
+	const bufferDaysToCompare = 31; // for comparing the buffer days
+
+	if (bufferDays >= bufferDaysToCompare) {
 		if (calendarDate + daysInCurrentMonth - date?.getDate() >= bufferDays) {
 			monthIncrementFactor += 1; // next month
 		} else {
