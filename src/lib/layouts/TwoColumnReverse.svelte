@@ -1,44 +1,18 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import BottomNavigation from '$components/BottomNavigation.svelte';
-	import Header from '$components/Headers/Header.svelte';
 	import Overlay from '$components/Overlay.svelte';
-	import { BOTTOM_NAVBARS } from '$lib/constants/navItems';
-	import { versionStore } from '$lib/stores/VersionStore';
-	$: pageMetaData = $page?.data?.layoutConfig;
-	let searchFocused = false;
-	const handleSearchFocus = (e: { detail: boolean }) => {
-		searchFocused = e.detail;
-	};
-	let version = '';
-
-	versionStore.subscribe((value) => {
-		version = value.version;
-	});
+	export let searchFocused = false;
 </script>
 
-<div class="flex-no-wrap fixed flex h-full w-full flex-col bg-grey">
-	<!-- header (navbar) -->
-	<header class="z-[70] flex-shrink-0 bg-white">
-		<Header on:handleSearchFocus={handleSearchFocus} />
-	</header>
-
-	<!-- page body -->
-	<main class="scroll-lock w-full flex-grow overflow-auto px-2 py-2 lg:pb-20">
-		{#if searchFocused}
-			<Overlay containerClass="!z-60" />
-		{/if}
-		<section class="m-auto flex max-w-8xl flex-wrap justify-center">
-			<section
-				class="grid w-full grid-cols-[100%] !gap-y-0 sm:grid-cols-[66%_34%] sm:gap-2 lg:gap-5 lg:pt-3 xl:w-4/5"
-			>
-				<slot />
-			</section>
-		</section>
-	</main>
-	{#if pageMetaData.showBottomNavigation}
-		<footer>
-			<BottomNavigation navs={BOTTOM_NAVBARS(version)} />
-		</footer>
+<!-- page body -->
+<main class="scroll-lock w-full flex-grow overflow-auto px-2 py-2 lg:pb-20">
+	{#if searchFocused}
+		<Overlay containerClass="!z-60" />
 	{/if}
-</div>
+	<section class="m-auto flex max-w-8xl flex-wrap justify-center">
+		<section
+			class="grid w-full grid-cols-[100%] !gap-y-0 sm:grid-cols-[66%_34%] sm:gap-2 lg:gap-5 lg:pt-3 xl:w-4/5"
+		>
+			<slot />
+		</section>
+	</section>
+</main>

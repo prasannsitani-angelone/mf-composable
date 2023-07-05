@@ -31,7 +31,20 @@
 	import { cartStore } from '$lib/stores/CartStore';
 	import { shouldDisplayAngelBeeBanner } from '$lib/utils';
 	import LazyComponent from '$components/LazyComponent.svelte';
+	import BottomNavigation from '$components/BottomNavigation.svelte';
+	import { BOTTOM_NAVBARS } from '$lib/constants/navItems';
+	import Header from '$components/Headers/Header.svelte';
+	import { versionStore } from '$lib/stores/VersionStore';
+	$: pageMetaData = $page?.data?.layoutConfig;
+	let searchFocused = false;
+	const handleSearchFocus = (e: { detail: boolean }) => {
+		searchFocused = e.detail;
+	};
+	let version = '';
 
+	versionStore.subscribe((value) => {
+		version = value.version;
+	});
 	$: isModalOpen = $externalNavigation.active;
 	// Update store with Spark headers
 
@@ -114,29 +127,38 @@
 		style="visibility: hidden;"
 	/>
 </noscript>
+<div class="flex-no-wrap fixed flex h-full w-full flex-col bg-grey">
+	<header class="z-[70] flex-shrink-0 bg-white">
+		<Header on:handleSearchFocus={handleSearchFocus} />
+	</header>
 
-{#if $appPage.data?.layoutConfig?.layoutType === 'TWO_COLUMN'}
-	<TwoColumn>
-		<slot />
-	</TwoColumn>
-{:else if $appPage.data?.layoutConfig?.layoutType === 'TWO_COLUMN_REVERSE'}
-	<TwoColumnReverse>
-		<slot />
-	</TwoColumnReverse>
-{:else if $appPage.data?.layoutConfig?.layoutType === 'TWO_COLUMN_RIGHT_LARGE'}
-	<TwoColumnRightLarge>
-		<slot />
-	</TwoColumnRightLarge>
-{:else if $appPage.data?.layoutConfig?.layoutType === 'FULL_HEIGHT_WITHOUT_PADDING'}
-	<FullHeightWithoutPadding>
-		<slot />
-	</FullHeightWithoutPadding>
-{:else}
-	<Default>
-		<slot />
-	</Default>
-{/if}
-
+	{#if $appPage.data?.layoutConfig?.layoutType === 'TWO_COLUMN'}
+		<TwoColumn {searchFocused}>
+			<slot />
+		</TwoColumn>
+	{:else if $appPage.data?.layoutConfig?.layoutType === 'TWO_COLUMN_REVERSE'}
+		<TwoColumnReverse {searchFocused}>
+			<slot />
+		</TwoColumnReverse>
+	{:else if $appPage.data?.layoutConfig?.layoutType === 'TWO_COLUMN_RIGHT_LARGE'}
+		<TwoColumnRightLarge {searchFocused}>
+			<slot />
+		</TwoColumnRightLarge>
+	{:else if $appPage.data?.layoutConfig?.layoutType === 'FULL_HEIGHT_WITHOUT_PADDING'}
+		<FullHeightWithoutPadding>
+			<slot />
+		</FullHeightWithoutPadding>
+	{:else}
+		<Default {searchFocused}>
+			<slot />
+		</Default>
+	{/if}
+	{#if pageMetaData.showBottomNavigation}
+		<footer>
+			<BottomNavigation navs={BOTTOM_NAVBARS(version)} />
+		</footer>
+	{/if}
+</div>
 {#if isModalOpen}
 	<Overlay containerClass="!justify-center sm:!justify-center">
 		<LoadingIndicator svgClass={'!w-16 !h-16'} />
