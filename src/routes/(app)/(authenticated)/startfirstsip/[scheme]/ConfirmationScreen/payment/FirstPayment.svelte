@@ -12,6 +12,7 @@
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
 	import { getCompleteSIPDateBasedonDD } from '$lib/utils/helpers/date';
 	import { encodeObject } from '$lib/utils/helpers/params';
+	import BankSelectionPopup from '$components/BankSelectionPopup.svelte';
 
 	import { upiSIPFlow, walletSIPFlow } from '$components/Payment/flow';
 	import { onDestroy } from 'svelte';
@@ -117,12 +118,20 @@
 		firstTimeUser = false;
 	};
 
+	const onAccountChange = (index: number) => {
+		paymentHandler.selectedAccount = index;
+	};
+
 	const resetInputPaymentError = () => {
 		inputPaymentError = '';
 	};
 
 	const showBankPopup = () => {
 		bankPopupVisible = true;
+	};
+
+	const hideBankPopup = () => {
+		bankPopupVisible = false;
 	};
 
 	const showLoading = (heading: string) => {
@@ -334,7 +343,8 @@
 			isin: scheme?.isin,
 			date: calendarDate,
 			orderID: orderId,
-			sipID: sipId
+			sipID: sipId,
+			firstTimePayment: true
 		});
 
 		goto(`${base}/startfirstsip/summary?params=${params}`, {
@@ -375,14 +385,14 @@
 		{allowedPaymentmethods}
 	/>
 
-	<!-- {#if true || bankPopupVisible}
+	{#if bankPopupVisible}
 		<BankSelectionPopup
 			bankAccounts={profileData?.bankDetails}
 			selectedAccount={paymentHandler?.selectedAccount}
 			{onAccountChange}
 			onClose={hideBankPopup}
 		/>
-	{/if} -->
+	{/if}
 
 	{#if upiState.flow === 2}
 		<UpiTransactionPopup

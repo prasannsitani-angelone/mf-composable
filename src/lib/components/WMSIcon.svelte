@@ -118,6 +118,7 @@
 		rectangle: 'RectangleIcon',
 		eclipse: 'EclipseIcon',
 		'raised-hands': 'RaisedHands',
+		'trash-icon': 'TrashIcon',
 		'lock-icon': 'LockIcon',
 		'rupee-circle-bolder': 'RupeeInCircleBolder',
 		'rupee-circle-blue': 'RupeeCircleBlue',
