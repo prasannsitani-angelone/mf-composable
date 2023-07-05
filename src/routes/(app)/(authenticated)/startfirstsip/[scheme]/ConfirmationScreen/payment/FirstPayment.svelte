@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { v4 as uuidv4 } from 'uuid';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
-	import { goto, invalidate } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
 	import ChangePaymentContainer from '../../../../../InvestmentPad/OrderPadComponents/ChangePaymentContainer.svelte';
@@ -15,26 +15,30 @@
 	import BankSelectionPopup from '$components/BankSelectionPopup.svelte';
 
 	import { upiSIPFlow, walletSIPFlow } from '$components/Payment/flow';
-	import { onDestroy } from 'svelte';
-	import {
-		initializeGPayState,
-		initializeUPIState,
-		intializeNetBankingState
-	} from '$components/Payment/util';
+	import { onDestroy, onMount } from 'svelte';
+	import { initializeGPayState, initializeUPIState } from '$components/Payment/util';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
-	// import  changePaymentMethodAnalytics,
-	// mountChangePaymentMethodAnalytics,
-	// paymentFailedScreenCloseButtonAnalytics,
-	// paymentPendingScreenCloseButtonAnalytics
-	// '../../../../cart/analytics/confirmation';
+	import {
+		landedOnPaymentScreenAnalytics,
+		paymentRadioClickAnalytics,
+		paymentOnPayClickAnalytics,
+		paymentFailureScreenAnalytics,
+		onRetryClickAnalytics,
+		paymentPendingScreenAnalytics,
+		onPendingScreenCloseClickAnalytics,
+		paymentOnRequestResponseAnalytics
+	} from '$lib/analytics/startFirstSip/payment';
 
 	export let scheme: SchemeDetails;
 	export let amount: number;
 	export let calendarDate = 4;
+	export let calendarMonth: string;
+	export let calendarYear: number;
 	export let dateSuperscript = 'th';
 
 	export let hidePaymentMethodScreen = (): void => undefined;
 
+	const nextSipDateBufferDays = 30;
 	const allowedPaymentmethods = ['PHONEPE', 'GOOGLEPAY', 'UPI'];
 
 	$: profileData = $page?.data?.profile;
@@ -45,8 +49,6 @@
 		paymentMode: '',
 		upiId: ''
 	};
-	let firstTimeUser = false;
-	// let showChangePayment = false;
 	let inputPaymentError = '';
 	let bankPopupVisible = false;
 	let validateUPILoading = false;
@@ -76,18 +78,22 @@
 		timerInterval: null,
 		paymentWindowInterval: null
 	};
-	const netBankingState = {
-		paymentWindow: null,
-		paymentWindowInterval: null
-	};
 	const gpayPaymentState = {
 		paymentWindowInterval: null,
 		waitTime: 10
 	};
 
-	// onMount(() => {
-	// 	// window.addEventListener('message', listenerFunc);
-	// });
+	onMount(() => {
+		const eventMetaData = {
+			FundISIN: scheme?.isin,
+			MonthlyAmount: `${amount}`,
+			SipDate: `${calendarDate}-${
+				new Date(`${calendarMonth} 1, ${calendarYear}`).getMonth() + 1
+			}-${calendarYear}`
+		};
+
+		landedOnPaymentScreenAnalytics(eventMetaData);
+	});
 
 	onDestroy(() => {
 		resetState();
@@ -97,27 +103,15 @@
 		if (state.interval) {
 			clearInterval(state.interval);
 		}
-		intializeNetBankingState(netBankingState);
 		initializeUPIState(upiState);
 		initializeGPayState(gpayPaymentState);
 	};
 
-	const showPaymentMethodScreen = () => {
-		// TODO: Analytics
-		// changePaymentMethodAnalytics();
-		// showChangePayment = true;
-		// mountChangePaymentMethodAnalytics({
-		// 	DefaultPaymentMethod: paymentHandler?.paymentMode,
-		// 	DefaultBank: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
-		// 	ChangeBankAvailable: profileData?.bankDetails?.length > 1
-		// });
-	};
-
 	const onPaymentModeSelect = (paymentMode: string) => {
+		const eventMetaData = { ModeofPayment: paymentMode };
+		paymentRadioClickAnalytics(eventMetaData);
 		paymentHandler.paymentMode = paymentMode;
-		firstTimeUser = false;
 	};
-
 	const onAccountChange = (index: number) => {
 		paymentHandler.selectedAccount = index;
 	};
@@ -152,21 +146,11 @@
 		validateUPILoading = false;
 	};
 
-	// const paymentFailedScreenAnalyticsWithData = async () => {
-	// 	const itemList = await data.api.itemList;
-	// 	paymentFailedScreenAnalytics({
-	// 		Amount: itemList?.totalAmount,
-	// 		PaymentMethod: paymentHandler?.paymentMode,
-	// 		PaymentBank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName,
-	// 		PaymentFailed:
-	// 			'IF the money has been debited from your bank account, please do not worry, it will be refunded automatically'
-	// 	});
-	// };
-
 	const displayError = ({ heading = 'Error', errorSubHeading = '', type = '' }) => {
 		if (type === 'PAYMENT_FAILED' || type === 'PAYMENT_PATCH_FAILED') {
-			// TODO: Analytics
-			// paymentFailedScreenAnalyticsWithData();
+			paymentFailureScreenAnalytics();
+			const eventMetaData = { status: 'Failure', message: errorSubHeading };
+			paymentOnRequestResponseAnalytics(eventMetaData);
 		}
 		error.visible = true;
 		error.heading = heading;
@@ -178,18 +162,8 @@
 		error.heading = '';
 		error.subHeading = '';
 		error.visible = false;
-		if (error.type === 'PATCH_FAILED') {
-			goBack();
-		} else if (error.type === 'PAYMENT_PATCH_FAILED') {
-			// TODO: Analytics
-			// paymentFailedScreenCloseButtonAnalytics();
-			goBack();
-		} else if (error.type === 'PAYMENT_FAILED') {
-			// TODO: Analytics
-			// paymentFailedScreenCloseButtonAnalytics();
-			onRefresh();
-		}
 		error.type = '';
+		onRetryClickAnalytics();
 	};
 
 	const displayPendingPopup = async ({
@@ -198,15 +172,9 @@
 		orderId,
 		sipId
 	}) => {
-		// TODO: Analytics
-		// const itemList = await data.api.itemList;
-		// paymentPendingScreenAnalytics({
-		// 	Amount: itemList?.totalAmount,
-		// 	PaymentMethod: paymentHandler?.paymentMode,
-		// 	PaymentBank: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
-		// 	PaymentPending:
-		// 		'we are confirming the status of your payment. This Usually takes few minutes. We will notify you once we have an update'
-		// });
+		paymentPendingScreenAnalytics();
+		const eventMetaData = { status: 'Pending', message: errorSubHeading };
+		paymentOnRequestResponseAnalytics(eventMetaData);
 		pending.visible = true;
 		pending.heading = heading;
 		pending.subHeading = errorSubHeading;
@@ -215,8 +183,7 @@
 	};
 
 	const closePendingPopup = () => {
-		// TODO: Analytics
-		// paymentPendingScreenCloseButtonAnalytics();
+		onPendingScreenCloseClickAnalytics();
 		pending.heading = '';
 		pending.subHeading = '';
 		pending.visible = false;
@@ -241,7 +208,6 @@
 
 	const onUPIValidationFailure = (error) => {
 		inputPaymentError = error;
-		showPaymentMethodScreen();
 	};
 
 	const updateUPITimer = (time: number) => {
@@ -253,28 +219,23 @@
 	};
 
 	const getSIPDate = () => {
-		const firstSipPayment = true;
-		return getCompleteSIPDateBasedonDD(calendarDate, new Date(), firstSipPayment ? 30 : 10);
+		return getCompleteSIPDateBasedonDD(calendarDate, new Date(), nextSipDateBufferDays);
 	};
 
 	const onPayment = async (inputId: string) => {
-		// TODO: analytics
-		// const itemList = await data.api.itemList;
-		// if (showChangePayment) {
-		// 	paymentModeScreenPayButtonClickAnalytics({
-		// 		NoOfFunds: itemList?.shortenedFundList?.length,
-		// 		CheckedFundsList: itemList?.shortenedFundList
-		// 	});
-		// } else {
-		// 	clickCheckoutAnalytics({
-		// 		NoOfFunds: itemList?.shortenedFundList?.length,
-		// 		CheckedFundsList: itemList?.shortenedFundList
-		// 	});
-		// }
+		const eventMetaData = {
+			FundISIN: scheme?.isin,
+			MonthlyAmount: `${amount}`,
+			SipDate: `${calendarDate}-${
+				new Date(`${calendarMonth} 1, ${calendarYear}`).getMonth() + 1
+			}-${calendarYear}`,
+			Paidfrom: paymentHandler?.paymentMode
+		};
+
+		paymentOnPayClickAnalytics(eventMetaData);
 
 		assignNewRequestId();
 
-		//source,
 		const commonInput = {
 			amount,
 			accNO: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO,
@@ -313,10 +274,7 @@
 				updateUPITimer,
 				isFirstSip: true
 			});
-		} else if (
-			paymentHandler?.paymentMode !== 'NET_BANKING' &&
-			paymentHandler?.paymentMode !== 'UPI'
-		) {
+		} else {
 			walletSIPFlow({
 				...commonSIPInput,
 				paymentModeName: PAYMENT_MODE[paymentHandler.paymentMode].name,
@@ -327,17 +285,11 @@
 		}
 	};
 
-	// TODO: USE OF THIS INVALIDATE
-	const onRefresh = async () => {
-		invalidate('app:cart:confirmation');
-	};
-
 	const goBack = async () => {
 		window.history.back();
 	};
 
 	const navigatToOrderSummary = async ({ orderId, sipId }) => {
-		// cartStore.updateCartData(false);
 		const params = encodeObject({
 			amount: amount,
 			isin: scheme?.isin,
@@ -346,6 +298,9 @@
 			sipID: sipId,
 			firstTimePayment: true
 		});
+
+		const eventMetaData = { status: 'Success', message: 'Success' };
+		paymentOnRequestResponseAnalytics(eventMetaData);
 
 		goto(`${base}/startfirstsip/summary?params=${params}`, {
 			replaceState: true
@@ -433,14 +388,4 @@
 			buttonVariant="contained"
 		/>
 	{/if}
-	<!-- {:catch} -->
-	<!-- <div class="flex h-full flex-col items-center self-center px-4 py-4">
-			<div class="mb-4 text-center text-base font-medium text-black-title">
-				We are facing some issue at our end. Please try again or contact field support
-			</div>
-			<Button variant="transparent" class="mt-6 w-max self-center" onClick={onRefresh}>
-				REFRESH
-			</Button>
-		</div> -->
-	<!-- {/await} -->
 </article>

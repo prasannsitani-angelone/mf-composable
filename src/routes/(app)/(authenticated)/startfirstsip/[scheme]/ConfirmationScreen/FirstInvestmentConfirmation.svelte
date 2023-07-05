@@ -232,5 +232,13 @@
 	</InfoModal>
 {/if}
 {#if intiatePayment}
-	<FirstPayment {scheme} {amount} {calendarDate} {dateSuperscript} {hidePaymentMethodScreen} />
+	<FirstPayment
+		{scheme}
+		{amount}
+		{calendarDate}
+		{dateSuperscript}
+		{hidePaymentMethodScreen}
+		{calendarMonth}
+		{calendarYear}
+	/>
 {/if}

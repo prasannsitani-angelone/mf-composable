@@ -2,22 +2,49 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { invalidate } from '$app/navigation';
+	import { onMount } from 'svelte/internal';
 	import Button from '$components/Button.svelte';
 	import SummaryMan from './components/SummaryMan.svelte';
 	import CelebrationMessage from './components/CelebrationMessage.svelte';
 	import ConfirmationMessage from './components/ConfirmationMessage.svelte';
 	import SchemeCard from '../../ordersummary/SchemeCard/SchemeCard.svelte';
 	import HeaderComponent from '../../ordersummary/Header/HeaderComponent.svelte';
+	import { format } from 'date-fns';
+	import {
+		onOrderSummaryScreenAnalytics,
+		onGotoOrdersClickAnalytics
+	} from '$lib/analytics/startFirstSip/payment';
 
 	export let data;
 
 	const navigateToOrders = async () => {
+		const orderSummaryData = await data.api.ordersData;
+
+		const eventMetaData = {
+			FundISIN: orderSummaryData.schemeDetails?.isin,
+			MontlyAmount: orderSummaryData.amount
+		};
+
+		onGotoOrdersClickAnalytics(eventMetaData);
 		await goto(`${base}/orders/orderspage`, { replaceState: true });
 	};
 
 	const onRefresh = async () => {
 		invalidate('app:firstsip:ordersummary');
 	};
+
+	onMount(async () => {
+		const orderSummaryData = await data.api.ordersData;
+
+		const eventMetaData = {
+			status: orderSummaryData.headerContent?.status,
+			FundISIN: orderSummaryData.schemeDetails?.isin,
+			MontlyAmount: orderSummaryData.amount,
+			SIPDate: format(new Date(orderSummaryData.nextSipDate), 'dd-MM-yyyy'),
+			message: orderSummaryData.headerContent?.subHeadingArr[0]?.text || ''
+		};
+		onOrderSummaryScreenAnalytics(eventMetaData);
+	});
 </script>
 
 <section class="ml-[calc(50%-50vw)] w-screen">

@@ -11,6 +11,7 @@ export const load = async ({ fetch, url, depends }) => {
 	const params = url.searchParams.get('params');
 	const decodedParams = decodeToObject(params);
 	const { orderID, sipID, firstTimePayment } = decodedParams;
+
 	const getOrderDetailsFunc = async () => {
 		try {
 			if (firstTimePayment) {
@@ -184,6 +185,8 @@ export const load = async ({ fetch, url, depends }) => {
 			schemeCardItems,
 			schemeDetails,
 			headerContent,
+			amount: orderData?.data?.data?.amount || '',
+			nextSipDate: sipData?.data?.data?.startDate || '',
 			ok:
 				(isLumpsumOrder && orderData?.ok) ||
 				(isSIPOrder && ((orderData?.ok && sipData?.ok) || (!firstTimePayment && sipData?.ok)))
