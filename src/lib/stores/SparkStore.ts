@@ -56,7 +56,7 @@ function Store() {
 			});
 		},
 		platform: () => {
-			return sparkStore.platform.toLowerCase() || 'mf-web';
+			return sparkStore.platform?.toLowerCase() || 'mf-web';
 		},
 		isSparkAndroidUser: () => {
 			return sparkStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID;
@@ -78,7 +78,7 @@ function Store() {
 		},
 		closecta: () => sparkStore.closecta,
 		platformversion: () => sparkStore.platformversion,
-		platformvariant: () => sparkStore.platformvariant || 'web',
+		platformvariant: () => sparkStore.platformvariant?.toLowerCase() || 'web',
 		deviceid: () => sparkStore.deviceid,
 		get: () => sparkStore,
 		isTWA() {

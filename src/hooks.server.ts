@@ -166,7 +166,9 @@ export const handleFetch = (async ({ event, request, fetch }) => {
 	request.headers.set('authorization', `Bearer ${token}`);
 	request.headers.set(
 		'X-Platform',
-		`${sparkHeaders?.get('platform') || 'mf-web'}_${sparkHeaders?.get('platformvariant') || 'web'}`
+		`${sparkHeaders?.get('platform')?.toLowerCase() || 'mf-web'}_${
+			sparkHeaders?.get('platformvariant')?.toLowerCase() || 'web'
+		}`
 	);
 
 	/* Use MF core internal API for SSR rendered app to avoid internet roundtrip during SSR

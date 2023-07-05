@@ -49,8 +49,8 @@
 			isCrawler: deviceType?.isCrawler,
 			platform: deviceType?.platform,
 			deviceID: sparkHeaders?.deviceid || sparkQuery?.deviceid,
-			sparkPlatform: sparkHeaders?.platform,
-			platformVariant: sparkHeaders?.platformvariant,
+			sparkPlatform: sparkHeaders?.platform?.toLowerCase() || 'mf-web',
+			platformVariant: sparkHeaders?.platformvariant?.toLowerCase() || 'web',
 			platformVersion: sparkHeaders?.platformversion,
 			isGuest
 		}
@@ -58,13 +58,18 @@
 
 	const sendWebVitalsLogs = (vitals: WebVitals[]) => {
 		if (vitals.length === 3) {
-			webVitalsAnalytics(webVitals);
+			// connection details
+			const connectionDetails = {
+				downlink: navigator?.connection?.downlink,
+				effectiveType: navigator?.connection?.effectiveType,
+				rtt: navigator?.connection?.rtt,
+				saveData: navigator?.connection?.saveData
+			};
+			webVitalsAnalytics([...webVitals, connectionDetails]);
 			logger.info({
 				type: 'WebVitals',
-				params: webVitals
+				params: [...webVitals, connectionDetails]
 			});
-			Analytics.flush();
-			Logger.flush();
 		}
 	};
 
@@ -95,15 +100,13 @@
 		appMount({
 			isGuest,
 			cookieDisabled: !window?.navigator?.cookieEnabled,
-			sparkPlatform: sparkHeaders?.platform,
-			platformVariant: sparkHeaders?.platformvariant,
+			sparkPlatform: sparkHeaders?.platform?.toLowerCase() || 'mf-web',
+			platformVariant: sparkHeaders?.platformvariant?.toLowerCase() || 'web',
 			browserVersion: deviceType?.browserFullVersion,
 			browserName: deviceType?.browserName,
 			isMissingHeaders,
 			...connectionDetails
 		});
-		Logger.flush();
-		Analytics.flush();
 		// update headers
 		appStore.updateStore({ ...sparkHeaders });
 

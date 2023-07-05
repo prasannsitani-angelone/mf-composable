@@ -100,8 +100,8 @@
 			platform: deviceType?.platform,
 			userId: profile?.clientId || '',
 			deviceID: sparkHeaders?.deviceid || sparkQuery?.deviceid,
-			sparkPlatform: sparkHeaders?.platform,
-			platformVariant: sparkHeaders?.platformvariant,
+			sparkPlatform: sparkHeaders?.platform?.toLowerCase() || 'mf-web',
+			platformVariant: sparkHeaders?.platformvariant?.toLowerCase() || 'web',
 			platformVersion: sparkHeaders?.platformversion,
 			isGuest
 			// isLoggedIn: tokenStore.logInState === USER_STATE_ENUM.LOGGED_IN_USER,

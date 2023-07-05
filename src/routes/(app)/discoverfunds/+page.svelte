@@ -31,7 +31,6 @@
 	import { SEO } from 'wms-ui-component';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 	import { onMount, tick } from 'svelte';
-	import Analytics from '$lib/utils/analytics';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import LazyComponent from '$components/LazyComponent.svelte';
@@ -186,7 +185,6 @@
 			userType: $page?.data?.userDetails?.userType || 'B2C',
 			storyVisible: storiesData?.stories?.length > 0 ? 'Y' : 'N'
 		});
-		Analytics.flush();
 		getNudgeData().then((nudgeData) => {
 			setNudgeData(nudgeData);
 			setSipNudgesData(nudgeData);
