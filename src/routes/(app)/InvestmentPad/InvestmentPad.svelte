@@ -150,7 +150,7 @@
 	let lumpsumToSipAmount = '';
 	let showLumpsumToSipModal = false;
 
-	const nextSipDateBufferDaysWithFtp = 31;
+	const nextSipDateBufferDaysWithFtp = 30;
 	const nextSipDateBufferDaysWithoutFtp = 10;
 
 	// payment

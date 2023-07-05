@@ -13,6 +13,7 @@
 	import { createEventDispatcher, onMount } from 'svelte';
 
 	export let schemeData: SchemeDetails;
+	export let nextSipDateBufferDays = 30;
 
 	const dispatch = createEventDispatcher();
 
@@ -41,8 +42,6 @@
 			});
 		}
 	}
-
-	const nextSipDateBufferDays = 31;
 
 	const setDefaultSipDate = () => {
 		let areAllDaysAllowed = true;

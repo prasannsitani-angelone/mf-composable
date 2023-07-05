@@ -28,7 +28,7 @@
 
 	let bulkUpdateModalType = '';
 
-	const nextSipDateBufferDaysWithFtp = 31;
+	const nextSipDateBufferDaysWithFtp = 30;
 	const nextSipDateBufferDaysWithoutFtp = 10;
 
 	function upDateLocalStateOnCartUpdate(items: CartEntity[]) {

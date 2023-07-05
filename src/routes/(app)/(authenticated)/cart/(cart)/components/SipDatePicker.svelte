@@ -33,7 +33,7 @@
 
 	let dateArray: Array<dateArrayTypes> = [{ value: 1, disabled: false }];
 
-	const nextSipDateBufferDaysWithFtp = 31;
+	const nextSipDateBufferDaysWithFtp = 30;
 	const nextSipDateBufferDaysWithoutFtp = 10;
 
 	$: {
