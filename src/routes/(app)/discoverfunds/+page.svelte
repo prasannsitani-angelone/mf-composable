@@ -208,18 +208,18 @@
 	{/if}
 
 	<!-- 2. <Portfolio Card / Start First SIP Nudge /> -->
-	{#if isLoggedInUser && deviceType?.isMobile && nudgesData}
-		{#if startFirstSipNudgeData}
+	{#if isLoggedInUser && deviceType?.isMobile}
+		{#if data?.investementSummary?.currentValue}
+			<div class="mb-2 block overflow-hidden sm:mb-0">
+				<PortfolioCard discoverPage={true} investmentSummary={data?.investementSummary} />
+			</div>
+		{:else if nudgesData && startFirstSipNudgeData}
 			<LazyComponent
 				when={isLoggedInUser && deviceType?.isMobile && startFirstSipNudgeData}
 				component={async () => await import('$components/StartFirstSip/StartFirstSipNudge.svelte')}
 				nudgeData={startFirstSipNudgeData}
 				version="A"
 			/>
-		{:else}
-			<div class="mb-2 block overflow-hidden sm:mb-0">
-				<PortfolioCard discoverPage={true} investmentSummary={data.investementSummary} />
-			</div>
 		{/if}
 	{/if}
 
