@@ -309,7 +309,7 @@
 			on:click={() => playStoryVideo(story, true, index, true)}
 		>
 			<img
-				src={story?.imageThumbnailUrl}
+				src={story?.smallThumbnailUrl}
 				class="h-14 w-14 rounded-full border-[1.5px] border-blue-primary object-cover p-[3.5px]"
 				alt="story thumbnail"
 				width="56"

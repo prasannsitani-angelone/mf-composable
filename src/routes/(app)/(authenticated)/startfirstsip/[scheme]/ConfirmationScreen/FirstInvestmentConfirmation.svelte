@@ -41,6 +41,8 @@
 	let intiatePayment = false;
 	let dateSuperscript = 'th';
 
+	const numberOfPeopleInvested = '18200+'; // temporary change (this will be removed after in BE changes)
+
 	const toggleShowWhyThisFundModal = () => {
 		showWhyThisFundModal = !showWhyThisFundModal;
 
@@ -169,6 +171,15 @@
 				>
 					Why this fund?
 				</button>
+			</svelte:fragment>
+
+			<svelte:fragment slot="detailsFooterDescription">
+				<p class="text-xs">
+					<span class=" font-semibold">
+						{numberOfPeopleInvested}
+					</span>
+					people have invested in this fund
+				</p>
 			</svelte:fragment>
 		</TrendingCarouselItems>
 	</article>

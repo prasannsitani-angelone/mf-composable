@@ -55,6 +55,7 @@ export const storiesDataObjectWithoutUrls: StoriesData = {
 				}
 			],
 			imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail1c1.webp',
+			smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail1c2.webp',
 			ctaType: '',
 			ctaText: 'START SIP NOW',
 			ctaUrl: ''
@@ -69,6 +70,7 @@ export const storiesDataObjectWithoutUrls: StoriesData = {
 				}
 			],
 			imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail2c1.webp',
+			smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail2c2.webp',
 			ctaType: '',
 			ctaText: 'START SIP NOW',
 			ctaUrl: ''
@@ -83,6 +85,7 @@ export const storiesDataObjectWithoutUrls: StoriesData = {
 				}
 			],
 			imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail3c1.webp',
+			smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail3c2.webp',
 			ctaType: '',
 			ctaText: 'START SIP NOW',
 			ctaUrl: ''
@@ -97,6 +100,7 @@ export const storiesDataObjectWithoutUrls: StoriesData = {
 				}
 			],
 			imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail4c1.webp',
+			smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail4c2.webp',
 			ctaType: '',
 			ctaText: 'START SIP NOW',
 			ctaUrl: ''
@@ -117,6 +121,7 @@ export const setStoriesData = (getCtaUrlCallback: (vidId: number) => string) => 
 					}
 				],
 				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail1c1.webp',
+				smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail1c2.webp',
 				ctaType: '',
 				ctaText: 'START SIP NOW',
 				ctaUrl: getCtaUrlCallback(1)
@@ -131,6 +136,7 @@ export const setStoriesData = (getCtaUrlCallback: (vidId: number) => string) => 
 					}
 				],
 				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail2c1.webp',
+				smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail2c2.webp',
 				ctaType: '',
 				ctaText: 'START SIP NOW',
 				ctaUrl: getCtaUrlCallback(2)
@@ -145,6 +151,7 @@ export const setStoriesData = (getCtaUrlCallback: (vidId: number) => string) => 
 					}
 				],
 				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail3c1.webp',
+				smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail3c2.webp',
 				ctaType: '',
 				ctaText: 'START SIP NOW',
 				ctaUrl: getCtaUrlCallback(3)
@@ -159,6 +166,7 @@ export const setStoriesData = (getCtaUrlCallback: (vidId: number) => string) => 
 					}
 				],
 				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail4c1.webp',
+				smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail4c2.webp',
 				ctaType: '',
 				ctaText: 'START SIP NOW',
 				ctaUrl: getCtaUrlCallback(4)

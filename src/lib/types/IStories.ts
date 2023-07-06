@@ -8,6 +8,7 @@ export interface Story {
 	title: string;
 	videos: Array<Video>;
 	imageThumbnailUrl: string;
+	smallThumbnailUrl: string;
 	ctaType: string;
 	ctaText: string;
 	ctaUrl: string;

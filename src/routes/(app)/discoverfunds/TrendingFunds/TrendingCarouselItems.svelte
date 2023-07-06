@@ -95,20 +95,25 @@
 		</div>
 		<slot name="detailsFooter">
 			<div class="flex flex-row items-center rounded-b-lg bg-[#D1D8F6] p-2">
-				<img
-					src={PeopleIcon}
-					class="mr-2 p-1"
-					decoding="async"
-					alt="Number of people invested"
-					width="24"
-					height="24"
-				/>
-				<p class="text-xs">
-					<span class=" font-semibold">
-						{addCommasToAmountString(schemes?.noOfClientInvested)}
-					</span>
-					people have invested in this fund
-				</p>
+				<slot name="detailsFooterIcon">
+					<img
+						src={PeopleIcon}
+						class="mr-2 p-1"
+						decoding="async"
+						alt="Number of people invested"
+						width="24"
+						height="24"
+					/>
+				</slot>
+
+				<slot name="detailsFooterDescription">
+					<p class="text-xs">
+						<span class=" font-semibold">
+							{addCommasToAmountString(schemes?.noOfClientInvested)}
+						</span>
+						people have invested in this fund
+					</p>
+				</slot>
 			</div>
 		</slot>
 	</div>
