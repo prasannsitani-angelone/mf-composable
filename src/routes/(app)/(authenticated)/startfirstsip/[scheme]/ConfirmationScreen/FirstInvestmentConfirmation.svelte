@@ -19,6 +19,7 @@
 		startFirstSipConfirmationScreenProceedClickAnalytics,
 		startFirstSipConfirmationScreenWhyThisFundClickAnalytics
 	} from '$lib/analytics/startFirstSip/startFirstSip';
+	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 
 	type calendarDataType = {
 		calendarDate: number;
@@ -41,7 +42,7 @@
 	let intiatePayment = false;
 	let dateSuperscript = 'th';
 
-	const numberOfPeopleInvested = '18200+'; // temporary change (this will be removed after in BE changes)
+	const numberOfPeopleInvestedValue = 18200; // temporary change (this will be removed after in BE changes)
 
 	const toggleShowWhyThisFundModal = () => {
 		showWhyThisFundModal = !showWhyThisFundModal;
@@ -176,7 +177,7 @@
 			<svelte:fragment slot="detailsFooterDescription">
 				<p class="text-xs">
 					<span class=" font-semibold">
-						{numberOfPeopleInvested}
+						{addCommasToAmountString(numberOfPeopleInvestedValue?.toString())}+
 					</span>
 					people have invested in this fund
 				</p>
