@@ -43,6 +43,67 @@ export const videoCtaList: Array<videoCtaUrls> = [
 	}
 ];
 
+export const storiesDataObjectWithoutUrls: StoriesData = {
+	stories: [
+		{
+			storyId: 1,
+			title: 'Start a SIP',
+			videos: [
+				{
+					videoId: 1,
+					videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video1c4.mp4'
+				}
+			],
+			imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail1c1.webp',
+			ctaType: '',
+			ctaText: 'START SIP NOW',
+			ctaUrl: ''
+		},
+		{
+			storyId: 2,
+			title: 'Index Funds!',
+			videos: [
+				{
+					videoId: 2,
+					videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video2c4.mp4'
+				}
+			],
+			imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail2c1.webp',
+			ctaType: '',
+			ctaText: 'START SIP NOW',
+			ctaUrl: ''
+		},
+		{
+			storyId: 3,
+			title: 'Best of SBI',
+			videos: [
+				{
+					videoId: 3,
+					videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video3c4.mp4'
+				}
+			],
+			imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail3c1.webp',
+			ctaType: '',
+			ctaText: 'START SIP NOW',
+			ctaUrl: ''
+		},
+		{
+			storyId: 4,
+			title: 'All Season Fund',
+			videos: [
+				{
+					videoId: 4,
+					videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video4c4.mp4'
+				}
+			],
+			imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail4c1.webp',
+			ctaType: '',
+			ctaText: 'START SIP NOW',
+			ctaUrl: ''
+		}
+	]
+};
+
 export const setStoriesData = (getCtaUrlCallback: (vidId: number) => string) => {
 	const storiesDataObject: StoriesData = {
 		stories: [

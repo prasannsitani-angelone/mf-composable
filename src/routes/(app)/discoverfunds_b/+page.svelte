@@ -40,7 +40,11 @@
 	import StartNewInvestment from '../discoverfunds/StartNewInvestment.svelte';
 	import { versionStore } from '$lib/stores/VersionStore';
 	import LazyComponent from '$components/LazyComponent.svelte';
-	import { setStoriesData, videoCtaList } from '$components/Stories/utils';
+	import {
+		setStoriesData,
+		storiesDataObjectWithoutUrls,
+		videoCtaList
+	} from '$components/Stories/utils';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -161,7 +165,7 @@
 		});
 	};
 
-	let storiesData: StoriesData;
+	let storiesData: StoriesData = storiesDataObjectWithoutUrls;
 
 	const setStoryCtaUrl = (vidId: number) => {
 		const selectedVid: videoCtaUrls | undefined = videoCtaList?.find(

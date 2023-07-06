@@ -34,7 +34,11 @@
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import LazyComponent from '$components/LazyComponent.svelte';
-	import { setStoriesData, videoCtaList } from '$components/Stories/utils';
+	import {
+		setStoriesData,
+		storiesDataObjectWithoutUrls,
+		videoCtaList
+	} from '$components/Stories/utils';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -155,7 +159,7 @@
 		});
 	};
 
-	let storiesData: StoriesData;
+	let storiesData: StoriesData = storiesDataObjectWithoutUrls;
 
 	const setStoryCtaUrl = (vidId: number) => {
 		const selectedVid: videoCtaUrls | undefined = videoCtaList?.find(
