@@ -1,7 +1,7 @@
 <script lang="ts">
 	import PortfolioCard from '$components/PortfolioCards/PortfolioCard.svelte';
 	import { page } from '$app/stores';
-	import SipCard from '../(authenticated)/orders/orderspage/sipbook/SipCard.svelte';
+	import SipCard from '../../(authenticated)/orders/orderspage/sipbook/SipCard.svelte';
 	import type {
 		INudge,
 		IRetryPaymentNudge,
@@ -33,11 +33,11 @@
 	import { onMount, tick } from 'svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
-	import TrendingFunds from '../discoverfunds/TrendingFunds/TrendingFunds.svelte';
-	import ExploreScheme from '../discoverfunds/ExploreScheme/ExploreScheme.svelte';
-	import ExternalFundsNfoCalculatorCard from '../discoverfunds/ExternalFundsNfoCalculatorCard/ExternalFundsNfoCalculatorCard.svelte';
-	import FailedOrdersNudge from '../discoverfunds/FailedOrdersNudge.svelte';
-	import StartNewInvestment from '../discoverfunds/StartNewInvestment.svelte';
+	import TrendingFunds from '../../discoverfunds/TrendingFunds/TrendingFunds.svelte';
+	import ExploreScheme from '../../discoverfunds/ExploreScheme/ExploreScheme.svelte';
+	import ExternalFundsNfoCalculatorCard from '../../discoverfunds/ExternalFundsNfoCalculatorCard/ExternalFundsNfoCalculatorCard.svelte';
+	import FailedOrdersNudge from '../../discoverfunds/FailedOrdersNudge.svelte';
+	import StartNewInvestment from '../../discoverfunds/StartNewInvestment.svelte';
 	import { versionStore } from '$lib/stores/VersionStore';
 	import LazyComponent from '$components/LazyComponent.svelte';
 	import {
