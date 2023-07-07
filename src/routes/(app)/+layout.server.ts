@@ -14,8 +14,6 @@ import {
 export const load = (async ({ request, locals, cookies }) => {
 	const {
 		isGuest,
-		userType,
-		accountType,
 		userDetails,
 		profileData,
 		token = '',
@@ -34,8 +32,6 @@ export const load = (async ({ request, locals, cookies }) => {
 	};
 	const localProfileData: UserProfile = profileData;
 	const localUserDetails: IUserDetails = userDetails;
-	cookies.set('UserType', userType, getCookieOptions(false));
-	cookies.set('AccountType', accountType, getCookieOptions(false));
 
 	if (isGuest) {
 		tokenObj.guestToken = token;

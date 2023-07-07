@@ -1,5 +1,5 @@
-import type { LayoutServerLoad } from './(app)/$types';
 import type { SparkStore } from '$lib/stores/SparkStore';
+import type { LayoutServerLoad } from './$types';
 
 const sparkHeadersList: Array<keyof SparkStore> = [
 	'platform',

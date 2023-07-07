@@ -8,7 +8,6 @@ import { useProfileFetch } from '$lib/utils/useProfileFetch';
 import { useUserDetailsFetch } from '$lib/utils/useUserDetailsFetch';
 import type { Handle, HandleFetch, HandleServerError } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
-import { parse } from 'cookie-es';
 import { handleDeviecDetector } from 'sveltekit-device-detector';
 import * as servertime from 'servertime';
 import { PRIVATE_MF_CORE_BASE_URL } from '$env/static/private';
@@ -31,7 +30,6 @@ const handler = (async ({ event, resolve }) => {
 		const serverTiming = servertime.createTimer();
 		serverTiming.start('ssr generation', 'Timing of SSR generation');
 		const cookieString = event.request.headers.get('cookie') || '';
-		const cookie: Record<string, string> = parse(cookieString);
 		const deviceidFromQuery: string | null = event.url.searchParams.get('deviceid');
 
 		let isAuthenticatedUser = true;
@@ -41,8 +39,6 @@ const handler = (async ({ event, resolve }) => {
 
 		const refreshToken =
 			event.request.headers.get('refreshtoken') || ABUserCookie?.NTRefreshToken || '';
-		let userType = cookie['UserType'] === 'undefined' ? '' : cookie['UserType'];
-		let accountType = cookie['AccountType'] || '';
 		let profileData: UserProfile = {
 			clientId: '',
 			userType: 'B2C',
@@ -50,7 +46,9 @@ const handler = (async ({ event, resolve }) => {
 		};
 
 		let investementSummary: InvestmentSummary = {};
-		let userDetails: IUserDetails;
+		let userDetails: IUserDetails = {
+			userType: 'B2C'
+		};
 		const scheme = event.url.protocol;
 		// using host from x-forwarded & not url.hostname because otherwise we will get container domain and not cloudfare
 		const host = event.request.headers.get('x-forwarded-host') || event.request.headers.get('host');
@@ -66,14 +64,12 @@ const handler = (async ({ event, resolve }) => {
 		if (!event.request.url.includes('/api/')) {
 			const searchDashboardPromise = getsearchDashboardData(token, fetch, PRIVATE_MF_CORE_BASE_URL);
 
-			if (!userType && isGuest) {
-				userType = 'B2C';
-				accountType = 'D';
+			if (isGuest) {
 				searchDashboardData = await searchDashboardPromise;
 			} else if (isAuthenticatedUser) {
 				const investementSummaryPromise = getHoldingSummary(token, fetch, PRIVATE_MF_CORE_BASE_URL);
 
-				const profilePromise = useProfileFetch(`${scheme}//${host}`, token, fetch);
+				const profilePromise = useProfileFetch(token, fetch);
 				const userPromise = useUserDetailsFetch(token, fetch, PRIVATE_MF_CORE_BASE_URL);
 				const userData = await Promise.allSettled([
 					profilePromise,
@@ -86,18 +82,13 @@ const handler = (async ({ event, resolve }) => {
 				userDetails = userData[1]?.value;
 				investementSummary = userData[2]?.value;
 				searchDashboardData = userData[3]?.value;
-
-				userType = userDetails?.userType || null;
-				accountType = profileData?.dpNumber ? 'D' : 'P';
-			} else {
-				searchDashboardData = await searchDashboardPromise;
 			}
-			if (userType === 'B2B') {
+			if (userDetails?.userType === 'B2B') {
 				searchDashboardData = await getsearchDashboardData(
 					token,
 					fetch,
 					PRIVATE_MF_CORE_BASE_URL,
-					userType
+					'B2B'
 				);
 			}
 		}
@@ -112,9 +103,7 @@ const handler = (async ({ event, resolve }) => {
 			token,
 			refreshToken,
 			isGuest,
-			userType,
 			userDetails,
-			accountType,
 			profileData,
 			scheme,
 			host,

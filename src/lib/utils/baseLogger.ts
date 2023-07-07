@@ -1,5 +1,6 @@
 import type { AnalyticMsgObj, LogMsgObj, Config, State } from '$lib/types/IBaseLogger';
 import { isDevMode } from '$lib/utils/helpers/dev';
+import merge from 'lodash.merge';
 
 export const LOG_LEVELS_ENUM = {
 	info: 'info',
@@ -37,6 +38,10 @@ class BaseLogger {
 			...this._state,
 			...config
 		};
+	}
+
+	updateConfig(config: Config) {
+		this._state = merge(this._state, config);
 	}
 
 	checkLogLevel(allowedLogLevelArray: string[] = []) {

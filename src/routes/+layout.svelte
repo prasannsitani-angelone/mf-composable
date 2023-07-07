@@ -14,6 +14,8 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import logger from '$lib/utils/logger';
+	import { deviceStore } from '$lib/stores/DeviceStore';
+	import { PUBLIC_ANALYTICS_ENABLED, PUBLIC_ANALYTICS_URL } from '$env/static/public';
 	export let data;
 	interface WebVitals {
 		type: string;
@@ -25,7 +27,6 @@
 	const { scheme, host, deviceType, token, sparkHeaders, isMissingHeaders, isGuest, sparkQuery } =
 		data;
 	// initialising logging for routes outside of (app) like login page
-
 	Logger.init({
 		batchSize: browser ? 10 : 1,
 		baseUrl: `${scheme}//${host}${base}/api`,
@@ -81,6 +82,17 @@
 				replaceState: true
 			});
 		}
+		// update data in stores
+		appStore.updateStore({ ...sparkHeaders });
+		deviceStore.updateStore({ ...deviceType });
+		Analytics.init({
+			batchSize: 10,
+			baseUrl: '',
+			url: PUBLIC_ANALYTICS_URL,
+			enabled: PUBLIC_ANALYTICS_ENABLED,
+			initialised: true
+		});
+
 		// connection details
 		const connectionDetails = {
 			downlink: navigator?.connection?.downlink,
@@ -107,8 +119,6 @@
 			isMissingHeaders,
 			...connectionDetails
 		});
-		// update headers
-		appStore.updateStore({ ...sparkHeaders });
 
 		update();
 

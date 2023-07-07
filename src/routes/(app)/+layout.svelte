@@ -11,10 +11,6 @@
 	import TwoColumnReverse from '$lib/layouts/TwoColumnReverse.svelte';
 	import TwoColumnRightLarge from '$lib/layouts/TwoColumnRightLarge.svelte';
 	import FullHeightWithoutPadding from '$lib/layouts/FullHeightWithoutPadding.svelte';
-	import { browser } from '$app/environment';
-	import Analytics from '$lib/utils/analytics';
-	import { PUBLIC_ANALYTICS_ENABLED, PUBLIC_ANALYTICS_URL } from '$env/static/public';
-	import { deviceStore } from '$lib/stores/DeviceStore';
 	import LoadingIndicator from '$components/LoadingIndicator.svelte';
 	import { externalNavigation } from '$lib/stores/ExtrenalNavigationStore';
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
@@ -49,8 +45,7 @@
 	// Update store with Spark headers
 
 	export let data: LayoutData;
-	const { sparkHeaders, tokenObj, profile, userDetails, deviceType, isGuest, token, sparkQuery } =
-		data;
+	const { tokenObj, profile, userDetails, isGuest } = data;
 	// Update store with Spark headers
 
 	let showAngelBeeBanner = false;
@@ -66,14 +61,6 @@
 		tokenStore.updateStore({ ...tokenObj, state: authState });
 		profileStore.updateStore({ ...profile });
 		userStore.updateStore({ ...userDetails });
-		deviceStore.updateStore({ ...deviceType });
-		Analytics.init({
-			batchSize: 10,
-			baseUrl: '',
-			url: PUBLIC_ANALYTICS_URL,
-			enabled: PUBLIC_ANALYTICS_ENABLED,
-			initialised: true
-		});
 
 		await tick();
 
@@ -82,31 +69,11 @@
 		showAngelBeeBanner = shouldDisplayAngelBeeBanner(data);
 	});
 	// initialising logging again with all new headers for routes of (app)
-	Logger.init({
+
+	Logger.updateConfig({
 		headers: {
-			'content-type': 'application/json',
-			accessToken: token,
-			isSSR: !browser,
-			isMobile: deviceType?.isMobile,
-			model: deviceType?.model,
-			os: deviceType?.osName || deviceType?.os,
-			osVersion: deviceType?.osVersion,
-			deviceUserAgent: deviceType?.userAgent || deviceType?.ua,
-			vendor: deviceType?.vendor,
-			isDesktop: deviceType?.isBrowser,
-			browserVersion: deviceType?.browserFullVersion,
-			browserName: deviceType?.browserName,
-			isCrawler: deviceType?.isCrawler,
-			platform: deviceType?.platform,
-			userId: profile?.clientId || '',
-			deviceID: sparkHeaders?.deviceid || sparkQuery?.deviceid,
-			sparkPlatform: sparkHeaders?.platform?.toLowerCase() || 'mf-web',
-			platformVariant: sparkHeaders?.platformvariant?.toLowerCase() || 'web',
-			platformVersion: sparkHeaders?.platformversion,
-			isGuest
-			// isLoggedIn: tokenStore.logInState === USER_STATE_ENUM.LOGGED_IN_USER,
-			// loggedInState: tokenStore.logInState,
-			// sessionID: tokenStore.sessionID,
+			accessToken: isGuest ? tokenObj?.guestToken : tokenObj?.userToken?.NTAccessToken,
+			userId: profile?.clientId || ''
 		}
 	});
 	const navigateToLoginPage = async () => {

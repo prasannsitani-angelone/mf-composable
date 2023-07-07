@@ -3,7 +3,7 @@ import type { UserProfile } from '$lib/types/IUserProfile';
 import { useFetch } from './useFetch';
 import { MF_PROFILE_BASE_URL } from '$env/static/private';
 
-export const useProfileFetch = async (origin: string, token: string, fetch: FetchType) => {
+export const useProfileFetch = async (token: string, fetch: FetchType) => {
 	try {
 		const profileData = await useFetch(
 			`${MF_PROFILE_BASE_URL}/profile`,
