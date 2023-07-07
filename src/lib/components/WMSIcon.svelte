@@ -5,6 +5,7 @@
 	let name: string;
 	const iconmap: { [key: string]: string } = {
 		angelone: 'AngelOneLogo',
+		'arc-leaves': 'ArcLeaves',
 		'arrow-collapse': 'ArrowCollapseIcon',
 		'arrow-expand': 'ArrowExpandIcon',
 		'arrow-next-circle': 'ArrowNextCircle',
@@ -24,6 +25,12 @@
 		'cross-red-circle': 'CrossInRedCircleIcon',
 		'document-active': 'DocumentActiveIcon',
 		document: 'DocumentIcon',
+		'gain-double-stacked': 'GainDoubleStacked',
+		'loss-double-stacked': 'LossDoubleStacked',
+		'cart-plus': 'CartPlus',
+		'cart-plus-circle': 'CartPlusCircle',
+		'arrow-right-custom': 'ArrowRightCustom',
+		'calander-icon': 'Calander',
 		gpay: 'GpayIcon',
 		'green-arrow-up': 'GreenArrowUp',
 		'holding-active': 'HoldingActiveIcon',
@@ -120,6 +127,7 @@
 		'raised-hands': 'RaisedHands',
 		'trash-icon': 'TrashIcon',
 		'lock-icon': 'LockIcon',
+		'red-exclamation-thin': 'RedExclamationThin',
 		'rupee-circle-bolder': 'RupeeInCircleBolder',
 		'rupee-circle-blue': 'RupeeCircleBlue',
 		'rupee-circle-blue-filled': 'RupeeCircleBlueFilled'
