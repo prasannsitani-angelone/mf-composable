@@ -6,7 +6,6 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
-	import TrendingFundsBackground from '$lib/images/TrendingFundsBackground.svg';
 	import GreenUpArrowTrendingFund from '$lib/images/GreenUpArrowTrendingFund.svg';
 	import PeopleIcon from '$lib/images/PeopleIcon.svg';
 	import { createEventDispatcher } from 'svelte';
@@ -57,7 +56,7 @@
 	<div class="flex flex-col">
 		<div class="relative w-full overflow-hidden">
 			<img
-				src={TrendingFundsBackground}
+				src="{base}/images/TrendingFundsBackground.svg"
 				class="absolute h-full w-full"
 				decoding="async"
 				alt="Trending Funds"
