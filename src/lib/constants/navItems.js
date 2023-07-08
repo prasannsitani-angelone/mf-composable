@@ -11,7 +11,7 @@ import { base } from '$app/paths';
 export const BOTTOM_NAVBARS = (version) => [
 	{
 		label: 'Discover',
-		path: version ? `${base}/discoverfunds_${version?.toLowerCase()}` : `${base}/discoverfunds`,
+		path: version ? `${base}/${version?.toLowerCase()}/discoverfunds` : `${base}/discoverfunds`,
 		icon: DiscoverNav,
 		activeIcon: DiscoverNavFilled,
 		isInternalNavigation: true,
