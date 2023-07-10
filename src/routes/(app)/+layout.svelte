@@ -31,6 +31,7 @@
 	import { BOTTOM_NAVBARS } from '$lib/constants/navItems';
 	import Header from '$components/Headers/Header.svelte';
 	import { versionStore } from '$lib/stores/VersionStore';
+
 	$: pageMetaData = $page?.data?.layoutConfig;
 	let searchFocused = false;
 	const handleSearchFocus = (e: { detail: boolean }) => {

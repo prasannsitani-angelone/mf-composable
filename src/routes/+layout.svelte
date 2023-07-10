@@ -16,6 +16,8 @@
 	import logger from '$lib/utils/logger';
 	import { deviceStore } from '$lib/stores/DeviceStore';
 	import { PUBLIC_ANALYTICS_ENABLED, PUBLIC_ANALYTICS_URL } from '$env/static/public';
+	import { BrowserSupportDefault, isBrowserSupported } from '$lib/utils/helpers/browserSupport';
+	import LazyComponent from '$components/LazyComponent.svelte';
 	export let data;
 	interface WebVitals {
 		type: string;
@@ -56,6 +58,8 @@
 			isGuest
 		}
 	});
+
+	let browserDetails = BrowserSupportDefault;
 
 	const sendWebVitalsLogs = (vitals: WebVitals[]) => {
 		if (vitals.length === 3) {
@@ -162,6 +166,10 @@
 		fcpObserver.observe({ type: 'paint', buffered: true });
 		lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true });
 		ttfbObserver.observe({ type: 'navigation', buffered: true });
+
+		browserDetails = isBrowserSupported();
+		browserDetails.isSupported =
+			appStore.isSparkIOSUser() || appStore.isWebView() || browserDetails.isSupported;
 	});
 	const onVisibilityChange = (e: Event) => {
 		if (e?.target?.visibilityState === 'hidden') {
@@ -173,3 +181,10 @@
 
 <svelte:window on:visibilitychange={onVisibilityChange} />
 <slot />
+
+<LazyComponent
+	when={!browserDetails.isSupported}
+	component={async () =>
+		await import('$components/UnsupportedBrowser/UnsupportedBrowserComponent.svelte')}
+	{browserDetails}
+/>
