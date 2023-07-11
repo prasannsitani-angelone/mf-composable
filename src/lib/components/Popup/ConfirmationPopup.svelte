@@ -7,7 +7,16 @@
 	let title = '';
 	let titleClass = '';
 	let confirmButtonTitle = '';
-	export { isModalOpen, closeModal, confirm, title, confirmButtonTitle, titleClass };
+	let confirmButtonDisable = false;
+	export {
+		isModalOpen,
+		closeModal,
+		confirm,
+		title,
+		confirmButtonTitle,
+		titleClass,
+		confirmButtonDisable
+	};
 </script>
 
 <Modal {closeModal} {isModalOpen}>
@@ -34,7 +43,13 @@
 						>NO</Button
 					>
 
-					<Button variant="transparent" size="sm" class="p-2" onClick={confirm}>
+					<Button
+						variant="transparent"
+						size="sm"
+						class="p-2"
+						disabled={confirmButtonDisable}
+						onClick={confirm}
+					>
 						{confirmButtonTitle}
 					</Button>
 				</article>

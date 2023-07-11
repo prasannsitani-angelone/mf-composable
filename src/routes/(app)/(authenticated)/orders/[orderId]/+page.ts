@@ -45,11 +45,11 @@ export const load = (async ({ fetch, params, parent }) => {
 		},
 		[ORDER_DATA.NAV_DATE]: {
 			title: ORDER_DATA.NAV_DATE,
-			value: '-'
+			value: '- -'
 		},
 		[ORDER_DATA.EXPECTED_NAV_DATE]: {
 			title: ORDER_DATA.EXPECTED_NAV_DATE,
-			value: '-',
+			value: '- -',
 			informationIcon: true,
 			informationHeading: 'Expected NAV Date',
 			informationSubheading: NAV_DETAILS

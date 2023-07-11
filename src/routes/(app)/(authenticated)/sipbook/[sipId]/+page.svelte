@@ -44,6 +44,8 @@
 	let showSkipModal = false;
 	let showSkipSuccessModal = false;
 	let showSkipFailureModal = false;
+	let disableConfirmCancelSip = false;
+	let disableConfirmSkipSip = false;
 	$: bottomHeight = 128;
 	const maxTransactionsCap = 6;
 
@@ -102,17 +104,20 @@
 	};
 
 	const handleCancelSip = async () => {
+		disableConfirmCancelSip = true;
 		const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips/${data?.sipId}`;
 		const res = await useFetch(sipUrl, { method: 'DELETE' });
 		toggleShowCancelSipActionModal();
 		if (res.ok && res?.data?.status?.toUpperCase() === STATUS_ARR?.SUCCESS) {
 			toggleShowSuccessModal();
 		} else {
-			toggleSkipFailureModal();
+			toggleShowFailureModal();
 		}
+		disableConfirmCancelSip = false;
 	};
 
 	const handleSkipSip = async (nextSipDueDate: number, sipData: ISip) => {
+		disableConfirmSkipSip = true;
 		const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips/${data?.sipId}`;
 		const res = await useFetch(sipUrl, {
 			method: 'PATCH',
@@ -130,6 +135,7 @@
 		} else {
 			toggleSkipFailureModal();
 		}
+		disableConfirmSkipSip = false;
 	};
 
 	const handleFailureModalCta = () => {
@@ -263,6 +269,7 @@
 				isModalOpen={showCancelSipActionModal}
 				confirm={handleCancelSip}
 				title="Cancel SIP?"
+				confirmButtonDisable={disableConfirmCancelSip}
 				confirmButtonTitle="YES, CANCEL"
 			/>
 
@@ -279,6 +286,7 @@
 				titleClass="!font-medium"
 				title="Skip Next SIP Instalment?"
 				confirmButtonTitle="YES, SKIP"
+				confirmButtonDisable={disableConfirmSkipSip}
 			>
 				<svelte:fragment slot="body">
 					<p class="font-normal text-grey-body">
