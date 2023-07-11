@@ -149,7 +149,9 @@ const handler = (async ({ event, resolve }) => {
 }) satisfies Handle;
 
 export const handleFetch = (async ({ event, request, fetch }) => {
-	const { userType = '', accountType = '', token, sparkHeaders } = event.locals;
+	const { userDetails, profileData, isGuest, token, sparkHeaders } = event.locals;
+	const userType = userDetails?.userType;
+	const accountType = isGuest || profileData?.dpNumber ? 'D' : 'P';
 	request.headers.set('userType', userType);
 	request.headers.set('accountType', accountType);
 	request.headers.set('authorization', `Bearer ${token}`);

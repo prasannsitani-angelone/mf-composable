@@ -68,7 +68,8 @@
 				downlink: navigator?.connection?.downlink,
 				effectiveType: navigator?.connection?.effectiveType,
 				rtt: navigator?.connection?.rtt,
-				saveData: navigator?.connection?.saveData
+				saveData: navigator?.connection?.saveData,
+				url: window?.location?.href
 			};
 			webVitalsAnalytics([...webVitals, connectionDetails]);
 			logger.info({
