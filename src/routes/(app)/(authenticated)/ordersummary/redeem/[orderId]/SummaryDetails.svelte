@@ -6,6 +6,7 @@
 	import type { IStatusItem } from '../../../orders/[orderId]/type';
 	import { createEventDispatcher } from 'svelte';
 	import ORDER_DATA from '$lib/constants/orderDataItems';
+	import { copyToClipboard } from '$lib/utils/share';
 
 	export let ordersData: IOrderDetails | undefined;
 	export let statusItems: Array<IStatusItem> | undefined;
@@ -16,10 +17,6 @@
 	const dispatch = createEventDispatcher();
 
 	let isMobile = $page?.data?.deviceType?.isMobile;
-
-	const copyToClipboard = (value: string) => {
-		navigator?.clipboard?.writeText(value);
-	};
 
 	const infoIconClick = () => {
 		dispatch('infoIconClick');

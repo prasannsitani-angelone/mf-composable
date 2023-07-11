@@ -8,12 +8,10 @@
 		expectedNavDateOpenAnalytics
 	} from '../analytics/navDate';
 	import type { IOrderDetails } from '$lib/types/IOrderDetails';
+	import { copyToClipboard } from '$lib/utils/share';
 	export let statusItems: IStatusObject;
 	export let orderDetails: IOrderDetails;
 	let isModalOpen = false;
-	const copyToClipboard = (value: string) => {
-		navigator.clipboard.writeText(value);
-	};
 	const handleOpenExpectedNavDateModal = () => {
 		isModalOpen = true;
 		expectedNavDateOpenAnalytics(orderDetails);

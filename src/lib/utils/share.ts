@@ -13,3 +13,15 @@ export const shareMessage = async (message: { title?: string; text: string }) =>
 		}
 	}
 };
+
+export const copyToClipboard = async (message: string) => {
+	if (typeof navigator?.clipboard?.writeText !== 'function') {
+		shareMessage({ text: message });
+		return;
+	}
+	try {
+		await navigator?.clipboard?.writeText(message);
+	} catch (e) {
+		shareMessage({ text: message });
+	}
+};
