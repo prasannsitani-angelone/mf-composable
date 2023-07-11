@@ -59,15 +59,15 @@
 	const activePageTabClass =
 		'py-4 hover:text-blue-primary text-blue-primary lg:border-b-2 border-blue-primary';
 	const inactivePageTabClass = 'py-4 hover:text-blue-primary lg:border-b-2 border-white';
-	const discoverFundsTabClass = $page.url?.pathname?.includes('/discoverfunds')
+	$: discoverFundsTabClass = $page.url?.pathname?.includes('/discoverfunds')
 		? activePageTabClass
 		: $page.url?.pathname?.includes('/explorefunds')
 		? activePageTabClass
 		: inactivePageTabClass;
-	const myInvestmentsTabClass = $page.url?.pathname?.includes('/investments')
+	$: myInvestmentsTabClass = $page.url?.pathname?.includes('/investments')
 		? activePageTabClass
 		: inactivePageTabClass;
-	const ordersTabClass = $page.url?.pathname?.includes('/orders/orderspage')
+	$: ordersTabClass = $page.url?.pathname?.includes('/orders/orderspage')
 		? activePageTabClass
 		: inactivePageTabClass;
 	let isCartActive: boolean;
