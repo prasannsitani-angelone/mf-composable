@@ -94,6 +94,7 @@
 	import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
 	import { stringToInteger } from '$lib/utils/helpers/numbers';
 	import OrderpadReturns from './OrderPadComponents/OrderpadReturns.svelte';
+	import { checkRequestIdExpired } from '$lib/api/investmentPad';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -219,6 +220,9 @@
 			});
 		}
 	}
+
+	// deeplink validity
+	let oneLinkExpired = false;
 
 	const isSelectedInvestmentTypeAllowed = () => {
 		if (activeTab === 'SIP') {
@@ -621,6 +625,8 @@
 			investmentPadScreenOpenAnalyticsFunc();
 		}
 		window.addEventListener('message', listenerFunc);
+
+		checkIfOrderIsValidFromDeeplink();
 	});
 
 	onDestroy(() => {
@@ -632,6 +638,12 @@
 			window.removeEventListener('message', listenerFunc, false);
 		}
 	});
+
+	async function checkIfOrderIsValidFromDeeplink() {
+		const source = params.source;
+		const requestId = params.requestId;
+		oneLinkExpired = await checkRequestIdExpired(source, requestId);
+	}
 
 	const toggleCalendar = () => {
 		if (!showCalendar && !isSelectedInvestmentTypeAllowed()) {
@@ -1503,4 +1515,18 @@
 			on:secondaryCtaClick={handleLumpsumToSipOtiClick}
 		/>
 	</Modal>
+{/if}
+
+{#if oneLinkExpired}
+	<ResultPopup
+		popupType="FAILURE"
+		title={'Link Expired'}
+		text={'The link you clicked has expired. You can search for the same Mutual Fund from the homepage.'}
+		class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+		isModalOpen={true}
+		handleButtonClick={() => goto(`${base}/discoverfunds`, { replaceState: true })}
+		buttonTitle="GO TO HOMEPAGE"
+		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
+		buttonVariant="contained"
+	/>
 {/if}
