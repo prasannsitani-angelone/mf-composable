@@ -4,6 +4,7 @@
 	import { page } from '$app/stores';
 	import { headerStore } from '$lib/stores/HeaderStore';
 	import { createEventDispatcher, onMount } from 'svelte';
+	import NxtHeader from './NxtHeader.svelte';
 	$: pageMetaData = $page?.data?.layoutConfig;
 	$: userType = $page?.data?.userDetails?.userType || 'B2C';
 	const dispatch = createEventDispatcher();
@@ -12,13 +13,16 @@
 	};
 
 	let cookieEnabled = true;
+	let isNxtPage = $page?.route?.id?.search('/nxt') !== -1;
 
 	onMount(() => {
 		cookieEnabled = navigator?.cookieEnabled;
 	});
 </script>
 
-{#if $page?.data?.deviceType?.isMobile || $page?.data?.deviceType?.isTablet}
+{#if isNxtPage}
+	<NxtHeader />
+{:else if $page?.data?.deviceType?.isMobile || $page?.data?.deviceType?.isTablet}
 	{#if $headerStore?.showMobileHeader}
 		<MobileHeader
 			title={pageMetaData?.title}

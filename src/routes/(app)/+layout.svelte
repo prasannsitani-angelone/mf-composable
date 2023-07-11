@@ -31,6 +31,7 @@
 	import { BOTTOM_NAVBARS } from '$lib/constants/navItems';
 	import Header from '$components/Headers/Header.svelte';
 	import { versionStore } from '$lib/stores/VersionStore';
+	import FullWidth from '$lib/layouts/FullWidth.svelte';
 
 	$: pageMetaData = $page?.data?.layoutConfig;
 	let searchFocused = false;
@@ -116,6 +117,10 @@
 		<FullHeightWithoutPadding>
 			<slot />
 		</FullHeightWithoutPadding>
+	{:else if $appPage.data?.layoutConfig?.layoutType === 'FULL_WIDTH'}
+		<FullWidth>
+			<slot />
+		</FullWidth>
 	{:else}
 		<Default {searchFocused}>
 			<slot />

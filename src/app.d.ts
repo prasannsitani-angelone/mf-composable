@@ -21,7 +21,8 @@ interface LayoutConfig {
 		| 'TWO_COLUMN'
 		| 'TWO_COLUMN_REVERSE'
 		| 'TWO_COLUMN_RIGHT_LARGE'
-		| 'FULL_HEIGHT_WITHOUT_PADDING';
+		| 'FULL_HEIGHT_WITHOUT_PADDING'
+		| 'FULL_WIDTH';
 }
 // for information about these interfaces
 declare global {

@@ -7,7 +7,7 @@ import { base } from '$app/paths';
 
 export const load = (async ({ url, parent }) => {
 	const parentData = await parent();
-	const { pathname } = url;
+	const { pathname, search } = url;
 	logger.debug({
 		type: 'Page Load Url',
 		params: {
@@ -20,7 +20,7 @@ export const load = (async ({ url, parent }) => {
 	});
 	if (!parentData?.tokenObj?.userToken?.NTAccessToken) {
 		if (pathname) {
-			const withRedirectParam = `${base}/login?redirect=${pathname}`;
+			const withRedirectParam = `${base}/login?redirect=${encodeURIComponent(pathname + search)}`;
 			if (browser) return await goto(withRedirectParam);
 			else throw redirect(302, withRedirectParam);
 		} else {
