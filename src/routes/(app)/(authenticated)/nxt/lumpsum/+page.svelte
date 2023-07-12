@@ -135,7 +135,7 @@
 <div>
 	{#await data?.api?.schemeDetails}
 		<FundDetailsLoader />
-	{:then schemeDetails} 
+	{:then schemeDetails}
 		<PageHeader {userName} {partnerName} partnerId={$profileStore?.clientDetails?.subBroker} />
 		{#if schemeDetails?.schemeName?.length}
 			<section
