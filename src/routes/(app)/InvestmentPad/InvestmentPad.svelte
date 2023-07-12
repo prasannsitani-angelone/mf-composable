@@ -89,12 +89,13 @@
 	import UpiClosePopup from '$components/Payment/UPIClosePopup.svelte';
 	import UpiTransactionPopup from '$components/Payment/UPITransactionPopup.svelte';
 	import LoadingPopup from '$components/Payment/LoadingPopup.svelte';
-	import PaymentSleeve from '$components/Payment/PaymentSleeve.svelte';
+	import PaymentSleeve from '$components/Payment/OrderPadPaymentSleeve.svelte';
 	import { PAYMENT_MODE } from '$components/Payment/constants';
 	import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
 	import { stringToInteger } from '$lib/utils/helpers/numbers';
 	import OrderpadReturns from './OrderPadComponents/OrderpadReturns.svelte';
 	import { checkRequestIdExpired } from '$lib/api/investmentPad';
+	import PeopleIcon from '$lib/images/PeopleIcon.svg';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -1159,13 +1160,13 @@
 	>
 		<slot name="header">
 			<section class="hidden rounded-t-lg bg-white px-3 py-5 font-medium text-black-title md:block">
-				Your Investment Pad
+				{activeTab === 'SIP' ? "Start SIP" : 'One-Time'}
 			</section>
 		</slot>
 		{#if (isMobile || isTablet) && !$headerStore?.showMobileHeader}
 			<slot name="customMobileHeader">
 				<MobileHeader
-					title={schemeData?.schemeName}
+					title={activeTab === 'SIP' ? "Start SIP" : 'One-Time'}
 					showSearchIcon={false}
 					showBackIcon={true}
 					showCloseIcon={false}
@@ -1174,6 +1175,33 @@
 			</slot>
 		{/if}
 		{#if !investmentNotAllowedText?.length}
+
+		    <article class="p-3 bg-white mb-2 rounded-lg shadow-csm md:hidden">
+                 <div class="flex flex-row items-center">
+					 <div class="h-9 w-9 min-w-[36px] rounded-full shadow-csm flex justify-center items-center mr-3">
+						<img src={schemeData?.logoUrl} alt="schemelogo" />
+					 </div>
+					 <div class="text-black-title font-medium text-sm mr-3">{schemeData.schemeName}</div>
+					 <div>
+                         <div class="text-grey-body font-medium text-xs">Returns p.a</div>
+						 <div class="text-black-title font-medium text-base text-right">{schemeData?.returns3yr}%</div>
+					 </div>
+				 </div>
+				 {#if schemeData?.noOfClientInvested}
+				 <div class="bg-purple-glow px-3 py-2 flex flex-row items-center rounded mt-3">
+					<img
+						src={PeopleIcon}
+						class="mr-2 p-1"
+						decoding="async"
+						alt="Number of people invested"
+						width="24"
+						height="24"
+					/>
+                    <div class="text-black-title text-xs"><span class="font-semibold">{schemeData?.noOfClientInvested}</span> people have invested in this fund</div>
+				 </div>
+				 {/if}
+			</article>
+
 			<article class="rounded-lg bg-white text-black-title md:mx-3 md:mb-4 md:mt-2">
 				<!-- Tab Section (SIP | ONE TIME) -->
 				<section class="bg-whites flex rounded-lg rounded-b-none text-black-title">
@@ -1199,17 +1227,13 @@
 					</button>
 				</section>
 
-				<article class="flex">
+				<article class="flex flex-col p-3">
 					<!-- Amount input -->
-					<article
-						class={`flex flex-col items-start p-2 ${
-							activeTab === 'SIP' ? 'w-7/12' : 'w-full pb-3'
-						}`}
-					>
+					<article class="flex flex-col py-2.5 border border-grey-line rounded items-center">
 						<!-- svelte-ignore a11y-label-has-associated-control -->
-						<label class="mb-2 text-xs font-normal text-black-title">Amount</label>
+						<label class="mb-2 text-xs font-medium text-grey-body">Enter Amount</label>
 						<button
-							class="flex w-full cursor-text items-center justify-start rounded border border-gray-200 px-3 py-2"
+							class="flex w-full cursor-text items-center justify-start"
 							on:click={handleAmountInputFocus}
 						>
 							<input
@@ -1218,110 +1242,101 @@
 								maxlength="13"
 								placeholder="₹"
 								value={amountVal}
-								class="w-full bg-white text-base font-medium leading-none text-black-title outline-none"
+								class="w-full bg-white text-2xl text-center font-medium leading-none text-black-title outline-none"
 								on:input={onInputChange}
 								on:focus={handleAmountInputBlur}
 							/>
 						</button>
 					</article>
 
+					{#if errorMessage?.length && isSelectedInvestmentTypeAllowed()}
+						<article class="flex justify-center pb-1">
+							<p class="text-xs font-light text-red-sell">
+								{errorMessage}
+							</p>
+						</article>
+					{/if}
+
 					<!-- Date (Calendar) input -->
 					{#if activeTab === 'SIP'}
-						<article class="flex w-5/12 flex-col items-start p-2">
+						<article class="flex w-full flex-row items-center justify-between mt-3">
 							<!-- svelte-ignore a11y-label-has-associated-control -->
-							<label class="mb-2 text-xs font-normal text-black-title">Monthly SIP Date</label>
-							<section
-								class="flex items-center justify-between rounded border border-gray-200 md:cursor-pointer {isSelectedInvestmentTypeAllowed()
-									? 'md:cursor-pointer'
-									: 'md:cursor-not-allowed'}"
-								on:click={toggleCalendar}
+							<label class="text-xs font-medium text-black-title">Monthly SIP Date</label>
+							<section class="flex items-center md:cursor-pointer {isSelectedInvestmentTypeAllowed() ? 'md:cursor-pointer': 'md:cursor-not-allowed'}"
+							    on:click={toggleCalendar}
 								on:keypress={() => {
 									// add logic
 								}}
 							>
-								<input
-									id="dateSelector"
-									inputmode="numeric"
-									value={`${calendarDate}${dateSuperscript}`}
-									readonly
-									class="w-3/4 rounded bg-white px-3 py-2 text-base font-medium leading-none text-black-title outline-none {isSelectedInvestmentTypeAllowed()
-										? 'md:cursor-pointer'
-										: 'md:cursor-not-allowed'}"
-								/>
-								<section class="border-l p-2.5">
-									<CalendarSmallIcon />
-								</section>
+							   <div class="text-black-title text-xs font-medium">{`${calendarDate}${dateSuperscript}`}</div>
+							   <section class="pl-1">
+								 <CalendarSmallIcon height={16} width={16} />
+							   </section>
 							</section>
 						</article>
 					{/if}
-				</article>
 
-				{#if errorMessage?.length && isSelectedInvestmentTypeAllowed()}
-					<article class="flex justify-center pb-1">
-						<p class="text-xs font-light text-red-sell">
-							{errorMessage}
-						</p>
-					</article>
-				{/if}
-
-				{#if activeTab === 'ONETIME' && isLumpsumToSipEligible && !errorMessage?.length}
-					<article class="border-t px-2 py-3">
-						<section
-							class="to flex items-center justify-between rounded bg-gradient-to-r from-green-buy/40 to-white py-2 px-1"
-						>
-							<div class="flex items-start">
-								<WMSIcon class="mr-1 mt-1" name="double-tick" width={15} height={9} />
-								<p class="w-[80%] text-xs font-medium text-black-title">
-									To reduce the risk of market fluctuations, consider investing this amount as SIP
-								</p>
-							</div>
-							<Button
-								variant="transparent"
-								class="!h-fit !min-h-0 !px-0 !text-[11px] !font-medium"
-								onClick={toggleShowLumpsumToSipModal}
+					{#if activeTab === 'ONETIME' && isLumpsumToSipEligible && !errorMessage?.length}
+						<article class="border-t px-2 py-3">
+							<section
+								class="to flex items-center justify-between rounded bg-gradient-to-r from-green-buy/40 to-white py-2 px-1"
 							>
-								Learn How
-							</Button>
-						</section>
-					</article>
-				{/if}
+								<div class="flex items-start">
+									<WMSIcon class="mr-1 mt-1" name="double-tick" width={15} height={9} />
+									<p class="w-[80%] text-xs font-medium text-black-title">
+										To reduce the risk of market fluctuations, consider investing this amount as SIP
+									</p>
+								</div>
+								<Button
+									variant="transparent"
+									class="!h-fit !min-h-0 !px-0 !text-[11px] !font-medium"
+									onClick={toggleShowLumpsumToSipModal}
+								>
+									Learn How
+								</Button>
+							</section>
+						</article>
+					{/if}
 
-				{#if activeTab === 'SIP' && isSipInvestmentAllowed && amount?.length && !errorMessage?.length}
-					<OrderpadReturns
-						investedAmount={Number(amount)}
-						threeYearReturns={schemeData?.returns3yr}
-					/>
-				{/if}
+					<!-- Checkbox for SIP payment now -->
+					{#if activeTab === 'SIP'}
+						<article
+							class={`flex w-fit items-center justify-start mt-4 text-xs font-medium text-grey-body ${
+								isSelectedInvestmentTypeAllowed() ? 'md:cursor-pointer' : 'md:cursor-not-allowed'
+							}`}
+							on:click={toggleFirstSipPayment}
+							on:keypress={() => {
+								// add logic
+							}}
+						>
+							{#if firstSipPayment}
+								<div class="mr-2">
+									<CheckboxCheckedIcon />
+								</div>
+							{:else}
+								<div class="mr-1">
+									<CheckboxUncheckedIcon />
+								</div>
+							{/if}
+							<span class="text-black-title"> Make first SIP payment now </span>
+						</article>
+					{/if}
 
-				<!-- Checkbox for SIP payment now -->
-				{#if activeTab === 'SIP'}
-					<article
-						class={`flex w-fit items-center justify-start pl-1 pt-2 pb-3 text-xs font-medium text-grey-body ${
-							isSelectedInvestmentTypeAllowed() ? 'md:cursor-pointer' : 'md:cursor-not-allowed'
-						}`}
-						on:click={toggleFirstSipPayment}
-						on:keypress={() => {
-							// add logic
-						}}
-					>
-						{#if firstSipPayment}
-							<div class="ml-1 mr-2">
-								<CheckboxCheckedIcon />
-							</div>
-						{:else}
-							<div class="mr-1">
-								<CheckboxUncheckedIcon />
-							</div>
-						{/if}
-						<span class="text-black-neutral md:text-black-title"> Make first SIP payment now </span>
-					</article>
-				{/if}
+					{#if activeTab === 'SIP' && isSipInvestmentAllowed && amount?.length && !errorMessage?.length}
+						<OrderpadReturns
+							investedAmount={Number(amount)}
+							threeYearReturns={schemeData?.returns3yr}
+							class="border-t !border-b-0 pt-3 pb-0 !px-0 mt-4"
+							amountClass="text-xl"
+						/>
+					{/if}
 
-				{#if showTabNotSupported}
-					<div class="pb-1">
-						<TabNotSupported {tabNotSupportedType} />
-					</div>
-				{/if}
+					{#if showTabNotSupported}
+						<div class="pb-1">
+							<TabNotSupported {tabNotSupportedType} />
+						</div>
+					{/if}
+				</article>
 			</article>
 
 			<!-- Footer section for Mobile layout (PaymentMode/StartSipDate + TnC + Submit + Numpad) -->
@@ -1330,17 +1345,7 @@
 					{#if activeTab === 'SIP' && !firstSipPayment}
 						<NextSipDate {calendarDate} {calendarMonth} {calendarYear} />
 					{/if}
-					{#if (activeTab === 'ONETIME' || firstSipPayment) && !firstTimeUser && isSelectedInvestmentTypeAllowed()}
-						<PaymentSleeve
-							selectedMode={paymentHandler?.paymentMode}
-							onPaymentMethodChange={showPaymentMethodScreen}
-							bankName={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName}
-							bankAccount={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO}
-							upiId={paymentHandler.upiId}
-							amount={stringToInteger(amount)}
-						/>
-					{/if}
-					<article class="rounded-b-lg bg-white px-4 pt-3 md:px-3">
+					<article class="rounded-b-lg bg-white px-4 py-3 md:px-3">
 						<!-- TnC Section -->
 						<article class="flex items-center justify-center">
 							<p class="text-center text-xs font-normal text-black-title">
@@ -1351,26 +1356,38 @@
 							</p>
 						</article>
 
-						<!-- Submit Button -->
-						<Button
-							class={`bottom-0 my-3 h-12 w-full rounded ${
-								!amount?.length ||
-								!!errorMessage?.length ||
-								showTabNotSupported ||
-								investmentNotAllowedText?.length
-									? 'cursor-default !bg-grey-line !text-grey-disabled active:opacity-100'
-									: 'bg-blue-primary'
-							}`}
-							disabled={!amount?.length ||
-								!!errorMessage?.length ||
-								showTabNotSupported ||
-								!!investmentNotAllowedText?.length ||
-								validateUPILoading ||
-								loadingState.isLoading}
-							onClick={() => handleInvestClick(paymentHandler.upiId)}
-						>
-							{activeTab === 'SIP' ? 'START SIP' : 'PAY NOW'}
-						</Button>
+						<section class="flex flex-row mt-3">
+							{#if (activeTab === 'ONETIME' || firstSipPayment) && !firstTimeUser && isSelectedInvestmentTypeAllowed() && stringToInteger(amount) > 0}
+								<PaymentSleeve
+									selectedMode={paymentHandler?.paymentMode}
+									onPaymentMethodChange={showPaymentMethodScreen}
+									bankName={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName}
+									bankAccount={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO}
+									upiId={paymentHandler.upiId}
+									class="flex flex-1"
+								/>
+							{/if}
+						    <!-- Submit Button -->
+							<Button
+								class={`h-12 flex flex-1 rounded ${
+									!amount?.length ||
+									!!errorMessage?.length ||
+									showTabNotSupported ||
+									investmentNotAllowedText?.length
+										? 'cursor-default !bg-grey-line !text-grey-disabled active:opacity-100'
+										: 'bg-blue-primary'
+								}`}
+								disabled={!amount?.length ||
+									!!errorMessage?.length ||
+									showTabNotSupported ||
+									!!investmentNotAllowedText?.length ||
+									validateUPILoading ||
+									loadingState.isLoading}
+								onClick={() => handleInvestClick(paymentHandler.upiId)}
+							>
+								{activeTab === 'SIP' ? 'START SIP' : 'PAY NOW'}
+							</Button>
+						</section>	
 					</article>
 
 					<!-- On-screen numpad keyboard for Mobile layout -->

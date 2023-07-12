@@ -1,0 +1,39 @@
+<script lang="ts">
+	import WmsIcon from '$components/WMSIcon.svelte';
+	import { PAYMENT_MODE } from './constants';
+
+	export let selectedMode = '';
+	export let bankName = '';
+	export let bankAccount = '';
+	export let upiId = '';
+	export let onPaymentMethodChange = (): void => undefined;
+</script>
+
+<div class="flex w-full flex-row items-center {$$props.class}">
+	<div>
+		<svelte:component this={PAYMENT_MODE[selectedMode]?.sleeveIcon} />
+	</div>
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<div class="ml-3 px-2 flex w-full flex-col active:opacity-70 cursor-pointer" role="button" tabindex={0} on:click={onPaymentMethodChange}>
+		<div class="flex flex-row items-center text-xs font-medium text-black-title">
+			<span>
+				{selectedMode === 'UPI'
+				? upiId?.length
+					? upiId
+					: 'Your UPI Id'
+				: PAYMENT_MODE[selectedMode]?.name}
+			</span>
+			<WmsIcon name="arrow-collapse" width={12} height={6} stroke="#3F5BD9" class="" />
+		</div>
+		<div class="text-[10px] font-normal text-black-title">
+			{bankName}
+		</div>
+        <div class="flex flex-row items-center text-[10px] font-normal text-black-title">
+            <div class="mr-1 h-1 w-1 rounded-full bg-black-title" />
+            <div class="mr-1 h-1 w-1 rounded-full bg-black-title" />
+            <div class="mr-1 h-1 w-1 rounded-full bg-black-title" />
+            <div class="mr-1 h-1 w-1 rounded-full bg-black-title" />
+            {bankAccount?.substring(bankAccount.length - 4)}
+        </div>
+	</div>
+</div>

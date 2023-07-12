@@ -1,4 +1,9 @@
-<svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+<script>
+	export let height = 13;
+	export let width = 12;
+</script>
+
+<svg width={width} height={height} viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
 	<rect
 		x="1.5"
 		y="2.5"
