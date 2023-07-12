@@ -126,7 +126,7 @@
 			<slot />
 		</Default>
 	{/if}
-	{#if pageMetaData.showBottomNavigation}
+	{#if pageMetaData?.showBottomNavigation}
 		<footer>
 			<BottomNavigation navs={BOTTOM_NAVBARS(version)} />
 		</footer>
