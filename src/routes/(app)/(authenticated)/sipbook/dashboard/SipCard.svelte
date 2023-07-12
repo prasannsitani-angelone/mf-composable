@@ -113,7 +113,7 @@
 		if (sipCount) {
 			if (sipCount > 1) {
 				if (isCta) {
-					goto(`${base}/orders/orderspage/sipbook`);
+					goto(`${base}/sipbook/dashboard`);
 				}
 			} else if (sipCount === 1) {
 				handleSipPaymentClick(isCta);

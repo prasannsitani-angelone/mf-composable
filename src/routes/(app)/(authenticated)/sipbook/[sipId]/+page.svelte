@@ -146,7 +146,7 @@
 	const handleSuccessModalCta = () => {
 		toggleShowSuccessModal();
 		sipCancelledSuccessModalDoneButtonClickAnalytics();
-		goto(`${base}/orders/orderspage/sipbook`);
+		goto(`${base}/sipbook/dashboard`);
 	};
 	export let data: PageData;
 </script>

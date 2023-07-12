@@ -58,9 +58,13 @@ export const load = (async ({ fetch, params, url, parent }) => {
 			SubAssetType: schemeData?.subcategoryName
 		});
 		const message = {
-			text: `Hey, check out this fund - ${schemeData?.schemeName}. It has given ${schemeData?.returns3yr?.toFixed(
+			text: `Hey, check out this fund - ${
+				schemeData?.schemeName
+			}. It has given ${schemeData?.returns3yr?.toFixed(
 				2
-			)}% returns in the last 3 years. Learn more about this fund on Angel One - https://angeloneapp.page.link/?link=${url?.href}&apn=${PUBLIC_MF_ANDROID_APN}`
+			)}% returns in the last 3 years. Learn more about this fund on Angel One - https://angeloneapp.page.link/?link=${
+				url?.href
+			}&apn=${PUBLIC_MF_ANDROID_APN}`
 		};
 		shareMessage(message);
 	};

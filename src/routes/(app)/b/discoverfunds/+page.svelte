@@ -1,7 +1,7 @@
 <script lang="ts">
 	import PortfolioCard from '$components/PortfolioCards/PortfolioCard.svelte';
 	import { page } from '$app/stores';
-	import SipCard from '../../(authenticated)/orders/orderspage/sipbook/SipCard.svelte';
+	import SipCard from '../../(authenticated)/sipbook/dashboard/SipCard.svelte';
 	import type {
 		INudge,
 		IRetryPaymentNudge,

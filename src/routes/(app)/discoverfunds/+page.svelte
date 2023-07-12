@@ -231,8 +231,7 @@
 		sip={formattedSipNudgeData}
 		sipCount={sipPaymentNudges?.length}
 		when={deviceType?.isMobile && sipPaymentNudges?.length}
-		component={async () =>
-			await import('../(authenticated)/orders/orderspage/sipbook/SipCard.svelte')}
+		component={async () => await import('../(authenticated)/sipbook/dashboard/SipCard.svelte')}
 	/>
 
 	<TrendingFunds tableData={data?.searchDashboardData?.weeklyTopSchemes} version="A" />
@@ -297,7 +296,7 @@
 							{sip}
 							when={sipPaymentNudges?.length}
 							component={async () =>
-								await import('../(authenticated)/orders/orderspage/sipbook/SipCard.svelte')}
+								await import('../(authenticated)/sipbook/dashboard/SipCard.svelte')}
 						/>
 					{/each}
 				</section>

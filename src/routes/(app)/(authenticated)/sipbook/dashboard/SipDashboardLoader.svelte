@@ -1,7 +1,7 @@
 <script>
 	import SkeletonRectangle from '$components/Skeleton/SkeletonRectangle.svelte';
 	import SkeletonWrapper from '$components/Skeleton/SkeletonWrapper.svelte';
-	import SipCardLoader from '../../../sipbook/inactivesips/SipCardLoader.svelte';
+	import SipCardLoader from '../inactivesips/SipCardLoader.svelte';
 </script>
 
 <SkeletonWrapper>

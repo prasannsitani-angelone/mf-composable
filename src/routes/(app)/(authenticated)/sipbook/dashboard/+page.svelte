@@ -1,7 +1,7 @@
 <script lang="ts">
 	import SipDashboard from './SipDashboard.svelte';
-	import type { PageData } from './$types';
 	import SipDashboardLoader from './SipDashboardLoader.svelte';
+	import type { PageData } from './$types';
 	import { SEO } from 'wms-ui-component';
 	export let data: PageData;
 </script>

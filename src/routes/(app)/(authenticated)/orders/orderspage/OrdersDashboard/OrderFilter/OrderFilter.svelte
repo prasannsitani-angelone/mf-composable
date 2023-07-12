@@ -15,7 +15,7 @@
 </script>
 
 <section
-	class="flex flex-col rounded-none border-none bg-white px-4 py-3 md:rounded-lg md:border md:px-5 md:pt-4 md:pb-5"
+	class="flex flex-col rounded-t-xl border-none bg-white px-4 py-3 md:rounded-lg md:border md:px-5 md:pt-4 md:pb-5"
 >
 	<article class="mb-3 text-1xs text-grey-body md:mb-5 md:text-xs">FILTER BY</article>
 	<article class="flex justify-between md:flex-col">

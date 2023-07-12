@@ -6,6 +6,8 @@ import RupeeNav from '$lib/images/RupeeInCircleBolder.svg';
 import RupeeNavFilled from '$lib/images/RupeeCircleBlueFilled.svg';
 import PadNav from '$lib/images/PadBolder.svg';
 import PadNavFilled from '$lib/images/PadActive.svg';
+import SipsNav from '$lib/images/SipsNav.svg';
+import SipsNavFilled from '$lib/images/SipsNavFilled.svg';
 import { base } from '$app/paths';
 
 export const BOTTOM_NAVBARS = (version) => [
@@ -34,6 +36,15 @@ export const BOTTOM_NAVBARS = (version) => [
 		activeIcon: RupeeNavFilled,
 		isInternalNavigation: true,
 		width: 24,
+		height: 24
+	},
+	{
+		label: 'SIPs',
+		path: `${base}/sipbook/dashboard`,
+		icon: SipsNav,
+		activeIcon: SipsNavFilled,
+		isInternalNavigation: true,
+		width: 25,
 		height: 24
 	},
 	{

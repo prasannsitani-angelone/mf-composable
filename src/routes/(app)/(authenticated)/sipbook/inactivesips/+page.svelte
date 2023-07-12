@@ -3,7 +3,7 @@
 	import type { IInactiveSip } from '$lib/types/ISipType';
 	import { getDateTimeString } from '$lib/utils/helpers/date';
 	import isInvestmentAllowed from '$lib/utils/isInvestmentAllowed';
-	import SipCard from '../../orders/orderspage/sipbook/SipCard.svelte';
+	import SipCard from '../dashboard/SipCard.svelte';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';

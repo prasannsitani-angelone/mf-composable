@@ -2,7 +2,6 @@ import { browser } from '$app/environment';
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
-import SipTabSelection from '../TabSelection/SipTabSelection.svelte';
 import type { ISipBookData } from '$lib/types/ISipType';
 
 export const load = (async ({ fetch, depends }) => {
@@ -20,10 +19,9 @@ export const load = (async ({ fetch, depends }) => {
 	depends('app:sipbook');
 	return {
 		layoutConfig: {
-			title: 'All Orders',
+			title: 'SIPs',
 			titleClass: '!text-xl',
 			headerClass: '!bg-grey !py-2.5 !px-4',
-			component: SipTabSelection,
 			showBottomNavigation: true
 		},
 		sipBookData: sipBookData,

@@ -36,12 +36,17 @@
 	let sipID: string;
 	let amount: string;
 	let orderDate: string;
+	let automatedSipsCount = 0;
 
 	$: sipBookData?.sips?.forEach((sip) => {
 		if (sip?.isSipPaymentNudge) {
 			paymentSipsArray.push(sip);
 		} else {
 			normalSipsArray.push(sip);
+		}
+
+		if (sip?.mandateRefId?.length) {
+			automatedSipsCount++;
 		}
 	});
 	$: paymentDueSips = paymentSipsArray;
@@ -129,7 +134,7 @@
 		<section>
 			<!-- SIP Summary Section -->
 			{#if sipBookData?.bookOverView}
-				<SipSummary bookSummary={sipBookData?.bookOverView} />
+				<SipSummary bookSummary={sipBookData?.bookOverView} {automatedSipsCount} />
 			{/if}
 
 			<!-- SIP Cards section -->

@@ -23,7 +23,8 @@ module.exports = {
 				},
 				blue: {
 					primary: '#3F5BD9',
-					background: '#F4F6FB'
+					background: '#F4F6FB',
+					gradient: '#00198A'
 				},
 				grey: {
 					DEFAULT: '#F4F6FB',
