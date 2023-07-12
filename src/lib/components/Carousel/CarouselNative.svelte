@@ -172,12 +172,14 @@
 <div class="flex w-full flex-row items-center {$$props?.class || ''}">
 	{#if navigation}
 		<slot name="prev-arrow">
-			<WMSIcon
-				width={40}
-				name="arrow-expand"
-				class="carousel-prev mb-10 ml-4 mr-1 rotate-90 cursor-pointer {prevButtonDisabled &&
-					'pointer-events-none  opacity-50'}"
-			/>
+			<div class="carousel-prev">
+				<WMSIcon
+					width={16}
+					name="arrow-expand"
+					class="mb-10 ml-4 mr-1 rotate-90 cursor-pointer {prevButtonDisabled &&
+						'pointer-events-none  opacity-50'}"
+				/>
+			</div>
 		</slot>
 	{/if}
 	<div class="carousel-container {containerClass} relative overflow-hidden">
@@ -218,12 +220,14 @@
 	</div>
 	{#if navigation}
 		<slot name="next-arrow">
-			<WMSIcon
-				width={40}
-				name="arrow-collapse"
-				class="carousel-next mb-10 mr-4 ml-1 rotate-90 cursor-pointer {nextButtonDisabled &&
-					'pointer-events-none  opacity-50'}"
-			/>
+			<div class="carousel-next">
+				<WMSIcon
+					width={16}
+					name="arrow-collapse"
+					class="mb-10 mr-4 ml-1 rotate-90 cursor-pointer {nextButtonDisabled &&
+						'pointer-events-none  opacity-50'}"
+				/>
+			</div>
 		</slot>
 	{/if}
 </div>
