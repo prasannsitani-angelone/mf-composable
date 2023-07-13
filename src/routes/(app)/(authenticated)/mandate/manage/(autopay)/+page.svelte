@@ -1,1 +1,0 @@
-Setup autopay welcome screen

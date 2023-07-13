@@ -1,1 +1,45 @@
-Setup autopay welcome screen
+<script lang="ts">
+	import { Button } from 'wms-ui-component';
+	import { base } from '$app/paths';
+	import { goto } from '$app/navigation';
+	import Card from '$components/Card.svelte';
+	import RiskMessage from './components/RiskMessage.svelte';
+	import AutopayIllustration from './components/AutopayIllustration.svelte';
+	import InfoList from './components/InfoList.svelte';
+	import BankDetails from './components/BankDetails.svelte';
+	import { getSipAmountWithoutMandate } from '../utils';
+	export let data;
+
+	const navigateToAutopayDashboard = () => {
+		goto(`${base}/autopay`);
+	};
+</script>
+
+{#await data.api.data}
+	Loading .....
+{:then response}
+	{#if getSipAmountWithoutMandate(response.nudges) > 0}
+		<Card class="px-2 pt-4 pb-6">
+			<RiskMessage nudgeData={response.nudges || []} />
+			<AutopayIllustration class="flex justify-center" />
+			<section class=" m-auto text-center text-2xl font-medium text-black-title">
+				<div>Automate your SIP</div>
+				<div>Payments with Autopay</div>
+			</section>
+			<InfoList />
+			<BankDetails />
+		</Card>
+	{:else}
+		<Card
+			><div class="flex flex-col items-center justify-center text-lg font-medium">
+				<div class=" text-center">
+					You already have existing autopay setup from your account.<br /><br /> You can still manage
+					your autopay.
+				</div>
+				<Button class="mt-8" variant="outlined" on:click={navigateToAutopayDashboard}
+					>Manage Autopay</Button
+				>
+			</div></Card
+		>
+	{/if}
+{/await}

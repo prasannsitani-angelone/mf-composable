@@ -34,7 +34,8 @@ module.exports = {
 					dark: '#5d5e63',
 					light: '#f5f6fa',
 					medium: '#919294',
-					dashed: '#ADBBD7'
+					dashed: '#ADBBD7',
+					separator: '#D9D9D9'
 				},
 				green: {
 					buy: '#1EC7B6',
@@ -49,7 +50,8 @@ module.exports = {
 					sell: '#F65E5A',
 					error: '#FEECEB',
 					tint: '#FDD8D7',
-					errorDark: '#D64D4D'
+					errorDark: '#D64D4D',
+					light: '#FAEAEA'
 				},
 				white: {
 					DEFAULT: '#FFFFFF'

@@ -9,6 +9,7 @@ export interface INudge {
 	nudgesType?: string;
 	data?: ISip | IRetryPaymentNudge | StartFirstSipNudgeType;
 	id: string;
+	amount: number;
 }
 
 export interface IRetryPaymentNudge {
