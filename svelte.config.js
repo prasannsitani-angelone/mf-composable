@@ -11,6 +11,9 @@ const config = {
 		adapter: adapter({
 			precompress: true
 		}),
+		serviceWorker: {
+			register: false
+		},
 		paths: {
 			base: '/mutual-funds'
 		},
