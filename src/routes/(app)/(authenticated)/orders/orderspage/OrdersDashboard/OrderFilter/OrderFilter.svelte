@@ -2,7 +2,7 @@
 	import { filterStore } from '$lib/stores/FilterStore';
 	import type { IOrderFilter } from '$lib/types/IOrderFilter';
 	import type { OrdersSummary } from '$lib/types/IInvestments';
-	import { Checkbox } from 'wms-ui-component';
+	import { Checkbox } from 'svelte-components';
 	let ordersSummary: OrdersSummary;
 
 	const handleChange = (name: string) => {

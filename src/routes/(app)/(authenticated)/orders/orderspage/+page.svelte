@@ -4,7 +4,7 @@
 	import Dashboard from './OrdersDashboard/Dashboard.svelte';
 	import OrderDashboardLoader from './OrdersDashboard/OrderDashboardLoader.svelte';
 	import DateFns from '$lib/utils/asyncDateFns';
-	import { SEO } from 'wms-ui-component';
+	import { SEO } from 'svelte-components';
 	export let data: PageData;
 
 	onMount(async () => {

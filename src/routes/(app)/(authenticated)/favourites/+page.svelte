@@ -4,7 +4,7 @@
 
 	import type { PageData } from './$types';
 	import { invalidate } from '$app/navigation';
-	import { SEO } from 'wms-ui-component';
+	import { SEO } from 'svelte-components';
 
 	const invalidateFavourites = (event) => {
 		const { isFavourite } = event.detail;

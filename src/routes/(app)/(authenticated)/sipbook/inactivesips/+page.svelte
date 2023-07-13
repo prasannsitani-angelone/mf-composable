@@ -13,7 +13,7 @@
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { restartSipButtonClickAnalytics } from '$lib/analytics/sipbook/sipbook';
 	import { userStore } from '$lib/stores/UserStore';
-	import { SEO } from 'wms-ui-component';
+	import { SEO } from 'svelte-components';
 
 	const userType = userStore.userType();
 	const redirectToOrderPad = (sip: IInactiveSip) => {

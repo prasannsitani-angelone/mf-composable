@@ -1,7 +1,7 @@
 <script>
 	import ErrorPage from '$components/ErrorPage.svelte';
 	import EmptyCartIllustration from '$lib/images/EmptyCartIllustration.svelte';
-	import { SEO } from 'wms-ui-component';
+	import { SEO } from 'svelte-components';
 </script>
 
 <SEO

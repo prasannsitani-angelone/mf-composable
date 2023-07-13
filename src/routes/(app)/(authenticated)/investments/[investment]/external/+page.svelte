@@ -11,7 +11,7 @@
 	import type { FolioHoldingType, ChartData, OrdersData } from '$lib/types/IInvestments';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import isInvestmentAllowed from '$lib/utils/isInvestmentAllowed';
-	import { SEO } from 'wms-ui-component';
+	import { SEO } from 'svelte-components';
 
 	export let data: PageData;
 

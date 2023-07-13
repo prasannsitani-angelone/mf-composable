@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PortfolioCard } from 'wms-ui-component';
+	import { PortfolioCard } from 'svelte-components';
 	import type { ScenarioMap } from '$lib/types/IInvestments';
 	export let scenario: 'errorFetchingInvestments' | 'FetchingInprogress' | 'noInvestmentFound' =
 		'noInvestmentFound';

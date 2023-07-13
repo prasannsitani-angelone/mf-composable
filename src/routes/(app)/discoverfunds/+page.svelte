@@ -28,7 +28,7 @@
 	import { logoutAttemptStore } from '$lib/stores/LogoutAttemptStore';
 	import StoriesComponent from '$components/Stories/StoriesComponent.svelte';
 	import Button from '$components/Button.svelte';
-	import { SEO } from 'wms-ui-component';
+	import { SEO } from 'svelte-components';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 	import { onMount, tick } from 'svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';

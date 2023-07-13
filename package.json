@@ -65,7 +65,7 @@
 		"sveltekit-device-detector": "1.0.2",
 		"ua-parser-js": "^1.0.35",
 		"uuid": "^9.0.0",
-		"wms-ui-component": "0.82.0",
+		"svelte-components": "0.93.0",
 		"word-wrap": "^1.2.3"
 	}
 }

@@ -17,7 +17,7 @@
 	export let data: PageData;
 
 	import InvestmentTab from './components/InvestmentTab.svelte';
-	import { SEO } from 'wms-ui-component';
+	import { SEO } from 'svelte-components';
 	import { tabs } from '../constants';
 
 	let isXIRRModalOpen = false;

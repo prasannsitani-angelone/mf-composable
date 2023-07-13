@@ -7,7 +7,7 @@
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import Button from '$components/Button.svelte';
-	import { PortfolioCard } from 'wms-ui-component';
+	import { PortfolioCard } from 'svelte-components';
 	import type { InvestmentSummary } from '$lib/types/IInvestments';
 	import { viewPortfolioAnalysisAnalytics } from '../../../routes/(app)/(authenticated)/investments/analytics';
 

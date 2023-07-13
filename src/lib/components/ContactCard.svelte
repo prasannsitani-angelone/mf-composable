@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { contactEmail, contactNumber } from '$lib/constants/contactInfo';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
-	import { Button } from 'wms-ui-component';
+	import { Button } from 'svelte-components';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	$: os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;

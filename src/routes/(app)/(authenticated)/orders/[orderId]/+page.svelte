@@ -11,7 +11,7 @@
 	import ErrorView from '$components/ErrorView.svelte';
 	import { base } from '$app/paths';
 	import { TRANSACTION_TYPE } from '$lib/constants/transactionType';
-	import { Button, SEO } from 'wms-ui-component';
+	import { Button, SEO } from 'svelte-components';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	import RightArrowIcon from './RightArrowIcon.svelte';

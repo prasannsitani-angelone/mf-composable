@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PortfolioCard } from 'wms-ui-component';
+	import { PortfolioCard } from 'svelte-components';
 	import GainArrowIcon from '$lib/images/icons/GainArrowIcon.svelte';
 	import LossArrowIcon from '$lib/images/icons/LossArrowIcon.svelte';
 	import VerticalLineSeparatorIcon from '$lib/images/icons/VerticalLineSeparatorIcon.svelte';

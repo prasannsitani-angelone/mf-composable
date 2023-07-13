@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte/internal';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
-	import { Checkbox } from 'wms-ui-component';
+	import { Checkbox } from 'svelte-components';
 	import InvestmentTypeDropdown from './InvestmentTypeDropdown.svelte';
 	import InvestmentAmountInput from './InvestmentAmountInput.svelte';
 	import SipDatePicker from './SipDatePicker.svelte';

@@ -15,7 +15,7 @@
 	import type { FolioSummaryTypes } from '$lib/types/IInvestments';
 	import ErrorLoadingComponent from '$components/ErrorLoadingComponent.svelte';
 	import { portfolioAnalysisScreenOpenAnalytics, graphYearSelectAnalytics } from '../analytics';
-	import { SEO } from 'wms-ui-component';
+	import { SEO } from 'svelte-components';
 
 	const graphYearSelectAnalyticsFunc = (selectedTag) => {
 		let formattedSelectedTag = '';

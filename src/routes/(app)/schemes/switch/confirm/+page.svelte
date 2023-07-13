@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { SEO } from 'wms-ui-component';
+	import { SEO } from 'svelte-components';
 	import SwitchConfirmation from './SwitchConfirmation/SwitchConfirmation.svelte';
 	import type { PageData } from './[scheme_name]/$types';
 	export let data: PageData;

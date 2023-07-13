@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button } from 'wms-ui-component';
+	import { Button } from 'svelte-components';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	let toggleSwitchCue: () => void;

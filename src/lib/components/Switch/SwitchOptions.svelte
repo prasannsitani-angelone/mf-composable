@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { Button } from 'wms-ui-component';
+	import { Button } from 'svelte-components';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';

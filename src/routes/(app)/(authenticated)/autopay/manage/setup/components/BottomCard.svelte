@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Card from '$components/Card.svelte';
 	import WmsIcon from '$components/WMSIcon.svelte';
-	import { Button } from 'wms-ui-component';
+	import { Button } from 'svelte-components';
 	import RadioButton from '$components/RadioButton.svelte';
 
 	export let bankDetail;

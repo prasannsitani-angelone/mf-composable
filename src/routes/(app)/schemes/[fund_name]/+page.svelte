@@ -23,7 +23,7 @@
 	import OrderpadLoader from './FundDetailsLoader/OrderpadLoader.svelte';
 	import { mobileSchemeDetailsPageInvestButtonClickAnalytics } from './analytics';
 	import NfoDetails from './NFODetails/NFODetails.svelte';
-	import { SEO } from 'wms-ui-component';
+	import { SEO } from 'svelte-components';
 	import { base } from '$app/paths';
 	import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
 	import InvestmentDetailsFooterLoader from '../../(authenticated)/investments/[investment]/components/InvestmentDetailsFooterLoader.svelte';

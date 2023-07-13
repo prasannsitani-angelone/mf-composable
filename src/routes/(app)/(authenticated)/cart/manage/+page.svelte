@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte/internal';
-	import { SEO } from 'wms-ui-component';
+	import { SEO } from 'svelte-components';
 	import type { PageData } from './$types';
 	import { cartStore } from '$lib/stores/CartStore';
 	import ReadOnlyTile from '../components/ReadOnlyTile.svelte';

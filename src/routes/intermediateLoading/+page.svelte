@@ -1,6 +1,6 @@
 <script>
 	import LoadingIndicator from '$components/LoadingIndicator.svelte';
-	import { SEO } from 'wms-ui-component';
+	import { SEO } from 'svelte-components';
 </script>
 
 <div class="flex h-screen flex-col items-center justify-center text-center text-lg">

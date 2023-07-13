@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import Modal from '$components/Modal.svelte';
 	import SwitchSearch from '$components/Switch/SwitchSearch.svelte';
-	import { SwitchOrderTitleCard, SwitchOrderTile, Button, SEO } from 'wms-ui-component';
+	import { SwitchOrderTitleCard, SwitchOrderTile, Button, SEO } from 'svelte-components';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	import SwitchInFundSelection from '../SwitchInFundSelection/SwitchInFundSelection.svelte';

@@ -2,7 +2,7 @@
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
 	import type { BrowserSupport } from '$lib/utils/helpers/browserSupport.js';
-	import { Button } from 'wms-ui-component';
+	import { Button } from 'svelte-components';
 	import Overlay from '$components/Overlay.svelte';
 
 	export let browserDetails: BrowserSupport;

@@ -2,7 +2,7 @@
 	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
 	import LoadingIndicator from '$components/LoadingIndicator.svelte';
-	import { SEO } from 'wms-ui-component';
+	import { SEO } from 'svelte-components';
 
 	if (browser) {
 		const params = $page.url.searchParams;

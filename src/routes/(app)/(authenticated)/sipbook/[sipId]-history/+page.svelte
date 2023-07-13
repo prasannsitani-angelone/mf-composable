@@ -1,6 +1,6 @@
 <script lang="ts">
 	import InvalidUrl from '$components/Error/InvalidUrl.svelte';
-	import { SEO } from 'wms-ui-component';
+	import { SEO } from 'svelte-components';
 	import SipHistory from '../SipDetails/SipHistory.svelte';
 	import type { PageData } from './$types';
 	import SipHistoryLoader from './SipHistoryLoader.svelte';

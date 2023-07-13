@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Checkbox } from 'wms-ui-component';
+	import { Checkbox } from 'svelte-components';
 	import Link from '$components/Link.svelte';
 	import { clickManageCartAnalytics } from '../../analytics/cart';
 

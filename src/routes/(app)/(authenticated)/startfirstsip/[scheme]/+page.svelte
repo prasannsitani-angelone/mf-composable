@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from '../$types';
 	import Button from '$components/Button.svelte';
-	import { SEO } from 'wms-ui-component';
+	import { SEO } from 'svelte-components';
 	import OrderpadReturns from '../../../InvestmentPad/OrderPadComponents/OrderpadReturns.svelte';
 	import { page } from '$app/stores';
 	import AmountSection from './AmountInputOrderpad/AmountSection.svelte';

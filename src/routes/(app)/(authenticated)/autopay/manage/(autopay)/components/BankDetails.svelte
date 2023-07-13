@@ -3,7 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import WmsIcon from '$components/WMSIcon.svelte';
-	import { Button } from 'wms-ui-component';
+	import { Button } from 'svelte-components';
 	import Modal from '$components/Modal.svelte';
 	import BankSelectionPopup from '$components/BankSelectionPopup.svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';

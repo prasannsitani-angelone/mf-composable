@@ -8,7 +8,7 @@
 	import SchemeTable from '$components/SchemeTable.svelte';
 	import ExploreFundModal from './ExploreFundModal/ExploreFundModal.svelte';
 	import { page } from '$app/stores';
-	import { SEO } from 'wms-ui-component';
+	import { SEO } from 'svelte-components';
 	import { capitalizeFirstLetter } from '$lib/utils';
 
 	let data: PageData;

@@ -36,7 +36,7 @@
 		skipSipSkippedSuccessModalOpenAnalytics
 	} from '$lib/analytics/sipbook/sipbook';
 	import type { ISip } from '$lib/types/ISipType';
-	import { SEO } from 'wms-ui-component';
+	import { SEO } from 'svelte-components';
 	$: bankDetails = $profileStore?.bankDetails;
 	let showCancelSipActionModal = false;
 	let showSuccessModal = false;

@@ -3,7 +3,7 @@
 	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
 	import type { PageData } from './$types';
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
-	import { SEO } from 'wms-ui-component';
+	import { SEO } from 'svelte-components';
 
 	const breadCrumbs = [
 		{

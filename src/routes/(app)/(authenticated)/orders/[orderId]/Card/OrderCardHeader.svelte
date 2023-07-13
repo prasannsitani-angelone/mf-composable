@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { IOrderDetails } from '$lib/types/IOrderDetails';
-	import { SwitchOrderTitleCard } from 'wms-ui-component';
+	import { SwitchOrderTitleCard } from 'svelte-components';
 	let orderDetails: IOrderDetails;
 
 	export { orderDetails };

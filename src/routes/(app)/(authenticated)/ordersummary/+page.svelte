@@ -23,7 +23,7 @@
 	import LoadingIndicator from '$components/LoadingIndicator.svelte';
 	import { invalidate } from '$app/navigation';
 	import { goTODashBoardButtonAnalytics } from '$components/mandate/analytics';
-	import { SEO } from 'wms-ui-component';
+	import { SEO } from 'svelte-components';
 	export let data: PageData;
 
 	const params = $page.url.searchParams.get('params') || '';

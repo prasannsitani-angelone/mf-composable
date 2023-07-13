@@ -2,7 +2,7 @@
 module.exports = {
 	content: [
 		'./src/**/*.{html,js,svelte,ts}',
-		'./node_modules/wms-ui-component/**/*.{html,js,svelte,ts}'
+		'./node_modules/svelte-components/**/*.{html,js,svelte,ts}'
 	],
 	safelist: ['w-2', 'h-9', 'h-20', 'h-32'],
 	theme: {

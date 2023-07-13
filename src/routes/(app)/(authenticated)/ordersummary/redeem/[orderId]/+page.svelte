@@ -3,7 +3,7 @@
 	import { goto } from '$app/navigation';
 	import ErrorView from '$components/ErrorView.svelte';
 	import { base } from '$app/paths';
-	import { SEO } from 'wms-ui-component';
+	import { SEO } from 'svelte-components';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	import OrderDetailLoader from '../../../orders/[orderId]/Loader/OrderDetailLoader.svelte';

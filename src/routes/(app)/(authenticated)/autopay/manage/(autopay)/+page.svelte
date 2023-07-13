@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button } from 'wms-ui-component';
+	import { Button } from 'svelte-components';
 	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
 	import Card from '$components/Card.svelte';

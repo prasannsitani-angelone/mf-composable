@@ -33,7 +33,7 @@
 		switchHamburgerIconClickAnalytics,
 		switchOptionsOpenAnalytics
 	} from '$lib/analytics/switch/switch';
-	import { SEO } from 'wms-ui-component';
+	import { SEO } from 'svelte-components';
 	import StayInvested from '../../../Redemption/StayInvested.svelte';
 	import InvestmentDetailsFooterLoader from './components/InvestmentDetailsFooterLoader.svelte';
 	import { hydrate } from '$lib/utils/helpers/hydrated';
