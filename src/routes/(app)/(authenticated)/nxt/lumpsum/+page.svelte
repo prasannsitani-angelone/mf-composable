@@ -24,7 +24,6 @@
 
 	let showOtpVerificationModal = false;
 	let uuid = uuidv4();
-	let schemeDetails: SchemeDetails;
 	let { partnerName } = data?.clientDetails || '';
 	let mandateDetails: IMandateDetails = data?.mandateDetails;
 	let orderDetails: IOrderDetails = data?.orderDetails;
@@ -89,7 +88,7 @@
 		await goto(`${base}/orders/orderspage`, { replaceState: true });
 	};
 
-	const placeLumpsumOrderViaMandate = async () => {
+	const placeLumpsumOrderViaMandate = async (schemeDetails: SchemeDetails) => {
 		showLoading('Placing One-time Order');
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/orders`;
 
@@ -154,62 +153,63 @@
 				/>
 			</section>
 		{/if}
+		{#if showOtpVerificationModal && !error?.visible}
+			<OtpVerification
+				{uuid}
+				orderType={otpUseCase}
+				amount={orderDetails?.amount?.toString()}
+				schemeName={schemeDetails?.schemeName}
+				on:closeOtpModal={toggleOtpVerificationModal}
+				on:otpVerificationModalOpen={verifyWithOtpModalOpen}
+				on:otpVerificationSuccessful={() => placeLumpsumOrderViaMandate(schemeDetails)}
+			>
+				<svelte:fragment slot="bodySection">
+					<section class="px-4 pb-6 text-sm font-medium md:px-8 md:py-6 md:text-base">
+						<p class="text-gray-500">
+							An OTP has been sent to {maskedEmailId} and {maskedMobileNumber}. Please enter the OTP to
+							verify your order.
+						</p>
+					</section>
+				</svelte:fragment>
+			</OtpVerification>
+		{/if}
+
+		{#if loadingState.isLoading}
+			<LoadingPopup heading={loadingState.heading} />
+		{:else if error.visible}
+			<ResultPopup
+				popupType="FAILURE"
+				title={error.heading}
+				text={error.subHeading}
+				class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+				isModalOpen
+				handleButtonClick={closeErrorPopup}
+				closeModal={closeErrorPopup}
+				buttonTitle="TRY AGAIN"
+				buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
+				buttonVariant="contained"
+			>
+				<svelte:fragment slot="popupFooter">
+					<div class="flex w-full gap-2">
+						<Button
+							variant="contained"
+							class="mt-8 w-1/2 cursor-default rounded md:cursor-pointer"
+							onClick={closeErrorPopup}
+						>
+							TRY AGAIN
+						</Button>
+						<Button
+							variant="outlined"
+							class="mt-8 w-1/2 cursor-default rounded md:cursor-pointer"
+							onClick={navigateToOrders}
+						>
+							GO TO ORDERS
+						</Button>
+					</div>
+				</svelte:fragment>
+			</ResultPopup>
+		{/if}
 	{/await}
 </div>
 
-{#if showOtpVerificationModal && !error?.visible}
-	<OtpVerification
-		{uuid}
-		orderType={otpUseCase}
-		amount={orderDetails?.amount?.toString()}
-		schemeName={schemeDetails?.schemeName}
-		on:closeOtpModal={toggleOtpVerificationModal}
-		on:otpVerificationModalOpen={verifyWithOtpModalOpen}
-		on:otpVerificationSuccessful={placeLumpsumOrderViaMandate}
-	>
-		<svelte:fragment slot="bodySection">
-			<section class="px-4 pb-6 text-sm font-medium md:px-8 md:py-6 md:text-base">
-				<p class="text-gray-500">
-					An OTP has been sent to {maskedEmailId} and {maskedMobileNumber}. Please enter the OTP to
-					verify your order.
-				</p>
-			</section>
-		</svelte:fragment>
-	</OtpVerification>
-{/if}
 
-{#if loadingState.isLoading}
-	<LoadingPopup heading={loadingState.heading} />
-{:else if error.visible}
-	<ResultPopup
-		popupType="FAILURE"
-		title={error.heading}
-		text={error.subHeading}
-		class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
-		isModalOpen
-		handleButtonClick={closeErrorPopup}
-		closeModal={closeErrorPopup}
-		buttonTitle="TRY AGAIN"
-		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
-		buttonVariant="contained"
-	>
-		<svelte:fragment slot="popupFooter">
-			<div class="flex w-full gap-2">
-				<Button
-					variant="contained"
-					class="mt-8 w-1/2 cursor-default rounded md:cursor-pointer"
-					onClick={closeErrorPopup}
-				>
-					TRY AGAIN
-				</Button>
-				<Button
-					variant="outlined"
-					class="mt-8 w-1/2 cursor-default rounded md:cursor-pointer"
-					onClick={navigateToOrders}
-				>
-					GO TO ORDERS
-				</Button>
-			</div>
-		</svelte:fragment>
-	</ResultPopup>
-{/if}

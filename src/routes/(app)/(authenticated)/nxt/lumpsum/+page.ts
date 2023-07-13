@@ -8,16 +8,35 @@ import { useFetch } from '$lib/utils/useFetch';
 import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
-export const load = (async ({ url, fetch }) => {
+export const load = (async ({ url, fetch, parent }) => {
+	const parentData = await parent();
+
 	const params = url.searchParams.get('params');
 	const requestId = url.searchParams.get('requestId');
 	const decodedParams = decodeToObject(params || undefined);
 	let { schemeDetails } = decodedParams;
 	const { mandateDetails, clientDetails, orderDetails } = decodedParams;
 
+	const accountType = () => {
+		if (!clientDetails?.clientCode) {
+			return 'D';
+		}
+		return parentData?.profile?.dpNumber ? 'D' : 'P';
+	};
+
 	const getSchemeData = async (): Promise<SchemeDetails> => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${schemeDetails?.isin}/${schemeDetails?.schemeCode}`;
-		const res = await useFetch(url, {}, fetch);
+		const res = await useFetch(
+			url,
+			{
+				// This is getting called before we are setting up STORES in OnMount in layout
+				headers: {
+					userType: parentData?.userDetails?.userType,
+					accountType: accountType()
+				}
+			},
+			fetch
+		);
 
 		if (res.ok) {
 			schemeDetails = res.data;
