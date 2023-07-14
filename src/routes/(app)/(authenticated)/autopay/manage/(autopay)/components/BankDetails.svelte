@@ -66,6 +66,7 @@
 
 <section class="mb-2 flex justify-between rounded border border-grey-line py-2.5">
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div on:click={showBankSelectionPopup} class="flex items-center">
 		<div class="flex h-8 w-11 items-center justify-center rounded-sm">
 			<img src={bankLogo} class="h-5 w-5" alt="bank logo" />

@@ -81,18 +81,24 @@
 	};
 
 	onMount(async () => {
+		update();
 		if (pwaInfo) {
-      const { registerSW } = await import('virtual:pwa-register')
-      registerSW({
-        immediate: true,
-        onRegistered() {
-			Logger.debug({type:"SW registered"})
-        },
-        onRegisterError(error:Error) {
-          Logger.error({type:'SW registration error',params:error})
-        }
-      })
-    }
+			try {
+				const { registerSW } = await import('virtual:pwa-register')
+				registerSW({
+					immediate: true,
+					onRegistered() {
+						Logger.debug({type:"SW registered"})
+					},
+					onRegisterError(error:Error) {
+					Logger.error({type:'SW registration error',params:error})
+					}
+				})
+			} catch(e) {
+				console.log('virtual:pwa-register - ERRROR', e);
+			}
+		}
+		
 		// to delete device id once app is loaded
 		if ($page.url.searchParams.get('deviceid')) {
 			$page.url.searchParams.delete('deviceid');
@@ -137,8 +143,6 @@
 			isMissingHeaders,
 			...connectionDetails
 		});
-
-		update();
 
 		if (PUBLIC_ENV_NAME === 'prod') {
 			deleteCookie(getUserCookieName(), getCookieOptions(false));

@@ -39,19 +39,21 @@
 	Loading .....
 {:then response}
 	<TopCard nudgeData={response.nudges || []} />
-	<BottomCard
-		bankDetail={selectedAccountDetail}
-		accNOSubtring={data.pageParam?.accountNumber}
-		{intiateAutoPayProcess}
-	/>
-    <Mandate
-            {selectedAccount}
-			bind:this={mandateInstance}
-			amount={String(getSipAmountWithoutMandate(response.nudges))}
-			successButtonTitle="DONE"
-		>
-        <svelte:fragment slot='mandate-success'>
-            <MandateSuccessPopup />
-        </svelte:fragment>
-        </Mandate>
+	{#if data.pageParam?.accountNumber}
+		<BottomCard
+			bankDetail={selectedAccountDetail}
+			accNOSubtring={data.pageParam?.accountNumber}
+			{intiateAutoPayProcess}
+		/>
+		<Mandate
+				{selectedAccount}
+				bind:this={mandateInstance}
+				amount={String(getSipAmountWithoutMandate(response.nudges))}
+				successButtonTitle="DONE"
+			>
+			<svelte:fragment slot='mandate-success'>
+				<MandateSuccessPopup />
+			</svelte:fragment>
+		</Mandate>
+	{/if}
 {/await}
