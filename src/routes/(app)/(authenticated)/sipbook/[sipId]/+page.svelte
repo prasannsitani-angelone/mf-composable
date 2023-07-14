@@ -1,9 +1,9 @@
 <script lang="ts">
+	import BankAutopayCard from '$components/mandate/components/BankAutopayCard.svelte';
 	import InvalidUrl from '$components/Error/InvalidUrl.svelte';
 	import NudgeComponent from '$components/Nudge/NudgeComponent.svelte';
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import { getBankLogoUrl } from '$lib/utils';
-	import SipBankDetails from '../SipDetails/SipBankDetails.svelte';
 	import SipDetailsBasic from '../SipDetails/SipDetailsBasic.svelte';
 	import SipHistory from '../SipDetails/SipHistory.svelte';
 	import SipSchedule from '../SipDetails/SipSchedule.svelte';
@@ -174,7 +174,7 @@
 			/>
 
 			{#if sipData?.accountNo}
-				<SipBankDetails
+				<BankAutopayCard
 					bankAccountNumber={sipData?.accountNo}
 					bankName={sipData?.bankName}
 					bankLogo={getBankLogoUrl(bankDetails, sipData?.accountNo)}

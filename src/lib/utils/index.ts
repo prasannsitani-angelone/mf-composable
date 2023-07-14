@@ -8,6 +8,7 @@ import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 import type { PageParentData } from '../../routes/(app)/schemes/[fund_name]/$types';
 import { appStore } from '$lib/stores/SparkStore';
 import type { LayoutData } from '../../../.svelte-kit/types/src/routes/(app)/$types';
+import type { AutopayTypes } from '$lib/types/IEmandate';
 
 export interface TableColumnToggle {
 	label: string;
@@ -147,6 +148,32 @@ export const getBankLogoUrl = (
 	});
 
 	return bankLogoUrl;
+};
+
+export const getBanksWithoutMandateList = (
+	bankDetails: BankDetailsEntity[] | null | undefined,
+	mandateList: AutopayTypes[]
+) => {
+	const banksWithoutMandate: BankDetailsEntity[] = [];
+
+	(bankDetails || [])?.forEach((bank) => {
+		let bankMandatePresent = false;
+
+		(mandateList || [])?.forEach((mandate) => {
+			if (
+				bank?.accNO === mandate?.accountNo ||
+				Number(bank?.accNO) === Number(mandate?.accountNo)
+			) {
+				bankMandatePresent = true;
+			}
+		});
+
+		if (!bankMandatePresent) {
+			banksWithoutMandate.push(bank);
+		}
+	});
+
+	return banksWithoutMandate;
 };
 
 export const getExploreFundsNavigationPath = (option: SearchOptionsEntity) => {

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 	import { page } from '$app/stores';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import { deviceStore } from '$lib/stores/DeviceStore';
@@ -15,7 +17,9 @@
 	const handleAutopayButtonClick = () => {
 		// based on automatedSipsCount, redirect to setup autopay journey or autopay list page
 		if (automatedSipsCount) {
-			//
+			const redirectPath = `${base}/autopay`;
+
+			goto(redirectPath);
 		} else {
 			//
 		}
@@ -60,7 +64,7 @@
 			>
 		</div>
 
-		<button class="flex items-center" on:click={handleAutopayButtonClick}>
+		<button class="flex items-center z-10" on:click={handleAutopayButtonClick}>
 			<div class="text-sm font-semibold">
 				{automatedSipsCount ? 'MANAGE AUTOPAY' : 'SETUP AUTOPAY'}
 			</div>

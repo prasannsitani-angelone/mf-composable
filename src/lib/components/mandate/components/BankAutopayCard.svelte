@@ -4,22 +4,26 @@
 	let bankAccountNumber: string;
 	let bankName: string;
 	let bankLogo: string;
-	export { bankAccountNumber, bankName, bankLogo };
+	let cardBodyClass = '';
+	let bankLogoClass = '';
+	let bankDetailsClass = '';
+	let bankAccNoClass = '';
+	export { bankAccountNumber, bankName, bankLogo, cardBodyClass, bankLogoClass, bankDetailsClass, bankAccNoClass };
 </script>
 
 <section class={`rounded-lg bg-white p-4 pl-2 shadow-csm ${$$props.class}`}>
-	{#if bankAccountNumber}
+	<article class="{cardBodyClass}">
 		<section class="flex items-center justify-between">
 			<section class="flex items-center text-black-title">
-				<div class="px-3 py-1.5">
+				<div class="px-3 py-1.5 {bankLogoClass}">
 					<img src={bankLogo} alt="bank logo" class="h-4 w-4" />
 				</div>
 
-				<article class="flex flex-col items-start">
+				<article class="flex flex-col items-start {bankDetailsClass}">
 					<div class="text-sm font-medium">
 						{bankName}
 					</div>
-					<article class="flex items-center">
+					<article class="flex items-center {bankAccNoClass}">
 						{#each Array(4) as item}
 							<BigDotIcon class="mr-1" />
 						{/each}
@@ -30,10 +34,14 @@
 				</article>
 			</section>
 
-			<section class="flex items-center">
-				<AutopayEnabledIcon class="mr-1" />
-				<div class="text-xs font-medium text-grey-body">Autopay Enabled</div>
-			</section>
+			<slot name="autopayStatusSlot">
+				<section class="flex items-center">
+					<AutopayEnabledIcon class="mr-1" />
+					<div class="text-xs font-medium text-grey-body">Autopay Enabled</div>
+				</section>
+			</slot>
 		</section>
-	{/if}
+	</article>
+
+	<slot name="footer" />
 </section>
