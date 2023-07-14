@@ -5,7 +5,7 @@
 	import RadioButton from '$components/RadioButton.svelte';
 
 	export let bankDetail;
-	export let intiateAutoPayProcess = () => '';
+	export let intiateAutoPayProcess = (): void => undefined;
 
 	let bankLogo = '';
 	let bankName = '';

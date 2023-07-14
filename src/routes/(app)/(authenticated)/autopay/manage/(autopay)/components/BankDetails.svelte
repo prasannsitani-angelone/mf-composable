@@ -60,9 +60,7 @@
 			acc: bankAccount
 		});
 
-		await goto(`${base}/autopay/manage/setup?params=${params}`, {
-			replaceState: true
-		});
+		await goto(`${base}/autopay/manage/setup?params=${params}`);
 	};
 </script>
 
@@ -74,10 +72,13 @@
 		</div>
 		<div class="ml-1">
 			<div class="flex flex-row items-start">
-				<div class="text-sm font-medium text-black-title">
-					<span>{bankName}</span>
+				<div class="text-sm font-medium text-black-title flex items-center">
+					<div>{bankName}</div>
 					{#if profileData?.bankDetails?.length > 1}
-						<WmsIcon name="arrow-collapse" height={8} width={10} class="ml-1  inline" />
+                    <div class="ml-1 flex-1 min-w-[12px]">
+                        <WmsIcon name="arrow-collapse" height={8} width={10}  />
+                    </div>
+						
 					{/if}
 				</div>
 			</div>
@@ -98,7 +99,7 @@
 	>
 </section>
 <section>
-	<Button on:click={navigatToSetup} class="w-full">SETUP AUTOPAY</Button>
+	<Button on:click={navigatToSetup} class="w-full">SET UP AUTOPAY</Button>
 </section>
 {#if bankPopupVisible}
 	<BankSelectionPopup
@@ -116,9 +117,7 @@
 			<div class=" pb-6 pt-2 text-lg font-medium text-black-title">Why this bank?</div>
 
 			<div class=" text-sm font-normal text-grey-body">
-				Your autopay will be created in your selected bank account. <br />This is the bank in which
-				Autopay will be setup. Your money will be debited from this bank account on SIP day after
-				your successful create an autopay
+				Your autopay will be created in your selected bank account. <br />Your money will be debited from this bank account on SIP day after you successfully create an autopay.
 			</div>
 		</div>
 	</Modal>

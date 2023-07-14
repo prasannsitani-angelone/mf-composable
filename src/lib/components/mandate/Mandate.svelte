@@ -33,9 +33,9 @@
 	export let date = '';
 	export let successButtonTitle = '';
 	export let onSuccess = (): void => undefined;
+	export let selectedAccount = 0;
 
 	let bankPopupOpen = false;
-	let selectedAccount = 0;
 	let emandateWindow = null;
 	let interval = null;
 	const amountInNumber = stringToFloat(amount);
@@ -303,9 +303,9 @@
 		);
 	};
 
-	export const startProcess = () => {
+	export const startProcess = (skipBankSelection = false) => {
 		screenOpenAnalytics();
-		if (profileData?.bankDetails.length > 1) {
+		if (profileData?.bankDetails.length > 1 && !skipBankSelection) {
 			toggleBankPopup();
 		} else {
 			startEmandateProcess();
@@ -347,13 +347,15 @@
 			buttonVariant="contained"
 		/>
 	{:else if isSuccess}
-		<SuccessPopup
-			mandateLimit={getMandateAmount(amountInNumber)?.toString()}
-			buttonTitle={successButtonTitle}
-			onSubmit={() => {
-				emandateCreatedSuccessDoneButtonAnalytics();
-				onSuccess();
-			}}
-		/>
+		<slot name='mandate-success' >
+			<SuccessPopup
+				mandateLimit={getMandateAmount(amountInNumber)?.toString()}
+				buttonTitle={successButtonTitle}
+				onSubmit={() => {
+					emandateCreatedSuccessDoneButtonAnalytics();
+					onSuccess();
+				}}
+			/>
+		</slot>
 	{/if}
 </div>
