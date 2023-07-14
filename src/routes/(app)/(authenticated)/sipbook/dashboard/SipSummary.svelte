@@ -15,13 +15,12 @@
 	const userAgent = $deviceStore.userAgent?.toLowerCase();
 
 	const handleAutopayButtonClick = () => {
-		// based on automatedSipsCount, redirect to setup autopay journey or autopay list page
 		if (automatedSipsCount) {
 			const redirectPath = `${base}/autopay`;
-
 			goto(redirectPath);
 		} else {
-			//
+			const redirectPath = `${base}/autopay/manage`;
+			goto(redirectPath);
 		}
 	};
 </script>
