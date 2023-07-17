@@ -217,13 +217,6 @@
 			<div class="mb-2 block overflow-hidden sm:mb-0">
 				<PortfolioCard discoverPage={true} investmentSummary={data?.investementSummary} />
 			</div>
-		{:else if nudgesData && startFirstSipNudgeData}
-			<LazyComponent
-				when={isLoggedInUser && deviceType?.isMobile && startFirstSipNudgeData}
-				component={async () => await import('$components/StartFirstSip/StartFirstSipNudge.svelte')}
-				nudgeData={startFirstSipNudgeData}
-				version="A"
-			/>
 		{/if}
 	{/if}
 
@@ -240,18 +233,6 @@
 		<ExploreScheme searchOptions={data?.searchDashboardData?.searchOptions} />
 	</article>
 
-	<!-- External Funds, NFO, Calculator -->
-
-	<IntersectionObserver once element={elementOnce} bind:intersecting={intersectOnce}>
-		<div bind:this={elementOnce}>
-			<LazyComponent
-				{isGuest}
-				when={intersectOnce}
-				component={async () =>
-					await import('./ExternalFundsNfoCalculatorCard/ExternalFundsNfoCalculatorCard.svelte')}
-			/>
-		</div>
-	</IntersectionObserver>
 	<!-- Retry Payment Nudge -->
 	{#if retryPaymentNudges?.length}
 		<LazyComponent
@@ -277,6 +258,19 @@
 			</section>
 		{/each}
 	{/if}
+
+	<!-- External Funds, NFO, Calculator -->
+
+	<IntersectionObserver once element={elementOnce} bind:intersecting={intersectOnce}>
+		<div bind:this={elementOnce}>
+			<LazyComponent
+				{isGuest}
+				when={intersectOnce}
+				component={async () =>
+					await import('./ExternalFundsNfoCalculatorCard/ExternalFundsNfoCalculatorCard.svelte')}
+			/>
+		</div>
+	</IntersectionObserver>
 </article>
 
 {#if deviceType?.isBrowser}
