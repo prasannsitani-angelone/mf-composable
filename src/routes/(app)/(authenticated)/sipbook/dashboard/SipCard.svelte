@@ -141,7 +141,7 @@
 	<!-- Header section -->
 	{#if sip?.isSipPaymentNudge && !sip?.installmentSkip}
 		<section
-			class="flex items-center justify-between rounded-t-lg border-l-4 border-yellow-primary bg-gradient-to-r from-white to-yellow-primary/10 py-2 px-3.5 font-medium text-black"
+			class="flex items-center justify-between rounded-t-lg border-l-4 border-yellow-primary bg-gradient-to-r from-white to-yellow-primary/10 px-3.5 py-2 font-medium text-black"
 		>
 			<article class="flex items-center">
 				<OctagonalYellowWarningIcon class="mr-3.5" />
@@ -177,7 +177,7 @@
 							class="mr-3 h-9 w-9 rounded-full border object-cover p-0.5 shadow-csm group-hover:bg-white"
 						/>
 						<div
-							class="mr-3 -ml-7 flex h-9 w-9 items-center justify-center rounded-full border bg-white object-cover p-0.5 text-xs font-medium opacity-100 shadow-csm group-hover:bg-white"
+							class="-ml-7 mr-3 flex h-9 w-9 items-center justify-center rounded-full border bg-white object-cover p-0.5 text-xs font-medium opacity-100 shadow-csm group-hover:bg-white"
 						>
 							+ {sipCount - 1}
 						</div>
@@ -230,7 +230,7 @@
 
 		<!-- Pay Now button for SIP payment -->
 		{#if sip?.isSipPaymentNudge}
-			<section class="px-3 pt-2 pb-1">
+			<section class="px-3 pb-1 pt-2">
 				<Button
 					class="flex h-12 w-full items-center justify-center rounded"
 					onClick={(e) => handleClick(e, true)}

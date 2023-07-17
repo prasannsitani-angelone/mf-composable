@@ -53,7 +53,7 @@
 								closeModal={handleCloseExpectedNavDateModal}
 							>
 								<svelte:fragment slot="popupHeader">
-									<div class="flex items-center justify-between px-4 pt-6 pb-3 md:py-6 md:px-8">
+									<div class="flex items-center justify-between px-4 pb-3 pt-6 md:px-8 md:py-6">
 										<span class="text-lg font-medium text-black-title md:text-xl">
 											{statusItems[key]?.informationHeading}
 										</span>

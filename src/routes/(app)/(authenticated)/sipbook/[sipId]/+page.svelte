@@ -306,7 +306,7 @@
 				title="SIP Cancelled"
 				text={`You have cancelled your SIP for ${sipData?.schemeName}`}
 				buttonTitle="DONE"
-				class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+				class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
 				buttonClass="mt-8 w-40 border border-blue-primary rounded !bg-white !text-blue-primary cursor-default md:cursor-pointer"
 				handleButtonClick={handleSuccessModalCta}
 			/>
@@ -318,7 +318,7 @@
 				title="Cancellation Error"
 				text="We could not cancel your SIP due to a tecnhical error. Please try again"
 				buttonTitle="RETRY"
-				class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+				class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
 				buttonClass="mt-8 w-40 border border-blue-primary rounded !bg-white !text-blue-primary cursor-default md:cursor-pointer"
 				handleButtonClick={handleFailureModalCta}
 			/>
@@ -329,7 +329,7 @@
 				isModalOpen={showSkipSuccessModal}
 				popupType={STATUS_ARR.SUCCESS}
 				buttonTitle="DONE"
-				class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+				class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
 				buttonClass="mt-8 w-40 border border-blue-primary rounded !bg-white !text-blue-primary cursor-default md:cursor-pointer"
 				handleButtonClick={() => {
 					invalidate('skipsip');
@@ -361,7 +361,7 @@
 				title="Something Went Wrong"
 				text="We could not process your skip request due to a technical error. Please try again"
 				buttonTitle="RETRY"
-				class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+				class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
 				buttonClass="mt-8 w-40 border border-blue-primary rounded !bg-white !text-blue-primary cursor-default md:cursor-pointer"
 				handleButtonClick={toggleSkipFailureModal}
 			/>

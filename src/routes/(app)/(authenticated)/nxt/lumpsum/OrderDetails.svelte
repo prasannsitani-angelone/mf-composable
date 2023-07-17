@@ -88,7 +88,7 @@
 			</p>
 			<div class="flex items-center border px-4 py-3">
 				<div
-					class="mr-3 ml-2 flex h-[30px] w-[46px] items-center justify-center rounded-sm border border-grey-line bg-white"
+					class="ml-2 mr-3 flex h-[30px] w-[46px] items-center justify-center rounded-sm border border-grey-line bg-white"
 				>
 					<img src={selectedBankAccount?.bankLogo} class="h-3 w-3" alt="bank logo" />
 				</div>

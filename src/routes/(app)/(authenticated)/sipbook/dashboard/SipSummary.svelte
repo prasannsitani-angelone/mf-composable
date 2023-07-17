@@ -26,13 +26,13 @@
 </script>
 
 <section
-	class="relative mb-2 rounded-lg bg-gradient-to-r from-blue-gradient via-blue-gradient to-blue-primary pt-6 pb-3 text-white md:mt-0 lg:p-6 {os ===
+	class="relative mb-2 rounded-lg bg-gradient-to-r from-blue-gradient via-blue-gradient to-blue-primary pb-3 pt-6 text-white md:mt-0 lg:p-6 {os ===
 		'iOS' || userAgent?.includes('safari')
 		? 'overflow-hidden'
 		: ''}"
 >
 	<div
-		class={`absolute left-[34%] -top-56 h-[26rem] w-20 rotate-[-30deg] rounded-lg bg-gradient-to-b opacity-20 bg-blend-screen mix-blend-screen`}
+		class={`absolute -top-56 left-[34%] h-[26rem] w-20 rotate-[-30deg] rounded-lg bg-gradient-to-b opacity-20 bg-blend-screen mix-blend-screen`}
 	/>
 	<article class="flex items-center justify-between border-b border-white/10 pb-5">
 		<section class="flex-1 text-center">
@@ -63,7 +63,7 @@
 			>
 		</div>
 
-		<button class="flex items-center z-10" on:click={handleAutopayButtonClick}>
+		<button class="z-10 flex items-center" on:click={handleAutopayButtonClick}>
 			<div class="text-sm font-semibold">
 				{automatedSipsCount ? 'MANAGE AUTOPAY' : 'SETUP AUTOPAY'}
 			</div>

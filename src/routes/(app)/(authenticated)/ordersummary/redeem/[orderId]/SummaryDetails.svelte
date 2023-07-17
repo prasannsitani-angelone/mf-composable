@@ -23,7 +23,7 @@
 	};
 </script>
 
-<section class="mx-2 mt-2 mb-2 rounded-lg bg-white p-4 shadow-csm md:mx-0 md:mt-4 md:p-6 md:pt-5">
+<section class="mx-2 mb-2 mt-2 rounded-lg bg-white p-4 shadow-csm md:mx-0 md:mt-4 md:p-6 md:pt-5">
 	<div class="pb-2 text-lg font-medium text-black-title md:hidden">
 		{sectionTitle}
 	</div>
@@ -70,7 +70,7 @@
 		{#each statusItems || [] as item, index (item?.title)}
 			<article
 				class="flex w-full items-center justify-between bg-grey-light px-4 py-2 md:flex-col md:justify-start {index
-					? 'border-t md:border-t-0 md:border-l'
+					? 'border-t md:border-l md:border-t-0'
 					: ''} {index === statusItems?.length - 1 ? 'rounded-b' : ''}"
 			>
 				<div class="flex items-center text-sm text-grey-body md:mb-1 md:text-xs md:font-medium">

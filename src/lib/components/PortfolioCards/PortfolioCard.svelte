@@ -41,7 +41,7 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div on:click={navigateToInvestments} class="block cursor-pointer">
-	<PortfolioCard class="pt-6 pb-4 lg:p-6 {$$props.class || ''}">
+	<PortfolioCard class="pb-4 pt-6 lg:p-6 {$$props.class || ''}">
 		<section class=" flex items-center justify-between lg:mx-0">
 			<article class="flex flex-col items-start">
 				<div class="text-xs md:text-sm">Total Invested</div>
@@ -64,7 +64,7 @@
 
 		{#if !investmentSummary || !investmentSummary.investedValue || investmentSummary.investedValue === 0}
 			<section
-				class="mt-3 border-t border-neutral-100 border-opacity-10 pt-2 text-xs font-normal max-sm:mr-4 max-sm:ml-4"
+				class="mt-3 border-t border-neutral-100 border-opacity-10 pt-2 text-xs font-normal max-sm:ml-4 max-sm:mr-4"
 			>
 				<article>Explore funds and start investing today</article>
 			</section>
@@ -137,7 +137,7 @@
 
 			<section>
 				<article
-					class={`mt-3 ml-4 mr-3 hidden items-baseline justify-between border-t border-neutral-100 border-opacity-10 ${
+					class={`ml-4 mr-3 mt-3 hidden items-baseline justify-between border-t border-neutral-100 border-opacity-10 ${
 						discoverPage ? 'max-sm:flex' : ''
 					}`}
 				>

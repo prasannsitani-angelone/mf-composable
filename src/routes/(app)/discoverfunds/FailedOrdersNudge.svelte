@@ -42,7 +42,7 @@
 		<WMSIcon name="alert-icon" />
 		<p class="text-xs font-medium text-black">Order Payment Failed</p>
 	</div>
-	<div class="rounded-b-lg bg-white px-2 pt-4 pb-3">
+	<div class="rounded-b-lg bg-white px-2 pb-3 pt-4">
 		<div>
 			{#if orderCount === 1}
 				<p class="text-xs font-normal text-grey-body lg:px-4">
@@ -68,7 +68,7 @@
 								class="relative mr-3 h-12 w-12 rounded-full border object-cover p-2 shadow-csm group-hover:bg-white"
 							/>
 							<span
-								class="absolute top-0 left-6 z-10 mr-3 h-12 w-12 rounded-full border bg-white object-cover py-4 text-center text-xs font-medium shadow-csm"
+								class="absolute left-6 top-0 z-10 mr-3 h-12 w-12 rounded-full border bg-white object-cover py-4 text-center text-xs font-medium shadow-csm"
 								>+ {orderCount - 1}</span
 							>
 						</div>

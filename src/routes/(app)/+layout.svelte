@@ -142,7 +142,7 @@
 		popupType="FAILURE"
 		title="You have been logged out"
 		text="Please close the app and open again."
-		class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+		class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
 		isModalOpen
 	>
 		<div slot="popupFooter" />
@@ -152,7 +152,7 @@
 		popupType="FAILURE"
 		title="You have been logged out"
 		text="You will be redirected to login page"
-		class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+		class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
 		isModalOpen
 		handleButtonClick={navigateToLoginPage}
 		buttonTitle="DONE"

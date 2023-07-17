@@ -4,8 +4,9 @@ import { format } from 'date-fns';
 
 export const getExpectedNavDate = (data: IOrderDetails) => {
 	let formattedExpectedNavDate = '-- --';
-	const expectedNavDate = data?.statusHistory?.find((state) => state.status === 'ORDER_SENT_TO_RTA')
-		?.timeStamp;
+	const expectedNavDate = data?.statusHistory?.find(
+		(state) => state.status === 'ORDER_SENT_TO_RTA'
+	)?.timeStamp;
 	if (
 		(data?.transactionType === 'REDEEM' ||
 			data?.investmentType === 'LUMPSUM' ||

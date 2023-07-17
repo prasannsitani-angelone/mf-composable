@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { goto } from "$app/navigation";
-	import { base } from "$app/paths";
-	import Button from "$components/Button.svelte";
-	import WmsIcon from "$components/WMSIcon.svelte";
-	import BankAutopayCard from "$components/mandate/components/BankAutopayCard.svelte";
-	import AutopayEnabledIcon from "$lib/images/icons/AutopayEnabledIcon.svelte";
-	import { profileStore } from "$lib/stores/ProfileStore";
-	import { getBankLogoUrl, getBanksWithoutMandateList } from "$lib/utils";
-	import { encodeObject } from "$lib/utils/helpers/params";
-	import type { PageData } from "./$types";
-	import AutopayDashboardLoader from "./component/AutopayDashboardLoader.svelte";
+	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
+	import Button from '$components/Button.svelte';
+	import WmsIcon from '$components/WMSIcon.svelte';
+	import BankAutopayCard from '$components/mandate/components/BankAutopayCard.svelte';
+	import AutopayEnabledIcon from '$lib/images/icons/AutopayEnabledIcon.svelte';
+	import { profileStore } from '$lib/stores/ProfileStore';
+	import { getBankLogoUrl, getBanksWithoutMandateList } from '$lib/utils';
+	import { encodeObject } from '$lib/utils/helpers/params';
+	import type { PageData } from './$types';
+	import AutopayDashboardLoader from './component/AutopayDashboardLoader.svelte';
 
 	$: bankDetails = $profileStore?.bankDetails;
 
@@ -20,7 +20,7 @@
 
 		const redirectPath = `${base}/autopay/manage/setup?params=${params}`;
 		goto(redirectPath);
-	}
+	};
 
 	export let data: PageData;
 </script>
@@ -49,22 +49,24 @@
 									<div class="text-xs font-medium text-grey-body">Autopay Enabled</div>
 								</section>
 							{:else}
-								<div class="flex items-center p-1 bg-yellow-primary/10">
+								<div class="flex items-center bg-yellow-primary/10 p-1">
 									<WmsIcon name="clock-yellow-bolder" height={16} width={16} class="mr-1" />
 									<div class="text-xs font-normal text-black-title">In Progress</div>
 								</div>
 							{/if}
 						</svelte:fragment>
 						<svelte:fragment slot="footer">
-							<section class="flex items-center justify-between mt-3 font-normal text-grey-body">
-								<div class="flex-1 text-[10px] uppercase">{mandate?.authenticationMode} AUTOPAY</div>
-								<div class="flex-1 text-xs truncate">Autopay ID: {mandate?.mandateId}</div>
+							<section class="mt-3 flex items-center justify-between font-normal text-grey-body">
+								<div class="flex-1 text-[10px] uppercase">
+									{mandate?.authenticationMode} AUTOPAY
+								</div>
+								<div class="flex-1 truncate text-xs">Autopay ID: {mandate?.mandateId}</div>
 							</section>
 						</svelte:fragment>
 					</BankAutopayCard>
 				{/each}
 
-				{#each (getBanksWithoutMandateList(bankDetails, response?.data) || []) as bank (bank?.accNO)}
+				{#each getBanksWithoutMandateList(bankDetails, response?.data) || [] as bank (bank?.accNO)}
 					<BankAutopayCard
 						bankAccountNumber={bank?.accNO}
 						bankName={bank?.bankName}

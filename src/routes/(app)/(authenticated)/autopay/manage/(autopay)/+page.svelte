@@ -19,7 +19,7 @@
 	Loading .....
 {:then response}
 	{#if getSipAmountWithoutMandate(response.nudges) > 0}
-		<Card class="px-2 pt-4 pb-6">
+		<Card class="px-2 pb-6 pt-4">
 			<RiskMessage nudgeData={response.nudges || []} />
 			<AutopayIllustration class="flex justify-center" />
 			<section class=" m-auto text-center text-2xl font-medium text-black-title">

@@ -8,11 +8,19 @@
 	let bankLogoClass = '';
 	let bankDetailsClass = '';
 	let bankAccNoClass = '';
-	export { bankAccountNumber, bankName, bankLogo, cardBodyClass, bankLogoClass, bankDetailsClass, bankAccNoClass };
+	export {
+		bankAccountNumber,
+		bankName,
+		bankLogo,
+		cardBodyClass,
+		bankLogoClass,
+		bankDetailsClass,
+		bankAccNoClass
+	};
 </script>
 
 <section class={`rounded-lg bg-white p-4 pl-2 shadow-csm ${$$props.class}`}>
-	<article class="{cardBodyClass}">
+	<article class={cardBodyClass}>
 		<section class="flex items-center justify-between">
 			<section class="flex items-center text-black-title">
 				<div class="px-3 py-1.5 {bankLogoClass}">

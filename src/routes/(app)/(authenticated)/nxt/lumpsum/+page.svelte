@@ -166,8 +166,8 @@
 				<svelte:fragment slot="bodySection">
 					<section class="px-4 pb-6 text-sm font-medium md:px-8 md:py-6 md:text-base">
 						<p class="text-gray-500">
-							An OTP has been sent to {maskedEmailId} and {maskedMobileNumber}. Please enter the OTP to
-							verify your order.
+							An OTP has been sent to {maskedEmailId} and {maskedMobileNumber}. Please enter the OTP
+							to verify your order.
 						</p>
 					</section>
 				</svelte:fragment>
@@ -181,7 +181,7 @@
 				popupType="FAILURE"
 				title={error.heading}
 				text={error.subHeading}
-				class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+				class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
 				isModalOpen
 				handleButtonClick={closeErrorPopup}
 				closeModal={closeErrorPopup}
@@ -211,5 +211,3 @@
 		{/if}
 	{/await}
 </div>
-
-

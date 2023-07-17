@@ -14,7 +14,7 @@
 	contentLine="Add funds to your cart to invest in multiple funds at the same time"
 	redirectUrl="/explorefunds/sip-with-100?id=101"
 	textForButton="EXPLORE MUTUAL FUNDS"
-	class=" !h-[calc(100vh-122px)] !justify-center !p-8 max-sm:-mt-4 max-sm:-mb-8 max-sm:rounded-none sm:h-[calc(100vh-260px)]"
+	class=" !h-[calc(100vh-122px)] !justify-center !p-8 max-sm:-mb-8 max-sm:-mt-4 max-sm:rounded-none sm:h-[calc(100vh-260px)]"
 >
 	<div slot="icon">
 		<EmptyCartIllustration />

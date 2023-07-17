@@ -338,7 +338,7 @@
 			popupType="FAILURE"
 			title={error.heading}
 			text={error.subHeading}
-			class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+			class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
 			isModalOpen
 			handleButtonClick={closeErrorPopup}
 			closeModal={closeErrorPopup}
@@ -347,7 +347,7 @@
 			buttonVariant="contained"
 		/>
 	{:else if isSuccess}
-		<slot name='mandate-success' >
+		<slot name="mandate-success">
 			<SuccessPopup
 				mandateLimit={getMandateAmount(amountInNumber)?.toString()}
 				buttonTitle={successButtonTitle}

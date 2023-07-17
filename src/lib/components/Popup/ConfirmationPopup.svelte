@@ -21,13 +21,13 @@
 
 <Modal {closeModal} {isModalOpen}>
 	<section
-		class="flex w-screen flex-col rounded-t-2xl rounded-b-none bg-white shadow-csm md:w-120 md:rounded-lg"
+		class="flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white shadow-csm md:w-120 md:rounded-lg"
 	>
-		<div class="flex items-center justify-between px-4 pt-6 pb-4 md:py-6 md:px-8">
+		<div class="flex items-center justify-between px-4 pb-4 pt-6 md:px-8 md:py-6">
 			<span class={`text-lg font-normal text-black-title md:text-xl ${titleClass}`}>{title}</span>
 		</div>
 
-		<section class="px-4 pt-0 pb-6 text-sm md:px-8 md:pt-6">
+		<section class="px-4 pb-6 pt-0 text-sm md:px-8 md:pt-6">
 			<slot name="body">
 				<p class="font-normal text-grey-body">
 					Cancelling will stop <span class="font-semibold">ALL</span> your upcoming investments in this
@@ -37,7 +37,7 @@
 		</section>
 
 		<slot name="footer">
-			<section class="px-4 pt-0 pb-6 text-sm md:px-8 md:pt-6">
+			<section class="px-4 pb-6 pt-0 text-sm md:px-8 md:pt-6">
 				<article class="flex items-center justify-end text-sm font-semibold text-blue-primary">
 					<Button variant="transparent" size="sm" class="mr-2 p-2 font-medium" onClick={closeModal}
 						>NO</Button

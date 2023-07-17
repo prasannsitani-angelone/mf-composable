@@ -42,7 +42,7 @@
 	};
 </script>
 
-<PortfolioCard class="!px-3 !pt-4 !pb-3">
+<PortfolioCard class="!px-3 !pb-3 !pt-4">
 	<section class=" flex items-start justify-between lg:mx-0" data-testid="portfolioTopSection">
 		<article class="flex flex-col items-start">
 			<div class="text-xs">Current Value</div>
@@ -55,7 +55,7 @@
 
 		<Button
 			variant="transparent"
-			class="flex flex-col items-end pl-2 pb-2 !pt-0 !pr-0"
+			class="flex flex-col items-end !pr-0 !pt-0 pb-2 pl-2"
 			size="xs"
 			onClick={toggleCardView}
 		>
@@ -69,13 +69,13 @@
 
 	{#if !investmentSummary || !investmentSummary.investedValue || investmentSummary.investedValue === 0}
 		<section
-			class="mt-3 border-t border-neutral-100 border-opacity-10 pt-2 text-xs font-normal max-sm:mr-4 max-sm:ml-4"
+			class="mt-3 border-t border-neutral-100 border-opacity-10 pt-2 text-xs font-normal max-sm:ml-4 max-sm:mr-4"
 		>
 			<article>Explore funds and start investing today</article>
 		</section>
 	{:else}
 		<section
-			class="mt-2 mb-3 flex flex-col items-center justify-around rounded-lg bg-white bg-opacity-10 px-2 py-4 md:py-3.5 lg:mx-0"
+			class="mb-3 mt-2 flex flex-col items-center justify-around rounded-lg bg-white bg-opacity-10 px-2 py-4 md:py-3.5 lg:mx-0"
 		>
 			<div class="flex w-full">
 				<article class=" flex-1 border-r border-dashed border-grey-dashed text-left">

@@ -52,7 +52,7 @@
 </script>
 
 <div
-	class="grid grid-cols-[10%_1fr_28%] border-b py-3 px-3 sm:grid-cols-[4%_45%_20%_20%_11%] sm:py-4 sm:px-6"
+	class="grid grid-cols-[10%_1fr_28%] border-b px-3 py-3 sm:grid-cols-[4%_45%_20%_20%_11%] sm:px-6 sm:py-4"
 >
 	<div class="col-span-1 col-start-1 row-span-1 row-start-1">
 		<Checkbox

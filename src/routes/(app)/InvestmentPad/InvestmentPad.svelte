@@ -1160,13 +1160,13 @@
 	>
 		<slot name="header">
 			<section class="hidden rounded-t-lg bg-white px-3 py-5 font-medium text-black-title md:block">
-				{activeTab === 'SIP' ? "Start SIP" : 'One-Time'}
+				{activeTab === 'SIP' ? 'Start SIP' : 'One-Time'}
 			</section>
 		</slot>
 		{#if (isMobile || isTablet) && !$headerStore?.showMobileHeader}
 			<slot name="customMobileHeader">
 				<MobileHeader
-					title={activeTab === 'SIP' ? "Start SIP" : 'One-Time'}
+					title={activeTab === 'SIP' ? 'Start SIP' : 'One-Time'}
 					showSearchIcon={false}
 					showBackIcon={true}
 					showCloseIcon={false}
@@ -1175,31 +1175,37 @@
 			</slot>
 		{/if}
 		{#if !investmentNotAllowedText?.length}
-
-		    <article class="p-3 bg-white mb-2 rounded-lg shadow-csm md:hidden">
-                 <div class="flex flex-row items-center">
-					 <div class="h-9 w-9 min-w-[36px] rounded-full shadow-csm flex justify-center items-center mr-3">
+			<article class="mb-2 rounded-lg bg-white p-3 shadow-csm md:hidden">
+				<div class="flex flex-row items-center">
+					<div
+						class="mr-3 flex h-9 w-9 min-w-[36px] items-center justify-center rounded-full shadow-csm"
+					>
 						<img src={schemeData?.logoUrl} alt="schemelogo" />
-					 </div>
-					 <div class="text-black-title font-medium text-sm mr-3">{schemeData.schemeName}</div>
-					 <div>
-                         <div class="text-grey-body font-medium text-xs">Returns p.a</div>
-						 <div class="text-black-title font-medium text-base text-right">{schemeData?.returns3yr}%</div>
-					 </div>
-				 </div>
-				 {#if schemeData?.noOfClientInvested}
-				 <div class="bg-purple-glow px-3 py-2 flex flex-row items-center rounded mt-3">
-					<img
-						src={PeopleIcon}
-						class="mr-2 p-1"
-						decoding="async"
-						alt="Number of people invested"
-						width="24"
-						height="24"
-					/>
-                    <div class="text-black-title text-xs"><span class="font-semibold">{schemeData?.noOfClientInvested}</span> people have invested in this fund</div>
-				 </div>
-				 {/if}
+					</div>
+					<div class="mr-3 text-sm font-medium text-black-title">{schemeData.schemeName}</div>
+					<div>
+						<div class="text-xs font-medium text-grey-body">Returns p.a</div>
+						<div class="text-right text-base font-medium text-black-title">
+							{schemeData?.returns3yr}%
+						</div>
+					</div>
+				</div>
+				{#if schemeData?.noOfClientInvested}
+					<div class="mt-3 flex flex-row items-center rounded bg-purple-glow px-3 py-2">
+						<img
+							src={PeopleIcon}
+							class="mr-2 p-1"
+							decoding="async"
+							alt="Number of people invested"
+							width="24"
+							height="24"
+						/>
+						<div class="text-xs text-black-title">
+							<span class="font-semibold">{schemeData?.noOfClientInvested}</span> people have invested
+							in this fund
+						</div>
+					</div>
+				{/if}
 			</article>
 
 			<article class="rounded-lg bg-white text-black-title md:mx-3 md:mb-4 md:mt-2">
@@ -1209,7 +1215,7 @@
 						class={`h-12 w-40 flex-1 cursor-default rounded-t md:cursor-pointer ${
 							activeTab === 'SIP'
 								? 'border-t-4 border-t-green-buy'
-								: 'rounded-tr-none border-t border-l bg-grey'
+								: 'rounded-tr-none border-l border-t bg-grey'
 						}`}
 						on:click={() => switchTabs('SIP')}
 					>
@@ -1219,7 +1225,7 @@
 						class={`h-12 w-40 flex-1 cursor-default rounded-t md:cursor-pointer ${
 							activeTab === 'ONETIME'
 								? 'border-t-4 border-t-green-buy'
-								: 'rounded-tl-none border-t border-r bg-grey'
+								: 'rounded-tl-none border-r border-t bg-grey'
 						}`}
 						on:click={() => switchTabs('ONETIME')}
 					>
@@ -1229,7 +1235,7 @@
 
 				<article class="flex flex-col p-3">
 					<!-- Amount input -->
-					<article class="flex flex-col py-2.5 border border-grey-line rounded items-center">
+					<article class="flex flex-col items-center rounded border border-grey-line py-2.5">
 						<!-- svelte-ignore a11y-label-has-associated-control -->
 						<label class="mb-2 text-xs font-medium text-grey-body">Enter Amount</label>
 						<button
@@ -1242,7 +1248,7 @@
 								maxlength="13"
 								placeholder="₹"
 								value={amountVal}
-								class="w-full bg-white text-2xl text-center font-medium leading-none text-black-title outline-none"
+								class="w-full bg-white text-center text-2xl font-medium leading-none text-black-title outline-none"
 								on:input={onInputChange}
 								on:focus={handleAmountInputBlur}
 							/>
@@ -1259,19 +1265,24 @@
 
 					<!-- Date (Calendar) input -->
 					{#if activeTab === 'SIP'}
-						<article class="flex w-full flex-row items-center justify-between mt-3">
+						<article class="mt-3 flex w-full flex-row items-center justify-between">
 							<!-- svelte-ignore a11y-label-has-associated-control -->
 							<label class="text-xs font-medium text-black-title">Monthly SIP Date</label>
-							<section class="flex items-center md:cursor-pointer {isSelectedInvestmentTypeAllowed() ? 'md:cursor-pointer': 'md:cursor-not-allowed'}"
-							    on:click={toggleCalendar}
+							<section
+								class="flex items-center md:cursor-pointer {isSelectedInvestmentTypeAllowed()
+									? 'md:cursor-pointer'
+									: 'md:cursor-not-allowed'}"
+								on:click={toggleCalendar}
 								on:keypress={() => {
 									// add logic
 								}}
 							>
-							   <div class="text-black-title text-xs font-medium">{`${calendarDate}${dateSuperscript}`}</div>
-							   <section class="pl-1">
-								 <CalendarSmallIcon height={16} width={16} />
-							   </section>
+								<div class="text-xs font-medium text-black-title">
+									{`${calendarDate}${dateSuperscript}`}
+								</div>
+								<section class="pl-1">
+									<CalendarSmallIcon height={16} width={16} />
+								</section>
 							</section>
 						</article>
 					{/if}
@@ -1279,7 +1290,7 @@
 					{#if activeTab === 'ONETIME' && isLumpsumToSipEligible && !errorMessage?.length}
 						<article class="border-t px-2 py-3">
 							<section
-								class="to flex items-center justify-between rounded bg-gradient-to-r from-green-buy/40 to-white py-2 px-1"
+								class="to flex items-center justify-between rounded bg-gradient-to-r from-green-buy/40 to-white px-1 py-2"
 							>
 								<div class="flex items-start">
 									<WMSIcon class="mr-1 mt-1" name="double-tick" width={15} height={9} />
@@ -1301,7 +1312,7 @@
 					<!-- Checkbox for SIP payment now -->
 					{#if activeTab === 'SIP'}
 						<article
-							class={`flex w-fit items-center justify-start mt-4 text-xs font-medium text-grey-body ${
+							class={`mt-4 flex w-fit items-center justify-start text-xs font-medium text-grey-body ${
 								isSelectedInvestmentTypeAllowed() ? 'md:cursor-pointer' : 'md:cursor-not-allowed'
 							}`}
 							on:click={toggleFirstSipPayment}
@@ -1326,7 +1337,7 @@
 						<OrderpadReturns
 							investedAmount={Number(amount)}
 							threeYearReturns={schemeData?.returns3yr}
-							class="border-t !border-b-0 pt-3 pb-0 !px-0 mt-4"
+							class="mt-4 !border-b-0 border-t !px-0 pb-0 pt-3"
 							amountClass="text-xl"
 						/>
 					{/if}
@@ -1356,7 +1367,7 @@
 							</p>
 						</article>
 
-						<section class="flex flex-row mt-3">
+						<section class="mt-3 flex flex-row">
 							{#if (activeTab === 'ONETIME' || firstSipPayment) && !firstTimeUser && isSelectedInvestmentTypeAllowed() && stringToInteger(amount) > 0}
 								<PaymentSleeve
 									selectedMode={paymentHandler?.paymentMode}
@@ -1367,9 +1378,9 @@
 									class="flex flex-1"
 								/>
 							{/if}
-						    <!-- Submit Button -->
+							<!-- Submit Button -->
 							<Button
-								class={`h-12 flex flex-1 rounded ${
+								class={`flex h-12 flex-1 rounded ${
 									!amount?.length ||
 									!!errorMessage?.length ||
 									showTabNotSupported ||
@@ -1387,7 +1398,7 @@
 							>
 								{activeTab === 'SIP' ? 'START SIP' : 'PAY NOW'}
 							</Button>
-						</section>	
+						</section>
 					</article>
 
 					<!-- On-screen numpad keyboard for Mobile layout -->
@@ -1427,7 +1438,7 @@
 
 					<svelte:fragment slot="footer">
 						<section
-							class="hidden flex-row justify-center rounded-b-lg bg-gray-50 py-4 px-8 md:flex"
+							class="hidden flex-row justify-center rounded-b-lg bg-gray-50 px-8 py-4 md:flex"
 						>
 							<p class="text-center text-sm font-light text-grey-body">
 								It is the day on which the amount payable towards your SIP order becomes due. The
@@ -1501,7 +1512,7 @@
 		popupType="PENDING"
 		title={pending.heading}
 		text={pending.subHeading}
-		class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+		class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
 		isModalOpen
 		handleButtonClick={closePendingPopup}
 		buttonTitle="CLOSE"
@@ -1513,7 +1524,7 @@
 		popupType="FAILURE"
 		title={error.heading}
 		text={error.subHeading}
-		class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+		class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
 		isModalOpen
 		handleButtonClick={closeErrorPopup}
 		closeModal={closeErrorPopup}
@@ -1539,7 +1550,7 @@
 		popupType="FAILURE"
 		title={'Link Expired'}
 		text={'The link you clicked has expired. You can search for the same Mutual Fund from the homepage.'}
-		class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+		class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
 		isModalOpen={true}
 		handleButtonClick={() => goto(`${base}/discoverfunds`, { replaceState: true })}
 		buttonTitle="GO TO HOMEPAGE"

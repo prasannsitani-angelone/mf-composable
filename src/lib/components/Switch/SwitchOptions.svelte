@@ -57,12 +57,12 @@
 
 <div
 	class={isMobile
-		? 'animate-bottomTransition flex w-screen flex-col rounded-t-2xl rounded-b-none bg-white shadow-csm md:w-120 md:animate-none md:rounded-lg'
+		? 'animate-bottomTransition flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white shadow-csm md:w-120 md:animate-none md:rounded-lg'
 		: 'flex-col items-center border-b border-grey-line md:py-3'}
 >
 	{#if !isMobile && !activePage}
 		<article
-			class="mx-1 flex cursor-pointer items-center justify-start border-b border-grey-line py-2 px-3"
+			class="mx-1 flex cursor-pointer items-center justify-start border-b border-grey-line px-3 py-2"
 		>
 			<WMSIcon
 				name="left-arrow"

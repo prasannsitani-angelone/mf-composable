@@ -77,11 +77,11 @@
 						width="120"
 						height="120"
 						alt="arq rating icon"
-						class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform"
+						class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform"
 						loading="lazy"
 					/>
 					<div
-						class="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 transform items-center justify-center text-sm font-bold text-black-title"
+						class="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform items-center justify-center text-sm font-bold text-black-title"
 					>
 						{schemeDetails?.arqRating}
 						<div class="rating gap-1">
@@ -177,7 +177,7 @@
 			{#if schemeDetails?.aum !== 0}
 				<section class="flex w-1/3 flex-col gap-4 p-4 pt-0 lg:flex-row">
 					<article
-						class="flex-grow basis-0 rounded border-b border-grey-line bg-white py-4 px-3 lg:border lg:bg-grey"
+						class="flex-grow basis-0 rounded border-b border-grey-line bg-white px-3 py-4 lg:border lg:bg-grey"
 					>
 						<div
 							class="mb-3 flex h-6 w-6 justify-center rounded-full bg-blue-primary align-middle leading-6 text-white"
@@ -193,7 +193,7 @@
 			{#if schemeDetails?.expenseRatio !== 0}
 				<section class="flex w-1/3 flex-col gap-4 p-4 pt-0 lg:flex-row">
 					<article
-						class="flex-grow basis-0 rounded border-b border-grey-line bg-white py-4 px-3 lg:border lg:bg-grey"
+						class="flex-grow basis-0 rounded border-b border-grey-line bg-white px-3 py-4 lg:border lg:bg-grey"
 					>
 						<div
 							class="mb-3 flex h-6 w-6 justify-center rounded-full bg-blue-primary align-middle leading-6 text-white"
@@ -212,7 +212,7 @@
 			{#if schemeDetails?.exitLoadFlag === 'Y'}
 				<section class="flex w-1/3 flex-col gap-4 p-4 pt-0 lg:flex-row">
 					<article
-						class="flex-grow basis-0 rounded border-b border-grey-line bg-white py-4 px-3 lg:border lg:bg-grey"
+						class="flex-grow basis-0 rounded border-b border-grey-line bg-white px-3 py-4 lg:border lg:bg-grey"
 					>
 						<ExitLoadIcon />
 						<h3 class="mb-1 mt-3 text-xs font-medium text-grey-body">Exit Load</h3>

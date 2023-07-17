@@ -24,9 +24,9 @@ specifiers:
   kolorist: ^1.8.0
   lodash.merge: 4.6.2
   postcss: 8.4.25
-  prettier: 3.0.0
-  prettier-plugin-svelte: 2.10.1
-  prettier-plugin-tailwindcss: 0.4.1
+  prettier: 2.8.8
+  prettier-plugin-svelte: 2.10.0
+  prettier-plugin-tailwindcss: 0.3.0
   rollup-plugin-visualizer: 5.9.2
   servertime: 3.1.1
   svelte: 4.0.5
@@ -92,9 +92,9 @@ devDependencies:
   husky: 8.0.3
   jsonwebtoken: 9.0.0
   postcss: 8.4.25
-  prettier: 3.0.0
-  prettier-plugin-svelte: 2.10.1_pxnwxaudkxdx33tglfjgr5f46a
-  prettier-plugin-tailwindcss: 0.4.1_ms4vc64whh7apn6p5brlhklfma
+  prettier: 2.8.8
+  prettier-plugin-svelte: 2.10.0_z35f3ohsxdc2466aze4bydpgay
+  prettier-plugin-tailwindcss: 0.3.0_m5fr5uleushlp6modptdmhy2ru
   rollup-plugin-visualizer: 5.9.2
   svelte: 4.0.5
   svelte-check: 3.4.5_qbanvrohj4qz6ziy4stlfgbhvu
@@ -3958,18 +3958,18 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  /prettier-plugin-svelte/2.10.1_pxnwxaudkxdx33tglfjgr5f46a:
-    resolution: {integrity: sha512-Wlq7Z5v2ueCubWo0TZzKc9XHcm7TDxqcuzRuGd0gcENfzfT4JZ9yDlCbEgxWgiPmLHkBjfOtpAWkcT28MCDpUQ==}
+  /prettier-plugin-svelte/2.10.0_z35f3ohsxdc2466aze4bydpgay:
+    resolution: {integrity: sha512-GXMY6t86thctyCvQq+jqElO+MKdB09BkL3hexyGP3Oi8XLKRFaJP1ud/xlWCZ9ZIa2BxHka32zhHfcuU+XsRQg==}
     peerDependencies:
       prettier: ^1.16.4 || ^2.0.0
-      svelte: ^3.2.0 || ^4.0.0-next.0
+      svelte: ^3.2.0
     dependencies:
-      prettier: 3.0.0
+      prettier: 2.8.8
       svelte: 4.0.5
     dev: true
 
-  /prettier-plugin-tailwindcss/0.4.1_ms4vc64whh7apn6p5brlhklfma:
-    resolution: {integrity: sha512-hwn2EiJmv8M+AW4YDkbjJ6HlZCTzLyz1QlySn9sMuKV/Px0fjwldlB7tol8GzdgqtkdPtzT3iJ4UzdnYXP25Ag==}
+  /prettier-plugin-tailwindcss/0.3.0_m5fr5uleushlp6modptdmhy2ru:
+    resolution: {integrity: sha512-009/Xqdy7UmkcTBpwlq7jsViDqXAYSOMLDrHAdTMlVZOrKfM2o9Ci7EMWTMZ7SkKBFTG04UM9F9iM2+4i6boDA==}
     engines: {node: '>=12.17.0'}
     peerDependencies:
       '@ianvs/prettier-plugin-sort-imports': '*'
@@ -3977,7 +3977,7 @@ packages:
       '@shopify/prettier-plugin-liquid': '*'
       '@shufo/prettier-plugin-blade': '*'
       '@trivago/prettier-plugin-sort-imports': '*'
-      prettier: ^2.2 || ^3.0
+      prettier: '>=2.2.0'
       prettier-plugin-astro: '*'
       prettier-plugin-css-order: '*'
       prettier-plugin-import-sort: '*'
@@ -4020,13 +4020,13 @@ packages:
       prettier-plugin-twig-melody:
         optional: true
     dependencies:
-      prettier: 3.0.0
-      prettier-plugin-svelte: 2.10.1_pxnwxaudkxdx33tglfjgr5f46a
+      prettier: 2.8.8
+      prettier-plugin-svelte: 2.10.0_z35f3ohsxdc2466aze4bydpgay
     dev: true
 
-  /prettier/3.0.0:
-    resolution: {integrity: sha512-zBf5eHpwHOGPC47h0zrPyNn+eAEIdEzfywMoYn2XPi0P44Zp0tSq64rq0xAREh4auw2cJZHo9QUob+NqCQky4g==}
-    engines: {node: '>=14'}
+  /prettier/2.8.8:
+    resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
+    engines: {node: '>=10.13.0'}
     hasBin: true
     dev: true
 

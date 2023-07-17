@@ -54,8 +54,8 @@
 					</svelte:fragment>
 
 					<svelte:fragment slot="accordionBody">
-						<section class="px-5 py-2 sm:pt-5 sm:pb-6">
-							<div class="mt-2 mb-4 text-lg font-medium text-black-title">Switch Details</div>
+						<section class="px-5 py-2 sm:pb-6 sm:pt-5">
+							<div class="mb-4 mt-2 text-lg font-medium text-black-title">Switch Details</div>
 							<SwitchOrderTitleCard class="!mb-0">
 								<svelte:fragment slot="switchOut">
 									<SwitchOrderTile

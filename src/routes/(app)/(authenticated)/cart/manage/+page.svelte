@@ -46,7 +46,7 @@
 			<div>SIP Date</div>
 			<div>Amount</div>
 		</div>
-		<div class="border-b border-t sm:flex sm:items-center sm:pr-12 sm:pl-4">
+		<div class="border-b border-t sm:flex sm:items-center sm:pl-4 sm:pr-12">
 			<WMSIcon name="trash-icon" width={14} height={14} />
 		</div>
 	</div>

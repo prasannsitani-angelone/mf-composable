@@ -54,7 +54,7 @@
 	export { title, helpAnalytics };
 </script>
 
-<section class="mt-2 mb-2 flex items-center gap-4 rounded-lg bg-white p-4 shadow-csm">
+<section class="mb-2 mt-2 flex items-center gap-4 rounded-lg bg-white p-4 shadow-csm">
 	<div>
 		<WMSIcon name="message-in-circle" width={36} height={36} />
 	</div>

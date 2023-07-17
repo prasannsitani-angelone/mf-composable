@@ -344,7 +344,7 @@
 {(() => updateFolios(folioHolding))()}
 {#if !isMobile}
 	<article
-		class="mx-1 mb-2 flex cursor-pointer items-center justify-start border-b border-grey-line py-2 px-3"
+		class="mx-1 mb-2 flex cursor-pointer items-center justify-start border-b border-grey-line px-3 py-2"
 	>
 		<WMSIcon
 			name="left-arrow"
@@ -495,14 +495,14 @@
 							/>
 						</div>
 						{#if dpError}
-							<article class="flex justify-center pt-1 pb-3">
+							<article class="flex justify-center pb-3 pt-1">
 								<p class="text-xs font-light text-red-sell">
 									Switch not allowed in the selected scheme
 								</p>
 							</article>
 						{/if}
 						{#if errorMessage?.length}
-							<article class="flex justify-center pt-1 pb-3">
+							<article class="flex justify-center pb-3 pt-1">
 								<p class="text-xs font-light text-red-sell">
 									{errorMessage}
 								</p>
@@ -720,7 +720,7 @@
 		<!-- Switch Cue -->
 		<Modal isModalOpen={showSwitchCue} closeModal={toggleSwitchCue}>
 			<div
-				class="animate-bottomTransition flex w-screen flex-col rounded-t-2xl rounded-b-none bg-white p-4 shadow-csm md:w-120 md:animate-none md:rounded-lg"
+				class="animate-bottomTransition flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white p-4 shadow-csm md:w-120 md:animate-none md:rounded-lg"
 			>
 				<SwitchCue />
 				<div class="pt-4">

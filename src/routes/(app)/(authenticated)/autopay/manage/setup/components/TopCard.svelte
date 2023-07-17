@@ -62,7 +62,7 @@
 		<div class=" mb-1 text-base font-medium text-black-title">Note:</div>
 		<ul>
 			{#each autopayNotes as item, index (index)}
-				<li class=" ml-4 mb-1 list-disc text-sm font-normal text-black-title">{item.detail}</li>
+				<li class=" mb-1 ml-4 list-disc text-sm font-normal text-black-title">{item.detail}</li>
 			{/each}
 		</ul>
 	</div>
@@ -71,7 +71,7 @@
 {#if maxAutopayLimitVisible}
 	<Modal closeModal={onHideAutopayLimitmodal} isModalOpen>
 		<div
-			class=" w-screen justify-between rounded-t-2xl rounded-b-none bg-white p-4 text-left sm:!w-[460px] sm:rounded-lg sm:px-20 sm:py-8"
+			class=" w-screen justify-between rounded-b-none rounded-t-2xl bg-white p-4 text-left sm:!w-[460px] sm:rounded-lg sm:px-20 sm:py-8"
 		>
 			<div class=" pb-6 pt-2 text-lg font-medium text-black-title">Max. Autopay Limit</div>
 

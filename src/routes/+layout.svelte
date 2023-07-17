@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { PUBLIC_LOG_LEVEL, PUBLIC_LOG_ENABLED, PUBLIC_ENV_NAME } from '$env/static/public';
-	import { pwaInfo } from 'virtual:pwa-info'
+	import { pwaInfo } from 'virtual:pwa-info';
 	import Logger from '$lib/utils/logger';
 	import { onMount } from 'svelte';
 	import { update } from '$lib/utils/helpers/hydrated';
@@ -84,29 +84,28 @@
 		update();
 		if (pwaInfo) {
 			try {
-				const { registerSW } = await import('virtual:pwa-register')
+				const { registerSW } = await import('virtual:pwa-register');
 				registerSW({
 					immediate: true,
 					onRegistered() {
-						Logger.debug({type:"SW registered"})
+						Logger.debug({ type: 'SW registered' });
 					},
-					onRegisterError(error:Error) {
-					Logger.error({type:'SW registration error',params:error})
+					onRegisterError(error: Error) {
+						Logger.error({ type: 'SW registration error', params: error });
 					}
-				})
-			} catch(e) {
-				Logger.error({type:'virtual:pwa-register - ERRROR',params:e});
+				});
+			} catch (e) {
+				Logger.error({ type: 'virtual:pwa-register - ERRROR', params: e });
 			}
 
-			navigator?.serviceWorker?.addEventListener('message', async event => {
-  
-        	if (event?.data?.meta === 'workbox-broadcast-update') {
-				// Reload when data changed
-				window.location.reload()
-  			}
-});
+			navigator?.serviceWorker?.addEventListener('message', async (event) => {
+				if (event?.data?.meta === 'workbox-broadcast-update') {
+					// Reload when data changed
+					window.location.reload();
+				}
+			});
 		}
-		
+
 		// to delete device id once app is loaded
 		if ($page.url.searchParams.get('deviceid')) {
 			$page.url.searchParams.delete('deviceid');
@@ -204,10 +203,11 @@
 		}
 	};
 
-	$: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
+	$: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : '';
 </script>
+
 <svelte:head>
-    {@html webManifest}
+	{@html webManifest}
 </svelte:head>
 <svelte:window on:visibilitychange={onVisibilityChange} />
 <slot />

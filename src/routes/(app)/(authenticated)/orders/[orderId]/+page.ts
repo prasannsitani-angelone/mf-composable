@@ -441,9 +441,9 @@ export const load = (async ({ fetch, params, parent }) => {
 						node: true
 					}
 				};
-				autoPayDetails[
-					ORDER_DATA.AUTO_PAY_BANK
-				].value = `<div class="flex flex-col"><div>${sipDetails?.bankName}</div><div class="text-sm text-grey-body">${
+				autoPayDetails[ORDER_DATA.AUTO_PAY_BANK].value = `<div class="flex flex-col"><div>${
+					sipDetails?.bankName
+				}</div><div class="text-sm text-grey-body">${
 					sipDetails?.accountNo?.length
 						? '****' + sipDetails?.accountNo?.substring(sipDetails?.accountNo?.length - 4)
 						: ''
