@@ -16,7 +16,17 @@ import { dev } from '$app/environment';
 import { getHoldingSummary } from '$lib/api/holdings';
 import type { InvestmentSummary } from '$lib/types/IInvestments';
 import { getsearchDashboardData } from '$lib/api/getSearchDashboard';
+import { accountType } from '$lib/utils/getAccountType';
+import { getHashKey } from '$lib/server/getHashKey';
 const deviceDetector = handleDeviecDetector({});
+
+const swCacheHeader = 'X-Sw-Cache';
+
+const generateCacheHeader = (userType: 'B2B' | 'B2C', accountType: 'D' | 'P', holdings = 0) => {
+	const cacheKey = `${userType},${accountType}${holdings}`;
+
+	return getHashKey(cacheKey)?.toString();
+};
 
 const addPreloadLinkHeaders = (linkHeader = '', url: string) => {
 	linkHeader = `</mutual-funds/fonts/887cHqv4kjgoGqM7E3_-gs51ostz0rdg.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin,</mutual-funds/fonts/887cHpv4kjgoGqM7E_DMs5ynghnQ.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin,</mutual-funds/fonts/887cHqv4kjgoGqM7E30-8s51ostz0rdg.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin,${linkHeader}`;
@@ -133,6 +143,16 @@ const handler = (async ({ event, resolve }) => {
 			linkHeader = addPreloadLinkHeaders(linkHeader, event.request.url);
 
 			response.headers.set('link', linkHeader);
+
+			// Set the cache header
+			response.headers.set(
+				swCacheHeader,
+				generateCacheHeader(
+					userDetails?.userType,
+					accountType(profileData, isGuest),
+					investementSummary?.investedValue
+				)
+			);
 		}
 		return response;
 	} catch (e) {

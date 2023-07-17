@@ -11,6 +11,9 @@ const config = {
 		adapter: adapter({
 			precompress: true
 		}),
+		files: {
+			serviceWorker: 'src/sw.ts'
+		},
 		serviceWorker: {
 			register: false
 		},

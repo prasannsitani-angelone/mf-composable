@@ -26,7 +26,7 @@ specifiers:
   postcss: 8.4.25
   prettier: 3.0.0
   prettier-plugin-svelte: 2.10.1
-  prettier-plugin-tailwindcss: 0.3.0
+  prettier-plugin-tailwindcss: 0.4.1
   rollup-plugin-visualizer: 5.9.2
   servertime: 3.1.1
   svelte: 4.0.5
@@ -46,6 +46,7 @@ specifiers:
   vite-plugin-pwa: 0.16.4
   vitest: 0.33.0
   word-wrap: ^1.2.3
+  workbox-broadcast-update: ^7.0.0
   workbox-cacheable-response: ^7.0.0
   workbox-expiration: ^7.0.0
   workbox-strategies: ^7.0.0
@@ -72,6 +73,7 @@ dependencies:
   uuid: 9.0.0
   vite-plugin-pwa: 0.16.4_vite@4.4.2
   word-wrap: 1.2.3
+  workbox-broadcast-update: 7.0.0
   workbox-cacheable-response: 7.0.0
   workbox-expiration: 7.0.0
   workbox-strategies: 7.0.0
@@ -92,7 +94,7 @@ devDependencies:
   postcss: 8.4.25
   prettier: 3.0.0
   prettier-plugin-svelte: 2.10.1_pxnwxaudkxdx33tglfjgr5f46a
-  prettier-plugin-tailwindcss: 0.3.0_ms4vc64whh7apn6p5brlhklfma
+  prettier-plugin-tailwindcss: 0.4.1_ms4vc64whh7apn6p5brlhklfma
   rollup-plugin-visualizer: 5.9.2
   svelte: 4.0.5
   svelte-check: 3.4.5_qbanvrohj4qz6ziy4stlfgbhvu
@@ -3966,8 +3968,8 @@ packages:
       svelte: 4.0.5
     dev: true
 
-  /prettier-plugin-tailwindcss/0.3.0_ms4vc64whh7apn6p5brlhklfma:
-    resolution: {integrity: sha512-009/Xqdy7UmkcTBpwlq7jsViDqXAYSOMLDrHAdTMlVZOrKfM2o9Ci7EMWTMZ7SkKBFTG04UM9F9iM2+4i6boDA==}
+  /prettier-plugin-tailwindcss/0.4.1_ms4vc64whh7apn6p5brlhklfma:
+    resolution: {integrity: sha512-hwn2EiJmv8M+AW4YDkbjJ6HlZCTzLyz1QlySn9sMuKV/Px0fjwldlB7tol8GzdgqtkdPtzT3iJ4UzdnYXP25Ag==}
     engines: {node: '>=12.17.0'}
     peerDependencies:
       '@ianvs/prettier-plugin-sort-imports': '*'
@@ -3975,7 +3977,7 @@ packages:
       '@shopify/prettier-plugin-liquid': '*'
       '@shufo/prettier-plugin-blade': '*'
       '@trivago/prettier-plugin-sort-imports': '*'
-      prettier: '>=2.2.0'
+      prettier: ^2.2 || ^3.0
       prettier-plugin-astro: '*'
       prettier-plugin-css-order: '*'
       prettier-plugin-import-sort: '*'

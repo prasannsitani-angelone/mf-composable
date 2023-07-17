@@ -95,8 +95,16 @@
 					}
 				})
 			} catch(e) {
-				console.log('virtual:pwa-register - ERRROR', e);
+				Logger.error({type:'virtual:pwa-register - ERRROR',params:e});
 			}
+
+			navigator?.serviceWorker?.addEventListener('message', async event => {
+  
+        	if (event?.data?.meta === 'workbox-broadcast-update') {
+				// Reload when data changed
+				window.location.reload()
+  			}
+});
 		}
 		
 		// to delete device id once app is loaded

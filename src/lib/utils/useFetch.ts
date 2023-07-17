@@ -53,7 +53,7 @@ export const useFetch = async (
 	fetchServer?: FetchType,
 	isNonJsonFetch = false
 ) => {
-	const baseFetch = hydrate ? fetch : fetchServer || fetch;
+	const baseFetch = fetchServer || fetch;
 	const opts = {
 		...defaultOptions,
 		...options,

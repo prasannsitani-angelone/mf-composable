@@ -10,7 +10,7 @@ const config: UserConfig = {
 			srcDir: './src',
 			mode: 'production',
 			strategies: 'injectManifest',
-			filename: 'service-worker.ts',
+			filename: 'sw.ts',
 			scope: '/mutual-funds/',
 			base: '/mutual-funds/',
 			selfDestroying: process.env.SELF_DESTROYING_SW === 'true',
