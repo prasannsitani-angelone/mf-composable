@@ -416,7 +416,7 @@ export const load = (async ({ fetch, params, parent }) => {
 				((isInvestmentSipOrXsip && firstOrder?.toUpperCase() === 'N') || lumpsumMandateOrder)
 			) {
 				Object.keys(statusItems)?.forEach((key) => {
-					if (key === ORDER_DATA.ORDER_ID && !bankAcc?.length) {
+					if (key === ORDER_DATA.ORDER_ID) {
 						statusItems[key].value = Math?.abs(orderId)?.toString();
 					}
 					if (key === ORDER_DATA.BANK_DETAILS && !bankAcc?.length) {
