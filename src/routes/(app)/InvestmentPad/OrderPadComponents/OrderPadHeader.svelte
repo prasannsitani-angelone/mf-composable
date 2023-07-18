@@ -17,7 +17,7 @@
 	const inactiveButtonClass = 'font-medium !bg-white !text-black-title/80 !border border-grey-line';
 </script>
 
-<article class="flex justify-center rounded-t-lg border-b bg-white py-4 px-3 {$$props?.class}">
+<article class="flex justify-center rounded-t-lg border-b bg-white px-3 py-4 {$$props?.class}">
 	<Button
 		class="flex-auto rounded-r-none py-3 {orderPadActiveTab !== 'INVEST'
 			? inactiveButtonClass

@@ -54,7 +54,7 @@
 <section class="col-span-1 col-start-1 row-start-2">
 	<Card class="!p-0 max-sm:rounded-none max-sm:border-b max-sm:!pt-1 max-sm:shadow-none ">
 		<h2
-			class="mx-6 hidden border-b border-grey-line pt-7 pb-8 text-base font-normal text-black sm:block"
+			class="mx-6 hidden border-b border-grey-line pb-8 pt-7 text-base font-normal text-black sm:block"
 		>
 			SIP Calculator
 		</h2>

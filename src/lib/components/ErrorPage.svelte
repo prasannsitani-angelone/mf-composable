@@ -21,14 +21,14 @@
 	<slot name="icon" />
 	<slot name="heading">
 		<div
-			class="mt-4 mb-3 text-center text-2xl font-medium text-black-title sm:mt-8 sm:mb-6 sm:text-4xl"
+			class="mb-3 mt-4 text-center text-2xl font-medium text-black-title sm:mb-6 sm:mt-8 sm:text-4xl"
 		>
 			{heading}
 		</div>
 	</slot>
 
 	<slot name="content">
-		<div class="mt-2 mb-8 max-w-md text-center text-sm font-normal text-grey-body sm:text-lg">
+		<div class="mb-8 mt-2 max-w-md text-center text-sm font-normal text-grey-body sm:text-lg">
 			{contentLine}
 		</div>
 	</slot>

@@ -22,9 +22,9 @@
 
 <Modal closeModal={backdropClick} isModalOpen>
 	<div
-		class="w-screen items-stretch rounded-t-2xl rounded-b-none bg-white max-sm:!p-0 sm:rounded-lg"
+		class="w-screen items-stretch rounded-b-none rounded-t-2xl bg-white max-sm:!p-0 sm:rounded-lg"
 	>
-		<div class="flex items-center justify-between px-4 pt-6 pb-4">
+		<div class="flex items-center justify-between px-4 pb-4 pt-6">
 			<span class="text-lg font-medium text-black-title">
 				{heading}
 			</span>

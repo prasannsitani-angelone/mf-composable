@@ -30,7 +30,7 @@
 	<section class="mt-2.5">
 		<div class="text-xs text-black-bolder">Most chosen</div>
 
-		<div class="mt-2 mb-6">
+		<div class="mb-6 mt-2">
 			{#each quickInputs as pill, index (pill)}
 				<Button
 					variant="outlined"

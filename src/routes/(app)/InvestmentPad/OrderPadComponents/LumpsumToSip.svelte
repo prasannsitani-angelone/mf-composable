@@ -36,11 +36,11 @@
 </script>
 
 <article
-	class="flex w-full flex-col rounded-t-2xl rounded-b-none bg-white px-5 pt-9 pb-4 text-black-key shadow-clg md:rounded-lg {$$props?.class}"
+	class="flex w-full flex-col rounded-b-none rounded-t-2xl bg-white px-5 pb-4 pt-9 text-black-key shadow-clg md:rounded-lg {$$props?.class}"
 >
 	<div class="text-center text-2xl font-medium">Invest with SIPs instead of OTI</div>
 
-	<div class="my-6 rounded bg-yellow-background py-2 px-2.5 text-center text-sm font-normal">
+	<div class="my-6 rounded bg-yellow-background px-2.5 py-2 text-center text-sm font-normal">
 		Invest with SIPs instead of a one-time investment
 	</div>
 

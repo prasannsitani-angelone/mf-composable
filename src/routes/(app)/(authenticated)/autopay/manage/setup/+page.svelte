@@ -6,20 +6,21 @@
 	import Mandate from '$components/mandate/Mandate.svelte';
 	import { getSipAmountWithoutMandate } from '../utils';
 	import MandateSuccessPopup from './components/MandateSuccessPopup.svelte';
+	import type { BankDetailsEntity, UserProfile } from '$lib/types/IUserProfile';
 
 	export let data;
 	let selectedAccount = 0;
-	let selectedAccountDetail;
+	let selectedAccountDetail: BankDetailsEntity;
 	let mandateInstance: Mandate | null = null;
 
 	$: profileData = $page?.data?.profile;
 
-	const setupBankDetails = (profileDetail) => {
+	const setupBankDetails = (profileDetail: UserProfile) => {
 		const bankList = profileDetail?.bankDetails;
 
 		const selectedAccNo = data.pageParam?.accountNumber;
 
-		selectedAccountDetail = bankList.filter((bank, index) => {
+		selectedAccountDetail = (bankList || []).filter((bank, index: number) => {
 			if (bank.accNO?.endsWith(selectedAccNo)) {
 				selectedAccount = index;
 				return true;
@@ -40,11 +41,7 @@
 {:then response}
 	<TopCard nudgeData={response.nudges || []} />
 	{#if data.pageParam?.accountNumber}
-		<BottomCard
-			bankDetail={selectedAccountDetail}
-			accNOSubtring={data.pageParam?.accountNumber}
-			{intiateAutoPayProcess}
-		/>
+		<BottomCard bankDetail={selectedAccountDetail} {intiateAutoPayProcess} />
 		<Mandate
 			{selectedAccount}
 			bind:this={mandateInstance}

@@ -123,7 +123,7 @@
 					{currentCalculatorMode === 'SIP' ? 'Monthly Investment' : 'Select Amount'}
 				</span>
 				<div
-					class="flex border-b border-t-0 border-l-0 border-r-0 border-grey-disabled text-2xl font-medium text-black-title"
+					class="flex border-b border-l-0 border-r-0 border-t-0 border-grey-disabled text-2xl font-medium text-black-title"
 				>
 					<AmountText amount={amountReturnSlider[0]} />
 				</div>
@@ -154,7 +154,7 @@
 						Expected Return (Yearly)
 					</span>
 					<div
-						class="border-b border-t-0 border-l-0 border-r-0 border-grey-disabled text-2xl font-medium text-black-title"
+						class="border-b border-l-0 border-r-0 border-t-0 border-grey-disabled text-2xl font-medium text-black-title"
 					>
 						<div>{ROISlider[0]} %</div>
 					</div>
@@ -183,7 +183,7 @@
 					Time Period
 				</span>
 				<div
-					class="border-b border-t-0 border-l-0 border-r-0 border-grey-disabled text-2xl font-medium text-black-title"
+					class="border-b border-l-0 border-r-0 border-t-0 border-grey-disabled text-2xl font-medium text-black-title"
 				>
 					<div>{yearsReturnSlider[0]} Y</div>
 				</div>

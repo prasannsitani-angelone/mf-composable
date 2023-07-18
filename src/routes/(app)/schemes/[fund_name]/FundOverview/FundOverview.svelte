@@ -122,7 +122,7 @@
 		</div>
 		{#if !isNFO}
 			<div class="relative flex">
-				<div class="flex flex-grow basis-0 flex-col pt-3 pb-3">
+				<div class="flex flex-grow basis-0 flex-col pb-3 pt-3">
 					<span class="text-base font-medium text-black-title sm:text-2xl"
 						>{schemeDetails[returnPeriod]?.toFixed(2)}%</span
 					>
@@ -152,7 +152,7 @@
 			</div>
 		</section>
 
-		<footer class="flex items-center justify-center border-t border-t-grey-line pt-5 pb-4">
+		<footer class="flex items-center justify-center border-t border-t-grey-line pb-4 pt-5">
 			<RocketIcon />
 			<span class="ml-5 text-xs font-medium text-black-title sm:text-sm">
 				Launched in {fundLaunchMonth}

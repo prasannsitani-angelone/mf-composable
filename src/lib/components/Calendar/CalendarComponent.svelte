@@ -43,10 +43,10 @@
 
 {#if visible}
 	<div
-		class={`flex w-full flex-col rounded-t-2xl rounded-b-none bg-white shadow-clg sm:rounded-lg ${$$props?.class}`}
+		class={`flex w-full flex-col rounded-b-none rounded-t-2xl bg-white shadow-clg sm:rounded-lg ${$$props?.class}`}
 	>
 		<div
-			class={`flex flex-row justify-center py-6 px-8 pb-0 md:pb-6 ${classes?.header} ${
+			class={`flex flex-row justify-center px-8 py-6 pb-0 md:pb-6 ${classes?.header} ${
 				showClose ? 'justify-between' : ''
 			}`}
 		>
@@ -70,7 +70,7 @@
 
 		<div class={`hidden border-t border-grey-line sm:block ${classes?.midBorder}`} />
 		<div
-			class={`grid grid-cols-7 justify-items-center py-4 px-2 sm:py-8 sm:px-6 ${classes?.content}`}
+			class={`grid grid-cols-7 justify-items-center px-2 py-4 sm:px-6 sm:py-8 ${classes?.content}`}
 		>
 			{#each dateArray as date, index}
 				<DateTag
@@ -84,7 +84,7 @@
 		</div>
 		<slot name="dateSlot" />
 		{#if showSubmit}
-			<div class={`flex flex-row justify-center rounded-b-lg py-4 px-4 ${classes?.footer}`}>
+			<div class={`flex flex-row justify-center rounded-b-lg px-4 py-4 ${classes?.footer}`}>
 				<Button class="w-full rounded" onClick={onSubmit}>
 					{heading}
 				</Button>

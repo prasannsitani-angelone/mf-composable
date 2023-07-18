@@ -310,7 +310,7 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
-	class="text-title-black hidden flex-row items-center pt-3 pb-6 text-lg font-medium active:opacity-80 sm:flex"
+	class="text-title-black hidden flex-row items-center pb-6 pt-3 text-lg font-medium active:opacity-80 sm:flex"
 	on:click={goBack}
 >
 	<WMSIcon name="left-arrow" height={16} width={16} class="mr-4" />
@@ -366,7 +366,7 @@
 			popupType="PENDING"
 			title={pending.heading}
 			text={pending.subHeading}
-			class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+			class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
 			isModalOpen
 			handleButtonClick={closePendingPopup}
 			buttonTitle="CLOSE"
@@ -378,7 +378,7 @@
 			popupType="FAILURE"
 			title={error.heading}
 			text={error.subHeading}
-			class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+			class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
 			isModalOpen
 			handleButtonClick={closeErrorPopup}
 			buttonTitle={error.type === 'PATCH_FAILED' || error.type === 'PAYMENT_PATCH_FAILED'

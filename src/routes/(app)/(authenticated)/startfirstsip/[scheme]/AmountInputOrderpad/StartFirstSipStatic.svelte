@@ -17,7 +17,7 @@
 		{/each}
 	</div>
 
-	<div class="mt-6 mb-20 flex items-center justify-center">
+	<div class="mb-20 mt-6 flex items-center justify-center">
 		<StartFirstSipImage width="316" height="223" />
 	</div>
 </article>

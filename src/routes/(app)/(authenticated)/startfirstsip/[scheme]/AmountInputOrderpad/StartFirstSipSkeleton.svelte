@@ -11,7 +11,7 @@
 	class="fixed inset-0 top-auto z-20 block rounded-t-lg bg-white px-3 py-6 shadow-csm md:hidden"
 >
 	<SkeletonWrapper>
-		<SkeletonRectangle class="mt-2 mb-2 !h-52 w-full rounded-lg" />
+		<SkeletonRectangle class="mb-2 mt-2 !h-52 w-full rounded-lg" />
 	</SkeletonWrapper>
 
 	<SkeletonWrapper class="flex w-full items-center justify-around">

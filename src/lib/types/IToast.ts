@@ -5,4 +5,5 @@ export interface ToastItem {
 	redirectText?: string;
 	redirectLink?: string;
 	callback?: CallbackFunction;
+	class?: string;
 }

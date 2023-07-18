@@ -141,7 +141,7 @@
 				<section class="ml-1 flex flex-col items-end">
 					<div class="w-20 text-right text-xs font-medium text-black-bolder">Returns p.a</div>
 					<article class="mt-0.5 flex items-center">
-						<WMSIcon class="mt-1 mr-1 h-4 w-3" name="green-uparrow-trending-fund" />
+						<WMSIcon class="mr-1 mt-1 h-4 w-3" name="green-uparrow-trending-fund" />
 						<div class="text-base font-bold text-black-title">
 							{scheme?.returns3yr?.toFixed(2)}%
 						</div>

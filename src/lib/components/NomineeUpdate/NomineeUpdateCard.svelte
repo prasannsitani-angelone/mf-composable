@@ -15,12 +15,12 @@
 
 	<slot name="content">
 		{#if rta === 'CAMS'}
-			<div class="mt-2 mb-4 pl-3 text-left text-xs font-normal text-black-title">
+			<div class="mb-4 mt-2 pl-3 text-left text-xs font-normal text-black-title">
 				<b>To avoid order failure,</b><br /> please update nominee status for this folio on CAMS. Proceed
 				if already updated
 			</div>
 		{:else if rta === 'KARVY'}
-			<div class="mt-2 mb-4 pl-3 text-left text-xs font-normal text-black-title">
+			<div class="mb-4 mt-2 pl-3 text-left text-xs font-normal text-black-title">
 				<b>To avoid order failure,</b><br /> please update nominee status for this folio on KFintech.
 				Proceed if already updated
 			</div>

@@ -375,10 +375,10 @@
 	{#if !showAboutEdisModal && !showTpinRegeneratedModal && !showCdslModal && !showTpinVerifiedModal && !loadingState?.isLoading && !error?.visible}
 		<Modal isModalOpen={true} on:backdropclicked={closeTpinActionModal}>
 			<div
-				class="flex w-screen flex-col rounded-t-2xl rounded-b-none bg-white shadow-csm md:w-120 md:rounded-lg"
+				class="flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white shadow-csm md:w-120 md:rounded-lg"
 			>
 				<slot name="heading">
-					<div class="flex items-center justify-between py-6 px-4 md:px-8">
+					<div class="flex items-center justify-between px-4 py-6 md:px-8">
 						<div class="flex items-center justify-start">
 							<slot name="tpinVerificationHeader">
 								<span class="mr-1 text-xl"> Verify Order with E-DIS </span>
@@ -501,7 +501,7 @@
 				class="animate-bottomTransition flex h-full w-screen flex-col rounded-b-none bg-white shadow-csm md:h-96 md:w-5/6 md:animate-none md:rounded-lg"
 			>
 				<slot name="heading">
-					<div class="flex items-center justify-between py-3 px-4 md:py-6 md:px-8">
+					<div class="flex items-center justify-between px-4 py-3 md:px-8 md:py-6">
 						<div>
 							<span class="mr-1 text-xl"> TPIN Verification </span>
 						</div>
@@ -569,7 +569,7 @@
 			popupType="FAILURE"
 			title={error.heading}
 			text={error.subHeading}
-			class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+			class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
 			isModalOpen
 			handleButtonClick={onErrorTryAgain}
 			closeModal={onErrorTryAgain}

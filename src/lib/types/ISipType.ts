@@ -94,3 +94,38 @@ export interface IDueSips {
 	PayBefore: string;
 	SipCount?: string;
 }
+
+export interface IInvestmentTypeSIP {
+	sipId: number;
+	clientCode: string;
+	sipType: string;
+	schemeCode: string;
+	isin: string;
+	frequency: string;
+	installmentAmount: number;
+	startDate: string;
+	mandateRefId: string;
+	subBrokerCode: string;
+	firstOrderToday: boolean;
+	createdTs: number;
+	status: string;
+	schemePlan: string;
+	bankName: string;
+	accountNo: string;
+	schemeName: string;
+	logoUrl: string;
+	nextSipDueDate: number;
+	isSipInprocess: boolean;
+	sipRegistrationNo: string;
+	category: string;
+	subCategory: string;
+	arqRating: number;
+	reInvestmentPlan: string;
+	isSipPaymentNudge: boolean;
+	sipPaymentDate: number;
+	sipAmountPayTillDate: number;
+	sipStatus: string;
+	installmentSkip: boolean;
+	skipSipDueDate: number;
+	paymentNudgeSkip: boolean;
+}

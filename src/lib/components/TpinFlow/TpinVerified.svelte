@@ -27,7 +27,7 @@
 	popupType="SUCCESS"
 	title={heading}
 	text={subHeading}
-	class="w-full rounded-t-2xl rounded-b-none p-6 pt-12 pb-9 md:rounded-lg md:p-12 {$$props?.class}"
+	class="w-full rounded-b-none rounded-t-2xl p-6 pb-9 pt-12 md:rounded-lg md:p-12 {$$props?.class}"
 	isModalOpen
 	handleButtonClick={onPrimaryButtonClick}
 	closeModal={onSecondaryButtonClick}

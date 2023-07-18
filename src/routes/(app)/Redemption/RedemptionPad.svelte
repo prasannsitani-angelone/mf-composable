@@ -581,7 +581,7 @@
 				{/if}
 
 				{#if isRedeemableAmountLessThanWithdrawableAmount}
-					<article class="flex justify-center px-5 pt-1 pb-4 text-center">
+					<article class="flex justify-center px-5 pb-4 pt-1 text-center">
 						<p class="text-xs font-medium text-grey-body">
 							Minimum Withdrawable Amount is <span class="font-semibold text-black-title"
 								>₹{minimumRedeemAmount?.toFixed(2)}</span

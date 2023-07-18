@@ -8,7 +8,7 @@
 	<div><WMSIcon name="arc-leaves" height={36} width={36} /></div>
 	<div
 		id="schemeRatingInfo-{ratingSecId || ''}"
-		class=" absolute top-2 left-[0.6rem] flex items-center"
+		class=" absolute left-[0.6rem] top-2 flex items-center"
 	>
 		<span class=" text-sm font-semibold text-black-title">{rating}</span>
 		<div class="rating gap-1">

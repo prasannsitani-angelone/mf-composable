@@ -13,7 +13,7 @@
 	};
 </script>
 
-<div class="mt-2 ml-4 flex flex-wrap gap-3 pl-4">
+<div class="ml-4 mt-2 flex flex-wrap gap-3 pl-4">
 	{#each list as item (item.title)}
 		<Button
 			variant="outlined"

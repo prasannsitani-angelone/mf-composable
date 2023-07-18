@@ -38,7 +38,9 @@
 <Card class="!p-3">
 	<div class="mb-4 flex">
 		<div class=" flex-1 border-r border-grey-separator text-left">
-			<div class=" mb-1 text-1xs font-normal leading-normal text-grey-body">Current SIP Amount</div>
+			<div class=" mb-1 text-1xs font-normal leading-normal text-grey-body">
+				Unlinked SIP Amount
+			</div>
 			<div class=" text-xl font-medium text-black-title">₹{addCommasToAmountString(amount)}</div>
 		</div>
 		<div class="  flex-1 text-right">

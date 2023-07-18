@@ -46,7 +46,7 @@
 						loading="lazy"
 					/>
 				</div>
-				<h2 class="mt-2 text-sm font-medium text-black-title lg:mt-0 lg:ml-3 lg:text-base">
+				<h2 class="mt-2 text-sm font-medium text-black-title lg:ml-3 lg:mt-0 lg:text-base">
 					{option.name}
 				</h2>
 			</Link>

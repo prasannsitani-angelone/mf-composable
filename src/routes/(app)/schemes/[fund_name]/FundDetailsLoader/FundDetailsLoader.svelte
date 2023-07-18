@@ -17,15 +17,15 @@
 			</div>
 		</div>
 		<div class="border-b border-grey-line px-4">
-			<SkeletonRectangle class="mt-9 mb-6 h-8 w-full " />
+			<SkeletonRectangle class="mb-6 mt-9 h-8 w-full " />
 		</div>
 		<div class="flex">
 			<div class="ml-4">
-				<SkeletonRectangle class="mt-4 mb-2 w-16" />
+				<SkeletonRectangle class="mb-2 mt-4 w-16" />
 				<SkeletonRectangle class="w-20" />
 			</div>
 			<div class="ml-auto mr-4 flex flex-col">
-				<SkeletonRectangle class="mt-4 mb-2 ml-auto  w-16" />
+				<SkeletonRectangle class="mb-2 ml-auto mt-4  w-16" />
 				<SkeletonRectangle class="w-20" />
 			</div>
 		</div>
@@ -43,7 +43,7 @@
 	<SkeletonWrapper class="mt-4 rounded-lg border border-grey-line bg-white py-3">
 		<div class="mt-6 flex border-b border-grey-line px-4">
 			<SkeletonCircle class="h-9 w-9" />
-			<div class="ml-3 mb-6">
+			<div class="mb-6 ml-3">
 				<SkeletonRectangle class="h-4 w-56" />
 				<SkeletonRectangle class="mt-3 w-40 sm:w-80" />
 			</div>

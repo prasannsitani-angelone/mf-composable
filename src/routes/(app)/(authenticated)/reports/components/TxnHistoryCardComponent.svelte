@@ -338,7 +338,7 @@
 							<CustomDateIcon />
 							<p class="text-sm text-gray-500">Custom Date Range</p>
 						</article>
-						<div class="mt-2 ml-4 flex items-center gap-4 pl-4">
+						<div class="ml-4 mt-2 flex items-center gap-4 pl-4">
 							<div class="w-1/2">
 								<p class="mb-4 text-xs font-normal text-grey-body">From</p>
 								<div
@@ -350,7 +350,7 @@
 									{:else}
 										<span class="text-base font-medium text-grey-disabled">DD/MM/YYYY</span>
 									{/if}
-									<CalendarIcon class="ml-auto mb-1" />
+									<CalendarIcon class="mb-1 ml-auto" />
 								</div>
 							</div>
 							<div class="w-1/2">
@@ -364,7 +364,7 @@
 									{:else}
 										<span class="text-base font-medium text-grey-disabled">DD/MM/YYYY</span>
 									{/if}
-									<CalendarIcon class="ml-auto mb-1" />
+									<CalendarIcon class="mb-1 ml-auto" />
 								</div>
 							</div>
 						</div>

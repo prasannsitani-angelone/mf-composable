@@ -112,7 +112,7 @@
 {#if !isPartialImport}
 	<article class="lg:hidden">
 		<section class="my-1 flex items-center justify-center rounded border py-1">
-			<div class="mr-1 -mb-1 flex items-center text-xs font-medium text-grey-body">
+			<div class="-mb-1 mr-1 flex items-center text-xs font-medium text-grey-body">
 				{#if data?.returnsValue >= 0}
 					<GraphUpIcon class="mr-1" />
 				{:else}

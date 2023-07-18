@@ -19,10 +19,10 @@
 	<Modal isModalOpen={showModal} on:backdropclicked={crossButtonClicked}>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
-			class="animate-bottomTransition flex w-screen flex-col rounded-t-2xl rounded-b-none bg-white shadow-csm sm:w-120 sm:animate-none sm:rounded-lg"
+			class="animate-bottomTransition flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white shadow-csm sm:w-120 sm:animate-none sm:rounded-lg"
 		>
 			<slot name="heading">
-				<div class="flex items-center justify-between px-4 pt-6 pb-3 md:py-6 md:px-8">
+				<div class="flex items-center justify-between px-4 pb-3 pt-6 md:px-8 md:py-6">
 					<slot name="headingDetails">
 						<span class="text-lg font-normal text-black-title md:text-xl {headingClass}">
 							{heading}
@@ -41,7 +41,7 @@
 			</slot>
 
 			<slot name="bodySection">
-				<section class="px-4 pt-0 pb-6 text-sm md:px-8 md:pt-6">
+				<section class="px-4 pb-6 pt-0 text-sm md:px-8 md:pt-6">
 					<article>
 						<p class="font-normal text-grey-body">
 							{detailText}

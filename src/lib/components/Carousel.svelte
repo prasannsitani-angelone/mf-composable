@@ -62,7 +62,7 @@
 			<WMSIcon
 				width={40}
 				name="arrow-collapse"
-				class="swiper-next-button mb-10 mr-4 ml-1 rotate-90 cursor-pointer"
+				class="swiper-next-button mb-10 ml-1 mr-4 rotate-90 cursor-pointer"
 			/>
 		{/if}
 	</div>

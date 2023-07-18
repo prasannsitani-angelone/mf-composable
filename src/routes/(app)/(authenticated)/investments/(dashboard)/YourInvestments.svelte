@@ -63,7 +63,7 @@
 <section class="max-w-4xl rounded-lg bg-white text-sm shadow-csm">
 	<Table>
 		<THead slot="thead" class="border-t">
-			<Th class="w-[40%] text-start capitalize max-sm:w-[63%] max-sm:pr-1 max-sm:pl-4">Fund Name</Th
+			<Th class="w-[40%] text-start capitalize max-sm:w-[63%] max-sm:pl-4 max-sm:pr-1">Fund Name</Th
 			>
 			<Th
 				class="justify-center text-center capitalize max-sm:w-[30%] max-sm:pl-1 max-sm:pr-0 max-sm:text-right"
@@ -86,13 +86,13 @@
 				sortField="returnsValue"
 				on:initSort={sortColumn}>Returns</Th
 			>
-			<Th class="w-6 pl-0 !pr-0 max-sm:w-[7%] sm:w-8  sm:!pr-0" />
+			<Th class="w-6 !pr-0 pl-0 max-sm:w-[7%] sm:w-8  sm:!pr-0" />
 		</THead>
 		<TBody slot="tbody">
 			{#each tableDataToDisplay as schemes}
 				<tr class="hover cursor-pointer" on:click={() => handleRowClick(schemes)}
 					><Td
-						class={`w-[40%] whitespace-normal max-sm:w-[70%] max-sm:pr-1 max-sm:pl-4 ${
+						class={`w-[40%] whitespace-normal max-sm:w-[70%] max-sm:pl-4 max-sm:pr-1 ${
 							isPartialImport(schemes) ? '!border-b-0' : ''
 						}`}
 					>
@@ -183,7 +183,7 @@
 				>
 				{#if isPartialImport(schemes)}
 					<tr>
-						<td colspan={5} class="whitespace-pre-wrap pt-0 pb-3"
+						<td colspan={5} class="whitespace-pre-wrap pb-3 pt-0"
 							><div
 								class={` flex items-center rounded-lg bg-blue-background px-2 py-1 sm:items-start sm:px-3`}
 							>

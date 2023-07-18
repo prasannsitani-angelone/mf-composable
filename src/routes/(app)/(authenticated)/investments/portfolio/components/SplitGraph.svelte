@@ -75,7 +75,7 @@
 	}
 </script>
 
-<div id={parentId} class="relative rounded-lg py-2 px-3 lg:border">
+<div id={parentId} class="relative rounded-lg px-3 py-2 lg:border">
 	<DoughnutChart
 		data={doughnutData}
 		chartId={parentId}

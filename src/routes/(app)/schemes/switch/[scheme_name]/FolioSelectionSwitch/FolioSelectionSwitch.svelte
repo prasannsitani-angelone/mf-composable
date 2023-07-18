@@ -11,7 +11,7 @@
 </script>
 
 {#if folioList?.length > 1}
-	<section class="font-sm mt-3 mb-4 items-center rounded-t-lg bg-white p-4 text-sm shadow-csm">
+	<section class="font-sm mb-4 mt-3 items-center rounded-t-lg bg-white p-4 text-sm shadow-csm">
 		<div class="pb-4">Switch Details</div>
 		<article class="flex-col items-center rounded-lg bg-grey p-3">
 			<section class="flex items-center justify-between border-b pb-2">

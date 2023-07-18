@@ -79,7 +79,7 @@
 							class="flex cursor-pointer justify-end !pl-0 !pr-0 text-left sm:!pl-5 sm:!pr-5 sm:text-center"
 						>
 							<Button
-								class="flex items-center bg-white !pl-0 align-middle !text-xs !font-normal !text-blue-primary hover:bg-white sm:pl-5 sm:!pr-0"
+								class="flex items-center bg-white !pl-0 align-middle !text-xs !font-normal !text-blue-primary hover:bg-white sm:!pr-0 sm:pl-5"
 								onClick={sortTable}
 							>
 								<span class="mr-1">{currentYearFilter.label}</span>
@@ -129,7 +129,7 @@
 									</div>
 								</Link>
 							</Td>
-							<Td class="!pr-2 !pl-0 sm:!pr-5"
+							<Td class="!pl-0 !pr-2 sm:!pr-5"
 								><div class="flex items-end justify-end">
 									<span>{schemes[currentYearFilter.field]} %</span>
 									<RightArrow />

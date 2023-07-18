@@ -45,7 +45,7 @@
 		</slot>
 
 		{#each folioList as folio (folio?.folioNumber)}
-			<section class="mt-3 mb-4 sm:mb-1">
+			<section class="mb-4 mt-3 sm:mb-1">
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<article
 					class="cursor-default rounded-lg border bg-white font-medium shadow-csm md:cursor-pointer {!isSwitchOrRedeemAllowed(

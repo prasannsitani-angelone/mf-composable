@@ -25,7 +25,7 @@
 		disableCollapse={true}
 		titleStyle="!ml-0 text-black-title"
 		titleFontSize="text-sm"
-		class="mb-0 !mt-0 max-w-8xl md:rounded-t-none"
+		class="!mt-0 mb-0 max-w-8xl md:rounded-t-none"
 		headerClass="!p-3 md:!p-4"
 	>
 		<svelte:fragment slot="accordionBody">

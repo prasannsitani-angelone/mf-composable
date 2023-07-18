@@ -8,7 +8,7 @@
 </script>
 
 <Modal {isModalOpen} on:backdropclicked={toggleTaxSavingModal}>
-	<article class="rounded-t-2xl bg-white pt-6 pb-8 md:w-120 md:rounded-lg">
+	<article class="rounded-t-2xl bg-white pb-8 pt-6 md:w-120 md:rounded-lg">
 		<header class="mb-4 border-b px-8 pb-6 text-lg text-black-title md:text-xl">
 			{modalList?.shortDescription}
 		</header>

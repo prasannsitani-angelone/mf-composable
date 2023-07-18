@@ -595,7 +595,7 @@
 				</article>
 			{/if}
 
-			<article class="px-20 pt-10 pb-5 lg:hidden">
+			<article class="px-20 pb-5 pt-10 lg:hidden">
 				<article class="flex">
 					<Button
 						class={`mr-1 rounded !py-2 !font-medium ${

@@ -80,28 +80,28 @@
 					{@const nfoStartDate = getDateTimeProperties(scheme?.nfoStartDate)}
 					{@const nfoEndDate = getDateTimeProperties(scheme?.nfoEndDate)}
 					<Td class="relative text-center">
-						<div class="absolute top-0 bottom-0 right-0 flex items-center justify-center sm:w-full">
+						<div class="absolute bottom-0 right-0 top-0 flex items-center justify-center sm:w-full">
 							<div class="flex items-center">
 								<span>{`${nfoStartDate.date} ${nfoStartDate.month} ${nfoStartDate.year}`}</span>
 							</div>
 						</div>
 					</Td>
 					<Td class="relative text-center">
-						<div class="absolute top-0 bottom-0 right-0 flex items-center justify-center sm:w-full">
+						<div class="absolute bottom-0 right-0 top-0 flex items-center justify-center sm:w-full">
 							<div class="flex items-center">
 								<span>{`${nfoEndDate.date} ${nfoEndDate.month} ${nfoEndDate.year}`}</span>
 							</div>
 						</div>
 					</Td>
 					<Td class="relative text-center">
-						<div class="absolute top-0 bottom-0 right-0 flex items-center justify-center sm:w-full">
+						<div class="absolute bottom-0 right-0 top-0 flex items-center justify-center sm:w-full">
 							<div class="flex items-center">
 								<span>₹{scheme?.navValue}</span>
 							</div>
 						</div>
 					</Td>
 					<Td class="relative text-center">
-						<div class="absolute top-0 bottom-0 right-0 flex items-center justify-center sm:w-full">
+						<div class="absolute bottom-0 right-0 top-0 flex items-center justify-center sm:w-full">
 							<div class="flex items-center">
 								<span>₹{scheme?.minSipAmount}</span>
 							</div>
@@ -109,7 +109,7 @@
 					</Td>
 				{:else}
 					<Td class="relative !py-0 !pr-0">
-						<div class="absolute top-0 bottom-0 right-4 flex">
+						<div class="absolute bottom-0 right-4 top-0 flex">
 							<div class="flex items-center">
 								{#if currentYearFilter.field.includes('Date')}
 									{@const nfoDate = getDateTimeProperties(scheme[currentYearFilter.field])}

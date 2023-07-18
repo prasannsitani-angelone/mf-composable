@@ -24,7 +24,7 @@
 	</div>
 
 	<div
-		class=" mt-2 flex border-t border-grey-line bg-white pt-2 pb-4 sm:hidden {!discoverPage
+		class=" mt-2 flex border-t border-grey-line bg-white pb-4 pt-2 sm:hidden {!discoverPage
 			? 'pt-4'
 			: ''}"
 	>

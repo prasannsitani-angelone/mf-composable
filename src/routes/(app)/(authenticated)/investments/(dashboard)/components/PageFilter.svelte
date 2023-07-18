@@ -23,7 +23,7 @@
 	];
 </script>
 
-<section class="px-1 pt-1 pb-3 sm:bg-white sm:px-6 sm:py-4 sm:pt-4">
+<section class="px-1 pb-3 pt-1 sm:bg-white sm:px-6 sm:py-4 sm:pt-4">
 	<div class="flex items-center justify-between sm:justify-between">
 		<div class=" text-base font-medium text-black-key sm:text-lg">Your Investments</div>
 		<div class="flex items-center">

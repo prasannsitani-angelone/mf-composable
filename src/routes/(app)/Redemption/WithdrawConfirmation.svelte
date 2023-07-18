@@ -276,7 +276,7 @@
 			<span class="text-base font-medium text-black-title"> Confirm Your Withdrawal </span>
 		</article>
 		<article class="mb-3 pb-1 md:mb-0 md:pb-0">
-			<div class="mx-3 mt-2 mb-2 pt-2 text-sm font-medium text-black-title md:mt-4 md:pt-0">
+			<div class="mx-3 mb-2 mt-2 pt-2 text-sm font-medium text-black-title md:mt-4 md:pt-0">
 				Credit to Account
 			</div>
 
@@ -448,7 +448,7 @@
 			popupType="FAILURE"
 			title={error.heading}
 			text={error.subHeading}
-			class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+			class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
 			isModalOpen
 			handleButtonClick={closeErrorPopup}
 			closeModal={closeErrorPopup}

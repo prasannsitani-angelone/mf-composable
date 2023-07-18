@@ -1,17 +1,18 @@
 <script lang="ts">
 	import Card from '$components/Card.svelte';
 	import WmsIcon from '$components/WMSIcon.svelte';
-	import { Button } from 'svelte-components';
+	import Button from '$components/Button.svelte';
 	import RadioButton from '$components/RadioButton.svelte';
+	import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 
-	export let bankDetail;
+	export let bankDetail: BankDetailsEntity;
 	export let intiateAutoPayProcess = (): void => undefined;
 
 	let bankLogo = '';
 	let bankName = '';
 	let bankAccount = '';
 
-	const setupBankDetails = (bank) => {
+	const setupBankDetails = (bank: BankDetailsEntity) => {
 		bankLogo = bank?.bankLogo;
 		bankName = bank?.bankName;
 		bankAccount = bank?.accNO;
@@ -42,7 +43,7 @@
 			</div>
 		</div>
 		<div class="mt-2 flex justify-center">
-			<Button class="w-full" on:click={intiateAutoPayProcess}>PROCEED</Button>
+			<Button class="w-full" onClick={intiateAutoPayProcess}>PROCEED</Button>
 		</div>
 	</div>
 </Card>

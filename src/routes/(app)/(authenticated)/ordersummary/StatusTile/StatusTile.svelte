@@ -32,7 +32,7 @@
 			}`}
 		/>
 	</div>
-	<div class="pt-2 pb-2 text-start sm:pb-0 sm:text-center">
+	<div class="pb-2 pt-2 text-start sm:pb-0 sm:text-center">
 		<div
 			class={`mb-1 text-sm font-medium text-black-title sm:mt-2 ${
 				item.status === STATUS_ARR.NONE ? 'text-grey-body' : ''

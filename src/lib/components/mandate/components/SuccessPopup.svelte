@@ -22,7 +22,7 @@
 				<WMSIcon name="success-tick-sparkle" height={112} width={270} />
 			</div>
 			<div class="my-8 flex flex-col items-center">
-				<div class="mt-4 mb-2 text-lg font-medium text-black-title">Autopay Setup Successfully</div>
+				<div class="mb-2 mt-4 text-lg font-medium text-black-title">Autopay Setup Successfully</div>
 				<div class="mb-5 text-center text-sm text-grey-body">
 					Future SIP instalments will be paid automatically every month. Please note it takes up to
 					7 days to activate your eMandate

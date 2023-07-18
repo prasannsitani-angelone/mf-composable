@@ -73,7 +73,7 @@
 	on:keydown={handleBodyClick}
 >
 	<ResultItem
-		class="justify-between px-0 !pt-3 !pb-0"
+		class="justify-between px-0 !pb-0 !pt-3"
 		data={{
 			logoUrl: item?.logoUrl || '',
 			categoryName: investmentTypeText,

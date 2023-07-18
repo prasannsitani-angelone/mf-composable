@@ -85,7 +85,7 @@
 					schemes?.isin,
 					schemes?.schemeCode
 				)}${isExternal ? '-rtaSchemeCode-' + schemes?.rtaSchemeCode + '/external' : ''}`}
-				class="mb-2 block rounded-lg bg-white p-4 px-3 pt-2 pb-4 text-sm shadow-csm last:border-none sm:mb-0 sm:rounded-none sm:border-b sm:px-6 sm:shadow-none {schemes?.sipEnabled
+				class="mb-2 block rounded-lg bg-white p-4 px-3 pb-4 pt-2 text-sm shadow-csm last:border-none sm:mb-0 sm:rounded-none sm:border-b sm:px-6 sm:shadow-none {schemes?.sipEnabled
 					? 'pt-2 sm:pb-6'
 					: 'pt-4 sm:pb-4'}"
 				on:linkClicked={() => handleRowClick(schemes)}
@@ -248,7 +248,7 @@
 {#if isXIRRModalOpen}
 	<Modal closeModal={onModalClick} isModalOpen>
 		<div
-			class="w-screen rounded-t-2xl rounded-b-none bg-white px-4 py-6 sm:!w-[460px] sm:rounded-lg sm:p-8"
+			class="w-screen rounded-b-none rounded-t-2xl bg-white px-4 py-6 sm:!w-[460px] sm:rounded-lg sm:p-8"
 		>
 			<div
 				data-testid="investmentXirrModal"

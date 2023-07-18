@@ -34,7 +34,7 @@
 
 <div class={classes.parent}>
 	<div
-		class={`flex w-full flex-row rounded border-2 border-grey-line py-3 px-4 shadow-csm focus-within:border-blue-primary ${
+		class={`flex w-full flex-row rounded border-2 border-grey-line px-4 py-3 shadow-csm focus-within:border-blue-primary ${
 			classes.container
 		} ${!pattern.test(value.toString()) || error ? classes.error : ''}`}
 	>

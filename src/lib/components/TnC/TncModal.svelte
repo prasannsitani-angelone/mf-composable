@@ -19,7 +19,7 @@
 			class="flex h-full w-screen flex-col rounded-b-none bg-white text-black-title shadow-csm md:h-96 md:w-5/6 md:animate-none md:rounded-lg"
 		>
 			<slot name="heading">
-				<div class="flex items-center justify-between px-4 pt-6 md:py-6 md:px-8">
+				<div class="flex items-center justify-between px-4 pt-6 md:px-8 md:py-6">
 					<div>
 						<span class="mr-1 text-xl"> Terms and Conditions </span>
 					</div>

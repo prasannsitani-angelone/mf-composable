@@ -85,7 +85,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <Modal closeModal={backdropClick} isModalOpen>
 	<div
-		class="w-screen items-stretch rounded-t-2xl rounded-b-none bg-white max-sm:!p-0 sm:!w-[460px] sm:rounded-lg"
+		class="w-screen items-stretch rounded-b-none rounded-t-2xl bg-white max-sm:!p-0 sm:!w-[460px] sm:rounded-lg"
 	>
 		<div class="flex items-center justify-between border-b border-grey-line px-8">
 			<p class="py-6 text-xl font-medium text-black-title">
@@ -107,7 +107,7 @@
 							<span class="text-base font-medium text-black-title">{displayFromDate}</span>
 						{:else}
 							<span class="text-base font-medium text-grey-disabled">DD/MM/YYYY</span>{/if}
-						<CalendarIcon class="ml-auto mb-1" />
+						<CalendarIcon class="mb-1 ml-auto" />
 					</div>
 				</div>
 				<div class="w-1/2">
@@ -121,7 +121,7 @@
 						{:else}
 							<span class="text-base font-medium text-grey-disabled">DD/MM/YYYY</span>
 						{/if}
-						<CalendarIcon class="ml-auto mb-1" />
+						<CalendarIcon class="mb-1 ml-auto" />
 					</div>
 				</div>
 			</div>
@@ -165,7 +165,7 @@
 							isDownloadEnabled && !buttonDisabled
 								? 'border border-blue-primary bg-white text-blue-primary'
 								: ''
-						} ${buttonDisabled ? 'border border-grey-disabled !border-grey-line !bg-white' : ''} ${
+						} ${buttonDisabled ? 'border !border-grey-line border-grey-disabled !bg-white' : ''} ${
 							!isDownloadEnabled ? 'flex-1' : ''
 						}`}
 						onClick={() =>

@@ -48,13 +48,13 @@
 	on:click={onClick}
 >
 	{#if startAdornment}
-		<span class="float-left mt-1 mr-2">
+		<span class="float-left mr-2 mt-1">
 			<svelte:component this={startAdornment} />
 		</span>
 	{/if}
 	<slot />
 	{#if endAdornment}
-		<span class="float-right mt-1 ml-2">
+		<span class="float-right ml-2 mt-1">
 			<svelte:component this={endAdornment} />
 		</span>
 	{/if}

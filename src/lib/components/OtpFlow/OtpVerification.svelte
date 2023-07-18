@@ -268,10 +268,10 @@
 	{#if !showAboutOrderVerificationModal && !loadingState.isLoading && !error?.visible}
 		<Modal isModalOpen={true} on:backdropclicked={closeOtpActionModal}>
 			<div
-				class="flex w-screen flex-col rounded-t-2xl rounded-b-none bg-white shadow-csm md:w-120 md:rounded-lg"
+				class="flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white shadow-csm md:w-120 md:rounded-lg"
 			>
 				<slot name="heading">
-					<div class="flex items-center justify-between py-6 px-4 md:px-8">
+					<div class="flex items-center justify-between px-4 py-6 md:px-8">
 						<div class="flex items-center justify-start">
 							<span class="mr-1 text-lg md:text-xl"> Verify Order with OTP </span>
 							<WMSIcon
@@ -417,7 +417,7 @@
 			popupType="FAILURE"
 			title={error.heading}
 			text={error.subHeading}
-			class="w-full rounded-t-2xl rounded-b-none p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+			class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
 			isModalOpen
 			handleButtonClick={onErrorTryAgain}
 			closeModal={onErrorTryAgain}

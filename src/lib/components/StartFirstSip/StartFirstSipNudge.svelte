@@ -30,7 +30,7 @@
 </script>
 
 <article
-	class="mb-2 rounded-lg bg-white py-3 px-4 text-black-title shadow-csm"
+	class="mb-2 rounded-lg bg-white px-4 py-3 text-black-title shadow-csm"
 	data-testid="startFirstSipNudge"
 >
 	<div class="text-lg font-medium">Start your Investment Journey</div>

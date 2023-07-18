@@ -33,12 +33,12 @@
 					width="96"
 					height="96"
 					alt="arq rating icon"
-					class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform"
+					class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform"
 					loading="lazy"
 				/>
 
 				<div
-					class="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 transform items-center justify-center text-xl font-bold text-black-title"
+					class="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform items-center justify-center text-xl font-bold text-black-title"
 				>
 					{schemeDetails?.arqRating}
 					<div class="rating gap-1">
@@ -53,7 +53,7 @@
 		</section>
 		<section class="w-full">
 			<h4
-				class="rounded py-2 px-4 text-center text-xs font-medium text-grey-body lg:bg-grey lg:text-left"
+				class="rounded px-4 py-2 text-center text-xs font-medium text-grey-body lg:bg-grey lg:text-left"
 			>
 				Ratings By Other Agencies
 			</h4>

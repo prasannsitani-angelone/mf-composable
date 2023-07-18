@@ -92,7 +92,7 @@
 	>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<article
-			class="w-full cursor-default rounded-t-2xl bg-white pt-6 pb-8 md:w-120 md:rounded-lg"
+			class="w-full cursor-default rounded-t-2xl bg-white pb-8 pt-6 md:w-120 md:rounded-lg"
 			on:click={(e) => {
 				e.stopPropagation();
 			}}

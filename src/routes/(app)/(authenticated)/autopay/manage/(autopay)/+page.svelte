@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button } from 'svelte-components';
+	import Button from '$components/Button.svelte';
 	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
 	import Card from '$components/Card.svelte';
@@ -21,7 +21,7 @@
 	{#if getSipAmountWithoutMandate(response.nudges) > 0}
 		<Card class="px-2 pb-6 pt-4">
 			<RiskMessage nudgeData={response.nudges || []} />
-			<AutopayIllustration class="flex justify-center" />
+			<AutopayIllustration class="mt-5 flex justify-center" />
 			<section class=" m-auto text-center text-2xl font-medium text-black-title">
 				<div>Automate your SIP</div>
 				<div>Payments with Autopay</div>
@@ -36,7 +36,7 @@
 					You already have existing autopay setup from your account.<br /><br /> You can still manage
 					your autopay.
 				</div>
-				<Button class="mt-8" variant="outlined" on:click={navigateToAutopayDashboard}
+				<Button class="mt-8" variant="outlined" onClick={navigateToAutopayDashboard}
 					>Manage Autopay</Button
 				>
 			</div></Card

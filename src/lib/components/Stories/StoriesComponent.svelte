@@ -350,14 +350,14 @@
 
 						<img
 							src={selectedStory?.imageThumbnailUrl}
-							class="absolute top-4 left-4 h-12 w-12 rounded-full object-cover text-lg font-medium text-white shadow-csm"
+							class="absolute left-4 top-4 h-12 w-12 rounded-full object-cover text-lg font-medium text-white shadow-csm"
 							alt="video thumbnail"
 							width="48"
 							height="48"
 						/>
 
 						<button
-							class="absolute top-5 right-0 pb-2 pt-3 pl-2 pr-4 md:cursor-pointer"
+							class="absolute right-0 top-5 pb-2 pl-2 pr-4 pt-3 md:cursor-pointer"
 							on:click={() => crossButtonClicked()}
 						>
 							<WMSIcon width={14} height={14} name="cross-close" />

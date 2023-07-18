@@ -22,7 +22,7 @@
 				<SkeletonRectangle class="!h-4 w-40" />
 			</div>
 		</div>
-		<div class="border-b sm:flex sm:items-center sm:pr-12 sm:pl-4">
+		<div class="border-b sm:flex sm:items-center sm:pl-4 sm:pr-12">
 			<SkeletonRectangle class="!h-4 w-8" />
 		</div>
 	</div>
@@ -51,7 +51,7 @@
 					<SkeletonRectangle class="!h-4 w-40" />
 				</div>
 			</div>
-			<div class="flex sm:h-full sm:items-center sm:pr-12 sm:pl-4">
+			<div class="flex sm:h-full sm:items-center sm:pl-4 sm:pr-12">
 				<SkeletonRectangle class="!h-4 w-8" />
 			</div>
 		</div>

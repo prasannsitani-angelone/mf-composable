@@ -157,7 +157,7 @@
 		<THead slot="thead">
 			{#each table.columns as eachCol}
 				<Th
-					class={`text-start capitalize max-sm:pr-1 max-sm:pl-4 ${table.columnClasses || ''} ${
+					class={`text-start capitalize max-sm:pl-4 max-sm:pr-1 ${table.columnClasses || ''} ${
 						eachCol.columnClasses || ''
 					}`}
 					thStyle="{eachCol.thStyle || ''},"

@@ -85,7 +85,7 @@
 			<div class="mb-4 mt-2 flex flex-row justify-between">
 				<div class="flex w-9/12 flex-row">
 					<div
-						class="mr-3 ml-2 flex h-5 w-[30px] items-center justify-center rounded-sm border border-grey-line bg-white"
+						class="ml-2 mr-3 flex h-5 w-[30px] items-center justify-center rounded-sm border border-grey-line bg-white"
 					>
 						<img src={bankLogo} class="h-3 w-3" alt="bank logo" />
 					</div>

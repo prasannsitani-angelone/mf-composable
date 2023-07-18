@@ -28,7 +28,7 @@
 		</div>
 	{/if}
 	{#if subHeadingArr && subHeadingArr.length > 0}
-		<div class={`mt-2 flex w-full flex-col gap-2 py-2 px-6 text-sm ${subHeaderClass}`}>
+		<div class={`mt-2 flex w-full flex-col gap-2 px-6 py-2 text-sm ${subHeaderClass}`}>
 			{#each subHeadingArr as subHeading, i}
 				<div class="flex flex-row justify-center">
 					{#if subHeadingArr.length > 1}

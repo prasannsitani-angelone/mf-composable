@@ -22,7 +22,7 @@
 	];
 </script>
 
-<div class="flex flex-col items-center px-4 pt-8 pb-2 md:w-1/2 md:justify-center md:py-14">
+<div class="flex flex-col items-center px-4 pb-2 pt-8 md:w-1/2 md:justify-center md:py-14">
 	<img src={`${base}/images/AngelOneLogo.webp`} class="mb-6 w-36 md:mb-14" alt="Angelone logo" />
 	<CarouselNative autoplay={true} carouselClass="w-full">
 		{#each carouselItems as item, index (index)}

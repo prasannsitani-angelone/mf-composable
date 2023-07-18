@@ -48,7 +48,7 @@
 			class=" fixed left-0 right-0 mx-auto flex w-fit max-w-[95vw] items-center justify-around rounded-md px-4 py-6 text-white max-sm:w-full sm:p-4 {toast.type ===
 			'ERROR'
 				? 'bg-red-errorDark'
-				: ''} {toast.type === 'SUCCESS' ? 'bg-black-title' : ''}"
+				: ''} {toast.type === 'SUCCESS' ? 'bg-black-title' : ''} {toast.class || ''}"
 			style={getComputedBottom(index)}
 		>
 			<div class="sm:pr-10">{toast.message}</div>

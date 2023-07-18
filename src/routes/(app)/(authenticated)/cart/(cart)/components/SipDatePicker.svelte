@@ -125,7 +125,7 @@
 				</svelte:fragment>
 
 				<svelte:fragment slot="footer">
-					<section class="hidden flex-row justify-center rounded-b-lg bg-gray-50 py-4 px-8 md:flex">
+					<section class="hidden flex-row justify-center rounded-b-lg bg-gray-50 px-8 py-4 md:flex">
 						<p class="text-center text-sm font-light text-grey-body">
 							It is the day on which the amount payable towards your SIP order becomes due. The day
 							on which SIP instalments are paid is called SIP day.

@@ -8,7 +8,7 @@
 
 <Modal {isModalOpen} on:backdropclicked={toggleSchemeIformationModal}>
 	<article
-		class="h-[70vh] overflow-x-scroll rounded-t-2xl bg-white px-6 pt-6 pb-8 md:w-120 md:rounded-lg"
+		class="h-[70vh] overflow-x-scroll rounded-t-2xl bg-white px-6 pb-8 pt-6 md:w-120 md:rounded-lg"
 	>
 		<header
 			class="mb-3 flex justify-center align-middle text-lg font-medium text-black-title md:text-xl"
@@ -17,7 +17,7 @@
 			<Button
 				class="ml-auto flex h-max !w-3 justify-center
                rounded-full border border-grey-disabled !bg-white
-                !pt-0 !pb-0 !pl-[10px] !pr-[10px] align-middle !text-black-title"
+                !pb-0 !pl-[10px] !pr-[10px] !pt-0 align-middle !text-black-title"
 				onClick={toggleSchemeIformationModal}
 			>
 				<span class="text-grey-body">X</span>

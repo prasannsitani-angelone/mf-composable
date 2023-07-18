@@ -26,7 +26,7 @@
 					{taxImplications[0]?.value}
 				</h5>
 				<div
-					class="absolute right-0 top-1/2 h-4 w-4 translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-green-buy"
+					class="absolute right-0 top-1/2 h-4 w-4 -translate-y-1/2 translate-x-1/2 rounded-full border-4 border-green-buy"
 				/>
 			</div>
 

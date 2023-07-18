@@ -13,7 +13,7 @@
 	<!-- AUM -->
 	<section class="flex flex-col gap-4 p-4 pt-0 lg:flex-row">
 		<article
-			class="flex-grow basis-0 rounded border-b border-grey-line bg-white py-4 px-3 lg:border lg:bg-grey"
+			class="flex-grow basis-0 rounded border-b border-grey-line bg-white px-3 py-4 lg:border lg:bg-grey"
 		>
 			<div
 				class="mb-3 flex h-6 w-6 justify-center rounded-full bg-blue-primary align-middle leading-6 text-white"
@@ -27,7 +27,7 @@
 	<!-- Expense Ratio  -->
 	<section class="flex flex-col gap-4 p-4 pt-0 lg:flex-row">
 		<article
-			class="flex-grow basis-0 rounded border-b border-grey-line bg-white py-4 px-3 lg:border lg:bg-grey"
+			class="flex-grow basis-0 rounded border-b border-grey-line bg-white px-3 py-4 lg:border lg:bg-grey"
 		>
 			<div
 				class="mb-3 flex h-6 w-6 justify-center rounded-full bg-blue-primary align-middle leading-6 text-white"
@@ -44,7 +44,7 @@
 	<!-- Exit Load -->
 	<section class="flex flex-col gap-4 p-4 pt-0 lg:flex-row">
 		<article
-			class="flex-grow basis-0 rounded border-b border-grey-line bg-white py-4 px-3 lg:border lg:bg-grey"
+			class="flex-grow basis-0 rounded border-b border-grey-line bg-white px-3 py-4 lg:border lg:bg-grey"
 		>
 			<ExitLoadIcon />
 			<h3 class="mb-1 mt-3 text-xs font-medium text-grey-body">Exit Load</h3>

@@ -24,7 +24,7 @@
 	</div>
 	<div
 		slot="accordionBody"
-		class="flex flex-col border-t border-grey-line px-4 pt-1 pb-1 sm:flex-row sm:pt-3 sm:pb-3"
+		class="flex flex-col border-t border-grey-line px-4 pb-1 pt-1 sm:flex-row sm:pb-3 sm:pt-3"
 	>
 		{#each statusHistoryItems as item, index}
 			<StatusTile {item} {index} itemsCount={statusHistoryItems.length} />

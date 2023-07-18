@@ -122,7 +122,7 @@
 								{:else}
 									<span class="text-base font-medium text-grey-disabled">DD/MM/YYYY</span>
 								{/if}
-								<CalendarIcon class="ml-auto mb-1" />
+								<CalendarIcon class="mb-1 ml-auto" />
 							</div>
 							{#if showCalendar}
 								<SingleDatepicker
@@ -160,7 +160,7 @@
 						{:else}
 							<span class="text-base font-medium text-grey-disabled">DD/MM/YYYY</span>
 						{/if}
-						<CalendarIcon class="ml-auto mb-1" />
+						<CalendarIcon class="mb-1 ml-auto" />
 					</div>
 				</section>
 			</svelte:fragment>

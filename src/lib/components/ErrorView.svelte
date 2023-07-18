@@ -33,7 +33,7 @@
 	</slot>
 
 	<slot name="content">
-		<div class="mt-2 mb-4 text-center text-sm font-normal text-grey-body">
+		<div class="mb-4 mt-2 text-center text-sm font-normal text-grey-body">
 			{contentLine}
 		</div>
 	</slot>

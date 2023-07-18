@@ -112,7 +112,7 @@
 </script>
 
 <article
-	class="flex w-full flex-col rounded-t-2xl rounded-b-none bg-white px-5 pt-8 pb-3 text-black-key shadow-clg md:rounded-lg {$$props?.class}"
+	class="flex w-full flex-col rounded-b-none rounded-t-2xl bg-white px-5 pb-3 pt-8 text-black-key shadow-clg md:rounded-lg {$$props?.class}"
 >
 	<div class="text-center text-2xl font-medium">You are missing out on potential returns!</div>
 
@@ -152,7 +152,7 @@
 					<WMSIcon width={16} height={16} name="info-in-circle-dark" />
 				</div>
 				<div
-					class="absolute z-10 mt-1 -ml-[214px] hidden transform rounded bg-black-title text-sm text-white shadow-lg group-hover:block"
+					class="absolute z-10 -ml-[214px] mt-1 hidden transform rounded bg-black-title text-sm text-white shadow-lg group-hover:block"
 				>
 					<div class="absolute -top-1 right-3 -translate-x-0.5 transform">
 						<div class="h-2 w-2 rotate-45 transform bg-black-title" />
@@ -183,7 +183,7 @@
 							<BigDotIcon class="mr-1" />
 							<div>{point?.title}</div>
 						</section>
-						<div class="mt-1 ml-2">{point?.detail}</div>
+						<div class="ml-2 mt-1">{point?.detail}</div>
 					</article>
 				{/each}
 			</section>

@@ -48,7 +48,7 @@
 				<div class="mb-20 text-4xl sm:mb-6">
 					{`₹${addCommasToAmountString(amount)}`}
 				</div>
-				<div class="flex w-max flex-col justify-center rounded bg-grey py-3 px-8">
+				<div class="flex w-max flex-col justify-center rounded bg-grey px-8 py-3">
 					<div class="mb-2 text-center text-xs text-black-title sm:text-grey-body">
 						Approve Payment Within
 					</div>

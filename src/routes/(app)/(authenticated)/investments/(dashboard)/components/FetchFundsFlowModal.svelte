@@ -141,11 +141,11 @@
 
 <Modal closeModal={onModalClick} isModalOpen>
 	<div
-		class="w-screen rounded-t-2xl rounded-b-none bg-white px-4 pb-3 pt-6 sm:!w-[460px] sm:rounded-lg sm:p-0 sm:pb-6"
+		class="w-screen rounded-b-none rounded-t-2xl bg-white px-4 pb-3 pt-6 sm:!w-[460px] sm:rounded-lg sm:p-0 sm:pb-6"
 	>
 		{#if step === 'GENERATE'}
 			<!-- Render Generate OTP contents -->
-			<div class="flex items-center justify-between p-0 sm:border-b sm:py-6 sm:px-8">
+			<div class="flex items-center justify-between p-0 sm:border-b sm:px-8 sm:py-6">
 				<div class="mr-1 text-xl font-medium">Generate OTP</div>
 				<button class="hidden sm:block md:cursor-pointer" on:click={onModalClick}>
 					<WMSIcon name="cross-circle" />
@@ -153,7 +153,7 @@
 			</div>
 			<div class="text-center sm:px-8">
 				<div
-					class="mt-3 mb-10 text-left text-sm font-normal text-grey-body sm:mt-5 sm:mb-11 sm:text-base"
+					class="mb-10 mt-3 text-left text-sm font-normal text-grey-body sm:mb-11 sm:mt-5 sm:text-base"
 				>
 					You will receive an OTP from MFCentral on <span class="font-medium text-black-title"
 						>{getMaskedMobileNumber(data.profile.mobile)}</span
@@ -165,7 +165,7 @@
 			</div>
 		{:else if step === 'VALIDATE' && stepIsValidate()}
 			<!-- Render Validate OTP contents -->
-			<div class="flex items-center justify-between p-0 sm:border-b sm:py-6 sm:px-8">
+			<div class="flex items-center justify-between p-0 sm:border-b sm:px-8 sm:py-6">
 				<div class="mr-1 text-lg font-medium">Verify OTP</div>
 				<button class="hidden sm:block md:cursor-pointer" on:click={onModalClick}>
 					<WMSIcon name="cross-circle" />
@@ -179,7 +179,7 @@
 				}}
 			>
 				<div
-					class="mt-3 mb-8 text-left text-sm font-normal text-grey-body sm:mt-5 sm:mb-11 sm:text-base"
+					class="mb-8 mt-3 text-left text-sm font-normal text-grey-body sm:mb-11 sm:mt-5 sm:text-base"
 				>
 					By verifying the OTP, you are allowing Angel One to fetch all mutual funds investment
 					information mapped to your <span class="font-medium text-black-title"
@@ -206,7 +206,7 @@
 			{/if}
 		{:else if step === 'SUCCESS'}
 			<!-- Render OTO Success contents -->
-			<div class="flex flex-col items-center justify-between sm:px-16 sm:pt-10 sm:pb-4">
+			<div class="flex flex-col items-center justify-between sm:px-16 sm:pb-4 sm:pt-10">
 				{#if flow === 'REFRESH'}
 					<div class=""><WMSIcon width={92} height={92} name="clock-green" /></div>
 					<div class=" mt-6 text-xl">Refreshing Your Portfolio</div>

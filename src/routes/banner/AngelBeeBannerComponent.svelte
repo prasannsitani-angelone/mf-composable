@@ -29,7 +29,7 @@
 			Simply log in with your <b>Angel One registered mobile number</b> to access all existing holdings
 		</div>
 		<a href={getRedirectUrl()}>
-			<div class="text-medium mt-4 rounded bg-blue-primary py-4 px-4 text-center text-white">
+			<div class="text-medium mt-4 rounded bg-blue-primary px-4 py-4 text-center text-white">
 				EXPLORE NOW
 			</div>
 		</a>

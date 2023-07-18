@@ -52,3 +52,7 @@ export interface AutopayDetailsType {
 	authenticationMode: string;
 	remarks: string;
 }
+
+export interface MandateWithBankDetails extends AutopayTypes {
+	bankLogo: string;
+}

@@ -10,7 +10,7 @@
 </script>
 
 <section
-	class="flex justify-center rounded-full bg-red-light px-3 py-2 text-red-errorDark {$$props.class ||
+	class="mx-5 flex justify-center rounded-full bg-red-light px-3 py-2 text-red-errorDark {$$props.class ||
 		''}"
 >
 	<div class=" text-base font-semibold">

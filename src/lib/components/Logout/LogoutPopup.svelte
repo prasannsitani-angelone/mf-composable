@@ -23,11 +23,11 @@
 
 <Modal closeModal={hideAttemptLogoutConfirmationPopup} isModalOpen>
 	<div
-		class="animate-bottomTransition flex w-full flex-col items-center justify-between overflow-y-auto rounded-t-2xl rounded-b-none bg-white shadow-clg sm:w-120 sm:animate-none sm:rounded-lg md:rounded-lg"
+		class="animate-bottomTransition flex w-full flex-col items-center justify-between overflow-y-auto rounded-b-none rounded-t-2xl bg-white shadow-clg sm:w-120 sm:animate-none sm:rounded-lg md:rounded-lg"
 	>
 		<div class="w-full">
 			<div
-				class="px-4 pt-6 pb-2 text-lg font-medium text-black-title sm:border-b sm:py-6 sm:px-8 sm:text-xl"
+				class="px-4 pb-2 pt-6 text-lg font-medium text-black-title sm:border-b sm:px-8 sm:py-6 sm:text-xl"
 			>
 				Log out from Angel One?
 			</div>

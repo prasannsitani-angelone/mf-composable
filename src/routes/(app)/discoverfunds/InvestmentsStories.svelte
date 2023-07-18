@@ -47,7 +47,7 @@
 	];
 </script>
 
-<article class="flex overflow-scroll bg-white py-3 px-4">
+<article class="flex overflow-scroll bg-white px-4 py-3">
 	{#each stories || [] as story}
 		<div class="mr-8 flex flex-col">
 			<label for="story-modal">

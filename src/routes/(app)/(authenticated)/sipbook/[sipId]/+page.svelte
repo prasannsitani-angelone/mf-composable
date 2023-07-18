@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import BankAutopayCard from '$components/mandate/components/BankAutopayCard.svelte';
 	import InvalidUrl from '$components/Error/InvalidUrl.svelte';
 	import NudgeComponent from '$components/Nudge/NudgeComponent.svelte';
@@ -17,12 +18,19 @@
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import ConfirmationPopup from '$components/Popup/ConfirmationPopup.svelte';
+	import { getEmandateDataFunc } from '$components/Payment/api';
+	import DiscoverFundsNudge from '$components/Nudge/DiscoverFundsNudge.svelte';
+
+	import { toastStore } from '$lib/stores/ToastStore';
+	import { nudgeClick, nudgeImpression } from '$lib/analytics/DiscoverFunds';
 	import {
 		getDateTimeProperties,
 		getDateTimeString,
 		getNextMonthDate
 	} from '$lib/utils/helpers/date';
 	import SipDetailLoader from './SipDetailLoader.svelte';
+	import SkeletonRectangle from '$components/Skeleton/SkeletonRectangle.svelte';
+	import SkeletonWrapper from '$components/Skeleton/SkeletonWrapper.svelte';
 	import {
 		cancelSipButtonClickAnalytics,
 		sipCancelConfirmationModalOpenAnalytics,
@@ -35,8 +43,14 @@
 		skipSipModalButtonClickAnalytics,
 		skipSipSkippedSuccessModalOpenAnalytics
 	} from '$lib/analytics/sipbook/sipbook';
+	import AutopaySelectionPopup from '$components/AutopaySelectionPopup.svelte';
 	import type { ISip } from '$lib/types/ISipType';
 	import { SEO } from 'svelte-components';
+	import WmsIcon from '$components/WMSIcon.svelte';
+	import type { BankDetailsEntity } from '$lib/types/IUserProfile';
+	import type { IInvestmentTypeSIP } from '$lib/types/ISipType';
+	import type { MandateWithBankDetails } from '$lib/types/IEmandate';
+
 	$: bankDetails = $profileStore?.bankDetails;
 	let showCancelSipActionModal = false;
 	let showSuccessModal = false;
@@ -48,6 +62,96 @@
 	let disableConfirmSkipSip = false;
 	$: bottomHeight = 128;
 	const maxTransactionsCap = 6;
+
+	let showAutopaySelectionLoader = false;
+	let mandateList: MandateWithBankDetails[] = [];
+	let selectedMandate: MandateWithBankDetails;
+	let bankPopupVisible = false;
+
+	$: profileData = $page?.data?.profile;
+
+	const bankAccNumToLogoMap = () => {
+		const accNumToLogoMap = {};
+		const bankList = profileData.bankDetails;
+
+		(bankList || []).forEach((bank: BankDetailsEntity) => {
+			accNumToLogoMap[bank.accNO] = bank.bankLogo;
+		});
+
+		return accNumToLogoMap;
+	};
+
+	const getAllMandates = (madateMap: { [propKey: string]: MandateWithBankDetails }) => {
+		const all = (Object.values(madateMap) || []).flat();
+		return all;
+	};
+
+	const createMandateWithBankList = async (sipData: IInvestmentTypeSIP) => {
+		if (mandateList && Array.isArray(mandateList) && mandateList.length > 0) {
+			return mandateList;
+		}
+		const accNumToLogoMap = bankAccNumToLogoMap();
+		const emandateResponse = await getEmandateDataFunc({
+			amount: sipData?.installmentAmount,
+			sipDate: new Date(sipData.nextSipDueDate)
+		});
+		mandateList = getAllMandates(emandateResponse?.data);
+		mandateList = mandateList.map((mandate) => {
+			const updatedMandate = {
+				...mandate,
+				bankLogo: accNumToLogoMap[mandate.accountNo]
+			};
+			if (sipData.mandateRefId === mandate.mandateId) {
+				selectedMandate = updatedMandate;
+			}
+			return updatedMandate;
+		});
+		return mandateList;
+	};
+
+	const orderPurchasePatchFunc = async (emandateId: string, sipID: number) => {
+		showAutopaySelectionLoader = true;
+		try {
+			const url = `${PUBLIC_MF_CORE_BASE_URL}/sips/${sipID}`;
+			const res = await useFetch(url, {
+				method: 'PATCH',
+				body: JSON.stringify({
+					emandateId
+				})
+			});
+			showAutopaySelectionLoader = false;
+			hideAutopaySelectionPopup();
+			if (res.data?.status === 'success') {
+				toastStore.updateToastQueue({
+					type: 'SUCCESS',
+					message: 'Autopay linked.',
+					class: '!justify-start'
+				});
+				invalidate('skipsip');
+			} else {
+				toastStore.updateToastQueue({
+					type: 'SUCCESS',
+					message: 'Unable to link autopay. Try again after sometime.',
+					class: '!justify-start'
+				});
+			}
+		} catch (e) {
+			return;
+		} finally {
+			showAutopaySelectionLoader = false;
+		}
+	};
+
+	const onAccountChange = async (selected: MandateWithBankDetails, sipData: IInvestmentTypeSIP) => {
+		await orderPurchasePatchFunc(selected?.mandateId, sipData?.sipId);
+	};
+
+	const showAutopaySelectionPopup = () => {
+		bankPopupVisible = true;
+	};
+	const hideAutopaySelectionPopup = () => {
+		bankPopupVisible = false;
+	};
 
 	const toggleShowCancelSipActionModal = () => {
 		showCancelSipActionModal = !showCancelSipActionModal;
@@ -148,6 +252,18 @@
 		sipCancelledSuccessModalDoneButtonClickAnalytics();
 		goto(`${base}/sipbook/dashboard`);
 	};
+
+	const onAction = () => {
+		showAutopaySelectionPopup();
+	};
+
+	const linkSipNudgeDescription =
+		'Linking your SIP with an existing autopay will automate all your future instalments for this SIP.';
+	const setupNudgeDescription =
+		'Set up an eMandate with your bank to enable Autopay. This is a one-time process';
+	const setupAutopayHeading = 'SET UP AUTOPAY';
+	const linkAutopayHeading = 'LINK AUTOPAY';
+
 	export let data: PageData;
 </script>
 
@@ -160,6 +276,27 @@
 {:then sipData}
 	{#if sipData}
 		<article class="mb-36">
+			{#if !sipData?.mandateRefId}
+				{#await createMandateWithBankList(sipData)}
+					...
+				{:then mandateList}
+					{@const nudgeData = {
+						description: mandateList.length > 0 ? linkSipNudgeDescription : setupNudgeDescription,
+						heading: 'Automate Future SIP Payments',
+						link: '/autopay/manage',
+						linkHeading: mandateList.length > 0 ? linkAutopayHeading : setupAutopayHeading,
+						type: 'warn'
+					}}
+					<DiscoverFundsNudge
+						nudge={nudgeData}
+						onAction={mandateList.length > 0 ? () => onAction() : null}
+						clickEvent={nudgeClick}
+						impressionEvent={nudgeImpression}
+						class="mb-2 sm:mt-4"
+					/>
+				{/await}
+			{/if}
+
 			<SipDetailsBasic
 				schemeName={sipData?.schemeName}
 				schemePlan={sipData?.schemePlan}
@@ -179,7 +316,45 @@
 					bankName={sipData?.bankName}
 					bankLogo={getBankLogoUrl(bankDetails, sipData?.accountNo)}
 					class="mt-2"
-				/>
+				>
+					<svelte:fragment slot="footer">
+						{#await createMandateWithBankList(sipData)}
+							<SkeletonWrapper class=" mt-2 flex justify-end border-t pt-3">
+								<SkeletonRectangle class="h-4 w-24" />
+							</SkeletonWrapper>
+						{:then mandateList}
+							{#if mandateList.length > 1}
+								<div class=" mt-2 border-t pt-1 text-right">
+									<Button
+										onClick={() => showAutopaySelectionPopup()}
+										variant="transparent"
+										size="xs"
+										class="!h-auto min-h-fit !px-0 text-xs font-semibold text-blue-primary"
+										>SWITCH AUTOPAY</Button
+									>
+								</div>
+							{/if}
+						{/await}
+					</svelte:fragment>
+				</BankAutopayCard>
+			{/if}
+
+			{#if bankPopupVisible}
+				<AutopaySelectionPopup
+					{mandateList}
+					{selectedMandate}
+					onMandateChange={(choosenMandate) => onAccountChange(choosenMandate, sipData)}
+					onClose={hideAutopaySelectionPopup}
+					class=" relative"
+				>
+					<svelte:fragment slot="loader">
+						{#if showAutopaySelectionLoader}
+							<div class="absolute inset-0 flex items-center justify-center">
+								<WmsIcon class=" !h-24 !w-24" name="loading-indicator" />
+							</div>
+						{/if}
+					</svelte:fragment>
+				</AutopaySelectionPopup>
 			{/if}
 
 			<SipHistory

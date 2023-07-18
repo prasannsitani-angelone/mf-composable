@@ -20,8 +20,8 @@
 			<div class=""><WmsIcon width={92} height={92} name="success-tick-circle" /></div>
 			<div class=" my-4 text-2xl font-medium text-black-title">Autopay Registered</div>
 			<div class="mb-5 text-center text-sm font-normal text-grey-body">
-				Autopay activation is in progress. It may take up to 7 days. Future SIP payments will be
-				automatically debited post activation.
+				Autopay activation is in progress. It may take up to 7 days. Existing unliked and Future SIP
+				payments will be automatically debited post activation.
 			</div>
 			<div
 				class=" mb-4 flex w-full items-center justify-center rounded bg-blue-background px-6 py-2"
