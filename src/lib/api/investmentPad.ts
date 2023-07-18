@@ -2,7 +2,7 @@ import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { useFetch } from '$lib/utils/useFetch';
 
 export const checkRequestIdExpired = async (linkSource?: string, linkRequestId?: string) => {
-	const allowedSources = ['sales', 'dealerdashboard'];
+	const allowedSources = ['sales', 'dealerdashboard', 'support'];
 
 	const source = linkSource?.toLowerCase() || '';
 	const xRequestId = linkRequestId;
@@ -26,9 +26,6 @@ export const checkRequestIdExpired = async (linkSource?: string, linkRequestId?:
 	}
 */
 
-	if (!response.ok) {
-		return false;
-	}
 	try {
 		return response.data?.status === 'failure';
 	} catch (e) {
