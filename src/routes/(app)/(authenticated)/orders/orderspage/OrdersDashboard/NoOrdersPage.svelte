@@ -2,7 +2,7 @@
 	import Link from '$components/Link.svelte';
 	import NoOrders from '$components/NoOrders.svelte';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
-	import TrendingFunds from '../../../../discoverfunds/TrendingFunds/TrendingFunds.svelte';
+	import TrendingFunds from '$components/TrendingFunds/TrendingFunds.svelte';
 	import type { PageData } from '../../../../../$types';
 	let data: PageData;
 	const classes = {

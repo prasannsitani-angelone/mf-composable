@@ -11,7 +11,7 @@
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import ErrorLoadingComponent from '$components/ErrorLoadingComponent.svelte';
 
-	import TrendingFunds from '../../../discoverfunds/TrendingFunds/TrendingFunds.svelte';
+	import TrendingFunds from '$components/TrendingFunds/TrendingFunds.svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;

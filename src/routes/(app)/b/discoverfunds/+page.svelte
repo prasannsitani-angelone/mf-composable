@@ -30,10 +30,10 @@
 	import PromotionCard from '$components/Promotions/PromotionCard.svelte';
 	import { SEO } from 'svelte-components';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
-	import { onMount, tick } from 'svelte';
+	import { onDestroy, onMount, tick } from 'svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
-	import TrendingFunds from '../../discoverfunds/TrendingFunds/TrendingFunds.svelte';
+	import TrendingFunds from '$components/TrendingFunds/TrendingFunds.svelte';
 	import ExploreScheme from '../../discoverfunds/ExploreScheme/ExploreScheme.svelte';
 	import ExternalFundsNfoCalculatorCard from '../../discoverfunds/ExternalFundsNfoCalculatorCard/ExternalFundsNfoCalculatorCard.svelte';
 	import FailedOrdersNudge from '../../discoverfunds/FailedOrdersNudge.svelte';
@@ -45,6 +45,8 @@
 		storiesDataObjectWithoutUrls,
 		videoCtaList
 	} from '$components/Stories/utils';
+	import { exitNudgeStore } from '$lib/stores/ExitNudgeStore';
+	import { browser } from '$app/environment';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -161,6 +163,7 @@
 		(nudgesData?.nudges || [])?.forEach((item) => {
 			if (item?.nudgesType === 'CREATE_YOUR_FIRST_SIP') {
 				startFirstSipNudgeData = item;
+				exitNudgeStore.hasNudgeData(true);
 			}
 		});
 	};
@@ -201,6 +204,17 @@
 			setRetryPaymentNudgesData(nudgeData);
 			setStartFirstSipNudgeData();
 		});
+	});
+
+	onDestroy(() => {
+		if (browser) {
+			exitNudgeStore.setShown();
+		}
+	});
+
+	let showExitNudge = false;
+	exitNudgeStore.subscribe((store) => {
+		showExitNudge = store.showExitNudge;
 	});
 
 	export let data: PageData;
@@ -384,3 +398,9 @@
 		/>
 	{/if}
 </article>
+
+<LazyComponent
+	nudgeData={startFirstSipNudgeData}
+	when={showExitNudge}
+	component={async () => await import('$components/ExitNudge/ExitNudgeComponent.svelte')}
+/>

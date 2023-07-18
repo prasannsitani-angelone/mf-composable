@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
-	import TrendingCarouselItems from '../../../../discoverfunds/TrendingFunds/TrendingCarouselItems.svelte';
+	import TrendingCarouselItems from '$components/TrendingFunds/TrendingCarouselItems.svelte';
 	import AmountText from '$components/AmountText.svelte';
 	import InfoModal from '$components/InfoModal.svelte';
 	import DotIcon from '$lib/images/icons/DotIcon.svelte';
