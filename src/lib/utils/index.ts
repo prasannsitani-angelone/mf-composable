@@ -9,6 +9,7 @@ import type { PageParentData } from '../../routes/(app)/schemes/[fund_name]/$typ
 import { appStore } from '$lib/stores/SparkStore';
 import type { LayoutData } from '../../../.svelte-kit/types/src/routes/(app)/$types';
 import type { AutopayTypes } from '$lib/types/IEmandate';
+import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 
 export interface TableColumnToggle {
 	label: string;
@@ -181,6 +182,10 @@ export const getExploreFundsNavigationPath = (option: SearchOptionsEntity) => {
 };
 
 export const getPromotionsNavigationPath = (option: PromotionsEntity) => {
+	const scheme = option.schemeInfo;
+	if (scheme) {
+		return `/schemes/${normalizeFundName(scheme?.schemeName, scheme?.isin, scheme?.schemeCode)}`;
+	}
 	return `/promotions/${option.header?.split(' ').join('-').toLowerCase()}?id=${option.id}`;
 };
 

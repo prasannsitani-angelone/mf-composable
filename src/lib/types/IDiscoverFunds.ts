@@ -2,6 +2,7 @@ export interface DiscoverFund {
 	searchOptions?: SearchOptionsEntity[];
 	weeklyTopSchemes?: WeeklyTopSchemesEntity[] | null;
 	banner?: null;
+	amcData?: PromotionsEntity;
 }
 export interface SearchOptionsEntity {
 	id: string;
@@ -13,6 +14,12 @@ export interface PromotionsEntity {
 	id: string;
 	name: string;
 	uri: string;
+	schemeInfo?: PromotionScheme;
+}
+interface PromotionScheme {
+	schemeCode: string;
+	isin: string;
+	schemeName: string;
 }
 export interface WeeklyTopSchemesEntity {
 	schemeCode: string;
