@@ -20,6 +20,8 @@
 </script>
 
 <section class={`rounded-lg bg-white p-4 pl-2 shadow-csm ${$$props.class}`}>
+	<slot name="header" />
+
 	<article class={cardBodyClass}>
 		<section class="flex items-center justify-between">
 			<section class="flex items-center text-black-title">

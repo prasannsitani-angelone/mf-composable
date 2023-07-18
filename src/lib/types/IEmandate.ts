@@ -29,3 +29,26 @@ export interface AutopayTypes {
 	updatedBy: string;
 	updatedOn: string;
 }
+
+export interface AutopayDetailsType {
+	id: number;
+	mandateId: string;
+	bankName: string;
+	bankBranch: string;
+	ifscCode: string;
+	accountNo: string;
+	mandateStatus: string;
+	subMandateStatus: string;
+	mandateType: string;
+	amount: number;
+	availableAmount: number;
+	mandateRefNo: string;
+	clientCode: string;
+	mandateStartDate: string;
+	mandateEndDate: string;
+	createdFrom: string;
+	createdBy: string;
+	umrnNo: string;
+	authenticationMode: string;
+	remarks: string;
+}

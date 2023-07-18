@@ -5,7 +5,7 @@ import type { PageLoad } from './$types';
 
 export const load = (async ({ fetch }) => {
 	const getMandatesData = async () => {
-		const url = `${PUBLIC_MF_CORE_BASE_URL}/mandates`;
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/mandates?status=success`;
 
 		const res = await useFetch(url, {}, fetch);
 
@@ -21,7 +21,7 @@ export const load = (async ({ fetch }) => {
 
 	return {
 		api: {
-			investment: browser ? getMandatesData() : await getMandatesData()
+			mandateData: browser ? getMandatesData() : await getMandatesData()
 		},
 		layoutConfig: {
 			title: 'Autopay',

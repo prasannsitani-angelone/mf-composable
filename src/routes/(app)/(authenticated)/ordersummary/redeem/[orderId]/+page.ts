@@ -120,9 +120,8 @@ export const load = (async ({ fetch, params }) => {
 
 			statusItems[0].value = format(new Date(createdTs), 'do MMM yyyy');
 
-			const expectedNavDate = statusHistory?.find(
-				(state) => state.status === 'ORDER_SENT_TO_RTA'
-			)?.timeStamp;
+			const expectedNavDate = statusHistory?.find((state) => state.status === 'ORDER_SENT_TO_RTA')
+				?.timeStamp;
 
 			if (transactionType === 'REDEEM' && ExpectedNavDate) {
 				statusItems[1].value = format(new Date(ExpectedNavDate * 1000), 'do MMM yyyy');
@@ -147,9 +146,8 @@ export const load = (async ({ fetch, params }) => {
 			statusItems[4].value = `₹${calculateTransactionCharges(amount?.toString())}`;
 			statusItems[5].value = folioNumber;
 
-			const bankcreditDate = statusHistory?.find(
-				(state) => state.status === 'ORDER_SENT_TO_RTA'
-			)?.timeStamp;
+			const bankcreditDate = statusHistory?.find((state) => state.status === 'ORDER_SENT_TO_RTA')
+				?.timeStamp;
 			statusItems[6].value = format(new Date(bankcreditDate || createdTs), 'do MMM yyyy');
 
 			statusItems[7].value = `<div class="flex flex-col items-end md:items-center"><div>${bankName}</div><div class="text-sm text-grey-body">${
