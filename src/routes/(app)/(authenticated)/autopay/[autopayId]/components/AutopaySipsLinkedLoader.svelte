@@ -4,5 +4,5 @@
 </script>
 
 <SkeletonWrapper>
-	<SkeletonRectangle class="mt-2 mb-2 !h-40 w-full rounded-lg" />
+	<SkeletonRectangle class="mb-2 mt-2 !h-40 w-full rounded-lg" />
 </SkeletonWrapper>

@@ -25,7 +25,7 @@
 	const redirectToAutopayDetails = (mandateId: string) => {
 		const redirectPath = `${base}/autopay/${mandateId}`;
 		goto(redirectPath);
-	}
+	};
 
 	export let data: PageData;
 </script>
@@ -43,7 +43,7 @@
 							//
 						}}
 						role="button"
-						tabindex=0
+						tabindex="0"
 					>
 						<BankAutopayCard
 							bankAccountNumber={mandate?.accountNo}
@@ -73,8 +73,9 @@
 									<div class="flex-1 text-[10px] uppercase">
 										{mandate?.authenticationMode} AUTOPAY
 									</div>
-								<div class="flex-1 truncate text-xs">Autopay ID: {mandate?.mandateId}</div>
-							</svelte:fragment>
+									<div class="flex-1 truncate text-xs">Autopay ID: {mandate?.mandateId}</div>
+								</section></svelte:fragment
+							>
 						</BankAutopayCard>
 					</div>
 				{/each}

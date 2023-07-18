@@ -27,7 +27,7 @@ cleanupOutdatedCaches();
 
 registerRoute(
 	({ request }) => {
-		return request.mode === 'navigate';
+		return request.mode === 'navigate' && request.url.includes('/mutual-funds/discoverfunds');
 	},
 	new StaleWhileRevalidate({
 		cacheName: 'pages',
