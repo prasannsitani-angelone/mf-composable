@@ -3,7 +3,7 @@
 	import DiscoverFundsNudge from '$components/Nudge/DiscoverFundsNudge.svelte';
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import { getBankLogoUrl } from '$lib/utils';
-	import { onMount, tick } from 'svelte';
+	import { onMount } from 'svelte';
 	import type { PageData } from '../../../../$types';
 	import NoSipScreen from './NoSipScreen.svelte';
 	import SipCard from './SipCard.svelte';
@@ -20,8 +20,6 @@
 	import { nudgeClick, nudgeImpression } from '$lib/analytics/DiscoverFunds';
 	import { format } from 'date-fns';
 	import type { INudge } from '$lib/types/INudge';
-	import { invalidate } from '$app/navigation';
-	import Mandate from '$components/mandate/Mandate.svelte';
 
 	const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips`;
 	let showInactiveSipsCta = false;
@@ -32,10 +30,6 @@
 	let bankDetails = profileStore?.bankAccounts();
 	let data: PageData;
 	let nudgeData: INudge[];
-	let mandateInstance: Mandate | null = null;
-	let sipID: string;
-	let amount: string;
-	let orderDate: string;
 	let automatedSipsCount = 0;
 
 	$: sipBookData?.sips?.forEach((sip) => {
@@ -114,18 +108,6 @@
 		sipPaymentDueNudgeImpressionAnalyticsFunc();
 	}
 
-	const refreshPage = async () => {
-		invalidate('app:sipbook');
-	};
-
-	const onAction = async (nudge: INudge) => {
-		sipID = nudge?.data?.sipID;
-		amount = nudge?.data?.amount;
-		orderDate = nudge?.data?.orderDate;
-		await tick();
-		mandateInstance?.startProcess();
-	};
-
 	export { sipBookData, data };
 </script>
 
@@ -149,7 +131,6 @@
 								{#if nudge?.nudgesType === 'mandate'}
 									<DiscoverFundsNudge
 										{nudge}
-										onAction={() => onAction(nudge)}
 										clickEvent={nudgeClick}
 										impressionEvent={nudgeImpression}
 										class="mt-2 sm:mt-4"
@@ -170,7 +151,6 @@
 								{#if nudge?.nudgesType === 'mandate'}
 									<DiscoverFundsNudge
 										{nudge}
-										onAction={() => onAction(nudge)}
 										clickEvent={nudgeClick}
 										impressionEvent={nudgeImpression}
 										class="mt-2 sm:mt-4"
@@ -191,14 +171,6 @@
 				{/if}
 			</Link>
 		</section>
-		<Mandate
-			bind:this={mandateInstance}
-			{sipID}
-			{amount}
-			date={orderDate}
-			successButtonTitle="DONE"
-			onSuccess={refreshPage}
-		/>
 	{:else}
 		<NoSipScreen {data} {showInactiveSipsCta} />
 	{/if}
