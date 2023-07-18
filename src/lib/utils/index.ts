@@ -177,6 +177,25 @@ export const getBanksWithoutMandateList = (
 	return banksWithoutMandate;
 };
 
+export const getBankNameUsingAccountNumber = (
+	bankDetails: BankDetailsEntity[] | null | undefined,
+	bankAccountNumber: string
+) => {
+	if (!bankDetails) {
+		return '';
+	}
+
+	let bankName = '';
+
+	bankDetails?.forEach((item) => {
+		if (item?.accNO === bankAccountNumber) {
+			bankName = item?.bankName;
+		}
+	});
+
+	return bankName;
+};
+
 export const getExploreFundsNavigationPath = (option: SearchOptionsEntity) => {
 	return `/explorefunds/${option.name?.split(' ').join('-').toLowerCase()}?id=${option.id}`;
 };

@@ -244,3 +244,75 @@ export const skipSipSkippedSuccessModalOpenAnalytics = (eventMetaData: { value: 
 		event_metadata: eventMetaData
 	});
 };
+
+export const clickSetupAutopayCtaAnalytics = (eventMetaData: unknown) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipdetails',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'SetupAutopay',
+		event_property: null,
+		event_id: '309.0.0.1.37',
+		event_metadata: eventMetaData
+	});
+};
+
+export const clickManageAutopayCtaAnalytics = (eventMetaData: unknown) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipdetails',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'ManageAutopay',
+		event_property: null,
+		event_id: '309.0.0.1.38',
+		event_metadata: eventMetaData
+	});
+};
+
+export const autopayDashboardImpressionAnalytics = (eventMetaData: unknown) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-ManageAutopay',
+		event_type: 'impression',
+		event_sub_type: 'screen',
+		event_name: 'ManageAutopay',
+		event_property: null,
+		event_id: '309.0.0.1.51',
+		event_metadata: eventMetaData
+	});
+};
+
+export const autopayDashboardSetupAutopayCtaClickAnalytics = (eventMetaData: unknown) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-ManageAutopay',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'SetupAutopay',
+		event_property: null,
+		event_id: '309.0.0.1.52',
+		event_metadata: eventMetaData
+	});
+};
+
+export const autopayDetailsImpressionAnalytics = (eventMetaData: unknown) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-AutopayDetails',
+		event_type: 'impression',
+		event_sub_type: 'screen',
+		event_name: 'AutopayDetails',
+		event_property: null,
+		event_id: '309.0.0.1.53',
+		event_metadata: eventMetaData
+	});
+};
+
+export const autopayDetailsSipLinkedClickAnalytics = (eventMetaData: unknown) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-AutopayDetails',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'SIPSlinked',
+		event_property: null,
+		event_id: '309.0.0.1.54',
+		event_metadata: eventMetaData
+	});
+};

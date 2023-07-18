@@ -92,6 +92,7 @@
 		const eventMetaData = {
 			ActiveSIPs: sipBookData?.sips?.length,
 			MonthlySIPTotal: sipBookData?.bookOverView?.totalSipInstallmentAmount,
+			AutomatedSips: automatedSipsCount,
 			SipList: sipBookData?.sips?.map((sip) => ({
 				FundName: sip?.schemeName,
 				Amount: sip?.installmentAmount,
