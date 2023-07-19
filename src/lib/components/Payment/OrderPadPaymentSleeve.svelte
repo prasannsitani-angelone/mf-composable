@@ -28,7 +28,7 @@
 						: 'Your UPI Id'
 					: PAYMENT_MODE[selectedMode]?.name}
 			</span>
-			<WmsIcon name="arrow-collapse" width={12} height={6} stroke="#3F5BD9" class="" />
+			<WmsIcon name="arrow-up-solid" width={12} height={6} stroke="#3F5BD9" class="ml-1" />
 		</div>
 		<div class="text-[10px] font-normal text-black-title">
 			{bankName}

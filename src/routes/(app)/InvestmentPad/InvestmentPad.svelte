@@ -1361,7 +1361,10 @@
 							threeYearReturns={schemeData?.returns3yr}
 							class="mt-4 !border-b-0 border-t !px-0 pb-0 pt-3"
 							amountClass="text-xl"
-						/>
+							textClass="flex flex-row items-center"
+						>
+							<span slot="supporting-text" class="ml-1">Expected 3Y Returns</span>
+						</OrderpadReturns>
 					{/if}
 
 					{#if showTabNotSupported}
