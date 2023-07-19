@@ -31,13 +31,13 @@
 			</div>
 			<div class="ml-3 text-sm font-medium text-black-title">Debit Card/Net Banking</div>
 		</div>
-		<div class="flex items-center p-2 pl-9">
+		<div class="flex items-center p-2 pl-8">
 			<div class="mr-3 flex h-6 w-16 items-center justify-center bg-white">
 				<img src={bankLogo} class="h-5 w-5 object-contain" alt="bank logo" />
 			</div>
 			<div>
-				<div class=" text-sm font-normal text-grey-body">{bankName}- *{bankAccount?.slice(-4)}</div>
-				<div class=" text-xs font-normal text-grey-body">
+				<div class=" text-xs font-normal text-grey-body">{bankName}- *{bankAccount?.slice(-4)}</div>
+				<div class=" text-2xs font-normal leading-tight text-grey-body">
 					Registered with Angel One. Please keep your Debit Card/Net Banking credentials handy
 				</div>
 			</div>
