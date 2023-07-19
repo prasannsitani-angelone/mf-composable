@@ -2,7 +2,10 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
-	import { clickManageAutopayCtaAnalytics, clickSetupAutopayCtaAnalytics } from '$lib/analytics/sipbook/sipbook';
+	import {
+		clickManageAutopayCtaAnalytics,
+		clickSetupAutopayCtaAnalytics
+	} from '$lib/analytics/sipbook/sipbook';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import { deviceStore } from '$lib/stores/DeviceStore';
 	import type { ISipBookOverView } from '$lib/types/ISipType';
@@ -17,12 +20,12 @@
 
 	const handleAutopayButtonClick = () => {
 		if (automatedSipsCount) {
-			clickManageAutopayCtaAnalytics({AutopayEnabledSips: automatedSipsCount});
+			clickManageAutopayCtaAnalytics({ AutopayEnabledSips: automatedSipsCount });
 
 			const redirectPath = `${base}/autopay`;
 			goto(redirectPath);
 		} else {
-			clickSetupAutopayCtaAnalytics({AutopayEnabledSips: automatedSipsCount});
+			clickSetupAutopayCtaAnalytics({ AutopayEnabledSips: automatedSipsCount });
 
 			const redirectPath = `${base}/autopay/manage`;
 			goto(redirectPath);

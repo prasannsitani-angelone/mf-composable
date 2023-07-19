@@ -8,8 +8,6 @@
 		investmentExternalRefreshFlowAnalytics
 	} from '../../analytics';
 	import type { InvestmentSummary } from '$lib/types/IInvestments';
-	import { getDateTimeString } from '$lib/utils/helpers/date';
-	import { refreshWaitDays } from '../../constants';
 
 	export let summary: InvestmentSummary;
 	export let onModalClick = () => '';
@@ -18,15 +16,7 @@
 		onModalClick();
 		investmentExternalRefreshGotItAnalytics();
 	};
-	$: technicalErrorMsg = `You can refresh your portfolio once every ${refreshWaitDays} days. You can try again on ${getNextAllowedDateToRefresh(
-		summary
-	)}.`;
-
-	function getNextAllowedDateToRefresh(summary: InvestmentSummary) {
-		const nextAllowedDate = summary.lastSuccessfullImportTs + refreshWaitDays * 24 * 60 * 60 * 1000;
-		const nextAllowedDateString = getDateTimeString(nextAllowedDate, 'DATETIME');
-		return nextAllowedDateString;
-	}
+	$: technicalErrorMsg = `You can refresh your portfolio once every 24 hours. Please try after sometime.`;
 
 	onMount(() => {
 		investmentExternalRefreshFlowAnalytics({ status: 'Fail', Message: technicalErrorMsg });

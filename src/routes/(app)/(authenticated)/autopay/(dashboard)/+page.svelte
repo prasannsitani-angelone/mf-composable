@@ -6,12 +6,19 @@
 	import BankAutopayCard from '$components/mandate/components/BankAutopayCard.svelte';
 	import AutopayEnabledIcon from '$lib/images/icons/AutopayEnabledIcon.svelte';
 	import { profileStore } from '$lib/stores/ProfileStore';
-	import { getBankLogoUrl, getBankNameUsingAccountNumber, getBanksWithoutMandateList } from '$lib/utils';
+	import {
+		getBankLogoUrl,
+		getBankNameUsingAccountNumber,
+		getBanksWithoutMandateList
+	} from '$lib/utils';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 	import AutopayDashboardLoader from './components/AutopayDashboardLoader.svelte';
-	import { autopayDashboardImpressionAnalytics, autopayDashboardSetupAutopayCtaClickAnalytics } from '$lib/analytics/sipbook/sipbook';
+	import {
+		autopayDashboardImpressionAnalytics,
+		autopayDashboardSetupAutopayCtaClickAnalytics
+	} from '$lib/analytics/sipbook/sipbook';
 	import type { AutopayDetailsType } from '$lib/types/IEmandate';
 
 	$: bankDetails = $profileStore?.bankDetails;
@@ -37,23 +44,28 @@
 			mandates: (mandatesData || [])?.map((mandate: AutopayDetailsType) => {
 				return {
 					BankName: mandate?.bankName,
-					status: mandate?.mandateStatus?.toLowerCase() !== 'success' ? 'failed' : mandate?.umrnNo?.length > 0 ? 'success' : 'in progress',
+					status:
+						mandate?.mandateStatus?.toLowerCase() !== 'success'
+							? 'failed'
+							: mandate?.umrnNo?.length > 0
+							? 'success'
+							: 'in progress',
 					AutopayType: mandate?.authenticationMode?.toUpperCase(),
 					AutopayId: mandate?.mandateId
 				};
 			})
-		}
+		};
 
 		autopayDashboardImpressionAnalytics(eventMetadata);
-	}
+	};
 
 	const autopayDashboardSetupAutopayCtaClickAnalyticsFunc = (accountNumber: string) => {
 		const eventMetadata = {
 			BankName: getBankNameUsingAccountNumber(bankDetails, accountNumber)
-		}
+		};
 
 		autopayDashboardSetupAutopayCtaClickAnalytics(eventMetadata);
-	}
+	};
 
 	export let data: PageData;
 

@@ -2,7 +2,7 @@ import { goto } from '$app/navigation';
 import type { ITab } from '$lib/types/ITab';
 import { angeloneTabClickedAnalytics } from './analytics';
 
-export const refreshWaitDays = 15;
+export const refreshWaitHours = 24;
 
 export const tabs: ITab[] = [
 	{

@@ -17,14 +17,14 @@
 	import { partialImportCheck } from '../utils';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
-	import { getTimestampDaysDifference } from '$lib/utils/helpers/date';
+	import { getTimestampHoursDifference } from '$lib/utils/helpers/date';
 	import {
 		investmentExternalRefreshFlowAnalytics,
 		investmentExternalPartialImportScreenOpenAnalytics,
 		allTabScreenOpenAnalytics,
 		allTabClickedAnalytics
 	} from '../analytics';
-	import { refreshWaitDays } from '../constants';
+	import { refreshWaitHours } from '../constants';
 
 	import type { PageData } from './$types';
 	import type {
@@ -126,8 +126,8 @@
 	};
 
 	const hasWaitingPeriodPassedPostRefresh = (summary: InvestmentSummary) => {
-		const dayDiff = getTimestampDaysDifference(Date.now(), summary?.lastSuccessfullImportTs);
-		return dayDiff >= refreshWaitDays;
+		const hourDiff = getTimestampHoursDifference(Date.now(), summary?.lastSuccessfullImportTs);
+		return hourDiff >= refreshWaitHours;
 	};
 
 	const isRefreshAllowed = (data: InvestmentSummary) => {

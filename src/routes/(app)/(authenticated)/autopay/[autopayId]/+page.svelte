@@ -12,13 +12,19 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import type { AutopayDetailsType } from '$lib/types/IEmandate';
-	import { autopayDetailsImpressionAnalytics, autopayDetailsSipLinkedClickAnalytics } from '$lib/analytics/sipbook/sipbook';
+	import {
+		autopayDetailsImpressionAnalytics,
+		autopayDetailsSipLinkedClickAnalytics
+	} from '$lib/analytics/sipbook/sipbook';
 	import type { ISip } from '$lib/types/ISipType';
 
 	$: bankDetails = $profileStore?.bankDetails;
 
-  const redirectToSipDetails = (sip: ISip) => {
-    autopayDetailsSipLinkedClickAnalytics({ SipName: sip?.schemeName , SipAmount: sip?.installmentAmount });
+	const redirectToSipDetails = (sip: ISip) => {
+		autopayDetailsSipLinkedClickAnalytics({
+			SipName: sip?.schemeName,
+			SipAmount: sip?.installmentAmount
+		});
 
 		const redirectPath = `${base}/sipbook/${sip?.sipId}`;
 		goto(redirectPath);
@@ -26,35 +32,40 @@
 
 	export let data;
 
-  const autopayDetailsImpressionAnalyticsFunc = (mandate: AutopayDetailsType) => {
-    const sipsLinkedArray = [];
+	const autopayDetailsImpressionAnalyticsFunc = (mandate: AutopayDetailsType) => {
+		const sipsLinkedArray = [];
 
-    data?.api?.sipsLinked?.then((res: unknown) => {
-      (res?.data?.sips || [])?.forEach((sip: ISip) => {
-        sipsLinkedArray.push({
-          SipName: sip?.schemeName,
-          SipAmount: sip?.installmentAmount
-        });
-      })
-    });
+		data?.api?.sipsLinked?.then((res: unknown) => {
+			(res?.data?.sips || [])?.forEach((sip: ISip) => {
+				sipsLinkedArray.push({
+					SipName: sip?.schemeName,
+					SipAmount: sip?.installmentAmount
+				});
+			});
+		});
 
-    const eventMetadata = {
-      BankName: mandate?.bankName,
-      status: mandate?.mandateStatus?.toLowerCase() !== 'success' ? 'failed' : mandate?.umrnNo?.length > 0 ? 'success' : 'in progress',
-      AutopayType: mandate?.authenticationMode?.toUpperCase(),
-      AutopayId: mandate?.mandateId,
-      AutopayLimit: mandate?.amount,
-      SipsLinked: sipsLinkedArray
-    };
+		const eventMetadata = {
+			BankName: mandate?.bankName,
+			status:
+				mandate?.mandateStatus?.toLowerCase() !== 'success'
+					? 'failed'
+					: mandate?.umrnNo?.length > 0
+					? 'success'
+					: 'in progress',
+			AutopayType: mandate?.authenticationMode?.toUpperCase(),
+			AutopayId: mandate?.mandateId,
+			AutopayLimit: mandate?.amount,
+			SipsLinked: sipsLinkedArray
+		};
 
-    autopayDetailsImpressionAnalytics(eventMetadata);
-  }
+		autopayDetailsImpressionAnalytics(eventMetadata);
+	};
 
-  onMount(() => {
-    data?.api?.mandateData?.then((res: unknown) => {
-      autopayDetailsImpressionAnalyticsFunc(res?.data);
-    });
-  })
+	onMount(() => {
+		data?.api?.mandateData?.then((res: unknown) => {
+			autopayDetailsImpressionAnalyticsFunc(res?.data);
+		});
+	});
 </script>
 
 <article class="mb-2" data-testid="autopayDetails">
