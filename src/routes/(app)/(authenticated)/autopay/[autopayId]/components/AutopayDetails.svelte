@@ -61,7 +61,7 @@
 		<section class="flex-1 p-2">
 			<div class="text-[11px] font-normal text-grey-body">Created On</div>
 			<div class="text-sm font-medium text-black-title">
-				{getDateTimeString(new Date(autopay?.mandateStartDate)?.valueOf(), 'DATE', true)}
+				{getDateTimeString(autopay?.createdOn, 'DATE', true)}
 			</div>
 		</section>
 	</article>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AmountText from '$components/AmountText.svelte';
 	import CardStatusPending from '$components/CardStatus/CardStatusPending.svelte';
 	import BankAutopayCard from '$components/mandate/components/BankAutopayCard.svelte';
 	import { profileStore } from '$lib/stores/ProfileStore';
@@ -132,12 +133,20 @@
 							>
 								<LinkedSipCard
 									name={sip?.schemeName}
-									subtext={`SIP Amount ₹${addCommasToAmountString(sip?.installmentAmount)}`}
 									logoUrl={sip?.logoUrl}
 									class={`${index > 0 ? 'border-t border-grey pt-4' : ''} ${
 										index < response?.data?.sips?.length - 1 ? 'mb-3' : ''
 									}`}
-								/>
+								>
+									<svelte:fragment slot="subtextSlot">
+										<div class="mt-1 text-xs font-medium text-grey-body">
+											SIP Amount
+											<span class="text-black-key">
+												<AmountText amount={addCommasToAmountString(sip?.installmentAmount)} />
+											</span>
+										</div>
+									</svelte:fragment>
+								</LinkedSipCard>
 							</div>
 						{/each}
 					</section>

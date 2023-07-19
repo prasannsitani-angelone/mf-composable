@@ -18,9 +18,11 @@
 					<div class="w-52 text-sm font-medium">
 						{name}
 					</div>
-					<div class="mt-1 text-xs font-medium text-grey-body">
-						{subtext}
-					</div>
+					<slot name="subtextSlot">
+						<div class="mt-1 text-xs font-medium text-grey-body">
+							{subtext}
+						</div>
+					</slot>
 				</article>
 			</section>
 		</slot>

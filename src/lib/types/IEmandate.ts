@@ -44,6 +44,7 @@ export interface AutopayDetailsType {
 	availableAmount: number;
 	mandateRefNo: string;
 	clientCode: string;
+	createdOn: number;
 	mandateStartDate: string;
 	mandateEndDate: string;
 	createdFrom: string;
