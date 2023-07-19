@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Card from '$components/Card.svelte';
-	import WmsIcon from '$components/WMSIcon.svelte';
+	import { WMSIcon } from 'svelte-components';
 	import Button from '$components/Button.svelte';
 	import RadioButton from '$components/RadioButton.svelte';
 	import type { BankDetailsEntity } from '$lib/types/IUserProfile';
@@ -27,7 +27,7 @@
 		<div class="mb-2 flex items-center">
 			<RadioButton selected={true} />
 			<div class="ml-2 flex h-8 w-12 items-center justify-center border border-grey-line bg-white">
-				<WmsIcon name="lock-icon" />
+				<WMSIcon name="card-icon" />
 			</div>
 			<div class="ml-3 text-sm font-medium text-black-title">Debit Card/Net Banking</div>
 		</div>

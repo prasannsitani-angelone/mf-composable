@@ -2,8 +2,7 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import WmsIcon from '$components/WMSIcon.svelte';
-	import { Button } from 'svelte-components';
+	import { Button, WMSIcon } from 'svelte-components';
 	import Modal from '$components/Modal.svelte';
 	import BankSelectionPopup from '$components/BankSelectionPopup.svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
@@ -77,7 +76,7 @@
 					<div>{bankName}</div>
 					{#if profileData?.bankDetails?.length > 1}
 						<div class="ml-1 min-w-[12px] flex-1">
-							<WmsIcon name="arrow-collapse" height={8} width={10} />
+							<WMSIcon name="arrow-up-solid" height={8} width={10} />
 						</div>
 					{/if}
 				</div>

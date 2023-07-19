@@ -7,9 +7,7 @@
 		investmentExternalRefreshGotItAnalytics,
 		investmentExternalRefreshFlowAnalytics
 	} from '../../analytics';
-	import type { InvestmentSummary } from '$lib/types/IInvestments';
 
-	export let summary: InvestmentSummary;
 	export let onModalClick = () => '';
 
 	let onConfirmationClick = () => {

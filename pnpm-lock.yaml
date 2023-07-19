@@ -32,7 +32,7 @@ specifiers:
   svelte: 4.0.5
   svelte-chartjs: 3.1.2
   svelte-check: 3.4.5
-  svelte-components: 0.93.0
+  svelte-components: 0.101.0
   svelte-device-detector: 0.2.2
   svelte-intersection-observer: 0.10.0
   svelte-video-player: 1.2.5
@@ -64,7 +64,7 @@ dependencies:
   lodash.merge: 4.6.2
   servertime: 3.1.1
   svelte-chartjs: 3.1.2_o5tslaxxtmpni3q2x6qbyajk4u
-  svelte-components: 0.93.0_5gaegq7nlphhxrtuqzac4khsim
+  svelte-components: 0.101.0_5gaegq7nlphhxrtuqzac4khsim
   svelte-device-detector: 0.2.2
   svelte-intersection-observer: 0.10.0
   svelte-video-player: 1.2.5
@@ -72,7 +72,7 @@ dependencies:
   ua-parser-js: 1.0.35
   uuid: 9.0.0
   vite-plugin-pwa: 0.16.4_vite@4.4.2
-  word-wrap: 1.2.3
+  word-wrap: 1.2.4
   workbox-broadcast-update: 7.0.0
   workbox-cacheable-response: 7.0.0
   workbox-expiration: 7.0.0
@@ -2262,7 +2262,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001516
-      electron-to-chromium: 1.4.461
+      electron-to-chromium: 1.4.463
       node-releases: 2.0.13
       update-browserslist-db: 1.0.11_browserslist@4.21.9
 
@@ -2613,8 +2613,8 @@ packages:
       jake: 10.8.7
     dev: false
 
-  /electron-to-chromium/1.4.461:
-    resolution: {integrity: sha512-1JkvV2sgEGTDXjdsaQCeSwYYuhLRphRpc+g6EHTFELJXEiznLt3/0pZ9JuAOQ5p2rI3YxKTbivtvajirIfhrEQ==}
+  /electron-to-chromium/1.4.463:
+    resolution: {integrity: sha512-fT3hvdUWLjDbaTGzyOjng/CQhQJSQP8ThO3XZAoaxHvHo2kUXiRQVMj9M235l8uDFiNPsPa6KHT1p3RaR6ugRw==}
 
   /emoji-regex/8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -4533,8 +4533,8 @@ packages:
       - sugarss
     dev: true
 
-  /svelte-components/0.93.0_5gaegq7nlphhxrtuqzac4khsim:
-    resolution: {integrity: sha512-cvf+UATkvgTqfH4Z7IdQeulcm9wom0Uq5HZDZ8Uk/oXjAIUtYezNjmFMjwAFda+FyOY4NdjozCQoCvzT5svEsA==}
+  /svelte-components/0.101.0_5gaegq7nlphhxrtuqzac4khsim:
+    resolution: {integrity: sha512-NDIdsvZJk3a5dPOfmBGoy21mAG0N9zR5tKgYmjuPFZBUDSssqp41C1rtVIfgP3gMKD5Rufc+ZwmfKlBVnihSTg==}
     requiresBuild: true
     peerDependencies:
       svelte: ^3.54.0
@@ -5167,8 +5167,8 @@ packages:
       stackback: 0.0.2
     dev: true
 
-  /word-wrap/1.2.3:
-    resolution: {integrity: sha512-Hz/mrNwitNRh/HUAtM/VT/5VH+ygD6DV7mYKZAtHOrbs8U7lvPS6xf7EJKMF0uW1KJCl0H701g3ZGus+muE5vQ==}
+  /word-wrap/1.2.4:
+    resolution: {integrity: sha512-2V81OA4ugVo5pRo46hAoD2ivUJx8jXmWXfUkY4KFNw0hEptvN0QfH3K4nHiwzGeKl5rFKedV48QVoqYavy4YpA==}
     engines: {node: '>=0.10.0'}
     dev: false
 

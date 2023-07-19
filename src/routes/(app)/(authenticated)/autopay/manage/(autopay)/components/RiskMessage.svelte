@@ -1,5 +1,5 @@
 <script lang="ts">
-	import WmsIcon from '$components/WMSIcon.svelte';
+	import { WMSIcon } from 'svelte-components';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount.js';
 	import type { INudge } from '$lib/types/INudge';
 	import { getSipAmountWithoutMandate } from '../../utils';
@@ -16,5 +16,5 @@
 	<div class=" text-base font-semibold">
 		Your SIPs worth ₹{addCommasToAmountString(amount)} are at risk
 	</div>
-	<WmsIcon class="ml-2.5" name="loss-double-stacked" />
+	<WMSIcon class="ml-2.5" name="risk-plug" />
 </section>
