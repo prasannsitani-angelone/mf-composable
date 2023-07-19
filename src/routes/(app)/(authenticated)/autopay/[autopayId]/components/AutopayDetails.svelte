@@ -82,12 +82,12 @@
 			<span />
 			<section class="px-4 pb-6 pt-0 text-sm font-normal text-grey-body md:px-8 md:pt-6">
 				<p>
-					This is just the Maximum amount that can be deducted from your bank account on a single
-					day of you had an cumulative SIP of 1 lac for a day.
+					This is the maximum amount that can be deducted from your bank account if you had
+					cumulative SIPs of 1 lac to be deducted on a single day
 				</p>
 				<p>
-					Actual amount deducted will be your SIP amount. This limit is 1 lac to cover for your
-					future SIPs as well.
+					The actual amount deducted will be your SIP amount. This limit of 1 lac is to cover your
+					existing and future SIPs.
 				</p>
 			</section>
 		</svelte:fragment>
