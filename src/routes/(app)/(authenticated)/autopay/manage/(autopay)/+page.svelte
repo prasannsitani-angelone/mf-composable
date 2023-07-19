@@ -8,6 +8,8 @@
 	import InfoList from './components/InfoList.svelte';
 	import BankDetails from './components/BankDetails.svelte';
 	import { getSipAmountWithoutMandate } from '../utils';
+	import ManageSkeletanLoader from './components/ManageSkeletanLoader.svelte';
+
 	export let data;
 
 	const navigateToAutopayDashboard = () => {
@@ -16,7 +18,7 @@
 </script>
 
 {#await data.api.data}
-	Loading .....
+	<ManageSkeletanLoader />
 {:then response}
 	{#if getSipAmountWithoutMandate(response.nudges) > 0}
 		<Card class="px-2 pb-6 pt-4">

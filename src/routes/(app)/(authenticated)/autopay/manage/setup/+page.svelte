@@ -7,6 +7,7 @@
 	import { getSipAmountWithoutMandate } from '../utils';
 	import MandateSuccessPopup from './components/MandateSuccessPopup.svelte';
 	import type { BankDetailsEntity, UserProfile } from '$lib/types/IUserProfile';
+	import SetupSkeletanLoader from './components/SetupSkeletanLoader.svelte';
 
 	export let data;
 	let selectedAccount = 0;
@@ -37,7 +38,7 @@
 </script>
 
 {#await data.api.data}
-	Loading .....
+	<SetupSkeletanLoader />
 {:then response}
 	<TopCard nudgeData={response.nudges || []} />
 	{#if data.pageParam?.accountNumber}
