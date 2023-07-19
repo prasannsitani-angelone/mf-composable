@@ -9,6 +9,7 @@
 	import GreenUpArrowTrendingFund from '$lib/images/GreenUpArrowTrendingFund.svg';
 	import PeopleIcon from '$lib/images/PeopleIcon.svg';
 	import { createEventDispatcher } from 'svelte';
+	import { encodeObject } from '$lib/utils/helpers/params';
 
 	export let schemes: WeeklyTopSchemesEntity;
 	export let clazz = '';
@@ -25,7 +26,10 @@
 			schemes?.schemeName,
 			schemes?.isin,
 			schemes?.schemeCode
-		)}`;
+		)}?orderpad=INVEST&params=${encodeObject({
+			investmentType: 'SIP',
+			paymentMandatory: true
+		})}`;
 		goto(schemeDetailsPath);
 		dispatch('onCardClick');
 	}

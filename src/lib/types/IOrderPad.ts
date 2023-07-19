@@ -19,4 +19,5 @@ export interface decodedParamsTypes {
 	sipDueDate?: number;
 	source?: string;
 	orderpad?: string;
+	paymentMandatory?: boolean;
 }

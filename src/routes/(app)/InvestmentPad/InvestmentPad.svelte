@@ -96,6 +96,7 @@
 	import OrderpadReturns from './OrderPadComponents/OrderpadReturns.svelte';
 	import { checkRequestIdExpired } from '$lib/api/investmentPad';
 	import PeopleIcon from '$lib/images/PeopleIcon.svg';
+	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -116,7 +117,8 @@
 		sipId,
 		sipRegistrationNumber,
 		sipDueDate,
-		source
+		source,
+		paymentMandatory
 	} = params || {};
 
 	const os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
@@ -695,6 +697,15 @@
 		dateSelectConfirmButtonClickAnalyticsFunc(calendarDate);
 	};
 
+	const goToFundDetailsPage = async () => {
+		const schemeDetailsPath = `${base}/schemes/${normalizeFundName(
+			schemeData?.schemeName,
+			schemeData?.isin,
+			schemeData?.schemeCode
+		)}`;
+		await goto(schemeDetailsPath);
+	};
+
 	//  ---------- payment flow code ---------------
 
 	// --------- analytics functions -----------
@@ -1160,7 +1171,7 @@
 	>
 		<slot name="header">
 			<section class="hidden rounded-t-lg bg-white px-3 py-5 font-medium text-black-title md:block">
-				{activeTab === 'SIP' ? 'Start SIP' : 'One-Time'}
+				{activeTab === 'SIP' ? 'Start SIP' : 'One Time Investment'}
 			</section>
 		</slot>
 		{#if (isMobile || isTablet) && !$headerStore?.showMobileHeader}
@@ -1175,20 +1186,28 @@
 			</slot>
 		{/if}
 		{#if !investmentNotAllowedText?.length}
-			<article class="mb-2 rounded-lg bg-white p-3 shadow-csm md:hidden">
-				<div class="flex flex-row items-center">
-					<div
-						class="mr-3 flex h-9 w-9 min-w-[36px] items-center justify-center rounded-full shadow-csm"
-					>
-						<img src={schemeData?.logoUrl} alt="schemelogo" />
-					</div>
-					<div class="mr-3 text-sm font-medium text-black-title">{schemeData.schemeName}</div>
-					<div>
-						<div class="text-xs font-medium text-grey-body">Returns p.a</div>
-						<div class="text-right text-base font-medium text-black-title">
-							{schemeData?.returns3yr}%
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<article
+				class="mb-2 rounded-lg bg-white p-3 shadow-csm md:hidden"
+				on:click={goToFundDetailsPage}
+			>
+				<div class="flex flex-row justify-between">
+					<div class="flex flex-row">
+						<div
+							class="mr-3 flex h-9 w-9 min-w-[36px] items-center justify-center rounded-full shadow-csm"
+						>
+							<img src={schemeData?.logoUrl} alt="schemelogo" />
 						</div>
+						<div class="mr-3 text-sm font-medium text-black-title">{schemeData.schemeName}</div>
 					</div>
+					{#if schemeData?.returns3yr > 0}
+						<div class="whitespace-nowrap">
+							<div class="text-xs font-medium text-grey-body">Returns p.a</div>
+							<div class="text-right text-base font-medium text-black-title">
+								{schemeData?.returns3yr?.toFixed(1)}%
+							</div>
+						</div>
+					{/if}
 				</div>
 				{#if schemeData?.noOfClientInvested}
 					<div class="mt-3 flex flex-row items-center rounded bg-purple-glow px-3 py-2">
@@ -1201,8 +1220,9 @@
 							height="24"
 						/>
 						<div class="text-xs text-black-title">
-							<span class="font-semibold">{schemeData?.noOfClientInvested}</span> people have invested
-							in this fund
+							<span class="font-semibold"
+								>{addCommasToAmountString(schemeData?.noOfClientInvested)}</span
+							> people have invested in this fund
 						</div>
 					</div>
 				{/if}
@@ -1210,34 +1230,36 @@
 
 			<article class="rounded-lg bg-white text-black-title md:mx-3 md:mb-4 md:mt-2">
 				<!-- Tab Section (SIP | ONE TIME) -->
-				<section class="bg-whites flex rounded-lg rounded-b-none text-black-title">
-					<button
-						class={`h-12 w-40 flex-1 cursor-default rounded-t md:cursor-pointer ${
-							activeTab === 'SIP'
-								? 'border-t-4 border-t-green-buy'
-								: 'rounded-tr-none border-l border-t bg-grey'
-						}`}
-						on:click={() => switchTabs('SIP')}
-					>
-						SIP
-					</button>
-					<button
-						class={`h-12 w-40 flex-1 cursor-default rounded-t md:cursor-pointer ${
-							activeTab === 'ONETIME'
-								? 'border-t-4 border-t-green-buy'
-								: 'rounded-tl-none border-r border-t bg-grey'
-						}`}
-						on:click={() => switchTabs('ONETIME')}
-					>
-						ONE TIME
-					</button>
-				</section>
+				{#if investmentType !== 'SIP'}
+					<section class="bg-whites flex rounded-lg rounded-b-none text-black-title">
+						<button
+							class={`h-12 w-40 flex-1 cursor-default rounded-t md:cursor-pointer ${
+								activeTab === 'SIP'
+									? 'border-t-4 border-t-green-buy'
+									: 'rounded-tr-none border-l border-t bg-grey'
+							}`}
+							on:click={() => switchTabs('SIP')}
+						>
+							SIP
+						</button>
+						<button
+							class={`h-12 w-40 flex-1 cursor-default rounded-t md:cursor-pointer ${
+								activeTab === 'ONETIME'
+									? 'border-t-4 border-t-green-buy'
+									: 'rounded-tl-none border-r border-t bg-grey'
+							}`}
+							on:click={() => switchTabs('ONETIME')}
+						>
+							ONE TIME
+						</button>
+					</section>
+				{/if}
 
 				<article class="flex flex-col p-3">
 					<!-- Amount input -->
 					<article class="flex flex-col items-center rounded border border-grey-line py-2.5">
 						<!-- svelte-ignore a11y-label-has-associated-control -->
-						<label class="mb-2 text-xs font-medium text-grey-body">Enter Amount</label>
+						<label class="mb-2 text-xs font-medium text-grey-body">ENTER AMOUNT</label>
 						<button
 							class="flex w-full cursor-text items-center justify-start"
 							on:click={handleAmountInputFocus}
@@ -1310,7 +1332,7 @@
 					{/if}
 
 					<!-- Checkbox for SIP payment now -->
-					{#if activeTab === 'SIP'}
+					{#if activeTab === 'SIP' && !paymentMandatory}
 						<article
 							class={`mt-4 flex w-fit items-center justify-start text-xs font-medium text-grey-body ${
 								isSelectedInvestmentTypeAllowed() ? 'md:cursor-pointer' : 'md:cursor-not-allowed'
@@ -1396,7 +1418,15 @@
 									loadingState.isLoading}
 								onClick={() => handleInvestClick(paymentHandler.upiId)}
 							>
-								{activeTab === 'SIP' ? 'START SIP' : 'PAY NOW'}
+								{activeTab === 'SIP'
+									? !firstSipPayment
+										? 'START SIP'
+										: firstTimeUser
+										? 'PROCEED'
+										: `PAY ${addCommasToAmountString(amount)}`
+									: firstTimeUser
+									? 'PROCEED'
+									: `PAY ${addCommasToAmountString(amount)}`}
 							</Button>
 						</section>
 					</article>
