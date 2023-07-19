@@ -5,6 +5,7 @@
 	import ChipOverview from '$components/ChipOverview.svelte';
 	import TncModal from '$components/TnC/TncModal.svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
+	import { formatAmount } from '$lib/utils/helpers/formatAmount';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import type { IMandateDetails } from './type';
 	import type { IOrderDetails } from '$lib/types/IOrderDetails';
@@ -17,7 +18,7 @@
 
 	$: mandateType = mandateDetails?.mandateType === 'XSIP' ? 'Physical' : 'Digital';
 	$: filteredBankAccounts = profileDetails?.bankAccounts()?.filter((item: BankDetailsEntity) => {
-		if (item?.accNO === mandateDetails?.accountNo) {
+		if (item?.accNO && formatAmount(item?.accNO) === formatAmount(mandateDetails?.accountNo)) {
 			return item;
 		}
 	});
