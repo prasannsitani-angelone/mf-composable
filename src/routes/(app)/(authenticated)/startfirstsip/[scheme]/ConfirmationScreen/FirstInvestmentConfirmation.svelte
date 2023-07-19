@@ -42,8 +42,6 @@
 	let intiatePayment = false;
 	let dateSuperscript = 'th';
 
-	const numberOfPeopleInvestedValue = 18200; // temporary change (this will be removed after in BE changes)
-
 	const toggleShowWhyThisFundModal = () => {
 		showWhyThisFundModal = !showWhyThisFundModal;
 
@@ -177,7 +175,7 @@
 			<svelte:fragment slot="detailsFooterDescription">
 				<p class="text-xs">
 					<span class=" font-semibold">
-						{addCommasToAmountString(numberOfPeopleInvestedValue?.toString())}+
+						{addCommasToAmountString(scheme?.noOfClientInvested || 0)}+
 					</span>
 					people have invested in this fund
 				</p>
