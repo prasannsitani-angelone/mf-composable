@@ -12,8 +12,37 @@ import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { BroadcastUpdatePlugin } from 'workbox-broadcast-update';
 const swCacheHeader = 'X-Sw-Cache';
+const cacheList = ['workbox-offline-fallbacks', 'workbox-precache-v2'];
 
 declare let self: ServiceWorkerGlobalScope;
+
+self.addEventListener('install', () => self.skipWaiting());
+
+self.addEventListener('activate', (event) => {
+	event.waitUntil(
+		caches
+			.keys()
+			.then(function (cacheNames) {
+				return Promise.all(
+					cacheNames
+						.filter(function (cacheName) {
+							let shouldRemoveCache = true;
+							cacheList.forEach((list) => {
+								if (cacheName?.includes(list)) {
+									shouldRemoveCache = false;
+								}
+							});
+
+							return shouldRemoveCache;
+						})
+						.map(function (cacheName) {
+							return caches.delete(cacheName);
+						})
+				);
+			})
+			.then(() => self.clients.claim())
+	);
+});
 
 self.addEventListener('message', (event) => {
 	if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();

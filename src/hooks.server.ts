@@ -8,7 +8,7 @@ import { useProfileFetch } from '$lib/utils/useProfileFetch';
 import { useUserDetailsFetch } from '$lib/utils/useUserDetailsFetch';
 import type { Handle, HandleFetch, HandleServerError } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
-import { handleDeviecDetector } from 'sveltekit-device-detector';
+import { handleDeviecDetector, type DevicePayload } from 'sveltekit-device-detector';
 import * as servertime from 'servertime';
 import { PRIVATE_MF_CORE_BASE_URL } from '$env/static/private';
 import { PUBLIC_ENV_NAME, PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
@@ -22,8 +22,15 @@ const deviceDetector = handleDeviecDetector({});
 
 const swCacheHeader = 'X-Sw-Cache';
 
-const generateCacheHeader = (userType: 'B2B' | 'B2C', accountType: 'D' | 'P', holdings = 0) => {
-	const cacheKey = `${userType},${accountType}${holdings}`;
+const generateCacheHeader = (
+	userType: 'B2B' | 'B2C',
+	accountType: 'D' | 'P',
+	holdings = 0,
+	deviceType: DevicePayload
+) => {
+	const cacheKey = `${userType},${accountType}${holdings}${
+		deviceType.isMobile ? 'mobile' : 'browser'
+	}`;
 
 	return getHashKey(cacheKey)?.toString();
 };
@@ -135,7 +142,6 @@ const handler = (async ({ event, resolve }) => {
 		if (PUBLIC_ENV_NAME !== 'prod') {
 			response.headers.set('Server-Timing', headers);
 		}
-
 		if (response.headers.get('Content-Type') === 'text/html') {
 			response.headers.delete('link');
 			let linkHeader = response.headers.get('link') || '';
@@ -150,7 +156,8 @@ const handler = (async ({ event, resolve }) => {
 				generateCacheHeader(
 					userDetails?.userType,
 					accountType(profileData, isGuest),
-					investementSummary?.investedValue
+					investementSummary?.investedValue,
+					event?.locals?.deviceType
 				)
 			);
 		}
