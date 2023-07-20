@@ -333,7 +333,7 @@
 				amcData={data.searchDashboardData.amcAd}
 				class="mt-3 rounded-lg text-center"
 				imageClass="h-32 md:h-42 lg:h-32 w-full object-cover"
-				when={deviceType?.isBrowser && intersectOnce}
+				when={intersectOnce}
 				component={async () => await import('$components/Promotions/PromotionCard.svelte')}
 			/>
 		</div>
