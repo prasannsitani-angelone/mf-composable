@@ -172,12 +172,12 @@
 	{/if}
 
 	{#if schemeDetails?.aum !== 0 || schemeDetails?.expenseRatio !== 0 || schemeDetails?.exitLoadFlag === 'Y'}
-		<section class="flex justify-between border-b">
+		<section class="flex flex-col lg:flex-row justify-between border-b mx-4 lg:mx-0 divide-y-2 lg:divide-none">
 			<!-- AUM -->
 			{#if schemeDetails?.aum !== 0}
-				<section class="flex w-1/3 flex-col gap-4 p-4 pt-0 lg:flex-row">
+				<section class="flex lg:w-1/3 flex-col gap-4 p-4 pt-0 lg:flex-row">
 					<article
-						class="flex-grow basis-0 rounded border-b border-grey-line bg-white px-3 py-4 lg:border lg:bg-grey"
+						class="flex-grow basis-0 rounded sm:bg-white lg:px-3 py-4 lg:border lg:bg-grey"
 					>
 						<div
 							class="mb-3 flex h-6 w-6 justify-center rounded-full bg-blue-primary align-middle leading-6 text-white"
@@ -191,9 +191,9 @@
 			{/if}
 			<!-- Expense Ratio  -->
 			{#if schemeDetails?.expenseRatio !== 0}
-				<section class="flex w-1/3 flex-col gap-4 p-4 pt-0 lg:flex-row">
+				<section class="flex lg:w-1/3 flex-col gap-4 p-4 pt-0 lg:flex-row">
 					<article
-						class="flex-grow basis-0 rounded border-b border-grey-line bg-white px-3 py-4 lg:border lg:bg-grey"
+						class="flex-grow basis-0 rounded bg-white lg:px-3 py-4 lg:border lg:bg-grey"
 					>
 						<div
 							class="mb-3 flex h-6 w-6 justify-center rounded-full bg-blue-primary align-middle leading-6 text-white"
@@ -210,9 +210,9 @@
 			{/if}
 			<!-- Exit Load -->
 			{#if schemeDetails?.exitLoadFlag === 'Y'}
-				<section class="flex w-1/3 flex-col gap-4 p-4 pt-0 lg:flex-row">
+				<section class="flex lg:w-1/3 flex-col gap-4 p-4 pt-0 lg:flex-row">
 					<article
-						class="flex-grow basis-0 rounded border-b border-grey-line bg-white px-3 py-4 lg:border lg:bg-grey"
+						class="flex-grow basis-0 rounded bg-white lg:px-3 py-4 lg:border lg:bg-grey"
 					>
 						<ExitLoadIcon />
 						<h3 class="mb-1 mt-3 text-xs font-medium text-grey-body">Exit Load</h3>
