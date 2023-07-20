@@ -37,7 +37,9 @@
 				<div class="flex h-9 w-9 items-center justify-center group-hover:bg-white lg:h-14 lg:w-14">
 					<img src={option.iconUrl} class="h-9 w-9" alt="option.name" loading="lazy" />
 				</div>
-				<h2 class="mt-2 text-sm font-medium text-black-title lg:ml-3 lg:mt-0 lg:text-base">
+				<h2
+					class="mt-2 text-center text-sm font-medium text-black-title lg:ml-3 lg:mt-0 lg:text-left lg:text-base"
+				>
 					{option.name}
 				</h2>
 			</Link>
