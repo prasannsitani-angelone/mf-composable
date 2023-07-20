@@ -6,7 +6,8 @@ const initalStore: IUserDetails = {
 	arn: '',
 	euin: '',
 	isARNExpired: '',
-	subBrokerTag: ''
+	subBrokerTag: '',
+	panSeeded: true
 };
 
 function CreateStore() {

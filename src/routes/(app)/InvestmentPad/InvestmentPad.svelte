@@ -1426,10 +1426,10 @@
 										? 'START SIP'
 										: firstTimeUser
 										? 'PROCEED'
-										: `PAY ${addCommasToAmountString(amount)}`
+										: `PAY ₹${addCommasToAmountString(amount)}`
 									: firstTimeUser
 									? 'PROCEED'
-									: `PAY ${addCommasToAmountString(amount)}`}
+									: `PAY ₹${addCommasToAmountString(amount)}`}
 							</Button>
 						</section>
 					</article>

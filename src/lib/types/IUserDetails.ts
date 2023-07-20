@@ -4,4 +4,5 @@ export interface IUserDetails {
 	arn?: string;
 	euin?: string;
 	isARNExpired?: string;
+	panSeeded: boolean;
 }

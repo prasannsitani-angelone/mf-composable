@@ -160,7 +160,22 @@
 		buttonVariant="contained"
 	/>
 {/if}
-
+<LazyComponent
+	when={userDetails?.panSeeded === false}
+	component={async () => await import('$components/AlertSleeve.svelte')}
+	heading="Pan Aadhaar Seeding is not completed"
+	subHeading={[
+		'1. Pan Aadhaar seeding is mandatory for all Mutual Fund Transactions wef 1st July 2021.',
+		'2. In case the seeding is not completed, your orders will fail and any money debited will be refunded in 5-7 working days.',
+		'3. Click the below button for guidelines on Seeding Pan Card with an Aadhaar card.'
+	]}
+	buttonText="Link Aadhaar With Pan"
+	onSubmit={() =>
+		window.open(
+			'https://www.angelone.in/knowledge-center/demat-account/how-to-link-your-aadhaar-number-with-demat-account',
+			'_blank'
+		)}
+/>
 <LazyComponent
 	when={$logoutAttemptStore.logoutAttempt}
 	component={async () => await import('$components/Logout/LogoutPopup.svelte')}
