@@ -79,7 +79,7 @@
 			class="flex flex-col items-center justify-center rounded-t-lg bg-white px-4 py-6 sm:w-160 sm:rounded-lg sm:p-16"
 		>
 			<div class="mb-4 text-lg font-medium">Not sure where to get started?</div>
-			<div class="mb-4 text-center text-sm font-normal">
+			<div class="mb-4 text-center text-sm font-medium">
 				<div>Index funds are the right choice for new investors.</div>
 				<div>Get started in two steps!</div>
 			</div>
@@ -90,6 +90,15 @@
 				index={0}
 				disableRedirection
 			>
+				<svelte:fragment slot="detailsLeft">
+					<div class="flex flex-col items-start">
+						<p class="text-xs font-medium text-black-bolder">Monthly Amount</p>
+						<p class="text-base font-medium">
+							₹{addCommasToAmountString(schemeData?.minSipAmount?.toString()) ||
+								schemeData?.minSipAmount}
+						</p>
+					</div>
+				</svelte:fragment>
 				<svelte:fragment slot="topRightSection">
 					<section class="ml-1 flex flex-col items-end">
 						<div class="w-20 text-right text-xs font-medium text-black-bolder">Returns p.a</div>
@@ -113,8 +122,8 @@
 
 				<svelte:fragment slot="detailsFooterDescription">
 					<p class="text-xs">
-						<span class=" font-semibold">
-							{addCommasToAmountString(schemeData?.totalInvesetment?.toString())}+
+						<span class="font-semibold">
+							{addCommasToAmountString(schemeData?.totalInvesetment?.toString())}
 						</span>
 						people have invested in this fund
 					</p>
@@ -139,7 +148,7 @@
 					exitNudgeStartSipClickEvent();
 				}}
 			>
-				<Button class="mb-2 w-full rounded capitalize">Start your First SIP</Button>
+				<Button class="mb-2 w-full rounded capitalize">START YOUR FIRST SIP</Button>
 			</Link>
 
 			<Button class="capitalize" onClick={close} variant="transparent" size="md">GO BACK</Button>
