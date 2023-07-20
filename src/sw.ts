@@ -44,6 +44,8 @@ self.addEventListener('activate', (event) => {
 	);
 });
 
+// Temp: Added console to test SW update
+console.log('BGV test');
 self.addEventListener('message', (event) => {
 	if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
 });

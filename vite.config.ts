@@ -7,6 +7,8 @@ const config: UserConfig = {
 	plugins: [
 		sveltekit(),
 		SvelteKitPWA({
+			registerType: 'autoUpdate',
+			minify: true,
 			srcDir: './src',
 			mode: 'production',
 			strategies: 'injectManifest',

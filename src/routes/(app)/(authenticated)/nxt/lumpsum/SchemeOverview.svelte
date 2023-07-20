@@ -172,13 +172,13 @@
 	{/if}
 
 	{#if schemeDetails?.aum !== 0 || schemeDetails?.expenseRatio !== 0 || schemeDetails?.exitLoadFlag === 'Y'}
-		<section class="flex flex-col lg:flex-row justify-between border-b mx-4 lg:mx-0 divide-y-2 lg:divide-none">
+		<section
+			class="mx-4 flex flex-col justify-between divide-y-2 border-b lg:mx-0 lg:flex-row lg:divide-none"
+		>
 			<!-- AUM -->
 			{#if schemeDetails?.aum !== 0}
-				<section class="flex lg:w-1/3 flex-col gap-4 p-4 pt-0 lg:flex-row">
-					<article
-						class="flex-grow basis-0 rounded sm:bg-white lg:px-3 py-4 lg:border lg:bg-grey"
-					>
+				<section class="flex flex-col gap-4 p-4 pt-0 lg:w-1/3 lg:flex-row">
+					<article class="flex-grow basis-0 rounded py-4 sm:bg-white lg:border lg:bg-grey lg:px-3">
 						<div
 							class="mb-3 flex h-6 w-6 justify-center rounded-full bg-blue-primary align-middle leading-6 text-white"
 						>
@@ -191,10 +191,8 @@
 			{/if}
 			<!-- Expense Ratio  -->
 			{#if schemeDetails?.expenseRatio !== 0}
-				<section class="flex lg:w-1/3 flex-col gap-4 p-4 pt-0 lg:flex-row">
-					<article
-						class="flex-grow basis-0 rounded bg-white lg:px-3 py-4 lg:border lg:bg-grey"
-					>
+				<section class="flex flex-col gap-4 p-4 pt-0 lg:w-1/3 lg:flex-row">
+					<article class="flex-grow basis-0 rounded bg-white py-4 lg:border lg:bg-grey lg:px-3">
 						<div
 							class="mb-3 flex h-6 w-6 justify-center rounded-full bg-blue-primary align-middle leading-6 text-white"
 						>
@@ -210,10 +208,8 @@
 			{/if}
 			<!-- Exit Load -->
 			{#if schemeDetails?.exitLoadFlag === 'Y'}
-				<section class="flex lg:w-1/3 flex-col gap-4 p-4 pt-0 lg:flex-row">
-					<article
-						class="flex-grow basis-0 rounded bg-white lg:px-3 py-4 lg:border lg:bg-grey"
-					>
+				<section class="flex flex-col gap-4 p-4 pt-0 lg:w-1/3 lg:flex-row">
+					<article class="flex-grow basis-0 rounded bg-white py-4 lg:border lg:bg-grey lg:px-3">
 						<ExitLoadIcon />
 						<h3 class="mb-1 mt-3 text-xs font-medium text-grey-body">Exit Load</h3>
 						<h4>{schemeDetails?.exitLoadValue}</h4>
