@@ -37,8 +37,10 @@
 					clazz="!border-0"
 				>
 					<svelte:fragment slot="bottomSection">
-						<div class=" mt-2 text-2xs font-normal text-grey-body">
-							Autopay Id: {mandate.mandateId}
+						<div class=" mt-2 flex items-center text-2xs font-normal text-grey-body">
+							<span class=" uppercase"> {mandate.authenticationMode} AUTOPAY</span>
+							<div class=" mx-1 h-1 w-1 rounded-full bg-grey-body" />
+							<span>Autopay ID: {mandate.mandateId}</span>
 						</div>
 					</svelte:fragment>
 				</BankAccountTile>
