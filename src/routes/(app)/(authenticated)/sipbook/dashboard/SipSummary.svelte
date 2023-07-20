@@ -34,8 +34,8 @@
 </script>
 
 <section
-	class="relative mb-2 rounded-lg bg-gradient-to-r from-blue-gradient via-blue-gradient to-blue-primary pb-3 pt-6 text-white md:mt-0 lg:p-6 {os ===
-		'iOS' || userAgent?.includes('safari')
+	class="relative -mt-2 mb-2 rounded-lg bg-gradient-to-r from-blue-gradient via-blue-gradient to-blue-primary pb-3 pt-6 text-white md:mt-0 lg:p-6 {os?.toLowerCase() ===
+		'ios' || userAgent?.includes('safari')
 		? 'overflow-hidden'
 		: ''}"
 >

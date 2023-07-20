@@ -21,7 +21,7 @@ export const load = (async ({ fetch, depends }) => {
 		layoutConfig: {
 			title: 'SIPs',
 			titleClass: '!text-xl',
-			headerClass: '!bg-grey !py-2.5 !px-4',
+			headerClass: '!bg-grey !py-2.5 !px-4 shadow-none',
 			showBottomNavigation: true
 		},
 		sipBookData: sipBookData,
