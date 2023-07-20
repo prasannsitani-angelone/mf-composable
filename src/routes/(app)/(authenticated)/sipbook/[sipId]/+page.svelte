@@ -22,7 +22,6 @@
 	import DiscoverFundsNudge from '$components/Nudge/DiscoverFundsNudge.svelte';
 
 	import { toastStore } from '$lib/stores/ToastStore';
-	import { nudgeClick, nudgeImpression } from '$lib/analytics/DiscoverFunds';
 	import {
 		getDateTimeProperties,
 		getDateTimeString,
@@ -41,7 +40,12 @@
 		skipSipButtonClickAnalytics,
 		skipSipConfirmationModalOpenAnalytics,
 		skipSipModalButtonClickAnalytics,
-		skipSipSkippedSuccessModalOpenAnalytics
+		skipSipSkippedSuccessModalOpenAnalytics,
+		setupAutopayOnNudgeClickAnalytics,
+		linkAutopayOnNudgeClickAnalytics,
+		autopayNudgeImpressionAnalytics,
+		switchAutopayClickAnalytics,
+		switchAutopaySuccessImpressionAnalytics
 	} from '$lib/analytics/sipbook/sipbook';
 	import AutopaySelectionPopup from '$components/AutopaySelectionPopup.svelte';
 	import type { ISip } from '$lib/types/ISipType';
@@ -109,7 +113,13 @@
 		return mandateList;
 	};
 
-	const orderPurchasePatchFunc = async (emandateId: string, sipID: number) => {
+	const orderPurchasePatchFunc = async (
+		sipData: IInvestmentTypeSIP,
+		selected: MandateWithBankDetails
+	) => {
+		const emandateId = selected?.mandateId;
+		const sipID = sipData?.sipId;
+
 		showAutopaySelectionLoader = true;
 		try {
 			const url = `${PUBLIC_MF_CORE_BASE_URL}/sips/${sipID}`;
@@ -127,6 +137,16 @@
 					message: 'Autopay linked.',
 					class: '!justify-start'
 				});
+				const eventMetaData = {
+					FundName: sipData.schemeName,
+					ISINCode: sipData.isin,
+					'SIP Schedule': {
+						'Installment Amount': sipData.installmentAmount,
+						'Next SIP Payment': getDateTimeString(sipData.nextSipDueDate, 'DATE', true)
+					},
+					'Bank Name': selected.bankName
+				};
+				switchAutopaySuccessImpressionAnalytics(eventMetaData);
 				invalidate('skipsip');
 			} else {
 				toastStore.updateToastQueue({
@@ -143,11 +163,21 @@
 	};
 
 	const onAccountChange = async (selected: MandateWithBankDetails, sipData: IInvestmentTypeSIP) => {
-		await orderPurchasePatchFunc(selected?.mandateId, sipData?.sipId);
+		await orderPurchasePatchFunc(sipData, selected);
 	};
 
-	const showAutopaySelectionPopup = () => {
+	const showAutopaySelectionPopup = (sipData: IInvestmentTypeSIP) => {
 		bankPopupVisible = true;
+		const eventMetaData = {
+			FundName: sipData.schemeName,
+			ISINCode: sipData.isin,
+			'SIP Schedule': {
+				'Installment Amount': sipData.installmentAmount,
+				'Next SIP Payment': getDateTimeString(sipData.nextSipDueDate, 'DATE', true)
+			},
+			'Bank Name': sipData.bankName
+		};
+		switchAutopayClickAnalytics(eventMetaData);
 	};
 	const hideAutopaySelectionPopup = () => {
 		bankPopupVisible = false;
@@ -253,8 +283,8 @@
 		goto(`${base}/sipbook/dashboard`);
 	};
 
-	const onAction = () => {
-		showAutopaySelectionPopup();
+	const onAction = (sipData: IInvestmentTypeSIP) => {
+		showAutopaySelectionPopup(sipData);
 	};
 
 	const linkSipNudgeDescription =
@@ -263,6 +293,38 @@
 		'Set up an eMandate with your bank to enable Autopay. This is a one-time process';
 	const setupAutopayHeading = 'SET UP AUTOPAY';
 	const linkAutopayHeading = 'LINK AUTOPAY';
+
+	const nudgeClick = (sipData: IInvestmentTypeSIP, isLinkAutopayNudge: boolean) => {
+		const eventMetaData = {
+			FundName: sipData.schemeName,
+			'SIP Schedule': {
+				'Installment Amount': sipData.installmentAmount,
+				'Next SIP Payment': getDateTimeString(sipData.nextSipDueDate, 'DATE', true)
+			},
+			'Bank Name': ''
+		};
+		if (isLinkAutopayNudge) {
+			eventMetaData.ISINCode = sipData.isin;
+			linkAutopayOnNudgeClickAnalytics(eventMetaData);
+		} else {
+			setupAutopayOnNudgeClickAnalytics(eventMetaData);
+		}
+	};
+
+	const nudgeImpression = (sipData: IInvestmentTypeSIP, isLinkAutopayNudge: boolean) => {
+		const eventMetaData = {
+			Message: setupNudgeDescription,
+			Bankname: '',
+			Autopaytype: '',
+			type: 'SetupAutopay'
+		};
+
+		if (isLinkAutopayNudge) {
+			eventMetaData.type = 'LinkAutopay';
+			eventMetaData.Message = linkSipNudgeDescription;
+		}
+		autopayNudgeImpressionAnalytics(eventMetaData);
+	};
 
 	export let data: PageData;
 </script>
@@ -277,9 +339,7 @@
 	{#if sipData}
 		<article class="mb-36">
 			{#if !sipData?.mandateRefId}
-				{#await createMandateWithBankList(sipData)}
-					...
-				{:then mandateList}
+				{#await createMandateWithBankList(sipData) then mandateList}
 					{@const nudgeData = {
 						description: mandateList.length > 0 ? linkSipNudgeDescription : setupNudgeDescription,
 						heading: 'Automate Future SIP Payments',
@@ -289,9 +349,9 @@
 					}}
 					<DiscoverFundsNudge
 						nudge={nudgeData}
-						onAction={mandateList.length > 0 ? () => onAction() : null}
-						clickEvent={nudgeClick}
-						impressionEvent={nudgeImpression}
+						onAction={mandateList.length > 0 ? () => onAction(sipData) : null}
+						clickEvent={() => nudgeClick(sipData, mandateList.length > 0)}
+						impressionEvent={() => nudgeImpression(sipData, mandateList.length > 0)}
 						class="mb-2 sm:mt-4"
 					/>
 				{/await}
@@ -326,7 +386,7 @@
 							{#if mandateList.length > 1}
 								<div class=" mt-2 border-t pt-1 text-right">
 									<Button
-										onClick={() => showAutopaySelectionPopup()}
+										onClick={() => showAutopaySelectionPopup(sipData)}
 										variant="transparent"
 										size="xs"
 										class="!h-auto min-h-fit !px-0 text-xs font-semibold text-blue-primary"

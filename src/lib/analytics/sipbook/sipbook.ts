@@ -175,7 +175,7 @@ export const sipHistoryScreenOpenAnalytics = (eventMetaData: any) => {
 	});
 };
 
-export const inactiveSipsScreenOpenAnalytics = (eventMetaData: any) => {
+export const inactiveSipsScreenOpenAnalytics = (eventMetaData) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-InactiveSIPs',
 		event_type: 'impression',
@@ -187,7 +187,7 @@ export const inactiveSipsScreenOpenAnalytics = (eventMetaData: any) => {
 	});
 };
 
-export const restartSipButtonClickAnalytics = (eventMetaData: any) => {
+export const restartSipButtonClickAnalytics = (eventMetaData) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-InactiveSIPs',
 		event_type: 'click',
@@ -313,6 +313,66 @@ export const autopayDetailsSipLinkedClickAnalytics = (eventMetaData: unknown) =>
 		event_name: 'SIPSlinked',
 		event_property: null,
 		event_id: '309.0.0.1.54',
+		event_metadata: eventMetaData
+	});
+};
+
+export const setupAutopayOnNudgeClickAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipdetails',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'SetupAutopay',
+		event_property: null,
+		event_id: '309.0.0.1.56',
+		event_metadata: eventMetaData
+	});
+};
+
+export const linkAutopayOnNudgeClickAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipdetails',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'linkAutopay',
+		event_property: null,
+		event_id: '309.0.0.1.57',
+		event_metadata: eventMetaData
+	});
+};
+
+export const autopayNudgeImpressionAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-linkAutopay',
+		event_type: 'impression',
+		event_sub_type: 'screen',
+		event_name: 'autopayNudge',
+		event_property: null,
+		event_id: '309.0.0.1.58',
+		event_metadata: eventMetaData
+	});
+};
+
+export const switchAutopayClickAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipdetails',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'switchAutopay',
+		event_property: null,
+		event_id: '309.0.0.1.59',
+		event_metadata: eventMetaData
+	});
+};
+
+export const switchAutopaySuccessImpressionAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-switchAutopay',
+		event_type: 'impression',
+		event_sub_type: 'screen',
+		event_name: 'switchAutopaysuccess',
+		event_property: null,
+		event_id: '309.0.0.1.60',
 		event_metadata: eventMetaData
 	});
 };

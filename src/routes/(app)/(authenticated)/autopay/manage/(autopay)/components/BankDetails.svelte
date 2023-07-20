@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
@@ -6,6 +7,20 @@
 	import Modal from '$components/Modal.svelte';
 	import BankSelectionPopup from '$components/BankSelectionPopup.svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
+	import { getSipAmountWithoutMandate } from '../../utils';
+	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
+	import {
+		autopayBankSelectionAnalytics,
+		bankSelectionModalImpressionAnalytics,
+		confirmBankSelectionAnalytics,
+		autopayRiskImpressionAnalytics,
+		setupAutopayButtonClickAnalytics
+	} from '$lib/analytics/setupAutopay/autopay';
+
+	import type { INudge } from '$lib/types/INudge';
+	import type { UserProfile } from '$lib/types/IUserProfile';
+
+	export let nudgeData: INudge[];
 
 	let bankPopupVisible = false;
 	let whyThisBankPopupVisible = false;
@@ -15,17 +30,17 @@
 		upiId: ''
 	};
 
-	let bankLogo = '';
-	let bankName = '';
-	let bankAccount = '';
+	let bankLogo: string | undefined = '';
+	let bankName: string | undefined = '';
+	let bankAccount: string | undefined = '';
 
 	$: profileData = $page?.data?.profile;
 
-	const setupBankDetails = (profileDetail) => {
+	const setupBankDetails = (profileDetail: UserProfile) => {
 		const bankList = profileDetail.bankDetails;
-		bankLogo = bankList[0]?.bankLogo;
-		bankName = bankList[0]?.bankName;
-		bankAccount = bankList[0]?.accNO;
+		bankLogo = bankList?.[0]?.bankLogo;
+		bankName = bankList?.[0]?.bankName;
+		bankAccount = bankList?.[0]?.accNO;
 	};
 
 	$: setupBankDetails(profileData);
@@ -36,6 +51,7 @@
 		bankLogo = bankList[index]?.bankLogo;
 		bankName = bankList[index]?.bankName;
 		bankAccount = bankList[index]?.accNO;
+		confirmBankSelectionAnalytics();
 	};
 
 	const closeWhyThisBank = () => {
@@ -48,7 +64,10 @@
 		if (profileData?.bankDetails?.length <= 1) {
 			return;
 		}
+		const eventMetaData = { BankName: bankName };
+		autopayBankSelectionAnalytics(eventMetaData);
 		bankPopupVisible = true;
+		bankSelectionModalImpressionAnalytics();
 	};
 	const hideBankSelectionPopup = () => {
 		bankPopupVisible = false;
@@ -58,9 +77,25 @@
 		const params = encodeObject({
 			acc: bankAccount
 		});
-
+		const amount = getSipAmountWithoutMandate(nudgeData);
+		const eventMetaData = {
+			BankName: bankName,
+			Message: `Your SIPs worth ₹${addCommasToAmountString(amount)} are at risk`
+		};
+		setupAutopayButtonClickAnalytics(eventMetaData);
 		await goto(`${base}/autopay/manage/setup?params=${params}`);
 	};
+
+	onMount(() => {
+		const bankList = profileData?.bankDetails;
+		const bankName = bankList?.[0]?.bankName;
+		const amount = getSipAmountWithoutMandate(nudgeData);
+		const eventMetaData = {
+			Message: `Your SIPs worth ₹${addCommasToAmountString(amount)} are at risk`,
+			BankName: bankName
+		};
+		autopayRiskImpressionAnalytics(eventMetaData);
+	});
 </script>
 
 <section class="mb-2 flex justify-between rounded border border-grey-line py-2.5">

@@ -29,7 +29,7 @@
 				<div>Payments with Autopay</div>
 			</section>
 			<InfoList />
-			<BankDetails />
+			<BankDetails nudgeData={response.nudges || []} />
 		</Card>
 	{:else}
 		<Card

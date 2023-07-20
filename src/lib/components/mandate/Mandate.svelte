@@ -33,6 +33,7 @@
 	export let date = '';
 	export let successButtonTitle = '';
 	export let onSuccess = (): void => undefined;
+	export let displayErrorCallback = (): void => undefined;
 	export let selectedAccount = 0;
 
 	let bankPopupOpen = false;
@@ -67,6 +68,7 @@
 		error.visible = true;
 		error.heading = heading;
 		error.subHeading = errorSubHeading;
+		displayErrorCallback();
 	};
 
 	const closeErrorPopup = () => {
