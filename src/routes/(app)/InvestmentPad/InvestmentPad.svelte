@@ -1165,7 +1165,7 @@
 
 {#if !showChangePayment}
 	<section
-		class="h-fit w-full rounded-lg shadow-csm {$$props?.class} {!investmentNotAllowedText?.length
+		class="mb-[294px] mt-14 h-fit w-full rounded-lg shadow-csm md:mb-0 md:mt-[52px] {$$props?.class} {!investmentNotAllowedText?.length
 			? 'bg-grey'
 			: 'bg-white'}"
 	>
@@ -1177,11 +1177,11 @@
 		{#if (isMobile || isTablet) && !$headerStore?.showMobileHeader}
 			<slot name="customMobileHeader">
 				<MobileHeader
-					title={activeTab === 'SIP' ? 'Start SIP' : 'One-Time'}
+					title={activeTab === 'SIP' ? 'Start SIP' : 'One Time Investment'}
 					showSearchIcon={false}
 					showBackIcon={true}
 					showCloseIcon={false}
-					class="-mx-2 -mt-2 mb-2 bg-white"
+					class="fixed left-0 right-0 top-0 bg-white"
 				/>
 			</slot>
 		{/if}
@@ -1374,7 +1374,6 @@
 					{/if}
 				</article>
 			</article>
-
 			<!-- Footer section for Mobile layout (PaymentMode/StartSipDate + TnC + Submit + Numpad) -->
 			<article class="mx-3 md:mx-0">
 				<section class="fixed inset-0 top-auto md:relative md:inset-auto">
