@@ -15,7 +15,7 @@
 		confirmBankSelectionAnalytics,
 		autopayRiskImpressionAnalytics,
 		setupAutopayButtonClickAnalytics
-	} from '$lib/analytics/setupAutopay/autopay';
+	} from '../../analytics/autopay';
 
 	import type { INudge } from '$lib/types/INudge';
 	import type { UserProfile } from '$lib/types/IUserProfile';

@@ -13,7 +13,7 @@
 		selectedAutopayMethodImpression,
 		proceedToAutoPayCreationAnalytics,
 		autopayFailedScreenAnalytics
-	} from '$lib/analytics/setupAutopay/autopay';
+	} from '../analytics/autopay';
 
 	export let data;
 	let selectedAccount = 0;

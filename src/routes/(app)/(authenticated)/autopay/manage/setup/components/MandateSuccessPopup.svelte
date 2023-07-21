@@ -8,7 +8,7 @@
 	import {
 		autopayRegisteredImpressionAnalytics,
 		doneClickAfterAutopayRegisteredAnalytics
-	} from '$lib/analytics/setupAutopay/autopay';
+	} from '../../analytics/autopay';
 
 	export let closeModal = () => '';
 
