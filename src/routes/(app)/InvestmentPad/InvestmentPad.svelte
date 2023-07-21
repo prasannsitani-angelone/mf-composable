@@ -495,9 +495,16 @@
 			setNextSipDate();
 		}
 		if (skipOrderPad && (ftp || activeTab === 'ONETIME') && $page.data?.isGuest && browser) {
-			await goto(`${base}/login?redirect=${$page.url.href}`, {
-				replaceState: true
-			});
+			// await goto(`${base}/login?redirect=${$page.url.href}`, {
+			// 	replaceState: true
+			// });
+			try {
+				console.log('before redirection');
+				window.location.replace(`${base}/login?redirect=${$page.url.href}`);
+				console.log('after redirection');
+			} catch (e) {
+				console.log(e);
+			}
 		} else if (skipOrderPad && (ftp || activeTab === 'ONETIME')) {
 			showPaymentMethodScreen();
 		}
