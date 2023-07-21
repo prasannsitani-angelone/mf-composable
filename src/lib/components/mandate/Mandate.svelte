@@ -239,8 +239,8 @@
 		if (!emandateWindow || (emandateWindow && emandateWindow.closed)) {
 			stopLoading();
 			displayError({
-				heading: 'AutoPay Setup Failed',
-				errorSubHeading: 'You have cancelled the request for AutoPay. Please try again.'
+				heading: 'Autopay Setup Failed',
+				errorSubHeading: 'You have cancelled the request for Autopay. Please try again.'
 			});
 			throw new Error('');
 		} else if (!response?.ok) {
@@ -248,13 +248,13 @@
 			stopLoading();
 			if (response?.data?.error_code === 'ERROR-API-MANDATE-NOT-SUPPORTED') {
 				displayError({
-					heading: 'AutoPay Currently Unavailable',
+					heading: 'Autopay Currently Unavailable',
 					errorSubHeading:
-						'AutoPay is temporarily unavailable. Please try again later from the SIPs section.'
+						'Autopay is temporarily unavailable. Please try again later from the SIPs section.'
 				});
 			} else {
 				displayError({
-					heading: 'AutoPay Setup Failed',
+					heading: 'Autopay Setup Failed',
 					errorSubHeading:
 						response?.data?.message || 'We were unable to set up your autopay due to a technical issue. Please try again'
 				});
