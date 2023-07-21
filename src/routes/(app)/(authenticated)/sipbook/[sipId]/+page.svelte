@@ -134,7 +134,7 @@
 			if (res.data?.status === 'success') {
 				toastStore.updateToastQueue({
 					type: 'SUCCESS',
-					message: 'Autopay linked.',
+					message: 'Autopay switched.',
 					class: '!justify-start'
 				});
 				const eventMetaData = {
@@ -151,7 +151,7 @@
 			} else {
 				toastStore.updateToastQueue({
 					type: 'SUCCESS',
-					message: 'Unable to link autopay. Try again after sometime.',
+					message: 'Unable to switch autopay. Try again after sometime.',
 					class: '!justify-start'
 				});
 			}

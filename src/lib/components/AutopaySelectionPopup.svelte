@@ -56,7 +56,7 @@
 				/>
 			</div>
 			<div class="ml-3 text-sm font-normal text-grey-body">
-				If your SIP order is already in progress, autopay will be used from the next instalment
+				If your order is already in progress, switched Autopay will be used from the next instalment
 			</div>
 		</div>
 		<div class="px-4 pb-3 pt-5">
