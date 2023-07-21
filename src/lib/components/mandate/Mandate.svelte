@@ -143,7 +143,7 @@
 					heading: 'Autopay Setup Failed',
 					errorSubHeading:
 						event.data.message ||
-						'We were unable to process your request due a technical issue. Please try again'
+						'We were unable to set up your autopay due to a technical issue. Please try again'
 				});
 			} else {
 				emandateCreateFailedAnalytics();
@@ -256,7 +256,7 @@
 				displayError({
 					heading: 'AutoPay Setup Failed',
 					errorSubHeading:
-						response?.data?.message || 'Failed to set up an AutoPay request. Please try again.'
+						response?.data?.message || 'We were unable to set up your autopay due to a technical issue. Please try again'
 				});
 			}
 			throw new Error('');
@@ -344,7 +344,7 @@
 			isModalOpen
 			handleButtonClick={closeErrorPopup}
 			closeModal={closeErrorPopup}
-			buttonTitle="TRY AGAIN"
+			buttonTitle="RETRY"
 			buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
 			buttonVariant="contained"
 		/>
