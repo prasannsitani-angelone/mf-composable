@@ -478,7 +478,7 @@
 		changePaymentMethodScreenImpressionAnalyticsFunc();
 	};
 
-	const prefillParamsData = () => {
+	const prefillParamsData = async () => {
 		if (investmentType) {
 			activeTab = investmentType === 'LUMPSUM' ? 'ONETIME' : 'SIP';
 		}
@@ -494,7 +494,11 @@
 			dateSuperscript = getDateSuperscript(sipDate);
 			setNextSipDate();
 		}
-		if (skipOrderPad && (ftp || activeTab === 'ONETIME')) {
+		if (skipOrderPad && (ftp || activeTab === 'ONETIME') && $page.data?.isGuest && browser) {
+			await goto(`${base}/login?redirect=${$page.url.href}`, {
+				replaceState: true
+			});
+		} else if (skipOrderPad && (ftp || activeTab === 'ONETIME')) {
 			showPaymentMethodScreen();
 		}
 	};

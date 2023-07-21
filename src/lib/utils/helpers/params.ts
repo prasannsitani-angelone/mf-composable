@@ -22,8 +22,8 @@ export const decodeToObject = (str = '') => {
 	}
 };
 
-export const getQueryParamsObj = () => {
-	const urlParams = new URLSearchParams(window?.location?.search);
+export const getQueryParamsObj = (queryParamsString = '') => {
+	const urlParams = new URLSearchParams(queryParamsString || window?.location?.search);
 	const paramsObj = {};
 
 	for (const [key, value] of urlParams) {

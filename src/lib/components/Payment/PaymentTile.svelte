@@ -2,6 +2,7 @@
 	import BaseInput from '$components/BaseInput.svelte';
 	import Button from '$components/Button.svelte';
 	import RadioButton from '$components/RadioButton.svelte';
+	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { onDestroy } from 'svelte';
 
 	export let identifier = '';
@@ -116,7 +117,7 @@
 					isSchemeDisabled}
 				onClick={() => onSubmit(inputText)}
 			>
-				PAY {amount?.length ? `₹${amount}` : ''}
+				PAY {amount?.length ? `₹${addCommasToAmountString(amount)}` : ''}
 			</Button>
 		</div>
 	{/if}

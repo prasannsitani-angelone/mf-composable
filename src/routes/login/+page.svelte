@@ -17,6 +17,7 @@
 	import Logger from '$lib/utils/logger';
 	import type { PageData } from './$types';
 	import { impressionWithoutHeaders, successLoginWithoutHeaders } from './analytics';
+	import { decodeToObject, getQueryParamsObj } from '$lib/utils/helpers/params';
 
 	export let data: PageData;
 
@@ -159,6 +160,16 @@
 	};
 
 	onMount(async () => {
+		// for external url - solving login again problem by reloading
+		const redirectUrl = $page.url.searchParams.get('redirect') || '';
+		const reload = $page.url.searchParams.get('reload') || ''; // to avoid infinite reload if not already logged in
+		const queryParamsOfRedirectUrl = getQueryParamsObj(redirectUrl?.split('?')?.[1] || '');
+		const decodedParams = decodeToObject(queryParamsOfRedirectUrl?.params);
+		const { isExternal } = decodedParams;
+		if (isExternal && reload !== 'done') {
+			window.location.replace(`${window.location.href}&reload=done`);
+		}
+		// end of external url use case
 		if (isMissingHeaders) {
 			Logger.info({
 				type: 'Redirected to Login Page without headers',

@@ -7,8 +7,6 @@ import { getUserCookieName, getUserCookieOptions } from './token';
 export const logout = async () => {
 	deleteCompleteCache();
 	deleteCookie(getUserCookieName(), getUserCookieOptions());
-	deleteCookie('UserType');
-	deleteCookie('AccountType');
 	try {
 		await invalidateAll();
 	} catch (e) {

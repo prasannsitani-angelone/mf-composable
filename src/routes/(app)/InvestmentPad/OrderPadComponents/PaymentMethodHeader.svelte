@@ -1,6 +1,7 @@
 <script lang="ts">
 	import CalendarSmallIcon from '$lib/images/icons/CalendarSmallIcon.svelte';
 	import LeftArrowIcon from '$lib/images/icons/LeftArrowIcon.svelte';
+	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 
 	export let schemeName = '';
 	export let amount = '';
@@ -25,7 +26,7 @@
 			<div class="text-green-amount">
 				<span> ₹ </span>
 				<span class="ml-1">
-					{amount}
+					{addCommasToAmountString(amount)}
 				</span>
 			</div>
 			{#if isSIP}
