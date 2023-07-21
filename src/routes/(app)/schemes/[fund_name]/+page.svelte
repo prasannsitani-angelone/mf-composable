@@ -28,6 +28,7 @@
 	import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
 	import InvestmentDetailsFooterLoader from '../../(authenticated)/investments/[investment]/components/InvestmentDetailsFooterLoader.svelte';
 	import { hydrate } from '$lib/utils/helpers/hydrated';
+	import { hydratedStore } from '$lib/stores/AppHydratedStore';
 
 	export let data: PageData;
 
@@ -146,7 +147,7 @@
 		</article>
 
 		{#if schemedata}
-			{#if hydrate}
+			{#if $hydratedStore.isHydrated}
 				<InvestmentDetailsFooter
 					parentPage={orderpadParentPage?.SCHEME}
 					investmentAllowed={true}

@@ -12,8 +12,11 @@ import { decodeToObject } from '$lib/utils/helpers/params';
 import { shareMessage } from '$lib/utils/share';
 import { shouldDisplayShare } from '$lib/utils';
 import { shareFundDetailClickAnalytics } from './analytics';
+import { hydratedStore } from '$lib/stores/AppHydratedStore';
+// import { hydrate } from '$lib/utils/helpers/hydrated';
 
 export const load = (async ({ fetch, params, url, parent }) => {
+	let hydrate = false;
 	const queryParam = url?.searchParams?.get('params') || '';
 	const fundName = params['fund_name'];
 	const decodedParams = decodeToObject(queryParam);
@@ -94,6 +97,8 @@ export const load = (async ({ fetch, params, url, parent }) => {
 		}
 	};
 
+	hydratedStore.subscribe(({ isHydrated }) => (hydrate = isHydrated));
+
 	return {
 		layoutConfig: {
 			title: 'Fund Details',
@@ -104,10 +109,10 @@ export const load = (async ({ fetch, params, url, parent }) => {
 			onClickShareIcon: onClickShareIcon
 		},
 		api: {
-			schemeData: browser ? getSchemeData() : await getSchemeData(),
-			holdingData: browser ? getFundHoldings() : await getFundHoldings(),
-			comparisons: browser ? getFundComparisonsData() : await getFundComparisonsData(),
-			previousPaymentDetails: browser
+			schemeData: hydrate ? getSchemeData() : await getSchemeData(),
+			holdingData: hydrate ? getFundHoldings() : await getFundHoldings(),
+			comparisons: hydrate ? getFundComparisonsData() : await getFundComparisonsData(),
+			previousPaymentDetails: hydrate
 				? getPreviousPaymentDetails()
 				: await getPreviousPaymentDetails()
 		}

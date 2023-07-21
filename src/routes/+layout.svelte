@@ -19,6 +19,7 @@
 	import { PUBLIC_ANALYTICS_ENABLED, PUBLIC_ANALYTICS_URL } from '$env/static/public';
 	import { BrowserSupportDefault, isBrowserSupported } from '$lib/utils/helpers/browserSupport';
 	import LazyComponent from '$components/LazyComponent.svelte';
+	import { hydratedStore } from '$lib/stores/AppHydratedStore';
 	export let data;
 	interface WebVitals {
 		type: string;
@@ -82,6 +83,7 @@
 
 	onMount(async () => {
 		update();
+		hydratedStore.set({ isHydrated: true });
 		if (pwaInfo) {
 			try {
 				const { registerSW } = await import('virtual:pwa-register');
