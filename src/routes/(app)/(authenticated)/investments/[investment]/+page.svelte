@@ -37,6 +37,7 @@
 	import StayInvested from '../../../Redemption/StayInvested.svelte';
 	import InvestmentDetailsFooterLoader from './components/InvestmentDetailsFooterLoader.svelte';
 	import { hydrate } from '$lib/utils/helpers/hydrated';
+	import { investMoreClickEvent } from '$lib/analytics/investments/investments';
 
 	export let data: PageData;
 
@@ -183,6 +184,8 @@
 		const redirectPath = `${currentPath}?orderpad=INVEST`;
 
 		goto(redirectPath);
+
+		investMoreClickEvent(holdingsData?.schemeName);
 	};
 
 	const setQueryParamsData = () => {

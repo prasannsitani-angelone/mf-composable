@@ -2,7 +2,7 @@
 	import { fly, fade } from 'svelte/transition';
 	import Overlay from './Overlay.svelte';
 	import { page } from '$app/stores';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 
 	const dispatch = createEventDispatcher();
 	let isModalOpen = false;
@@ -18,6 +18,10 @@
 			closeModal?.();
 		}
 	};
+
+	onMount(() => {
+		dispatch('modalMounted');
+	});
 
 	export { closeModal, isModalOpen, preventBackDropClick, animationDuration };
 </script>

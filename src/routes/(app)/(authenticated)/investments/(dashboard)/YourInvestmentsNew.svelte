@@ -16,6 +16,11 @@
 	import Modal from '$components/Modal.svelte';
 	import Button from '$components/Button.svelte';
 	import type { ToggleButtonParam } from '$lib/types/IInvestments';
+	import {
+		filterToggleButtonClickEvent,
+		xirrFilterClickEvent,
+		xirrFilterModalImpressionEvent
+	} from './analytics';
 
 	$: isExternal = $page?.data?.isExternal;
 
@@ -24,10 +29,12 @@
 
 	const onXirrClick = () => {
 		isXIRRModalOpen = true;
+		xirrFilterClickEvent();
 	};
 
 	const onFilterButtonToggle = (data: ToggleButtonParam) => {
 		activeFilter = data.id;
+		filterToggleButtonClickEvent({ toggle: activeFilter });
 	};
 
 	let tableData: Array<InvestmentEntity>;
@@ -246,7 +253,11 @@
 	</section>
 </section>
 {#if isXIRRModalOpen}
-	<Modal closeModal={onModalClick} isModalOpen>
+	<Modal
+		closeModal={onModalClick}
+		isModalOpen
+		on:modalMounted={() => xirrFilterModalImpressionEvent()}
+	>
 		<div
 			class="w-screen rounded-b-none rounded-t-2xl bg-white px-4 py-6 sm:!w-[460px] sm:rounded-lg sm:p-8"
 		>

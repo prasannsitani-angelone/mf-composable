@@ -53,7 +53,7 @@ export const startSipClickAnalytics = (eventMetaData) => {
 		screen_name: 's-StoryView',
 		event_type: 'click',
 		event_sub_type: 'button',
-		event_name: 'StartSIP',
+		event_name: 'StartSIPFromVideo',
 		event_property: null,
 		event_id: '308.0.0.6.8',
 		event_metadata: eventMetaData

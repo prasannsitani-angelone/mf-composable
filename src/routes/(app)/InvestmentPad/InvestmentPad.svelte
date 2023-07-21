@@ -714,13 +714,19 @@
 
 	// --------- analytics functions -----------
 	const paymentFailedScreenAnalyticsWithData = () => {
+		const schemeDetailsUrl = `${$page.url.origin}${base}/schemes/${normalizeFundName(
+			schemeData?.schemeName,
+			schemeData?.isin,
+			schemeData?.schemeCode
+		)}`;
 		paymentFailedScreenAnalytics({
 			InvestmentType: activeTab === 'SIP' ? 'SIP' : 'OTI',
 			Amount: amount,
 			PaymentMethod: paymentHandler?.paymentMode,
 			PaymentBank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName,
 			PaymentPending:
-				'If the money has been debited from your bank account, please do not worry, it will be refunded automatically'
+				'If the money has been debited from your bank account, please do not worry, it will be refunded automatically',
+			URL: getDeeplinkForUrl(schemeDetailsUrl)
 		});
 	};
 

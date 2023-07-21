@@ -10,6 +10,10 @@
 	import type { InvestmentSummary } from '$lib/types/IInvestments';
 
 	import { viewPortfolioAnalysisAnalytics } from '../../../routes/(app)/(authenticated)/investments/analytics';
+	import {
+		portfolioCardExpandClickEvent,
+		portfolioCardExpandImpressionEvent
+	} from '$components/PortfolioCards/analytics';
 
 	let cardCollapsed = true;
 
@@ -39,7 +43,37 @@
 
 	const toggleCardView = () => {
 		cardCollapsed = !cardCollapsed;
+		logToggleClickEvent();
 	};
+
+	function logToggleClickEvent() {
+		const eventMetaData = {
+			CurrentValue: parseFloat(investmentSummary?.currentValue?.toFixed(2)),
+			TotalInvestment: parseFloat(investmentSummary?.investedValue?.toFixed(2)),
+			OverallReturn: `${investmentSummary?.returnsValue?.toFixed(
+				2
+			)} (${investmentSummary?.returnsAbsolutePer?.toFixed(2)}%)`,
+			TodaysReturn: `${investmentSummary?.previousDayReturns?.toFixed(
+				2
+			)} (${investmentSummary?.previousDayReturnPercentage?.toFixed(2)}%)`
+		};
+		portfolioCardExpandClickEvent(eventMetaData);
+	}
+
+	function logToggleCardExpandedEvent() {
+		const eventMetaData = {
+			CurrentValue: parseFloat(investmentSummary?.currentValue?.toFixed(2)),
+			TotalInvestment: parseFloat(investmentSummary?.investedValue?.toFixed(2)),
+			OverallReturn: `${investmentSummary?.returnsValue?.toFixed(
+				2
+			)} (${investmentSummary?.returnsAbsolutePer?.toFixed(2)}%)`,
+			TodaysReturn: `${investmentSummary?.previousDayReturns?.toFixed(
+				2
+			)} (${investmentSummary?.previousDayReturnPercentage?.toFixed(2)}%)`,
+			XIRR: `${investmentSummary.xirr?.toFixed(2)}%`
+		};
+		portfolioCardExpandImpressionEvent(eventMetaData);
+	}
 </script>
 
 <PortfolioCard class="!px-3 !pb-3 !pt-4">
@@ -127,6 +161,7 @@
 			</div>
 
 			{#if !cardCollapsed}
+				{@const log = logToggleCardExpandedEvent()}
 				<div class=" mt-4 flex w-full">
 					<article class="flex-1 border-r border-dashed border-grey-dashed text-left">
 						<div
