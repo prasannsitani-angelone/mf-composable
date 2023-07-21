@@ -256,7 +256,8 @@
 				displayError({
 					heading: 'Autopay Setup Failed',
 					errorSubHeading:
-						response?.data?.message || 'We were unable to set up your autopay due to a technical issue. Please try again'
+						response?.data?.message ||
+						'We were unable to set up your autopay due to a technical issue. Please try again'
 				});
 			}
 			throw new Error('');

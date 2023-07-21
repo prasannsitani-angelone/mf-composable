@@ -12,11 +12,10 @@ import { decodeToObject } from '$lib/utils/helpers/params';
 import { shareMessage } from '$lib/utils/share';
 import { shouldDisplayShare } from '$lib/utils';
 import { shareFundDetailClickAnalytics } from './analytics';
-import { hydratedStore } from '$lib/stores/AppHydratedStore';
-// import { hydrate } from '$lib/utils/helpers/hydrated';
+
+import { hydrate } from '$lib/utils/helpers/hydrated';
 
 export const load = (async ({ fetch, params, url, parent }) => {
-	let hydrate = false;
 	const queryParam = url?.searchParams?.get('params') || '';
 	const fundName = params['fund_name'];
 	const decodedParams = decodeToObject(queryParam);
@@ -96,8 +95,6 @@ export const load = (async ({ fetch, params, url, parent }) => {
 			return {};
 		}
 	};
-
-	hydratedStore.subscribe(({ isHydrated }) => (hydrate = isHydrated));
 
 	return {
 		layoutConfig: {
