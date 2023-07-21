@@ -17,7 +17,7 @@
 	class={`flex w-full flex-col justify-between rounded border border-grey-line bg-white px-4 py-3 ${clazz}`}
 	on:click={() => onSelect(identifier)}
 >
-	<div class="flex justify-between">
+	<div class="flex justify-between items-center">
 		<div class="flex flex-row items-center">
 			<div class="flex h-8 w-11 items-center justify-center rounded-sm border border-grey-line">
 				<img src={bankLogo} class="h-4 w-4" alt="bank logo" />
