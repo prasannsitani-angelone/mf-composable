@@ -76,7 +76,7 @@
 <Overlay containerClass="justify-end sm:!justify-center min-h-full">
 	{#if schemeData}
 		<article
-			class="flex flex-col items-center justify-center rounded-t-lg bg-white px-4 py-6 sm:w-160 sm:rounded-lg sm:p-16"
+			class="flex flex-col items-center justify-center rounded-t-2xl bg-white px-4 py-6 sm:w-160 sm:rounded-lg sm:p-16"
 		>
 			<div class="mb-4 text-lg font-medium">Not sure where to get started?</div>
 			<div class="mb-4 text-center text-sm font-medium">

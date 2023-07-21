@@ -21,27 +21,30 @@
 	}
 </script>
 
-<header class="flex flex-col p-6 pb-5">
+<header class="flex flex-col p-6 pb-2 pt-4 lg:pt-6">
 	<h1 class="text-lg font-medium text-black-title">Discover Mutual Funds</h1>
 </header>
-<section class="mb-3 flex flex-wrap items-center justify-center px-4 pb-6 sm:px-6">
+<section class="mb-3 flex flex-wrap px-4 pb-4 sm:px-6 lg:items-center lg:justify-center">
 	{#each searchOptions || [] as option}
 		<article
 			class="group mr-0 flex basis-1/4 cursor-pointer items-center justify-center rounded-lg bg-white py-4 hover:bg-grey sm:justify-start sm:pl-6"
 		>
 			<Link
 				to={getExploreFundsNavigationPath(option)}
-				class="flex flex-col items-center lg:flex-row"
+				class="flex h-full flex-col lg:h-auto lg:flex-row lg:items-center"
 				on:linkClicked={() => onExploreFundsClickEvent(option)}
 			>
-				<div class="flex h-9 w-9 items-center justify-center group-hover:bg-white lg:h-14 lg:w-14">
+				<div
+					class="my-auto flex h-9 w-9 self-center group-hover:bg-white lg:h-14 lg:w-14 lg:items-center lg:justify-center"
+				>
 					<img src={option.iconUrl} class="h-9 w-9" alt="option.name" loading="lazy" />
 				</div>
 				<h2
-					class="mt-2 text-center text-sm font-medium text-black-title lg:ml-3 lg:mt-0 lg:text-left lg:text-base"
+					class="mt-2 px-3 text-center text-sm font-medium text-black-title lg:ml-3 lg:mt-0 lg:pl-0 lg:pr-3 lg:text-left lg:text-base"
 				>
 					{option.name}
 				</h2>
+				<div class="h-full" />
 			</Link>
 		</article>
 	{/each}
