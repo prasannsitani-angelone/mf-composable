@@ -12,8 +12,6 @@
 	import Analytics from '$lib/utils/analytics';
 	import { appStore } from '$lib/stores/SparkStore';
 	import { appMount, webVitalsAnalytics } from '$lib/analytics/AppMounted';
-	import { page } from '$app/stores';
-	import { goto } from '$app/navigation';
 	import logger from '$lib/utils/logger';
 	import { deviceStore } from '$lib/stores/DeviceStore';
 	import { PUBLIC_ANALYTICS_ENABLED, PUBLIC_ANALYTICS_URL } from '$env/static/public';
@@ -105,14 +103,6 @@
 					// Reload when data changed
 					window.location.reload();
 				}
-			});
-		}
-
-		// to delete device id once app is loaded
-		if ($page.url.searchParams.get('deviceid')) {
-			$page.url.searchParams.delete('deviceid');
-			await goto($page.url, {
-				replaceState: true
 			});
 		}
 		// update data in stores
