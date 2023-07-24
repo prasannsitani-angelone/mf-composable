@@ -142,7 +142,7 @@
 										<div class="mt-1 text-xs font-medium text-grey-body">
 											SIP Amount
 											<span class="text-black-key">
-												<AmountText amount={addCommasToAmountString(sip?.installmentAmount)} />
+												<AmountText amount={sip?.installmentAmount} />
 											</span>
 										</div>
 									</svelte:fragment>
