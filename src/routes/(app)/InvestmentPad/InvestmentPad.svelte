@@ -55,7 +55,6 @@
 	} from './analytics/paymentFlow';
 	import {
 		startSipButtonClickAnalytics,
-		payNowLumpsumButtonClickAnalytics,
 		changePaymentMethodButtonClickAnalytics,
 		changePaymentMethodScreenImpressionAnalytics,
 		lumspsumToSipSleeveAnalytics,
@@ -64,8 +63,6 @@
 		investmentPadScreenOpenAnalytics,
 		investmentPadTabSwitchAnalytics,
 		calendarIconClickAnalytics,
-		dateSelectConfirmButtonClickAnalytics,
-		firstTimePaymentCheckboxClickAnalytics,
 		tncButtonClickAnalytics
 	} from './analytics/orderpad';
 	import { debounce } from '$lib/utils/helpers/debounce';
@@ -244,8 +241,6 @@
 
 		firstSipPayment = !firstSipPayment;
 		setNextSipDate();
-
-		firstTimePaymentCheckboxClickAnalyticsFunc();
 	};
 
 	const setErrorMessage = () => {
@@ -464,7 +459,11 @@
 
 	const changePaymentMethodScreenImpressionAnalyticsFunc = () => {
 		const eventMetaData = {
+			Fundname: schemeData?.schemeName,
+			ISIN: schemeData?.isin,
 			InvestmentType: activeTab,
+			SipDate: activeTab === 'SIP' ? getFormattedSIPDate() : '',
+			Amount: amount,
 			DefaultPaymentMethod: paymentHandler?.paymentMode,
 			DefaultBank: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
 			ChangeBankAvailable: profileData?.bankDetails?.length > 1
@@ -473,7 +472,28 @@
 	};
 
 	const showPaymentMethodScreen = () => {
-		changePaymentMethodButtonClickAnalytics();
+		changePaymentMethodButtonClickAnalytics({
+			Fundname: schemeData?.schemeName,
+			ISIN: schemeData?.isin,
+			isinvesttypevisible: isInvestTypeVisible() ? 'Y' : 'N',
+			ismakefirstpmtvisible: paymentMandatory ? 'N' : 'Y',
+			numberofuservisible: schemeData?.noOfClientInvested ? 'Y' : 'N',
+			InvestmentType: activeTab,
+			FirstSipPayment: firstSipPayment ? 'Y' : 'N',
+			CTA:
+				activeTab === 'SIP'
+					? !firstSipPayment
+						? 'START SIP'
+						: firstTimeUser
+						? 'PROCEED'
+						: 'PAY'
+					: firstTimeUser
+					? 'PROCEED'
+					: 'PAY',
+			Amount: amount,
+			SipDate: activeTab === 'SIP' ? getFormattedSIPDate() : '',
+			PaymentMethod: paymentHandler?.paymentMode
+		});
 		showChangePayment = true;
 		changePaymentMethodScreenImpressionAnalyticsFunc();
 	};
@@ -494,18 +514,7 @@
 			dateSuperscript = getDateSuperscript(sipDate);
 			setNextSipDate();
 		}
-		if (skipOrderPad && (ftp || activeTab === 'ONETIME') && $page.data?.isGuest && browser) {
-			// await goto(`${base}/login?redirect=${$page.url.href}`, {
-			// 	replaceState: true
-			// });
-			try {
-				console.log('before redirection');
-				window.location.replace(`${base}/login?redirect=${$page.url.href}`);
-				console.log('after redirection');
-			} catch (e) {
-				console.log(e);
-			}
-		} else if (skipOrderPad && (ftp || activeTab === 'ONETIME')) {
+		if (skipOrderPad && (ftp || activeTab === 'ONETIME')) {
 			showPaymentMethodScreen();
 		}
 	};
@@ -593,12 +602,20 @@
 		}
 	};
 
+	const isInvestTypeVisible = () => {
+		return investmentType !== 'SIP' ? true : false;
+	};
+
 	const investmentPadScreenOpenAnalyticsFunc = () => {
 		const eventMetaData = {
+			ISIN: schemeData?.isin,
 			Fundname: schemeData?.schemeName,
 			FundType: schemeData?.reInvestmentPlan,
 			AssetType: schemeData?.categoryName,
-			SubAssetType: schemeData?.subcategoryName
+			SubAssetType: schemeData?.subcategoryName,
+			isinvesttypevisible: isInvestTypeVisible() ? 'Y' : 'N',
+			ismakefirstpmtvisible: paymentMandatory ? 'N' : 'Y',
+			numberofuservisible: schemeData?.noOfClientInvested ? 'Y' : 'N'
 		};
 
 		investmentPadScreenOpenAnalytics(eventMetaData);
@@ -606,26 +623,11 @@
 
 	const investmentPadTabSwitchAnalyticsFunc = () => {
 		const eventMetaData = {
-			InvestmentType: activeTab
+			InvestmentType: activeTab,
+			ISIN: schemeData?.isin
 		};
 
 		investmentPadTabSwitchAnalytics(eventMetaData);
-	};
-
-	const dateSelectConfirmButtonClickAnalyticsFunc = (dateValue: number) => {
-		const eventMetaData = {
-			selectedDate: dateValue
-		};
-
-		dateSelectConfirmButtonClickAnalytics(eventMetaData);
-	};
-
-	const firstTimePaymentCheckboxClickAnalyticsFunc = () => {
-		const eventMetaData = {
-			firstTimePayment: firstSipPayment ? 'Y' : 'N'
-		};
-
-		firstTimePaymentCheckboxClickAnalytics(eventMetaData);
 	};
 
 	onMount(() => {
@@ -704,8 +706,6 @@
 
 		setNextSipDate();
 		toggleCalendar();
-
-		dateSelectConfirmButtonClickAnalyticsFunc(calendarDate);
 	};
 
 	const goToFundDetailsPage = async () => {
@@ -737,20 +737,9 @@
 		});
 	};
 
-	const submitButtonLumpsumClickAnalyticsFunc = () => {
-		const eventMetadata = {
-			Fundname: schemeData?.schemeName,
-			Amount: amount,
-			InvestmentType: activeTab,
-			PaymentMethod: paymentHandler?.paymentMode,
-			Bank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName,
-			URL: getDeeplinkForUrl($page.url)
-		};
-		payNowLumpsumButtonClickAnalytics(eventMetadata);
-	};
-
 	const submitButtonSIPClickAnalyticsFunc = () => {
 		const eventMetadata = {
+			ISIN: schemeData?.isin,
 			Fundname: schemeData?.schemeName,
 			Amount: amount,
 			InvestmentType: activeTab,
@@ -758,7 +747,10 @@
 			Bank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName,
 			SipDate: getFormattedSIPDate(),
 			FirstSipPayment: firstSipPayment ? 'Y' : 'N',
-			URL: getDeeplinkForUrl($page.url)
+			URL: getDeeplinkForUrl($page.url),
+			isinvesttypevisible: isInvestTypeVisible() ? 'Y' : 'N',
+			ismakefirstpmtvisible: paymentMandatory ? 'N' : 'Y',
+			numberofuservisible: schemeData?.noOfClientInvested ? 'Y' : 'N'
 		};
 		startSipButtonClickAnalytics(eventMetadata);
 	};
@@ -1121,7 +1113,6 @@
 				netBankingState
 			});
 		} else if (paymentHandler?.paymentMode === 'NET_BANKING') {
-			submitButtonLumpsumClickAnalyticsFunc();
 			netBankingLumpsumFlow({
 				...commonLumpsumInput,
 				netBankingState
@@ -1144,7 +1135,6 @@
 				updateUPITimer
 			});
 		} else if (paymentHandler?.paymentMode === 'UPI') {
-			submitButtonLumpsumClickAnalyticsFunc();
 			upiInitiateScreenAnalytics();
 			paymentHandler.upiId = inputId;
 			upiLumpsumFlow({
@@ -1166,7 +1156,6 @@
 				gpayPaymentState
 			});
 		} else {
-			submitButtonLumpsumClickAnalyticsFunc();
 			walletLumpsumFlow({
 				...commonLumpsumInput,
 				...sipInstallmentInput,
@@ -1247,7 +1236,7 @@
 
 			<article class="rounded-lg bg-white text-black-title md:mx-3 md:mb-4 md:mt-2">
 				<!-- Tab Section (SIP | ONE TIME) -->
-				{#if investmentType !== 'SIP'}
+				{#if isInvestTypeVisible()}
 					<section class="bg-whites flex rounded-lg rounded-b-none text-black-title">
 						<button
 							class={`h-12 w-40 flex-1 cursor-default rounded-t md:cursor-pointer ${

@@ -39,32 +39,6 @@ export const calendarIconClickAnalytics = () => {
 	});
 };
 
-export const dateSelectConfirmButtonClickAnalytics = (eventMetaData: unknown) => {
-	Analytics.logAnalyticEvent({
-		screen_name: 's-calendar',
-		event_type: 'click',
-		event_sub_type: 'button',
-		event_name: 'Confirm',
-		event_property: null,
-		event_id: '310.0.0.1.3',
-		event_metadata: eventMetaData
-	});
-};
-
-export const firstTimePaymentCheckboxClickAnalytics = (
-	eventMetaData: Record<string, string | boolean> | null
-) => {
-	Analytics.logAnalyticEvent({
-		screen_name: 's-orderpad',
-		event_type: 'click',
-		event_sub_type: 'checkbox',
-		event_name: 'Makefirstsippaymentnow',
-		event_property: null,
-		event_id: '310.0.0.1.4',
-		event_metadata: eventMetaData
-	});
-};
-
 export const startSipButtonClickAnalytics = (eventMetaData: Record<string, string> | null) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-orderpad',
@@ -73,18 +47,6 @@ export const startSipButtonClickAnalytics = (eventMetaData: Record<string, strin
 		event_name: 'Start SIP',
 		event_property: null,
 		event_id: '310.0.0.1.5',
-		event_metadata: eventMetaData
-	});
-};
-
-export const payNowLumpsumButtonClickAnalytics = (eventMetaData: Record<string, string> | null) => {
-	Analytics.logAnalyticEvent({
-		screen_name: 's-orderpad',
-		event_type: 'click',
-		event_sub_type: 'button',
-		event_name: 'PayNow',
-		event_property: null,
-		event_id: '310.0.0.1.6',
 		event_metadata: eventMetaData
 	});
 };
@@ -100,14 +62,15 @@ export const tncButtonClickAnalytics = () => {
 	});
 };
 
-export const changePaymentMethodButtonClickAnalytics = () => {
+export const changePaymentMethodButtonClickAnalytics = (eventMetaData: Record<string, string>) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-orderpad',
 		event_type: 'click',
 		event_sub_type: 'text',
 		event_name: 's-ChangePaymentmethod',
 		event_property: null,
-		event_id: '310.0.0.1.8'
+		event_id: '310.0.0.1.8',
+		event_metadata: eventMetaData
 	});
 };
 
