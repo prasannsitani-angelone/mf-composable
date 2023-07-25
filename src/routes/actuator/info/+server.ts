@@ -9,7 +9,7 @@ export const GET = (async () => {
 		upSince: startTime,
 		localTime: new Date(),
 		service: {
-			name: 'mf-support-web'
+			name: 'mf-ui'
 		}
 	});
 }) satisfies RequestHandler;
