@@ -14,7 +14,7 @@
 
 	const goToManageAutopay = async () => {
 		doneClickAfterAutopayRegisteredAnalytics();
-		await goto(`${base}/autopay`,{ replaceState: true });
+		await goto(`${base}/autopay`, { replaceState: true });
 	};
 
 	onMount(() => {

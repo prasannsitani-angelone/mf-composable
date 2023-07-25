@@ -119,7 +119,9 @@
 									<div class="flex-1 text-[10px] uppercase">
 										{mandate?.authenticationMode} AUTOPAY
 									</div>
-									<div class="flex-1 truncate text-xs">Autopay ID: {mandate?.mandateId}</div>
+									<div class="flex-1 truncate text-right text-xs">
+										Autopay ID: {mandate?.mandateId}
+									</div>
 								</section></svelte:fragment
 							>
 						</BankAutopayCard>
