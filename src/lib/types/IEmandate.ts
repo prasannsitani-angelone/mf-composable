@@ -28,6 +28,7 @@ export interface AutopayTypes {
 	umrnNo: string;
 	updatedBy: string;
 	updatedOn: string;
+	inProgress: boolean;
 }
 
 export interface AutopayDetailsType {
@@ -52,6 +53,7 @@ export interface AutopayDetailsType {
 	umrnNo: string;
 	authenticationMode: string;
 	remarks: string;
+	inProgress: boolean;
 }
 
 export interface MandateWithBankDetails extends AutopayTypes {

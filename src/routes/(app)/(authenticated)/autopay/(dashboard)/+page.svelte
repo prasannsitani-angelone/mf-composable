@@ -47,7 +47,7 @@
 					status:
 						mandate?.mandateStatus?.toLowerCase() !== 'success'
 							? 'failed'
-							: mandate?.umrnNo?.length > 0
+							: !mandate?.inProgress
 							? 'success'
 							: 'in progress',
 					AutopayType: mandate?.authenticationMode?.toUpperCase(),
@@ -102,7 +102,7 @@
 							bankLogoClass="-mt-1 !px-2 !py-1 h-9 w-9 flex items-center justify-center rounded-full border border-grey bg-white"
 						>
 							<svelte:fragment slot="autopayStatusSlot">
-								{#if mandate?.umrnNo?.length}
+								{#if !mandate?.inProgress}
 									<section class="flex items-center">
 										<AutopayEnabledIcon class="mr-1" />
 										<div class="text-xs font-medium text-grey-body">Autopay Enabled</div>

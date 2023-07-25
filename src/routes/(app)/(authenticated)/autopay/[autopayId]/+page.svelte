@@ -50,7 +50,7 @@
 			status:
 				mandate?.mandateStatus?.toLowerCase() !== 'success'
 					? 'failed'
-					: mandate?.umrnNo?.length > 0
+					: !mandate?.inProgress
 					? 'success'
 					: 'in progress',
 			AutopayType: mandate?.authenticationMode?.toUpperCase(),
@@ -75,7 +75,7 @@
 	{:then response}
 		<section>
 			{#if response?.status === 'success' && response?.data}
-				{#if !response?.data?.umrnNo || !response?.data?.umrnNo?.length}
+				{#if response?.data?.inProgress}
 					<CardStatusPending
 						class="-mx-2 -mt-2 mb-2"
 						heading="In Progress"
@@ -93,7 +93,7 @@
 					bankLogoClass="-mt-1 !px-2 !py-1 h-9 w-9 flex items-center justify-center rounded-full border border-grey bg-white"
 				>
 					<svelte:fragment slot="header">
-						{#if response?.data?.umrnNo?.length}
+						{#if !response?.data?.inProgress}
 							<div class="-mt-4 mb-2 text-[10px] font-medium uppercase text-grey-body">
 								{response?.data?.authenticationMode}
 							</div>
