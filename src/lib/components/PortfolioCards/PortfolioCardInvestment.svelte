@@ -86,7 +86,7 @@
 					: '0.00'}
 			</div>
 		</article>
-		{#if investmentSummary && investmentSummary.investedValue !== 0}
+		{#if investmentSummary && investmentSummary.investedValue && investmentSummary.investedValue !== 0}
 			<Button
 				variant="transparent"
 				class="flex flex-col items-end !pr-0 !pt-0 pb-2 pl-2"
