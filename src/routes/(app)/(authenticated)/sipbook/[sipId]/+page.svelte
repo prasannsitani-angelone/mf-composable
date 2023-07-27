@@ -71,6 +71,7 @@
 	let mandateList: MandateWithBankDetails[] = [];
 	let selectedMandate: MandateWithBankDetails;
 	let bankPopupVisible = false;
+	let autopayType: 'switch' | 'link'  = 'switch';
 
 	$: profileData = $page?.data?.profile;
 
@@ -134,7 +135,7 @@
 			if (res.data?.status === 'success') {
 				toastStore.updateToastQueue({
 					type: 'SUCCESS',
-					message: 'Autopay switched.',
+					message: `Autopay ${autopayType}ed.`,
 					class: '!justify-start'
 				});
 				const eventMetaData = {
@@ -146,12 +147,13 @@
 					},
 					'Bank Name': selected.bankName
 				};
+				selectedMandate = selected;
 				switchAutopaySuccessImpressionAnalytics(eventMetaData);
 				invalidate('skipsip');
 			} else {
 				toastStore.updateToastQueue({
 					type: 'SUCCESS',
-					message: 'Unable to switch autopay. Try again after sometime.',
+					message: `Unable to ${autopayType} autopay. Try again after sometime.`,
 					class: '!justify-start'
 				});
 			}
@@ -284,6 +286,7 @@
 	};
 
 	const onAction = (sipData: IInvestmentTypeSIP) => {
+		autopayType = 'link';
 		showAutopaySelectionPopup(sipData);
 	};
 
@@ -386,7 +389,10 @@
 							{#if mandateList.length > 1}
 								<div class=" mt-2 border-t pt-1 text-right">
 									<Button
-										onClick={() => showAutopaySelectionPopup(sipData)}
+										onClick={() => {
+											autopayType = 'switch';
+											showAutopaySelectionPopup(sipData)}
+										}
 										variant="transparent"
 										size="xs"
 										class="!h-auto min-h-fit !px-0 text-xs font-semibold text-blue-primary"
