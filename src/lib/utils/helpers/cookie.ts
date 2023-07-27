@@ -24,7 +24,7 @@ export const setCookie = (cname: string, cvalue: string, options?: object) => {
 		pathStr = `path=${path};`;
 	}
 	if (maxAge) {
-		cookieAge = `max-age=${maxAge * 24 * 60 * 60}`;
+		cookieAge = `max-age=${maxAge}`;
 	}
 
 	document.cookie = `${cname}=${cvalue};${expires}${ss}${secureFlag}${domainStr}${pathStr}${cookieAge}`;
