@@ -16,8 +16,6 @@
 	import {
 		homepageMultipleSipPaymentDueNudgeImpressionAnalytics,
 		homepageSipPaymentDueNudgeImpressionAnalytics,
-		nudgeClick,
-		nudgeImpression,
 		sHomepage
 	} from '$lib/analytics/DiscoverFunds';
 	import type { PageData } from './$types';
@@ -255,22 +253,6 @@
 			when={retryPaymentNudges?.length > 0}
 			component={async () => await import('./FailedOrdersNudge.svelte')}
 		/>
-	{/if}
-	{#if nudgesData?.nudges?.length}
-		{#each nudgesData?.nudges as nudge, index (index)}
-			<section>
-				{#if nudge?.nudgesType !== 'mandate' && nudge?.nudgesType !== 'SIP_INSTALLMENT' && nudge?.nudgesType !== 'PAYMENT_FAILED' && nudge?.nudgesType !== 'CREATE_YOUR_FIRST_SIP'}
-					<LazyComponent
-						{nudge}
-						clickEvent={nudgeClick}
-						impressionEvent={nudgeImpression}
-						class="mt-2 sm:mt-4"
-						when={nudgesData?.nudges?.length > 0}
-						component={async () => await import('$components/Nudge/DiscoverFundsNudge.svelte')}
-					/>
-				{/if}
-			</section>
-		{/each}
 	{/if}
 
 	<!-- External Funds, NFO, Calculator -->

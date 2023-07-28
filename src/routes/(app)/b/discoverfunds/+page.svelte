@@ -11,12 +11,9 @@
 	import { format } from 'date-fns';
 	import type { IDueSips, ISip } from '$lib/types/ISipType';
 
-	import DiscoverFundsNudge from '$components/Nudge/DiscoverFundsNudge.svelte';
 	import {
 		homepageMultipleSipPaymentDueNudgeImpressionAnalytics,
 		homepageSipPaymentDueNudgeImpressionAnalytics,
-		nudgeClick,
-		nudgeImpression,
 		sHomepage
 	} from '$lib/analytics/DiscoverFunds';
 	import type { PageData } from './$types';
@@ -321,21 +318,6 @@
 				order={formattedRetryPaymentNudgeData}
 				orderCount={retryPaymentNudges?.length}
 			/>
-		{/if}
-
-		{#if nudgesData?.nudges?.length}
-			{#each nudgesData?.nudges as nudge, index (index)}
-				<section>
-					{#if nudge?.nudgesType !== 'mandate' && nudge?.nudgesType !== 'SIP_INSTALLMENT' && nudge?.nudgesType !== 'PAYMENT_FAILED' && nudge?.nudgesType !== 'CREATE_YOUR_FIRST_SIP'}
-						<DiscoverFundsNudge
-							{nudge}
-							clickEvent={nudgeClick}
-							impressionEvent={nudgeImpression}
-							class="mt-2 sm:mt-4"
-						/>
-					{/if}
-				</section>
-			{/each}
 		{/if}
 	</div>
 
