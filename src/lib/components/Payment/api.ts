@@ -397,3 +397,61 @@ export const cartPatchFunction = async (params) => {
 		return {};
 	}
 };
+
+export const sipBulkPostFunction = async (params) => {
+	const url = `${PUBLIC_MF_CORE_BASE_URL}/sips/bulk`;
+	try {
+		const { dpNumber, emandateId, orders, packId, transactionRefNumber, xRequestId, source } =
+			params || {};
+
+		const response = await useFetch(url, {
+			method: 'POST',
+			body: JSON.stringify({
+				dpNumber,
+				emandateId,
+				orders,
+				packId,
+				transactionRefNumber,
+				type: 'SIP'
+			}),
+			headers: {
+				'X-Request-Id': xRequestId,
+				'X-Source': source || 'diy'
+			}
+		});
+		return response;
+	} catch (e) {
+		return {};
+	}
+};
+
+export const sipBulkPatchFunc = async (params) => {
+	try {
+		const {
+			reference_number,
+			response_description,
+			status,
+			transaction_id,
+			bulkRequestId,
+			xRequestId,
+			source
+		} = params || {};
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/sips/bulk/${bulkRequestId}`;
+		const response = await useFetch(url, {
+			method: 'PATCH',
+			body: JSON.stringify({
+				paymentReferenceNumber: reference_number,
+				paymentRemarks: response_description,
+				paymentStatus: status,
+				pgTxnId: transaction_id
+			}),
+			headers: {
+				'X-Request-Id': xRequestId,
+				'X-Source': source || 'diy'
+			}
+		});
+		return response;
+	} catch (e) {
+		return {};
+	}
+};

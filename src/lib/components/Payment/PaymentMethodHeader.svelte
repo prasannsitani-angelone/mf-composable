@@ -3,6 +3,7 @@
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	export let onBackClick: () => void = () => undefined;
+	export let title = 'Select Payment Method';
 </script>
 
 <div
@@ -16,7 +17,7 @@
 			height={16}
 			on:click={onBackClick}
 		/>
-		<div class="text-lg font-medium text-black-title sm:text-xl">Select Payment Method</div>
+		<div class="text-lg font-medium text-black-title sm:text-xl">{title}</div>
 	</div>
 	<div class="hidden sm:flex">
 		<CrossInCircleIcon onClick={onBackClick} />

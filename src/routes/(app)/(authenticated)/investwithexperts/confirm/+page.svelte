@@ -1,0 +1,254 @@
+<script lang="ts">
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
+	import PieChart from '$components/Charts/PieChart.svelte';
+	import ChangePaymentContainerWithState from '$components/Payment/ChangePaymentContainerWithState.svelte';
+	import PaymentSleeveWithState from '$components/Payment/PaymentSleeveWithState.svelte';
+	import {
+		netBankingBulkSIPFlow,
+		upiBulkSIPFlow,
+		walletBulkSIPFlow
+	} from '$components/Payment/flow';
+	import { getCompleteSIPDateBasedonDD, getDateSuperscript } from '$lib/utils/helpers/date';
+	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
+	import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
+
+	export let data: import('./$types').PageData;
+
+	const params = $page.url.searchParams.get('params');
+	const { amount = 0, date } = decodeToObject(params || '');
+	const profileData = $page.data?.profile;
+
+	const upiPaymentAmountLimit = 100000;
+	const minimumNetBankingAmountLimit = 50;
+
+	let paymentHandler = {
+		selectedAccount: 0,
+		paymentMode: '',
+		upiId: '',
+		firstTimeUser: true
+	};
+	let showChangePayment = false;
+
+	const showPaymentMethodScreen = () => {
+		showChangePayment = true;
+	};
+
+	const hidePaymentMethodScreen = () => {
+		showChangePayment = false;
+	};
+
+	const assignPreviousPaymentDetails = async (promise) => {
+		paymentHandler = await promise;
+	};
+
+	const updatePaymentHandler = (input) => {
+		paymentHandler.firstTimeUser = input.firstTimeUser || paymentHandler.firstTimeUser;
+		paymentHandler.paymentMode = input.paymentMode || paymentHandler.paymentMode;
+		paymentHandler.selectedAccount = input.selectedAccount || paymentHandler.selectedAccount;
+		paymentHandler.upiId = input.upiId || paymentHandler.upiId;
+	};
+
+	const getSIPDate = () => {
+		return getCompleteSIPDateBasedonDD(date, new Date(), 30);
+	};
+
+	const paymentFlow = async (params) => {
+		// when first time user and first time payment true then navigate to payment method screen
+		if (paymentHandler.firstTimeUser) {
+			showPaymentMethodScreen();
+			return;
+		}
+
+		const basketResponse = await data.api.basket;
+		const schemes = basketResponse?.schemes;
+		const orders = [];
+		schemes.forEach((scheme) => {
+			orders.push({
+				firstOrderToday: true,
+				folioNumber: '',
+				frequency: scheme.sipFrequency,
+				installmentAmount: scheme.amount,
+				isin: scheme.isin,
+				noOfInstallment: scheme.sipMaxInstallmentNo,
+				schemeCode: scheme.schemeCode,
+				startDate: getSIPDate()
+			});
+		});
+
+		const commonInput = {
+			...params,
+			amount,
+			packId: basketResponse.packId,
+			sipDate: getSIPDate(),
+			orders,
+			accNO: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO,
+			ifscCode: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.ifscCode,
+			bankName: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
+			dpNumber: profileData?.dpNumber,
+			fullName: profileData?.clientDetails?.fullName,
+			onSuccess: successFlow
+		};
+
+		if (paymentHandler?.paymentMode === 'NET_BANKING') {
+			netBankingBulkSIPFlow(commonInput);
+		} else if (paymentHandler?.paymentMode === 'UPI') {
+			paymentHandler.upiId = params?.inputId;
+			upiBulkSIPFlow(commonInput);
+		} else {
+			walletBulkSIPFlow(commonInput);
+		}
+	};
+
+	const navigateToOrderSummary = async (bulkId) => {
+		const params = encodeObject({
+			bulkId
+		});
+		await goto(`ordersummary?params=${params}`);
+	};
+
+	const successFlow = (params) => {
+		navigateToOrderSummary(params?.bulkRequestId);
+	};
+
+	const updatePaymentMode = (amount: string) => {
+		if (
+			(paymentHandler?.paymentMode === 'GOOGLEPAY' ||
+				paymentHandler?.paymentMode === 'PHONEPE' ||
+				paymentHandler?.paymentMode === 'UPI') &&
+			parseInt(amount) > upiPaymentAmountLimit
+		) {
+			paymentHandler.paymentMode = 'NET_BANKING';
+		} else if (
+			paymentHandler?.paymentMode === 'NET_BANKING' &&
+			parseInt(amount) < minimumNetBankingAmountLimit
+		) {
+			paymentHandler.paymentMode = 'UPI';
+		}
+	};
+
+	$: updatePaymentMode(amount);
+</script>
+
+{#await data.api.basket}
+	<div>Loading</div>
+{:then basket}
+	{#if !showChangePayment}
+		<article class="flex h-full flex-col justify-between overflow-y-hidden">
+			<!-- Content -->
+			<section class="mx-2 mb-2 mt-3 flex flex-col overflow-y-scroll">
+				<!-- Section 1 -->
+				<div class="mb-2 rounded-lg bg-white p-3">
+					<!-- Heading  -->
+					<div class="mb-4 text-base font-medium text-black-title">Investing in 4 Mutual Funds</div>
+					<!-- Investment Info  -->
+					<div
+						class="flex flex-row justify-between rounded bg-grey p-2 text-sm font-medium text-black-title"
+					>
+						<div class="flex flex-col">
+							<div class="text-xs text-grey-body">Total SIP Amount</div>
+							<div>₹{addCommasToAmountString(amount)}</div>
+						</div>
+						<div class="flex flex-col">
+							<div class="text-xs text-grey-body">Monthly SIP Date</div>
+							<div class="text-end">{date}{getDateSuperscript(date)}</div>
+						</div>
+					</div>
+				</div>
+				<!-- Section 2 -->
+				{#if basket.ok}
+					<div class="rounded-lg bg-white p-3">
+						<!-- Heading  -->
+						<div class="mb-7 text-base font-medium text-black-title">Investment Allocation</div>
+						<!-- Pie Chart  -->
+						<div class="mb-6 flex w-full flex-row items-center justify-center">
+							<PieChart data={basket?.chartData} />
+						</div>
+						<!-- schemes table -->
+						<div class="flex flex-col">
+							<!-- header -->
+							<div
+								class="flex flex-row justify-between border-b border-grey-line pb-3 text-xs text-grey-body"
+							>
+								<div class="w-2/3">Fund</div>
+								<div class="w-1/3 text-end">Amount</div>
+							</div>
+							<!-- data  -->
+							<div class="flex flex-col gap-5 pt-6">
+								{#each basket.schemes as scheme, index (index)}
+									<div class="flex flex-row text-sm font-medium text-black-title">
+										<div class="flex w-2/3 flex-row">
+											<div
+												class="flex h-6 w-6 min-w-[24px] flex-row items-center justify-center rounded-full bg-white shadow-csm"
+											>
+												<img src={scheme.logoUrl} height="100%" width="100%" alt="scheme logo" />
+											</div>
+											<div class="ml-2">{scheme.schemeName}</div>
+										</div>
+										<div class="w-1/3 text-end">₹{addCommasToAmountString(scheme.amount)}</div>
+									</div>
+								{/each}
+							</div>
+						</div>
+					</div>
+				{/if}
+			</section>
+			<!-- footer  -->
+			{#await assignPreviousPaymentDetails(data.api.previousPaymentDetails)}
+				<div />
+			{:then}
+				<section class="flex w-full flex-row bg-white px-4 py-3">
+					<PaymentSleeveWithState
+						amount={amount.toString()}
+						{paymentHandler}
+						bankAccounts={profileData?.bankDetails}
+						{showPaymentMethodScreen}
+						{paymentFlow}
+						pendingFlow={successFlow}
+					/>
+				</section>
+			{/await}
+		</article>
+	{:else}
+		<ChangePaymentContainerWithState
+			amount={amount.toString()}
+			{paymentHandler}
+			bankAccounts={profileData?.bankDetails}
+			{hidePaymentMethodScreen}
+			{updatePaymentHandler}
+			{paymentFlow}
+			pendingFlow={successFlow}
+		>
+			<div slot="schemeTile" class="flex flex-col">
+				<div class="flex w-full flex-col bg-white px-3 py-4">
+					<div class="flex flex-row">
+						<div class="mr-2 flex max-w-[56px] flex-row">
+							<div
+								class="flex h-9 w-9 min-w-[36px] flex-row items-center justify-center rounded-full border border-grey-line bg-white shadow-csm"
+							>
+								<img src={basket.schemes?.[0].logoUrl} alt="scheme logo" />
+							</div>
+							{#if basket.schemes?.length > 1}
+								<div
+									class="relative left-[-16px] flex h-9 w-9 min-w-[36px] flex-row items-center justify-center rounded-full border border-grey-line bg-white text-xs shadow-csm"
+								>
+									+ {basket.schemes?.length - 1}
+								</div>
+							{/if}
+						</div>
+						<div class="flex w-full flex-row items-center justify-between text-sm font-medium">
+							<div>{basket.schemes?.length} Mutual Funds</div>
+							<div>₹{addCommasToAmountString(amount)}</div>
+						</div>
+					</div>
+					<div class="mt-2 text-xs text-black-title">
+						Monthly SIP Date: {date}{getDateSuperscript(date)}
+					</div>
+				</div>
+				<div class="bg-grey pb-2" />
+			</div>
+		</ChangePaymentContainerWithState>
+	{/if}
+{:catch}
+	<div>Error</div>
+{/await}
