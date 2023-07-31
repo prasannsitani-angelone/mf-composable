@@ -13,6 +13,7 @@
 	import ChipOverview from './ChipOverview.svelte';
 	import GreenUpArrowTrendingFund from '$lib/images/GreenUpArrowTrendingFund.svg';
 	import PeopleIconGrey from '$lib/images/PeopleIconGrey.svg';
+	import AmountText from './AmountText.svelte';
 
 	let schemes: WeeklyTopSchemesEntity | ExploreFundsOptions | SchemeDetails;
 	let showLogo = true;
@@ -56,29 +57,31 @@
 				/>
 			</slot>
 		</div>
-		<div class="relative w-[95px]">
+		<div class="relative w-16">
 			<slot name="topRightSection">
 				{#if schemes?.sortBy2 > 0 && schemes?.sortBy2 < 3}
 					<div class="bottom absolute inset-0" />
 					<div class="top absolute inset-0" />
 					<div class="absolute right-1 flex h-[20px] items-center text-1xs font-medium text-white">
-						Recommended
+						Top Rated
 					</div>
 				{/if}
 			</slot>
 		</div>
 	</div>
 	<div class="flex flex-row items-start">
-		{#if showLogo}
-			<SchemeLogo
-				class="!mr-2 !h-8 !w-8 rounded-none border-none shadow-none"
-				src={schemes?.logoUrl}
-				alt={schemes?.schemeName}
-			/>
-		{/if}
-		<p class="line-clamp-2 whitespace-normal text-sm font-medium text-black-title md:text-sm">
-			{schemes?.schemeName}
-		</p>
+		<section class="flex items-center">
+			{#if showLogo}
+				<SchemeLogo
+					class="!mr-1 rounded-none border-none shadow-none"
+					src={schemes?.logoUrl}
+					alt={schemes?.schemeName}
+				/>
+			{/if}
+			<p class="line-clamp-2 whitespace-normal text-sm font-medium text-black-title md:text-sm">
+				{schemes?.schemeName}
+			</p>
+		</section>
 		<div class="flex-1" />
 		<slot name="titleRightSection">
 			<AddToCart
@@ -95,7 +98,7 @@
 				<div class="flex w-6/12 flex-col items-start">
 					<p class="text-xs text-[#515151]">Min. SIP Amount</p>
 					<p class="text-base font-medium">
-						₹ {addCommasToAmountString(schemes?.minSipAmount?.toString()) || schemes?.minSipAmount}
+						<AmountText amount={schemes?.minSipAmount || 0} />
 					</p>
 				</div>
 			</slot>
@@ -105,14 +108,14 @@
 					<div class="flex flex-row items-center">
 						<img
 							src={GreenUpArrowTrendingFund}
-							class="mr-1 h-3 w-2.5"
+							class="mr-1 mt-1 h-3 w-2.5"
 							decoding="async"
 							alt="Trending Funds Up Arrow"
 							width="10"
 							height="12"
 						/>
 						<p class="text-xs font-normal">
-							<span class="text-base font-medium">{schemes?.returns3yr}%</span> p.a
+							<span class="text-base font-medium">{schemes?.returns3yr?.toFixed(2)}%</span> p.a
 						</p>
 					</div>
 				</div>
@@ -149,10 +152,10 @@
 <style>
 	.bottom {
 		border-bottom: 20px solid #1ec7b666;
-		border-left: 15px solid transparent;
+		border-left: 10px solid transparent;
 	}
 	.top {
 		border-top: 20px solid #581dbe99;
-		border-left: 15px solid transparent;
+		border-left: 10px solid transparent;
 	}
 </style>

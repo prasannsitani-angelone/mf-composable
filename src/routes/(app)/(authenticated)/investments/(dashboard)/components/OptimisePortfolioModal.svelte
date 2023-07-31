@@ -51,10 +51,12 @@
 	// Calcultion for the graph details
 	$: threeYearReturnsValue =
 		Math.round(
-			calculateSipReturns(schemeDetails?.minSipAmount < 500 ? 500 : schemeDetails?.minSipAmount, 3, schemeDetails?.returns3yr)
-				?.matuarityAmount * 100
-		) /
-			100;
+			calculateSipReturns(
+				schemeDetails?.minSipAmount < 500 ? 500 : schemeDetails?.minSipAmount,
+				3,
+				schemeDetails?.returns3yr
+			)?.matuarityAmount * 100
+		) / 100;
 	$: threeReturnsWithoutInvestment =
 		(currentSchemeDetails?.sipEnabled
 			? Math.round(
@@ -63,14 +65,21 @@
 						3,
 						currentSchemeDetails?.returns3yr
 					)?.matuarityAmount * 100
-			  ) / 100 + (investmentSummary?.currentValue || 0)
+			  ) /
+					100 +
+			  (investmentSummary?.currentValue || 0)
 			: Math.round(
-					calculateLumpsumReturns((investmentSummary?.currentValue || 0), 3, currentSchemeDetails?.returns3yr)
-						?.matuarityAmount * 100
+					calculateLumpsumReturns(
+						investmentSummary?.currentValue || 0,
+						3,
+						currentSchemeDetails?.returns3yr
+					)?.matuarityAmount * 100
 			  ) / 100) + (investmentSummary?.currentValue || 0);
 	$: totalReturns = threeReturnsWithoutInvestment + threeYearReturnsValue;
 	$: totalReturnsPerctange = Math.round(
-		((threeYearReturnsValue - (investmentSummary?.currentValue || 0)) / (investmentSummary?.currentValue || 1)) * 100
+		((threeYearReturnsValue - (investmentSummary?.currentValue || 0)) /
+			(investmentSummary?.currentValue || 1)) *
+			100
 	);
 
 	// Call the API's onMount of Modal
@@ -109,7 +118,7 @@
 					height={24}
 				/>
 			</div>
-			<p class="text-sm mt-1">
+			<p class="mt-1 text-sm">
 				Based on your current investments, we recommend adding the following fund to your portfolio
 			</p>
 		</div>
@@ -159,8 +168,10 @@
 					</SkeletonWrapper>
 				{/if}
 				<p class="text-1xs text-grey-body">
-					Disclaimer: Projected values are based on fund’s last 3 years CAGR with a monthly SIP of
-					₹{schemeDetails?.minSipAmount < 500 ? '500' : schemeDetails?.minSipAmount?.toString()}. Your actual returns may vary.
+					Disclaimer: Projected values are based on fund’s last 3 years CAGR with a monthly SIP of ₹{schemeDetails?.minSipAmount <
+					500
+						? '500'
+						: schemeDetails?.minSipAmount?.toString()}. Your actual returns may vary.
 				</p>
 			</div>
 			<Button class="mt-4" on:click={gotoSchemeDetails}>INVEST NOW</Button>
