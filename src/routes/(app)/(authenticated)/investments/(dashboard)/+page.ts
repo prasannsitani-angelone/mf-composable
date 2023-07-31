@@ -20,6 +20,20 @@ export const load = (async ({ fetch, url }) => {
 		}
 	};
 
+	const getOptimisePortfolioData = async () => {
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/recommendation/sip`;
+
+		const res = await useFetch(url, {}, fetch);
+		if (res?.ok && res?.status === 200) {
+			const optimisePortfolioData = res.data;
+			return {
+				...optimisePortfolioData
+			};
+		} else {
+			return {};
+		}
+	};
+
 	const getExternalInvestmentData = async () => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings?external=true`;
 
@@ -48,7 +62,10 @@ export const load = (async ({ fetch, url }) => {
 			externalInvestmentSummary: browser
 				? getExternalInvestmentSummary()
 				: await getExternalInvestmentSummary(),
-			externalInvestment: browser ? getExternalInvestmentData() : await getExternalInvestmentData()
+			externalInvestment: browser ? getExternalInvestmentData() : await getExternalInvestmentData(),
+			getOptimisePortfolioData: browser
+				? getOptimisePortfolioData()
+				: await getOptimisePortfolioData()
 		},
 		isExternal,
 		layoutConfig: {

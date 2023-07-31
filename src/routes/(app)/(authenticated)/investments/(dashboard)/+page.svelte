@@ -19,12 +19,37 @@
 	import InvestmentTab from './components/InvestmentTab.svelte';
 	import { SEO } from 'svelte-components';
 	import { tabs } from '../constants';
+	import OptimisePortfolioCard from './components/OptimisePortfolioCard.svelte';
+	import { onMount, tick } from 'svelte';
+	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+	import { useFetch } from '$lib/utils/useFetch';
+	import type { IOPtimsiePortfolioData } from '$lib/types/IInvestments';
 
 	let isXIRRModalOpen = false;
+	let isOptimisePortfolioOpen = false;
+	let optimisePorfolioData: IOPtimsiePortfolioData = {
+		isin: '',
+		schemeCode: '',
+		schemeName: '',
+		logoUrl: ''
+	};
 
 	const showXirrModal = () => {
 		isXIRRModalOpen = true;
 	};
+
+	const toggleOptimisePorfolioCard = () => {
+		isOptimisePortfolioOpen = true;
+	};
+
+	onMount(async () => {
+		await tick();
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/recommendation/sip`;
+		const res = await useFetch(url, {}, fetch);
+		if (res?.ok && res?.status === 200) {
+			optimisePorfolioData = res?.data?.recommendedScheme?.[0] || {};
+		}
+	});
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 
@@ -48,7 +73,13 @@
 		{:then response}
 			{#if response && response.status === 'success' && Array.isArray(response.data.holdings) && response.data.holdings.length > 0}
 				<!-- Show Users investment if exist -->
-				<YourInvestmentsNew tableData={response.data?.holdings || []} bind:isXIRRModalOpen />
+				<YourInvestmentsNew
+					investmentSummary={data.investementSummary}
+					{optimisePorfolioData}
+					tableData={response.data?.holdings || []}
+					bind:isXIRRModalOpen
+					bind:isOptimisePortfolioOpen
+				/>
 			{:else}
 				<!-- Show No orders component and TendingFunds Table in case user investment does not exist or not processed -->
 				<article class="mt-2 hidden max-w-4xl rounded-lg bg-white text-sm shadow-csm md:block">
@@ -106,6 +137,11 @@
 					investmentSummary={data.investementSummary}
 				/>
 			</article>
+			{#if optimisePorfolioData?.schemeCode && optimisePorfolioData?.schemeName && optimisePorfolioData?.isin}
+				<article class="mt-2 hidden sm:block">
+					<OptimisePortfolioCard on:click={toggleOptimisePorfolioCard} />
+				</article>
+			{/if}
 			<!-- Order cards: Visible only in desktop and tablet -->
 			{#if !isMobile}
 				<article class="mt-5">

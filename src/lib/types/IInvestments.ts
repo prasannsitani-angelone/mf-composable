@@ -277,3 +277,10 @@ export interface ToggleButtonParam {
 	disabled?: boolean;
 	class?: string;
 }
+
+export interface IOPtimsiePortfolioData {
+	isin: string;
+	schemeCode: string;
+	schemeName: string;
+	logoUrl: string;
+}

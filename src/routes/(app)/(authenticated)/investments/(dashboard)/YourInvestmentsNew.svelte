@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import WMSIcon from '$lib/components/WMSIcon.svelte';
-	import type { InvestmentEntity } from '$lib/types/IInvestments';
+	import type {
+		IOPtimsiePortfolioData,
+		InvestmentEntity,
+		InvestmentSummary
+	} from '$lib/types/IInvestments';
 	import ActiveSipIcon from '$lib/images/icons/ActiveSipIcon.svelte';
 	import ChipOverview from '$components/ChipOverview.svelte';
 	import { partialImportCheck } from '../utils';
@@ -21,10 +24,17 @@
 		xirrFilterClickEvent,
 		xirrFilterModalImpressionEvent
 	} from './analytics';
+	import OptimisePortfolioCard from './components/OptimisePortfolioCard.svelte';
+	import { WMSIcon } from 'svelte-components';
+	import OptimisePortfolioModal from './components/OptimisePortfolioModal.svelte';
 
 	$: isExternal = $page?.data?.isExternal;
 
 	export let isXIRRModalOpen = false;
+	export let isOptimisePortfolioOpen = false;
+	export let optimisePorfolioData: IOPtimsiePortfolioData;
+	export let investmentSummary: InvestmentSummary;
+
 	let activeFilter = 'absolute';
 
 	const onXirrClick = () => {
@@ -70,6 +80,10 @@
 
 	const onModalClick = () => {
 		isXIRRModalOpen = false;
+	};
+
+	const toggleOptimisePorfolioCard = (flag: boolean) => {
+		isOptimisePortfolioOpen = flag;
 	};
 </script>
 
@@ -251,6 +265,12 @@
 			</Link>
 		{/each}
 	</section>
+	{#if optimisePorfolioData?.schemeCode && optimisePorfolioData?.schemeName && optimisePorfolioData?.isin}
+		<OptimisePortfolioCard
+			on:click={() => toggleOptimisePorfolioCard(true)}
+			class="block sm:hidden"
+		/>
+	{/if}
 </section>
 {#if isXIRRModalOpen}
 	<Modal
@@ -278,4 +298,13 @@
 			</div>
 		</div>
 	</Modal>
+{/if}
+
+{#if isOptimisePortfolioOpen}
+	<OptimisePortfolioModal
+		currentScheme={tableDataToDisplay?.[0] || {}}
+		{investmentSummary}
+		{toggleOptimisePorfolioCard}
+		{optimisePorfolioData}
+	/>
 {/if}

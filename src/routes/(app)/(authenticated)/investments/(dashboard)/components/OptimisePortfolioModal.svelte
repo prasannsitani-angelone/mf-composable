@@ -1,0 +1,216 @@
+<script lang="ts">
+	import SchemeCardExt from '$components/SchemeCardExt.svelte';
+	import {
+		BtnSize,
+		BtnVariant,
+		Button,
+		Modal,
+		WMSIcon,
+		SkeletonRectangle,
+		SkeletonWrapper
+	} from 'svelte-components';
+	import PortfolioPerformace from '$lib/images/PortfolioPerformace.svg';
+	import type {
+		IOPtimsiePortfolioData,
+		InvestmentEntity,
+		InvestmentSummary
+	} from '$lib/types/IInvestments';
+	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
+	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	import { useFetch } from '$lib/utils/useFetch';
+	import { calculateLumpsumReturns, calculateSipReturns } from '$lib/utils/helpers/returns';
+	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
+	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
+	import { encodeObject } from '$lib/utils/helpers/params';
+	export let optimisePorfolioData: IOPtimsiePortfolioData;
+	export let toggleOptimisePorfolioCard: (flag: boolean) => void;
+	export let investmentSummary: InvestmentSummary;
+	export let currentScheme: InvestmentEntity;
+	$: isMobile = $page?.data?.deviceType?.isMobile;
+	$: isFetchingScheme = true;
+	let schemeDetails: SchemeDetails;
+	let currentSchemeDetails: SchemeDetails;
+	let showFundModal = false;
+
+	const toggleFundModal = (flag: boolean) => {
+		showFundModal = flag;
+	};
+	const getSchemeData = async () => {
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${optimisePorfolioData?.isin}/${optimisePorfolioData?.schemeCode}`;
+		return await useFetch(url, {}, fetch);
+	};
+	const getCurrentSchemeData = async () => {
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${currentScheme?.isin}/${currentScheme?.schemeCode}`;
+		return await useFetch(url, {}, fetch);
+	};
+
+	// Calcultion for the graph details
+	$: threeYearReturnsValue =
+		Math.round(
+			calculateSipReturns(schemeDetails?.minSipAmount, 3, schemeDetails?.returns3yr)
+				?.matuarityAmount * 100
+		) /
+			100 +
+		(investmentSummary?.currentValue || 0);
+	$: threeReturnsWithoutInvestment =
+		(currentSchemeDetails?.sipEnabled
+			? Math.round(
+					calculateSipReturns(
+						currentSchemeDetails?.minSipAmount,
+						3,
+						currentSchemeDetails?.returns3yr
+					)?.matuarityAmount * 100
+			  ) / 100
+			: Math.round(
+					calculateLumpsumReturns(currentScheme?.currentValue, 3, currentSchemeDetails?.returns3yr)
+						?.matuarityAmount * 100
+			  ) / 100) + (investmentSummary?.currentValue || 0);
+	$: totalReturns = threeReturnsWithoutInvestment + threeYearReturnsValue;
+	$: totalReturnsPerctange = Math.round(
+		((totalReturns - threeReturnsWithoutInvestment) / threeReturnsWithoutInvestment) * 100
+	);
+
+	// Call the API's onMount of Modal
+	onMount(async () => {
+		isFetchingScheme = true;
+		await Promise.all([getSchemeData(), getCurrentSchemeData()]).then((res) => {
+			(schemeDetails = res[0].ok ? res[0]?.data || {} : {}),
+				(currentSchemeDetails = res[1].ok ? res[1]?.data || {} : {});
+			isFetchingScheme = false;
+		});
+	});
+
+	const gotoSchemeDetails = () => {
+		const schemeDetailsPath = `${base}/schemes/${normalizeFundName(
+			schemeDetails?.schemeName,
+			schemeDetails?.isin,
+			schemeDetails?.schemeCode
+		)}?orderpad=INVEST&params=${encodeObject({
+			investmentType: 'SIP',
+			paymentMandatory: true
+		})}`;
+		goto(schemeDetailsPath);
+	};
+</script>
+
+<Modal isModalOpen {isMobile} on:backdropclicked={() => toggleOptimisePorfolioCard(false)}>
+	<div class="w-full rounded-t-2xl bg-white px-5 py-4 sm:w-120 sm:!rounded-lg">
+		<div>
+			<div class="flex items-center text-lg font-medium">
+				<div class="flex-1">Optimise Your Portfolio</div>
+				<WMSIcon
+					name="cross-circle"
+					class="hidden cursor-pointer sm:block"
+					on:click={() => toggleOptimisePorfolioCard(false)}
+					width={24}
+					height={24}
+				/>
+			</div>
+			<p class="text-sm">
+				Based on your current investments, we recommend adding the following fund to your portfolio
+			</p>
+		</div>
+		{#if !isFetchingScheme}
+			<SchemeCardExt class="mt-4" disableRedirection={true} schemes={schemeDetails}>
+				<svelte:fragment slot="titleRightSection">
+					<span />
+				</svelte:fragment>
+			</SchemeCardExt>
+		{:else}
+			<SkeletonWrapper class="mt-4">
+				<SkeletonRectangle class="!h-48" />
+			</SkeletonWrapper>
+		{/if}
+		<div class="flex flex-col justify-center">
+			<Button
+				size={BtnSize.XS}
+				class="my-4"
+				variant={BtnVariant.Transparent}
+				on:click={() => toggleFundModal(true)}
+			>
+				WHY THIS FUND?
+			</Button>
+			<div class="flex flex-col items-center">
+				<p class="text-sm font-medium">Projected portfolio performance</p>
+				{#if !isFetchingScheme}
+					<div class="my-4 flex flex-col text-xs font-medium">
+						<div class="flex flex-row">
+							<img src={PortfolioPerformace} alt="Performace graph" />
+							<div class="ml-[-12px] mt-[5px] flex flex-col">
+								<div class="h-[59px]">
+									<p>₹{totalReturns?.toFixed(2) || 0}</p>
+									<p class="text-green-buy">(+{totalReturnsPerctange}%)</p>
+								</div>
+								<div>
+									₹{(
+										threeReturnsWithoutInvestment + (investmentSummary?.currentValue || 0)
+									)?.toFixed(2) || 0}
+								</div>
+							</div>
+						</div>
+						<div class="mt-[-2px]">
+							₹{investmentSummary?.currentValue?.toFixed(2) || 0}
+						</div>
+					</div>
+				{:else}
+					<SkeletonWrapper class="my-4 w-full">
+						<SkeletonRectangle class="!h-40" />
+					</SkeletonWrapper>
+				{/if}
+				<p class="text-1xs text-grey-body">
+					Disclaimer: Projected values are based on fund’s last 3 years CAGR with a monthly SIP of
+					₹500. Your actual returns may vary.
+				</p>
+			</div>
+			<Button class="mt-4" on:click={gotoSchemeDetails}>INVEST NOW</Button>
+		</div>
+	</div>
+</Modal>
+
+{#if showFundModal}
+	<Modal {isMobile} isModalOpen on:backdropclicked={() => toggleFundModal(false)}>
+		<div class="w-full rounded-t-2xl bg-white px-5 py-4 sm:w-120 sm:!rounded-lg">
+			<div class="flex items-center px-4 py-6 text-lg font-medium">
+				<div class="flex-1">Why this fund?</div>
+				<WMSIcon
+					name="cross-circle"
+					class="hidden cursor-pointer sm:block"
+					on:click={() => toggleFundModal(false)}
+					width={24}
+					height={24}
+				/>
+			</div>
+			<div class="px-4 pb-6 text-sm text-grey-body">
+				<p>
+					Based on your asset allocation, we recommend investing in an <b
+						>{schemeDetails?.subcategoryName?.toLowerCase() === 'small cap fund'
+							? 'small cap fund'
+							: 'index fund.'}</b
+					>
+				</p>
+				{#if schemeDetails?.subcategoryName?.toLowerCase() === 'small cap fund'}
+					<p class="mt-4">Small cap funds invest in companies with market cap less than 5000 Cr.</p>
+					<p class="mt-4">Benefits of small cap funds:</p>
+					<ul class="ml-4 mt-4 list-inside list-disc">
+						<li>High growth potential and rapid appreciation.</li>
+						<li>Invest in small companies across sectors.</li>
+						<li>Potential of undervalued opportunities.</li>
+					</ul>
+				{:else}
+					<p class="mt-4">
+						Index funds invest in the top 50 stocks according to the Nifty 50 index.
+					</p>
+					<p class="mt-4">Benefits of index funds:</p>
+					<ul class="ml-4 mt-4 list-inside list-disc">
+						<li>High growth with diversified portfolio.</li>
+						<li>Invest in top 50 companies of India.</li>
+						<li>Become part of Bharat's growth story.</li>
+					</ul>
+				{/if}
+			</div>
+		</div>
+	</Modal>
+{/if}
