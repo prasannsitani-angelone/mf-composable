@@ -31,6 +31,7 @@
 	export let showPaymentMethodScreen: () => void;
 	export let pendingFlow: (param: object) => void;
 	export let paymentFlow: (param: object) => void;
+	export let upiValidationErrorFunc: (param: string) => void;
 
 	export let submitButtonText = 'Proceed';
 	export let isSubmitButtonDisabled = false;
@@ -38,20 +39,12 @@
 
 	// payment
 	let xRequestId = '';
-	let inputPaymentError = '';
 	let validateUPILoading = false;
-	let pendingCaseOrderID: number;
-	let pendingCaseSipID: number;
 	const error = {
 		visible: false,
 		heading: '',
 		subHeading: '',
 		type: ''
-	};
-	const pending = {
-		visible: false,
-		heading: '',
-		subHeading: ''
 	};
 	const loadingState = {
 		heading: '',
@@ -128,27 +121,8 @@
 		error.type = '';
 	};
 
-	const closePendingPopup = () => {
-		pending.heading = '';
-		pending.subHeading = '';
-		pending.visible = false;
-		pendingFlow({
-			orderId: pendingCaseOrderID,
-			sipId: pendingCaseSipID
-		});
-	};
-
-	const displayPendingPopup = ({
-		heading = 'Payment Pending',
-		errorSubHeading = '',
-		orderId,
-		sipId
-	}) => {
-		pending.visible = true;
-		pending.heading = heading;
-		pending.subHeading = errorSubHeading;
-		pendingCaseOrderID = orderId;
-		pendingCaseSipID = sipId;
+	const displayPendingPopup = (params) => {
+		pendingFlow(params);
 	};
 
 	const showLoading = (heading: string) => {
@@ -178,8 +152,7 @@
 	};
 
 	const upiValidationErrorHandler = (error) => {
-		inputPaymentError = error; // fix this should be visible in payment container
-		showPaymentMethodScreen();
+		upiValidationErrorFunc(error);
 	};
 
 	const updateUPITimer = (time: number) => {
@@ -254,18 +227,6 @@
 
 {#if loadingState.isLoading}
 	<LoadingPopup heading={loadingState.heading} />
-{:else if pending.visible}
-	<ResultPopup
-		popupType="PENDING"
-		title={pending.heading}
-		text={pending.subHeading}
-		class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
-		isModalOpen
-		handleButtonClick={closePendingPopup}
-		buttonTitle="CLOSE"
-		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
-		buttonVariant="contained"
-	/>
 {:else if error.visible}
 	<ResultPopup
 		popupType="FAILURE"

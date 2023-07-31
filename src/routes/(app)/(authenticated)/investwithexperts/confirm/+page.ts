@@ -12,8 +12,10 @@ const colorCategoryMapping = {
 	'mid cap fund': '#3F5BD9'
 };
 
-export const load = async ({ fetch, url, parent }) => {
+export const load = async ({ fetch, url, parent, depends }) => {
 	const { profile, deviceType } = await parent();
+
+	depends('app:investwithexperts:confirm');
 
 	const params = url.searchParams.get('params');
 	const { amount = 0 } = decodeToObject(params || '');

@@ -30,18 +30,20 @@
 		upiId: '',
 		firstTimeUser: true
 	};
+	export let defaultInputPaymentError = '';
 
 	export let pendingFlow: (param: object) => void;
 	export let paymentFlow: (param: object) => void;
 	export let updatePaymentHandler: (param: object) => void;
 	export let hidePaymentMethodScreen: () => void;
+	export let clearInputPaymentError: () => void = () => undefined;
 
 	export let redirectedFrom = ''; // order pad specific
 	export let isSchemeDisabled = false; // order pad specific
 
 	// payment
 	let xRequestId = '';
-	let inputPaymentError = '';
+	let inputPaymentError = defaultInputPaymentError;
 	let bankPopupVisible = false;
 	let validateUPILoading = false;
 	const error = {
@@ -91,6 +93,7 @@
 		if (browser) {
 			window.removeEventListener('message', listenerFunc, false);
 		}
+		clearInputPaymentError();
 	});
 
 	//  ------- helpers functions -----------

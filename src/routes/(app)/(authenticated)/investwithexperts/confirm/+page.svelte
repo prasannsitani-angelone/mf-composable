@@ -1,6 +1,8 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
+	import { base } from '$app/paths';
 	import { page } from '$app/stores';
+	import Button from '$components/Button.svelte';
 	import PieChart from '$components/Charts/PieChart.svelte';
 	import ChangePaymentContainerWithState from '$components/Payment/ChangePaymentContainerWithState.svelte';
 	import PaymentSleeveWithState from '$components/Payment/PaymentSleeveWithState.svelte';
@@ -12,6 +14,8 @@
 	import { getCompleteSIPDateBasedonDD, getDateSuperscript } from '$lib/utils/helpers/date';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
+	import SkeletonLoader from './components/SkeletonLoader.svelte';
+	import WhyThisFundPopup from './components/WhyThisFundPopup.svelte';
 
 	export let data: import('./$types').PageData;
 
@@ -21,6 +25,21 @@
 
 	const upiPaymentAmountLimit = 100000;
 	const minimumNetBankingAmountLimit = 50;
+
+	let whyThisFundPopupVisible = false;
+	let defaultInputPaymentError = '';
+
+	const navigateToOrders = async () => {
+		await goto(`${base}/orders/orderspage`, { replaceState: true });
+	};
+
+	const onRefresh = async () => {
+		invalidate('app:investwithexperts:confirm');
+	};
+
+	const toggleWhyThisFundPopup = () => {
+		whyThisFundPopupVisible = !whyThisFundPopupVisible;
+	};
 
 	let paymentHandler = {
 		selectedAccount: 0,
@@ -104,11 +123,22 @@
 		const params = encodeObject({
 			bulkId
 		});
-		await goto(`ordersummary?params=${params}`);
+		await goto(`ordersummary?params=${params}`, {
+			replaceState: true
+		});
 	};
 
 	const successFlow = (params) => {
 		navigateToOrderSummary(params?.bulkRequestId);
+	};
+
+	const upiValidationErrorFuncPS = (error) => {
+		defaultInputPaymentError = error;
+		showPaymentMethodScreen();
+	};
+
+	const clearInputPaymentErrorPC = () => {
+		defaultInputPaymentError = '';
 	};
 
 	const updatePaymentMode = (amount: string) => {
@@ -131,32 +161,34 @@
 </script>
 
 {#await data.api.basket}
-	<div>Loading</div>
+	<SkeletonLoader />
 {:then basket}
-	{#if !showChangePayment}
-		<article class="flex h-full flex-col justify-between overflow-y-hidden">
-			<!-- Content -->
-			<section class="mx-2 mb-2 mt-3 flex flex-col overflow-y-scroll">
-				<!-- Section 1 -->
-				<div class="mb-2 rounded-lg bg-white p-3">
-					<!-- Heading  -->
-					<div class="mb-4 text-base font-medium text-black-title">Investing in 4 Mutual Funds</div>
-					<!-- Investment Info  -->
-					<div
-						class="flex flex-row justify-between rounded bg-grey p-2 text-sm font-medium text-black-title"
-					>
-						<div class="flex flex-col">
-							<div class="text-xs text-grey-body">Total SIP Amount</div>
-							<div>₹{addCommasToAmountString(amount)}</div>
+	{#if basket.ok}
+		{#if !showChangePayment}
+			<article class="flex h-full flex-col justify-between overflow-y-hidden">
+				<!-- Content -->
+				<section class="mx-2 mb-2 mt-3 flex flex-col overflow-y-scroll">
+					<!-- Section 1 -->
+					<div class="mb-2 rounded-lg bg-white p-3">
+						<!-- Heading  -->
+						<div class="mb-4 text-base font-medium text-black-title">
+							Investing in 4 Mutual Funds
 						</div>
-						<div class="flex flex-col">
-							<div class="text-xs text-grey-body">Monthly SIP Date</div>
-							<div class="text-end">{date}{getDateSuperscript(date)}</div>
+						<!-- Investment Info  -->
+						<div
+							class="flex flex-row justify-between rounded bg-grey p-2 text-sm font-medium text-black-title"
+						>
+							<div class="flex flex-col">
+								<div class="text-xs text-grey-body">Total SIP Amount</div>
+								<div>₹{addCommasToAmountString(amount)}</div>
+							</div>
+							<div class="flex flex-col">
+								<div class="text-xs text-grey-body">Monthly SIP Date</div>
+								<div class="text-end">{date}{getDateSuperscript(date)}</div>
+							</div>
 						</div>
 					</div>
-				</div>
-				<!-- Section 2 -->
-				{#if basket.ok}
+					<!-- Section 2 -->
 					<div class="rounded-lg bg-white p-3">
 						<!-- Heading  -->
 						<div class="mb-7 text-base font-medium text-black-title">Investment Allocation</div>
@@ -165,7 +197,7 @@
 							<PieChart data={basket?.chartData} />
 						</div>
 						<!-- schemes table -->
-						<div class="flex flex-col">
+						<div class="mb-6 flex flex-col">
 							<!-- header -->
 							<div
 								class="flex flex-row justify-between border-b border-grey-line pb-3 text-xs text-grey-body"
@@ -190,65 +222,100 @@
 								{/each}
 							</div>
 						</div>
+						<!-- Why This Fund Link -->
+						<Button
+							variant="transparent"
+							class="h-fit min-h-min w-fit p-0 text-blue-primary"
+							onClick={toggleWhyThisFundPopup}>Why these funds?</Button
+						>
 					</div>
-				{/if}
-			</section>
-			<!-- footer  -->
-			{#await assignPreviousPaymentDetails(data.api.previousPaymentDetails)}
-				<div />
-			{:then}
-				<section class="flex w-full flex-row bg-white px-4 py-3">
-					<PaymentSleeveWithState
-						amount={amount.toString()}
-						{paymentHandler}
-						bankAccounts={profileData?.bankDetails}
-						{showPaymentMethodScreen}
-						{paymentFlow}
-						pendingFlow={successFlow}
-					/>
 				</section>
-			{/await}
-		</article>
-	{:else}
-		<ChangePaymentContainerWithState
-			amount={amount.toString()}
-			{paymentHandler}
-			bankAccounts={profileData?.bankDetails}
-			{hidePaymentMethodScreen}
-			{updatePaymentHandler}
-			{paymentFlow}
-			pendingFlow={successFlow}
-		>
-			<div slot="schemeTile" class="flex flex-col">
-				<div class="flex w-full flex-col bg-white px-3 py-4">
-					<div class="flex flex-row">
-						<div class="mr-2 flex max-w-[56px] flex-row">
-							<div
-								class="flex h-9 w-9 min-w-[36px] flex-row items-center justify-center rounded-full border border-grey-line bg-white shadow-csm"
-							>
-								<img src={basket.schemes?.[0].logoUrl} alt="scheme logo" />
-							</div>
-							{#if basket.schemes?.length > 1}
+				<!-- footer  -->
+				{#await assignPreviousPaymentDetails(data.api.previousPaymentDetails)}
+					<div />
+				{:then}
+					<section class="flex w-full flex-row bg-white px-4 py-3">
+						<PaymentSleeveWithState
+							amount={amount.toString()}
+							{paymentHandler}
+							bankAccounts={profileData?.bankDetails}
+							{showPaymentMethodScreen}
+							{paymentFlow}
+							pendingFlow={successFlow}
+							upiValidationErrorFunc={upiValidationErrorFuncPS}
+						/>
+					</section>
+				{/await}
+			</article>
+		{:else}
+			<ChangePaymentContainerWithState
+				amount={amount.toString()}
+				{paymentHandler}
+				bankAccounts={profileData?.bankDetails}
+				{hidePaymentMethodScreen}
+				{updatePaymentHandler}
+				{paymentFlow}
+				pendingFlow={successFlow}
+				{defaultInputPaymentError}
+				clearInputPaymentError={clearInputPaymentErrorPC}
+			>
+				<div slot="schemeTile" class="flex flex-col">
+					<div class="flex w-full flex-col bg-white px-3 py-4">
+						<div class="flex flex-row">
+							<div class="mr-2 flex max-w-[56px] flex-row">
 								<div
-									class="relative left-[-16px] flex h-9 w-9 min-w-[36px] flex-row items-center justify-center rounded-full border border-grey-line bg-white text-xs shadow-csm"
+									class="flex h-9 w-9 min-w-[36px] flex-row items-center justify-center rounded-full border border-grey-line bg-white shadow-csm"
 								>
-									+ {basket.schemes?.length - 1}
+									<img src={basket.schemes?.[0].logoUrl} alt="scheme logo" />
 								</div>
-							{/if}
+								{#if basket.schemes?.length > 1}
+									<div
+										class="relative left-[-16px] flex h-9 w-9 min-w-[36px] flex-row items-center justify-center rounded-full border border-grey-line bg-white text-xs shadow-csm"
+									>
+										+ {basket.schemes?.length - 1}
+									</div>
+								{/if}
+							</div>
+							<div class="flex w-full flex-row items-center justify-between text-sm font-medium">
+								<div>{basket.schemes?.length} Mutual Funds</div>
+								<div>₹{addCommasToAmountString(amount)}</div>
+							</div>
 						</div>
-						<div class="flex w-full flex-row items-center justify-between text-sm font-medium">
-							<div>{basket.schemes?.length} Mutual Funds</div>
-							<div>₹{addCommasToAmountString(amount)}</div>
+						<div class="mt-2 text-xs text-black-title">
+							Monthly SIP Date: {date}{getDateSuperscript(date)}
 						</div>
 					</div>
-					<div class="mt-2 text-xs text-black-title">
-						Monthly SIP Date: {date}{getDateSuperscript(date)}
-					</div>
+					<div class="bg-grey pb-2" />
 				</div>
-				<div class="bg-grey pb-2" />
+			</ChangePaymentContainerWithState>
+		{/if}
+	{:else}
+		<div class="flex h-full flex-col items-center self-center px-4 py-4">
+			<div class="mb-4 text-center text-base font-medium text-black-title">
+				We are facing some issue at our end. Please try again or contact field support
 			</div>
-		</ChangePaymentContainerWithState>
+			<Button variant="transparent" class="mt-6 w-max self-center" onClick={onRefresh}>
+				REFRESH
+			</Button>
+			<Button variant="transparent" class="mt-6 w-max self-center" onClick={navigateToOrders}>
+				GO TO ORDERS
+			</Button>
+		</div>
 	{/if}
 {:catch}
-	<div>Error</div>
+	<div class="flex h-full flex-col items-center self-center px-4 py-4">
+		<div class="mb-4 text-center text-base font-medium text-black-title">
+			We are facing some issue at our end. Please try again or contact field support
+		</div>
+		<Button variant="transparent" class="mt-6 w-max self-center" onClick={onRefresh}>
+			REFRESH
+		</Button>
+		<Button variant="transparent" class="mt-6 w-max self-center" onClick={navigateToOrders}>
+			GO TO ORDERS
+		</Button>
+	</div>
 {/await}
+
+{#if whyThisFundPopupVisible}
+	<WhyThisFundPopup hide={toggleWhyThisFundPopup} />
+{/if}
