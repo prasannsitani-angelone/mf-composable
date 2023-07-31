@@ -8,7 +8,7 @@
 	import SchemeCard from './SchemeCard/SchemeCard.svelte';
 	import OrderStatusCard from './OrderStatusCard/OrderStatusCard.svelte';
 	import AutopayTile from './AutopayEnabledTile/AutopayEnabledTile.svelte';
-	import AutopaySetupTile from './AutopaySetupTile/AutopaySetupTile.svelte';
+	import AutopaySetupTile from '$components/AutopaySetupTile/AutopaySetupTile.svelte';
 	import Button from '$components/Button.svelte';
 	import { onMount } from 'svelte';
 	import type { SIPData } from './type';

@@ -9,6 +9,7 @@
 		INudge,
 		IRetryPaymentNudge,
 		NudgeDataType,
+		Start4SipsNudgeType,
 		StartFirstSipNudgeType
 	} from '$lib/types/INudge';
 	import { format } from 'date-fns';
@@ -49,6 +50,7 @@
 	let nudgesData: NudgeDataType;
 	let formattedRetryPaymentNudgeData: IRetryPaymentNudge;
 	let startFirstSipNudgeData: StartFirstSipNudgeType;
+	let start4SipsNudgeData: Start4SipsNudgeType;
 	let elementOnce: HTMLElement;
 	let intersectOnce: boolean;
 	const getNudgeData = async () => {
@@ -151,11 +153,13 @@
 		return '';
 	};
 
-	const setStartFirstSipNudgeData = () => {
+	const setOtherNudgeDataTypes = () => {
 		(nudgesData?.nudges || [])?.forEach((item) => {
 			if (item?.nudgesType === 'CREATE_YOUR_FIRST_SIP') {
 				startFirstSipNudgeData = item;
 				exitNudgeStore.hasNudgeData(true);
+			} else if (item?.nudgesType === 'START_FOUR_SIPS') {
+				start4SipsNudgeData = item;
 			}
 		});
 	};
@@ -194,7 +198,7 @@
 			setNudgeData(nudgeData);
 			setSipNudgesData(nudgeData);
 			setRetryPaymentNudgesData(nudgeData);
-			setStartFirstSipNudgeData();
+			setOtherNudgeDataTypes();
 		});
 	});
 
@@ -254,6 +258,14 @@
 			component={async () => await import('./FailedOrdersNudge.svelte')}
 		/>
 	{/if}
+
+	<LazyComponent
+		when={isLoggedInUser && deviceType?.isMobile && start4SipsNudgeData}
+		nudgeData={start4SipsNudgeData}
+		class="mt-2"
+		component={async () =>
+			await import('$components/InvestWithExperts/CuratedInvestmentCardComponent.svelte')}
+	/>
 
 	<!-- External Funds, NFO, Calculator -->
 

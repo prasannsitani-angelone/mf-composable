@@ -4,7 +4,7 @@
 	import Button from '$components/Button.svelte';
 	import Mandate from '$components/mandate/Mandate.svelte';
 	import { onMount } from 'svelte';
-	import AutopaySetupTile from '../../ordersummary/AutopaySetupTile/AutopaySetupTile.svelte';
+	import AutopaySetupTile from '$components/AutopaySetupTile/AutopaySetupTile.svelte';
 	import HeaderComponent from '../../ordersummary/Header/HeaderComponent.svelte';
 	import OrdersTile from '../components/OrdersTile.svelte';
 	import type { PageData } from './$types';

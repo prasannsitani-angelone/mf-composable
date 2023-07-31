@@ -6,6 +6,7 @@
 
 	export let amount: number;
 	export let quickInputs: Array<number>;
+	export let quickInputsLabel = 'Most chosen';
 
 	const dispatch = createEventDispatcher();
 
@@ -28,7 +29,7 @@
 	</section>
 
 	<section class="mt-2.5">
-		<div class="text-xs text-black-bolder">Most chosen</div>
+		<div class="text-xs text-black-bolder">{quickInputsLabel}</div>
 
 		<div class="mb-6 mt-2">
 			{#each quickInputs as pill, index (pill)}

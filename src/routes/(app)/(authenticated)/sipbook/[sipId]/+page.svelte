@@ -71,7 +71,7 @@
 	let mandateList: MandateWithBankDetails[] = [];
 	let selectedMandate: MandateWithBankDetails;
 	let bankPopupVisible = false;
-	let autopayType: 'switch' | 'link'  = 'switch';
+	let autopayType: 'switch' | 'link' = 'switch';
 
 	$: profileData = $page?.data?.profile;
 
@@ -391,8 +391,8 @@
 									<Button
 										onClick={() => {
 											autopayType = 'switch';
-											showAutopaySelectionPopup(sipData)}
-										}
+											showAutopaySelectionPopup(sipData);
+										}}
 										variant="transparent"
 										size="xs"
 										class="!h-auto min-h-fit !px-0 text-xs font-semibold text-blue-primary"

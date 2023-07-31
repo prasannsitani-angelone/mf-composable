@@ -6,7 +6,8 @@
 		INudge,
 		IRetryPaymentNudge,
 		NudgeDataType,
-		StartFirstSipNudgeType
+		StartFirstSipNudgeType,
+		Start4SipsNudgeType
 	} from '$lib/types/INudge';
 	import { format } from 'date-fns';
 	import type { IDueSips, ISip } from '$lib/types/ISipType';
@@ -53,6 +54,7 @@
 	let formattedSipNudgeData: ISip;
 	let nudgesData: NudgeDataType;
 	let startFirstSipNudgeData: StartFirstSipNudgeType;
+	let start4SipsNudgeData: Start4SipsNudgeType;
 
 	let formattedRetryPaymentNudgeData: IRetryPaymentNudge;
 
@@ -156,11 +158,13 @@
 		return '';
 	};
 
-	const setStartFirstSipNudgeData = () => {
+	const setOtherNudgeDataTypes = () => {
 		(nudgesData?.nudges || [])?.forEach((item) => {
 			if (item?.nudgesType === 'CREATE_YOUR_FIRST_SIP') {
 				startFirstSipNudgeData = item;
 				exitNudgeStore.hasNudgeData(true);
+			} else if (item?.nudgesType === 'START_FOUR_SIPS') {
+				start4SipsNudgeData = item;
 			}
 		});
 	};
@@ -199,7 +203,7 @@
 			setNudgeData(nudgeData);
 			setSipNudgesData(nudgeData);
 			setRetryPaymentNudgesData(nudgeData);
-			setStartFirstSipNudgeData();
+			setOtherNudgeDataTypes();
 		});
 	});
 
@@ -320,6 +324,14 @@
 			/>
 		{/if}
 	</div>
+
+	<LazyComponent
+		when={isLoggedInUser && deviceType?.isMobile && start4SipsNudgeData}
+		nudgeData={start4SipsNudgeData}
+		class="mt-2"
+		component={async () =>
+			await import('$components/InvestWithExperts/CuratedInvestmentCardComponent.svelte')}
+	/>
 
 	<!-- 7. Quick Entry Points - External Funds, NFO, Calculator -->
 	<ExternalFundsNfoCalculatorCard

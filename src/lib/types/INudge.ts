@@ -7,7 +7,7 @@ export interface INudge {
 	link: string;
 	linkHeading: string;
 	nudgesType?: string;
-	data?: ISip | IRetryPaymentNudge | StartFirstSipNudgeType;
+	data?: ISip | IRetryPaymentNudge | StartFirstSipNudgeType | Start4SipsNudgeType;
 	id: string;
 	amount: number;
 }
@@ -52,4 +52,17 @@ export type StartFirstSipNudgeType = {
 		};
 	};
 	id: string;
+};
+
+export type Start4SipsNudgeType = {
+	type: string;
+	heading: string;
+	description: string;
+	linkHeading: string;
+	nudgesType: string;
+	data: {
+		returnPercentage: number;
+	};
+	id: string;
+	amount: number;
 };
