@@ -25,6 +25,7 @@
 	import { base } from '$app/paths';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { encodeObject } from '$lib/utils/helpers/params';
+	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	export let optimisePorfolioData: IOPtimsiePortfolioData;
 	export let toggleOptimisePorfolioCard: (flag: boolean) => void;
 	export let investmentSummary: InvestmentSummary;
@@ -50,11 +51,10 @@
 	// Calcultion for the graph details
 	$: threeYearReturnsValue =
 		Math.round(
-			calculateSipReturns(schemeDetails?.minSipAmount, 3, schemeDetails?.returns3yr)
+			calculateSipReturns(schemeDetails?.minSipAmount < 500 ? 500 : schemeDetails?.minSipAmount, 3, schemeDetails?.returns3yr)
 				?.matuarityAmount * 100
 		) /
-			100 +
-		(investmentSummary?.currentValue || 0);
+			100;
 	$: threeReturnsWithoutInvestment =
 		(currentSchemeDetails?.sipEnabled
 			? Math.round(
@@ -63,14 +63,14 @@
 						3,
 						currentSchemeDetails?.returns3yr
 					)?.matuarityAmount * 100
-			  ) / 100
+			  ) / 100 + (investmentSummary?.currentValue || 0)
 			: Math.round(
-					calculateLumpsumReturns(currentScheme?.currentValue, 3, currentSchemeDetails?.returns3yr)
+					calculateLumpsumReturns((investmentSummary?.currentValue || 0), 3, currentSchemeDetails?.returns3yr)
 						?.matuarityAmount * 100
 			  ) / 100) + (investmentSummary?.currentValue || 0);
 	$: totalReturns = threeReturnsWithoutInvestment + threeYearReturnsValue;
 	$: totalReturnsPerctange = Math.round(
-		((totalReturns - threeReturnsWithoutInvestment) / threeReturnsWithoutInvestment) * 100
+		((threeYearReturnsValue - (investmentSummary?.currentValue || 0)) / (investmentSummary?.currentValue || 1)) * 100
 	);
 
 	// Call the API's onMount of Modal
@@ -109,7 +109,7 @@
 					height={24}
 				/>
 			</div>
-			<p class="text-sm">
+			<p class="text-sm mt-1">
 				Based on your current investments, we recommend adding the following fund to your portfolio
 			</p>
 		</div>
@@ -141,18 +141,16 @@
 							<img src={PortfolioPerformace} alt="Performace graph" />
 							<div class="ml-[-12px] mt-[5px] flex flex-col">
 								<div class="h-[59px]">
-									<p>₹{totalReturns?.toFixed(2) || 0}</p>
-									<p class="text-green-buy">(+{totalReturnsPerctange}%)</p>
+									<p>₹{addCommasToAmountString(totalReturns?.toFixed(2) || 0)}</p>
+									<p class="text-green-buy">(+{addCommasToAmountString(totalReturnsPerctange)}%)</p>
 								</div>
 								<div>
-									₹{(
-										threeReturnsWithoutInvestment + (investmentSummary?.currentValue || 0)
-									)?.toFixed(2) || 0}
+									₹{addCommasToAmountString(threeReturnsWithoutInvestment?.toFixed(2) || 0)}
 								</div>
 							</div>
 						</div>
 						<div class="mt-[-2px]">
-							₹{investmentSummary?.currentValue?.toFixed(2) || 0}
+							₹{addCommasToAmountString(investmentSummary?.currentValue?.toFixed(2) || 0)}
 						</div>
 					</div>
 				{:else}
@@ -162,7 +160,7 @@
 				{/if}
 				<p class="text-1xs text-grey-body">
 					Disclaimer: Projected values are based on fund’s last 3 years CAGR with a monthly SIP of
-					₹500. Your actual returns may vary.
+					₹{schemeDetails?.minSipAmount < 500 ? '500' : schemeDetails?.minSipAmount?.toString()}. Your actual returns may vary.
 				</p>
 			</div>
 			<Button class="mt-4" on:click={gotoSchemeDetails}>INVEST NOW</Button>
@@ -172,8 +170,8 @@
 
 {#if showFundModal}
 	<Modal {isMobile} isModalOpen on:backdropclicked={() => toggleFundModal(false)}>
-		<div class="w-full rounded-t-2xl bg-white px-5 py-4 sm:w-120 sm:!rounded-lg">
-			<div class="flex items-center px-4 py-6 text-lg font-medium">
+		<div class="w-full rounded-t-2xl bg-white px-4 sm:w-120 sm:!rounded-lg">
+			<div class="flex items-center py-6 text-lg font-medium">
 				<div class="flex-1">Why this fund?</div>
 				<WMSIcon
 					name="cross-circle"
@@ -183,7 +181,7 @@
 					height={24}
 				/>
 			</div>
-			<div class="px-4 pb-6 text-sm text-grey-body">
+			<div class="pb-6 text-sm text-grey-body">
 				<p>
 					Based on your asset allocation, we recommend investing in an <b
 						>{schemeDetails?.subcategoryName?.toLowerCase() === 'small cap fund'
