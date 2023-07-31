@@ -1,5 +1,6 @@
 import { browser } from '$app/environment';
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+import { encodeObject } from '$lib/utils/helpers/params';
 import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
 import MobileInvestmentTab from './components/MobileInvestmentTab.svelte';
@@ -56,6 +57,11 @@ export const load = (async ({ fetch, url }) => {
 		return res.data;
 	};
 
+	const faqParams = encodeObject({
+		tag: 'investments',
+		showRecentOrders: true
+	});
+
 	return {
 		api: {
 			investment: browser ? getInvestmentData() : await getInvestmentData(),
@@ -74,7 +80,9 @@ export const load = (async ({ fetch, url }) => {
 			layoutType: 'TWO_COLUMN_REVERSE',
 			titleClass: '!text-xl',
 			headerClass: '!bg-grey !py-2.5 !px-4',
-			component: MobileInvestmentTab
+			component: MobileInvestmentTab,
+			showFaqIcon: true,
+			faqParams
 		}
 	};
 }) satisfies PageLoad;

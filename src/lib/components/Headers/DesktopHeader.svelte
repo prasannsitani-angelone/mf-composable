@@ -12,11 +12,23 @@
 	import { reportsEntryDesktopAnalytics } from '$lib/analytics/reports/reports';
 	import { tabClickNavigationAnalytics } from '$lib/analytics/DiscoverFunds';
 	import { cartStore } from '$lib/stores/CartStore';
+	import { encodeObject } from '$lib/utils/helpers/params';
 
 	const onReportsButtonClick = () => {
 		userActionStore.hideUserActionDropDown();
 		reportsEntryDesktopAnalytics();
 		goto(`${base}/reports`);
+	};
+
+	const onFaqsButtonClick = () => {
+		userActionStore.hideUserActionDropDown();
+
+		const faqParams = encodeObject({
+			tag: 'all',
+			showRecentOrders: true
+		});
+
+		goto(`${base}/faqs?params=${faqParams}`);
 	};
 
 	const onLogoutButtonClick = () => {
@@ -46,6 +58,15 @@
 			action: onReportsButtonClick,
 			icon: 'reports-icon',
 			class: 'cursor-pointer'
+		},
+		{
+			title: 'FAQs',
+			action: onFaqsButtonClick,
+			icon: 'question-mark-point',
+			class: 'cursor-pointer',
+			iconWidth: '20',
+			iconHeight: '20',
+			iconDivClass: 'rounded-full bg-blue-background p-2'
 		},
 		{
 			title: 'Logout',

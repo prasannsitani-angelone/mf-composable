@@ -4,6 +4,7 @@
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 	import { Button } from 'svelte-components';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
+	import type { FAQ } from '../../routes/(app)/faqs/type';
 
 	$: os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
 	$: phoneCall =
@@ -11,7 +12,8 @@
 	$: emailCall = window?.webkit?.messageHandlers?.callBackHandlerMFSupportMailOption?.postMessage;
 	let helpAnalytics: (() => void) | null = null;
 
-	let title = '';
+	let faq: FAQ;
+
 	const onClickTel = () => {
 		helpAnalytics?.();
 		if (typeof phoneCall === 'function') {
@@ -51,34 +53,42 @@
 		);
 	};
 
-	export { title, helpAnalytics };
+	export { faq, helpAnalytics };
 </script>
 
-<section class="mb-2 mt-2 flex items-center gap-4 rounded-lg bg-white p-4 shadow-csm">
-	<div>
-		<WMSIcon name="message-in-circle" width={36} height={36} />
-	</div>
-	<div class="text-sm font-medium text-black-title">
-		<p>{title}</p>
-		{#if shouldDisplay(phoneCall)}
-			<p>
-				Call: <Button
-					size="xs"
-					class="!transform-none !px-0 !font-medium"
-					variant="transparent"
-					on:click={onClickTel}>{contactNumber}</Button
-				>
-			</p>
-		{/if}
-		{#if shouldDisplay(emailCall)}
-			<p>
-				Email: <Button
-					size="xs"
-					class="!transform-none !px-0 !font-medium !lowercase"
-					variant="transparent"
-					on:click={onClickMail}>{contactEmail}</Button
-				>
-			</p>
-		{/if}
-	</div>
+<section class="rounded-lg bg-white p-4 shadow-csm md:rounded-t-none">
+	<h2 class="flex items-center text-left text-sm font-medium text-black-title">
+		<span> {faq?.question}</span>
+	</h2>
+	<section class="details-container ml-1 mt-1 pb-5 text-sm text-grey-body">
+		<p class="mt-4">Sorry for the inconvenience caused.</p>
+		<p class="mt-4">You can contact our support team by calling or emailing to us:</p>
+	</section>
+	<section class="mb-2 mt-2 flex items-center gap-4">
+		<div>
+			<WMSIcon name="message-in-circle" width={36} height={36} />
+		</div>
+		<div class="text-sm font-medium text-black-title">
+			{#if shouldDisplay(phoneCall)}
+				<p>
+					Call: <Button
+						size="xs"
+						class="!h-fit !min-h-0 !transform-none !px-0 !font-medium"
+						variant="transparent"
+						on:click={onClickTel}>{contactNumber}</Button
+					>
+				</p>
+			{/if}
+			{#if shouldDisplay(emailCall)}
+				<p>
+					Email: <Button
+						size="xs"
+						class="!h-fit !min-h-0 !transform-none !px-0 !font-medium !lowercase"
+						variant="transparent"
+						on:click={onClickMail}>{contactEmail}</Button
+					>
+				</p>
+			{/if}
+		</div>
+	</section>
 </section>

@@ -16,6 +16,8 @@ interface LayoutConfig {
 	showCloseIcon: boolean;
 	showShareIcon: boolean;
 	showCartIcon: boolean;
+	showFaqIcon: boolean;
+	faqParams: string;
 	onClickShareIcon: (() => void) | null;
 	layoutType:
 		| 'TWO_COLUMN'

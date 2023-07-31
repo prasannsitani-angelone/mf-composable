@@ -3,6 +3,7 @@ import { ORDER_STATUS } from '$lib/constants/orderFlowStatuses';
 import type { OrdersSummary } from '$lib/types/IInvestments';
 import type { IOrdersResponse, orderItem } from '$lib/types/IOrderItem';
 import { hydrate } from '$lib/utils/helpers/hydrated';
+import { encodeObject } from '$lib/utils/helpers/params';
 import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
 import OrderTabSelection from './TabSelection/OrderTabSelection.svelte';
@@ -64,6 +65,11 @@ export const load = (async ({ fetch }) => {
 		};
 	};
 
+	const faqParams = encodeObject({
+		tag: 'orders',
+		showRecentOrders: true
+	});
+
 	return {
 		// We are uisng hydrate here, because if we use browser and  as we are awaiting for promise.allSettled the hydrate gets updated because of which we see difference in CSR and SSR so API gets called again in client side
 		layoutConfig: {
@@ -72,7 +78,9 @@ export const load = (async ({ fetch }) => {
 			headerClass: '!bg-grey !py-2.5 !px-4',
 			component: OrderTabSelection,
 			showBottomNavigation: true,
-			layoutType: 'TWO_COLUMN_RIGHT_LARGE'
+			layoutType: 'TWO_COLUMN_RIGHT_LARGE',
+			showFaqIcon: true,
+			faqParams
 		},
 		api: {
 			getOrdersData: hydrate ? getOrdersData() : await getOrdersData()

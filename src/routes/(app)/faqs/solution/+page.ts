@@ -7,24 +7,27 @@ import type { PageLoad } from './$types';
 export const load = (async ({ fetch, url }) => {
 	const params = url.searchParams.get('params') || undefined;
 	const decodedParams = decodeToObject(params);
-	const { tag, orderId, Status } = decodedParams;
+	const { tag, selectedFaqIndex, showRecentOrders } = decodedParams;
 
 	const getFAQS = async () => {
 		try {
 			const response = await useFetch(`${PUBLIC_MF_CORE_BASE_URL}/faqs?tag=${tag}`, {}, fetch);
+
 			return response;
 		} catch (e) {
 			return {};
 		}
 	};
+
 	return {
 		api: {
 			getFAQS: browser ? getFAQS() : await getFAQS()
 		},
-		orderId,
-		Status,
+		selectedFaqIndex,
+		showRecentOrders,
 		layoutConfig: {
 			title: 'FAQs',
+			titleClass: 'invisible',
 			showBackIcon: true,
 			layoutType: 'DEFAULT'
 		}

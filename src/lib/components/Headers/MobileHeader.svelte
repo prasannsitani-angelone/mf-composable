@@ -18,6 +18,8 @@
 	export let showCloseIcon = false;
 	export let showShareIcon = false;
 	export let showCartIcon = false;
+	export let showFaqIcon = false;
+	export let faqParams = '';
 	export let titleClass = '';
 	export let onClickShareIcon: (() => void) | null = null;
 
@@ -76,7 +78,10 @@
 				{/if}
 				<slot name="title">
 					<h1 class="text-lg font-medium text-black-title {titleClass || ''}">
-						<div class="truncate text-left" class:w-80={!showSearchIcon && !showShareIcon}>
+						<div
+							class="truncate text-left"
+							class:w-80={!showSearchIcon && !showShareIcon && !showFaqIcon}
+						>
 							{title || ''}
 						</div>
 					</h1>
@@ -111,6 +116,21 @@
 						<article class="flex pr-4">
 							<Link to={`/search`} ariaLabel="search">
 								<SearchDarkIcon class="ml-2 mt-1 h-6 w-6 cursor-pointer" />
+							</Link>
+						</article>
+					{/if}
+				</slot>
+				<slot name="faqIcon">
+					{#if showFaqIcon}
+						<article class="mr-1">
+							<Link to={`/faqs?params=${faqParams}`} ariaLabel="search">
+								<WMSIcon
+									name="question-mark-point"
+									stroke="#2A394E"
+									height={24}
+									width={24}
+									class="p-0.5"
+								/>
 							</Link>
 						</article>
 					{/if}

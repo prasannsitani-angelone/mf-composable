@@ -5,6 +5,9 @@
 		action: () => '';
 		icon: string;
 		class?: string;
+		iconWidth?: string;
+		iconHeight?: string;
+		iconDivClass?: string;
 	}
 	export let list: List[] = [];
 	export let listClass = '';
@@ -21,7 +24,13 @@
 				: ''} {listClass} {item.class || ''}"
 			on:click={item.action}
 		>
-			<div class="mr-4"><WMSIcon name={item.icon} height={iconHeight} width={iconWidth} /></div>
+			<div class="mr-4 {item?.iconDivClass}">
+				<WMSIcon
+					name={item.icon}
+					height={item?.iconHeight || iconHeight}
+					width={item?.iconWidth || iconWidth}
+				/>
+			</div>
 			<div class="text-base font-medium text-black-title">
 				{item.title}
 			</div>

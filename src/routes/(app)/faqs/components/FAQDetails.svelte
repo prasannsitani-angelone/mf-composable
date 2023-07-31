@@ -18,28 +18,29 @@
 </script>
 
 <div class="h-full px-2 py-2 md:px-0 md:py-0">
-	<AccordianCardComponent
-		data={{
-			title: faq?.question
-		}}
-		disableCollapse={true}
-		titleStyle="!ml-0 text-black-title"
-		titleFontSize="text-sm"
-		class="!mt-0 mb-0 max-w-8xl md:rounded-t-none"
-		headerClass="!p-3 md:!p-4"
-	>
-		<svelte:fragment slot="accordionBody">
-			<section class="details-container mt-1 px-4 pb-5 text-grey-body">
-				{#if faq?.contentType === 'html'}
-					{@html faq?.content}
-				{:else}
-					{faq?.content}
-				{/if}
-			</section>
-		</svelte:fragment>
-	</AccordianCardComponent>
-	{#if showContactCard}
-		<ContactCard title="Didn't find what you were looking for?" helpAnalytics={faqHelpAnalytics} />
+	{#if !showContactCard}
+		<AccordianCardComponent
+			data={{
+				title: faq?.question
+			}}
+			disableCollapse={true}
+			titleStyle="!ml-0 text-black-title"
+			titleFontSize="text-sm"
+			class="!mt-0 mb-0 max-w-8xl md:rounded-t-none"
+			headerClass="!p-3 md:!p-4"
+		>
+			<svelte:fragment slot="accordionBody">
+				<section class="details-container mt-1 px-4 pb-5 text-grey-body">
+					{#if faq?.contentType === 'html'}
+						{@html faq?.content}
+					{:else}
+						{faq?.content}
+					{/if}
+				</section>
+			</svelte:fragment>
+		</AccordianCardComponent>
+	{:else}
+		<ContactCard {faq} helpAnalytics={faqHelpAnalytics} />
 	{/if}
 </div>
 

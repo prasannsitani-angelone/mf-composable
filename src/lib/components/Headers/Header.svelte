@@ -32,6 +32,8 @@
 			showCloseIcon={pageMetaData?.showCloseIcon}
 			showShareIcon={pageMetaData?.showShareIcon}
 			showCartIcon={pageMetaData?.showCartIcon}
+			showFaqIcon={pageMetaData?.showFaqIcon}
+			faqParams={pageMetaData?.faqParams}
 			onClickShareIcon={pageMetaData?.onClickShareIcon}
 			class="bg-white {pageMetaData?.headerClass || ''}"
 		>

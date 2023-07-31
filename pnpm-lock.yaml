@@ -32,7 +32,7 @@ specifiers:
   svelte: 4.0.5
   svelte-chartjs: 3.1.2
   svelte-check: 3.4.5
-  svelte-components: 0.126.0
+  svelte-components: 0.131.0
   svelte-device-detector: 0.2.2
   svelte-intersection-observer: 0.10.0
   svelte-video-player: 1.2.5
@@ -64,7 +64,7 @@ dependencies:
   lodash.merge: 4.6.2
   servertime: 3.1.1
   svelte-chartjs: 3.1.2_o5tslaxxtmpni3q2x6qbyajk4u
-  svelte-components: 0.126.0_t2zvn7chsyhogcrmnegmjzl5my
+  svelte-components: 0.131.0_t2zvn7chsyhogcrmnegmjzl5my
   svelte-device-detector: 0.2.2
   svelte-intersection-observer: 0.10.0
   svelte-video-player: 1.2.5
@@ -4524,8 +4524,8 @@ packages:
       - sugarss
     dev: true
 
-  /svelte-components/0.126.0_t2zvn7chsyhogcrmnegmjzl5my:
-    resolution: {integrity: sha512-DfK+ydyDYoOLJ3uOtfsGq2pKNBCYSMa3YMcZqCHGRovO8YHMcnj7XJ+URTIUWJyMh5evQ7tG3IXIceqOhX5a/w==}
+  /svelte-components/0.131.0_t2zvn7chsyhogcrmnegmjzl5my:
+    resolution: {integrity: sha512-Xd/D94XpDIO4wTgME8J042I7yovivVNZbR93/rqLIAplgfRWZTeNsxtjrSH+HJlcG8NHb8YuP5YvnmcRZ75Ezg==}
     peerDependencies:
       '@sveltejs/kit': ^1.22.3
       svelte: ^3.54.0

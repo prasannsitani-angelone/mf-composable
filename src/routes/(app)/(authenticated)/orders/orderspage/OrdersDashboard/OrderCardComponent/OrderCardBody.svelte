@@ -103,7 +103,7 @@
 				</article>
 				<article class="mt-1 flex w-full justify-end">
 					<span
-						class="flex items-center justify-end rounded-sm bg-opacity-12 p-1 text-3xs md:text-1xs"
+						class="flex items-center justify-end rounded-sm bg-opacity-12 p-1 text-3xs"
 						class:bg-green-buy={item?.status?.toUpperCase() === 'COMPLETED'}
 						class:bg-red-sell={item?.status?.toUpperCase() === 'FAILED'}
 						class:bg-yellow-primary={item?.status?.toUpperCase() === 'IN PROGRESS'}

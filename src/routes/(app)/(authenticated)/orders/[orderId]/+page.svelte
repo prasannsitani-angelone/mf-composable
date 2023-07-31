@@ -43,7 +43,7 @@
 				orderId: data.orderId,
 				Status
 			});
-			goto(`${base}/faq?params=${params}`);
+			goto(`${base}/faqs?params=${params}`);
 		}
 	};
 	// const icon = <WMSIcon name="order-details-error"/>
