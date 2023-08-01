@@ -41,8 +41,7 @@
 		paymentFailedScreenAnalytics,
 		paymentFailedScreenCloseButtonAnalytics,
 		paymentModeScreenPayButtonClickAnalytics,
-		paymentPendingScreenAnalytics,
-		paymentPendingScreenCloseButtonAnalytics
+		paymentPendingScreenAnalytics
 	} from '../analytics/confirmation';
 	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
 
@@ -62,17 +61,11 @@
 	let inputPaymentError = '';
 	let bankPopupVisible = false;
 	let validateUPILoading = false;
-	let pendingCaseOrderID: number;
 	const error = {
 		visible: false,
 		heading: '',
 		subHeading: '',
 		type: ''
-	};
-	const pending = {
-		visible: false,
-		heading: '',
-		subHeading: ''
 	};
 	const loadingState = {
 		heading: '',
@@ -260,11 +253,7 @@
 		error.type = '';
 	};
 
-	const displayPendingPopup = async ({
-		heading = 'Payment Pending',
-		errorSubHeading = '',
-		orderId
-	}) => {
+	const displayPendingPopup = async ({ orderId }) => {
 		const itemList = await data.api.itemList;
 		paymentPendingScreenAnalytics({
 			Amount: itemList?.totalAmount,
@@ -273,19 +262,8 @@
 			PaymentPending:
 				'we are confirming the status of your payment. This Usually takes few minutes. We will notify you once we have an update'
 		});
-		pending.visible = true;
-		pending.heading = heading;
-		pending.subHeading = errorSubHeading;
-		pendingCaseOrderID = orderId;
-	};
-
-	const closePendingPopup = () => {
-		paymentPendingScreenCloseButtonAnalytics();
-		pending.heading = '';
-		pending.subHeading = '';
-		pending.visible = false;
 		navigatToOrderSummary({
-			orderId: pendingCaseOrderID
+			orderId
 		});
 	};
 
@@ -525,18 +503,6 @@
 
 		{#if loadingState.isLoading}
 			<LoadingPopup heading={loadingState.heading} />
-		{:else if pending.visible}
-			<ResultPopup
-				popupType="PENDING"
-				title={pending.heading}
-				text={pending.subHeading}
-				class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
-				isModalOpen
-				handleButtonClick={closePendingPopup}
-				buttonTitle="CLOSE"
-				buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
-				buttonVariant="contained"
-			/>
 		{:else if error.visible}
 			<ResultPopup
 				popupType="FAILURE"

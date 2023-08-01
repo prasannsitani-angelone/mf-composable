@@ -25,7 +25,6 @@
 		paymentFailureScreenAnalytics,
 		onRetryClickAnalytics,
 		paymentPendingScreenAnalytics,
-		onPendingScreenCloseClickAnalytics,
 		paymentOnRequestResponseAnalytics
 	} from '$lib/analytics/startFirstSip/payment';
 
@@ -52,18 +51,11 @@
 	let inputPaymentError = '';
 	let bankPopupVisible = false;
 	let validateUPILoading = false;
-	let pendingCaseOrderID: number;
-	let pendingCaseSipID: number;
 	const error = {
 		visible: false,
 		heading: '',
 		subHeading: '',
 		type: ''
-	};
-	const pending = {
-		visible: false,
-		heading: '',
-		subHeading: ''
 	};
 	const loadingState = {
 		heading: '',
@@ -166,30 +158,13 @@
 		onRetryClickAnalytics();
 	};
 
-	const displayPendingPopup = async ({
-		heading = 'Payment Pending',
-		errorSubHeading = '',
-		orderId,
-		sipId
-	}) => {
+	const displayPendingPopup = async ({ errorSubHeading = '', orderId, sipId }) => {
 		paymentPendingScreenAnalytics();
 		const eventMetaData = { status: 'Pending', message: errorSubHeading };
 		paymentOnRequestResponseAnalytics(eventMetaData);
-		pending.visible = true;
-		pending.heading = heading;
-		pending.subHeading = errorSubHeading;
-		pendingCaseOrderID = orderId;
-		pendingCaseSipID = sipId;
-	};
-
-	const closePendingPopup = () => {
-		onPendingScreenCloseClickAnalytics();
-		pending.heading = '';
-		pending.subHeading = '';
-		pending.visible = false;
 		navigatToOrderSummary({
-			orderId: pendingCaseOrderID,
-			sipId: pendingCaseSipID
+			orderId,
+			sipId
 		});
 	};
 
@@ -361,18 +336,6 @@
 
 	{#if loadingState.isLoading}
 		<LoadingPopup heading={loadingState.heading} />
-	{:else if pending.visible}
-		<ResultPopup
-			popupType="PENDING"
-			title={pending.heading}
-			text={pending.subHeading}
-			class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
-			isModalOpen
-			handleButtonClick={closePendingPopup}
-			buttonTitle="CLOSE"
-			buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
-			buttonVariant="contained"
-		/>
 	{:else if error.visible}
 		<ResultPopup
 			popupType="FAILURE"

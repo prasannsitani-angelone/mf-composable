@@ -49,7 +49,6 @@
 	import {
 		upiInitiateScreenAnalytics,
 		paymentPendingScreenAnalytics,
-		paymentPendingScreenCloseButtonAnalytics,
 		paymentFailedScreenAnalytics,
 		paymentFailedScreenCloseButtonAnalytics
 	} from './analytics/paymentFlow';
@@ -165,19 +164,12 @@
 	let inputPaymentError = '';
 	let bankPopupVisible = false;
 	let validateUPILoading = false;
-	let pendingCaseOrderID: number;
-	let pendingCaseSipID: number;
 	let firstTimeUser = false;
 	const error = {
 		visible: false,
 		heading: '',
 		subHeading: '',
 		type: ''
-	};
-	const pending = {
-		visible: false,
-		heading: '',
-		subHeading: ''
 	};
 	const loadingState = {
 		heading: '',
@@ -833,29 +825,7 @@
 		error.type = '';
 	};
 
-	const closePendingPopup = () => {
-		paymentPendingScreenCloseButtonAnalytics();
-		pending.heading = '';
-		pending.subHeading = '';
-		pending.visible = false;
-		if (activeTab === 'ONETIME' || redirectedFrom === 'SIP_PAYMENTS') {
-			navigateToLumpsumCompletePage({
-				orderId: pendingCaseOrderID
-			});
-		} else if (activeTab === 'SIP') {
-			navigateToSipCompletePage({
-				orderId: pendingCaseOrderID,
-				sipId: pendingCaseSipID
-			});
-		}
-	};
-
-	const displayPendingPopup = ({
-		heading = 'Payment Pending',
-		errorSubHeading = '',
-		orderId,
-		sipId
-	}) => {
+	const displayPendingPopup = ({ orderId, sipId }) => {
 		paymentPendingScreenAnalytics({
 			InvestmentType: activeTab === 'SIP' ? 'SIP' : 'OTI',
 			Amount: amount,
@@ -864,11 +834,16 @@
 			PaymentPending:
 				'we are confirming the status of your payment. This Usually takes few minutes. We will notify you once we have an update'
 		});
-		pending.visible = true;
-		pending.heading = heading;
-		pending.subHeading = errorSubHeading;
-		pendingCaseOrderID = orderId;
-		pendingCaseSipID = sipId;
+		if (activeTab === 'ONETIME' || redirectedFrom === 'SIP_PAYMENTS') {
+			navigateToLumpsumCompletePage({
+				orderId
+			});
+		} else if (activeTab === 'SIP') {
+			navigateToSipCompletePage({
+				orderId,
+				sipId
+			});
+		}
 	};
 
 	const showLoading = (heading: string) => {
@@ -1545,18 +1520,6 @@
 
 {#if loadingState.isLoading}
 	<LoadingPopup heading={loadingState.heading} />
-{:else if pending.visible}
-	<ResultPopup
-		popupType="PENDING"
-		title={pending.heading}
-		text={pending.subHeading}
-		class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
-		isModalOpen
-		handleButtonClick={closePendingPopup}
-		buttonTitle="CLOSE"
-		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
-		buttonVariant="contained"
-	/>
 {:else if error.visible}
 	<ResultPopup
 		popupType="FAILURE"
