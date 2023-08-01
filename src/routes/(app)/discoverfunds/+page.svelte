@@ -40,6 +40,7 @@
 	} from '$components/Stories/utils';
 	import { exitNudgeStore } from '$lib/stores/ExitNudgeStore';
 	import { browser } from '$app/environment';
+	import ExternalFundsNfoCalculatorCard from './ExternalFundsNfoCalculatorCard/ExternalFundsNfoCalculatorCard.svelte';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -276,7 +277,7 @@
 
 	<!-- External Funds, NFO, Calculator -->
 
-	<IntersectionObserver once element={elementOnce} bind:intersecting={intersectOnce}>
+	<!-- <IntersectionObserver once element={elementOnce} bind:intersecting={intersectOnce}>
 		<div bind:this={elementOnce}>
 			<LazyComponent
 				{isGuest}
@@ -285,7 +286,8 @@
 					await import('./ExternalFundsNfoCalculatorCard/ExternalFundsNfoCalculatorCard.svelte')}
 			/>
 		</div>
-	</IntersectionObserver>
+	</IntersectionObserver> -->
+	<ExternalFundsNfoCalculatorCard {isGuest} />
 </article>
 
 {#if deviceType?.isBrowser}
