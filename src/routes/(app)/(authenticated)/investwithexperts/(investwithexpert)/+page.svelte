@@ -7,12 +7,12 @@
 	import CalendarSmallIcon from '$lib/images/icons/CalendarSmallIcon.svelte';
 	import { goto } from '$app/navigation';
 	import { encodeObject } from '$lib/utils/helpers/params';
-	import { Button, Modal, CalendarComponent } from 'svelte-components';
+	import { Button, CalendarComponent, Modal } from 'svelte-components';
 
 	const descriptionItems = [
-		'Invest the same amount of money',
-		'Get exposure to multiple equity funds for maximum returns',
-		'Diversify across small, mid and large market caps'
+		'Simply choose your monthly investment amount',
+		'Your money will be invested in multiple mutual funds to maximise returns',
+		'This is a diversified investment across small, mid and large market caps'
 	];
 
 	export let amount = 1000;
@@ -20,7 +20,6 @@
 	const maxSipAmount = 15000;
 	const quickInputs = [1500, 2000, 5000];
 
-	const todaysDate = new Date();
 	const defaultSipStartSate = 4;
 	let sipStartDate = defaultSipStartSate;
 
@@ -58,17 +57,13 @@
 	let dateArray: Array<dateArrayTypes> = [{ value: 1, disabled: false }];
 	$: {
 		dateArray.pop();
-		for (let i = 1; i <= getDaysInMonth(); i++) {
+		for (let i = 1; i <= 28; i++) {
 			dateArray.push({
 				value: i,
 				disabled: false
 			});
 		}
 	}
-
-	const getDaysInMonth = () => {
-		return new Date(todaysDate.getFullYear(), todaysDate.getMonth() + 1, 0).getDate();
-	};
 
 	const handleDateChange = (value: unknown) => {
 		sipStartDate = value?.detail;
@@ -87,7 +82,7 @@
 
 <article class="mb-3 mt-1 max-w-4xl rounded-lg bg-white p-4 py-6 shadow-csm">
 	<p class="alignment-center mb-6 text-center text-xl font-semibold text-black-title">
-		Get ahead with Angel One’s <br /> expert recommendations
+		Earn more returns with a high performance portfolio
 	</p>
 
 	<img class="px-6" src={`${base}/images/invest_with_experts.webp`} alt="Explore Mutual Funds" />
@@ -168,13 +163,16 @@
 {#if showCalendar}
 	<Modal isModalOpen={showCalendar} on:backdropclicked={toggleCalendar}>
 		<CalendarComponent
+			classes={{
+				title: 'uppercase mr-auto'
+			}}
 			visible={showCalendar}
 			title={'Select SIP Instalment Date'}
 			heading={'CONFIRM'}
 			showClose={false}
 			showSubmit={true}
 			{dateArray}
-			defaultValue={todaysDate.getDate()}
+			defaultValue={sipStartDate}
 			on:submit={handleDateChange}
 			on:close={toggleCalendar}
 			class="z-60 sm:w-120"

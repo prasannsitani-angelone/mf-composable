@@ -19,7 +19,7 @@
 		<p class="mb-2 max-w-[60%] text-sm font-normal text-white">
 			{nudgeData.description}
 		</p>
-		<p class="mb-3 text-xs font-semibold text-white">
+		<p class="mb-3 text-2xs font-semibold text-white">
 			Returns <span class="text-xs">{nudgeData.data.returnPercentage.toFixed(2)}% p.a</span>
 		</p>
 

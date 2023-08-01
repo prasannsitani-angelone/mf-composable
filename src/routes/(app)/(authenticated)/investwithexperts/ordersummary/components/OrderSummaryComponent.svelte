@@ -11,17 +11,17 @@
 
 	function getStatusTitle() {
 		if (status == OrderSummaryStatus.SUCCESS) {
-			return 'Congratulations. You have boosted your portfolio';
+			return 'Order Placed Successfully';
 		} else if (status == OrderSummaryStatus.PENDING) {
-			return 'Your SIP Payment status is Pending';
+			return 'Confirming Your Payment';
 		}
 	}
 
 	function getStatusDescription() {
 		if (status == OrderSummaryStatus.SUCCESS) {
-			return 'Order placed successfully. Please wait while your order is being processed';
+			return 'Your portfolio will be updated within 48 hours';
 		} else if (status == OrderSummaryStatus.PENDING) {
-			return 'We are confirming the status of your payment. We will notify you once we have an update.';
+			return 'Your payment status is pending. We will notify you once we have an update';
 		}
 	}
 
@@ -56,7 +56,7 @@
 		<article class="flex-1">
 			<div class="text-xs font-medium text-grey-body">Total SIP Amount</div>
 			<div class="text-base font-medium text-black-title">
-				₹{addCommasToAmountString(sipAmount)}
+				₹{addCommasToAmountString(Math.trunc(sipAmount ?? 0))}
 			</div>
 		</article>
 
