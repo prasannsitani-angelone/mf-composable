@@ -36,7 +36,7 @@
 	export { exploreFundsNavigation, toggleTaxSavingModal, modalList, pageID };
 </script>
 
-<section class="scrollbar-hide flex w-full gap-2 overflow-x-scroll sm:pt-3">
+<section class="scrollbar-hide flex w-full gap-2 overflow-x-scroll px-3 pt-3 md:px-0">
 	{#each exploreFundsNavigation as nav}
 		{@const isActive =
 			`${$page.url.pathname}?id=${$page.url.searchParams.get('id')}` === `${base}${nav.href}`}
@@ -54,7 +54,11 @@
 	{/each}
 </section>
 {#if modalList?.shortDescription}
-	<Button variant="transparent" class="no-animation w-full px-0" onClick={toggleTaxSavingModal}>
+	<Button
+		variant="transparent"
+		class="no-animation w-full px-3 md:px-0"
+		onClick={toggleTaxSavingModal}
+	>
 		<aside class="mt-5 flex w-full cursor-pointer items-center rounded bg-grey px-5 py-3">
 			<TaxSavingIcon />
 			<span class="ml-3 text-sm font-medium text-black-title">{modalList?.shortDescription}</span>

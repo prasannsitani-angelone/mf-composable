@@ -38,7 +38,7 @@ const generateCacheHeader = (
 const addPreloadLinkHeaders = (linkHeader = '', url: string) => {
 	linkHeader = `</mutual-funds/fonts/887cHqv4kjgoGqM7E3_-gs51ostz0rdg.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin,</mutual-funds/fonts/887cHpv4kjgoGqM7E_DMs5ynghnQ.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin,</mutual-funds/fonts/887cHqv4kjgoGqM7E30-8s51ostz0rdg.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin,${linkHeader}`;
 	if (url.includes('/discoverfunds')) {
-		linkHeader = `</mutual-funds/images/TrendingFundsBackground.svg>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail1c2.webp>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail2c2.webp>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail3c2.webp>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail4c2.webp>;rel="preload";as="image";nopush,${linkHeader}`;
+		linkHeader = `<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail1c2.webp>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail2c2.webp>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail3c2.webp>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail4c2.webp>;rel="preload";as="image";nopush,${linkHeader}`;
 	}
 	return linkHeader;
 };

@@ -2,14 +2,13 @@
 	import type { PageData } from './$types';
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
 	import SearchOptionHeader from './SearchOptionHeader/SearchOptionHeader.svelte';
-	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
 	import { onMount } from 'svelte';
 	import { fundCardClick, sExploreMutualFunds, taxSavingInfo } from './analytics';
-	import SchemeTable from '$components/SchemeTable.svelte';
 	import ExploreFundModal from './ExploreFundModal/ExploreFundModal.svelte';
 	import { page } from '$app/stores';
 	import { SEO } from 'svelte-components';
-	import { capitalizeFirstLetter } from '$lib/utils';
+	import SchemeCardExt from '$components/SchemeCardExt.svelte';
+	import ExploreFundsLoader from './ExploreFundsLoader.svelte';
 
 	let data: PageData;
 	$: pageID = data?.pageID;
@@ -33,7 +32,7 @@
 		isModalOpen = isModalOpen ? false : true;
 	};
 
-	const fundRowClicked = (event) => {
+	const handleFundCardClick = (event) => {
 		const { schemes } = event.detail;
 		const { isin } = schemes;
 
@@ -55,15 +54,6 @@
 		sExploreMutualFunds({ filter });
 	});
 
-	const setEntryPoint = (slug: string) => {
-		const splittedArray = (slug?.split('-') || []).map((item: string) =>
-			capitalizeFirstLetter(item)
-		);
-		return splittedArray.join('');
-	};
-
-	$: pagePathname = $page.url?.pathname;
-	let entryPoint = setEntryPoint($page.params?.slug || '');
 	export { data };
 </script>
 
@@ -78,15 +68,27 @@
 		Explore Mutual Funds
 	</h1>
 
-	<SearchOptionHeader {toggleTaxSavingModal} modalList={modalList[0]} {pageID} />
+	<section class="md:rounded-b-lg md:shadow-csm">
+		<SearchOptionHeader {toggleTaxSavingModal} modalList={modalList[0]} {pageID} />
 
-	<section class="ml-[calc(50%-50vw)] w-screen shadow-csm sm:ml-0 sm:w-full md:bg-white md:pt-4">
-		<section>
-			{#await data?.api?.searchOption}
-				<TableSkeleton />
-			{:then searchOption}
-				<SchemeTable {searchOption} on:fundRowClicked={fundRowClicked} {entryPoint} />
-			{/await}
+		<section
+			class="ml-[calc(50%-50vw)] w-screen rounded-b-lg sm:ml-0 sm:w-full md:bg-white md:pt-3"
+		>
+			<section>
+				{#await data?.api?.searchOption}
+					<ExploreFundsLoader />
+				{:then searchOption}
+					<section class="flex flex-col flex-wrap items-center px-2 md:flex-row md:px-6 md:pb-1">
+						{#each searchOption || [] as schemes}
+							<SchemeCardExt
+								class="mb-2 w-full rounded-lg bg-white p-3 md:mb-4 md:mr-4 md:w-[336px]"
+								{schemes}
+								on:onCardClick={handleFundCardClick}
+							/>
+						{/each}
+					</section>
+				{/await}
+			</section>
 		</section>
 	</section>
 	<ExploreFundModal {isModalOpen} {toggleTaxSavingModal} modalList={modalList[0]} />

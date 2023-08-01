@@ -11,7 +11,7 @@
 	{#if searchFocused}
 		<Overlay containerClass="!z-60" />
 	{/if}
-	<section class="m-auto flex max-w-8xl flex-wrap justify-center">
+	<section class="m-auto flex max-w-8xl flex-wrap justify-center {pageMetaData?.layoutBodyClass}">
 		<section class={`w-full lg:pt-3 xl:w-4/5`}>
 			<slot />
 		</section>

@@ -73,7 +73,7 @@
 		<section class="flex items-center">
 			{#if showLogo}
 				<SchemeLogo
-					class="!mr-1 rounded-none border-none shadow-none"
+					class="!mr-1 !h-8 !w-8 rounded-none border-none shadow-none"
 					src={schemes?.logoUrl}
 					alt={schemes?.schemeName}
 				/>

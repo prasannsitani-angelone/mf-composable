@@ -30,7 +30,8 @@ export const load = (async ({ fetch, url }) => {
 			title: 'Explore Mutual Funds',
 			showSearchIcon: true,
 			showBackIcon: true,
-			layoutType: 'DEFAULT'
+			layoutType: 'DEFAULT',
+			layoutBodyClass: '!max-w-full'
 		},
 		pageID
 	};
