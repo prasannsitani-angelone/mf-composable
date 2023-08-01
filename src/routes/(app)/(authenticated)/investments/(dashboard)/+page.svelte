@@ -51,7 +51,14 @@
 			'Total Investment': investmentSummary?.investedValue,
 			'Overall Gain': `${investmentSummary?.returnsValue}(${investmentSummary?.returnsAbsolutePer}%)`,
 			'Todays Loss': `${investmentSummary?.previousDayReturns}(${investmentSummary?.previousDayReturnPercentage}%)`,
-			'Fund Name': holdings?.[0]?.schemeName
+			'Fund Name': holdings?.filter((holding) => {
+				return {
+					'Fund Name': holding?.schemeName,
+					'Current Value': holding?.currentValue,
+					'Total Investment': holding?.investedValue,
+					'Overall Gain': `${holding?.returnsValue}(${holding?.returnsAbsolutePer}%)`
+				};
+			})
 		});
 		isOptimisePortfolioOpen = true;
 	};
@@ -63,7 +70,15 @@
 			'Current Value': investmentSummary?.currentValue,
 			'Total Investment': investmentSummary?.investedValue,
 			'Overall Gain': `${investmentSummary?.returnsValue}(${investmentSummary?.returnsAbsolutePer}%)`,
-			'Todays Loss': `${investmentSummary?.previousDayReturns}(${investmentSummary?.previousDayReturnPercentage}%)`
+			'Todays Loss': `${investmentSummary?.previousDayReturns}(${investmentSummary?.previousDayReturnPercentage}%)`,
+			Funds: holdings?.filter((holding) => {
+				return {
+					'Fund Name': holding?.schemeName,
+					'Current Value': holding?.currentValue,
+					'Total Investment': holding?.investedValue,
+					'Overall Gain': `${holding?.returnsValue}(${holding?.returnsAbsolutePer}%)`
+				};
+			})
 		};
 		investmentDashboardImpressionAnalytics(eventMetaData);
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/recommendation/sip`;
@@ -76,8 +91,7 @@
 				optimisePorfolioData?.isin
 			) {
 				fundForYouImpressionAnalytics({
-					...eventMetaData,
-					'Fund Name': holdings?.[0]?.schemeName
+					...eventMetaData
 				});
 			}
 		}

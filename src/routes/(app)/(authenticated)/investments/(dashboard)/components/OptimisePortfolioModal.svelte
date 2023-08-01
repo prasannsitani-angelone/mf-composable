@@ -32,6 +32,7 @@
 		fundForYouPopUpImpressionAnalytics,
 		fundForYouWhyImpressionAnalytics
 	} from '../../analytics';
+	import { FUND_CATEGORY_RETURNS } from '$lib/constants/fund';
 	export let optimisePorfolioData: IOPtimsiePortfolioData;
 	export let toggleOptimisePorfolioCard: (flag: boolean) => void;
 	export let investmentSummary: InvestmentSummary;
@@ -68,7 +69,10 @@
 			calculateSipReturns(
 				schemeDetails?.minSipAmount < 500 ? 500 : schemeDetails?.minSipAmount,
 				3,
-				schemeDetails?.returns3yr
+				schemeDetails?.returns3yr > 0
+					? schemeDetails?.returns3yr
+					: FUND_CATEGORY_RETURNS[schemeDetails?.categoryName?.toUpperCase()] ||
+							FUND_CATEGORY_RETURNS.Equity
 			)?.matuarityAmount * 100
 		) / 100;
 	$: threeReturnsWithoutInvestment =
@@ -77,7 +81,10 @@
 					calculateSipReturns(
 						currentSchemeDetails?.minSipAmount,
 						3,
-						currentSchemeDetails?.returns3yr
+						currentSchemeDetails?.returns3yr > 0
+							? currentSchemeDetails?.returns3yr
+							: FUND_CATEGORY_RETURNS[currentSchemeDetails?.categoryName?.toUpperCase()] ||
+									FUND_CATEGORY_RETURNS.Equity
 					)?.matuarityAmount * 100
 			  ) /
 					100 +
@@ -143,7 +150,8 @@
 				/>
 			</div>
 			<p class="mt-1 text-sm">
-				Based on your current investments, we recommend adding the following fund to your portfolio
+				Based on your current investment, adding the following fund will diversify and provide
+				stability to your portfolio
 			</p>
 		</div>
 		{#if !isFetchingScheme}
@@ -218,11 +226,11 @@
 			</div>
 			<div class="pb-6 text-sm text-grey-body">
 				<p>
-					Based on your asset allocation, we recommend investing in an <b
+					Based on your asset allocation, investing in <b
 						>{schemeDetails?.subcategoryName?.toLowerCase() === 'small cap fund'
-							? 'small cap fund'
-							: 'index fund.'}</b
-					>
+							? 'Small Cap Fund'
+							: 'Index Fund.'}</b
+					> will enhance your portfolio performance
 				</p>
 				{#if schemeDetails?.subcategoryName?.toLowerCase() === 'small cap fund'}
 					<p class="mt-4">Small cap funds invest in companies with market cap less than 5000 Cr.</p>
