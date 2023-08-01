@@ -4,12 +4,22 @@
 	import type { Start4SipsNudgeType } from '$lib/types/INudge';
 	import CuratedInvestmentCardBackground from '../../images/CuratedInvestmentCardBackground.svelte';
 	import { Button } from 'svelte-components';
+	import { onMount } from 'svelte';
+	import {
+		curatedCardClickEvent,
+		curatedCardImpressionEvent
+	} from '$components/InvestWithExperts/analytics';
 
 	export let nudgeData: Start4SipsNudgeType;
 
 	async function openInvestWithExperts() {
+		curatedCardClickEvent();
 		await goto(`${base}/investwithexperts`);
 	}
+
+	onMount(() => {
+		curatedCardImpressionEvent();
+	});
 </script>
 
 <div class="relative overflow-hidden rounded-lg {$$props.class}">

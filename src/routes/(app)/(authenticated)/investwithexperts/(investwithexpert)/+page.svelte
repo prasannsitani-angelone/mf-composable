@@ -8,6 +8,14 @@
 	import { goto } from '$app/navigation';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { Button, CalendarComponent, Modal } from 'svelte-components';
+	import { onMount } from 'svelte';
+	import {
+		investWithExpertAmountDecrementEvent,
+		investWithExpertAmountIncrementEvent,
+		investWithExpertProceedClickEvent,
+		investWithExpertQuickSelectEvent,
+		investWithExpertScreenImpressionEvent
+	} from './analytics';
 
 	const descriptionItems = [
 		'Simply choose your monthly investment amount',
@@ -32,6 +40,7 @@
 			return;
 		}
 		amount += 100;
+		investWithExpertAmountIncrementEvent(amount);
 	};
 
 	const handleMinusClick = () => {
@@ -40,10 +49,12 @@
 			return;
 		}
 		amount -= 100;
+		investWithExpertAmountDecrementEvent(amount);
 	};
 
 	const handleQuickInputClick = (pillAmount: number) => {
 		amount = pillAmount;
+		investWithExpertQuickSelectEvent(amount);
 	};
 
 	const toggleShowCalendarLearnMoreModal = () => {
@@ -77,7 +88,17 @@
 		});
 		const path = `${base}/investwithexperts/confirm?params=${params}`;
 		await goto(path);
+
+		const eventMetaData = {
+			amount: amount,
+			date: sipStartDate
+		};
+		investWithExpertProceedClickEvent(eventMetaData);
 	};
+
+	onMount(() => {
+		investWithExpertScreenImpressionEvent();
+	});
 </script>
 
 <article class="mb-3 mt-1 max-w-4xl rounded-lg bg-white p-4 py-6 shadow-csm">
