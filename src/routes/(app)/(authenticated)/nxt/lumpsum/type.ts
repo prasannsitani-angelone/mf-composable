@@ -2,6 +2,7 @@ export interface IOrderDetails {
 	amount: number;
 	requestDate: string;
 	orderType: string;
+	folioNumber?: string;
 }
 
 export interface IClientDetails {

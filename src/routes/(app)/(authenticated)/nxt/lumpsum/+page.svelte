@@ -106,6 +106,7 @@
 				mandateType: mandateDetails?.mandateType,
 				mandateId: mandateDetails?.mandateId,
 				dpNumber: $profileStore?.dpNumber,
+				folioNumber: orderDetails?.folioNumber,
 				emailId: $profileStore?.clientDetails?.email,
 				mobileNo: $profileStore?.mobile,
 				poaStatus: $profileStore?.poaStatus,
