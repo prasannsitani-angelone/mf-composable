@@ -183,7 +183,7 @@
 
 		return '/';
 	};
-
+	let clevertap;
 	onMount(async () => {
 		await tick();
 
@@ -199,6 +199,14 @@
 			setSipNudgesData(nudgeData);
 			setRetryPaymentNudgesData(nudgeData);
 			setOtherNudgeDataTypes();
+		});
+
+		clevertap = (await import('clevertap-web-sdk')).default;
+		clevertap.event.push('Product viewed', {
+			'Product name': 'Casio Chronograph Watch',
+			Category: 'Mens Accessories',
+			Price: 59.99,
+			Date: new Date()
 		});
 	});
 
@@ -220,7 +228,6 @@
 	seoTitle="Find The Right Mutual Fund For Your Needs | Angel One"
 	seoDescription="Set your Goals and find the right Mutual Funds to achieve your goal. Explore mutual funds by performance and start your investment journey with Angel One."
 />
-
 <article>
 	<!-- Stories section -->
 	{#if storiesData?.stories?.length}

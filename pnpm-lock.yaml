@@ -11,6 +11,7 @@ specifiers:
   autoprefixer: 10.4.14
   chart.js: 4.3.0
   chartjs-adapter-date-fns: 3.0.0
+  clevertap-web-sdk: ^1.6.4
   cookie-es: 0.5.0
   daisyui: 2.51.4
   date-fns: 2.30.0
@@ -32,7 +33,7 @@ specifiers:
   svelte: 4.0.5
   svelte-chartjs: 3.1.2
   svelte-check: 3.4.5
-  svelte-components: 0.131.0
+  svelte-components: 0.132.0
   svelte-device-detector: 0.2.2
   svelte-intersection-observer: 0.10.0
   svelte-video-player: 1.2.5
@@ -57,6 +58,7 @@ dependencies:
   '@vite-pwa/sveltekit': 0.2.5_ie6mrz2jp27stwzp524ervwnau
   chart.js: 4.3.0
   chartjs-adapter-date-fns: 3.0.0_raakphtmi67tkckbdvanb2s7hm
+  clevertap-web-sdk: 1.6.4
   daisyui: 2.51.4_niw6ku6jz4wqeqcn4bwuutvh4m
   date-fns: 2.30.0
   fflate: 0.7.4
@@ -64,7 +66,7 @@ dependencies:
   lodash.merge: 4.6.2
   servertime: 3.1.1
   svelte-chartjs: 3.1.2_o5tslaxxtmpni3q2x6qbyajk4u
-  svelte-components: 0.131.0_t2zvn7chsyhogcrmnegmjzl5my
+  svelte-components: 0.132.0_t2zvn7chsyhogcrmnegmjzl5my
   svelte-device-detector: 0.2.2
   svelte-intersection-observer: 0.10.0
   svelte-video-player: 1.2.5
@@ -2372,6 +2374,10 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
 
+  /clevertap-web-sdk/1.6.4:
+    resolution: {integrity: sha512-dsFCnzm/urmJ7eePFVsMjGrIAMaXb4q81yLhwXbEZBVqKpMgUGucgl+oHC8pHnRhDqqnXVNYOVEwbVY7uqLMOQ==}
+    dev: false
+
   /cliui/8.0.1:
     resolution: {integrity: sha512-BSeNnyus75C4//NQ9gQt1/csTXyo/8Sb+afLAkzAptFuMsod9HFokGNudZpi/oQV73hnVK+sR+5PVRMd+Dr7YQ==}
     engines: {node: '>=12'}
@@ -4524,8 +4530,8 @@ packages:
       - sugarss
     dev: true
 
-  /svelte-components/0.131.0_t2zvn7chsyhogcrmnegmjzl5my:
-    resolution: {integrity: sha512-Xd/D94XpDIO4wTgME8J042I7yovivVNZbR93/rqLIAplgfRWZTeNsxtjrSH+HJlcG8NHb8YuP5YvnmcRZ75Ezg==}
+  /svelte-components/0.132.0_t2zvn7chsyhogcrmnegmjzl5my:
+    resolution: {integrity: sha512-HXF2FO/s9YE9JJteMTguKw7Jge0KiKxoD40kh7GQ3ww5GG3Cu6mfoz1GDuF8kzs2Newl8ESFj+PPPN4tRMqVww==}
     peerDependencies:
       '@sveltejs/kit': ^1.22.3
       svelte: ^3.54.0
