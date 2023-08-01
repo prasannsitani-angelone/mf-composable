@@ -23,7 +23,12 @@
 	import { onMount, tick } from 'svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
-	import type { IOPtimsiePortfolioData } from '$lib/types/IInvestments';
+	import type { IOPtimsiePortfolioData, InvestmentEntity } from '$lib/types/IInvestments';
+	import {
+		fundForYouClickAnalytics,
+		fundForYouImpressionAnalytics,
+		investmentDashboardImpressionAnalytics
+	} from '../analytics';
 
 	let isXIRRModalOpen = false;
 	let isOptimisePortfolioOpen = false;
@@ -33,21 +38,48 @@
 		schemeName: '',
 		logoUrl: ''
 	};
+	let holdings: Array<InvestmentEntity>;
 
 	const showXirrModal = () => {
 		isXIRRModalOpen = true;
 	};
 
 	const toggleOptimisePorfolioCard = () => {
+		const investmentSummary = data?.investementSummary;
+		fundForYouClickAnalytics({
+			'Current Value': investmentSummary?.currentValue,
+			'Total Investment': investmentSummary?.investedValue,
+			'Overall Gain': `${investmentSummary?.returnsValue}(${investmentSummary?.returnsAbsolutePer}%)`,
+			'Todays Loss': `${investmentSummary?.previousDayReturns}(${investmentSummary?.previousDayReturnPercentage}%)`,
+			'Fund Name': holdings?.[0]?.schemeName
+		});
 		isOptimisePortfolioOpen = true;
 	};
 
 	onMount(async () => {
 		await tick();
+		const investmentSummary = data?.investementSummary;
+		const eventMetaData = {
+			'Current Value': investmentSummary?.currentValue,
+			'Total Investment': investmentSummary?.investedValue,
+			'Overall Gain': `${investmentSummary?.returnsValue}(${investmentSummary?.returnsAbsolutePer}%)`,
+			'Todays Loss': `${investmentSummary?.previousDayReturns}(${investmentSummary?.previousDayReturnPercentage}%)`
+		};
+		investmentDashboardImpressionAnalytics(eventMetaData);
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/recommendation/sip`;
 		const res = await useFetch(url, {}, fetch);
 		if (res?.ok && res?.status === 200) {
 			optimisePorfolioData = res?.data?.recommendedScheme?.[0] || {};
+			if (
+				optimisePorfolioData?.schemeCode &&
+				optimisePorfolioData?.schemeName &&
+				optimisePorfolioData?.isin
+			) {
+				fundForYouImpressionAnalytics({
+					...eventMetaData,
+					'Fund Name': holdings?.[0]?.schemeName
+				});
+			}
 		}
 	});
 
@@ -77,6 +109,7 @@
 					investmentSummary={data.investementSummary}
 					{optimisePorfolioData}
 					tableData={response.data?.holdings || []}
+					bind:holdings
 					bind:isXIRRModalOpen
 					bind:isOptimisePortfolioOpen
 				/>

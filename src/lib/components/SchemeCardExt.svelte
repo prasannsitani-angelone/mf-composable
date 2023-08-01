@@ -18,6 +18,7 @@
 	let schemes: WeeklyTopSchemesEntity | ExploreFundsOptions | SchemeDetails;
 	let showLogo = true;
 	let disableRedirection = false;
+	let showTopRated = false;
 	let dispatch = createEventDispatcher();
 	function gotoSchemeDetails() {
 		if (disableRedirection) {
@@ -35,7 +36,7 @@
 		goto(schemeDetailsPath);
 		dispatch('onCardClick');
 	}
-	export { schemes, showLogo, disableRedirection };
+	export { schemes, showLogo, disableRedirection, showTopRated };
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -59,7 +60,7 @@
 		</div>
 		<div class="relative w-16">
 			<slot name="topRightSection">
-				{#if schemes?.sortBy2 > 0 && schemes?.sortBy2 < 3}
+				{#if (schemes?.sortBy2 > 0 && schemes?.sortBy2 < 3) || showTopRated}
 					<div class="bottom absolute inset-0" />
 					<div class="top absolute inset-0" />
 					<div class="absolute right-1 flex h-[20px] items-center text-1xs font-medium text-white">

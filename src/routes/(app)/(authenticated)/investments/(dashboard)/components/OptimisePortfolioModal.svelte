@@ -26,6 +26,12 @@
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
+	import {
+		fundForYouClickTextAnalytics,
+		fundForYouInvestClickAnalytics,
+		fundForYouPopUpImpressionAnalytics,
+		fundForYouWhyImpressionAnalytics
+	} from '../../analytics';
 	export let optimisePorfolioData: IOPtimsiePortfolioData;
 	export let toggleOptimisePorfolioCard: (flag: boolean) => void;
 	export let investmentSummary: InvestmentSummary;
@@ -38,6 +44,14 @@
 
 	const toggleFundModal = (flag: boolean) => {
 		showFundModal = flag;
+		if (flag) {
+			fundForYouClickTextAnalytics({
+				Fundname: schemeDetails?.schemeName,
+				'Minimum SIP amount': schemeDetails?.minSipAmount,
+				Returns: schemeDetails?.returns3yr
+			});
+			fundForYouWhyImpressionAnalytics();
+		}
 	};
 	const getSchemeData = async () => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${optimisePorfolioData?.isin}/${optimisePorfolioData?.schemeCode}`;
@@ -88,11 +102,21 @@
 		await Promise.all([getSchemeData(), getCurrentSchemeData()]).then((res) => {
 			(schemeDetails = res[0].ok ? res[0]?.data || {} : {}),
 				(currentSchemeDetails = res[1].ok ? res[1]?.data || {} : {});
+			fundForYouPopUpImpressionAnalytics({
+				Fundname: schemeDetails?.schemeName,
+				'Minimum SIP amount': schemeDetails?.minSipAmount,
+				Returns: schemeDetails?.returns3yr
+			});
 			isFetchingScheme = false;
 		});
 	});
 
 	const gotoSchemeDetails = () => {
+		fundForYouInvestClickAnalytics({
+			Fundname: schemeDetails?.schemeName,
+			'Minimum SIP amount': schemeDetails?.minSipAmount,
+			Returns: schemeDetails?.returns3yr
+		});
 		const schemeDetailsPath = `${base}/schemes/${normalizeFundName(
 			schemeDetails?.schemeName,
 			schemeDetails?.isin,
@@ -123,7 +147,7 @@
 			</p>
 		</div>
 		{#if !isFetchingScheme}
-			<SchemeCardExt class="mt-4" disableRedirection={true} schemes={schemeDetails}>
+			<SchemeCardExt class="mt-4" disableRedirection={true} showTopRated schemes={schemeDetails}>
 				<svelte:fragment slot="titleRightSection">
 					<span />
 				</svelte:fragment>

@@ -12,7 +12,11 @@
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
-	import { investmentRowClickAnalytics } from '../analytics';
+	import {
+		fundForYouClickAnalytics,
+		holdingClickAnalytics,
+		investmentRowClickAnalytics
+	} from '../analytics';
 	import Card from '$components/Card.svelte';
 	import Link from '$components/Link.svelte';
 	import PageFilter from './components/PageFilter.svelte';
@@ -48,10 +52,11 @@
 	};
 
 	let tableData: Array<InvestmentEntity>;
-
+	let holdings: Array<InvestmentEntity>;
+	holdings = tableData;
 	let tableDataToDisplay = [...tableData];
 
-	export { tableData };
+	export { tableData, holdings };
 
 	const handleRowClick = (selectedRow: InvestmentEntity) => {
 		const dParam = `${
@@ -60,6 +65,14 @@
 		if (isExternal) {
 			const meteData = { FundName: selectedRow.schemeName, CurrentValue: selectedRow.currentValue };
 			investmentRowClickAnalytics(meteData);
+		} else {
+			const meteData = {
+				FundName: selectedRow.schemeName,
+				CurrentValue: selectedRow.currentValue,
+				'Invested amount': selectedRow?.investedValue,
+				Returns: `${selectedRow?.returnsValue}(${selectedRow?.returnsAbsolutePer})`
+			};
+			holdingClickAnalytics(meteData);
 		}
 		try {
 			goto(
@@ -84,6 +97,15 @@
 
 	const toggleOptimisePorfolioCard = (flag: boolean) => {
 		isOptimisePortfolioOpen = flag;
+		if (flag) {
+			fundForYouClickAnalytics({
+				'Current Value': investmentSummary?.currentValue,
+				'Total Investment': investmentSummary?.investedValue,
+				'Overall Gain': `${investmentSummary?.returnsValue}(${investmentSummary?.returnsAbsolutePer}%)`,
+				'Todays Loss': `${investmentSummary?.previousDayReturns}(${investmentSummary?.previousDayReturnPercentage}%)`,
+				'Fund Name': tableDataToDisplay?.[0]?.schemeName
+			});
+		}
 	};
 </script>
 

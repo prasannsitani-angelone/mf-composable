@@ -439,3 +439,98 @@ export const tefResendOtpClickAnalytics = () => {
 		event_id: '313.0.0.0.23'
 	});
 };
+
+export const investmentDashboardImpressionAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-investments',
+		event_type: 'impression',
+		event_sub_type: 'screen',
+		event_name: 's-investmentdashboard',
+		event_property: null,
+		event_metadata: eventMetaData,
+		event_id: '306.0.0.13.24'
+	});
+};
+
+export const holdingClickAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-investments',
+		event_type: 'click',
+		event_sub_type: 'card',
+		event_name: 'FundName',
+		event_property: null,
+		event_metadata: eventMetaData,
+		event_id: '306.0.0.13.25'
+	});
+};
+
+export const fundForYouImpressionAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-investments',
+		event_type: 'impression',
+		event_sub_type: 'Card',
+		event_name: 'Fundforyou',
+		event_property: null,
+		event_metadata: eventMetaData,
+		event_id: '306.0.0.13.26'
+	});
+};
+
+export const fundForYouClickAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-investments',
+		event_type: 'Click',
+		event_sub_type: 'Card',
+		event_name: 'Fundforyou',
+		event_property: null,
+		event_metadata: eventMetaData,
+		event_id: '306.0.0.13.27'
+	});
+};
+
+export const fundForYouPopUpImpressionAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-fundforyou',
+		event_type: 'impression',
+		event_sub_type: 'Pop-up',
+		event_name: 'Fundforyou',
+		event_property: null,
+		event_metadata: eventMetaData,
+		event_id: '306.0.0.13.28'
+	});
+};
+
+export const fundForYouInvestClickAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-fundforyou',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'invest',
+		event_property: null,
+		event_metadata: eventMetaData,
+		event_id: '306.0.0.13.29'
+	});
+};
+
+export const fundForYouClickTextAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-fundforyou',
+		event_type: 'click',
+		event_sub_type: 'text',
+		event_name: 'whythisfund?',
+		event_property: null,
+		event_metadata: eventMetaData,
+		event_id: '306.0.0.13.30'
+	});
+};
+
+export const fundForYouWhyImpressionAnalytics = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-fundforyou',
+		event_type: 'impression',
+		event_sub_type: 'pop-up',
+		event_name: 'whythisfund?',
+		event_property: null,
+		event_id: '306.0.0.13.31'
+	});
+};
