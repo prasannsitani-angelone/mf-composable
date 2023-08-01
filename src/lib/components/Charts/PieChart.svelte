@@ -7,7 +7,7 @@
 
 	export let chartId = 'pie-chart';
 	export let width = '320px';
-	export let height = '160px';
+	export let height = '200px';
 	export let chartPlugins = [];
 	export let data = {};
 	export let chartOptions = {};
@@ -22,15 +22,15 @@
 				legend: {
 					display: true,
 					align: 'center',
-					position: 'right',
+					position: 'bottom',
+					onClick: () => null,
 					labels: {
-						boxWidth: 5,
-						boxHeight: 5,
-						pointStyle: 'circle',
-						usePointStyle: true,
+						boxWidth: 8,
+						boxHeight: 8,
+						padding: 16,
 						color: '#2A394E',
 						font: {
-							size: 12,
+							size: 11,
 							weight: 'normal'
 						}
 					}
@@ -63,18 +63,23 @@
 					const cy = top + height / 2;
 					for (let i = 0; i < segments.length; i++) {
 						ctx.fillStyle = 'white';
-						ctx.font = '12px Verdana';
+						const fontSize = 11;
+						ctx.font = `${fontSize}px Barlow`;
 						// Get needed variables
 						const radius = segments[i].outerRadius;
-						const value = data.displayData[i];
+						const value1 = data.displayData[i];
+						const value2 = data.subDisplayData[i];
 						const startAngle = segments[i].startAngle;
 						const endAngle = segments[i].endAngle;
 						if (startAngle !== endAngle) {
 							const middleAngle = startAngle + (endAngle - startAngle) / 2;
-							const posX = (radius / 2) * Math.cos(middleAngle) + cx;
-							const posY = (radius / 2) * Math.sin(middleAngle) + cy;
-							const w_offset = ctx.measureText(value).width / 2;
-							ctx.fillText(value, posX - w_offset, posY);
+							const posX = ((3 * radius) / 5) * Math.cos(middleAngle) + cx;
+							const posY = ((3 * radius) / 5) * Math.sin(middleAngle) + cy;
+							ctx.fillText(value1, posX - ctx.measureText(value1).width / 2, posY);
+							ctx.restore();
+							ctx.fillStyle = 'white';
+							ctx.font = `${fontSize}px Barlow`;
+							ctx.fillText(value2, posX - ctx.measureText(value2).width / 2, posY + fontSize + 4);
 							ctx.restore();
 						}
 					}

@@ -1,14 +1,15 @@
 import { NET_BANKING_MIN_LIMIT, UPI_MAX_LIMIT } from '$components/Payment/constants';
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { profileStore } from '$lib/stores/ProfileStore';
+import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 import { hydrate } from '$lib/utils/helpers/hydrated';
 import { decodeToObject } from '$lib/utils/helpers/params';
 import { useFetch } from '$lib/utils/useFetch';
 
 const colorCategoryMapping = {
-	'large cap fund': '#F9BA4D',
-	'index fund': '#008F75',
-	'small cap fund': '#F65E5A',
+	'large cap fund': '#008F75',
+	'index fund': '#F65E5A',
+	'small cap fund': '#F9BA4D',
 	'mid cap fund': '#3F5BD9'
 };
 
@@ -35,7 +36,8 @@ export const load = async ({ fetch, url, parent, depends }) => {
 					backgroundColor: [],
 					borderColor: [],
 					borderAlign: 'center',
-					displayData: []
+					displayData: [],
+					subDisplayData: []
 				};
 
 				const schemes = [];
@@ -46,15 +48,17 @@ export const load = async ({ fetch, url, parent, depends }) => {
 
 				schemesData.forEach((scheme) => {
 					const { weightage, subCategory } = scheme;
+					const amt = (weightage / totalWeightage) * amount;
 					dataset.data.push(weightage);
 					dataset.backgroundColor.push(colorCategoryMapping[subCategory?.toLowerCase()] || '#fff');
 					dataset.borderColor.push(colorCategoryMapping[subCategory?.toLowerCase()] || '#fff');
 					dataset.displayData.push(`${(weightage / totalWeightage) * 100}%`);
-					labels.push(`₹${(weightage / totalWeightage) * amount} ${subCategory}`);
+					dataset.subDisplayData.push(`₹${addCommasToAmountString(amt)}`);
+					labels.push(subCategory?.replace('Fund', ''));
 
 					schemes.push({
 						...scheme,
-						amount: (weightage / totalWeightage) * amount
+						amount: amt
 					});
 				});
 
@@ -80,7 +84,8 @@ export const load = async ({ fetch, url, parent, depends }) => {
 								backgroundColor: [],
 								borderColor: [],
 								borderAlign: 'center',
-								displayData: []
+								displayData: [],
+								subDisplayData: []
 							}
 						]
 					}
@@ -99,7 +104,8 @@ export const load = async ({ fetch, url, parent, depends }) => {
 							backgroundColor: [],
 							borderColor: [],
 							borderAlign: 'center',
-							displayData: []
+							displayData: [],
+							subDisplayData: []
 						}
 					]
 				}

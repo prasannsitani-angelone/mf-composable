@@ -11,6 +11,7 @@
 		upiBulkSIPFlow,
 		walletBulkSIPFlow
 	} from '$components/Payment/flow';
+	import { getFormattedSIPDate } from '$components/Payment/util';
 	import { getCompleteSIPDateBasedonDD, getDateSuperscript } from '$lib/utils/helpers/date';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
@@ -91,7 +92,7 @@
 				isin: scheme.isin,
 				noOfInstallment: scheme.sipMaxInstallmentNo,
 				schemeCode: scheme.schemeCode,
-				startDate: getSIPDate()
+				startDate: getFormattedSIPDate(getSIPDate())
 			});
 		});
 
@@ -243,6 +244,9 @@
 							{paymentFlow}
 							pendingFlow={successFlow}
 							upiValidationErrorFunc={upiValidationErrorFuncPS}
+							submitButtonText={paymentHandler?.firstTimeUser
+								? 'PROCEED'
+								: `PAY ₹${addCommasToAmountString(amount)}`}
 						/>
 					</section>
 				{/await}
