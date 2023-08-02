@@ -98,7 +98,7 @@
 			  ) / 100) + (investmentSummary?.currentValue || 0);
 	$: totalReturns = threeReturnsWithoutInvestment + threeYearReturnsValue;
 	$: totalReturnsPerctange = Math.round(
-		((threeYearReturnsValue - (investmentSummary?.currentValue || 0)) /
+		((totalReturns - (investmentSummary?.currentValue || 0)) /
 			(investmentSummary?.currentValue || 1)) *
 			100
 	);
