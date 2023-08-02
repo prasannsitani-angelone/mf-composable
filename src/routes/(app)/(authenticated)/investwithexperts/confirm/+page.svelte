@@ -15,8 +15,17 @@
 	import { getCompleteSIPDateBasedonDD, getDateSuperscript } from '$lib/utils/helpers/date';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
+	import { onMount } from 'svelte';
 	import SkeletonLoader from './components/SkeletonLoader.svelte';
 	import WhyThisFundPopup from './components/WhyThisFundPopup.svelte';
+	import {
+		onMountAnalytics,
+		whyTheseFundsClickAnalytics,
+		changePaymentMethodAnalytics,
+		mountChangePaymentMethodAnalytics,
+		payFromPaymentMethodPage,
+		payNowClickAnalytics
+	} from './analytics';
 
 	export let data: import('./$types').PageData;
 
@@ -40,7 +49,14 @@
 
 	const toggleWhyThisFundPopup = () => {
 		whyThisFundPopupVisible = !whyThisFundPopupVisible;
+		if (whyThisFundPopupVisible) {
+			whyTheseFundsClickAnalytics();
+		}
 	};
+
+	onMount(() => {
+		onMountAnalytics();
+	});
 
 	let paymentHandler = {
 		selectedAccount: 0,
@@ -51,7 +67,11 @@
 	let showChangePayment = false;
 
 	const showPaymentMethodScreen = () => {
+		changePaymentMethodAnalytics();
 		showChangePayment = true;
+		mountChangePaymentMethodAnalytics({
+			DefaultMethod: paymentHandler.paymentMode
+		});
 	};
 
 	const hidePaymentMethodScreen = () => {
@@ -74,14 +94,37 @@
 	};
 
 	const paymentFlow = async (params) => {
+		const basketResponse = await data.api.basket;
+		const schemes = basketResponse?.schemes;
+
+		// analytics code
+		const analyticsArr: Record<string, string | number>[] = [];
+		schemes.forEach((scheme) => {
+			analyticsArr.push({
+				amount: scheme.amount,
+				name: scheme.schemeName
+			});
+		});
+
+		analyticsArr.push({
+			totalAmount: amount,
+			date,
+			paymentMethod: paymentHandler.paymentMode
+		});
+
+		if (showChangePayment) {
+			payFromPaymentMethodPage(analyticsArr);
+		} else {
+			payNowClickAnalytics(analyticsArr);
+		}
+		//
+
 		// when first time user and first time payment true then navigate to payment method screen
 		if (paymentHandler.firstTimeUser) {
 			showPaymentMethodScreen();
 			return;
 		}
 
-		const basketResponse = await data.api.basket;
-		const schemes = basketResponse?.schemes;
 		const orders = [];
 		schemes.forEach((scheme) => {
 			orders.push({
