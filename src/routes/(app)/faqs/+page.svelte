@@ -1,15 +1,16 @@
 <script lang="ts">
 	import type { PageData } from './$types';
+	import { afterUpdate } from 'svelte';
 	import { Button, SEO } from 'svelte-components';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
-	import type { FAQ } from './type';
+	import type { FAQ, FaqParams } from './type';
 	import { page } from '$app/stores';
 	import FaqsSkeletonLoader from './components/FaqsSkeletonLoader.svelte';
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
 	import { faqClickAnalytics } from '$lib/analytics/orders/orders';
 	import { goto } from '$app/navigation';
-	import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
+	import { decodeToObject, encodeObject, getQueryParamsObj } from '$lib/utils/helpers/params';
 	import { base } from '$app/paths';
 	import FaqHeader from './components/FAQHeader.svelte';
 	import { getDateTimeString } from '$lib/utils/helpers/date';
@@ -19,6 +20,7 @@
 	export let data: PageData;
 
 	$: deviceType = $page?.data?.deviceType;
+	$: queryParamsObj = <FaqParams>{};
 
 	let viewAll = false;
 
@@ -31,7 +33,8 @@
 		}
 
 		if ($page?.url?.search?.length && $page?.url?.search?.includes('params=')) {
-			const paramsObj = decodeToObject($page?.url?.search?.split('params=')[1]) || {};
+			const encodedParamsString = $page?.url?.search?.split('params=')[1]?.split('&')[0] || '';
+			const paramsObj = decodeToObject(encodedParamsString) || {};
 			paramsObj.selectedFaqIndex = idx;
 			paramsObj.showRecentOrders = data?.showRecentOrders;
 			const faqParams = encodeObject(paramsObj);
@@ -63,13 +66,34 @@
 		href: `/faqs`
 	});
 
+	const updateCurrentParams = () => {
+		const pathName = window?.location?.pathname;
+		const searchParams = window?.location?.search;
+		const redirectPath = `${pathName}${searchParams}&viewAll=true`;
+
+		goto(redirectPath, { replaceState: true });
+	};
+
 	const toggleViewAll = () => {
-		viewAll = !viewAll;
+		updateCurrentParams();
+	};
+
+	const setQueryParamsData = () => {
+		if (queryParamsObj?.viewAll === 'true') {
+			viewAll = true;
+		} else {
+			viewAll = false;
+		}
 	};
 
 	const redirectToOrdersDashbboard = () => {
 		goto(`${base}/orders/orderspage`);
 	};
+
+	afterUpdate(() => {
+		queryParamsObj = getQueryParamsObj();
+		setQueryParamsData();
+	});
 </script>
 
 <SEO seoTitle="FAQs for orders | Angel One" seoDescription="Get your order related FAQs" />
@@ -104,7 +128,7 @@
 					{#each faqsArray as faq, index (index)}
 						<Button
 							color="white"
-							class="flex !h-auto w-full !transform-none flex-nowrap justify-between rounded-none border-b-grey-line !px-0 !pb-2 !pt-3 text-left !font-medium !normal-case text-grey-body hover:!transform-none hover:!border-b-grey-line focus:!border-b-grey-line active:!transform-none md:border-b-[1px] md:!pb-5 md:!pt-5 {index ===
+							class="flex !h-auto w-full !transform-none flex-nowrap justify-between rounded-none border-b-[1px] border-b-grey-line !px-0 !pb-2 !pt-3 text-left !font-medium !normal-case text-grey-body hover:!transform-none hover:!border-b-grey-line focus:!border-b-grey-line active:!transform-none md:!pb-5 md:!pt-5 {index ===
 								faqData?.data?.faqs?.length - 1 && 'border-none !pb-4 md:!pb-5'}"
 							on:click={() => navigateToFAQDetails(faq, index)}
 						>
@@ -118,7 +142,7 @@
 					{/each}
 
 					{#if !viewAll && faqData?.data?.faqs?.length > 5}
-						<article class="flex items-center justify-end py-4">
+						<article class="flex items-center justify-center py-4">
 							<Button
 								variant="transparent"
 								class="!h-fit !min-h-0 cursor-default !px-0 md:cursor-pointer"
@@ -126,8 +150,6 @@
 							>
 								VIEW ALL
 							</Button>
-
-							<WMSIcon class="ml-1" name="right-arrow" stroke="#3F5BD9" width={18} height={18} />
 						</article>
 					{/if}
 				</section>
