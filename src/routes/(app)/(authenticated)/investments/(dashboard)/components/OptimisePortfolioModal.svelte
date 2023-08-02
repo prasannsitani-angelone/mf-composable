@@ -138,7 +138,7 @@
 
 <Modal isModalOpen {isMobile} on:backdropclicked={() => toggleOptimisePorfolioCard(false)}>
 	<div class="w-full rounded-t-2xl bg-white px-5 py-4 sm:w-120 sm:!rounded-lg">
-		<div>
+		<div class="mb-4">
 			<div class="flex items-center text-lg font-medium">
 				<div class="flex-1">Optimise Your Portfolio</div>
 				<WMSIcon
@@ -154,60 +154,65 @@
 				stability to your portfolio
 			</p>
 		</div>
-		{#if !isFetchingScheme}
-			<SchemeCardExt class="mt-4" disableRedirection={true} showTopRated schemes={schemeDetails}>
-				<svelte:fragment slot="titleRightSection">
-					<span />
-				</svelte:fragment>
-			</SchemeCardExt>
-		{:else}
-			<SkeletonWrapper class="mt-4">
-				<SkeletonRectangle class="!h-48" />
-			</SkeletonWrapper>
-		{/if}
-		<div class="flex flex-col justify-center">
-			<Button
-				size={BtnSize.XS}
-				class="my-4"
-				variant={BtnVariant.Transparent}
-				on:click={() => toggleFundModal(true)}
-			>
-				WHY THIS FUND?
-			</Button>
-			<div class="flex flex-col items-center">
-				<p class="text-sm font-medium">Projected portfolio performance</p>
-				{#if !isFetchingScheme}
-					<div class="my-4 flex flex-col text-xs font-medium">
-						<div class="flex flex-row">
-							<img src={PortfolioPerformace} alt="Performace graph" />
-							<div class="ml-[-12px] mt-[5px] flex flex-col">
-								<div class="h-[59px]">
-									<p>₹{addCommasToAmountString(totalReturns?.toFixed(2) || 0)}</p>
-									<p class="text-green-buy">(+{addCommasToAmountString(totalReturnsPerctange)}%)</p>
-								</div>
-								<div>
-									₹{addCommasToAmountString(threeReturnsWithoutInvestment?.toFixed(2) || 0)}
+		<section class="flex max-h-[65vh] flex-col overflow-auto">
+			{#if !isFetchingScheme}
+				<SchemeCardExt disableRedirection={true} showTopRated schemes={schemeDetails}>
+					<svelte:fragment slot="titleRightSection">
+						<span />
+					</svelte:fragment>
+				</SchemeCardExt>
+			{:else}
+				<SkeletonWrapper class="w-full">
+					<SkeletonRectangle class="!h-48" />
+				</SkeletonWrapper>
+			{/if}
+			<div class="flex flex-col justify-center">
+				<Button
+					size={BtnSize.XS}
+					class="my-4"
+					variant={BtnVariant.Transparent}
+					on:click={() => toggleFundModal(true)}
+				>
+					WHY THIS FUND?
+				</Button>
+				<div class="flex flex-col items-center">
+					<p class="text-sm font-medium">Projected portfolio performance</p>
+					{#if !isFetchingScheme}
+						<div class="my-4 flex flex-col text-xs font-medium">
+							<div class="flex flex-row">
+								<img src={PortfolioPerformace} alt="Performace graph" />
+								<div class="ml-[-12px] mt-[5px] flex flex-col">
+									<div class="h-[59px]">
+										<p>₹{addCommasToAmountString(totalReturns?.toFixed(2) || 0)}</p>
+										<p class="text-green-buy">
+											(+{addCommasToAmountString(totalReturnsPerctange)}%)
+										</p>
+									</div>
+									<div>
+										₹{addCommasToAmountString(threeReturnsWithoutInvestment?.toFixed(2) || 0)}
+									</div>
 								</div>
 							</div>
+							<div class="mt-[-2px]">
+								₹{addCommasToAmountString(investmentSummary?.currentValue?.toFixed(2) || 0)}
+							</div>
 						</div>
-						<div class="mt-[-2px]">
-							₹{addCommasToAmountString(investmentSummary?.currentValue?.toFixed(2) || 0)}
-						</div>
-					</div>
-				{:else}
-					<SkeletonWrapper class="my-4 w-full">
-						<SkeletonRectangle class="!h-40" />
-					</SkeletonWrapper>
-				{/if}
-				<p class="text-1xs text-grey-body">
-					Disclaimer: Projected values are based on fund’s last 3 years CAGR with a monthly SIP of ₹{schemeDetails?.minSipAmount <
-					500
-						? '500'
-						: schemeDetails?.minSipAmount?.toString()}. Your actual returns may vary.
-				</p>
+					{:else}
+						<SkeletonWrapper class="my-4 w-full">
+							<SkeletonRectangle class="!h-40" />
+						</SkeletonWrapper>
+					{/if}
+					<p class="text-1xs text-grey-body">
+						Disclaimer: Projected values are based on fund’s last 3 years CAGR with a monthly SIP of
+						₹{schemeDetails?.minSipAmount < 500 ? '500' : schemeDetails?.minSipAmount?.toString()}.
+						Your actual returns may vary.
+					</p>
+				</div>
 			</div>
+		</section>
+		<section class="mt-2 flex flex-col">
 			<Button class="mt-4" on:click={gotoSchemeDetails}>INVEST NOW</Button>
-		</div>
+		</section>
 	</div>
 </Modal>
 
