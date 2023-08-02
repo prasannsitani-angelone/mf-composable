@@ -174,6 +174,10 @@
 	{/if}
 	<TransactionHistory
 		transactionList={ordersData.orders}
-		class={isInvestmentNotAllowed || isRedemptionNotAllowed ? 'mb-48' : 'mb-16'}
+		class={isInvestmentNotAllowed || isRedemptionNotAllowed
+			? 'mb-48'
+			: !holdings?.investmentAllowed
+			? 'mb-32'
+			: 'mb-16'}
 	/>
 </section>

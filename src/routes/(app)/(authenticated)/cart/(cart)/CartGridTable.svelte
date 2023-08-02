@@ -158,7 +158,7 @@
 </script>
 
 <CartTableHeader {isSelectAllChecked} handleCheckboxChange={toggleSelectAll} />
-<section class="mb-40 bg-white sm:mb-4">
+<section class=" bg-white max-sm:h-[calc(100vh-330px)] max-sm:overflow-auto max-sm:pb-20 sm:mb-4">
 	<div id="cartGridTable">
 		<div id="cartGridTableHeader" class="text-xs font-medium text-grey-dark">
 			<div

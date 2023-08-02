@@ -25,7 +25,7 @@ export const load = (async ({ fetch }) => {
 		layoutConfig: {
 			title: 'Cart',
 			layoutType: 'DEFAULT',
-			layoutClass: 'pt-0 md:pt-2',
+			layoutClass: 'pt-0 md:pt-2 relative',
 			titleClass: '!text-xl',
 			headerClass: '!bg-grey !py-2.5 !px-4 !shadow-none',
 			showBottomNavigation: true

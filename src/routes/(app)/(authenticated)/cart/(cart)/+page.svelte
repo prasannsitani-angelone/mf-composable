@@ -30,7 +30,7 @@
 	<header class="hidden sm:block">
 		<PageTitle title="Cart" class="mb-0 sm:mb-4 sm:flex" />
 	</header>
-	<section class="ml-[calc(50%-50vw)] w-screen shadow-csm sm:ml-0 sm:w-full sm:shadow-none">
+	<section class=" ml-[calc(50%-50vw)] w-screen shadow-csm sm:ml-0 sm:w-full sm:shadow-none">
 		{#await data.api.cart}
 			<TableSkeleton />
 		{:then cart}

@@ -24,7 +24,7 @@
 		.reduce((acc, curr) => acc + curr.amount, 0);
 </script>
 
-<section class="fixed bottom-18 left-0 right-0 bg-white px-3 py-4 max-sm:shadow-top sm:static">
+<section class="absolute bottom-0 left-0 right-0 bg-white px-3 py-4 max-sm:shadow-top sm:static">
 	<div class="grid grid-cols-1 gap-y-4 sm:grid-cols-[1fr_2fr]">
 		<div class="col-span-1 col-start-1 row-span-1 row-start-1">
 			<div class="flex justify-between">
