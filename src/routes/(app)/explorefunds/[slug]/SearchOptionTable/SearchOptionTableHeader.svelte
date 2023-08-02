@@ -19,8 +19,17 @@
 
 	const setScrollPosition = () => {
 		const currentLink = document.getElementById(`filter-${pageID}`);
-		currentLink?.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'center' });
+		currentLink?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
 	};
+
+	const handleLinkClick = (nav: ExploreFundNavItem) => {
+		setTimeout(() => {
+			setScrollPosition();
+		}, 0);
+
+		exploreMFFilter(nav.title);
+	};
+
 	onMount(() => {
 		// Defer scroll till the DOM is ready, requestIdleCallback not supported in Safari
 		if (typeof window.requestIdleCallback === 'function') {
@@ -37,15 +46,13 @@
 </script>
 
 <section class="scrollbar-hide flex w-full gap-2 overflow-x-scroll px-3 pt-3 md:px-0">
-	{#each exploreFundsNavigation as nav}
+	{#each exploreFundsNavigation as nav (nav?.id)}
 		{@const isActive =
 			`${$page.url.pathname}?id=${$page.url.searchParams.get('id')}` === `${base}${nav.href}`}
 		<Link
 			to={nav.href}
 			class={`w-28 cursor-pointer rounded border ${isActive ? activeLink : inActiveLink}`}
-			on:linkClicked={() => {
-				exploreMFFilter(nav.title);
-			}}
+			on:linkClicked={() => handleLinkClick(nav)}
 			id="filter-{nav.id}"
 			replaceState={true}
 		>
