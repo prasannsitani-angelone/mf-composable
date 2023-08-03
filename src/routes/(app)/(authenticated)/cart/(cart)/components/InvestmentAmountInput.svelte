@@ -6,8 +6,6 @@
 	export let cartItem: CartEntity;
 	export let hasInputUpdated = false;
 
-	let thisInput: HTMLInputElement;
-
 	let inputValue =
 		cartItem.inputAmount || String(cartItem.inputAmount) === '0'
 			? String(cartItem.inputAmount)
@@ -42,9 +40,6 @@
 			cartItem.amount = Number(inputValue);
 		}
 	}
-	function onInputFocus() {
-		thisInput.scrollIntoView();
-	}
 </script>
 
 <div
@@ -62,8 +57,6 @@
 		placeholder=""
 		value={inputValue}
 		on:input={onInputChange}
-		on:focus={onInputFocus}
-		bind:this={thisInput}
 		class="{inputError
 			? '!outline-red-sell'
 			: '!outline-blue-primary '}   cart-input !h-7 w-full !rounded border-0 bg-white pl-3.5 text-base font-medium !leading-none text-black-title !outline !outline-1 focus:outline-offset-0"
