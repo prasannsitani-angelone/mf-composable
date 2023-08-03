@@ -28,7 +28,9 @@
 				{nudgeData.description}
 			</p>
 			<p class="mb-3 text-2xs font-semibold text-white">
-				Returns &nbsp;&nbsp;<span class="text-xs">{nudgeData.data.returnPercentage.toFixed(2)}% p.a</span>
+				Returns &nbsp;&nbsp;<span class="text-xs"
+					>{nudgeData.data.returnPercentage.toFixed(2)}% p.a</span
+				>
 			</p>
 
 			<Button

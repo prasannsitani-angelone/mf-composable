@@ -150,6 +150,7 @@ const handler = (async ({ event, resolve }) => {
 
 			response.headers.set('link', linkHeader);
 
+			response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
 			// Set the cache header
 			response.headers.set(
 				swCacheHeader,
