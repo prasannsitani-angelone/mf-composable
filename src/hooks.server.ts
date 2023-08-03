@@ -8,7 +8,7 @@ import { useProfileFetch } from '$lib/utils/useProfileFetch';
 import { useUserDetailsFetch } from '$lib/utils/useUserDetailsFetch';
 import type { Handle, HandleFetch, HandleServerError } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
-import { handleDeviecDetector, type DevicePayload } from 'sveltekit-device-detector';
+import { handleDeviecDetector } from 'sveltekit-device-detector';
 import * as servertime from 'servertime';
 import { PRIVATE_MF_CORE_BASE_URL } from '$env/static/private';
 import { PUBLIC_ENV_NAME, PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
@@ -16,24 +16,24 @@ import { dev } from '$app/environment';
 import { getHoldingSummary } from '$lib/api/holdings';
 import type { InvestmentSummary } from '$lib/types/IInvestments';
 import { getsearchDashboardData } from '$lib/api/getSearchDashboard';
-import { accountType } from '$lib/utils/getAccountType';
-import { getHashKey } from '$lib/server/getHashKey';
+// import { accountType } from '$lib/utils/getAccountType';
+// import { getHashKey } from '$lib/server/getHashKey';
 const deviceDetector = handleDeviecDetector({});
 
-const swCacheHeader = 'X-Sw-Cache';
+// const swCacheHeader = 'X-Sw-Cache';
 
-const generateCacheHeader = (
-	userType: 'B2B' | 'B2C',
-	accountType: 'D' | 'P',
-	holdings = 0,
-	deviceType: DevicePayload
-) => {
-	const cacheKey = `${userType},${accountType}${holdings}${
-		deviceType.isMobile ? 'mobile' : 'browser'
-	}`;
+// const generateCacheHeader = (
+// 	userType: 'B2B' | 'B2C',
+// 	accountType: 'D' | 'P',
+// 	holdings = 0,
+// 	deviceType: DevicePayload
+// ) => {
+// 	const cacheKey = `${userType},${accountType}${holdings}${
+// 		deviceType.isMobile ? 'mobile' : 'browser'
+// 	}`;
 
-	return getHashKey(cacheKey)?.toString();
-};
+// 	return getHashKey(cacheKey)?.toString();
+// };
 
 const addPreloadLinkHeaders = (linkHeader = '', url: string) => {
 	linkHeader = `</mutual-funds/fonts/887cHqv4kjgoGqM7E3_-gs51ostz0rdg.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin,</mutual-funds/fonts/887cHpv4kjgoGqM7E_DMs5ynghnQ.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin,</mutual-funds/fonts/887cHqv4kjgoGqM7E30-8s51ostz0rdg.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin,${linkHeader}`;
@@ -152,15 +152,15 @@ const handler = (async ({ event, resolve }) => {
 
 			response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
 			// Set the cache header
-			response.headers.set(
-				swCacheHeader,
-				generateCacheHeader(
-					userDetails?.userType,
-					accountType(profileData, isGuest),
-					investementSummary?.investedValue,
-					event?.locals?.deviceType
-				)
-			);
+			// response.headers.set(
+			// 	swCacheHeader,
+			// 	generateCacheHeader(
+			// 		userDetails?.userType,
+			// 		accountType(profileData, isGuest),
+			// 		investementSummary?.investedValue,
+			// 		event?.locals?.deviceType
+			// 	)
+			// );
 		}
 		return response;
 	} catch (e) {
