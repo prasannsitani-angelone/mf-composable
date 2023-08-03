@@ -15,7 +15,7 @@ const config: UserConfig = {
 			filename: 'sw.ts',
 			scope: '/mutual-funds/',
 			base: '/mutual-funds/',
-			selfDestroying: process.env.SELF_DESTROYING_SW === 'true',
+			selfDestroying: true, //process.env.SELF_DESTROYING_SW === 'true',
 			manifest: {
 				name: 'Angelone MF',
 				short_name: 'Angelone MF',

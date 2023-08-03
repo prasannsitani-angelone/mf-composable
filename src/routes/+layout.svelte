@@ -82,6 +82,12 @@
 	onMount(async () => {
 		update();
 		hydratedStore.set({ isHydrated: true });
+		Logger.info({
+			type: 'IS SW enabled',
+			params: {
+				isEnabled: navigator?.serviceWorker ? true : false
+			}
+		});
 		if (pwaInfo) {
 			try {
 				const { registerSW } = await import('virtual:pwa-register');
