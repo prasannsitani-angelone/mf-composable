@@ -25,7 +25,7 @@
 	const handleLinkClick = (nav: ExploreFundNavItem) => {
 		setTimeout(() => {
 			setScrollPosition();
-		}, 0);
+		}, 66);
 
 		exploreMFFilter(nav.title);
 	};
