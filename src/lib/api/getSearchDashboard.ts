@@ -30,7 +30,8 @@ export const getsearchDashboardData = async (
 	} else {
 		return {
 			searchOptions: [],
-			weeklyTopSchemes: []
+			weeklyTopSchemes: [],
+			banner: []
 		};
 	}
 };

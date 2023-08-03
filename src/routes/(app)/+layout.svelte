@@ -32,6 +32,7 @@
 	import Header from '$components/Headers/Header.svelte';
 	import { versionStore } from '$lib/stores/VersionStore';
 	import FullWidth from '$lib/layouts/FullWidth.svelte';
+	import { bannerStore } from '$lib/stores/BannerStore';
 
 	let clevertap;
 
@@ -49,7 +50,7 @@
 	// Update store with Spark headers
 
 	export let data: LayoutData;
-	const { tokenObj, profile, userDetails, isGuest } = data;
+	const { tokenObj, profile, userDetails, isGuest, searchDashboardData } = data;
 	// Update store with Spark headers
 
 	let showAngelBeeBanner = false;
@@ -85,6 +86,7 @@
 		tokenStore.updateStore({ ...tokenObj, state: authState });
 		profileStore.updateStore({ ...profile });
 		userStore.updateStore({ ...userDetails });
+		bannerStore.storeAlertSleeveData(searchDashboardData?.banner?.[0] || {});
 
 		await tick();
 
@@ -225,3 +227,14 @@
 />
 
 <LazyComponent when={true} component={async () => await import('$components/Toast/Toast.svelte')} />
+
+<LazyComponent
+	when={$bannerStore.alertSleeveVisible}
+	component={async () => await import('$components/AlertSleeve.svelte')}
+	heading={$bannerStore.notificationTitle}
+	subHeading={[$bannerStore.notificationBody]}
+	onSubmit={bannerStore.hideLogoutConfirmationPopup}
+	onBackDropClicked={bannerStore.hideLogoutConfirmationPopup}
+	link={$bannerStore.knowMore}
+	subHeadingClass="!text-center"
+/>
