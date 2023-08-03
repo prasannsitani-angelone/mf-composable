@@ -79,7 +79,7 @@
 		(currentSchemeDetails?.sipEnabled
 			? Math.round(
 					calculateSipReturns(
-						currentSchemeDetails?.minSipAmount,
+						schemeDetails?.minSipAmount < 500 ? 500 : schemeDetails?.minSipAmount,
 						3,
 						currentSchemeDetails?.returns3yr > 0
 							? currentSchemeDetails?.returns3yr
@@ -97,11 +97,6 @@
 					)?.matuarityAmount * 100
 			  ) / 100) + (investmentSummary?.currentValue || 0);
 	$: totalReturns = threeReturnsWithoutInvestment + threeYearReturnsValue;
-	$: totalReturnsPerctange = Math.round(
-		((totalReturns - (investmentSummary?.currentValue || 0)) /
-			(investmentSummary?.currentValue || 1)) *
-			100
-	);
 
 	// Call the API's onMount of Modal
 	onMount(async () => {
@@ -150,7 +145,7 @@
 				/>
 			</div>
 			<p class="mt-1 text-sm">
-				Based on your current investment, adding the following fund will diversify and provide
+				Based on your current investment, adding this fund will diversify and provide
 				stability to your portfolio
 			</p>
 		</div>
@@ -184,9 +179,6 @@
 								<div class="ml-[-12px] mt-[5px] flex flex-col">
 									<div class="h-[59px]">
 										<p>₹{addCommasToAmountString(totalReturns?.toFixed(2) || 0)}</p>
-										<p class="text-green-buy">
-											(+{addCommasToAmountString(totalReturnsPerctange)}%)
-										</p>
 									</div>
 									<div>
 										₹{addCommasToAmountString(threeReturnsWithoutInvestment?.toFixed(2) || 0)}
@@ -231,11 +223,11 @@
 			</div>
 			<div class="pb-6 text-sm text-grey-body">
 				<p>
-					Based on your asset allocation, investing in <b
+					Based on your asset allocation, investing in {schemeDetails?.subcategoryName?.toLowerCase() === 'small cap fund' ? 'a' : 'an'} <b
 						>{schemeDetails?.subcategoryName?.toLowerCase() === 'small cap fund'
 							? 'Small Cap Fund'
-							: 'Index Fund.'}</b
-					> will enhance your portfolio performance
+							: 'Index Fund'}</b
+					> will enhance the performance of your portfolio.
 				</p>
 				{#if schemeDetails?.subcategoryName?.toLowerCase() === 'small cap fund'}
 					<p class="mt-4">Small cap funds invest in companies with market cap less than 5000 Cr.</p>
