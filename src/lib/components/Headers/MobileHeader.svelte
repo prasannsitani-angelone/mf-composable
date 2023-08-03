@@ -22,6 +22,7 @@
 	export let faqParams = '';
 	export let titleClass = '';
 	export let onClickShareIcon: (() => void) | null = null;
+	export let onClickFaqsIcon: (() => void) | null = null;
 
 	function overrideCloseButtonClick() {
 		const shouldShow = exitNudgeStore.shouldShow();
@@ -130,6 +131,7 @@
 									height={24}
 									width={24}
 									class="p-0.5"
+									on:click={onClickFaqsIcon}
 								/>
 							</Link>
 						</article>

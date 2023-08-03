@@ -5,6 +5,7 @@
 	import { Button } from 'svelte-components';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import type { FAQ } from '../../routes/(app)/faqs/type';
+	import { faqCallCtaClick, faqEmailCtaClick } from '$lib/analytics/faqs/faqs';
 
 	$: os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
 	$: phoneCall =
@@ -14,7 +15,27 @@
 
 	let faq: FAQ;
 
+	let faqsSource = '';
+
+	const setFaqsSource = () => {
+		if ($page?.data?.tag === 'investments') {
+			faqsSource = 'Investments';
+		} else if ($page?.data?.tag === 'sips') {
+			faqsSource = 'SIPBook';
+		} else if ($page?.data?.tag === 'orders') {
+			faqsSource = 'Orders';
+		} else if ($page?.data?.tag === 'all') {
+			faqsSource = 'All';
+		}
+	};
+
+	setFaqsSource();
+
 	const onClickTel = () => {
+		faqCallCtaClick({
+			Source: faqsSource
+		});
+
 		helpAnalytics?.();
 		if (typeof phoneCall === 'function') {
 			const message = {
@@ -29,6 +50,10 @@
 	};
 
 	const onClickMail = () => {
+		faqEmailCtaClick({
+			Source: faqsSource
+		});
+
 		helpAnalytics?.();
 		if (typeof emailCall === 'function') {
 			const message = {

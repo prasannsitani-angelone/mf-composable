@@ -1,5 +1,6 @@
 import { browser } from '$app/environment';
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+import { faqsIconClick } from '$lib/analytics/faqs/faqs';
 import { encodeObject } from '$lib/utils/helpers/params';
 import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
@@ -62,6 +63,12 @@ export const load = (async ({ fetch, url }) => {
 		showRecentOrders: true
 	});
 
+	const onClickFaqsIcon = () => {
+		faqsIconClick({
+			Source: 'Investments'
+		});
+	};
+
 	return {
 		api: {
 			investment: browser ? getInvestmentData() : await getInvestmentData(),
@@ -82,7 +89,8 @@ export const load = (async ({ fetch, url }) => {
 			headerClass: '!bg-grey !py-2.5 !px-4',
 			component: MobileInvestmentTab,
 			showFaqIcon: true,
-			faqParams
+			faqParams,
+			onClickFaqsIcon
 		}
 	};
 }) satisfies PageLoad;

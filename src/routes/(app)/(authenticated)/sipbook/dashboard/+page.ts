@@ -4,6 +4,7 @@ import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
 import type { ISipBookData } from '$lib/types/ISipType';
 import { encodeObject } from '$lib/utils/helpers/params';
+import { faqsIconClick } from '$lib/analytics/faqs/faqs';
 
 export const load = (async ({ fetch, depends }) => {
 	let sipBookData: ISipBookData | null = null;
@@ -24,6 +25,12 @@ export const load = (async ({ fetch, depends }) => {
 		showRecentOrders: true
 	});
 
+	const onClickFaqsIcon = () => {
+		faqsIconClick({
+			Source: 'SIPBook'
+		});
+	};
+
 	return {
 		layoutConfig: {
 			title: 'SIPs',
@@ -31,7 +38,8 @@ export const load = (async ({ fetch, depends }) => {
 			headerClass: '!bg-grey !py-2.5 !px-4 shadow-none',
 			showBottomNavigation: true,
 			showFaqIcon: true,
-			faqParams
+			faqParams,
+			onClickFaqsIcon
 		},
 		sipBookData: sipBookData,
 		api: {

@@ -20,6 +20,7 @@ interface LayoutConfig {
 	showFaqIcon: boolean;
 	faqParams: string;
 	onClickShareIcon: (() => void) | null;
+	onClickFaqsIcon: (() => void) | null;
 	layoutType:
 		| 'TWO_COLUMN'
 		| 'TWO_COLUMN_REVERSE'

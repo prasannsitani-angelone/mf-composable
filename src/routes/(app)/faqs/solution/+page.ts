@@ -23,6 +23,7 @@ export const load = (async ({ fetch, url }) => {
 		api: {
 			getFAQS: browser ? getFAQS() : await getFAQS()
 		},
+		tag,
 		selectedFaqIndex,
 		showRecentOrders,
 		layoutConfig: {

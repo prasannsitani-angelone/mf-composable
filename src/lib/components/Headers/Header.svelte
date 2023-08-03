@@ -35,6 +35,7 @@
 			showFaqIcon={pageMetaData?.showFaqIcon}
 			faqParams={pageMetaData?.faqParams}
 			onClickShareIcon={pageMetaData?.onClickShareIcon}
+			onClickFaqsIcon={pageMetaData?.onClickFaqsIcon}
 			class="bg-white {pageMetaData?.headerClass || ''}"
 		>
 			<svelte:fragment slot="title">

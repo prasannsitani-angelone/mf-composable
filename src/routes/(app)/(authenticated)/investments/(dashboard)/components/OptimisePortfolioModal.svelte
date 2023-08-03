@@ -145,8 +145,8 @@
 				/>
 			</div>
 			<p class="mt-1 text-sm">
-				Based on your current investment, adding this fund will diversify and provide
-				stability to your portfolio
+				Based on your current investment, adding this fund will diversify and provide stability to
+				your portfolio
 			</p>
 		</div>
 		<section class="flex max-h-[65vh] flex-col overflow-auto">
@@ -223,7 +223,11 @@
 			</div>
 			<div class="pb-6 text-sm text-grey-body">
 				<p>
-					Based on your asset allocation, investing in {schemeDetails?.subcategoryName?.toLowerCase() === 'small cap fund' ? 'a' : 'an'} <b
+					Based on your asset allocation, investing in {schemeDetails?.subcategoryName?.toLowerCase() ===
+					'small cap fund'
+						? 'a'
+						: 'an'}
+					<b
 						>{schemeDetails?.subcategoryName?.toLowerCase() === 'small cap fund'
 							? 'Small Cap Fund'
 							: 'Index Fund'}</b

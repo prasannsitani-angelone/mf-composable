@@ -1,4 +1,5 @@
 import { PUBLIC_MF_CORE_BASE_URL_V2 } from '$env/static/public';
+import { faqsIconClick } from '$lib/analytics/faqs/faqs';
 import { ORDER_STATUS } from '$lib/constants/orderFlowStatuses';
 import type { OrdersSummary } from '$lib/types/IInvestments';
 import type { IOrdersResponse, orderItem } from '$lib/types/IOrderItem';
@@ -70,6 +71,12 @@ export const load = (async ({ fetch }) => {
 		showRecentOrders: true
 	});
 
+	const onClickFaqsIcon = () => {
+		faqsIconClick({
+			Source: 'Orders'
+		});
+	};
+
 	return {
 		// We are uisng hydrate here, because if we use browser and  as we are awaiting for promise.allSettled the hydrate gets updated because of which we see difference in CSR and SSR so API gets called again in client side
 		layoutConfig: {
@@ -80,7 +87,8 @@ export const load = (async ({ fetch }) => {
 			showBottomNavigation: true,
 			layoutType: 'TWO_COLUMN_RIGHT_LARGE',
 			showFaqIcon: true,
-			faqParams
+			faqParams,
+			onClickFaqsIcon
 		},
 		api: {
 			getOrdersData: hydrate ? getOrdersData() : await getOrdersData()

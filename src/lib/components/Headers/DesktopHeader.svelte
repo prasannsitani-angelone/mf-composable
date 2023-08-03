@@ -13,6 +13,7 @@
 	import { tabClickNavigationAnalytics } from '$lib/analytics/DiscoverFunds';
 	import { cartStore } from '$lib/stores/CartStore';
 	import { encodeObject } from '$lib/utils/helpers/params';
+	import { allFaqsProfileCtaClick } from '$lib/analytics/faqs/faqs';
 
 	const onReportsButtonClick = () => {
 		userActionStore.hideUserActionDropDown();
@@ -21,6 +22,7 @@
 	};
 
 	const onFaqsButtonClick = () => {
+		allFaqsProfileCtaClick();
 		userActionStore.hideUserActionDropDown();
 
 		const faqParams = encodeObject({

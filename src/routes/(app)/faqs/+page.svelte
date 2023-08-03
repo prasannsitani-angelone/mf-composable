@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { afterUpdate } from 'svelte';
+	import { afterUpdate, onMount } from 'svelte';
 	import { Button, SEO } from 'svelte-components';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
@@ -16,6 +16,11 @@
 	import { getDateTimeString } from '$lib/utils/helpers/date';
 	import OrderCardHeader from '../(authenticated)/orders/orderspage/OrdersDashboard/OrderCardComponent/OrderCardHeader.svelte';
 	import OrderCardBody from '../(authenticated)/orders/orderspage/OrdersDashboard/OrderCardComponent/OrderCardBody.svelte';
+	import {
+		faqsScreenFaqsViewAllCtaClick,
+		faqsScreenImpression,
+		faqsScreenOrdersViewAllCtaClick
+	} from '$lib/analytics/faqs/faqs';
 
 	export let data: PageData;
 
@@ -23,6 +28,21 @@
 	$: queryParamsObj = <FaqParams>{};
 
 	let viewAll = false;
+	let faqsSource = '';
+
+	const setFaqsSource = () => {
+		if (data?.tag === 'investments') {
+			faqsSource = 'Investments';
+		} else if (data?.tag === 'sips') {
+			faqsSource = 'SIPBook';
+		} else if (data?.tag === 'orders') {
+			faqsSource = 'Orders';
+		} else if (data?.tag === 'all') {
+			faqsSource = 'All';
+		}
+	};
+
+	setFaqsSource();
 
 	const navigateToFAQDetails = (faqData: FAQ, idx: number) => {
 		if (data?.Status?.length) {
@@ -75,6 +95,9 @@
 	};
 
 	const toggleViewAll = () => {
+		faqsScreenFaqsViewAllCtaClick({
+			Source: faqsSource
+		});
 		updateCurrentParams();
 	};
 
@@ -87,12 +110,22 @@
 	};
 
 	const redirectToOrdersDashbboard = () => {
+		faqsScreenOrdersViewAllCtaClick({
+			Source: faqsSource
+		});
+
 		goto(`${base}/orders/orderspage`);
 	};
 
 	afterUpdate(() => {
 		queryParamsObj = getQueryParamsObj();
 		setQueryParamsData();
+	});
+
+	onMount(() => {
+		faqsScreenImpression({
+			Source: faqsSource
+		});
 	});
 </script>
 
