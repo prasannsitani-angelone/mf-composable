@@ -1,16 +1,16 @@
 import type { RequestHandler } from './$types';
 import { removeAuthHeaders } from '$lib/utils/helpers/logging';
-import validateToken from '$lib/server/validateAuthToken';
+// import validateToken from '$lib/server/validateAuthToken';
 
 const BODY_NOT_IN_SPECIFIED_FORMAT_ERROR = {
 	message: 'request body is not in specified format',
 	status: 400
 };
 
-const UNAUTHENTICATED_ERROR = {
-	message: 'JWT is not present in headers or is in wrong format',
-	status: 401
-};
+// const UNAUTHENTICATED_ERROR = {
+// 	message: 'JWT is not present in headers or is in wrong format',
+// 	status: 401
+// };
 
 export const POST = (async ({ request }) => {
 	try {
@@ -18,9 +18,9 @@ export const POST = (async ({ request }) => {
 		const headers = Object.fromEntries(request.headers);
 
 		// validating auth token - we can reenable later
-		if (!headers.accesstoken || !validateToken(headers.accesstoken)) {
-			throw new Error(JSON.stringify(UNAUTHENTICATED_ERROR));
-		}
+		// if (!headers.accesstoken || !validateToken(headers.accesstoken)) {
+		// 	throw new Error(JSON.stringify(UNAUTHENTICATED_ERROR));
+		// }
 
 		// validating empty content
 		if (!Array.isArray(body) || body.length === 0) {
