@@ -73,11 +73,7 @@
 	<div class="flex flex-row items-start">
 		<section class="flex items-center">
 			{#if showLogo}
-				<SchemeLogo
-					class="!mr-1 !h-8 !w-8 rounded-none border-none shadow-none"
-					src={schemes?.logoUrl}
-					alt={schemes?.schemeName}
-				/>
+				<SchemeLogo class="!mr-2 !h-12 !w-12" src={schemes?.logoUrl} alt={schemes?.schemeName} />
 			{/if}
 			<p class="line-clamp-2 whitespace-normal text-sm font-medium text-black-title md:text-sm">
 				{schemes?.schemeName}

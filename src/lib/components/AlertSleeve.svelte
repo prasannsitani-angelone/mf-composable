@@ -13,7 +13,7 @@
 
 <Modal isModalOpen={true} on:backdropclicked={onBackDropClicked}>
 	<div
-		class="flex flex-col items-center justify-between overflow-y-auto rounded-t-2xl bg-white pt-4 shadow-clg w-full sm:w-120 sm:rounded-lg sm:px-20 sm:pb-12 sm:pt-16 ${$$props.class}"
+		class="flex w-full flex-col items-center justify-between overflow-y-auto rounded-t-2xl bg-white pt-4 shadow-clg sm:w-120 sm:rounded-lg sm:px-20 sm:pb-12 sm:pt-16 ${$$props.class}"
 	>
 		<slot name="header">
 			<!-- svelte-ignore a11y-missing-attribute -->
