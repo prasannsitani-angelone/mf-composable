@@ -184,7 +184,7 @@
 
 		return '/';
 	};
-	let clevertap;
+	// let clevertap;
 	onMount(async () => {
 		await tick();
 
@@ -202,13 +202,13 @@
 			setOtherNudgeDataTypes();
 		});
 
-		clevertap = (await import('clevertap-web-sdk')).default;
-		clevertap.event.push('Product viewed', {
-			'Product name': 'Casio Chronograph Watch',
-			Category: 'Mens Accessories',
-			Price: 59.99,
-			Date: new Date()
-		});
+		// clevertap = (await import('clevertap-web-sdk')).default;
+		// clevertap.event.push('Product viewed', {
+		// 	'Product name': 'Casio Chronograph Watch',
+		// 	Category: 'Mens Accessories',
+		// 	Price: 59.99,
+		// 	Date: new Date()
+		// });
 	});
 
 	onDestroy(() => {
