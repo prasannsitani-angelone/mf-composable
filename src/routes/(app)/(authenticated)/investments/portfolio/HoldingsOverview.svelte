@@ -70,7 +70,7 @@
 			</section>
 			<!-- Visible only for SIPs enabled cases -->
 			<!-- This section is not visible on portfolio details page as the data doesnot have "sipEnabled" kry. -->
-			{#if folioSummary?.sipEnabled}
+			{#if folioSummary?.sipEnabled && !isExternal}
 				<section
 					class="flex items-end justify-center rounded bg-grey py-2.5 text-sm font-medium text-black-title lg:mx-0 lg:bg-inherit lg:py-5"
 				>
@@ -88,7 +88,7 @@
 		</div>
 		{#if isExternal}
 			<section
-				class="mt-4 flex items-center justify-center border-t py-3 text-xs font-medium text-black-title sm:text-sm lg:mx-0 lg:bg-inherit lg:py-5"
+				class="flex items-center justify-center border-t py-3 text-xs font-medium text-black-title sm:mt-4 sm:text-sm lg:mx-0 lg:bg-inherit lg:py-5"
 			>
 				<div class="mr-1">
 					<WMSIcon width={32} height={32} name="refresh-icon" />
