@@ -196,8 +196,9 @@
 					{/if}
 					<p class="text-1xs text-grey-body">
 						Disclaimer: Projected values are based on fund’s last 3 years CAGR with a monthly SIP of
-						₹{schemeDetails?.minSipAmount < 500 ? '500' : schemeDetails?.minSipAmount?.toString()}.
-						Your actual returns may vary.
+						₹{addCommasToAmountString(
+							schemeDetails?.minSipAmount < 500 ? '500' : schemeDetails?.minSipAmount?.toString()
+						)}. Your actual returns may vary.
 					</p>
 				</div>
 			</div>
