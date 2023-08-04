@@ -90,7 +90,7 @@
 		</slot>
 	</div>
 	<div class="mt-3 flex flex-col">
-		<div class="mb-3 flex flex-row divide-x divide-[#C7CDEB] rounded bg-[#F1F3FC] px-4 py-2">
+		<div class="flex flex-row divide-x divide-[#C7CDEB] rounded bg-[#F1F3FC] px-4 py-2">
 			<slot name="detailsLeft">
 				<div class="flex w-6/12 flex-col items-start">
 					<p class="text-xs text-[#515151]">Min. SIP Amount</p>
@@ -118,28 +118,31 @@
 				</div>
 			</slot>
 		</div>
-		<slot name="detailsFooter">
-			<div class="flex flex-row items-center">
-				<slot name="detailsFooterIcon">
-					<img
-						src={PeopleIconGrey}
-						class="mr-2 p-1"
-						decoding="async"
-						alt="Number of people invested"
-						width="24"
-						height="24"
-					/>
-				</slot>
 
-				<slot name="detailsFooterDescription">
-					<p class="text-xs text-grey-body">
-						<span class=" font-semibold">
-							{addCommasToAmountString(schemes?.noOfClientInvested)}
-						</span>
-						people have invested in this fund
-					</p>
-				</slot>
-			</div>
+		<slot name="detailsFooter">
+			{#if schemes?.noOfClientInvested > 0}
+				<div class="mt-3 flex flex-row items-center">
+					<slot name="detailsFooterIcon">
+						<img
+							src={PeopleIconGrey}
+							class="mr-2 p-1"
+							decoding="async"
+							alt="Number of people invested"
+							width="24"
+							height="24"
+						/>
+					</slot>
+
+					<slot name="detailsFooterDescription">
+						<p class="text-xs text-grey-body">
+							<span class=" font-semibold">
+								{addCommasToAmountString(schemes?.noOfClientInvested)}
+							</span>
+							people have invested in this fund
+						</p>
+					</slot>
+				</div>
+			{/if}
 		</slot>
 	</div>
 

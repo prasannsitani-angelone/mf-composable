@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onDestroy, onMount } from 'svelte';
+	import { afterUpdate, onDestroy, onMount } from 'svelte';
 	import { v4 as uuidv4 } from 'uuid';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
@@ -28,7 +28,7 @@
 	import Modal from '$components/Modal.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import type { dateArrayTypes } from '$lib/types/Calendar/ICalendar';
-	import type { decodedParamsTypes } from '$lib/types/IOrderPad';
+	import type { OrderPadTypes, decodedParamsTypes } from '$lib/types/IOrderPad';
 	import TncModal from '$components/TnC/TncModal.svelte';
 	import NotAllowed from './OrderPadComponents/NotAllowed.svelte';
 	import ChangePaymentContainer from './OrderPadComponents/ChangePaymentContainer.svelte';
@@ -37,7 +37,7 @@
 	import { format } from 'date-fns';
 	import { base } from '$app/paths';
 	import logger from '$lib/utils/logger';
-	import { encodeObject } from '$lib/utils/helpers/params';
+	import { decodeToObject, encodeObject, getQueryParamsObj } from '$lib/utils/helpers/params';
 	import { browser } from '$app/environment';
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import type { IPreviousPaymentDetails } from '$lib/types/IPreviousPaymentDetails';
@@ -116,6 +116,24 @@
 		source,
 		paymentMandatory
 	} = params || {};
+
+	$: queryParamsObj = <OrderPadTypes>{};
+
+	let investmentTypeParam = params?.investmentType || '';
+
+	const setQueryParamsData = () => {
+		if (queryParamsObj?.params?.length) {
+			params = decodeToObject(queryParamsObj?.params) || {};
+			investmentTypeParam = params?.investmentType || '';
+		} else {
+			investmentTypeParam = '';
+		}
+	};
+
+	afterUpdate(() => {
+		queryParamsObj = getQueryParamsObj();
+		setQueryParamsData();
+	});
 
 	const os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
 
@@ -463,6 +481,22 @@
 		changePaymentMethodScreenImpressionAnalytics(eventMetaData);
 	};
 
+	const isInvestTypeVisible = () => {
+		return investmentTypeParam !== 'SIP' ? true : false;
+	};
+
+	const getSIPDate = () => {
+		return getCompleteSIPDateBasedonDD(
+			calendarDate,
+			new Date(),
+			firstSipPayment ? nextSipDateBufferDaysWithFtp : nextSipDateBufferDaysWithoutFtp
+		);
+	};
+
+	const getFormattedSIPDate = () => {
+		return format(getSIPDate(), 'yyyy-MM-dd');
+	};
+
 	const showPaymentMethodScreen = () => {
 		changePaymentMethodButtonClickAnalytics({
 			Fundname: schemeData?.schemeName,
@@ -592,10 +626,6 @@
 			});
 			closeNetBankingPaymentWindow(netBankingState);
 		}
-	};
-
-	const isInvestTypeVisible = () => {
-		return investmentType !== 'SIP' ? true : false;
 	};
 
 	const investmentPadScreenOpenAnalyticsFunc = () => {
@@ -861,18 +891,6 @@
 
 	const upiCloseLogic = async () => {
 		upiState.flow = 0;
-	};
-
-	const getSIPDate = () => {
-		return getCompleteSIPDateBasedonDD(
-			calendarDate,
-			new Date(),
-			firstSipPayment ? nextSipDateBufferDaysWithFtp : nextSipDateBufferDaysWithoutFtp
-		);
-	};
-
-	const getFormattedSIPDate = () => {
-		return format(getSIPDate(), 'yyyy-MM-dd');
 	};
 
 	const resetState = () => {
@@ -1211,7 +1229,7 @@
 
 			<article class="rounded-lg bg-white text-black-title md:mx-3 md:mb-4 md:mt-2">
 				<!-- Tab Section (SIP | ONE TIME) -->
-				{#if isInvestTypeVisible()}
+				{#if investmentTypeParam !== 'SIP'}
 					<section class="bg-whites flex rounded-lg rounded-b-none text-black-title">
 						<button
 							class={`h-12 w-40 flex-1 cursor-default rounded-t md:cursor-pointer ${
