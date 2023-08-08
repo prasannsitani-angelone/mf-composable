@@ -35,7 +35,7 @@
 	$: isTablet = $page?.data?.deviceType?.isTablet;
 	$: showInvestmentPad = false;
 	$: queryParamsObj = <OrderPadTypes>{};
-	$: orderpadParams = <decodedParamsTypes>{};
+	let orderpadParams = <decodedParamsTypes>{};
 
 	function getSchemeDetailsBreadCrumbs(scheme: SchemeDetails) {
 		const { schemeName, isin, schemeCode } = scheme;
@@ -84,10 +84,10 @@
 		}
 	};
 
+	orderpadParams = data?.layoutConfig?.decodedParams || {};
+
 	const setQueryParamsData = () => {
-		if (queryParamsObj?.params?.length) {
-			orderpadParams = decodeToObject(queryParamsObj?.params);
-		}
+		orderpadParams = decodeToObject(queryParamsObj?.params);
 
 		if (queryParamsObj?.orderpad === 'INVEST' || orderpadParams?.orderpad === 'INVEST') {
 			showInvestmentPad = true;

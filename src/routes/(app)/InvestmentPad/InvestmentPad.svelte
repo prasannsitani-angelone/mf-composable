@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { afterUpdate, onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount, tick } from 'svelte';
 	import { v4 as uuidv4 } from 'uuid';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
@@ -28,7 +28,7 @@
 	import Modal from '$components/Modal.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import type { dateArrayTypes } from '$lib/types/Calendar/ICalendar';
-	import type { OrderPadTypes, decodedParamsTypes } from '$lib/types/IOrderPad';
+	import type { decodedParamsTypes } from '$lib/types/IOrderPad';
 	import TncModal from '$components/TnC/TncModal.svelte';
 	import NotAllowed from './OrderPadComponents/NotAllowed.svelte';
 	import ChangePaymentContainer from './OrderPadComponents/ChangePaymentContainer.svelte';
@@ -37,7 +37,7 @@
 	import { format } from 'date-fns';
 	import { base } from '$app/paths';
 	import logger from '$lib/utils/logger';
-	import { decodeToObject, encodeObject, getQueryParamsObj } from '$lib/utils/helpers/params';
+	import { encodeObject } from '$lib/utils/helpers/params';
 	import { browser } from '$app/environment';
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import type { IPreviousPaymentDetails } from '$lib/types/IPreviousPaymentDetails';
@@ -116,24 +116,6 @@
 		source,
 		paymentMandatory
 	} = params || {};
-
-	$: queryParamsObj = <OrderPadTypes>{};
-
-	let investmentTypeParam = params?.investmentType || '';
-
-	const setQueryParamsData = () => {
-		if (queryParamsObj?.params?.length) {
-			params = decodeToObject(queryParamsObj?.params) || {};
-			investmentTypeParam = params?.investmentType || '';
-		} else {
-			investmentTypeParam = '';
-		}
-	};
-
-	afterUpdate(() => {
-		queryParamsObj = getQueryParamsObj();
-		setQueryParamsData();
-	});
 
 	const os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
 
@@ -482,7 +464,7 @@
 	};
 
 	const isInvestTypeVisible = () => {
-		return investmentTypeParam !== 'SIP' ? true : false;
+		return investmentType !== 'SIP' ? true : false;
 	};
 
 	const getSIPDate = () => {
@@ -652,7 +634,7 @@
 		investmentPadTabSwitchAnalytics(eventMetaData);
 	};
 
-	onMount(() => {
+	onMount(async () => {
 		handleShowTabNotSupported();
 
 		if (isMobile || isTablet) {
@@ -664,6 +646,7 @@
 		}
 		window.addEventListener('message', listenerFunc);
 
+		await tick();
 		checkIfOrderIsValidFromDeeplink();
 	});
 
@@ -1229,7 +1212,7 @@
 
 			<article class="rounded-lg bg-white text-black-title md:mx-3 md:mb-4 md:mt-2">
 				<!-- Tab Section (SIP | ONE TIME) -->
-				{#if investmentTypeParam !== 'SIP'}
+				{#if isInvestTypeVisible()}
 					<section class="bg-whites flex rounded-lg rounded-b-none text-black-title">
 						<button
 							class={`h-12 w-40 flex-1 cursor-default rounded-t md:cursor-pointer ${

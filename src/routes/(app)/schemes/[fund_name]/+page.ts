@@ -103,7 +103,8 @@ export const load = (async ({ fetch, params, url, parent }) => {
 			layoutType: 'TWO_COLUMN',
 			showShareIcon: showShare,
 			showCartIcon: true,
-			onClickShareIcon: onClickShareIcon
+			onClickShareIcon: onClickShareIcon,
+			decodedParams
 		},
 		api: {
 			schemeData: hydrate ? getSchemeData() : await getSchemeData(),
