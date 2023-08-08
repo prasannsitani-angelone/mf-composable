@@ -59,7 +59,19 @@ class BaseLogger {
 			method: 'POST',
 			headers: this._state.headers
 		};
-		fetch(`${baseUrl}${url}`, options);
+		try {
+			fetch(`${baseUrl}${url}`, options);
+		} catch (error) {
+			const errorStr = error?.stack?.toString() || error?.toString();
+			console.log(
+				JSON.stringify({
+					type: 'Failed To send logs',
+					param: {
+						error: errorStr
+					}
+				})
+			);
+		}
 	}
 
 	flush() {
