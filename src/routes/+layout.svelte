@@ -191,8 +191,6 @@
 		ttfbObserver.observe({ type: 'navigation', buffered: true });
 
 		browserDetails = isBrowserSupported();
-		browserDetails.isSupported =
-			appStore.isSparkIOSUser() || appStore.isWebView() || browserDetails.isSupported;
 	});
 	const onVisibilityChange = (e: Event) => {
 		if (e?.target?.visibilityState === 'hidden') {
@@ -211,7 +209,7 @@
 <slot />
 
 <LazyComponent
-	when={!browserDetails.isSupported}
+	when={!($appStore.isSparkIOSUser || $appStore.isWebView || browserDetails?.isSupported)}
 	component={async () =>
 		await import('$components/UnsupportedBrowser/UnsupportedBrowserComponent.svelte')}
 	{browserDetails}

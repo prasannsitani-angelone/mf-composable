@@ -11,11 +11,12 @@ export interface SparkStore {
 	deviceid: string;
 	closecta: string;
 	deviceosversion: string;
-	isSparkAndroidUser: () => boolean;
-	isSparkIOSUser: () => boolean;
-	isSparkUser: () => boolean;
-	isAngelBeeAndroidUser: () => boolean;
-	isAngelBeeIosUser: () => boolean;
+	isSparkAndroidUser: boolean;
+	isSparkIOSUser: boolean;
+	isAngelBeeAndroidUser: boolean;
+	isAngelBeeIosUser: boolean;
+	isTWA: boolean;
+	isWebView: boolean;
 }
 
 const initalStore: SparkStore = {
@@ -28,65 +29,64 @@ const initalStore: SparkStore = {
 	deviceid: '',
 	closecta: '',
 	deviceosversion: '',
-	isSparkAndroidUser: () => {
-		return false;
-	},
-	isSparkIOSUser: () => {
-		return false;
-	},
-	isSparkUser: () => {
-		return false;
-	},
-	isAngelBeeAndroidUser: () => {
-		return false;
-	},
-	isAngelBeeIosUser: () => {
-		return false;
-	}
+	isSparkAndroidUser: false,
+	isSparkIOSUser: false,
+	isAngelBeeAndroidUser: false,
+	isAngelBeeIosUser: false,
+	isTWA: false,
+	isWebView: false
 };
+
 function Store() {
 	const { subscribe, update } = writable(initalStore);
 	let sparkStore: SparkStore;
-	subscribe((v) => (sparkStore = v));
+	subscribe((v) => {
+		sparkStore = v;
+	});
 	return {
 		subscribe,
 		updateStore: (newStore: SparkStore) => {
 			return update((s) => {
-				return { ...s, ...newStore };
+				const consolidated = {
+					...s,
+					...newStore
+				};
+				const platform = consolidated.platform?.toLowerCase() || 'mf-web';
+				const platformvariant = consolidated.platformvariant?.toLowerCase() || 'web';
+				const isSparkAndroidUser = platform === PLATFORM_TYPE.SPARK_ANDROID;
+				const isSparkIOSUser = platform === PLATFORM_TYPE.SPARK_IOS;
+				const isAngelBeeAndroidUser = platform === PLATFORM_TYPE.ANGELBEE_ANDROID;
+				const isAngelBeeIosUser = platform === PLATFORM_TYPE.ANGELBEE_IOS;
+				const isTWA = platformvariant === 'twa';
+				const isWebView = platformvariant === 'webview';
+
+				return {
+					...consolidated,
+					platform,
+					platformvariant,
+					isSparkAndroidUser,
+					isSparkIOSUser,
+					isAngelBeeAndroidUser,
+					isAngelBeeIosUser,
+					isTWA,
+					isWebView
+				};
 			});
 		},
 		platform: () => {
 			return sparkStore.platform?.toLowerCase() || 'mf-web';
 		},
-		isSparkAndroidUser: () => {
-			return sparkStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID;
-		},
-		isAngelBeeAndroidUser: () => {
-			return sparkStore.platform.toLowerCase() === PLATFORM_TYPE.ANGELBEE_ANDROID;
-		},
-		isAngelBeeIosUser: () => {
-			return sparkStore.platform.toLowerCase() === PLATFORM_TYPE.ANGELBEE_IOS;
-		},
-		isSparkIOSUser: () => {
-			return sparkStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS;
-		},
-		isSparkUser: () => {
-			return (
-				sparkStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID ||
-				sparkStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS
-			);
-		},
+		isSparkAndroidUser: () => sparkStore.isSparkAndroidUser,
+		isAngelBeeAndroidUser: () => sparkStore.isAngelBeeAndroidUser,
+		isAngelBeeIosUser: () => sparkStore.isAngelBeeIosUser,
+		isSparkIOSUser: () => sparkStore.isSparkIOSUser,
 		closecta: () => sparkStore.closecta,
 		platformversion: () => sparkStore.platformversion,
 		platformvariant: () => sparkStore.platformvariant?.toLowerCase() || 'web',
 		deviceid: () => sparkStore.deviceid,
 		get: () => sparkStore,
-		isTWA() {
-			return sparkStore.platformvariant.toLowerCase() === 'twa';
-		},
-		isWebView() {
-			return sparkStore.platformvariant.toLowerCase() === 'webview';
-		}
+		isTWA: () => sparkStore.isTWA,
+		isWebView: () => sparkStore.isWebView
 	};
 }
 

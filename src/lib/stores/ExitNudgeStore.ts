@@ -28,7 +28,7 @@ function createStore() {
 		},
 		shouldShow: (): boolean => {
 			const isLoggedIn = tokenStore.state() === AUTH_STATE_ENUM.LOGGED_IN;
-			const isSparkUser = appStore.isSparkUser();
+			const isSparkUser = appStore.isSparkIOSUser() || appStore.isSparkAndroidUser();
 			return (
 				store.nudgeDataAvailable &&
 				isLoggedIn &&

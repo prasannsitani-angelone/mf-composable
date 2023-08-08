@@ -4,6 +4,8 @@
 	import type { BrowserSupport } from '$lib/utils/helpers/browserSupport.js';
 	import { Button } from 'svelte-components';
 	import Overlay from '$components/Overlay.svelte';
+	import { onMount } from 'svelte';
+	import Logger from '$lib/utils/logger';
 
 	export let browserDetails: BrowserSupport;
 
@@ -26,6 +28,13 @@
 			);
 		}
 	}
+
+	onMount(() => {
+		Logger.info({
+			type: 'UnsupportedBrowser',
+			params: { ...browserDetails, userAgent: navigator.userAgent }
+		});
+	});
 </script>
 
 <Overlay containerClass="justify-end sm:!justify-center">

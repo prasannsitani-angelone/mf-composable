@@ -31,8 +31,6 @@
 		FORGOT_MPIN_VERIFY_OTP: 'FORGOT_MPIN_VERIFY_OTP'
 	};
 
-	let mpinEligible = false;
-
 	interface userCookieTypes {
 		NTAccessToken: string;
 		NTRefreshToken: string;
@@ -99,6 +97,8 @@
 			};
 			userCookieProperty = property;
 		}
+
+		let mpinEligible = $appStore.isAngelBeeAndroidUser || $appStore.isAngelBeeIosUser || false;
 
 		if (mpinEligible) {
 			const checkMpinData = await checkMpinFunc();
@@ -182,7 +182,6 @@
 			});
 		}
 		await tick();
-		mpinEligible = appStore.isAngelBeeAndroidUser() || appStore.isAngelBeeIosUser() || false;
 	});
 </script>
 
