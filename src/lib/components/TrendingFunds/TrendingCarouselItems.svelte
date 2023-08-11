@@ -37,7 +37,7 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div on:click={gotoSchemeDetails} class={`flex cursor-pointer flex-col ${clazz}`}>
-	<div class="mb-3 flex flex-row items-start">
+	<div class="flex flex-row items-start">
 		<SchemeLogo
 			src={schemes?.logoUrl}
 			alt={schemes?.schemeName}
@@ -58,44 +58,46 @@
 		</slot>
 	</div>
 	<div class="flex flex-col">
-		<div class="relative w-full overflow-hidden">
-			<img
-				src="{base}/images/TrendingFundsBackground.svg"
-				class="absolute h-full w-full"
-				decoding="async"
-				alt="Trending Funds"
-			/>
-			<div class=" flex flex-row rounded-t-lg p-2 opacity-[.99]">
-				<slot name="detailsLeft">
-					<div class="flex flex-col items-start">
-						<p class="text-xs font-normal">Min. SIP Amount</p>
-						<p class="text-base font-medium">
-							₹ {addCommasToAmountString(schemes?.minSipAmount?.toString()) ||
-								schemes?.minSipAmount}
-						</p>
-					</div>
-				</slot>
-				<div class="flex-1" />
-				<slot name="detailsRight">
-					<div class="flex flex-col items-end">
-						<p class="text-xs font-normal">3 Year Return</p>
-						<div class="flex flex-row items-center">
-							<img
-								src={GreenUpArrowTrendingFund}
-								class="mr-1 h-3 w-2.5"
-								decoding="async"
-								alt="Trending Funds Up Arrow"
-								width="10"
-								height="12"
-							/>
-							<p class="text-xs font-normal">
-								<span class="text-base font-medium">{schemes?.returns3yr}%</span> p.a
+		<slot name="details">
+			<div class="relative mt-3 w-full overflow-hidden">
+				<img
+					src="{base}/images/TrendingFundsBackground.svg"
+					class="absolute h-full w-full"
+					decoding="async"
+					alt="Trending Funds"
+				/>
+				<div class=" flex flex-row rounded-t-lg p-2 opacity-[.99]">
+					<slot name="detailsLeft">
+						<div class="flex flex-col items-start">
+							<p class="text-xs font-normal">Min. SIP Amount</p>
+							<p class="text-base font-medium">
+								₹ {addCommasToAmountString(schemes?.minSipAmount?.toString()) ||
+									schemes?.minSipAmount}
 							</p>
 						</div>
-					</div>
-				</slot>
+					</slot>
+					<div class="flex-1" />
+					<slot name="detailsRight">
+						<div class="flex flex-col items-end">
+							<p class="text-xs font-normal">3 Year Return</p>
+							<div class="flex flex-row items-center">
+								<img
+									src={GreenUpArrowTrendingFund}
+									class="mr-1 h-3 w-2.5"
+									decoding="async"
+									alt="Trending Funds Up Arrow"
+									width="10"
+									height="12"
+								/>
+								<p class="text-xs font-normal">
+									<span class="text-base font-medium">{schemes?.returns3yr}%</span> p.a
+								</p>
+							</div>
+						</div>
+					</slot>
+				</div>
 			</div>
-		</div>
+		</slot>
 		<slot name="detailsFooter">
 			<div class="flex flex-row items-center rounded-b-lg bg-[#D1D8F6] p-2">
 				<slot name="detailsFooterIcon">

@@ -8,10 +8,16 @@
 	import LeftSideView from '../LeftSideView.svelte';
 	import InvestmentDetailsLoader from '../components/InvestmentDetailsLoader.svelte';
 	import type { PageData } from '../$types';
-	import type { FolioHoldingType, ChartData, OrdersData } from '$lib/types/IInvestments';
+	import type { ChartData, FolioHoldingType, OrdersData } from '$lib/types/IInvestments';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import isInvestmentAllowed from '$lib/utils/isInvestmentAllowed';
 	import { SEO } from 'svelte-components';
+	import { page } from '$app/stores';
+	import MappingSchemeModal from './components/MappingSchemeModal.svelte';
+	import { base } from '$app/paths';
+	import { hydratedStore } from '$lib/stores/AppHydratedStore';
+	import ExternalInvestmentFooterLoader from './components/ExternalInvestmentFooterLoader.svelte';
+	import ExternalInvestmentDetailsFooter from './components/ExternalInvestmentDetailsFooter.svelte';
 
 	export let data: PageData;
 
@@ -19,9 +25,11 @@
 		text: string;
 		href: string;
 	}
+
 	let breadCrumbs: BreadcrumbType[];
 	$: breadCrumbs = [];
 	$: holdingsData = <FolioHoldingType>{};
+	$: mappingScheme = <SchemeDetails>{};
 
 	let isInvestmentNotAllowed = false;
 
@@ -31,6 +39,7 @@
 			chartData: ChartData;
 			ordersData: OrdersData;
 			schemeData: SchemeDetails;
+			mappingScheme: SchemeDetails;
 		}>
 	) {
 		const result = await data;
@@ -55,6 +64,13 @@
 		];
 
 		holdingsData = result?.holdingsData;
+		mappingScheme = result?.mappingScheme;
+
+		if (holdingsData?.schemePlan?.toLowerCase() === 'direct') {
+			// if the external fund is direct, same scheme is also available and can be invested in angel one
+			const { schemeName, isin, schemeCode, schemePlan } = holdingsData;
+			mappingScheme = { schemeName, isin, schemeCode, schemePlan };
+		}
 
 		isInvestmentNotAllowed = !isInvestmentAllowed(userStore?.userType(), holdingsData?.schemePlan);
 	}
@@ -64,6 +80,28 @@
 	}
 
 	const handleErrorNavigation = () => goto('/');
+
+	$: isMobile = $page?.data?.deviceType?.isMobile;
+	$: isTablet = $page?.data?.deviceType?.isTablet;
+
+	let showMappingSchemeModal = false;
+
+	const onExploreFundsClicked = () => {
+		goto(`${base}/explorefunds/sip-with-100?id=101`);
+	};
+
+	const onInvestMoreClicked = () => {
+		const externalFundSchemePlan = holdingsData?.schemePlan?.toLowerCase() || '';
+		const mappedFundSchemePlan = mappingScheme?.schemePlan?.toLowerCase() || '';
+
+		// if the external and mapped fund have same scheme plan, directly go to orderpad
+		if (externalFundSchemePlan === mappedFundSchemePlan) {
+			const { schemeName, isin, schemeCode } = mappingScheme;
+			goto(`${base}/schemes/${normalizeFundName(schemeName, isin, schemeCode)}?orderpad=INVEST`);
+		} else {
+			showMappingSchemeModal = true;
+		}
+	};
 </script>
 
 <SEO
@@ -85,7 +123,41 @@
 				ordersData={res.ordersData}
 				schemeDetails={res.schemeData}
 			/>
+
+			{#if isMobile || isTablet}
+				{#if $hydratedStore.isHydrated}
+					<div class="mb-44 sm:mb-0" />
+					<article class="fixed inset-0 top-auto z-20 block md:hidden">
+						<ExternalInvestmentDetailsFooter
+							isMappingSchemeAvailable={Object.keys(mappingScheme)?.length > 0}
+							on:exploreFundsClicked={onExploreFundsClicked}
+							on:investMoreClicked={onInvestMoreClicked}
+						/>
+					</article>
+				{:else}
+					<article class="fixed inset-0 top-auto z-20 block bg-white md:hidden">
+						<ExternalInvestmentFooterLoader />
+					</article>
+				{/if}
+			{/if}
 		</section>
+
+		<!-- layout for desktop mode -->
+		{#if !(isMobile || isTablet)}
+			{#if $hydratedStore.isHydrated}
+				<article class="sticky -top-2 mt-[52px] hidden md:block">
+					<ExternalInvestmentDetailsFooter
+						isMappingSchemeAvailable={Object.keys(mappingScheme)?.length > 0}
+						on:exploreFundsClicked={onExploreFundsClicked}
+						on:investMoreClicked={onInvestMoreClicked}
+					/>
+				</article>
+			{:else}
+				<article class="sticky -top-2 mt-[52px] hidden md:block">
+					<ExternalInvestmentFooterLoader />
+				</article>
+			{/if}
+		{/if}
 	{:else}
 		<section class="col-span-full">
 			<ErrorView
@@ -98,3 +170,10 @@
 		</section>
 	{/if}
 {/await}
+
+{#if showMappingSchemeModal}
+	<MappingSchemeModal
+		on:backdropclicked={() => (showMappingSchemeModal = !showMappingSchemeModal)}
+		{mappingScheme}
+	/>
+{/if}
