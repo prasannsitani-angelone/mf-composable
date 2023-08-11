@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import BaseInput from './BaseInput.svelte';
 	import { debounce } from '$lib/utils/helpers/debounce';
+	import clickOutside from '$lib/utils/useClickOutside';
 
 	export let inputText = '';
 	export let onInputChange: (data: string) => void;
@@ -20,6 +21,10 @@
 		getHandlersForUPIIdSuggestions();
 	});
 
+	const closeDropDown = () => {
+		filteredHandlers = [];
+	};
+
 	const getFilteredHandlersList = debounce((data: string) => {
 		const splitArr = data.split('@') || [];
 		const searchText = splitArr[1] || '';
@@ -27,7 +32,7 @@
 		if (searchText) {
 			filteredHandlers = upiHandlersStore.getSuggestions(`@${searchText}`, staticText);
 		} else {
-			filteredHandlers = [];
+			closeDropDown();
 		}
 	}, 300);
 
@@ -38,11 +43,11 @@
 
 	const onItemDopDrownClick = (data: string) => {
 		onInputChange(data);
-		filteredHandlers = [];
+		closeDropDown();
 	};
 </script>
 
-<div class="relative">
+<div class="relative" use:clickOutside on:outclick={closeDropDown}>
 	<BaseInput
 		id="inputID"
 		value={inputText}
