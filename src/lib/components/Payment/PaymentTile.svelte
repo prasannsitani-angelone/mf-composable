@@ -1,7 +1,7 @@
 <script lang="ts">
-	import BaseInput from '$components/BaseInput.svelte';
 	import Button from '$components/Button.svelte';
 	import RadioButton from '$components/RadioButton.svelte';
+	import UpiHandlerDropDown from '$components/UPIHandlerDropDown.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { onDestroy } from 'svelte';
 
@@ -61,27 +61,7 @@
 	{#if selected}
 		<div class="ml-6 flex flex-col pb-4">
 			{#if showInput}
-				<div>
-					<BaseInput
-						id="inputID"
-						value={inputText}
-						onChange={onInputChange}
-						heading=""
-						placeholder="Enter UPI Id"
-						classes={{
-							label: '',
-							error: '',
-							container: 'px-3 py-3 shadow-none border',
-							input: 'text-start',
-							parent: 'flex-1 bg-white'
-						}}
-					/>
-					{#if inputError}
-						<div class="text-xs font-medium text-red-sell">
-							{inputError}
-						</div>
-					{/if}
-				</div>
+				<UpiHandlerDropDown {inputText} {onInputChange} {inputError} />
 			{/if}
 			<div class="mb-4 mt-2 flex flex-row justify-between">
 				<div class="flex w-9/12 flex-row">

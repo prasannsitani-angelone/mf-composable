@@ -20,15 +20,42 @@
 	export let onSubmit = (): void => undefined;
 	export let resetInputError = (): void => undefined;
 	export let onChangeBank = (): void => undefined;
+	export let allowedPaymentmethods = Object.keys(PAYMENT_MODE);
+	export let asModal = true;
 </script>
 
-<Modal isModalOpen={true}>
-	<div
-		class="flex h-full w-full flex-col bg-white shadow-csm sm:h-max sm:max-h-[640px] sm:w-max sm:min-w-[490px]"
-	>
+{#if asModal}
+	<Modal isModalOpen={true}>
+		<div
+			class="flex h-full w-full flex-col bg-white shadow-csm sm:h-max sm:max-h-[640px] sm:w-max sm:min-w-[490px]"
+		>
+			<PaymentMethodHeader {onBackClick} isPartOfModal />
+			<slot name="schemeTile" />
+			<PaymentMethod
+				paymentModes={allowedPaymentmethods}
+				{selectedMode}
+				{onSelect}
+				{onSubmit}
+				{amount}
+				{bankAccounts}
+				{selectedAccount}
+				{inputError}
+				{resetInputError}
+				{redirectedFrom}
+				{defaultInputVal}
+				onChangeBankClick={onChangeBank}
+				{isLoading}
+				{isSchemeDisabled}
+				class="sm:px-8 sm:py-8"
+			/>
+		</div>
+	</Modal>
+{:else}
+	<section class={`h-fit w-full bg-white ${$$props?.class} !flex flex-col`}>
 		<PaymentMethodHeader {onBackClick} />
+		<slot name="schemeTile" />
 		<PaymentMethod
-			paymentModes={Object.keys(PAYMENT_MODE)}
+			paymentModes={allowedPaymentmethods}
 			{selectedMode}
 			{onSelect}
 			{onSubmit}
@@ -42,7 +69,6 @@
 			onChangeBankClick={onChangeBank}
 			{isLoading}
 			{isSchemeDisabled}
-			class="sm:px-8 sm:py-8"
 		/>
-	</div>
-</Modal>
+	</section>
+{/if}

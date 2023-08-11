@@ -4,7 +4,7 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
-	import ChangePaymentContainer from '../../../../../InvestmentPad/OrderPadComponents/ChangePaymentContainer.svelte';
+	import ChangePaymentContainer from '$components/Payment/ChangePaymentContainer.svelte';
 	import LoadingPopup from '$components/Payment/LoadingPopup.svelte';
 	import UpiClosePopup from '$components/Payment/UPIClosePopup.svelte';
 	import UpiTransactionPopup from '$components/Payment/UPITransactionPopup.svelte';
@@ -27,6 +27,7 @@
 		paymentPendingScreenAnalytics,
 		paymentOnRequestResponseAnalytics
 	} from '$lib/analytics/startFirstSip/payment';
+	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 
 	export let scheme: SchemeDetails;
 	export let amount: number;
@@ -294,11 +295,7 @@
 
 <article class="flex h-full flex-col sm:h-max">
 	<ChangePaymentContainer
-		isSIP={true}
-		{dateSuperscript}
-		{calendarDate}
 		amount={amount.toString()}
-		schemeName={scheme?.schemeName}
 		onBackClick={hidePaymentMethodScreen}
 		paymentModes={Object.keys(PAYMENT_MODE)}
 		selectedMode={paymentHandler?.paymentMode}
@@ -313,7 +310,30 @@
 		class={$$props.class}
 		isLoading={loadingState.isLoading || validateUPILoading}
 		{allowedPaymentmethods}
-	/>
+	>
+		<div slot="schemeTile" class="m-4 mb-0 rounded-lg border border-grey-line bg-white p-3">
+			<div class="mb-2 flex flex-row items-center rounded-full text-xs font-medium text-grey-body">
+				<span>SIP</span>
+				<div class="mx-1 h-1 w-1 min-w-[4px] rounded-full bg-grey-body" />
+				<span>
+					{calendarDate}{dateSuperscript} of every month
+				</span>
+			</div>
+			<div class=" flex flex-row justify-between">
+				<div class="flex flex-row">
+					<div class="mr-2.5 flex h-8 w-8 min-w-[32px] items-center justify-center">
+						<img src={scheme?.logoUrl} alt="schemelogo" />
+					</div>
+					<div class="trucateTo2Line mr-2.5 text-sm font-medium text-black-title">
+						{scheme?.schemeName}
+					</div>
+				</div>
+				<div class="whitespace-nowrap text-sm font-semibold text-black-title">
+					₹{addCommasToAmountString(amount)}
+				</div>
+			</div>
+		</div>
+	</ChangePaymentContainer>
 
 	{#if bankPopupVisible}
 		<BankSelectionPopup

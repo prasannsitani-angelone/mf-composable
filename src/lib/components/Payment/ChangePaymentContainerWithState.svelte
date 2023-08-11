@@ -232,7 +232,7 @@
 	<div
 		class="flex h-full w-full flex-col bg-white shadow-csm sm:h-max sm:max-h-[640px] sm:w-max sm:min-w-[490px]"
 	>
-		<PaymentMethodHeader onBackClick={hidePaymentMethodScreen} title="Complete Your Payment" />
+		<PaymentMethodHeader onBackClick={hidePaymentMethodScreen} isPartOfModal />
 		<slot name="schemeTile" />
 		<PaymentMethod
 			paymentModes={Object.keys(PAYMENT_MODE)}

@@ -31,7 +31,6 @@
 	import type { decodedParamsTypes } from '$lib/types/IOrderPad';
 	import TncModal from '$components/TnC/TncModal.svelte';
 	import NotAllowed from './OrderPadComponents/NotAllowed.svelte';
-	import ChangePaymentContainer from './OrderPadComponents/ChangePaymentContainer.svelte';
 	import BankSelectionPopup from '$components/BankSelectionPopup.svelte';
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
 	import { format } from 'date-fns';
@@ -93,6 +92,7 @@
 	import { checkRequestIdExpired } from '$lib/api/investmentPad';
 	import PeopleIcon from '$lib/images/PeopleIcon.svg';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
+	import ChangePaymentContainer from '$components/Payment/ChangePaymentContainer.svelte';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -1471,11 +1471,7 @@
 	</section>
 {:else if showChangePayment}
 	<ChangePaymentContainer
-		isSIP={activeTab === 'SIP'}
-		{dateSuperscript}
-		{calendarDate}
 		{amount}
-		schemeName={schemeData?.schemeName}
 		onBackClick={hidePaymentMethodScreen}
 		paymentModes={Object.keys(PAYMENT_MODE)}
 		selectedMode={paymentHandler?.paymentMode}
@@ -1491,16 +1487,32 @@
 		class={$$props.class}
 		isLoading={loadingState.isLoading || validateUPILoading}
 		isSchemeDisabled={!isSelectedInvestmentTypeAllowed()}
+		asModal={isMobile ? true : false}
 	>
-		<svelte:fragment slot="header">
-			<slot name="header">
-				<section
-					class="hidden rounded-t-lg bg-white px-3 py-5 font-medium text-black-title md:block"
-				>
-					Your Investment Pad
-				</section>
-			</slot>
-		</svelte:fragment>
+		<div slot="schemeTile" class="m-4 mb-0 rounded-lg border border-grey-line bg-white p-3">
+			<div class="mb-2 flex flex-row items-center rounded-full text-xs font-medium text-grey-body">
+				<span>{activeTab === 'SIP' ? 'SIP' : 'ONE TIME INVESTMENT'}</span>
+				{#if activeTab === 'SIP'}
+					<div class="mx-1 h-1 w-1 min-w-[4px] rounded-full bg-grey-body" />
+					<span>
+						{calendarDate}{dateSuperscript} of every month
+					</span>
+				{/if}
+			</div>
+			<div class=" flex flex-row justify-between">
+				<div class="flex flex-row">
+					<div class="mr-2.5 flex h-8 w-8 min-w-[32px] items-center justify-center">
+						<img src={schemeData?.logoUrl} alt="schemelogo" />
+					</div>
+					<div class="trucateTo2Line mr-2.5 text-sm font-medium text-black-title">
+						{schemeData?.schemeName}
+					</div>
+				</div>
+				<div class="whitespace-nowrap text-sm font-semibold text-black-title">
+					₹{addCommasToAmountString(amount)}
+				</div>
+			</div>
+		</div>
 	</ChangePaymentContainer>
 {/if}
 
@@ -1560,3 +1572,14 @@
 		buttonVariant="contained"
 	/>
 {/if}
+
+<style>
+	.trucateTo2Line {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2; /* number of lines to show */
+		line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+</style>
