@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { fetchTransactionDataFunc } from './api';
+import { fetchTransactionDataFunc, triggerWalletStatus } from './api';
 
 export const getFormattedSIPDate = (date: Date) => {
 	return format(date, 'yyyy-MM-dd');
@@ -125,7 +125,16 @@ export const initializeGPayState = (gpayPaymentState) => {
 };
 
 export const googlePayCloseLogic = (params) => {
-	const { gpayPaymentState, resetState, paymentModeName, showLoading, delay = 1 } = params || {};
+	const {
+		gpayPaymentState,
+		resetState,
+		paymentModeName,
+		transactionRefNumber,
+		xRequestId,
+		source,
+		showLoading,
+		delay = 1
+	} = params || {};
 	let counter = 0;
 	return new Promise((resolve) => {
 		gpayPaymentState.paymentWindowInterval = setInterval(() => {
@@ -135,6 +144,13 @@ export const googlePayCloseLogic = (params) => {
 						gpayPaymentState.waitTime - counter
 					} seconds. Please complete the transaction from your ${paymentModeName}. Ignore if you have already completed the payment.`
 				);
+				if (counter === 0) {
+					triggerWalletStatus({
+						transactionRefNumber,
+						xRequestId,
+						source
+					});
+				}
 				counter++;
 				if (counter >= gpayPaymentState.waitTime) {
 					resetState();

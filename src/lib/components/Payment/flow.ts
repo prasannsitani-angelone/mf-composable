@@ -1539,6 +1539,9 @@ export const walletCartFlow = async (params) => {
 					initializeGPayState(gpayPaymentState);
 				},
 				paymentModeName,
+				transactionRefNumber: walletResponse.data?.data?.transaction_id,
+				xRequestId,
+				source,
 				showLoading
 			})
 		]);
@@ -1715,6 +1718,9 @@ export const walletLumpsumFlow = async (params) => {
 					initializeGPayState(gpayPaymentState);
 				},
 				paymentModeName,
+				transactionRefNumber: walletResponse.data?.data?.transaction_id,
+				xRequestId,
+				source,
 				showLoading
 			})
 		]);
@@ -1889,6 +1895,9 @@ export const walletSIPFlow = async (params) => {
 					initializeGPayState(gpayPaymentState);
 				},
 				paymentModeName,
+				transactionRefNumber: walletResponse.data?.data?.transaction_id,
+				xRequestId,
+				source,
 				showLoading
 			})
 		]);
@@ -2059,6 +2068,9 @@ export const walletBulkSIPFlow = async (params) => {
 					initializeGPayState(gpayPaymentState);
 				},
 				paymentModeName,
+				transactionRefNumber: walletResponse.data?.data?.transaction_id,
+				xRequestId,
+				source,
 				showLoading
 			})
 		]);

@@ -298,6 +298,26 @@ export const initiateUPIPayment = async (params) => {
 	}
 };
 
+export const triggerWalletStatus = async (params) => {
+	try {
+		const url = `${PUBLIC_PAYMENT_BASE_URL}/upi-update-transaction-status`;
+		const { transactionRefNumber, xRequestId, source } = params || {};
+		const response = await useFetch(url, {
+			method: 'POST',
+			body: JSON.stringify({
+				transaction_id: transactionRefNumber
+			}),
+			headers: {
+				'X-Request-Id': xRequestId,
+				'X-Source': source || 'diy'
+			}
+		});
+		return response;
+	} catch (e) {
+		return {};
+	}
+};
+
 export const initiateWalletPayment = async (params) => {
 	try {
 		const url = `${PUBLIC_PAYMENT_BASE_URL}/upi-initiate-payment`;

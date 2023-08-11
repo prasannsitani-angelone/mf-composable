@@ -41,7 +41,11 @@
 	};
 </script>
 
-<div class={`flex flex-1 flex-col px-4 ${selected ? 'bg-blue-background' : 'bg-white'}`}>
+<div
+	class={`flex flex-1 flex-col px-4 ${selected ? 'bg-blue-background' : 'bg-white'} ${
+		$$props.class
+	}`}
+>
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<div class="flex flex-row items-center py-4" on:click={() => onSelect(identifier)}>
 		<RadioButton {selected} clazz="mr-2" />
