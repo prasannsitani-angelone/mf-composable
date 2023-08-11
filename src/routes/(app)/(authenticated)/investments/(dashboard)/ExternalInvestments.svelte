@@ -19,20 +19,27 @@
 	import { useFetch } from '$lib/utils/useFetch';
 	import { getTimestampHoursDifference } from '$lib/utils/helpers/date';
 	import {
-		investmentExternalRefreshFlowAnalytics,
-		investmentExternalPartialImportScreenOpenAnalytics,
+		allTabClickedAnalytics,
 		allTabScreenOpenAnalytics,
-		allTabClickedAnalytics
+		investmentExternalPartialImportScreenOpenAnalytics,
+		investmentExternalRefreshFlowAnalytics
 	} from '../analytics';
 	import { refreshWaitHours } from '../constants';
 
 	import type { PageData } from './$types';
 	import type {
-		InvestmentSummary,
+		HoldingsPromise,
 		InvestmentEntity,
-		SummaryPromise,
-		HoldingsPromise
+		InvestmentSummary,
+		SummaryPromise
 	} from '$lib/types/IInvestments';
+	import StopExternalFundTrackingComponent from './components/externalfundstracking/StopExternalFundTrackingComponent.svelte';
+	import StopExternalFundTrackingConfirmComponent from './components/externalfundstracking/StopExternalFundTrackingConfirmComponent.svelte';
+	import type { ExternalFundsTrackingResponse } from './components/externalfundstracking/api';
+	import { invokeRemoveExternalFundsTracking } from './components/externalfundstracking/api';
+	import { invalidateAll } from '$app/navigation';
+	import ResultPopup from '$components/Popup/ResultPopup.svelte';
+	import ExternalFundsLoadingComponent from './components/externalfundstracking/ExternalFundsLoadingComponent.svelte';
 
 	export let data: PageData;
 
@@ -47,19 +54,21 @@
 	let totalImportedFundCount = data.length;
 	let isPartialImport = false;
 
+	let showRemoveExternalFundTrackingConfirm = false;
+
 	/**
-	 	INITIATE FIRST TIME IMPORT (TRACK EXTERNAL FUNDS FLOW)
-		1. non 200OK htpp status mean API Failed and show externa import fetch failed
+     INITIATE FIRST TIME IMPORT (TRACK EXTERNAL FUNDS FLOW)
+     1. non 200OK htpp status mean API Failed and show externa import fetch failed
 
-		ERROR FETCHING YOUR INVESTMENTS
-		2. status is 200OK && values zero && lastImportStatus=FAILED then no previous import user can ask for import again
+     ERROR FETCHING YOUR INVESTMENTS
+     2. status is 200OK && values zero && lastImportStatus=FAILED then no previous import user can ask for import again
 
-		FETCHING IN PROGRESS
-		3. status is 200OK && values zero && lastImportStatus=(STARTED|PENDING) then no previous import  and current import in pending, show refreshing and block user for importing again
+     FETCHING IN PROGRESS
+     3. status is 200OK && values zero && lastImportStatus=(STARTED|PENDING) then no previous import  and current import in pending, show refreshing and block user for importing again
 
-		NO INVESTMENT FOUND
-		4. status is 200OK && values zero && lastImportStatus=COMPLETED then previous import has no folios (highly unlikely unless user is completely new)
-	*/
+     NO INVESTMENT FOUND
+     4. status is 200OK && values zero && lastImportStatus=COMPLETED then previous import has no folios (highly unlikely unless user is completely new)
+     */
 
 	const getUnhappyScenario = (data: SummaryPromise) => {
 		const summary = data?.data?.summary;
@@ -230,6 +239,44 @@
 		allTabScreenOpenAnalytics(metaData);
 	}
 
+	function setRemoveExternalFundTrackingConfirm(show: boolean) {
+		showRemoveExternalFundTrackingConfirm = show;
+	}
+
+	const error = {
+		visible: false,
+		heading: '',
+		subHeading: '',
+		type: ''
+	};
+
+	let showRemoveExternalFundsLoader = false;
+
+	function setRemoveExternalFundsLoader(show: boolean) {
+		showRemoveExternalFundsLoader = show;
+	}
+
+	const removeExternalFunds = async () => {
+		setRemoveExternalFundTrackingConfirm(false);
+		setRemoveExternalFundsLoader(true);
+		const result: ExternalFundsTrackingResponse = await invokeRemoveExternalFundsTracking();
+		if (result.status === 'success') {
+			await invalidateAll();
+		} else {
+			error.visible = true;
+			error.heading = 'Error';
+			error.subHeading = `Error removing. ${result.message}`;
+		}
+		setRemoveExternalFundsLoader(false);
+	};
+
+	const closeErrorPopup = () => {
+		error.heading = '';
+		error.subHeading = '';
+		error.visible = false;
+		error.type = '';
+	};
+
 	onMount(async () => {
 		const summaryResponse = await externalInvestmentSummary;
 		initiateTabClickAnalyticsClientSide(summaryResponse);
@@ -270,28 +317,33 @@
 		<!-- Success scenarios -->
 		<!-- Render Refresh component for both partial/ full success scenario -->
 		<section class="col-span-1 row-start-2 sm:col-span-1 sm:col-start-1">
-			<RefreshFunds
-				summary={response.data?.summary}
-				onButtonClick={() => onRefreshFunds(response.data?.summary)}
-			/>
+			{#if !showRemoveExternalFundsLoader}
+				<RefreshFunds
+					summary={response.data?.summary}
+					onButtonClick={() => onRefreshFunds(response.data?.summary)}
+				/>
+			{/if}
 		</section>
 		{#await externalInvestmentHoldings}
-			<section class="col-span-1 row-start-3 sm:col-span-1 sm:col-start-1">
-				<InvestmentDashboardLoader />
-			</section>
-			<section class="col-span-1 row-start-1 sm:col-span-1 sm:col-start-2 sm:row-span-3">
-				<PortfolioCardLoader />
-			</section>
+			<ExternalFundsLoadingComponent />
 		{:then res}
-			<!-- Render Success scenario - partial/ full success  -->
-			{#if setSuccessScenarioParams(res.data?.holdings || [])}
+			{#if showRemoveExternalFundsLoader}
+				<ExternalFundsLoadingComponent />
+			{:else if setSuccessScenarioParams(res.data?.holdings || [])}
 				<section class="col-span-1 row-start-3 sm:col-span-1 sm:col-start-1">
 					{#if res.status === 'success'}
 						<YourInvestmentsNew tableData={res.data?.holdings || []} />
-					{:else}<ErrorLoadingComponent
+
+						<StopExternalFundTrackingComponent
+							class="my-4"
+							on:stopTrackingClicked={() => setRemoveExternalFundTrackingConfirm(true)}
+						/>
+					{:else}
+						<ErrorLoadingComponent
 							title="Error Fetching Investments"
 							message="We could not fetch your investment list due to a technical error. Please try again"
-						/>{/if}
+						/>
+					{/if}
 				</section>
 				<section class="col-span-1 row-start-1 sm:col-span-1 sm:col-start-2 sm:row-span-3">
 					<ExternalFundsPortfolioCard
@@ -323,3 +375,24 @@
 		/>
 	{/if}
 {/await}
+
+{#if showRemoveExternalFundTrackingConfirm}
+	<StopExternalFundTrackingConfirmComponent
+		on:removeTrackingClicked={removeExternalFunds}
+		on:dismiss={() => setRemoveExternalFundTrackingConfirm(false)}
+	/>
+{/if}
+
+{#if error.visible}
+	<ResultPopup
+		popupType="FAILURE"
+		title={error.heading}
+		text={error.subHeading}
+		class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+		isModalOpen
+		handleButtonClick={closeErrorPopup}
+		buttonTitle={'RETRY'}
+		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
+		buttonVariant="contained"
+	/>
+{/if}
