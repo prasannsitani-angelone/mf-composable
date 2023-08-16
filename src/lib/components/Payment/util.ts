@@ -144,15 +144,13 @@ export const googlePayCloseLogic = (params) => {
 						gpayPaymentState.waitTime - counter
 					} seconds. Please complete the transaction from your ${paymentModeName}. Ignore if you have already completed the payment.`
 				);
-				if (counter === 0) {
+				counter++;
+				if (counter >= gpayPaymentState.waitTime) {
 					triggerWalletStatus({
 						transactionRefNumber,
 						xRequestId,
 						source
 					});
-				}
-				counter++;
-				if (counter >= gpayPaymentState.waitTime) {
 					resetState();
 					resolve('WINDOW_CLOSED');
 				}

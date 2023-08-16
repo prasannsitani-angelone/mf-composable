@@ -17,6 +17,7 @@ export interface SparkStore {
 	isAngelBeeIosUser: boolean;
 	isTWA: boolean;
 	isWebView: boolean;
+	paymentapps: string;
 }
 
 const initalStore: SparkStore = {
@@ -34,7 +35,8 @@ const initalStore: SparkStore = {
 	isAngelBeeAndroidUser: false,
 	isAngelBeeIosUser: false,
 	isTWA: false,
-	isWebView: false
+	isWebView: false,
+	paymentapps: ''
 };
 
 function Store() {

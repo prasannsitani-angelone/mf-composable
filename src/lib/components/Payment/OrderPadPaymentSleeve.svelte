@@ -21,14 +21,20 @@
 		on:click={onPaymentMethodChange}
 	>
 		<div class="flex flex-row items-center text-xs font-medium text-black-title">
-			<span>
+			<span class="break-all">
 				{selectedMode === 'UPI'
 					? upiId?.length
 						? upiId
 						: 'Your UPI Id'
 					: PAYMENT_MODE[selectedMode]?.name}
 			</span>
-			<WmsIcon name="arrow-up-solid" width={12} height={6} stroke="#3F5BD9" class="ml-1" />
+			<WmsIcon
+				name="arrow-up-solid"
+				width={12}
+				height={6}
+				stroke="#3F5BD9"
+				class="ml-1 min-w-[12px]"
+			/>
 		</div>
 		<div class="text-[10px] font-normal text-black-title">
 			{bankName}

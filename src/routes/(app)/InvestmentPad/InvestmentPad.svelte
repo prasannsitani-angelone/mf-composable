@@ -1375,43 +1375,46 @@
 
 						<section class="mt-3 flex flex-row">
 							{#if (activeTab === 'ONETIME' || firstSipPayment) && !firstTimeUser && isSelectedInvestmentTypeAllowed() && stringToInteger(amount) > 0}
-								<PaymentSleeve
-									selectedMode={paymentHandler?.paymentMode}
-									onPaymentMethodChange={showPaymentMethodScreen}
-									bankName={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName}
-									bankAccount={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO}
-									upiId={paymentHandler.upiId}
-									class="flex flex-1"
-								/>
+								<div class="flex flex-1">
+									<PaymentSleeve
+										selectedMode={paymentHandler?.paymentMode}
+										onPaymentMethodChange={showPaymentMethodScreen}
+										bankName={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName}
+										bankAccount={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO}
+										upiId={paymentHandler.upiId}
+									/>
+								</div>
 							{/if}
 							<!-- Submit Button -->
-							<Button
-								class={`flex h-12 flex-1 rounded ${
-									!amount?.length ||
-									!!errorMessage?.length ||
-									showTabNotSupported ||
-									investmentNotAllowedText?.length
-										? 'cursor-default !bg-grey-line !text-grey-disabled active:opacity-100'
-										: 'bg-blue-primary'
-								}`}
-								disabled={!amount?.length ||
-									!!errorMessage?.length ||
-									showTabNotSupported ||
-									!!investmentNotAllowedText?.length ||
-									validateUPILoading ||
-									loadingState.isLoading}
-								onClick={() => handleInvestClick(paymentHandler.upiId)}
-							>
-								{activeTab === 'SIP'
-									? !firstSipPayment
-										? 'START SIP'
+							<div class="flex flex-1">
+								<Button
+									class={`flex h-12 flex-1 rounded ${
+										!amount?.length ||
+										!!errorMessage?.length ||
+										showTabNotSupported ||
+										investmentNotAllowedText?.length
+											? 'cursor-default !bg-grey-line !text-grey-disabled active:opacity-100'
+											: 'bg-blue-primary'
+									}`}
+									disabled={!amount?.length ||
+										!!errorMessage?.length ||
+										showTabNotSupported ||
+										!!investmentNotAllowedText?.length ||
+										validateUPILoading ||
+										loadingState.isLoading}
+									onClick={() => handleInvestClick(paymentHandler.upiId)}
+								>
+									{activeTab === 'SIP'
+										? !firstSipPayment
+											? 'START SIP'
+											: firstTimeUser
+											? 'PROCEED'
+											: `PAY ₹${addCommasToAmountString(amount)}`
 										: firstTimeUser
 										? 'PROCEED'
-										: `PAY ₹${addCommasToAmountString(amount)}`
-									: firstTimeUser
-									? 'PROCEED'
-									: `PAY ₹${addCommasToAmountString(amount)}`}
-							</Button>
+										: `PAY ₹${addCommasToAmountString(amount)}`}
+								</Button>
+							</div>
 						</section>
 					</article>
 
