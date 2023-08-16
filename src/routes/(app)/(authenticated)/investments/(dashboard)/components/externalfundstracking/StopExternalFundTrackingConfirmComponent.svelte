@@ -16,8 +16,7 @@
 
 	const descriptionItems = [
 		'Your external investments will no longer be tracked in your portfolio',
-		'Removing external investments from Angel One does not affect your invested money in any way',
-		'You can also start tracking funds again by refreshing external investments'
+		'Removing external investments from Angel One does not affect your invested money in any way'
 	];
 </script>
 
@@ -31,11 +30,7 @@
 
 		<ul class="mb-10 px-6 sm:px-14">
 			{#each descriptionItems as item, i}
-				<li
-					class={`mb-1 list-disc text-sm text-black-title ${
-						i === 1 ? 'font-medium' : 'font-normal'
-					}`}
-				>
+				<li class="mb-1 list-disc text-sm font-normal text-black-title">
 					{item}
 				</li>
 			{/each}

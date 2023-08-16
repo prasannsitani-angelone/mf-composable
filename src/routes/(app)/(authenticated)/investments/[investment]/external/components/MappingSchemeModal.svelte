@@ -6,6 +6,7 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { createEventDispatcher } from 'svelte';
+	import { externalInvestmentMappedFundClickEvent } from '../analytics';
 
 	/**
 	 * {
@@ -16,11 +17,17 @@
 	 *     }
 	 */
 	export let mappingScheme: SchemeDetails;
+	export let externalIsin: string;
 	const { schemeName, isin, schemeCode, schemePlan } = mappingScheme;
 	const dispatch = createEventDispatcher();
 
 	const onInvestMoreClicked = () => {
 		goto(`${base}/schemes/${normalizeFundName(schemeName, isin, schemeCode)}?orderpad=INVEST`);
+
+		externalInvestmentMappedFundClickEvent({
+			isin: externalIsin,
+			mappedisin: mappingScheme.isin
+		});
 	};
 </script>
 

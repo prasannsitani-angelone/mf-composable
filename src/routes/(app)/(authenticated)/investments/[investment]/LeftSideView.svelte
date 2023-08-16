@@ -26,6 +26,7 @@
 	export let chartData: ChartData;
 	export let ordersData: OrdersData;
 	export let schemeDetails: SchemeDetails;
+	export let mappingScheme: SchemeDetails;
 	export let isRedemptionNotAllowed = false;
 
 	const userType = $page.data?.profile?.userType || '';
@@ -104,6 +105,16 @@
 	};
 
 	const investmentDetailsExternalScreenOpenAnalyticsFunc = () => {
+		const isMappingSchemeAvailable = Object.keys(mappingScheme)?.length > 0;
+		let mappedinvestfund;
+		if (isMappingSchemeAvailable) {
+			const externalFundSchemePlan = holdings?.schemePlan?.toLowerCase() || '';
+			const mappedFundSchemePlan = mappingScheme?.schemePlan?.toLowerCase() || '';
+			mappedinvestfund = externalFundSchemePlan === mappedFundSchemePlan ? 'same' : 'different';
+		} else {
+			mappedinvestfund = '';
+		}
+
 		const meteData = {
 			FundName: holdings?.schemeName,
 			Total_invested: parseFloat(holdings?.investedValue?.toFixed(2) || '0.00'),
@@ -113,7 +124,10 @@
 			Message:
 				chartData.chart?.length === 0
 					? 'Generating your investment value graph. This can take up to 24 hours'
-					: ''
+					: '',
+			isinvestenabled: isMappingSchemeAvailable,
+			mappedinvestfund: mappedinvestfund,
+			isin: holdings?.isin
 		};
 		investmentDetailsExternalScreenOpenAnalytics(meteData);
 	};

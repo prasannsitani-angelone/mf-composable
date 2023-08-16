@@ -15,9 +15,10 @@
 	import { page } from '$app/stores';
 	import MappingSchemeModal from './components/MappingSchemeModal.svelte';
 	import { base } from '$app/paths';
-	import { hydratedStore } from '$lib/stores/AppHydratedStore';
 	import ExternalInvestmentFooterLoader from './components/ExternalInvestmentFooterLoader.svelte';
 	import ExternalInvestmentDetailsFooter from './components/ExternalInvestmentDetailsFooter.svelte';
+	import { browser } from '$app/environment';
+	import { externalInvestmentInvestMoreClickEvent } from './analytics';
 
 	export let data: PageData;
 
@@ -29,7 +30,7 @@
 	let breadCrumbs: BreadcrumbType[];
 	$: breadCrumbs = [];
 	$: holdingsData = <FolioHoldingType>{};
-	$: mappingScheme = <SchemeDetails>{};
+	let mappingScheme = <SchemeDetails>{};
 
 	let isInvestmentNotAllowed = false;
 
@@ -66,8 +67,14 @@
 		holdingsData = result?.holdingsData;
 		mappingScheme = result?.mappingScheme;
 
-		if (holdingsData?.schemePlan?.toLowerCase() === 'direct') {
-			// if the external fund is direct, same scheme is also available and can be invested in angel one
+		const userType = userStore?.userType();
+		const externalSchemePlan = holdingsData?.schemePlan?.toUpperCase();
+
+		if (
+			(userType === 'B2C' && externalSchemePlan === 'DIRECT') ||
+			(userType === 'B2B' && externalSchemePlan === 'REGULAR')
+		) {
+			// if the external fund is direct/b2c or regular/b2b, same scheme is also available and can be invested in angel one
 			const { schemeName, isin, schemeCode, schemePlan } = holdingsData;
 			mappingScheme = { schemeName, isin, schemeCode, schemePlan };
 		}
@@ -88,6 +95,12 @@
 
 	const onExploreFundsClicked = () => {
 		goto(`${base}/explorefunds/sip-with-100?id=101`);
+
+		externalInvestmentInvestMoreClickEvent({
+			isin: holdingsData?.isin,
+			mappedisin: mappingScheme.isin,
+			CTAvalue: 'Explore'
+		});
 	};
 
 	const onInvestMoreClicked = () => {
@@ -101,6 +114,12 @@
 		} else {
 			showMappingSchemeModal = true;
 		}
+
+		externalInvestmentInvestMoreClickEvent({
+			isin: holdingsData?.isin,
+			mappedisin: mappingScheme.isin,
+			CTAvalue: 'InvestMore'
+		});
 	};
 </script>
 
@@ -118,6 +137,7 @@
 
 			<!-- Investment Details Page (Mobile and Desktop Layout) -->
 			<LeftSideView
+				{mappingScheme}
 				holdings={res.holdingsData}
 				chartData={res.chartData}
 				ordersData={res.ordersData}
@@ -125,7 +145,7 @@
 			/>
 
 			{#if isMobile || isTablet}
-				{#if $hydratedStore.isHydrated}
+				{#if browser}
 					<div class="mb-44 sm:mb-0" />
 					<article class="fixed inset-0 top-auto z-20 block md:hidden">
 						<ExternalInvestmentDetailsFooter
@@ -144,7 +164,7 @@
 
 		<!-- layout for desktop mode -->
 		{#if !(isMobile || isTablet)}
-			{#if $hydratedStore.isHydrated}
+			{#if browser}
 				<article class="sticky -top-2 mt-[52px] hidden md:block">
 					<ExternalInvestmentDetailsFooter
 						isMappingSchemeAvailable={Object.keys(mappingScheme)?.length > 0}
@@ -173,6 +193,7 @@
 
 {#if showMappingSchemeModal}
 	<MappingSchemeModal
+		externalIsin={holdingsData?.isin}
 		on:backdropclicked={() => (showMappingSchemeModal = !showMappingSchemeModal)}
 		{mappingScheme}
 	/>
