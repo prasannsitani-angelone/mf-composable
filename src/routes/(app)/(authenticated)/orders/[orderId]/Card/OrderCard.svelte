@@ -5,7 +5,7 @@
 	import { getDateTimeString } from '$lib/utils/helpers/date';
 	import { TRANSACTION_MAP, TRANSACTION_TYPE } from '$lib/constants/transactionType';
 	import InfoPopup from '$components/Popup/InfoPopup.svelte';
-	import { NAV_DETAILS, SETTLEMENT_TYPES } from '$lib/constants/order';
+	import { NAV_DETAILS } from '$lib/constants/order';
 	import type { IOrderDetails } from '$lib/types/IOrderDetails';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import { getExpectedCreditDate, getExpectedNavDate } from '$lib/utils/helpers/order';
@@ -92,8 +92,7 @@
 					{/if}
 				</span>
 				<p class="overflow-hidden text-ellipsis whitespace-nowrap font-medium text-black-title">
-					{orderDetails?.status?.toUpperCase() === ORDER_STATUS.ORDER_REJECTED ||
-					orderDetails?.settlementType?.toUpperCase() === SETTLEMENT_TYPES.MF
+					{orderDetails?.status?.toUpperCase() === ORDER_STATUS.ORDER_REJECTED
 						? '-- --'
 						: getExpectedNavDate(orderDetails)}
 				</p>
