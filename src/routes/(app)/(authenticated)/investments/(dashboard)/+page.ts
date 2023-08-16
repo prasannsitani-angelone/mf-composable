@@ -1,13 +1,16 @@
 import { browser } from '$app/environment';
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { faqsIconClick } from '$lib/analytics/faqs/faqs';
-import { encodeObject } from '$lib/utils/helpers/params';
+import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
 import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
 import MobileInvestmentTab from './components/MobileInvestmentTab.svelte';
 
 export const load = (async ({ fetch, url }) => {
 	const isExternal = url.searchParams.get('type') === 'all';
+	const urlParams = url.searchParams.get('param') || '';
+	const decodedParams = decodeToObject(urlParams);
+
 	const getInvestmentData = async () => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings`;
 
@@ -91,6 +94,7 @@ export const load = (async ({ fetch, url }) => {
 			showFaqIcon: true,
 			faqParams,
 			onClickFaqsIcon
-		}
+		},
+		urlParamsValues: decodedParams
 	};
 }) satisfies PageLoad;

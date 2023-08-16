@@ -40,6 +40,8 @@
 	import { invalidateAll } from '$app/navigation';
 	import ExternalFundsLoadingComponent from './components/externalfundstracking/ExternalFundsLoadingComponent.svelte';
 	import { toastStore } from '$lib/stores/ToastStore';
+	import { profileStore } from '$lib/stores/ProfileStore';
+	import InvalidExternalLinkModal from './components/InvalidExternalLinkModal.svelte';
 
 	export let data: PageData;
 
@@ -55,6 +57,32 @@
 	let isPartialImport = false;
 
 	let showRemoveExternalFundTrackingConfirm = false;
+
+	let initiateExternalInvestmentOtp = false;
+	let showInvalidExternalLinkModal = false;
+
+	const toggleShowInvalidExternalLinkModal = () => {
+		showInvalidExternalLinkModal = !showInvalidExternalLinkModal;
+	};
+
+	const setUrlParamsData = () => {
+		const { clientCode, timeStamp, otp } = data?.urlParamsValues || {};
+
+		if (otp) {
+			if ($profileStore?.clientId === clientCode) {
+				const hourDiff = getTimestampHoursDifference(Date.now(), timeStamp * 1000);
+				if (hourDiff < refreshWaitHours) {
+					initiateExternalInvestmentOtp = true;
+				} else {
+					showInvalidExternalLinkModal = true;
+				}
+			} else {
+				showInvalidExternalLinkModal = true;
+			}
+		}
+	};
+
+	setUrlParamsData();
 
 	/**
      INITIATE FIRST TIME IMPORT (TRACK EXTERNAL FUNDS FLOW)
@@ -276,6 +304,11 @@
 			summaryHoldings?.data?.holdings || [],
 			summaryResponse?.data?.summary
 		);
+
+		// to handle Track External Funds from NXT or any other external link
+		if (initiateExternalInvestmentOtp) {
+			onInitiateFundsFetch();
+		}
 	});
 </script>
 
@@ -371,5 +404,12 @@
 	<StopExternalFundTrackingConfirmComponent
 		on:removeTrackingClicked={removeExternalFunds}
 		on:dismiss={() => setRemoveExternalFundTrackingConfirm(false)}
+	/>
+{/if}
+
+{#if showInvalidExternalLinkModal}
+	<InvalidExternalLinkModal
+		openErrorModal={showInvalidExternalLinkModal}
+		on:closeErrorModal={toggleShowInvalidExternalLinkModal}
 	/>
 {/if}
