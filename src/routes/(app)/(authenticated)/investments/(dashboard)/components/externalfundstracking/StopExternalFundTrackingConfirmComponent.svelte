@@ -15,8 +15,8 @@
 	};
 
 	const descriptionItems = [
-		'The external investments will no longer be tracked in your portfolio',
-		'Removing your external funds from Angel One does not affect your invested money in any way',
+		'Your external investments will no longer be tracked in your portfolio',
+		'Removing external investments from Angel One does not affect your invested money in any way',
 		'You can also start tracking funds again by refreshing external investments'
 	];
 </script>
@@ -32,7 +32,7 @@
 		<ul class="mb-10 px-6 sm:px-14">
 			{#each descriptionItems as item, i}
 				<li
-					class={`mb-1 list-disc  text-sm text-black-title ${
+					class={`mb-1 list-disc text-sm text-black-title ${
 						i === 1 ? 'font-medium' : 'font-normal'
 					}`}
 				>
@@ -41,7 +41,7 @@
 			{/each}
 		</ul>
 
-		<Button onClick={onDismissClicked} class=" mb-2 w-full sm:w-5/6">NO, KEEP IT</Button>
+		<Button onClick={onDismissClicked} class=" mb-2 w-full sm:w-5/6">NO, KEEP TRACKING</Button>
 
 		<Button onClick={onRemoveTrackingClicked} variant="transparent" class="mb-2">
 			YES, REMOVE

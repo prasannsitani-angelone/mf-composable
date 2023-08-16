@@ -38,8 +38,8 @@
 	import type { ExternalFundsTrackingResponse } from './components/externalfundstracking/api';
 	import { invokeRemoveExternalFundsTracking } from './components/externalfundstracking/api';
 	import { invalidateAll } from '$app/navigation';
-	import ResultPopup from '$components/Popup/ResultPopup.svelte';
 	import ExternalFundsLoadingComponent from './components/externalfundstracking/ExternalFundsLoadingComponent.svelte';
+	import { toastStore } from '$lib/stores/ToastStore';
 
 	export let data: PageData;
 
@@ -243,13 +243,6 @@
 		showRemoveExternalFundTrackingConfirm = show;
 	}
 
-	const error = {
-		visible: false,
-		heading: '',
-		subHeading: '',
-		type: ''
-	};
-
 	let showRemoveExternalFundsLoader = false;
 
 	function setRemoveExternalFundsLoader(show: boolean) {
@@ -260,21 +253,19 @@
 		setRemoveExternalFundTrackingConfirm(false);
 		setRemoveExternalFundsLoader(true);
 		const result: ExternalFundsTrackingResponse = await invokeRemoveExternalFundsTracking();
-		if (result.status === 'success') {
+		if (result?.status === 'success') {
+			toastStore.updateToastQueue({
+				type: 'SUCCESS',
+				message: 'External investments removed successfully'
+			});
 			await invalidateAll();
 		} else {
-			error.visible = true;
-			error.heading = 'Error';
-			error.subHeading = `Error removing. ${result.message}`;
+			toastStore.updateToastQueue({
+				type: 'ERROR',
+				message: 'Failed to remove external investments. Try later'
+			});
 		}
 		setRemoveExternalFundsLoader(false);
-	};
-
-	const closeErrorPopup = () => {
-		error.heading = '';
-		error.subHeading = '';
-		error.visible = false;
-		error.type = '';
 	};
 
 	onMount(async () => {
@@ -380,19 +371,5 @@
 	<StopExternalFundTrackingConfirmComponent
 		on:removeTrackingClicked={removeExternalFunds}
 		on:dismiss={() => setRemoveExternalFundTrackingConfirm(false)}
-	/>
-{/if}
-
-{#if error.visible}
-	<ResultPopup
-		popupType="FAILURE"
-		title={error.heading}
-		text={error.subHeading}
-		class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
-		isModalOpen
-		handleButtonClick={closeErrorPopup}
-		buttonTitle={'RETRY'}
-		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
-		buttonVariant="contained"
 	/>
 {/if}
