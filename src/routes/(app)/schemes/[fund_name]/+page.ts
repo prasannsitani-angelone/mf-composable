@@ -19,12 +19,27 @@ export const load = (async ({ fetch, params, url, parent }) => {
 	const queryParam = url?.searchParams?.get('params') || '';
 	const fundName = params['fund_name'];
 	const decodedParams = decodeToObject(queryParam);
-	const { redirectedFrom } = decodedParams || {};
+	const { redirectedFrom, isExternal, clientCode } = decodedParams || {};
+	const { pathname, search } = url;
 	const schemeMetadata = fundName?.split('-isin-')[1]?.toUpperCase();
 	const [isin = '', schemeCode = ''] = schemeMetadata?.split('-SCHEMECODE-') || [];
 	let schemeData: SchemeDetails;
 	const parentData = await parent();
 	const showShare = shouldDisplayShare(parentData);
+
+	if (isExternal && !parentData?.tokenObj?.userToken?.NTAccessToken) {
+		const redirectUrl = `${base}/login?redirect=${encodeURIComponent(pathname + search)}`;
+		if (browser) return await goto(redirectUrl);
+		else throw redirect(302, redirectUrl);
+	}
+
+	if (isExternal && clientCode && clientCode !== parentData?.profile?.clientId) {
+		if (browser) {
+			goto(`${base}/schemes/error`, { replaceState: true });
+		} else {
+			throw redirect(302, `${base}/schemes/error`);
+		}
+	}
 
 	const getSchemeData = async (): Promise<SchemeDetails> => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/${schemeCode}`;

@@ -522,7 +522,9 @@
 			dateSuperscript = getDateSuperscript(sipDate);
 			setNextSipDate();
 		}
-		if (skipOrderPad && (ftp || activeTab === 'ONETIME')) {
+		if (skipOrderPad && (ftp || activeTab === 'ONETIME') && $page?.data?.isGuest && browser) {
+			await goto(`${base}/login?redirect=${$page.url.href}`);
+		} else if (skipOrderPad && (ftp || activeTab === 'ONETIME')) {
 			showPaymentMethodScreen();
 		}
 	};
