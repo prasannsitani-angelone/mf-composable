@@ -6,6 +6,6 @@
 	export { amount };
 </script>
 
-₹<span>
-	{addCommasToAmountString(amount)}
+<span class={$$props.class}>
+	₹{addCommasToAmountString(amount)}
 </span>

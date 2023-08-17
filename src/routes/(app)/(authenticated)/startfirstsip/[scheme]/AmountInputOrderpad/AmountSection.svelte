@@ -38,7 +38,7 @@
 					class="!h-fit !min-h-0 px-3 py-1 {index > 0 ? 'ml-2' : ''} text-xs font-medium"
 					onClick={() => handleQuickInputClick(pill)}
 				>
-					<AmountText amount={pill} />
+					<AmountText class="font-medium" amount={pill} />
 				</Button>
 			{/each}
 		</div>
