@@ -9,6 +9,7 @@
 	import { SEO } from 'svelte-components';
 	import SchemeCardExt from '$components/SchemeCardExt.svelte';
 	import ExploreFundsLoader from './ExploreFundsLoader.svelte';
+	import type { ExploreFundsOptions } from '$lib/types/IExploreFunds';
 
 	let data: PageData;
 	$: pageID = data?.pageID;
@@ -32,21 +33,21 @@
 		isModalOpen = isModalOpen ? false : true;
 	};
 
-	const handleFundCardClick = (event) => {
-		const { schemes } = event.detail;
-		const { isin } = schemes;
-
-		const order = schemes?.sortBy2;
+	const handleFundCardClick = (scheme: ExploreFundsOptions) => {
+		const { isin } = scheme;
+		const order = scheme?.sortBy2;
 		const recommended = order > 0 && order < 3;
 		const filter = modalList[0]?.name;
+
 		fundCardClick({
-			'Fund Name': `${schemes?.schemeName}(${schemes?.categoryName})`,
+			'Fund Name': `${scheme?.schemeName}(${scheme?.categoryName})`,
 			isin,
 			recommended,
 			filter,
 			order
 		});
 	};
+
 	const searchDashboardData = $page.data.searchDashboardData;
 
 	onMount(() => {
@@ -83,7 +84,7 @@
 							<SchemeCardExt
 								class="mb-2 w-full rounded-lg bg-white p-3 md:mb-4 md:mr-4 md:w-[336px]"
 								{schemes}
-								on:onCardClick={handleFundCardClick}
+								on:onCardClick={() => handleFundCardClick(schemes)}
 							/>
 						{/each}
 					</section>
