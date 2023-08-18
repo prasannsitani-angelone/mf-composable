@@ -100,7 +100,9 @@
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 
 	let activeTab: string;
-	$: activeTab = new Map($page.url.searchParams)?.get('type')?.toLocaleLowerCase() || 'Angel One';
+	$: activeTab =
+		new Map($page.url.searchParams)?.get('type')?.toLocaleLowerCase() ||
+		(data?.isExternal ? 'all' : 'Angel One');
 </script>
 
 <SEO

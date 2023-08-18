@@ -7,9 +7,10 @@ import type { PageLoad } from './$types';
 import MobileInvestmentTab from './components/MobileInvestmentTab.svelte';
 
 export const load = (async ({ fetch, url }) => {
-	const isExternal = url.searchParams.get('type') === 'all';
 	const urlParams = url.searchParams.get('param') || '';
 	const decodedParams = decodeToObject(urlParams);
+	const { type } = decodedParams || {};
+	const isExternal = url.searchParams.get('type') === 'all' || type === 'all';
 
 	const getInvestmentData = async () => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings`;

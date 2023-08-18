@@ -82,7 +82,9 @@
 		}
 	};
 
-	setUrlParamsData();
+	$: if ($profileStore?.clientId?.length) {
+		setUrlParamsData();
+	}
 
 	/**
      INITIATE FIRST TIME IMPORT (TRACK EXTERNAL FUNDS FLOW)
