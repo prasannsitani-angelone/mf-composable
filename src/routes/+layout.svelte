@@ -36,6 +36,7 @@
 		logLevel: PUBLIC_LOG_LEVEL,
 		enabled: PUBLIC_LOG_ENABLED === 'true',
 		initialised: true,
+		consoleOnServer: true,
 		headers: {
 			'content-type': 'application/json',
 			accessToken: token,

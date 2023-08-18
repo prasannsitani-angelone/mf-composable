@@ -26,6 +26,7 @@ export interface Config {
 	getLogsBody?: (params: any) => any;
 	getLog?: (msgObj: any, logLevel?: string) => Record<string, any>;
 	initialised?: boolean;
+	consoleOnServer?: boolean;
 }
 
 export interface State {
@@ -40,4 +41,5 @@ export interface State {
 	getLogsBody: (params: Record<string, any>) => any;
 	getLog: (msgObj: AnalyticMsgObj | LogMsgObj, logLevel?: string) => Record<string, any>;
 	initialised: boolean;
+	consoleOnServer: boolean;
 }

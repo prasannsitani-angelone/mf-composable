@@ -1,6 +1,8 @@
+import { browser } from '$app/environment';
 import type { AnalyticMsgObj, LogMsgObj, Config, State } from '$lib/types/IBaseLogger';
 import { isDevMode } from '$lib/utils/helpers/dev';
 import merge from 'lodash.merge';
+import { removeAuthHeaders } from './helpers/logging';
 
 export const LOG_LEVELS_ENUM = {
 	info: 'info',
@@ -14,6 +16,7 @@ class BaseLogger {
 		this._state = {
 			logs: [],
 			batchSize: 1,
+			consoleOnServer: false,
 			logLevel: LOG_LEVELS_ENUM.debug,
 			isDev: isDevMode(),
 			enabled: false,
@@ -48,11 +51,7 @@ class BaseLogger {
 		return allowedLogLevelArray.includes(this._state.logLevel);
 	}
 
-	sendLog(logs: Record<string, unknown>) {
-		if (this._state.isDev) {
-			console.log(this._state.getLogsBody(logs));
-			return;
-		}
+	sendApiLog(logs: Record<string, unknown>) {
 		const { url, baseUrl } = this._state;
 		const options = {
 			body: JSON.stringify(this._state.getLogsBody(logs)),
@@ -71,6 +70,60 @@ class BaseLogger {
 					}
 				})
 			);
+		}
+	}
+
+	sendConsoleLog(logs: Record<string, unknown>) {
+		try {
+			const modifiedHeaders = removeAuthHeaders(this._state.headers);
+			const body = this._state.getLogsBody(logs);
+			if (Array.isArray(body)) {
+				body.forEach((logItem) => {
+					console.log(
+						JSON.stringify({
+							...modifiedHeaders,
+							...logItem,
+							serverTimestamp: Date.now()
+						})
+					);
+				});
+			} else if (body && typeof body === 'object') {
+				console.log(
+					JSON.stringify({
+						...modifiedHeaders,
+						...body,
+						serverTimestamp: Date.now()
+					})
+				);
+			} else {
+				console.log(
+					JSON.stringify({
+						...modifiedHeaders,
+						body,
+						serverTimestamp: Date.now()
+					})
+				);
+			}
+		} catch (error) {
+			const errorStr = error?.stack?.toString() || error?.toString();
+			console.log(
+				JSON.stringify({
+					type: 'Failed To console logs',
+					param: {
+						error: errorStr
+					}
+				})
+			);
+		}
+	}
+
+	sendLog(logs: Record<string, unknown>) {
+		if (this._state.isDev) {
+			this.sendConsoleLog(logs);
+		} else if (!browser && this._state.consoleOnServer) {
+			this.sendConsoleLog(logs);
+		} else {
+			this.sendApiLog(logs);
 		}
 	}
 

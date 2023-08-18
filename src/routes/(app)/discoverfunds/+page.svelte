@@ -27,7 +27,7 @@
 	import { logoutAttemptStore } from '$lib/stores/LogoutAttemptStore';
 	import StoriesComponent from '$components/Stories/StoriesComponent.svelte';
 	import Button from '$components/Button.svelte';
-	import { SEO, WMSIcon } from 'svelte-components';
+	import { SEO } from 'svelte-components';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 	import { onDestroy, onMount, tick } from 'svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
@@ -41,13 +41,13 @@
 	import { exitNudgeStore } from '$lib/stores/ExitNudgeStore';
 	import { browser } from '$app/environment';
 	import ExternalFundsNfoCalculatorCard from './ExternalFundsNfoCalculatorCard/ExternalFundsNfoCalculatorCard.svelte';
-	import Clevertap from '$lib/utils/Clevertap';
+	// import Clevertap from '$lib/utils/Clevertap';
 
-	interface CtKv {
-		topic: string;
-		Name: string;
-		Product: string;
-	}
+	// interface CtKv {
+	// 	topic: string;
+	// 	Name: string;
+	// 	Product: string;
+	// }
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -61,11 +61,11 @@
 	let start4SipsNudgeData: Start4SipsNudgeType;
 	let elementOnce: HTMLElement;
 	let intersectOnce: boolean;
-	let ctKv: CtKv = {
-		topic: '',
-		Name: '',
-		Product: ''
-	};
+	// let ctKv: CtKv = {
+	// 	topic: '',
+	// 	Name: '',
+	// 	Product: ''
+	// };
 
 	const getNudgeData = async () => {
 		let nudgesData: NudgeDataType = {
@@ -214,23 +214,23 @@
 			setRetryPaymentNudgesData(nudgeData);
 			setOtherNudgeDataTypes();
 		});
-		document.addEventListener('CT_web_native_display', function (event) {
-			const data = event.detail;
-			ctKv = data.kv;
-		});
-		const cleavertap = await Clevertap.initialized;
+		// document.addEventListener('CT_web_native_display', function (event) {
+		// 	const data = event.detail;
+		// 	ctKv = data.kv;
+		// });
+		// const cleavertap = await Clevertap.initialized;
 
-		if (
-			data?.investementSummary?.investedValue < 5000 ||
-			!data?.investementSummary?.investedValue
-		) {
-			cleavertap.event.push('Holdings_less_than_threshhold', {
-				Name: 'Test',
-				Category: 'Holdings',
-				value: data?.investementSummary?.investedValue,
-				Date: new Date()
-			});
-		}
+		// if (
+		// 	data?.investementSummary?.investedValue < 5000 ||
+		// 	!data?.investementSummary?.investedValue
+		// ) {
+		// 	cleavertap.event.push('Holdings_less_than_threshhold', {
+		// 		Name: 'Test',
+		// 		Category: 'Holdings',
+		// 		value: data?.investementSummary?.investedValue,
+		// 		Date: new Date()
+		// 	});
+		// }
 	});
 
 	onDestroy(() => {
@@ -265,7 +265,7 @@
 			</div>
 		{/if}
 	{/if}
-	{#if ctKv.topic}
+	<!-- {#if ctKv.topic}
 		<div class="flex rounded bg-purple-glow p-3">
 			<WMSIcon class="h-9 w-9" name="import-external-funds" width={36} height={36} />
 			<p class="text-sm">
@@ -276,7 +276,7 @@
 			</p>
 			<Button variant="transparent">Track Now</Button>
 		</div>
-	{/if}
+	{/if} -->
 	<LazyComponent
 		sip={formattedSipNudgeData}
 		sipCount={sipPaymentNudges?.length}
