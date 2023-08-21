@@ -18,7 +18,6 @@
 	import Overlay from '$components/Overlay.svelte';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 	import { logout } from '$lib/utils/helpers/logout';
-	import { userStore } from '$lib/stores/UserStore';
 	import { logoutAttemptStore } from '$lib/stores/LogoutAttemptStore';
 
 	import { goto } from '$app/navigation';
@@ -68,7 +67,6 @@
 			: AUTH_STATE_ENUM.LOGGED_IN;
 		tokenStore.updateStore({ ...tokenObj, state: authState });
 		profileStore.updateStore({ ...profile });
-		userStore.updateStore({ ...userDetails });
 		bannerStore.storeAlertSleeveData(searchDashboardData?.banner?.[0] || {});
 
 		await tick();
