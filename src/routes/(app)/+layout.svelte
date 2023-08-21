@@ -14,7 +14,6 @@
 	import LoadingIndicator from '$components/LoadingIndicator.svelte';
 	import { externalNavigation } from '$lib/stores/ExtrenalNavigationStore';
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
-	import { isTokenExpired } from '$lib/utils/helpers/token';
 	import Overlay from '$components/Overlay.svelte';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 	import { logout } from '$lib/utils/helpers/logout';
@@ -58,14 +57,6 @@
 	// 	Clevertap.setProfile(profile);
 	// };
 	onMount(async () => {
-		const authState = isGuest
-			? isTokenExpired(tokenObj?.guestToken)
-				? AUTH_STATE_ENUM.GUEST_LOGGED_OUT
-				: AUTH_STATE_ENUM.GUEST_LOGGED_IN
-			: isTokenExpired(tokenObj?.userToken?.NTAccessToken)
-			? AUTH_STATE_ENUM.LOGGED_OUT
-			: AUTH_STATE_ENUM.LOGGED_IN;
-		tokenStore.updateStore({ ...tokenObj, state: authState });
 		profileStore.updateStore({ ...profile });
 		bannerStore.storeAlertSleeveData(searchDashboardData?.banner?.[0] || {});
 
