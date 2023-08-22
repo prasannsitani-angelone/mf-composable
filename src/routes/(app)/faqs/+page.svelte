@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { afterUpdate, onMount } from 'svelte';
-	import { Button, SEO } from 'svelte-components';
+	import { Button, SEO, SkeletonRectangle } from 'svelte-components';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	import type { FAQ, FaqParams } from './type';
@@ -21,6 +21,7 @@
 		faqsScreenImpression,
 		faqsScreenOrdersViewAllCtaClick
 	} from '$lib/analytics/faqs/faqs';
+	import { browser } from '$app/environment';
 
 	export let data: PageData;
 
@@ -127,6 +128,10 @@
 			Source: faqsSource
 		});
 	});
+
+	const openTicketApplication = () => {
+		window.open('https://www.angelone.in/help-support/', '_blank');
+	};
 </script>
 
 <SEO seoTitle="FAQs for orders | Angel One" seoDescription="Get your order related FAQs" />
@@ -134,11 +139,45 @@
 {#await data?.api?.getFAQS}
 	<FaqsSkeletonLoader />
 {:then faqData}
-	<section class="mb-2 flex flex-col-reverse justify-between md:mb-0 md:flex-row">
+	<section class="mb-2 grid grid-cols-[100%] md:grid-cols-[66%,34%] md:gap-x-6">
+		{#await data?.api?.getOrders}
+			<span class="col-start-1 row-start-1 md:col-start-2 md:row-span-3" />
+		{:then ordersData}
+			{#if data?.showRecentOrders && ordersData?.data?.data?.orders?.length}
+				{@const ordersList = ordersData?.data?.data?.orders?.splice(0, 2) || []}
+				<article class="col-start-1 row-start-1 md:col-start-2 md:row-span-3">
+					<section
+						class="mb-2 mt-2 rounded-b-lg rounded-t-lg bg-white px-3 shadow-csm md:mb-0 md:mt-0 md:px-4"
+					>
+						<div class="rounded-t-lg py-3 text-base font-medium md:py-4">Recent orders</div>
+
+						{#each ordersList as item (item?.orderId)}
+							<article class="mb-3 rounded-lg bg-white px-2 py-4 shadow-csm md:px-4">
+								<OrderCardHeader textString={getDateTimeString(item?.createdTs, 'DATE', true)} />
+								<OrderCardBody {item} />
+							</article>
+						{/each}
+
+						<article class="flex items-center justify-end py-4">
+							<Button
+								variant="transparent"
+								class="!h-fit !min-h-0 cursor-default !px-0 md:cursor-pointer"
+								onClick={redirectToOrdersDashbboard}
+							>
+								VIEW ALL
+							</Button>
+
+							<WMSIcon class="ml-1" name="right-arrow" stroke="#3F5BD9" width={18} height={18} />
+						</article>
+					</section>
+				</article>
+			{/if}
+		{/await}
+
 		{#if faqData?.ok && faqData?.data?.faqs?.length}
 			{@const faqsArray = viewAll ? faqData?.data?.faqs : faqData?.data?.faqs?.slice(0, 5)}
 
-			<article class={data?.showRecentOrders ? 'md:w-[66%]' : 'w-full'}>
+			<article class="col-start-1 row-start-2 md:row-span-6 md:row-start-1">
 				{#if !data?.showRecentOrders && !deviceType?.isMobile}
 					<FaqHeader
 						title={'FAQs'}
@@ -189,40 +228,29 @@
 			</article>
 		{/if}
 
-		{#await data?.api?.getOrders}
-			<span />
-		{:then ordersData}
-			{#if data?.showRecentOrders && ordersData?.data?.data?.orders?.length}
-				{@const ordersList = ordersData?.data?.data?.orders?.splice(0, 2) || []}
-
-				<article class="md:ml-6 md:w-[34%]">
-					<section
-						class="mb-2 mt-2 rounded-b-lg rounded-t-lg bg-white px-3 shadow-csm md:mb-0 md:mt-0 md:px-4"
-					>
-						<div class="rounded-t-lg py-3 text-base font-medium md:py-4">Recent orders</div>
-
-						{#each ordersList as item (item?.orderId)}
-							<article class="mb-3 rounded-lg bg-white px-2 py-4 shadow-csm md:px-4">
-								<OrderCardHeader textString={getDateTimeString(item?.createdTs, 'DATE', true)} />
-								<OrderCardBody {item} />
-							</article>
-						{/each}
-
-						<article class="flex items-center justify-end py-4">
-							<Button
-								variant="transparent"
-								class="!h-fit !min-h-0 cursor-default !px-0 md:cursor-pointer"
-								onClick={redirectToOrdersDashbboard}
-							>
-								VIEW ALL
-							</Button>
-
-							<WMSIcon class="ml-1" name="right-arrow" stroke="#3F5BD9" width={18} height={18} />
-						</article>
-					</section>
-				</article>
+		<div class="row-start-3 mt-2 md:col-start-2 md:row-start-auto">
+			{#if browser}
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<!-- svelte-ignore a11y-no-static-element-interactions -->
+				<div
+					class="w-full rounded-lg bg-white p-2 shadow-csm active:opacity-60"
+					on:click={openTicketApplication}
+				>
+					<div class="flex flex-row items-center justify-between rounded bg-grey p-3">
+						<div class="flex flex-row items-center">
+							<WMSIcon name="ticket" class="h-8 w-8" />
+							<div class="ml-2 flex flex-col">
+								<div class="text-sm font-medium text-black-title">Your Tickets</div>
+								<div class="text-xs font-medium text-grey-body">Create and track your Ticket</div>
+							</div>
+						</div>
+						<WMSIcon name="right-arrow" />
+					</div>
+				</div>
+			{:else}
+				<SkeletonRectangle class="h-20 w-full" />
 			{/if}
-		{/await}
+		</div>
 	</section>
 {:catch}
 	Error
