@@ -205,6 +205,8 @@
 			setRetryPaymentNudgesData(nudgeData);
 			setOtherNudgeDataTypes();
 		});
+
+		versionStore.setVersion('B');
 	});
 
 	onDestroy(() => {
@@ -253,8 +255,6 @@
 		// above is mocked api response now we will put actula position according to presence
 	};
 	setPlacement();
-
-	versionStore.setVersion('B');
 </script>
 
 <SEO

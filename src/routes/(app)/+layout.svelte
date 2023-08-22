@@ -40,9 +40,6 @@
 	};
 	let version = '';
 
-	versionStore.subscribe((value) => {
-		version = value.version;
-	});
 	$: isModalOpen = $externalNavigation.active;
 	// Update store with Spark headers
 
@@ -65,6 +62,10 @@
 		cartStore.updateCartData(isGuest);
 
 		showAngelBeeBanner = shouldDisplayAngelBeeBanner(data);
+
+		versionStore.subscribe((value) => {
+			version = value.version;
+		});
 
 		if ('requestIdleCallback' in window) {
 			requestIdleCallback(initClevertap, { timeout: 5000 });
