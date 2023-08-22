@@ -38,7 +38,7 @@
 		</section>
 	{:else}
 		<FooterErrorMessage
-			errorMessage={'Investing in this scheme is not available. Explore \nalternate funds with AngelOne.'}
+			errorMessage={'Investing in this scheme is not available. Explore \nalternate funds with Angel One.'}
 		>
 			<svelte:fragment slot="icon">
 				<span class="mr-2"><CautionIcon /></span>
