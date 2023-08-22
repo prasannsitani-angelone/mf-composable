@@ -32,7 +32,7 @@ export const load = (async ({ fetch, params, url, parent }) => {
 		if (browser) return await goto(redirectUrl);
 		else throw redirect(302, redirectUrl);
 	}
-	
+
 	if (isExternal && clientCode && clientCode !== parentData?.profile?.clientId) {
 		if (browser) {
 			goto(`${base}/schemes/error`, { replaceState: true });
