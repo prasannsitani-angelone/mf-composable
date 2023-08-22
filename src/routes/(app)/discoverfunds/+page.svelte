@@ -234,14 +234,6 @@
 		}
 	});
 
-	const pushEvent = () => {
-		cleavertap.event.push('Holdings_less_than_threshhold', {
-			Name: 'Test',
-			Category: 'Holdings',
-			value: data?.investementSummary?.investedValue,
-			Date: new Date()
-		});
-	};
 	onDestroy(() => {
 		if (browser) {
 			exitNudgeStore.setShown();
@@ -261,7 +253,6 @@
 	seoDescription="Set your Goals and find the right Mutual Funds to achieve your goal. Explore mutual funds by performance and start your investment journey with Angel One."
 />
 <article>
-	<Button onClick={pushEvent}>Test</Button>
 	<!-- Stories section -->
 	{#if storiesData?.stories?.length}
 		<StoriesComponent stories={storiesData?.stories} version="A" />
