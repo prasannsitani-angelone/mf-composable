@@ -125,12 +125,12 @@
 		showLoading('Placing Switch Order');
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/orders`;
 		const optionHeaders = {
-			'X-Request-Id': $page?.url.searchParams.get('requestId') || uuid,
+			'X-Request-Id': requestId || uuid,
 			'X-SESSION-ID': uuid,
 			'X-device-type': 'WEB'
 		};
-		if ($page.url.searchParams.get('appsource')) {
-			optionHeaders['X-Source'] = $page.url.searchParams.get('appsource');
+		if (appsource) {
+			optionHeaders['X-Source'] = appsource;
 		}
 		const res = await useFetch(url, {
 			method: 'POST',
@@ -200,6 +200,8 @@
 	export let numberOfUnits: number;
 	export let amount: string;
 	export let fullAmountSelected: boolean;
+	export let appsource = '';
+	export let requestId = '';
 </script>
 
 <SwitchOrderTitleCard

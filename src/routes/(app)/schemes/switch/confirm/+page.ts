@@ -17,7 +17,9 @@ export const load = (async ({ url, parent }) => {
 		selectedFolio,
 		folioHolding,
 		switchInFund,
-		fullAmountSelected
+		fullAmountSelected,
+		appsource,
+		requestId,
 	} = decodedParams;
 	if (!parentData?.tokenObj?.userToken?.NTAccessToken && pathname) {
 		const withRedirectParam = `${base}/login?redirect=${encodeURIComponent(pathname + search)}`;
@@ -36,6 +38,8 @@ export const load = (async ({ url, parent }) => {
 		selectedFolio,
 		folioHolding,
 		switchInFund,
-		fullAmountSelected
+		fullAmountSelected,
+		appsource,
+		requestId
 	};
 }) satisfies PageLoad;

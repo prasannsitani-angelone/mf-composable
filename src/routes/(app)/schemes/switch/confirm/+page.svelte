@@ -17,4 +17,6 @@
 	selectedFolio={data?.selectedFolio}
 	switchInFund={data?.switchInFund}
 	fullAmountSelected={data?.fullAmountSelected}
+	appsource={data?.appsource}
+	requestId={data?.requestId}
 />
