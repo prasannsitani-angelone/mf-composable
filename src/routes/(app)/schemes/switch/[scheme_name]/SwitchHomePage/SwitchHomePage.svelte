@@ -599,7 +599,7 @@
 			<section class="md:px-3">
 				<SwitchConfirmation
 					{folioHolding}
-					{folioList}
+					folioListLength={folioList.length}
 					{numberOfUnits}
 					{amount}
 					{selectedFolio}

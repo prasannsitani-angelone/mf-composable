@@ -11,7 +11,7 @@
 />
 <SwitchConfirmation
 	folioHolding={data?.folioHolding}
-	folioList={data?.folioList}
+	folioListLength={data?.folioListLength}
 	numberOfUnits={data?.numberOfUnits}
 	amount={data?.amount}
 	selectedFolio={data?.selectedFolio}

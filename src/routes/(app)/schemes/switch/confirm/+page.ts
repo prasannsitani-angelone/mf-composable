@@ -11,7 +11,7 @@ export const load = (async ({ url, parent }) => {
 	const params = url.searchParams.get('params');
 	const decodedParams = decodeToObject(params || undefined);
 	const {
-		folioList,
+		folioListLength,
 		numberOfUnits,
 		amount,
 		selectedFolio,
@@ -30,7 +30,7 @@ export const load = (async ({ url, parent }) => {
 			showBackIcon: true,
 			layoutType: 'TWO_COLUMN'
 		},
-		folioList,
+		folioListLength,
 		numberOfUnits,
 		amount,
 		selectedFolio,

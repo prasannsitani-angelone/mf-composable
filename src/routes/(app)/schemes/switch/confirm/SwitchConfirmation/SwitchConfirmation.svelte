@@ -196,7 +196,7 @@
 	export let folioHolding: FolioHoldingType;
 	export let switchInFund: SchemeDetails;
 	export let selectedFolio: FolioObject;
-	export let folioList: Array<FolioObject>;
+	export let folioListLength: number;
 	export let numberOfUnits: number;
 	export let amount: string;
 	export let fullAmountSelected: boolean;
@@ -219,7 +219,7 @@
 <section class="mt-3 rounded-lg bg-white px-4 py-6 font-medium shadow-csm">
 	<article class="pb-2 text-sm text-black-title">Switch Details</article>
 	<article class="flex-col rounded-lg border">
-		{#if folioList?.length > 1}
+		{#if folioListLength > 1}
 			<article class="flex items-center justify-between border-b bg-grey p-2">
 				<div class="flex items-center justify-start">
 					<span class="mr-1 text-xs text-grey-body"> Folio </span>
