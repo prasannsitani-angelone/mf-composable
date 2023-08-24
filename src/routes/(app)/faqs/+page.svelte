@@ -22,6 +22,7 @@
 		faqsScreenOrdersViewAllCtaClick
 	} from '$lib/analytics/faqs/faqs';
 	import { browser } from '$app/environment';
+	import { PUBLIC_TICKETING_URL } from '$env/static/public';
 
 	export let data: PageData;
 
@@ -130,7 +131,7 @@
 	});
 
 	const openTicketApplication = () => {
-		window.open('https://www.angelone.in/help-support/', '_blank');
+		window.open(PUBLIC_TICKETING_URL, '_blank');
 	};
 </script>
 
