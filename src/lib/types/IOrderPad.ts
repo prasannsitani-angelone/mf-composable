@@ -20,4 +20,5 @@ export interface decodedParamsTypes {
 	source?: string;
 	orderpad?: string;
 	paymentMandatory?: boolean;
+	mandateId?: string;
 }

@@ -45,6 +45,7 @@ export const noPaymentFlow = async (params) => {
 		sipMaxInstallmentNo,
 		sipDate,
 		xRequestId,
+		sipType = 'SIP',
 		source = '',
 		previousOrderId = '', // for previous order deletion
 		previousPGTxnId = '', // for previous order deletion
@@ -57,7 +58,8 @@ export const noPaymentFlow = async (params) => {
 		showLoading('Getting Mandate Data');
 		const emandateResponse = await getEmandateDataFunc({
 			amount,
-			sipDate
+			sipDate,
+			source
 		});
 		handleEmandateResponse({
 			emandateResponse,
@@ -70,6 +72,7 @@ export const noPaymentFlow = async (params) => {
 			amount,
 			dpNumber,
 			schemeCode,
+			sipType,
 			emandateId: getPrimaryAccountMandateData(emandateResponse?.data)?.mandateId || '',
 			transactionRefNumber: '',
 			sipFrequency,
@@ -402,7 +405,9 @@ export const netBankingSIPFlow = async (params) => {
 		fullName,
 		schemeCode,
 		xRequestId,
+		sipType = 'SIP',
 		source = '',
+		mandateId = '',
 		previousOrderId = '', // for previous order deletion
 		previousPGTxnId = '', // for previous order deletion
 		state = {},
@@ -418,17 +423,21 @@ export const netBankingSIPFlow = async (params) => {
 			`${window.location.origin}${base}/intermediateLoading`,
 			'PAYMENT_WINDOW'
 		);
-		showLoading('Getting Mandate Data');
-		const emandateResponse = await getEmandateDataFunc({
-			amount,
-			sipDate
-		});
-		handleEmandateResponse({
-			emandateResponse,
-			stopLoading,
-			displayError,
-			resetState: () => intializeNetBankingState(netBankingState)
-		});
+		let emandateResponse;
+		if (!mandateId) {
+			showLoading('Getting Mandate Data');
+			emandateResponse = await getEmandateDataFunc({
+				amount,
+				sipDate,
+				source
+			});
+			handleEmandateResponse({
+				emandateResponse,
+				stopLoading,
+				displayError,
+				resetState: () => intializeNetBankingState(netBankingState)
+			});
+		}
 		showLoading('Redirecting to your Bank');
 		const netBankingResponse = await initiateNetBankingPaymentFunc({
 			amount,
@@ -450,7 +459,9 @@ export const netBankingSIPFlow = async (params) => {
 			amount,
 			dpNumber,
 			schemeCode,
-			emandateId: getPrimaryAccountMandateData(emandateResponse?.data)?.mandateId || '',
+			sipType,
+			emandateId:
+				mandateId || getPrimaryAccountMandateData(emandateResponse?.data)?.mandateId || '',
 			transactionRefNumber: netBankingResponse.data?.data?.transaction_id,
 			sipFrequency,
 			sipMaxInstallmentNo,
@@ -581,7 +592,8 @@ export const netBankingBulkSIPFlow = async (params) => {
 		showLoading('Getting Mandate Data');
 		const emandateResponse = await getEmandateDataFunc({
 			amount,
-			sipDate
+			sipDate,
+			source
 		});
 		handleEmandateResponse({
 			emandateResponse,
@@ -1083,7 +1095,9 @@ export const upiSIPFlow = async (params) => {
 		inputId,
 		bankName,
 		xRequestId,
+		sipType = 'SIP',
 		source = '',
+		mandateId = '',
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
 		upiState = {},
@@ -1112,19 +1126,23 @@ export const upiSIPFlow = async (params) => {
 			upiValidationResponse,
 			onUPIValidationFailure
 		});
-		showLoading('Getting Mandate Data');
-		const emandateResponse = await getEmandateDataFunc({
-			amount,
-			sipDate
-		});
-		handleEmandateResponse({
-			emandateResponse,
-			stopLoading,
-			displayError,
-			resetState: () => {
-				initializeUPIState(upiState);
-			}
-		});
+		let emandateResponse;
+		if (!mandateId) {
+			showLoading('Getting Mandate Data');
+			emandateResponse = await getEmandateDataFunc({
+				amount,
+				sipDate,
+				source
+			});
+			handleEmandateResponse({
+				emandateResponse,
+				stopLoading,
+				displayError,
+				resetState: () => {
+					initializeUPIState(upiState);
+				}
+			});
+		}
 		showLoading('Initiating UPI Payment');
 		const upiResponse = await initiateUPIPayment({
 			amount,
@@ -1146,7 +1164,9 @@ export const upiSIPFlow = async (params) => {
 			amount,
 			dpNumber,
 			schemeCode,
-			emandateId: getPrimaryAccountMandateData(emandateResponse?.data)?.mandateId || '',
+			sipType,
+			emandateId:
+				mandateId || getPrimaryAccountMandateData(emandateResponse?.data)?.mandateId || '',
 			transactionRefNumber: upiResponse.data?.data?.transaction_id,
 			sipFrequency,
 			sipMaxInstallmentNo,
@@ -1313,7 +1333,8 @@ export const upiBulkSIPFlow = async (params) => {
 		showLoading('Getting Mandate Data');
 		const emandateResponse = await getEmandateDataFunc({
 			amount,
-			sipDate
+			sipDate,
+			source
 		});
 		handleEmandateResponse({
 			emandateResponse,
@@ -1808,7 +1829,9 @@ export const walletSIPFlow = async (params) => {
 		schemeCode,
 		bankName,
 		xRequestId,
+		sipType = 'SIP',
 		source = '',
+		mandateId = '',
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
 		gpayPaymentState = {},
@@ -1821,17 +1844,21 @@ export const walletSIPFlow = async (params) => {
 		isFirstSip = false
 	} = params || {};
 	try {
-		showLoading('Getting Mandate Data');
-		const emandateResponse = await getEmandateDataFunc({
-			amount,
-			sipDate
-		});
-		handleEmandateResponse({
-			emandateResponse,
-			stopLoading,
-			displayError,
-			resetState: () => initializeGPayState(gpayPaymentState)
-		});
+		let emandateResponse;
+		if (!mandateId) {
+			showLoading('Getting Mandate Data');
+			emandateResponse = await getEmandateDataFunc({
+				amount,
+				sipDate,
+				source
+			});
+			handleEmandateResponse({
+				emandateResponse,
+				stopLoading,
+				displayError,
+				resetState: () => initializeGPayState(gpayPaymentState)
+			});
+		}
 		showLoading(`Redirecting to ${paymentModeName}`);
 		const walletResponse = await initiateWalletPayment({
 			amount,
@@ -1853,7 +1880,9 @@ export const walletSIPFlow = async (params) => {
 			amount,
 			dpNumber,
 			schemeCode,
-			emandateId: getPrimaryAccountMandateData(emandateResponse?.data)?.mandateId || '',
+			sipType,
+			emandateId:
+				mandateId || getPrimaryAccountMandateData(emandateResponse?.data)?.mandateId || '',
 			transactionRefNumber: walletResponse.data?.data?.transaction_id,
 			sipFrequency,
 			sipMaxInstallmentNo,
@@ -2002,7 +2031,8 @@ export const walletBulkSIPFlow = async (params) => {
 		showLoading('Getting Mandate Data');
 		const emandateResponse = await getEmandateDataFunc({
 			amount,
-			sipDate
+			sipDate,
+			source
 		});
 		handleEmandateResponse({
 			emandateResponse,

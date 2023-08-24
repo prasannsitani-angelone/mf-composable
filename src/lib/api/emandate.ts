@@ -1,24 +1,36 @@
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import type { IEmandate } from '$lib/types/IEmandate';
 import { useFetch } from '$lib/utils/useFetch';
+import { SOURCE } from '$lib/constants/source';
 
-const getEmandateMap = (data: Array<IEmandate>, amount: number) => {
+const getEmandateMap = (data: Array<IEmandate>, amount: number, source: string) => {
 	const map: Record<string, Array<IEmandate>> = {};
 	data.forEach((emandate) => {
 		if (
-			emandate.mandateType?.toLowerCase() !== 'xsip' &&
+			(source === SOURCE.NXT ||
+				(source !== SOURCE.NXT && emandate.mandateType?.toLowerCase() !== 'xsip')) &&
 			(!amount || (amount && emandate.availableAmount >= amount))
 		) {
 			if (!map[emandate.accountNo]) {
 				map[emandate.accountNo] = [];
 			}
-			map[emandate.accountNo].push(emandate);
+
+			if (emandate.mandateType === 'SIP') {
+				map[emandate.accountNo].unshift(emandate);
+			} else {
+				map[emandate.accountNo].push(emandate);
+			}
 		}
 	});
 	return map;
 };
 
-const getEmandateData = async (sipDate: Date, amount: number, status = 'success') => {
+const getEmandateData = async (
+	sipDate: Date,
+	amount: number,
+	source?: string,
+	status = 'success'
+) => {
 	const date = `${sipDate.getFullYear()}-${sipDate.toLocaleString('default', {
 		month: '2-digit'
 	})}-${sipDate.toLocaleString('default', { day: '2-digit' })}`;
@@ -29,7 +41,7 @@ const getEmandateData = async (sipDate: Date, amount: number, status = 'success'
 			...response
 		};
 		if (response.ok) {
-			returnResponse.data = getEmandateMap(response.data.data, amount);
+			returnResponse.data = getEmandateMap(response.data.data, amount, source);
 		} else if (response.status === 404) {
 			returnResponse.data = {};
 			returnResponse.ok = true;

@@ -114,7 +114,8 @@
 		sipRegistrationNumber,
 		sipDueDate,
 		source,
-		paymentMandatory
+		paymentMandatory,
+		mandateId
 	} = params || {};
 
 	const os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
@@ -1053,6 +1054,8 @@
 			sipFrequency: schemeData?.sipFrequency,
 			sipMaxInstallmentNo: schemeData?.sipMaxInstallmentNo,
 			sipDate: getSIPDate(),
+			sipType: investmentType,
+			mandateId,
 			onSuccess: navigateToSipCompletePage
 		};
 
