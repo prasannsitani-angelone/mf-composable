@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { fetchTransactionDataFunc, triggerWalletStatus } from './api';
+import { fetchTransactionDataFunc } from './api';
 
 export const getFormattedSIPDate = (date: Date) => {
 	return format(date, 'yyyy-MM-dd');
@@ -129,16 +129,17 @@ export const googlePayCloseLogic = (params) => {
 		gpayPaymentState,
 		resetState,
 		paymentModeName,
-		transactionRefNumber,
-		xRequestId,
-		source,
+		// transactionRefNumber,
+		// xRequestId,
+		// source,
 		showLoading,
 		delay = 1
 	} = params || {};
 	let counter = 0;
 	return new Promise((resolve) => {
 		gpayPaymentState.paymentWindowInterval = setInterval(() => {
-			if (document.hasFocus()) {
+			if (document.visibilityState === 'visible' && document.hasFocus()) {
+				// we can put put visibility change event to notify as soon as visibility changes instead of interval but in that case if visibility never goes away then that case will be stuck. ex if gpay not available
 				showLoading(
 					`This window will close in the next ${
 						gpayPaymentState.waitTime - counter
@@ -146,11 +147,11 @@ export const googlePayCloseLogic = (params) => {
 				);
 				counter++;
 				if (counter >= gpayPaymentState.waitTime) {
-					triggerWalletStatus({
-						transactionRefNumber,
-						xRequestId,
-						source
-					});
+					// triggerWalletStatus({
+					// 	transactionRefNumber,
+					// 	xRequestId,
+					// 	source
+					// });
 					resetState();
 					resolve('WINDOW_CLOSED');
 				}

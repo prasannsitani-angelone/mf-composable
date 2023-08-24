@@ -54,6 +54,9 @@
 		Clevertap.setProfile(profile);
 	};
 	onMount(async () => {
+		versionStore.subscribe((value) => {
+			version = value.version;
+		});
 		profileStore.updateStore({ ...profile });
 		bannerStore.storeAlertSleeveData(searchDashboardData?.banner?.[0] || {});
 

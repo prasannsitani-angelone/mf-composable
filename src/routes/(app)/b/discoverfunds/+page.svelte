@@ -191,6 +191,7 @@
 
 	onMount(async () => {
 		await tick();
+		versionStore.setVersion('B');
 
 		storiesData = setStoriesData(setStoryCtaUrl);
 
