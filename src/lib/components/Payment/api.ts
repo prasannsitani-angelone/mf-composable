@@ -229,8 +229,8 @@ export const sipOrderPostFunction = async (params) => {
 };
 
 export const getEmandateDataFunc = (params) => {
-	const { amount, sipDate } = params || {};
-	return getEmandateData(sipDate, stringToFloat(amount));
+	const { amount, sipDate, source } = params || {};
+	return getEmandateData(sipDate, stringToFloat(amount), source);
 };
 
 export const upiValidateFunc = async (params) => {
