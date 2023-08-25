@@ -405,7 +405,6 @@ export const netBankingSIPFlow = async (params) => {
 		fullName,
 		schemeCode,
 		xRequestId,
-		sipType = 'SIP',
 		source = '',
 		mandateId = '',
 		previousOrderId = '', // for previous order deletion
@@ -418,15 +417,16 @@ export const netBankingSIPFlow = async (params) => {
 		displayError = () => undefined,
 		onSuccess = () => undefined
 	} = params || {};
+	let { sipType = 'SIP' } = params || {};
 	try {
 		netBankingState.paymentWindow = window.open(
 			`${window.location.origin}${base}/intermediateLoading`,
 			'PAYMENT_WINDOW'
 		);
-		let emandateResponse;
+		let autoMandate;
 		if (!mandateId) {
 			showLoading('Getting Mandate Data');
-			emandateResponse = await getEmandateDataFunc({
+			const emandateResponse = await getEmandateDataFunc({
 				amount,
 				sipDate,
 				source
@@ -437,6 +437,8 @@ export const netBankingSIPFlow = async (params) => {
 				displayError,
 				resetState: () => intializeNetBankingState(netBankingState)
 			});
+			autoMandate = getPrimaryAccountMandateData(emandateResponse?.data);
+			sipType = autoMandate?.mandateType;
 		}
 		showLoading('Redirecting to your Bank');
 		const netBankingResponse = await initiateNetBankingPaymentFunc({
@@ -460,8 +462,7 @@ export const netBankingSIPFlow = async (params) => {
 			dpNumber,
 			schemeCode,
 			sipType,
-			emandateId:
-				mandateId || getPrimaryAccountMandateData(emandateResponse?.data)?.mandateId || '',
+			emandateId: mandateId || autoMandate?.mandateId || '',
 			transactionRefNumber: netBankingResponse.data?.data?.transaction_id,
 			sipFrequency,
 			sipMaxInstallmentNo,
@@ -1095,7 +1096,6 @@ export const upiSIPFlow = async (params) => {
 		inputId,
 		bankName,
 		xRequestId,
-		sipType = 'SIP',
 		source = '',
 		mandateId = '',
 		previousOrderId, // for previous order deletion
@@ -1113,6 +1113,7 @@ export const upiSIPFlow = async (params) => {
 		onSuccess = () => undefined,
 		isFirstSip = false
 	} = params || {};
+	let { sipType = 'SIP' } = params || {};
 	try {
 		const upiValidationResponse = await upiValidateFunc({
 			bankName,
@@ -1126,10 +1127,10 @@ export const upiSIPFlow = async (params) => {
 			upiValidationResponse,
 			onUPIValidationFailure
 		});
-		let emandateResponse;
+		let autoMandate;
 		if (!mandateId) {
 			showLoading('Getting Mandate Data');
-			emandateResponse = await getEmandateDataFunc({
+			const emandateResponse = await getEmandateDataFunc({
 				amount,
 				sipDate,
 				source
@@ -1142,6 +1143,8 @@ export const upiSIPFlow = async (params) => {
 					initializeUPIState(upiState);
 				}
 			});
+			autoMandate = getPrimaryAccountMandateData(emandateResponse?.data);
+			sipType = autoMandate?.mandateType;
 		}
 		showLoading('Initiating UPI Payment');
 		const upiResponse = await initiateUPIPayment({
@@ -1165,8 +1168,7 @@ export const upiSIPFlow = async (params) => {
 			dpNumber,
 			schemeCode,
 			sipType,
-			emandateId:
-				mandateId || getPrimaryAccountMandateData(emandateResponse?.data)?.mandateId || '',
+			emandateId: mandateId || autoMandate?.mandateId || '',
 			transactionRefNumber: upiResponse.data?.data?.transaction_id,
 			sipFrequency,
 			sipMaxInstallmentNo,
@@ -1829,7 +1831,6 @@ export const walletSIPFlow = async (params) => {
 		schemeCode,
 		bankName,
 		xRequestId,
-		sipType = 'SIP',
 		source = '',
 		mandateId = '',
 		previousOrderId, // for previous order deletion
@@ -1843,11 +1844,12 @@ export const walletSIPFlow = async (params) => {
 		onSuccess = () => undefined,
 		isFirstSip = false
 	} = params || {};
+	let { sipType = 'SIP' } = params || {};
 	try {
-		let emandateResponse;
+		let autoMandate;
 		if (!mandateId) {
 			showLoading('Getting Mandate Data');
-			emandateResponse = await getEmandateDataFunc({
+			const emandateResponse = await getEmandateDataFunc({
 				amount,
 				sipDate,
 				source
@@ -1858,6 +1860,8 @@ export const walletSIPFlow = async (params) => {
 				displayError,
 				resetState: () => initializeGPayState(gpayPaymentState)
 			});
+			autoMandate = getPrimaryAccountMandateData(emandateResponse?.data);
+			sipType = autoMandate?.mandateType;
 		}
 		showLoading(`Redirecting to ${paymentModeName}`);
 		const walletResponse = await initiateWalletPayment({
@@ -1881,8 +1885,7 @@ export const walletSIPFlow = async (params) => {
 			dpNumber,
 			schemeCode,
 			sipType,
-			emandateId:
-				mandateId || getPrimaryAccountMandateData(emandateResponse?.data)?.mandateId || '',
+			emandateId: mandateId || autoMandate?.mandateId || '',
 			transactionRefNumber: walletResponse.data?.data?.transaction_id,
 			sipFrequency,
 			sipMaxInstallmentNo,
