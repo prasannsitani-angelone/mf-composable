@@ -21,7 +21,7 @@
 	<slot name="icon" />
 	<slot name="heading">
 		<div
-			class="mb-3 mt-4 text-center text-2xl font-medium text-black-title sm:mb-6 sm:mt-8 sm:text-4xl"
+			class="mb-3 mt-4 lg:mx-40 text-center text-2xl font-medium text-black-title sm:mb-6 sm:mt-8 sm:text-4xl"
 		>
 			{heading}
 		</div>
