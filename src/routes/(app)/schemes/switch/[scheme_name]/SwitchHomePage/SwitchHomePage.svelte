@@ -707,6 +707,7 @@
 							<span class="pt-3">
 								<ul style="list-style-type:disc" class="px-5">
 									<li>Switch or withdrawal is in progress</li>
+									<li>Units are in process of being credited to your demat account</li>
 									<li>Investment is in lock-in period</li>
 									<li>Units have been pledged</li>
 								</ul>
