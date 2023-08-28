@@ -231,8 +231,8 @@
 
 		<div class="row-start-3 mt-2 md:col-start-2 md:row-start-auto">
 			{#if browser}
-			<!-- svelte-ignore a11y-click-events-have-key-events -->
-			<!-- svelte-ignore a11y-no-static-element-interactions -->
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
+				<!-- svelte-ignore a11y-no-static-element-interactions -->
 				<div
 					class="w-full rounded-lg bg-white p-2 shadow-csm active:opacity-60"
 					on:click={openTicketApplication}

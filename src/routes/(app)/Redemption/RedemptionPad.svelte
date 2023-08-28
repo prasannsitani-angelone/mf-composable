@@ -320,6 +320,7 @@
 
 	const withdrawalAmountReasons = [
 		'Withdrawal or switch is in progress',
+		'Units are in process of being credited to your demat account',
 		'Investment is in lock in period',
 		'Units have been pledged'
 	];

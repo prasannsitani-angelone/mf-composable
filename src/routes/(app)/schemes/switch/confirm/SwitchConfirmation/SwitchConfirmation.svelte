@@ -38,7 +38,6 @@
 	import type { FolioHoldingType, FolioObject } from '$lib/types/IInvestments';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { base } from '$app/paths';
-	import { page } from '$app/stores';
 
 	let showTpinVerificationModal = false;
 	let showOtpVerificationModal = false;
