@@ -24,7 +24,8 @@ module.exports = {
 				blue: {
 					primary: '#3F5BD9',
 					background: '#F4F6FB',
-					gradient: '#00198A'
+					gradient: '#00198A',
+					sell: '#667FFF'
 				},
 				grey: {
 					DEFAULT: '#F4F6FB',
@@ -64,7 +65,8 @@ module.exports = {
 				purple: {
 					primary: '#581DBE',
 					glow: '#EBE4F7',
-					background: '#E8EBFA'
+					background: '#E8EBFA',
+					light: '#E6E0F6'
 				},
 				tulip: {
 					DEFAULT: '#FF928E'

@@ -339,6 +339,18 @@
 	};
 
 	export let folioHolding: FolioHoldingType;
+	export let switchInSchemeData;
+
+	async function resolveSwitchInData(switchInSchemeData) {
+		const response = await switchInSchemeData;
+		if (response?.ok) {
+			optInSwitchScheme({
+				detail: response?.data
+			});
+		}
+	}
+
+	resolveSwitchInData(switchInSchemeData);
 </script>
 
 {(() => updateFolios(folioHolding))()}

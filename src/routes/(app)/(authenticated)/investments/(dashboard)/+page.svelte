@@ -17,7 +17,7 @@
 	export let data: PageData;
 
 	import InvestmentTab from './components/InvestmentTab.svelte';
-	import { SEO } from 'svelte-components';
+	import { SEO, WMSIcon } from 'svelte-components';
 	import { tabs } from '../constants';
 	import OptimisePortfolioCard from './components/OptimisePortfolioCard.svelte';
 	import { onMount, tick } from 'svelte';
@@ -29,6 +29,9 @@
 		fundForYouImpressionAnalytics,
 		investmentDashboardImpressionAnalytics
 	} from '../analytics';
+	import { regularToDirectFundsStore } from '$lib/stores/RegularToDirectFundStore';
+	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 
 	let isXIRRModalOpen = false;
 	let isOptimisePortfolioOpen = false;
@@ -103,6 +106,11 @@
 	$: activeTab =
 		new Map($page.url.searchParams)?.get('type')?.toLocaleLowerCase() ||
 		(data?.isExternal ? 'all' : 'Angel One');
+
+	const navigateToSwitchToDirectFunds = async (allFunds) => {
+		regularToDirectFundsStore.populateRegularFunds(allFunds);
+		await goto(`${base}/investments/RegularToDirect`);
+	};
 </script>
 
 <SEO
@@ -174,6 +182,29 @@
 		{#if isMobile}
 			<ReportsSection />
 		{/if}
+		{#await data.api.investment then response}
+			<!-- svelte-ignore a11y-no-static-element-interactions -->
+			{#if $page?.data?.userDetails?.userType?.toUpperCase() === 'B2C' && response?.status === 'success' && Array.isArray(response.data.holdings) && response.data.holdings.length > 0 && regularToDirectFundsStore.filterRegularFunds(response.data.holdings)?.length > 0}
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
+				<div
+					class="flex flex-row items-center justify-between rounded-lg bg-purple-light p-3 sm:mt-4"
+					on:click={() => navigateToSwitchToDirectFunds(response.data.holdings)}
+				>
+					<div class="mr-4 flex flex-row items-center">
+						<WMSIcon name="switch-fund" class="mr-2 h-9 w-9 min-w-[36px]" />
+						<div>
+							<div class="text-xs font-bold text-black-title">Earn up to 1.5% More Returns</div>
+							<div class="text-xs text-black-title">
+								Switch {regularToDirectFundsStore.filterRegularFunds(response.data.holdings)
+									?.length} mutual funds in your portfolio to
+								<span class="font-bold">zero commission plans</span> and earn more returns
+							</div>
+						</div>
+					</div>
+					<WMSIcon name="right-arrow" class="h-6 w-6 min-w-[24px]" stroke="#3F5BD9" />
+				</div>
+			{/if}
+		{/await}
 	</section>
 
 	<!-- Right Side Contents -->

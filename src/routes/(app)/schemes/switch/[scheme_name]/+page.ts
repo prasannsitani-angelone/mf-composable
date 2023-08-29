@@ -2,6 +2,7 @@ import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import type { FolioHoldingType } from '$lib/types/IInvestments';
 import { hydrate } from '$lib/utils/helpers/hydrated';
 import { getFundUrlDetails } from '$lib/utils/helpers/normalizeFundName';
+import { decodeToObject } from '$lib/utils/helpers/params';
 import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
 
@@ -21,9 +22,22 @@ export const load = (async ({ fetch, url }) => {
 		return folioHolding;
 	};
 
+	const getSwitchInSchemeData = async () => {
+		const params = url.searchParams.get('params');
+		const decodedParams = decodeToObject(params);
+		const { isin, schemeCode } = decodedParams;
+		if (isin) {
+			const fundUrl = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/${schemeCode}`;
+			const res = await useFetch(fundUrl, {});
+			return res;
+		}
+		return {};
+	};
+
 	return {
 		api: {
-			folioHolding: hydrate ? getFolioHoldings() : await getFolioHoldings()
+			folioHolding: hydrate ? getFolioHoldings() : await getFolioHoldings(),
+			getSwitchInSchemeData: hydrate ? getSwitchInSchemeData() : await getSwitchInSchemeData()
 		},
 		layoutConfig: {
 			title: 'Switch Funds',

@@ -11,7 +11,11 @@
 {#await data.api.folioHolding}
 	<SwitchSkeletonLoader />
 {:then folioHolding}
-	<SwitchHomePage {folioHolding} />
+	{#await data.api.getSwitchInSchemeData}
+		<SwitchSkeletonLoader />
+	{:then switchInSchemeData}
+		<SwitchHomePage {folioHolding} {switchInSchemeData} />
+	{/await}
 {:catch}
 	<ErrorPage
 		heading="Fund Not Available"
