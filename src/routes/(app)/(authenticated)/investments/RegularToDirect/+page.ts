@@ -1,7 +1,7 @@
 import { browser } from '$app/environment';
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { regularToDirectFundsStore } from '$lib/stores/RegularToDirectFundStore';
-import { calculateSipReturns } from '$lib/utils/helpers/returns';
+import { calculateLumpsumReturns } from '$lib/utils/helpers/returns';
 import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
 
@@ -14,8 +14,8 @@ export const load = (async ({ fetch }) => {
 				amount += element.investedValue;
 			});
 			return {
-				regularCumullativeAmount: calculateSipReturns(amount, 10, 10)?.matuarityAmount,
-				directCumullativeAmount: calculateSipReturns(amount, 10, 11.5)?.matuarityAmount,
+				regularCumullativeAmount: calculateLumpsumReturns(amount, 10, 10)?.matuarityAmount,
+				directCumullativeAmount: calculateLumpsumReturns(amount, 10, 11.5)?.matuarityAmount,
 				amount,
 				schemes: regularSchemes
 			};
@@ -32,8 +32,8 @@ export const load = (async ({ fetch }) => {
 				amount += element.investedValue;
 			});
 			return {
-				regularCumullativeAmount: calculateSipReturns(amount, 10, 10)?.matuarityAmount,
-				directCumullativeAmount: calculateSipReturns(amount, 10, 11.5)?.matuarityAmount,
+				regularCumullativeAmount: calculateLumpsumReturns(amount, 10, 10)?.matuarityAmount,
+				directCumullativeAmount: calculateLumpsumReturns(amount, 10, 11.5)?.matuarityAmount,
 				amount,
 				schemes: regularSchemes
 			};
