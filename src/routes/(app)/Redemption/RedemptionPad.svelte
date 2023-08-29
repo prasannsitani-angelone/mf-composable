@@ -785,8 +785,8 @@
 							is blocked. This could be due to the following reasons (one or more):
 
 							{#each withdrawalAmountReasons as reason}
-								<div class="flex items-center">
-									<DotIcon class="mx-2" />{reason}
+								<div class="flex items-start">
+									<DotIcon class="mx-2 mt-1.5 min-w-fit" />{reason}
 								</div>
 							{/each}
 						</div>

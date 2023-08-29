@@ -200,7 +200,7 @@
 						</div>
 						<h3 class="mb-1 text-xs font-medium text-grey-body">Expense Ratio</h3>
 						<h4>
-							<span>₹</span> <span>{schemeDetails?.expenseRatio}%</span>
+							<span>{schemeDetails?.expenseRatio}%</span>
 							<span> (inclusive of GST)</span>
 						</h4>
 					</article>
