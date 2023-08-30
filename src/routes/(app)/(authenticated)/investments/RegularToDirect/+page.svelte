@@ -64,8 +64,10 @@
 		</div>
 	</SkeletonWrapper>
 {:then regularSchemes}
-	<article class="px-2 py-2.5 grid grid-cols-[100%] sm:grid-cols-[65%_35%] gap-2 sm:gap-5">
-		<section class="flex flex-col rounded-lg bg-white p-3 shadow-csm sm:row-start-1 h-max sm:col-start-2">
+	<article class="grid grid-cols-[100%] gap-2 px-2 py-2.5 sm:grid-cols-[65%_35%] sm:gap-5">
+		<section
+			class="flex h-max flex-col rounded-lg bg-white p-3 shadow-csm sm:col-start-2 sm:row-start-1"
+		>
 			<div class="mb-2 text-center text-base font-medium text-black-title">
 				Earn up to 1.5% more returns with your existing investments!
 			</div>
@@ -100,7 +102,7 @@
 				vary.
 			</div>
 		</section>
-		<section class="rounded-lg bg-white pt-4 shadow-csm h-max sm:row-start-1 sm:col-start-1">
+		<section class="h-max rounded-lg bg-white pt-4 shadow-csm sm:col-start-1 sm:row-start-1">
 			<div class="px-3 text-base font-medium text-black-title">
 				Funds with Available Direct Plans
 			</div>
@@ -116,7 +118,7 @@
 						<img class="mr-1 h-9 w-9" src={scheme.logoUrl} alt="Scheme Logo" />
 						<div class="mr-1 text-sm font-medium text-black-title">{scheme.schemeName}</div>
 					</div>
-					<div class="flex flex-row text-sm font-semibold text-blue-primary items-center">
+					<div class="flex flex-row items-center text-sm font-semibold text-blue-primary">
 						<span>SWITCH</span>
 						<WMSIcon name="right-arrow" class="h-6 w-6 min-w-[24px]" stroke="#3F5BD9" />
 					</div>
