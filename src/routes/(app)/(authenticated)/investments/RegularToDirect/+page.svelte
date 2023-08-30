@@ -1,52 +1,60 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
+	import { page } from '$app/stores';
 	import OverlayLoading from '$components/OverlayLoading.svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { regularToDirectFundsStore } from '$lib/stores/RegularToDirectFundStore';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { useFetch } from '$lib/utils/useFetch';
+	import { onMount } from 'svelte';
 	import {
 		SkeletonWrapper,
 		WMSIcon,
 		SkeletonRectangle,
 		addCommasToAmountString
 	} from 'svelte-components';
+	import {
+		switchToDirectFundClickAnalytics,
+		switchToDirectScreenImpressionAnalytics
+	} from '../analytics';
 
 	export let data: import('./$types').PageData;
 
 	let isLoading = false;
 
 	const switchFund = async (scheme) => {
+		switchToDirectFundClickAnalytics({
+			Fundname: scheme?.schemeName
+		});
 		regularToDirectFundsStore.reset();
 		isLoading = true;
 		const response = await useFetch(
 			`${PUBLIC_MF_CORE_BASE_URL}/schemes/${scheme.isin}/${scheme.schemeCode}/mappings?purchaseAllowed=Y&switchAllowed=Y`
 		);
+		const fundName = normalizeFundName(scheme.schemeName, scheme.isin, scheme.schemeCode);
+		let queryParams = {};
 		if (response.ok && response.status === 200) {
 			const data = response?.data?.regularDirectScheme;
-			const params = {
+			queryParams = {
 				isin: data?.[0]?.isin,
 				schemeCode: data?.[0]?.schemeCode
 			};
-			await goto(
-				`${base}/schemes/switch/${normalizeFundName(
-					scheme.schemeName,
-					scheme.isin,
-					scheme.schemeCode
-				)}?params=${encodeObject(params)}`
-			);
+		}
+
+		if ($page.data.deviceType.isMobile) {
+			await goto(`${base}/schemes/switch/${fundName}?params=${encodeObject(queryParams)}`);
 		} else {
 			await goto(
-				`${base}/schemes/switch/${normalizeFundName(
-					scheme.schemeName,
-					scheme.isin,
-					scheme.schemeCode
-				)}`
+				`${base}/investments/${fundName}?params=${encodeObject(queryParams)}&orderpad=MORE_OPTIONS`
 			);
 		}
 	};
+
+	onMount(() => {
+		switchToDirectScreenImpressionAnalytics();
+	});
 </script>
 
 {#await data.api.regularSchemes}

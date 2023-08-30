@@ -1,4 +1,5 @@
 import type { StatusHistoryTypes } from './IOrderItem';
+import type { SchemeDetails } from './ISchemeDetails';
 
 export interface InvestmentEntity {
 	schemeCode: string;
@@ -208,6 +209,11 @@ export interface FolioHoldingType {
 	externalFundImportStatus: string;
 	externalImportFailed: boolean;
 	lastSuccessfullImportTs: number;
+}
+
+export interface SwitchInSchemeType {
+	ok?: boolean;
+	data?: SchemeDetails;
 }
 
 export interface CharDataEntity {

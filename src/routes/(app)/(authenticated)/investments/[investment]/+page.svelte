@@ -196,6 +196,10 @@
 			showRedemptionPad = true;
 			showInvestmentPad = false;
 			orderPadActiveTab = 'WITHDRAW';
+		} else if (queryParamsObj?.orderpad === 'MORE_OPTIONS') {
+			showInvestmentPad = false;
+			showRedemptionPad = false;
+			orderPadActiveTab = 'MORE_OPTIONS';
 		} else {
 			showRedemptionPad = false;
 			showInvestmentPad = false;
@@ -396,6 +400,7 @@
 			{:else if orderPadActiveTab === investmentDetailsFooterEvents?.MORE_OPTIONS}
 				<article class="sticky -top-2 mt-[52px] h-fit rounded-lg bg-white shadow-csm">
 					<SwitchOptions
+						isSwitch={queryParamsObj?.orderpad === 'MORE_OPTIONS'}
 						schemeData={res.schemeData}
 						switchFlags={holdingsData.switchFlag}
 						holdingDetails={holdingsData}

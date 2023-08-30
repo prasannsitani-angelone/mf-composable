@@ -13,6 +13,7 @@
 	import SwitchHomePage from '../../../routes/(app)/schemes/switch/[scheme_name]/SwitchHomePage/SwitchHomePage.svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
+	import { decodeToObject } from '$lib/utils/helpers/params';
 	$: isMobile = $page.data.deviceType.isMobile;
 
 	const dispatch = createEventDispatcher();
@@ -21,19 +22,37 @@
 	let holdingDetails: FolioHoldingType;
 	let redemptionNotAllowedText: string;
 	let activePage = '';
+	let isSwitch = false;
+
+	const queryParams = $page.url.searchParams.get('params');
+	const decodedParams = decodeToObject(queryParams || '');
+	const { isin: switchInIsin, schemeCode: switchInSchemeCode } = decodedParams;
+
 	const onSwitchNavigation = () => {
 		if (isMobile) {
 			const { schemeName, isin, schemeCode } = schemeData || {};
 			if (isin) {
-				goto(`${base}/schemes/switch/${normalizeFundName(schemeName, isin, schemeCode)}`);
+				goto(
+					`${base}/schemes/switch/${normalizeFundName(
+						schemeName,
+						isin,
+						schemeCode
+					)}?params=${queryParams}`
+				);
 			} else {
 				const path = $page?.url?.pathname?.split('/');
-				goto(`${base}/schemes/switch/${path[3]}`);
+				goto(`${base}/schemes/switch/${path[3]}?params=${queryParams}`);
 			}
 		} else {
 			activePage = 'SWITCH_FUNDS';
 		}
 	};
+
+	$: {
+		if (isSwitch) {
+			onSwitchNavigation();
+		}
+	}
 
 	const handleBackButtonNavigation = () => {
 		dispatch('handleBackButtonNavigation');
@@ -52,7 +71,16 @@
 		return folioHolding;
 	};
 
-	export { schemeData, switchFlags, holdingDetails, redemptionNotAllowedText };
+	const getSwitchInSchemeData = async () => {
+		if (switchInIsin) {
+			const fundUrl = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${switchInIsin}/${switchInSchemeCode}`;
+			const res = await useFetch(fundUrl, {});
+			return res;
+		}
+		return {};
+	};
+
+	export { schemeData, switchFlags, holdingDetails, redemptionNotAllowedText, isSwitch };
 </script>
 
 <div
@@ -103,9 +131,17 @@
 		{#await getFolioHoldings()}
 			<SwitchSkeletonLoader />
 		{:then folioHolding}
-			{#if folioHolding}
-				<SwitchHomePage {folioHolding} on:handleBackNavigation={() => (activePage = '')} />
-			{/if}
+			{#await getSwitchInSchemeData()}
+				<SwitchSkeletonLoader />
+			{:then switchInSchemeData}
+				{#if folioHolding}
+					<SwitchHomePage
+						{folioHolding}
+						{switchInSchemeData}
+						on:handleBackNavigation={() => (activePage = '')}
+					/>
+				{/if}
+			{/await}
 		{/await}
 	{/if}
 </div>

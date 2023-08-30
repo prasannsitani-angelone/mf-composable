@@ -6,7 +6,7 @@
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	import SwitchInFundSelection from '../SwitchInFundSelection/SwitchInFundSelection.svelte';
-	import type { FolioHoldingType, FolioObject } from '$lib/types/IInvestments';
+	import type { FolioHoldingType, FolioObject, SwitchInSchemeType } from '$lib/types/IInvestments';
 	import { NomineeUpdateLinks } from '$components/NomineeUpdate/constants';
 	import CheckboxCheckedIcon from '$lib/images/icons/CheckboxCheckedIcon.svelte';
 	import CheckboxUncheckedIcon from '$lib/images/icons/CheckboxUncheckedIcon.svelte';
@@ -339,18 +339,17 @@
 	};
 
 	export let folioHolding: FolioHoldingType;
-	export let switchInSchemeData;
+	export let switchInSchemeData: SwitchInSchemeType;
 
-	async function resolveSwitchInData(switchInSchemeData) {
-		const response = await switchInSchemeData;
-		if (response?.ok) {
+	async function populateSwitchInData(switchInSchemeData: SwitchInSchemeType) {
+		if (switchInSchemeData?.ok) {
 			optInSwitchScheme({
-				detail: response?.data
+				detail: switchInSchemeData?.data
 			});
 		}
 	}
 
-	resolveSwitchInData(switchInSchemeData);
+	$: populateSwitchInData(switchInSchemeData);
 </script>
 
 {(() => updateFolios(folioHolding))()}

@@ -82,3 +82,15 @@ export const faqEmailCtaClick = (eventMetaData: Record<string, string>) => {
 		event_metadata: eventMetaData
 	});
 };
+
+export const faqTicketCtaClick = (eventMetaData: Record<string, string>) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-FAQ',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'Your Tickets',
+		event_property: null,
+		event_id: '316.0.0.0.9',
+		event_metadata: eventMetaData
+	});
+};

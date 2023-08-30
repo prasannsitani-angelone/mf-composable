@@ -17,6 +17,7 @@
 	import OrderCardHeader from '../(authenticated)/orders/orderspage/OrdersDashboard/OrderCardComponent/OrderCardHeader.svelte';
 	import OrderCardBody from '../(authenticated)/orders/orderspage/OrdersDashboard/OrderCardComponent/OrderCardBody.svelte';
 	import {
+		faqTicketCtaClick,
 		faqsScreenFaqsViewAllCtaClick,
 		faqsScreenImpression,
 		faqsScreenOrdersViewAllCtaClick
@@ -131,6 +132,9 @@
 	});
 
 	const openTicketApplication = () => {
+		faqTicketCtaClick({
+			Source: faqsSource
+		});
 		window.open(PUBLIC_TICKETING_URL, '_blank');
 	};
 </script>

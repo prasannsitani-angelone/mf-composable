@@ -16,8 +16,11 @@ function CreateStore() {
 		filterRegularFunds: (funds) => {
 			return funds?.filter((fund) => fund?.schemePlan?.toUpperCase() === 'REGULAR');
 		},
-		populateRegularFunds: function (funds = []) {
-			const regularFunds = this.filterRegularFunds(funds);
+		populateRegularFunds: function (funds = [], filterRequired = true) {
+			let regularFunds = funds;
+			if (filterRequired) {
+				regularFunds = this.filterRegularFunds(funds);
+			}
 			set({
 				schemes: regularFunds
 			});

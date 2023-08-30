@@ -27,7 +27,9 @@
 	import {
 		fundForYouClickAnalytics,
 		fundForYouImpressionAnalytics,
-		investmentDashboardImpressionAnalytics
+		investmentDashboardImpressionAnalytics,
+		switchToDirectClickAnalytics,
+		switchToDirectImpressionAnalytics
 	} from '../analytics';
 	import { regularToDirectFundsStore } from '$lib/stores/RegularToDirectFundStore';
 	import { goto } from '$app/navigation';
@@ -66,6 +68,23 @@
 		isOptimisePortfolioOpen = true;
 	};
 
+	const switchToDirectFundsImpression = async () => {
+		const response = await data.api.investment;
+		if (
+			$page?.data?.userDetails?.userType?.toUpperCase() === 'B2C' &&
+			response?.status === 'success' &&
+			Array.isArray(response.data.holdings) &&
+			response.data.holdings.length > 0
+		) {
+			const regularFunds = regularToDirectFundsStore.filterRegularFunds(response.data.holdings);
+			if (regularFunds?.length > 0) {
+				switchToDirectImpressionAnalytics({
+					switchableFunds: regularFunds?.length
+				});
+			}
+		}
+	};
+
 	onMount(async () => {
 		await tick();
 		const investmentSummary = data?.investementSummary;
@@ -84,6 +103,7 @@
 			})
 		};
 		investmentDashboardImpressionAnalytics(eventMetaData);
+		switchToDirectFundsImpression();
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/recommendation/sip`;
 		const res = await useFetch(url, {}, fetch);
 		if (res?.ok && res?.status === 200) {
@@ -107,8 +127,11 @@
 		new Map($page.url.searchParams)?.get('type')?.toLocaleLowerCase() ||
 		(data?.isExternal ? 'all' : 'Angel One');
 
-	const navigateToSwitchToDirectFunds = async (allFunds) => {
-		regularToDirectFundsStore.populateRegularFunds(allFunds);
+	const navigateToSwitchToDirectFunds = async (regularFunds) => {
+		regularToDirectFundsStore.populateRegularFunds(regularFunds, false);
+		switchToDirectClickAnalytics({
+			switchableFunds: regularFunds?.length
+		});
 		await goto(`${base}/investments/RegularToDirect`);
 	};
 </script>
@@ -184,25 +207,27 @@
 		{/if}
 		{#await data.api.investment then response}
 			<!-- svelte-ignore a11y-no-static-element-interactions -->
-			{#if $page?.data?.userDetails?.userType?.toUpperCase() === 'B2C' && response?.status === 'success' && Array.isArray(response.data.holdings) && response.data.holdings.length > 0 && regularToDirectFundsStore.filterRegularFunds(response.data.holdings)?.length > 0}
-				<!-- svelte-ignore a11y-click-events-have-key-events -->
-				<div
-					class="flex flex-row items-center justify-between rounded-lg bg-purple-light p-3 sm:mt-4"
-					on:click={() => navigateToSwitchToDirectFunds(response.data.holdings)}
-				>
-					<div class="mr-4 flex flex-row items-center">
-						<WMSIcon name="switch-fund" class="mr-2 h-9 w-9 min-w-[36px]" />
-						<div>
-							<div class="text-xs font-bold text-black-title">Earn up to 1.5% More Returns</div>
-							<div class="text-xs text-black-title">
-								Switch {regularToDirectFundsStore.filterRegularFunds(response.data.holdings)
-									?.length} mutual funds in your portfolio to
-								<span class="font-bold">zero commission plans</span> and earn more returns
+			{#if $page?.data?.userDetails?.userType?.toUpperCase() === 'B2C' && response?.status === 'success' && Array.isArray(response.data.holdings) && response.data.holdings.length > 0}
+				{@const regularFunds = regularToDirectFundsStore.filterRegularFunds(response.data.holdings)}
+				{#if regularFunds?.length > 0}
+					<!-- svelte-ignore a11y-click-events-have-key-events -->
+					<div
+						class="flex flex-row items-center justify-between rounded-lg bg-purple-light p-3 sm:mt-4"
+						on:click={() => navigateToSwitchToDirectFunds(regularFunds)}
+					>
+						<div class="mr-4 flex flex-row items-center">
+							<WMSIcon name="switch-fund" class="mr-2 h-9 w-9 min-w-[36px]" />
+							<div>
+								<div class="text-xs font-bold text-black-title">Earn up to 1.5% More Returns</div>
+								<div class="text-xs text-black-title">
+									Switch {regularFunds?.length} mutual funds in your portfolio to
+									<span class="font-bold">zero commission plans</span> and earn more returns
+								</div>
 							</div>
 						</div>
+						<WMSIcon name="right-arrow" class="h-6 w-6 min-w-[24px]" stroke="#3F5BD9" />
 					</div>
-					<WMSIcon name="right-arrow" class="h-6 w-6 min-w-[24px]" stroke="#3F5BD9" />
-				</div>
+				{/if}
 			{/if}
 		{/await}
 	</section>

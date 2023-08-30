@@ -534,3 +534,50 @@ export const fundForYouWhyImpressionAnalytics = () => {
 		event_id: '306.0.0.13.31'
 	});
 };
+
+export const switchToDirectImpressionAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-Investmentdashboard',
+		event_type: 'impression',
+		event_sub_type: 'card',
+		event_name: 'Switch to direct',
+		event_property: null,
+		event_id: '311.0.0.1.46',
+		event_metadata: eventMetaData
+	});
+};
+
+export const switchToDirectClickAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-Investmentdashboard',
+		event_type: 'click',
+		event_sub_type: 'card',
+		event_name: 'Switch to direct card',
+		event_property: null,
+		event_id: '311.0.0.1.47',
+		event_metadata: eventMetaData
+	});
+};
+
+export const switchToDirectScreenImpressionAnalytics = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-switchtodirect',
+		event_type: 'impression',
+		event_sub_type: 'screen',
+		event_name: 'Switch to direct screen',
+		event_property: null,
+		event_id: '311.0.0.1.48'
+	});
+};
+
+export const switchToDirectFundClickAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-switchtodirect',
+		event_type: 'click',
+		event_sub_type: 'card',
+		event_name: 'Fundname',
+		event_property: null,
+		event_id: '311.0.0.1.49',
+		event_metadata: eventMetaData
+	});
+};
