@@ -61,9 +61,9 @@ class Analytics extends BaseLogger {
 		);
 		return {
 			...log,
-			client_timestamp: format(date, 'yyyy-MM-dd hh:mm:ss.SSS'),
+			client_timestamp: format(date, 'yyyy-MM-dd kk:mm:ss.SSS'),
 			client_timestamp_unix: date.getTime(),
-			client_timestamp_utc: format(utcDate, 'yyyy-MM-dd hh:mm:ss.SSS'),
+			client_timestamp_utc: format(utcDate, 'yyyy-MM-dd kk:mm:ss.SSS'),
 			client_timestamp_utc_unix: utcDate
 		};
 	};
