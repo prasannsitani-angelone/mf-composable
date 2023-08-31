@@ -18,6 +18,8 @@ export const load = async ({ fetch, url, parent, depends }) => {
 	const decodedParams = decodeToObject(params);
 	const { profile } = await parent();
 	const { orderID, sipID, firstTimePayment } = decodedParams;
+	const isLumpsumOrder = orderID && !sipID;
+	const isSIPOrder = (orderID && sipID) || (!firstTimePayment && sipID);
 	let schemeData: Record<string, string>;
 	const parentData = await parent();
 	let installmentAmount = 0;
@@ -68,7 +70,10 @@ export const load = async ({ fetch, url, parent, depends }) => {
 	const onClickShareIcon = async () => {
 		shareOrderSummaryClickAnalytics({
 			Fundname: schemeData?.schemeName,
-			Amount: addCommasToAmountString(installmentAmount)
+			Amount: addCommasToAmountString(installmentAmount),
+			ISIN: schemeData?.isin,
+			InvestmentType: isSIPOrder ? 'SIP' : 'OTI',
+			FirstSipPayment: firstTimePayment
 		});
 		const link = `https://angeloneapp.page.link/?link=${parentData.scheme}//${
 			parentData.host
@@ -97,9 +102,6 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			status: STATUS_ARR.SUCCESS,
 			subHeaderClass: ''
 		};
-
-		const isLumpsumOrder = orderID && !sipID;
-		const isSIPOrder = (orderID && sipID) || (!firstTimePayment && sipID);
 
 		if (orderData?.ok) {
 			const data = orderData?.data?.data;
@@ -250,7 +252,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			layoutType: 'FULL_HEIGHT_WITHOUT_PADDING',
 			title: 'Order Summary',
 			showShareIcon: showShare,
-			onClickShareIcon: onClickShareIcon
+			onClickShareIcon
 		}
 	};
 };

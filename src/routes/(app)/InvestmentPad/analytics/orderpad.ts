@@ -21,7 +21,7 @@ export const investmentPadTabSwitchAnalytics = (
 		screen_name: 's-orderpad',
 		event_type: 'tab',
 		event_sub_type: 'button',
-		event_name: 's-investments',
+		event_name: 's-investtype',
 		event_property: null,
 		event_id: '310.0.0.1.1',
 		event_metadata: eventMetaData
@@ -44,7 +44,7 @@ export const startSipButtonClickAnalytics = (eventMetaData: Record<string, strin
 		screen_name: 's-orderpad',
 		event_type: 'click',
 		event_sub_type: 'button',
-		event_name: 'Start SIP',
+		event_name: 'orderpadCTA',
 		event_property: null,
 		event_id: '310.0.0.1.5',
 		event_metadata: eventMetaData
@@ -67,7 +67,7 @@ export const changePaymentMethodButtonClickAnalytics = (eventMetaData: Record<st
 		screen_name: 's-orderpad',
 		event_type: 'click',
 		event_sub_type: 'text',
-		event_name: 's-ChangePaymentmethod',
+		event_name: 'gotopaymentmethod',
 		event_property: null,
 		event_id: '310.0.0.1.8',
 		event_metadata: eventMetaData
@@ -81,7 +81,7 @@ export const changePaymentMethodScreenImpressionAnalytics = (
 		screen_name: 's-ChangePaymentmethod',
 		event_type: 'impression',
 		event_sub_type: 'screen',
-		event_name: 's-ChangePaymentmethod',
+		event_name: 'paymentselection',
 		event_property: null,
 		event_id: '310.0.0.1.9',
 		event_metadata: eventMetaData
@@ -118,5 +118,19 @@ export const lumspsumToSipSleeveContinueOtiCtaClickAnalytics = () => {
 		event_name: 'ContinueWithOTI',
 		event_property: null,
 		event_id: '310.0.0.1.36'
+	});
+};
+
+export const orderpadFundCardClickAnalytics = (
+	eventMetaData: Record<string, string | boolean> | null
+) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-orderpad',
+		event_type: 'click',
+		event_sub_type: 'card',
+		event_name: 'fundcard-orderpad',
+		event_property: null,
+		event_id: '310.0.0.1.38',
+		event_metadata: eventMetaData
 	});
 };

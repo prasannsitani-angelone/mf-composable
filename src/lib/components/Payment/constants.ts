@@ -3,12 +3,7 @@ import WorldIcon from './icons/GlobeIcon.svelte';
 import UPIIcon from './icons/UPIIcon.svelte';
 import GPayIcon from './icons/GPayIcon.svelte';
 
-import {
-	selectGooglePayPaymentModeAnalytics,
-	selectNetBankingPaymentModeAnalytics,
-	selectPhonePePaymentModeAnalytics,
-	selectUpiPaymentModeAnalytics
-} from './analytics/changePayment';
+import { selectPaymentModeAnalytics } from './analytics/changePayment';
 
 export const UPI_MAX_LIMIT = 100000;
 export const NET_BANKING_MIN_LIMIT = 50;
@@ -19,7 +14,7 @@ export const PAYMENT_MODE = {
 		sleeveIcon: PhonePe,
 		name: 'PhonePe',
 		apiName: 'PHONEPE',
-		analytics: selectPhonePePaymentModeAnalytics,
+		analytics: selectPaymentModeAnalytics,
 		enabled: (amountInNumber: number, os: string) => {
 			if (os === 'Android' || os === 'iOS') {
 				return amountInNumber <= UPI_MAX_LIMIT;
@@ -33,7 +28,7 @@ export const PAYMENT_MODE = {
 		sleeveIcon: GPayIcon,
 		name: 'Google Pay',
 		apiName: 'GPAY',
-		analytics: selectGooglePayPaymentModeAnalytics,
+		analytics: selectPaymentModeAnalytics,
 		enabled: (amountInNumber: number, os: string) => {
 			if (os === 'Android' || os === 'iOS') {
 				return amountInNumber <= UPI_MAX_LIMIT;
@@ -46,7 +41,7 @@ export const PAYMENT_MODE = {
 		logo: UPIIcon,
 		sleeveIcon: UPIIcon,
 		name: 'UPI',
-		analytics: selectUpiPaymentModeAnalytics,
+		analytics: selectPaymentModeAnalytics,
 		enabled: (amountInNumber: number) => {
 			return amountInNumber <= UPI_MAX_LIMIT;
 		},
@@ -56,7 +51,7 @@ export const PAYMENT_MODE = {
 		logo: WorldIcon,
 		sleeveIcon: WorldIcon,
 		name: 'Net Banking',
-		analytics: selectNetBankingPaymentModeAnalytics,
+		analytics: selectPaymentModeAnalytics,
 		enabled: (amount: number, os: string, redirectedFrom: string) => {
 			return redirectedFrom !== 'SIP_PAYMENTS' && amount >= NET_BANKING_MIN_LIMIT;
 		},

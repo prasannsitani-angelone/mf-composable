@@ -11,29 +11,6 @@ export const upiInitiateScreenAnalytics = () => {
 	});
 };
 
-export const paymentPendingScreenAnalytics = (eventMetaData: Record<string, string> | null) => {
-	Analytics.logAnalyticEvent({
-		screen_name: 'bs-paymenpending',
-		event_type: 'impression',
-		event_sub_type: 'screen',
-		event_name: 'bs-paymenpending',
-		event_property: null,
-		event_id: '310.0.0.1.17',
-		event_metadata: eventMetaData
-	});
-};
-
-export const paymentPendingScreenCloseButtonAnalytics = () => {
-	Analytics.logAnalyticEvent({
-		screen_name: 'bs-paymenpending',
-		event_type: 'click',
-		event_sub_type: 'button',
-		event_name: 'close',
-		event_property: null,
-		event_id: '310.0.0.1.18'
-	});
-};
-
 export const paymentFailedScreenAnalytics = (eventMetaData: Record<string, string> | null) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 'bs-paymenfailed',

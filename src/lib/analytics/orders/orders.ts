@@ -283,12 +283,11 @@ export const orderDashboardCardClickAnalytics = (eventMetaData: {
 	});
 };
 
-export const shareOrderSummaryClickAnalytics = (eventMetaData: {
-	Fundname: string;
-	Amount: string;
-}) => {
+export const shareOrderSummaryClickAnalytics = (
+	eventMetaData: Record<string, string | boolean> | null
+) => {
 	Analytics.logAnalyticEvent({
-		screen_name: 's-SIPPaymentSuccessful',
+		screen_name: 's-orderSummary',
 		event_type: 'click',
 		event_sub_type: 'button',
 		event_name: 'Share',

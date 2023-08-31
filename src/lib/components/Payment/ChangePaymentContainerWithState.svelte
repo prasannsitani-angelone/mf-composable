@@ -104,11 +104,16 @@
 	};
 
 	const onPaymentModeSelect = (paymentMode: string) => {
-		PAYMENT_MODE[paymentMode].analytics();
 		updatePaymentHandler({
 			paymentMode,
 			firstTimeUser: false
 		});
+
+		const eventMetaData = {
+			mode: paymentHandler?.paymentMode
+		};
+
+		PAYMENT_MODE[paymentMode].analytics(eventMetaData);
 	};
 
 	const resetInputPaymentError = () => {

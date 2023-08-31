@@ -13,11 +13,9 @@
 	import { onMount } from 'svelte';
 	import type { SIPData } from './type';
 	import {
-		lumpsumGoTODashBoardButtonAnalytics,
-		lumpsumScreenOpenAnalytics,
-		sipGoTODashBoardButtonAnalytics,
+		goToDashboardButtonAnalytics,
 		sipGoTOSetupAutopayButtonAnalytics,
-		sipScreenOpenAnalytics
+		orderScreenOpenAnalytics
 	} from './analytics';
 	import Mandate from '$lib/components/mandate/Mandate.svelte';
 	import LoadingIndicator from '$components/LoadingIndicator.svelte';
@@ -32,11 +30,29 @@
 	let mandateInstance = null;
 
 	const navigateToOrders = async () => {
-		if (isSIPOrder) {
-			sipGoTODashBoardButtonAnalytics();
+		const { orderData } = await data.api.data;
+
+		let orderStatus = '';
+
+		if (
+			orderData?.data?.data?.status === 'ORDER_REJECTED' ||
+			orderData?.data?.data?.paymentStatus === 'failure'
+		) {
+			orderStatus = 'failed';
+		} else if (orderData?.data?.data?.paymentStatus === 'pending') {
+			orderStatus = 'pending';
 		} else {
-			lumpsumGoTODashBoardButtonAnalytics();
+			orderStatus = 'success';
 		}
+
+		const eventMetaData = {
+			InvestmentType: isSIPOrder ? 'SIP' : 'OTI',
+			FirstSipPayment: firstTimePayment,
+			status: orderStatus
+		};
+
+		goToDashboardButtonAnalytics(eventMetaData);
+
 		await goto('orders/orderspage', { replaceState: true });
 	};
 
@@ -65,33 +81,34 @@
 		const { orderData, sipData, emandateBankDetails } = await data.api.data;
 		const sd = sipData?.data?.data;
 		const od = orderData?.data?.data;
+
+		let orderStatus = '';
+
 		if (isLumpsumOrder && orderData?.ok) {
-			lumpsumScreenOpenAnalytics({
-				FundName: od?.schemeName,
-				isin: od?.isin,
-				Amount: od?.amount,
-				investmentType: 'OTI',
-				PaymentMethod: od?.paymentMode,
-				PaymentBank: od?.bankName
-			});
+			orderStatus = 'success';
 		} else if (
 			isSIPOrder &&
 			((orderData?.ok && sipData?.ok) || (sipData?.ok && !firstTimePayment))
 		) {
-			sipScreenOpenAnalytics({
-				FundName: sd?.schemeName,
-				isin: sd?.isin,
-				Amount: sd?.installmentAmount,
-				investmentType: 'SIP',
-				installmentAmount: sd?.installmentAmount,
-				NextSIPPayment: getNextSIPDate(sd),
-				FirstSIPPayment: firstTimePayment,
-				AutoPayBank: emandateBankDetails?.bankName,
-				AutopayCtaExist: !sd?.accountNo,
-				PaymentMethod: od?.paymentMode,
-				PaymentBank: od?.bankName
-			});
+			orderStatus = 'success';
+		} else {
+			orderStatus = 'failed';
 		}
+
+		orderScreenOpenAnalytics({
+			FundName: sd?.schemeName,
+			isin: sd?.isin,
+			Amount: sd?.installmentAmount,
+			investmentType: 'SIP',
+			NextSIPPayment: getNextSIPDate(sd),
+			FirstSIPPayment: firstTimePayment,
+			AutoPayBank: emandateBankDetails?.bankName,
+			AutopayCtaExist: !sd?.accountNo,
+			PaymentMethod: od?.paymentMode,
+			PaymentBank: od?.bankName,
+			Status: orderStatus,
+			Remarks: od?.remarks
+		});
 	};
 
 	onMount(() => {

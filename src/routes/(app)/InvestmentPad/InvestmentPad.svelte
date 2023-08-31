@@ -48,7 +48,6 @@
 	import {
 		paymentFailedScreenAnalytics,
 		paymentFailedScreenCloseButtonAnalytics,
-		paymentPendingScreenAnalytics,
 		upiInitiateScreenAnalytics
 	} from './analytics/paymentFlow';
 	import {
@@ -60,6 +59,7 @@
 		lumspsumToSipSleeveAnalytics,
 		lumspsumToSipSleeveContinueOtiCtaClickAnalytics,
 		lumspsumToSipSleeveCreateSipCtaClickAnalytics,
+		orderpadFundCardClickAnalytics,
 		startSipButtonClickAnalytics,
 		tncButtonClickAnalytics
 	} from './analytics/orderpad';
@@ -194,6 +194,12 @@
 		paymentWindowInterval: null,
 		waitTime: 10
 	};
+
+	const schemeDetailsUrl = `${$page.url.origin}${base}/schemes/${normalizeFundName(
+		schemeData?.schemeName,
+		schemeData?.isin,
+		schemeData?.schemeCode
+	)}`;
 
 	$: amountVal = amount?.length ? `₹${addCommasToAmountString(amount)}` : '';
 	$: showTabNotSupported = false;
@@ -452,6 +458,15 @@
 	$: onInputChange(amount); // for on-screen numpad amount input
 
 	const changePaymentMethodScreenImpressionAnalyticsFunc = () => {
+		const eligiblePaymentMethods: string[] = [];
+		const allowedPaymentmethods = ['PHONEPE', 'GOOGLEPAY', 'UPI', 'NET_BANKING'];
+
+		allowedPaymentmethods?.forEach((method) => {
+			if (PAYMENT_MODE[method]?.enabled(Number(amount), os, redirectedFrom)) {
+				eligiblePaymentMethods.push(method);
+			}
+		});
+
 		const eventMetaData = {
 			Fundname: schemeData?.schemeName,
 			ISIN: schemeData?.isin,
@@ -460,7 +475,8 @@
 			Amount: amount,
 			DefaultPaymentMethod: paymentHandler?.paymentMode,
 			DefaultBank: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
-			ChangeBankAvailable: profileData?.bankDetails?.length > 1
+			ChangeBankAvailable: profileData?.bankDetails?.length > 1,
+			AllPaymentMethods: allowedPaymentmethods
 		};
 		changePaymentMethodScreenImpressionAnalytics(eventMetaData);
 	};
@@ -502,7 +518,9 @@
 					: 'PAY',
 			Amount: amount,
 			SipDate: activeTab === 'SIP' ? getFormattedSIPDate() : '',
-			PaymentMethod: paymentHandler?.paymentMode
+			PaymentMethod: paymentHandler?.paymentMode,
+			Bank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName,
+			URL: getDeeplinkForUrl(schemeDetailsUrl)
 		});
 		showChangePayment = true;
 		changePaymentMethodScreenImpressionAnalyticsFunc();
@@ -623,7 +641,9 @@
 			SubAssetType: schemeData?.subcategoryName,
 			isinvesttypevisible: isInvestTypeVisible() ? 'Y' : 'N',
 			ismakefirstpmtvisible: paymentMandatory ? 'N' : 'Y',
-			numberofuservisible: schemeData?.noOfClientInvested ? 'Y' : 'N'
+			numberofuservisible: schemeData?.noOfClientInvested ? 'Y' : 'N',
+			DefaultPayment: paymentHandler?.paymentMode,
+			schemeURL: getDeeplinkForUrl(schemeDetailsUrl)
 		};
 
 		investmentPadScreenOpenAnalytics(eventMetaData);
@@ -718,6 +738,16 @@
 	};
 
 	const goToFundDetailsPage = async () => {
+		const eventMetaData = {
+			ISIN: schemeData?.isin,
+			isinvesttypevisible: isInvestTypeVisible() ? 'Y' : 'N',
+			ismakefirstpmtvisible: paymentMandatory ? 'N' : 'Y',
+			numberofuservisible: schemeData?.noOfClientInvested ? 'Y' : 'N',
+			Fundname: schemeData?.schemeName
+		};
+
+		orderpadFundCardClickAnalytics(eventMetaData);
+
 		const schemeDetailsPath = `${base}/schemes/${normalizeFundName(
 			schemeData?.schemeName,
 			schemeData?.isin,
@@ -730,11 +760,6 @@
 
 	// --------- analytics functions -----------
 	const paymentFailedScreenAnalyticsWithData = () => {
-		const schemeDetailsUrl = `${$page.url.origin}${base}/schemes/${normalizeFundName(
-			schemeData?.schemeName,
-			schemeData?.isin,
-			schemeData?.schemeCode
-		)}`;
 		paymentFailedScreenAnalytics({
 			InvestmentType: activeTab === 'SIP' ? 'SIP' : 'OTI',
 			Amount: amount,
@@ -742,7 +767,7 @@
 			PaymentBank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName,
 			PaymentPending:
 				'If the money has been debited from your bank account, please do not worry, it will be refunded automatically',
-			URL: getDeeplinkForUrl(schemeDetailsUrl)
+			SchemeURL: getDeeplinkForUrl(schemeDetailsUrl)
 		});
 	};
 
@@ -759,7 +784,17 @@
 			URL: getDeeplinkForUrl($page.url),
 			isinvesttypevisible: isInvestTypeVisible() ? 'Y' : 'N',
 			ismakefirstpmtvisible: paymentMandatory ? 'N' : 'Y',
-			numberofuservisible: schemeData?.noOfClientInvested ? 'Y' : 'N'
+			numberofuservisible: schemeData?.noOfClientInvested ? 'Y' : 'N',
+			CTA:
+				activeTab === 'SIP'
+					? !firstSipPayment
+						? 'START SIP'
+						: firstTimeUser
+						? 'PROCEED'
+						: `PAY`
+					: firstTimeUser
+					? 'PROCEED'
+					: `PAY`
 		};
 		startSipButtonClickAnalytics(eventMetadata);
 	};
@@ -772,9 +807,14 @@
 	};
 
 	const onPaymentModeSelect = (paymentMode: string) => {
-		PAYMENT_MODE[paymentMode].analytics();
 		paymentHandler.paymentMode = paymentMode;
 		firstTimeUser = false;
+
+		const eventMetaData = {
+			mode: paymentHandler?.paymentMode
+		};
+
+		PAYMENT_MODE[paymentMode].analytics(eventMetaData);
 	};
 
 	const resetInputPaymentError = () => {
@@ -843,14 +883,6 @@
 	};
 
 	const displayPendingPopup = ({ orderId, sipId }) => {
-		paymentPendingScreenAnalytics({
-			InvestmentType: activeTab === 'SIP' ? 'SIP' : 'OTI',
-			Amount: amount,
-			PaymentMethod: paymentHandler?.paymentMode,
-			PaymentBank: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
-			PaymentPending:
-				'we are confirming the status of your payment. This Usually takes few minutes. We will notify you once we have an update'
-		});
 		if (activeTab === 'ONETIME' || redirectedFrom === 'SIP_PAYMENTS') {
 			navigateToLumpsumCompletePage({
 				orderId
@@ -1191,6 +1223,7 @@
 		{/if}
 		{#if !investmentNotAllowedText?.length}
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 			<article
 				class="mb-2 rounded-lg bg-white p-3 shadow-csm md:hidden"
 				on:click={goToFundDetailsPage}
