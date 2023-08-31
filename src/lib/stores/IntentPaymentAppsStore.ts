@@ -67,8 +67,8 @@ const getMappedPaymentApps = (paymentapps?: string): string[] => {
 	} else {
 		try {
 			const paymentAppsFromInput: string[] = JSON.parse(paymentapps);
-			const mappedApps: string[] = paymentAppsFromInput.map(
-				(app) => INTENT_PAYMENT_APP_KEY_MAP[app]
+			const mappedApps: string[] = paymentAppsFromInput.flatMap(
+				(app) => INTENT_PAYMENT_APP_KEY_MAP[app] || []
 			);
 			paymentAppsArray = [...mappedApps];
 		} catch (e) {
