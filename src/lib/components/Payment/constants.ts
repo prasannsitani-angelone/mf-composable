@@ -4,10 +4,10 @@ import UPIIcon from './icons/UPIIcon.svelte';
 import GPayIcon from './icons/GPayIcon.svelte';
 
 import {
-	selectNetBankingPaymentModeAnalytics,
-	selectUpiPaymentModeAnalytics,
 	selectGooglePayPaymentModeAnalytics,
-	selectPhonePePaymentModeAnalytics
+	selectNetBankingPaymentModeAnalytics,
+	selectPhonePePaymentModeAnalytics,
+	selectUpiPaymentModeAnalytics
 } from './analytics/changePayment';
 
 export const UPI_MAX_LIMIT = 100000;
@@ -63,3 +63,10 @@ export const PAYMENT_MODE = {
 		showInput: false
 	}
 };
+
+export const INTENT_PAYMENT_APP_KEY_MAP = {
+	phonepe: 'PHONEPE',
+	gpay: 'GOOGLEPAY'
+};
+
+export const NON_INTENT_PAYMENT_APP_KEY = ['UPI', 'NET_BANKING'];

@@ -24,7 +24,8 @@ const hydrateSessionData = (sparkHeaders: SparkStore) => {
 		clevertapclientid: sparkHeaders?.clevertapclientid,
 		guest: sparkHeaders?.guest,
 		closecta: sparkHeaders?.closecta,
-		deviceosversion: sparkHeaders?.deviceosversion
+		deviceosversion: sparkHeaders?.deviceosversion,
+		paymentapps: sparkHeaders?.paymentapps
 	};
 	if (isObjectWithNonEmptyKeys(data)) {
 		sessionStorage.setObject('sparkStore', data);

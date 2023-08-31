@@ -46,34 +46,34 @@
 		paymentModeScreenPayButtonClickAnalytics
 	} from './analytics/changePayment';
 	import {
-		upiInitiateScreenAnalytics,
-		paymentPendingScreenAnalytics,
 		paymentFailedScreenAnalytics,
-		paymentFailedScreenCloseButtonAnalytics
+		paymentFailedScreenCloseButtonAnalytics,
+		paymentPendingScreenAnalytics,
+		upiInitiateScreenAnalytics
 	} from './analytics/paymentFlow';
 	import {
-		startSipButtonClickAnalytics,
+		calendarIconClickAnalytics,
 		changePaymentMethodButtonClickAnalytics,
 		changePaymentMethodScreenImpressionAnalytics,
-		lumspsumToSipSleeveAnalytics,
-		lumspsumToSipSleeveCreateSipCtaClickAnalytics,
-		lumspsumToSipSleeveContinueOtiCtaClickAnalytics,
 		investmentPadScreenOpenAnalytics,
 		investmentPadTabSwitchAnalytics,
-		calendarIconClickAnalytics,
+		lumspsumToSipSleeveAnalytics,
+		lumspsumToSipSleeveContinueOtiCtaClickAnalytics,
+		lumspsumToSipSleeveCreateSipCtaClickAnalytics,
+		startSipButtonClickAnalytics,
 		tncButtonClickAnalytics
 	} from './analytics/orderpad';
 	import { debounce } from '$lib/utils/helpers/debounce';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import LumpsumToSip from './OrderPadComponents/LumpsumToSip.svelte';
 	import {
-		noPaymentFlow,
 		netBankingLumpsumFlow,
 		netBankingSIPFlow,
-		upiSIPFlow,
+		noPaymentFlow,
 		upiLumpsumFlow,
-		walletSIPFlow,
-		walletLumpsumFlow
+		upiSIPFlow,
+		walletLumpsumFlow,
+		walletSIPFlow
 	} from '$components/Payment/flow';
 	import {
 		closeNetBankingPaymentWindow,
@@ -93,6 +93,7 @@
 	import PeopleIcon from '$lib/images/PeopleIcon.svg';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import ChangePaymentContainer from '$components/Payment/ChangePaymentContainer.svelte';
+	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -959,11 +960,23 @@
 			) {
 				paymentHandler.paymentMode = 'UPI';
 			} else if (redirectedFrom === 'SIP_PAYMENTS' && (os === 'Android' || os === 'iOS')) {
-				paymentHandler.paymentMode = 'GOOGLEPAY';
+				const gpay = 'GOOGLEPAY';
+				const newPaymentMode = paymentAppStore.checkIfPaymentAppInstalledElseGetFallback(gpay);
+				if (newPaymentMode) {
+					paymentHandler.paymentMode = newPaymentMode;
+				} else {
+					defaultValueToPaymentHandler();
+				}
 			} else if (redirectedFrom === 'SIP_PAYMENTS') {
 				paymentHandler.paymentMode = 'UPI';
 			} else {
-				paymentHandler.paymentMode = paymentMode;
+				const newPaymentMode =
+					paymentAppStore.checkIfPaymentAppInstalledElseGetFallback(paymentMode);
+				if (newPaymentMode) {
+					paymentHandler.paymentMode = newPaymentMode;
+				} else {
+					defaultValueToPaymentHandler();
+				}
 			}
 		} else {
 			defaultValueToPaymentHandler();
@@ -1145,6 +1158,10 @@
 				gpayPaymentState
 			});
 		}
+	};
+
+	const getAllowedPaymentOptions = () => {
+		return paymentAppStore.getAllPaymentApps();
 	};
 
 	// -------- **** ----------
@@ -1481,7 +1498,7 @@
 	<ChangePaymentContainer
 		{amount}
 		onBackClick={hidePaymentMethodScreen}
-		paymentModes={Object.keys(PAYMENT_MODE)}
+		allowedPaymentmethods={getAllowedPaymentOptions()}
 		selectedMode={paymentHandler?.paymentMode}
 		onSelect={onPaymentModeSelect}
 		onSubmit={handleInvestClick}

@@ -44,6 +44,7 @@
 		paymentPendingScreenAnalytics
 	} from '../analytics/confirmation';
 	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
+	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
 
 	export let data: PageData;
 
@@ -155,7 +156,13 @@
 			) {
 				paymentHandler.paymentMode = 'UPI';
 			} else {
-				paymentHandler.paymentMode = paymentMode;
+				const newPaymentMode =
+					paymentAppStore.checkIfPaymentAppInstalledElseGetFallback(paymentMode);
+				if (newPaymentMode) {
+					paymentHandler.paymentMode = newPaymentMode;
+				} else {
+					defaultValueToPaymentHandler();
+				}
 			}
 		} else {
 			defaultValueToPaymentHandler();
@@ -375,6 +382,10 @@
 			replaceState: true
 		});
 	};
+
+	const getAllowedPaymentOptions = () => {
+		return paymentAppStore.getAllPaymentApps();
+	};
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -466,6 +477,7 @@
 		{/if}
 		{#if showChangePayment}
 			<ChangePaymentContainer
+				allowedPaymentmethods={getAllowedPaymentOptions()}
 				amount={itemList?.totalAmount?.toString()}
 				onBackClick={hidePaymentMethodScreen}
 				selectedMode={paymentHandler?.paymentMode}
