@@ -11,7 +11,7 @@ export const load = (async ({ fetch }) => {
 		if (regularToDirectFundsStore.getSchemes()?.length > 0) {
 			const regularSchemes = regularToDirectFundsStore.getSchemes();
 			regularSchemes.forEach((element) => {
-				amount += element.investedValue;
+				amount += element.currentValue;
 			});
 			return {
 				regularCumullativeAmount: calculateLumpsumReturns(amount, 10, 10)?.matuarityAmount,
@@ -29,7 +29,7 @@ export const load = (async ({ fetch }) => {
 				res?.data?.data?.holdings
 			);
 			regularSchemes.forEach((element) => {
-				amount += element.investedValue;
+				amount += element.currentValue;
 			});
 			return {
 				regularCumullativeAmount: calculateLumpsumReturns(amount, 10, 10)?.matuarityAmount,
