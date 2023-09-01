@@ -35,7 +35,7 @@
 	import FolioSelectionSwitch from '../FolioSelectionSwitch/FolioSelectionSwitch.svelte';
 	import ErrorPage from '$components/ErrorPage.svelte';
 	import { page } from '$app/stores';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, tick } from 'svelte';
 	import SwitchConfirmation from '../../confirm/SwitchConfirmation/SwitchConfirmation.svelte';
 
 	$: redemableAmount = selectedFolio?.redemableAmount;
@@ -341,7 +341,8 @@
 	export let folioHolding: FolioHoldingType;
 	export let switchInSchemeData: SwitchInSchemeType;
 
-	async function populateSwitchInData(switchInSchemeData: SwitchInSchemeType) {
+	async function populateSwitchInData() {
+		await tick()
 		if (switchInSchemeData?.ok) {
 			optInSwitchScheme({
 				detail: switchInSchemeData?.data
@@ -349,7 +350,7 @@
 		}
 	}
 
-	$: populateSwitchInData(switchInSchemeData);
+	populateSwitchInData();
 </script>
 
 {(() => updateFolios(folioHolding))()}

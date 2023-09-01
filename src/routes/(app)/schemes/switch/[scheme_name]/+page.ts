@@ -37,7 +37,7 @@ export const load = (async ({ fetch, url }) => {
 	return {
 		api: {
 			folioHolding: hydrate ? getFolioHoldings() : await getFolioHoldings(),
-			getSwitchInSchemeData: hydrate ? getSwitchInSchemeData() : await getSwitchInSchemeData()
+			switchInSchemeData: hydrate ? getSwitchInSchemeData() : await getSwitchInSchemeData()
 		},
 		layoutConfig: {
 			title: 'Switch Funds',

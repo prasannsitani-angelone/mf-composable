@@ -11,7 +11,7 @@
 {#await data.api.folioHolding}
 	<SwitchSkeletonLoader />
 {:then folioHolding}
-	{#await data.api.getSwitchInSchemeData}
+	{#await data.api.switchInSchemeData}
 		<SwitchSkeletonLoader />
 	{:then switchInSchemeData}
 		<SwitchHomePage {folioHolding} {switchInSchemeData} />
