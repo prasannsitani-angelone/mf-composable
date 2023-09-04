@@ -31,7 +31,7 @@
 	import { versionStore } from '$lib/stores/VersionStore';
 	import FullWidth from '$lib/layouts/FullWidth.svelte';
 	import { bannerStore } from '$lib/stores/BannerStore';
-	import Clevertap from '$lib/utils/Clevertap';
+	// import Clevertap from '$lib/utils/Clevertap';
 
 	$: pageMetaData = $page?.data?.layoutConfig;
 	let searchFocused = false;
@@ -49,10 +49,10 @@
 
 	let showAngelBeeBanner = false;
 
-	const initClevertap = async () => {
-		await Clevertap.init();
-		Clevertap.setProfile(profile);
-	};
+	// const initClevertap = async () => {
+	// 	await Clevertap.init();
+	// 	Clevertap.setProfile(profile);
+	// };
 	onMount(async () => {
 		versionStore.subscribe((value) => {
 			version = value.version;
@@ -70,11 +70,11 @@
 			version = value.version;
 		});
 
-		if ('requestIdleCallback' in window) {
-			requestIdleCallback(initClevertap, { timeout: 5000 });
-		} else {
-			initClevertap();
-		}
+		// if ('requestIdleCallback' in window) {
+		// 	requestIdleCallback(initClevertap, { timeout: 5000 });
+		// } else {
+		// 	initClevertap();
+		// }
 	});
 	// initialising logging again with all new headers for routes of (app)
 
