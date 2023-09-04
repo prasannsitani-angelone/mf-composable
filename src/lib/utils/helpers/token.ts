@@ -16,7 +16,8 @@ export const getUserCookieOptions = (isHttpCookie = true) => {
 		sameSite: 'strict',
 		path: '/',
 		httpOnly: isHttpCookie,
-		maxAge: 30 * (24 * 60 * 60)
+		maxAge: 30 * (24 * 60 * 60),
+		encode: (string) => string
 	};
 	if (!isDevMode() && PUBLIC_ENV_NAME === 'prod') {
 		options.domain = '.angelone.in';
