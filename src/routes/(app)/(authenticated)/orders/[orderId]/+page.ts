@@ -212,26 +212,20 @@ export const load = (async ({ fetch, params, parent }) => {
 			// 	statusItems[ORDER_DATA.ORDER_DATE].value = format(new Date(scheduledTs), 'dd MMM yyyy');
 			// }
 
-			const expectedNavDate = statusHistory?.find(
-				(state: { status: string }) => state.status === 'ORDER_SENT_TO_RTA'
-			)?.timeStamp;
-
-			if (
-				(transactionType === 'REDEEM' ||
-					investmentType === 'LUMPSUM' ||
-					(investmentType?.toUpperCase() === 'SIP' && firstOrder?.toUpperCase() === 'Y')) &&
-				ExpectedNavDate
-			) {
+			if (firstOrder?.toUpperCase() === 'N' && !bankAcc?.length) {
+				statusItems[ORDER_DATA.EXPECTED_NAV_DATE].value = format(
+					new Date(scheduledTs),
+					'dd MMM yyyy'
+				);
+			} else if (transactionType !== TRANSACTION_TYPE.SWITCH) {
 				statusItems[ORDER_DATA.EXPECTED_NAV_DATE].value = format(
 					new Date(ExpectedNavDate * 1000),
 					'dd MMM yyyy'
 				);
+			}
+			if (transactionType === 'REDEEM') {
 				statusItems[ORDER_DATA.EXPECTED_NAV_DATE].informationSubheading = NAV_DETAILS_WITHDRAWAL;
-			} else if (expectedNavDate && transactionType !== TRANSACTION_TYPE.SWITCH) {
-				statusItems[ORDER_DATA.EXPECTED_NAV_DATE].value = format(
-					new Date(expectedNavDate),
-					'dd MMM yyyy'
-				);
+			} else {
 				statusItems[ORDER_DATA.EXPECTED_NAV_DATE].informationSubheading = NAV_DETAILS;
 			}
 

@@ -4,20 +4,11 @@ import { format } from 'date-fns';
 
 export const getExpectedNavDate = (data: IOrderDetails) => {
 	let formattedExpectedNavDate = '-- --';
-	const expectedNavDate = data?.statusHistory?.find(
-		(state) => state.status === 'ORDER_SENT_TO_RTA'
-	)?.timeStamp;
-	if (
-		(data?.transactionType === 'REDEEM' ||
-			data?.investmentType === 'LUMPSUM' ||
-			(data?.investmentType?.toUpperCase() === 'SIP' && data?.firstOrder?.toUpperCase() === 'Y')) &&
-		data?.ExpectedNavDate
-	) {
+	if (data?.firstOrder?.toUpperCase() === 'N' && !data?.bankAccountNo?.length) {
+		formattedExpectedNavDate = format(new Date(data?.scheduledTs), 'dd MMM yyyy');
+	} else if (data?.transactionType !== TRANSACTION_TYPE.SWITCH) {
 		formattedExpectedNavDate = format(new Date(data?.ExpectedNavDate * 1000), 'dd MMM yyyy');
-	} else if (expectedNavDate && data?.transactionType !== TRANSACTION_TYPE.SWITCH) {
-		formattedExpectedNavDate = format(new Date(expectedNavDate), 'dd MMM yyyy');
 	}
-
 	return formattedExpectedNavDate;
 };
 
