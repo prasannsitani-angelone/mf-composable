@@ -207,7 +207,9 @@
 			setOtherNudgeDataTypes();
 		});
 
-		versionStore.setVersion('B');
+		exitNudgeStore.subscribe((store) => {
+			showExitNudge = store.showExitNudge;
+		});
 	});
 
 	onDestroy(() => {
@@ -217,9 +219,6 @@
 	});
 
 	let showExitNudge = false;
-	exitNudgeStore.subscribe((store) => {
-		showExitNudge = store.showExitNudge;
-	});
 
 	export let data: PageData;
 

@@ -214,7 +214,11 @@
 			setRetryPaymentNudgesData(nudgeData);
 			setOtherNudgeDataTypes();
 		});
-		document.addEventListener('CT_web_native_display', function (event) {
+
+		exitNudgeStore.subscribe((store) => {
+			showExitNudge = store.showExitNudge;
+		});
+        document.addEventListener('CT_web_native_display', function (event) {
 			// alert("CT Event ")
 			const data = event.detail;
 			ctKv = data.kv;
@@ -243,9 +247,6 @@
 	export let data: PageData;
 
 	let showExitNudge = false;
-	exitNudgeStore.subscribe((store) => {
-		showExitNudge = store.showExitNudge;
-	});
 </script>
 
 <SEO

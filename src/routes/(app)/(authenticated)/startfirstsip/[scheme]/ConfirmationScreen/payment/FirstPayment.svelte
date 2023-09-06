@@ -28,7 +28,6 @@
 		paymentOnRequestResponseAnalytics
 	} from '$lib/analytics/startFirstSip/payment';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
-	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore.js';
 
 	export let scheme: SchemeDetails;
 	export let amount: number;
@@ -40,13 +39,7 @@
 	export let hidePaymentMethodScreen = (): void => undefined;
 
 	const nextSipDateBufferDays = 30;
-
-	const getAllowedPaymentOptions = () => {
-		const allowedPaymentmethods = ['PHONEPE', 'GOOGLEPAY', 'UPI'];
-		const allPaymentApps = paymentAppStore.getAllPaymentApps();
-		const filtered = allowedPaymentmethods.filter((app) => allPaymentApps.includes(app));
-		return filtered;
-	};
+	const allowedPaymentmethods = ['PHONEPE', 'GOOGLEPAY', 'UPI'];
 
 	$: profileData = $page?.data?.profile;
 
@@ -302,9 +295,9 @@
 
 <article class="flex h-full flex-col sm:h-max">
 	<ChangePaymentContainer
-		allowedPaymentmethods={getAllowedPaymentOptions()}
 		amount={amount.toString()}
 		onBackClick={hidePaymentMethodScreen}
+		paymentModes={Object.keys(PAYMENT_MODE)}
 		selectedMode={paymentHandler?.paymentMode}
 		onSelect={onPaymentModeSelect}
 		onSubmit={onPayment}
@@ -316,6 +309,7 @@
 		onChangeBank={showBankPopup}
 		class={$$props.class}
 		isLoading={loadingState.isLoading || validateUPILoading}
+		{allowedPaymentmethods}
 	>
 		<div slot="schemeTile" class="m-4 mb-0 rounded-lg border border-grey-line bg-white p-3">
 			<div class="mb-2 flex flex-row items-center rounded-full text-xs font-medium text-grey-body">

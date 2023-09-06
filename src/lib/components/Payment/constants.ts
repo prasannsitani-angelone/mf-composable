@@ -2,7 +2,6 @@ import PhonePe from '$lib/images/icons/PhonePe.svelte';
 import WorldIcon from './icons/GlobeIcon.svelte';
 import UPIIcon from './icons/UPIIcon.svelte';
 import GPayIcon from './icons/GPayIcon.svelte';
-
 import { selectPaymentModeAnalytics } from './analytics/changePayment';
 
 export const UPI_MAX_LIMIT = 100000;
@@ -58,10 +57,3 @@ export const PAYMENT_MODE = {
 		showInput: false
 	}
 };
-
-export const INTENT_PAYMENT_APP_KEY_MAP = {
-	phonepe: 'PHONEPE',
-	gpay: 'GOOGLEPAY'
-};
-
-export const NON_INTENT_PAYMENT_APP_KEY = ['UPI', 'NET_BANKING'];

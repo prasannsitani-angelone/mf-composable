@@ -1,6 +1,5 @@
 import { PLATFORM_TYPE } from '$lib/constants/platform';
 import { writable } from 'svelte/store';
-import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
 
 export interface SparkStore {
 	platform: string;
@@ -46,7 +45,6 @@ function Store() {
 	subscribe((v) => {
 		sparkStore = v;
 	});
-
 	return {
 		subscribe,
 		updateStore: (newStore: SparkStore) => {
@@ -63,8 +61,6 @@ function Store() {
 				const isAngelBeeIosUser = platform === PLATFORM_TYPE.ANGELBEE_IOS;
 				const isTWA = platformvariant === 'twa';
 				const isWebView = platformvariant === 'webview';
-
-				paymentAppStore.updateStore(consolidated.paymentapps);
 
 				return {
 					...consolidated,

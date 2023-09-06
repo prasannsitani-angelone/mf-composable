@@ -19,14 +19,13 @@
 	import SkeletonLoader from './components/SkeletonLoader.svelte';
 	import WhyThisFundPopup from './components/WhyThisFundPopup.svelte';
 	import {
+		onMountAnalytics,
+		whyTheseFundsClickAnalytics,
 		changePaymentMethodAnalytics,
 		mountChangePaymentMethodAnalytics,
-		onMountAnalytics,
 		payFromPaymentMethodPage,
-		payNowClickAnalytics,
-		whyTheseFundsClickAnalytics
+		payNowClickAnalytics
 	} from './analytics';
-	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
 
 	export let data: import('./$types').PageData;
 
@@ -203,10 +202,6 @@
 	};
 
 	$: updatePaymentMode(amount);
-
-	const getAllowedPaymentOptions = () => {
-		return paymentAppStore.getAllPaymentApps();
-	};
 </script>
 
 {#await data.api.basket}
@@ -301,7 +296,6 @@
 			</article>
 		{:else}
 			<ChangePaymentContainerWithState
-				allowedPaymentmethods={getAllowedPaymentOptions()}
 				amount={amount.toString()}
 				{paymentHandler}
 				bankAccounts={profileData?.bankDetails}

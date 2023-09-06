@@ -1,5 +1,4 @@
 <script lang="ts">
-	import DotIcon from '$lib/images/icons/DotIcon.svelte';
 	import StarIcon from '$lib/images/icons/StarIcon.svelte';
 
 	interface dataObj {
@@ -16,11 +15,11 @@
 	export let schemeName = '';
 	export let logoUrl = '';
 	export let categoryName = '';
-	export let subcategoryName = '';
+	export const subcategoryName = '';
 	export let itemStyle = '';
 	export let titleStyle = '';
 	export let categoryStyle = '';
-	export let subCategoryStyle = '';
+	export const subCategoryStyle = '';
 	export let logoStyle = '';
 	export let categoryContainerStyle = '';
 	export let containerStyle = '';
@@ -51,6 +50,7 @@
 							{categoryName || data?.categoryName}
 						</span>
 					{/if}
+					<!-- todo removed the subcategory
 					{#if (categoryName && subcategoryName) || (data?.categoryName && data?.subcategoryName)}
 						<DotIcon class="mx-1" />
 					{/if}
@@ -59,6 +59,7 @@
 							{subcategoryName || data?.subcategoryName}
 						</span>
 					{/if}
+					-->
 				</div>
 			</slot>
 			<div class="text-sm font-medium text-black-title lg:text-base {titleStyle || ''}">
