@@ -863,13 +863,14 @@
 	};
 
 	const displayError = ({ heading = 'Error', errorSubHeading = '', type = '' }) => {
-		if (error.type === 'PAYMENT_FAILED') {
-			paymentFailedScreenAnalyticsWithData();
-		}
 		error.visible = true;
 		error.heading = heading;
 		error.subHeading = errorSubHeading;
 		error.type = type;
+
+		if (error.type === 'PAYMENT_FAILED') {
+			paymentFailedScreenAnalyticsWithData();
+		}
 	};
 
 	const closeErrorPopup = () => {

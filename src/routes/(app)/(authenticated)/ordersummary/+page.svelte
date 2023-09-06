@@ -22,6 +22,7 @@
 	import { invalidate } from '$app/navigation';
 	import { goTODashBoardButtonAnalytics } from '$components/mandate/analytics';
 	import { SEO } from 'svelte-components';
+	import { ORDER_STATUS } from '$lib/constants/orderFlowStatuses';
 	export let data: PageData;
 
 	const params = $page.url.searchParams.get('params') || '';
@@ -29,20 +30,26 @@
 	const { firstTimePayment, orderID, sipID, amount, date } = decodedParams;
 	let mandateInstance = null;
 
+	let orderStatusString = '';
+	let paymentStatusString = '';
+
 	const navigateToOrders = async () => {
 		const { orderData } = await data.api.data;
 
+		orderStatusString = orderData?.data?.data?.status || '';
+		paymentStatusString = orderData?.data?.data?.paymentStatus || '';
+
 		let orderStatus = '';
 
-		if (
-			orderData?.data?.data?.status === 'ORDER_REJECTED' ||
-			orderData?.data?.data?.paymentStatus === 'failure'
-		) {
+		if (orderStatusString === 'ORDER_REJECTED' || paymentStatusString === 'failure') {
 			orderStatus = 'failed';
-		} else if (orderData?.data?.data?.paymentStatus === 'pending') {
-			orderStatus = 'pending';
-		} else {
+		} else if (
+			orderStatusString === ORDER_STATUS?.ORDER_COMPLETE ||
+			paymentStatusString === 'success'
+		) {
 			orderStatus = 'success';
+		} else {
+			orderStatus = 'pending';
 		}
 
 		const eventMetaData = {
@@ -82,17 +89,25 @@
 		const sd = sipData?.data?.data;
 		const od = orderData?.data?.data;
 
+		orderStatusString = orderData?.data?.data?.status || '';
+		paymentStatusString = orderData?.data?.data?.paymentStatus || '';
+
 		let orderStatus = '';
 
-		if (isLumpsumOrder && orderData?.ok) {
-			orderStatus = 'success';
-		} else if (
-			isSIPOrder &&
-			((orderData?.ok && sipData?.ok) || (sipData?.ok && !firstTimePayment))
+		if (
+			(isLumpsumOrder && orderData?.ok) ||
+			(isSIPOrder && ((orderData?.ok && sipData?.ok) || (sipData?.ok && !firstTimePayment)))
 		) {
-			orderStatus = 'success';
-		} else {
-			orderStatus = 'failed';
+			if (orderStatusString === 'ORDER_REJECTED' || paymentStatusString === 'failure') {
+				orderStatus = 'failed';
+			} else if (
+				orderStatusString === ORDER_STATUS?.ORDER_COMPLETE ||
+				paymentStatusString === 'success'
+			) {
+				orderStatus = 'success';
+			} else {
+				orderStatus = 'pending';
+			}
 		}
 
 		orderScreenOpenAnalytics({
