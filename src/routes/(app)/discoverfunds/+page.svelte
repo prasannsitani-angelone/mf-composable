@@ -218,7 +218,7 @@
 		exitNudgeStore.subscribe((store) => {
 			showExitNudge = store.showExitNudge;
 		});
-        document.addEventListener('CT_web_native_display', function (event) {
+		document.addEventListener('CT_web_native_display', function (event) {
 			// alert("CT Event ")
 			const data = event.detail;
 			ctKv = data.kv;

@@ -7,7 +7,7 @@ import {
 import { NAV_DETAILS, NAV_DETAILS_WITHDRAWAL } from '$lib/constants/order';
 import ORDER_DATA from '$lib/constants/orderDataItems';
 import STATUS_ARR, { ORDER_STATUS } from '$lib/constants/orderFlowStatuses';
-import { TRANSACTION_TYPE } from '$lib/constants/transactionType';
+import { INVESTMENT_TYPE, TRANSACTION_TYPE } from '$lib/constants/transactionType';
 import type { IOrderDetails } from '$lib/types/IOrderDetails';
 import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 import type { ISip } from '$lib/types/ISipType';
@@ -212,7 +212,11 @@ export const load = (async ({ fetch, params, parent }) => {
 			// 	statusItems[ORDER_DATA.ORDER_DATE].value = format(new Date(scheduledTs), 'dd MMM yyyy');
 			// }
 
-			if (firstOrder?.toUpperCase() === 'N' && !bankAcc?.length) {
+			if (
+				investmentType?.toUpperCase() === INVESTMENT_TYPE.SIP &&
+				firstOrder?.toUpperCase() === 'N' &&
+				!bankAcc?.length
+			) {
 				statusItems[ORDER_DATA.EXPECTED_NAV_DATE].value = format(
 					new Date(scheduledTs),
 					'dd MMM yyyy'

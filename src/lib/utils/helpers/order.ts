@@ -1,10 +1,14 @@
-import { TRANSACTION_TYPE } from '$lib/constants/transactionType';
+import { INVESTMENT_TYPE, TRANSACTION_TYPE } from '$lib/constants/transactionType';
 import type { IOrderDetails } from '$lib/types/IOrderDetails';
 import { format } from 'date-fns';
 
 export const getExpectedNavDate = (data: IOrderDetails) => {
 	let formattedExpectedNavDate = '-- --';
-	if (data?.firstOrder?.toUpperCase() === 'N' && !data?.bankAccountNo?.length) {
+	if (
+		data?.investmentType?.toUpperCase() === INVESTMENT_TYPE.SIP &&
+		data?.firstOrder?.toUpperCase() === 'N' &&
+		!data?.bankAccountNo?.length
+	) {
 		formattedExpectedNavDate = format(new Date(data?.scheduledTs), 'dd MMM yyyy');
 	} else if (data?.transactionType !== TRANSACTION_TYPE.SWITCH) {
 		formattedExpectedNavDate = format(new Date(data?.ExpectedNavDate * 1000), 'dd MMM yyyy');

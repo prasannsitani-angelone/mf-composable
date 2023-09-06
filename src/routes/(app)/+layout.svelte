@@ -99,7 +99,7 @@
 	function handleBackHistoryForDeeplinks() {
 		let isDiscoverFundsPath = $page.url?.pathname?.includes('/discoverfunds');
 
-		const { platform } = data.sparkHeaders
+		const { platform } = data.sparkHeaders;
 		// if this page is directly invoked and is not discoverfunds page
 		if (
 			(platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID ||
