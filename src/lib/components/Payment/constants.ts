@@ -2,6 +2,8 @@ import PhonePe from '$lib/images/icons/PhonePe.svelte';
 import WorldIcon from './icons/GlobeIcon.svelte';
 import UPIIcon from './icons/UPIIcon.svelte';
 import GPayIcon from './icons/GPayIcon.svelte';
+import PaytmIcon from './icons/PaytmIcon.svelte';
+
 import { selectPaymentModeAnalytics } from './analytics/changePayment';
 
 export const UPI_MAX_LIMIT = 100000;
@@ -30,6 +32,20 @@ export const PAYMENT_MODE = {
 		analytics: selectPaymentModeAnalytics,
 		enabled: (amountInNumber: number, os: string) => {
 			if (os === 'Android' || os === 'iOS') {
+				return amountInNumber <= UPI_MAX_LIMIT;
+			}
+			return false;
+		},
+		showInput: false
+	},
+	PAYTM: {
+		logo: PaytmIcon,
+		sleeveIcon: PaytmIcon,
+		name: 'Paytm',
+		apiName: 'Paytm',
+		analytics: selectPaymentModeAnalytics,
+		enabled: (amountInNumber: number, os: string) => {
+			if (os === 'Android') {
 				return amountInNumber <= UPI_MAX_LIMIT;
 			}
 			return false;
