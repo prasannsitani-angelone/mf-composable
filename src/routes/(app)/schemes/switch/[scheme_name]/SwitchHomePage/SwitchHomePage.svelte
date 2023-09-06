@@ -342,7 +342,7 @@
 	export let switchInSchemeData: SwitchInSchemeType;
 
 	async function populateSwitchInData() {
-		await tick()
+		await tick();
 		if (switchInSchemeData?.ok) {
 			optInSwitchScheme({
 				detail: switchInSchemeData?.data
