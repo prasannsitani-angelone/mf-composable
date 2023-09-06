@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { page as appPage } from '$app/stores';
+	import { page as appPage, page } from '$app/stores';
 	import { appStore } from '$lib/stores/SparkStore';
 	import type { LayoutData } from './$types';
 	import { AUTH_STATE_ENUM, tokenStore } from '$lib/stores/TokenStore';
@@ -20,7 +20,6 @@
 	import { logoutAttemptStore } from '$lib/stores/LogoutAttemptStore';
 
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
 	import { base } from '$app/paths';
 	import { cartStore } from '$lib/stores/CartStore';
 	import { shouldDisplayAngelBeeBanner } from '$lib/utils';
@@ -75,6 +74,8 @@
 		} else {
 			initClevertap();
 		}
+
+		handleBackHistoryForDeeplinks();
 	});
 	// initialising logging again with all new headers for routes of (app)
 
@@ -90,6 +91,37 @@
 			replaceState: true
 		});
 	};
+
+	/**
+	 * Handles direct deeplinks to the (app) route pages directly, and not from discoverfunds page.
+	 * adds the discoverfunds history entry and checks with the popstate event
+	 */
+	function handleBackHistoryForDeeplinks() {
+		let isDiscoverFundsPath = $page.url?.pathname?.includes('/discoverfunds');
+
+		const { platform } = data.sparkHeaders
+		// if this page is directly invoked and is not discoverfunds page
+		if (
+			(platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID ||
+				platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) &&
+			history.length === 1 &&
+			!isDiscoverFundsPath
+		) {
+			// mutate history, add path to state object. will be used in popstate event
+			const discoverfundsUrl = `${base}/discoverfunds`;
+			history.replaceState({ path: discoverfundsUrl }, '', discoverfundsUrl);
+			history.pushState({ path: $page.url.href }, '', $page.url.href);
+
+			// when using replaceState/pushState popstate event needs to be handled
+			window.addEventListener('popstate', function (e) {
+				// if pop event state has path key, route to that path
+				if (e.state.path) {
+					e.preventDefault();
+					goto(e.state.path, { replaceState: true });
+				}
+			});
+		}
+	}
 </script>
 
 <noscript>
