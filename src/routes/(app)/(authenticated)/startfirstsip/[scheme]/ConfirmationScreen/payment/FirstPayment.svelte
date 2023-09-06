@@ -39,7 +39,7 @@
 	export let hidePaymentMethodScreen = (): void => undefined;
 
 	const nextSipDateBufferDays = 30;
-	const allowedPaymentmethods = ['PHONEPE', 'GOOGLEPAY', 'UPI'];
+	const allowedPaymentmethods = ['PHONEPE', 'GOOGLEPAY', "PAYTM", 'UPI'];
 
 	$: profileData = $page?.data?.profile;
 

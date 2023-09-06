@@ -458,7 +458,7 @@
 
 	const changePaymentMethodScreenImpressionAnalyticsFunc = () => {
 		const eligiblePaymentMethods: string[] = [];
-		const allowedPaymentmethods = ['PHONEPE', 'GOOGLEPAY', 'UPI', 'NET_BANKING'];
+		const allowedPaymentmethods = ['PHONEPE', 'GOOGLEPAY', "PAYTM", 'UPI', 'NET_BANKING'];
 
 		allowedPaymentmethods?.forEach((method) => {
 			if (PAYMENT_MODE[method]?.enabled(Number(amount), os, redirectedFrom)) {
@@ -958,6 +958,7 @@
 		if (
 			(paymentHandler?.paymentMode === 'GOOGLEPAY' ||
 				paymentHandler?.paymentMode === 'PHONEPE' ||
+				paymentHandler?.paymentMode === 'PAYTM' ||
 				paymentHandler?.paymentMode === 'UPI') &&
 			parseInt(amount) > upiPaymentAmountLimit
 		) {
@@ -986,7 +987,7 @@
 			paymentHandler.selectedAccount = index;
 			const paymentMode = data?.paymentMode;
 			if (
-				(paymentMode === 'GOOGLEPAY' || paymentMode === 'PHONEPE') &&
+				(paymentMode === 'GOOGLEPAY' || paymentMode === 'PHONEPE'|| paymentMode === 'PAYTM') &&
 				os !== 'Android' &&
 				os !== 'iOS'
 			) {

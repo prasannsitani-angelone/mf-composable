@@ -189,6 +189,7 @@
 		if (
 			(paymentHandler?.paymentMode === 'GOOGLEPAY' ||
 				paymentHandler?.paymentMode === 'PHONEPE' ||
+				paymentHandler?.paymentMode === 'PAYTM' ||
 				paymentHandler?.paymentMode === 'UPI') &&
 			parseInt(amount) > upiPaymentAmountLimit
 		) {

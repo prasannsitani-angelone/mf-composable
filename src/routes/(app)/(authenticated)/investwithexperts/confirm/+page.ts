@@ -141,7 +141,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 				} else if (paymentMode === 'NET_BANKING' && amount < NET_BANKING_MIN_LIMIT) {
 					previousPaymentDetails.paymentMode = 'UPI';
 				} else if (
-					(paymentMode === 'GOOGLEPAY' || paymentMode === 'PHONEPE') &&
+					(paymentMode === 'GOOGLEPAY' || paymentMode === 'PHONEPE' || paymentMode === 'PAYTM') &&
 					os !== 'Android' &&
 					os !== 'iOS'
 				) {

@@ -149,7 +149,7 @@
 			} else if (paymentMode === 'NET_BANKING' && itemList?.totalAmount < NET_BANKING_MIN_LIMIT) {
 				paymentHandler.paymentMode = 'UPI';
 			} else if (
-				(paymentMode === 'GOOGLEPAY' || paymentMode === 'PHONEPE') &&
+				(paymentMode === 'GOOGLEPAY' || paymentMode === 'PHONEPE'|| paymentMode === 'PAYTM') &&
 				os !== 'Android' &&
 				os !== 'iOS'
 			) {
