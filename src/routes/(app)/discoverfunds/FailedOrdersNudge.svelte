@@ -35,7 +35,7 @@
 	export { orderCount, order };
 </script>
 
-<section class="my-2 rounded-lg shadow-csm">
+<section class="mt-2 rounded-lg shadow-csm">
 	<div
 		class="via-yellow flex items-center justify-start gap-3 rounded-tl rounded-tr-lg border-l-4 border-yellow-primary bg-gradient-to-r from-white to-yellow-50 px-4 py-2"
 	>

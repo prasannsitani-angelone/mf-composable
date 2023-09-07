@@ -267,7 +267,9 @@
 	<div class="row-start-{placementMapping.investments?.rowStart} col-start-1 sm:hidden">
 		{#if isLoggedInUser && deviceType?.isMobile}
 			{#if data?.investementSummary?.currentValue}
-				<div class="mb-2 block overflow-hidden">
+				<div
+					class="{placementMapping.investments?.rowStart > 1 ? 'mt-2' : ''} block overflow-hidden"
+				>
 					<PortfolioCard discoverPage={true} investmentSummary={data.investementSummary} />
 				</div>
 			{:else if nudgesData && startFirstSipNudgeData}
@@ -285,7 +287,10 @@
 	<!-- 2. Stories section -->
 	{#if storiesData?.stories?.length}
 		<StoriesComponent
-			class="row-start-{placementMapping.stories?.rowStart} col-start-1 !mb-0"
+			class="row-start-{placementMapping.stories?.rowStart} col-start-1 !mb-0 {placementMapping
+				.stories?.rowStart > 1
+				? 'mt-2'
+				: ''}"
 			stories={storiesData?.stories}
 			version="B"
 		/>
@@ -293,7 +298,10 @@
 
 	<!-- 3. Most Bought Section -->
 	<TrendingFunds
-		class="row-start-{placementMapping.trendingFunds?.rowStart} col-start-1"
+		class="row-start-{placementMapping.trendingFunds?.rowStart} col-start-1 !my-0 {placementMapping
+			.trendingFunds?.rowStart > 1
+			? '!mt-2'
+			: ''}"
 		tableData={data?.searchDashboardData?.weeklyTopSchemes}
 		version="B"
 	/>
@@ -301,7 +309,8 @@
 	<!-- 4. Sip Nudges -->
 	{#if sipPaymentNudges?.length}
 		<SipCard
-			class="row-start-{placementMapping.sipNudges?.rowStart} col-start-1 sm:hidden"
+			class="row-start-{placementMapping.sipNudges
+				?.rowStart} col-start-1 sm:hidden {placementMapping.sipNudges?.rowStart > 1 ? '!mt-2' : ''}"
 			sip={formattedSipNudgeData}
 			sipCount={sipPaymentNudges?.length}
 		/>
@@ -310,13 +319,21 @@
 	<!-- 5. Category Section -->
 	<article
 		class="row-start-{placementMapping.categories
-			?.rowStart} col-start-1 max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:mt-0"
+			?.rowStart} col-start-1 max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:mt-0 {placementMapping
+			.categories?.rowStart > 1
+			? '!mt-2'
+			: ''}"
 	>
 		<ExploreScheme searchOptions={data?.searchDashboardData?.searchOptions} />
 	</article>
 
 	<!-- 6. Other Nudges - Retry Payment Nudge & Others -->
-	<div class="row-start-{placementMapping.otherNudges?.rowStart} col-start-1">
+	<div
+		class="row-start-{placementMapping.otherNudges?.rowStart} col-start-1 {placementMapping
+			.otherNudges?.rowStart > 1
+			? '!my-0'
+			: '!-my-2'}"
+	>
 		{#if retryPaymentNudges?.length}
 			<FailedOrdersNudge
 				order={formattedRetryPaymentNudgeData}
@@ -335,7 +352,10 @@
 
 	<!-- 7. Quick Entry Points - External Funds, NFO, Calculator -->
 	<ExternalFundsNfoCalculatorCard
-		class="row-start-{placementMapping.quickEntryPoints?.rowStart} col-start-1"
+		class="row-start-{placementMapping.quickEntryPoints?.rowStart} col-start-1 {placementMapping
+			.quickEntryPoints?.rowStart > 1
+			? '!my-0 !mt-0'
+			: '!mt-0'}"
 		{isGuest}
 	/>
 
@@ -344,7 +364,10 @@
 		<PromotionCard
 			amcData={data.searchDashboardData.amcAd}
 			class="row-start-{placementMapping.promotionCard
-				?.rowStart} col-start-1 mt-3 rounded-lg text-center sm:hidden"
+				?.rowStart} col-start-1 mt-3 rounded-lg text-center sm:hidden {placementMapping
+				.promotionCard?.rowStart > 1
+				? '!my-0 !mt-2'
+				: '!mt-0'}"
 			imageClass="h-32 md:h-42 lg:h-32 w-full object-cover"
 		/>
 	{/if}

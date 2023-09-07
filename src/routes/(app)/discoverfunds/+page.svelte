@@ -66,6 +66,7 @@
 		Name: '',
 		Product: ''
 	};
+	let showExitNudge = false;
 
 	const getNudgeData = async () => {
 		let nudgesData: NudgeDataType = {
@@ -246,29 +247,104 @@
 
 	export let data: PageData;
 
-	let showExitNudge = false;
+	let placementMapping = {};
+
+	const setPlacement = () => {
+		placementMapping = {};
+
+		if ($page.data.deviceType?.isMobile || $page.data.deviceType?.isTablet) {
+			placementMapping = {
+				stories: { rowStart: 1, columnStart: 1 },
+				investments: { rowStart: 2, columnStart: 1 },
+				trendingFunds: { rowStart: 5, columnStart: 1 },
+				categories: { rowStart: 6, columnStart: 1 },
+				clevertapTrack: { rowStart: 3, columnStart: 1 },
+				sipNudges: { rowStart: 4, columnStart: 1 },
+				failedOrdersNudge: { rowStart: 7, columnStart: 1 },
+				curatedInvestmentCard: { rowStart: 8, columnStart: 1 },
+				quickEntryPoints: { rowStart: 9, columnStart: 1 },
+				promotionCard: { rowStart: 10, columnStart: 1 },
+				logout: { rowStart: 11, columnStart: 1 }
+			};
+		} else {
+			placementMapping = {
+				stories: { rowStart: 1, columnStart: 1 },
+				trendingFunds: { rowStart: 3, columnStart: 1 },
+				categories: { rowStart: 4, columnStart: 1 },
+				clevertapTrack: { rowStart: 2, columnStart: 1 },
+				failedOrdersNudge: { rowStart: 5, columnStart: 1 },
+				curatedInvestmentCard: { rowStart: 6, columnStart: 1 },
+				quickEntryPoints: { rowStart: 7, columnStart: 1 },
+				investments: { rowStart: 1, columnStart: 2 },
+				sipNudges: { rowStart: 2, columnStart: 2 },
+				promotionCard: { rowStart: 3, columnStart: 2 }
+			};
+		}
+	};
+
+	setPlacement();
 </script>
 
 <SEO
 	seoTitle="Find The Right Mutual Fund For Your Needs | Angel One"
 	seoDescription="Set your Goals and find the right Mutual Funds to achieve your goal. Explore mutual funds by performance and start your investment journey with Angel One."
 />
-<article>
-	<!-- Stories section -->
+
+<article class="grid grid-cols-[100%]">
+	<!-- 1. Stories section -->
 	{#if storiesData?.stories?.length}
-		<StoriesComponent stories={storiesData?.stories} version="A" />
+		<StoriesComponent
+			class="row-start-{placementMapping?.stories?.rowStart} col-start-{placementMapping?.stories
+				?.columnStart} !mb-0 {placementMapping?.stories?.rowStart > 1 ? 'mt-2' : ''}"
+			stories={storiesData?.stories}
+			version="A"
+		/>
 	{/if}
 
 	<!-- 2. <Portfolio Card / Start First SIP Nudge /> -->
 	{#if isLoggedInUser && deviceType?.isMobile}
 		{#if data?.investementSummary?.currentValue}
-			<div class="mb-2 block overflow-hidden sm:mb-0">
+			<div
+				class="row-start-{placementMapping?.investments?.rowStart} col-start-{placementMapping
+					?.investments?.columnStart} mb-0 block overflow-hidden {placementMapping?.investments
+					?.rowStart > 1
+					? 'mt-2'
+					: ''}"
+			>
 				<PortfolioCard discoverPage={true} investmentSummary={data?.investementSummary} />
 			</div>
 		{/if}
 	{/if}
+
+	<!-- 3. Most Bought Section -->
+	<TrendingFunds
+		class="row-start-{placementMapping?.trendingFunds?.rowStart} col-start-{placementMapping
+			?.trendingFunds?.columnStart} !my-0 {placementMapping?.trendingFunds?.rowStart > 1
+			? '!mt-2'
+			: ''}"
+		tableData={data?.searchDashboardData?.weeklyTopSchemes}
+		version="A"
+	/>
+
+	<!-- 4. Category Section -->
+	<article
+		class="max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:mt-0 row-start-{placementMapping
+			?.categories?.rowStart} col-start-{placementMapping?.categories
+			?.columnStart} {placementMapping?.categories?.rowStart > 1 ? '!mt-2' : ''}"
+	>
+		<ExploreScheme searchOptions={data?.searchDashboardData?.searchOptions} />
+	</article>
+
+	<!-- 5. CeleverTap Track -->
 	{#if ctKv.topic}
-		<div class="flex rounded bg-purple-glow p-3">
+		<div
+			class="row-start-{placementMapping?.clevertapTrack?.rowStart} col-start-{placementMapping
+				?.clevertapTrack
+				?.columnStart} flex overflow-hidden rounded bg-purple-glow p-3 {placementMapping
+				?.clevertapTrack?.rowStart > 1
+				? 'mt-2'
+				: ''}"
+		>
 			<WMSIcon class="h-9 w-9" name="import-external-funds" width={36} height={36} />
 			<p class="text-sm">
 				View your entire mutual fund portfolio in one place <span class="font-bold">Name:</span>
@@ -279,55 +355,100 @@
 			<Button variant="transparent">Track Now</Button>
 		</div>
 	{/if}
+
+	<!-- 6. Sip Nudges -->
 	<LazyComponent
 		sip={formattedSipNudgeData}
 		sipCount={sipPaymentNudges?.length}
+		class="row-start-{placementMapping?.sipNudges?.rowStart} col-start-{placementMapping?.sipNudges
+			?.columnStart} sm:hidden {placementMapping?.sipNudges?.rowStart > 1 ? '!mt-2' : ''}"
 		when={deviceType?.isMobile && sipPaymentNudges?.length}
 		component={async () => await import('../(authenticated)/sipbook/dashboard/SipCard.svelte')}
 	/>
 
-	<TrendingFunds tableData={data?.searchDashboardData?.weeklyTopSchemes} version="A" />
-
-	<article class="max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:mt-0">
-		<ExploreScheme searchOptions={data?.searchDashboardData?.searchOptions} />
-	</article>
-
-	<!-- Retry Payment Nudge -->
+	<!-- 7. Other Nudges - Retry Payment Nudge & Others -->
 	{#if retryPaymentNudges?.length}
-		<LazyComponent
-			order={formattedRetryPaymentNudgeData}
-			orderCount={retryPaymentNudges?.length}
-			when={retryPaymentNudges?.length > 0}
-			component={async () => await import('./FailedOrdersNudge.svelte')}
-		/>
-	{/if}
-
-	<LazyComponent
-		when={isLoggedInUser && deviceType?.isMobile && start4SipsNudgeData}
-		nudgeData={start4SipsNudgeData}
-		class="mt-2"
-		component={async () =>
-			await import('$components/InvestWithExperts/CuratedInvestmentCardComponent.svelte')}
-	/>
-
-	<!-- External Funds, NFO, Calculator -->
-
-	<!-- <IntersectionObserver once element={elementOnce} bind:intersecting={intersectOnce}>
-		<div bind:this={elementOnce}>
+		<div
+			class="row-start-{placementMapping?.failedOrdersNudge?.rowStart} col-start-{placementMapping
+				?.failedOrdersNudge?.columnStart} {placementMapping?.failedOrdersNudge?.rowStart > 1
+				? '!my-0'
+				: '!-my-2'}"
+		>
 			<LazyComponent
-				{isGuest}
-				when={intersectOnce}
-				component={async () =>
-					await import('./ExternalFundsNfoCalculatorCard/ExternalFundsNfoCalculatorCard.svelte')}
+				order={formattedRetryPaymentNudgeData}
+				orderCount={retryPaymentNudges?.length}
+				when={retryPaymentNudges?.length > 0}
+				component={async () => await import('./FailedOrdersNudge.svelte')}
 			/>
 		</div>
-	</IntersectionObserver> -->
-	<ExternalFundsNfoCalculatorCard {isGuest} />
+	{/if}
+
+	<!-- 8. Start 4 SIPs (curated) Section -->
+	<div
+		class="row-start-{placementMapping?.curatedInvestmentCard?.rowStart} col-start-{placementMapping
+			?.curatedInvestmentCard?.columnStart} {placementMapping?.curatedInvestmentCard?.rowStart > 1
+			? '!my-0 mt-2'
+			: '!-my-2'}"
+	>
+		<LazyComponent
+			when={isLoggedInUser && deviceType?.isMobile && start4SipsNudgeData}
+			nudgeData={start4SipsNudgeData}
+			component={async () =>
+				await import('$components/InvestWithExperts/CuratedInvestmentCardComponent.svelte')}
+		/>
+	</div>
+
+	<!-- 9. Quick Entry Points - External Funds, NFO, Calculator -->
+	<ExternalFundsNfoCalculatorCard
+		class="row-start-{placementMapping?.quickEntryPoints?.rowStart} col-start-{placementMapping
+			?.quickEntryPoints?.columnStart} {placementMapping?.quickEntryPoints?.rowStart > 1
+			? 'mt-2'
+			: ''}"
+		{isGuest}
+	/>
+
+	<!-- 10. PromotionCard -->
+	{#if data?.searchDashboardData?.amcAd && !deviceType?.isBrowser}
+		<div
+			class="row-start-{placementMapping?.promotionCard?.rowStart} col-start-{placementMapping
+				?.promotionCard?.columnStart} sm:hidden {placementMapping?.promotionCard?.rowStart > 1
+				? 'mt-2'
+				: ''}"
+		>
+			<IntersectionObserver once element={elementOnce} bind:intersecting={intersectOnce}>
+				<div bind:this={elementOnce}>
+					<LazyComponent
+						amcData={data.searchDashboardData.amcAd}
+						class="rounded-lg text-center"
+						imageClass="h-32 md:h-42 lg:h-32 w-full object-cover"
+						when={intersectOnce}
+						component={async () => await import('$components/Promotions/PromotionCard.svelte')}
+					/>
+				</div>
+			</IntersectionObserver>
+		</div>
+	{/if}
+
+	<!-- 11. Logout -->
+	{#if !($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) && deviceType?.isMobile && !isGuest}
+		<article
+			class="row-start-{placementMapping?.logout?.rowStart} col-start-{placementMapping?.logout
+				?.columnStart} flex justify-center sm:hidden"
+		>
+			<Button
+				variant="transparent"
+				class="mt-2 !w-min !bg-transparent !text-blue-primary"
+				onClick={logoutAttemptStore.showLogoutConfirmationPopup}
+			>
+				LOGOUT
+			</Button>
+		</article>
+	{/if}
 </article>
 
 {#if deviceType?.isBrowser}
-	<article>
-		<div class="sticky -top-2">
+	<article class="sticky -top-2 hidden grid-cols-[100%] sm:grid" style="height:min-content">
+		<div class="row-start-{placementMapping?.investments?.rowStart}">
 			{#if isLoggedInUser}
 				<div class="block overflow-hidden">
 					<PortfolioCard discoverPage={true} investmentSummary={data.investementSummary} />
@@ -336,7 +457,7 @@
 				<StartNewInvestment searchOptions={data?.searchDashboardData?.searchOptions} />
 			{/if}
 			{#if sipPaymentNudges?.length}
-				<section class="mt-2">
+				<section class="row-start-{placementMapping?.sipNudges?.rowStart} mt-2">
 					{#each sipPaymentNudges as sip, index (sip?.sipId + index)}
 						<LazyComponent
 							{sip}
@@ -352,7 +473,8 @@
 					<div bind:this={elementOnce}>
 						<LazyComponent
 							amcData={data.searchDashboardData.amcAd}
-							class="mt-3 rounded-lg text-center"
+							class="row-start-{placementMapping?.promotionCard
+								?.rowStart} mt-3 rounded-lg text-center"
 							imageClass="h-32 md:h-42 lg:h-32 w-full object-cover"
 							when={intersectOnce}
 							component={async () => await import('$components/Promotions/PromotionCard.svelte')}
@@ -361,32 +483,6 @@
 				</IntersectionObserver>
 			{/if}
 		</div>
-	</article>
-{/if}
-
-{#if data?.searchDashboardData?.amcAd && !deviceType?.isBrowser}
-	<IntersectionObserver once element={elementOnce} bind:intersecting={intersectOnce}>
-		<div bind:this={elementOnce}>
-			<LazyComponent
-				amcData={data.searchDashboardData.amcAd}
-				class="mt-3 rounded-lg text-center"
-				imageClass="h-32 md:h-42 lg:h-32 w-full object-cover"
-				when={intersectOnce}
-				component={async () => await import('$components/Promotions/PromotionCard.svelte')}
-			/>
-		</div>
-	</IntersectionObserver>
-{/if}
-
-{#if !($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) && deviceType?.isMobile && !isGuest}
-	<article class="flex justify-center sm:hidden">
-		<Button
-			variant="transparent"
-			class="mt-2 !w-min !bg-transparent !text-blue-primary"
-			onClick={logoutAttemptStore.showLogoutConfirmationPopup}
-		>
-			LOGOUT
-		</Button>
 	</article>
 {/if}
 
