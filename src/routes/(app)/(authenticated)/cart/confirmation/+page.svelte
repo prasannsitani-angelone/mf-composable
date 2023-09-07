@@ -44,6 +44,7 @@
 		paymentPendingScreenAnalytics
 	} from '../analytics/confirmation';
 	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
+	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
 
 	export let data: PageData;
 
@@ -149,13 +150,19 @@
 			} else if (paymentMode === 'NET_BANKING' && itemList?.totalAmount < NET_BANKING_MIN_LIMIT) {
 				paymentHandler.paymentMode = 'UPI';
 			} else if (
-				(paymentMode === 'GOOGLEPAY' || paymentMode === 'PHONEPE'|| paymentMode === 'PAYTM') &&
+				(paymentMode === 'GOOGLEPAY' || paymentMode === 'PHONEPE' || paymentMode === 'PAYTM') &&
 				os !== 'Android' &&
 				os !== 'iOS'
 			) {
 				paymentHandler.paymentMode = 'UPI';
 			} else {
-				paymentHandler.paymentMode = paymentMode;
+				const newPaymentMode =
+					paymentAppStore.checkIfPaymentAppInstalledElseGetFallback(paymentMode);
+				if (newPaymentMode) {
+					paymentHandler.paymentMode = newPaymentMode;
+				} else {
+					defaultValueToPaymentHandler();
+				}
 			}
 		} else {
 			defaultValueToPaymentHandler();
@@ -466,6 +473,7 @@
 		{/if}
 		{#if showChangePayment}
 			<ChangePaymentContainer
+				allowedPaymentmethods={$paymentAppStore.allPaymentApps}
 				amount={itemList?.totalAmount?.toString()}
 				onBackClick={hidePaymentMethodScreen}
 				selectedMode={paymentHandler?.paymentMode}

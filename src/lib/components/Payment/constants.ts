@@ -73,3 +73,11 @@ export const PAYMENT_MODE = {
 		showInput: false
 	}
 };
+
+export const INTENT_PAYMENT_APP_KEY_MAP = {
+	phonepe: 'PHONEPE',
+	gpay: 'GOOGLEPAY',
+	paytm: 'PAYTM'
+};
+
+export const NON_INTENT_PAYMENT_APP_KEY = ['UPI', 'NET_BANKING'];

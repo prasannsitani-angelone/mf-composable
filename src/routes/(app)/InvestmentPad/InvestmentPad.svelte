@@ -93,6 +93,7 @@
 	import PeopleIcon from '$lib/images/PeopleIcon.svg';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import ChangePaymentContainer from '$components/Payment/ChangePaymentContainer.svelte';
+	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -458,7 +459,7 @@
 
 	const changePaymentMethodScreenImpressionAnalyticsFunc = () => {
 		const eligiblePaymentMethods: string[] = [];
-		const allowedPaymentmethods = ['PHONEPE', 'GOOGLEPAY', "PAYTM", 'UPI', 'NET_BANKING'];
+		const allowedPaymentmethods = ['PHONEPE', 'GOOGLEPAY', 'PAYTM', 'UPI', 'NET_BANKING'];
 
 		allowedPaymentmethods?.forEach((method) => {
 			if (PAYMENT_MODE[method]?.enabled(Number(amount), os, redirectedFrom)) {
@@ -671,6 +672,11 @@
 
 		await tick();
 		checkIfOrderIsValidFromDeeplink();
+
+		paymentAppStore.subscribe(() => {
+			paymentHandler.paymentMode =
+				paymentAppStore.checkIfPaymentAppInstalledElseGetFallback(paymentHandler.paymentMode) || '';
+		});
 	});
 
 	onDestroy(() => {
@@ -987,7 +993,7 @@
 			paymentHandler.selectedAccount = index;
 			const paymentMode = data?.paymentMode;
 			if (
-				(paymentMode === 'GOOGLEPAY' || paymentMode === 'PHONEPE'|| paymentMode === 'PAYTM') &&
+				(paymentMode === 'GOOGLEPAY' || paymentMode === 'PHONEPE' || paymentMode === 'PAYTM') &&
 				os !== 'Android' &&
 				os !== 'iOS'
 			) {
@@ -1516,7 +1522,7 @@
 	<ChangePaymentContainer
 		{amount}
 		onBackClick={hidePaymentMethodScreen}
-		paymentModes={Object.keys(PAYMENT_MODE)}
+		allowedPaymentmethods={$paymentAppStore.allPaymentApps}
 		selectedMode={paymentHandler?.paymentMode}
 		onSelect={onPaymentModeSelect}
 		onSubmit={handleInvestClick}

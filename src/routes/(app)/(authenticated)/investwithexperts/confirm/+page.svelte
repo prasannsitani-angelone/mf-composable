@@ -26,6 +26,7 @@
 		payFromPaymentMethodPage,
 		payNowClickAnalytics
 	} from './analytics';
+	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
 
 	export let data: import('./$types').PageData;
 
@@ -80,6 +81,8 @@
 
 	const assignPreviousPaymentDetails = async (promise) => {
 		paymentHandler = await promise;
+		paymentHandler.paymentMode =
+			paymentAppStore.checkIfPaymentAppInstalledElseGetFallback(paymentHandler.paymentMode) || '';
 	};
 
 	const updatePaymentHandler = (input) => {
@@ -297,6 +300,7 @@
 			</article>
 		{:else}
 			<ChangePaymentContainerWithState
+				allowedPaymentmethods={$paymentAppStore.allPaymentApps}
 				amount={amount.toString()}
 				{paymentHandler}
 				bankAccounts={profileData?.bankDetails}

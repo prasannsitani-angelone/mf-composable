@@ -102,8 +102,8 @@
 		const { platform } = data.sparkHeaders;
 		// if this page is directly invoked and is not discoverfunds page
 		if (
-			(platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID ||
-				platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) &&
+			(platform?.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID ||
+				platform?.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) &&
 			history.length === 1 &&
 			!isDiscoverFundsPath
 		) {

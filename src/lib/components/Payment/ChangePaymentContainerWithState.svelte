@@ -32,6 +32,8 @@
 	};
 	export let defaultInputPaymentError = '';
 
+	export let allowedPaymentmethods = Object.keys(PAYMENT_MODE);
+
 	export let pendingFlow: (param: object) => void;
 	export let paymentFlow: (param: object) => void;
 	export let updatePaymentHandler: (param: object) => void;
@@ -240,7 +242,7 @@
 		<PaymentMethodHeader onBackClick={hidePaymentMethodScreen} isPartOfModal />
 		<slot name="schemeTile" />
 		<PaymentMethod
-			paymentModes={Object.keys(PAYMENT_MODE)}
+			paymentModes={allowedPaymentmethods}
 			selectedMode={paymentHandler?.paymentMode}
 			onSelect={onPaymentModeSelect}
 			onSubmit={onPaymentTypeSubmit}
