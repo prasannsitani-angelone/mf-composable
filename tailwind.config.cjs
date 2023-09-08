@@ -4,7 +4,36 @@ module.exports = {
 		'./src/**/*.{html,js,svelte,ts}',
 		'./node_modules/svelte-components/**/*.{html,js,svelte,ts}'
 	],
-	safelist: ['w-2', 'h-9', 'h-20', 'h-32'],
+	safelist: [
+		'w-2',
+		'h-9',
+		'h-20',
+		'h-32',
+		'row-start-1',
+		'row-start-2',
+		'row-start-3',
+		'row-start-4',
+		'row-start-5',
+		'row-start-6',
+		'row-start-7',
+		'row-start-8',
+		'row-start-9',
+		'row-start-10',
+		'row-start-11',
+		'row-start-12',
+		'col-start-1',
+		'col-start-2',
+		'col-start-3',
+		'col-start-4',
+		'col-start-5',
+		'col-start-6',
+		'col-start-7',
+		'col-start-8',
+		'col-start-9',
+		'col-start-10',
+		'col-start-11',
+		'col-start-12'
+	],
 	theme: {
 		extend: {
 			boxShadow: {
@@ -105,6 +134,20 @@ module.exports = {
 			},
 			bottom: {
 				18: '4.5rem'
+			},
+			gridRowStart: {
+				8: '8',
+				9: '9',
+				10: '10',
+				11: '11',
+				12: '12'
+			},
+			gridColumnStart: {
+				8: '8',
+				9: '9',
+				10: '10',
+				11: '11',
+				12: '12'
 			}
 		}
 	},

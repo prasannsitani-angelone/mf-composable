@@ -229,30 +229,30 @@
 		if ($page.data.deviceType?.isMobile) {
 			placementMapping = {
 				investments: { rowStart: 1, columnStart: 1 },
-				stories: { rowStart: 2, columnStart: 1 },
-				trendingFunds: { rowStart: 3, columnStart: 1 },
-				sipNudges: { rowStart: 4, columnStart: 1 },
-				categories: { rowStart: 5, columnStart: 1 },
-				otherNudges: { rowStart: 6, columnStart: 1 },
-				quickEntryPoints: { rowStart: 7, columnStart: 1 },
-				promotionCard: { rowStart: 8, columnStart: 1 },
-				logout: { rowStart: 9, columnStart: 1 }
+				startFirstSip: { rowStart: 2, columnStart: 1 },
+				stories: { rowStart: 3, columnStart: 1 },
+				trendingFunds: { rowStart: 4, columnStart: 1 },
+				sipNudges: { rowStart: 5, columnStart: 1 },
+				categories: { rowStart: 6, columnStart: 1 },
+				failedOrdersNudge: { rowStart: 7, columnStart: 1 },
+				curatedInvestmentCard: { rowStart: 8, columnStart: 1 },
+				quickEntryPoints: { rowStart: 9, columnStart: 1 },
+				promotionCard: { rowStart: 10, columnStart: 1 },
+				logout: { rowStart: 11, columnStart: 1 }
 			};
 		} else {
 			placementMapping = {
-				investments: { rowStart: 1, columnStart: 2 },
 				stories: { rowStart: 1, columnStart: 1 },
 				trendingFunds: { rowStart: 2, columnStart: 1 },
-				sipNudges: { rowStart: 2, columnStart: 2 },
 				categories: { rowStart: 3, columnStart: 1 },
-				otherNudges: { rowStart: 4, columnStart: 1 },
+				failedOrdersNudge: { rowStart: 4, columnStart: 1 },
 				quickEntryPoints: { rowStart: 5, columnStart: 1 },
+				logout: { rowStart: 6, columnStart: 1 },
+				investments: { rowStart: 1, columnStart: 2 },
 				promotionCard: { rowStart: 3, columnStart: 2 },
-				logout: { rowStart: 6, columnStart: 1 }
+				sipNudges: { rowStart: 2, columnStart: 2 }
 			};
 		}
-
-		// above is mocked api response now we will put actula position according to presence
 	};
 	setPlacement();
 </script>
@@ -272,65 +272,65 @@
 				>
 					<PortfolioCard discoverPage={true} investmentSummary={data.investementSummary} />
 				</div>
-			{:else if nudgesData && startFirstSipNudgeData}
-				<LazyComponent
-					when={isLoggedInUser && deviceType?.isMobile && startFirstSipNudgeData}
-					component={async () =>
-						await import('$components/StartFirstSip/StartFirstSipNudge.svelte')}
-					nudgeData={startFirstSipNudgeData}
-					version="B"
-				/>
 			{/if}
 		{/if}
 	</div>
 
-	<!-- 2. Stories section -->
+	<!-- 2. Start First SIP -->
+	<LazyComponent
+		class="row-start-{placementMapping?.startFirstSip?.rowStart} col-start-{placementMapping
+			?.startFirstSip?.columnStart} {placementMapping?.startFirstSip?.rowStart > 1 ? 'mt-2' : ''}"
+		when={isLoggedInUser && deviceType?.isMobile && nudgesData && startFirstSipNudgeData}
+		component={async () => await import('$components/StartFirstSip/StartFirstSipNudge.svelte')}
+		nudgeData={startFirstSipNudgeData}
+		version="A"
+	/>
+
+	<!-- 3. Stories section -->
 	{#if storiesData?.stories?.length}
 		<StoriesComponent
-			class="row-start-{placementMapping.stories?.rowStart} col-start-1 !mb-0 {placementMapping
-				.stories?.rowStart > 1
-				? 'mt-2'
-				: ''}"
+			class="row-start-{placementMapping?.stories?.rowStart} col-start-{placementMapping?.stories
+				?.columnStart} !mb-0 {placementMapping?.stories?.rowStart > 1 ? 'mt-2' : ''}"
 			stories={storiesData?.stories}
 			version="B"
 		/>
 	{/if}
 
-	<!-- 3. Most Bought Section -->
+	<!-- 4. Most Bought Section -->
 	<TrendingFunds
-		class="row-start-{placementMapping.trendingFunds?.rowStart} col-start-1 !my-0 {placementMapping
-			.trendingFunds?.rowStart > 1
+		class="row-start-{placementMapping?.trendingFunds?.rowStart} col-start-{placementMapping
+			?.trendingFunds?.columnStart} !my-0 {placementMapping?.trendingFunds?.rowStart > 1
 			? '!mt-2'
 			: ''}"
 		tableData={data?.searchDashboardData?.weeklyTopSchemes}
 		version="B"
 	/>
 
-	<!-- 4. Sip Nudges -->
+	<!-- 5. Sip Nudges -->
 	{#if sipPaymentNudges?.length}
 		<SipCard
-			class="row-start-{placementMapping.sipNudges
-				?.rowStart} col-start-1 sm:hidden {placementMapping.sipNudges?.rowStart > 1 ? '!mt-2' : ''}"
+			class="row-start-{placementMapping?.sipNudges?.rowStart} col-start-{placementMapping
+				?.sipNudges?.columnStart} sm:hidden {placementMapping?.sipNudges?.rowStart > 1
+				? '!mt-2'
+				: ''}"
 			sip={formattedSipNudgeData}
 			sipCount={sipPaymentNudges?.length}
 		/>
 	{/if}
 
-	<!-- 5. Category Section -->
+	<!-- 6. Category Section -->
 	<article
-		class="row-start-{placementMapping.categories
-			?.rowStart} col-start-1 max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:mt-0 {placementMapping
-			.categories?.rowStart > 1
-			? '!mt-2'
-			: ''}"
+		class="max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:mt-0 row-start-{placementMapping
+			?.categories?.rowStart} col-start-{placementMapping?.categories
+			?.columnStart} {placementMapping?.categories?.rowStart > 1 ? '!mt-2' : ''}"
 	>
 		<ExploreScheme searchOptions={data?.searchDashboardData?.searchOptions} />
 	</article>
 
-	<!-- 6. Other Nudges - Retry Payment Nudge & Others -->
+	<!-- 7. Other Nudges - Retry Payment Nudge & Others -->
 	<div
-		class="row-start-{placementMapping.otherNudges?.rowStart} col-start-1 {placementMapping
-			.otherNudges?.rowStart > 1
+		class="row-start-{placementMapping?.failedOrdersNudge?.rowStart} col-start-{placementMapping
+			?.failedOrdersNudge?.columnStart} {placementMapping?.failedOrdersNudge?.rowStart > 1
 			? '!my-0'
 			: '!-my-2'}"
 	>
@@ -342,41 +342,48 @@
 		{/if}
 	</div>
 
-	<LazyComponent
-		when={isLoggedInUser && deviceType?.isMobile && start4SipsNudgeData}
-		nudgeData={start4SipsNudgeData}
-		class="mt-2"
-		component={async () =>
-			await import('$components/InvestWithExperts/CuratedInvestmentCardComponent.svelte')}
-	/>
+	<!-- 8. Start 4 SIPs (curated) Section -->
+	<div
+		class="row-start-{placementMapping?.curatedInvestmentCard?.rowStart} col-start-{placementMapping
+			?.curatedInvestmentCard?.columnStart} {placementMapping?.curatedInvestmentCard?.rowStart > 1
+			? '!my-0 mt-2'
+			: '!-my-2'}"
+	>
+		<LazyComponent
+			when={isLoggedInUser && deviceType?.isMobile && start4SipsNudgeData}
+			nudgeData={start4SipsNudgeData}
+			component={async () =>
+				await import('$components/InvestWithExperts/CuratedInvestmentCardComponent.svelte')}
+		/>
+	</div>
 
-	<!-- 7. Quick Entry Points - External Funds, NFO, Calculator -->
+	<!-- 9. Quick Entry Points - External Funds, NFO, Calculator -->
 	<ExternalFundsNfoCalculatorCard
-		class="row-start-{placementMapping.quickEntryPoints?.rowStart} col-start-1 {placementMapping
-			.quickEntryPoints?.rowStart > 1
-			? '!my-0 !mt-0'
-			: '!mt-0'}"
+		class="row-start-{placementMapping?.quickEntryPoints?.rowStart} col-start-{placementMapping
+			?.quickEntryPoints?.columnStart} {placementMapping?.quickEntryPoints?.rowStart > 1
+			? 'mt-2'
+			: ''}"
 		{isGuest}
 	/>
 
-	<!-- 8. PromotionCard -->
+	<!-- 10. PromotionCard -->
 	{#if data?.searchDashboardData?.amcAd}
 		<PromotionCard
 			amcData={data.searchDashboardData.amcAd}
-			class="row-start-{placementMapping.promotionCard
-				?.rowStart} col-start-1 mt-3 rounded-lg text-center sm:hidden {placementMapping
-				.promotionCard?.rowStart > 1
-				? '!my-0 !mt-2'
-				: '!mt-0'}"
+			class="row-start-{placementMapping?.promotionCard?.rowStart} col-start-{placementMapping
+				?.promotionCard?.columnStart} rounded-lg text-center sm:hidden {placementMapping
+				?.promotionCard?.rowStart > 1
+				? 'mt-2'
+				: ''}"
 			imageClass="h-32 md:h-42 lg:h-32 w-full object-cover"
 		/>
 	{/if}
 
-	<!-- 9. Logout -->
+	<!-- 11. Logout -->
 	{#if !($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) && !isGuest}
 		<article
-			class="row-start-{placementMapping.logout
-				?.rowStart} col-start-1 flex justify-center sm:hidden"
+			class="row-start-{placementMapping?.logout?.rowStart} col-start-{placementMapping?.logout
+				?.columnStart} flex justify-center sm:hidden"
 		>
 			<Button
 				variant="transparent"

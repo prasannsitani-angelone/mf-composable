@@ -256,15 +256,16 @@
 			placementMapping = {
 				stories: { rowStart: 1, columnStart: 1 },
 				investments: { rowStart: 2, columnStart: 1 },
-				trendingFunds: { rowStart: 5, columnStart: 1 },
-				categories: { rowStart: 6, columnStart: 1 },
-				clevertapTrack: { rowStart: 3, columnStart: 1 },
-				sipNudges: { rowStart: 4, columnStart: 1 },
-				failedOrdersNudge: { rowStart: 7, columnStart: 1 },
-				curatedInvestmentCard: { rowStart: 8, columnStart: 1 },
-				quickEntryPoints: { rowStart: 9, columnStart: 1 },
-				promotionCard: { rowStart: 10, columnStart: 1 },
-				logout: { rowStart: 11, columnStart: 1 }
+				trendingFunds: { rowStart: 6, columnStart: 1 },
+				categories: { rowStart: 7, columnStart: 1 },
+				startFirstSip: { rowStart: 3, columnStart: 1 },
+				clevertapTrack: { rowStart: 4, columnStart: 1 },
+				sipNudges: { rowStart: 5, columnStart: 1 },
+				failedOrdersNudge: { rowStart: 8, columnStart: 1 },
+				curatedInvestmentCard: { rowStart: 9, columnStart: 1 },
+				quickEntryPoints: { rowStart: 10, columnStart: 1 },
+				promotionCard: { rowStart: 11, columnStart: 1 },
+				logout: { rowStart: 12, columnStart: 1 }
 			};
 		} else {
 			placementMapping = {
@@ -316,6 +317,16 @@
 		{/if}
 	{/if}
 
+	<!-- 3. Start First SIP -->
+	<LazyComponent
+		class="row-start-{placementMapping?.startFirstSip?.rowStart} col-start-{placementMapping
+			?.startFirstSip?.columnStart} {placementMapping?.startFirstSip?.rowStart > 1 ? 'mt-2' : ''}"
+		when={isLoggedInUser && deviceType?.isMobile && nudgesData && startFirstSipNudgeData}
+		component={async () => await import('$components/StartFirstSip/StartFirstSipNudge.svelte')}
+		nudgeData={startFirstSipNudgeData}
+		version="A"
+	/>
+
 	<!-- 3. Most Bought Section -->
 	<TrendingFunds
 		class="row-start-{placementMapping?.trendingFunds?.rowStart} col-start-{placementMapping
@@ -361,7 +372,7 @@
 		sip={formattedSipNudgeData}
 		sipCount={sipPaymentNudges?.length}
 		class="row-start-{placementMapping?.sipNudges?.rowStart} col-start-{placementMapping?.sipNudges
-			?.columnStart} sm:hidden {placementMapping?.sipNudges?.rowStart > 1 ? '!mt-2' : ''}"
+			?.columnStart} !mb-0 sm:hidden {placementMapping?.sipNudges?.rowStart > 1 ? '!mt-2' : ''}"
 		when={deviceType?.isMobile && sipPaymentNudges?.length}
 		component={async () => await import('../(authenticated)/sipbook/dashboard/SipCard.svelte')}
 	/>
