@@ -42,13 +42,8 @@ function createStore() {
 	const { subscribe } = derived(
 		appStore,
 		($appStore, set, update) => {
-			console.log('derived update called');
-			console.log('appStore', $appStore);
-
 			const paymentapps = $appStore.paymentapps;
-			console.log('paymentapps', paymentapps);
 			const intentPaymentApps = getMappedPaymentApps(paymentapps);
-			console.log('intentPaymentApps', intentPaymentApps);
 
 			update(() => {
 				return {
