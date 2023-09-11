@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Link from '$components/Link.svelte';
-	import DiscoverFundsNudge from '$components/Nudge/DiscoverFundsNudge.svelte';
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import { getBankLogoUrl } from '$lib/utils';
 	import { onMount } from 'svelte';
@@ -17,9 +16,12 @@
 		sipbookDashboardScreenOpenAnalytics
 	} from '$lib/analytics/sipbook/sipbook';
 	import { getDateTimeString } from '$lib/utils/helpers/date';
-	import { nudgeClick, nudgeImpression } from '$lib/analytics/DiscoverFunds';
 	import { format } from 'date-fns';
 	import type { INudge } from '$lib/types/INudge';
+	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
+	import SipBookAutoPayNudge from '$components/AutopaySetupTile/SipBookAutoPayNudge.svelte';
+	import { encodeObject } from '$lib/utils/helpers/params';
 
 	const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips`;
 	let showInactiveSipsCta = false;
@@ -110,6 +112,11 @@
 	}
 
 	export { sipBookData, data };
+
+	const navigateToEMandate = (amount) => {
+		const params = encodeObject({ amount: amount, showAlert: true });
+		goto(`${base}/autopay/manage?params=${params}`);
+	};
 </script>
 
 <section>
@@ -130,11 +137,11 @@
 						<section class="mb-2">
 							{#each nudgeData || [] as nudge, idx (idx)}
 								{#if nudge?.nudgesType === 'mandate'}
-									<DiscoverFundsNudge
-										{nudge}
-										clickEvent={nudgeClick}
-										impressionEvent={nudgeImpression}
-										class="mt-2 sm:mt-4"
+									<SipBookAutoPayNudge
+										amount={nudge.amount}
+										on:autoPayClick={() => {
+											navigateToEMandate(nudge.amount);
+										}}
 									/>
 								{/if}
 							{/each}
@@ -150,11 +157,11 @@
 						<section class="mb-2">
 							{#each nudgeData || [] as nudge, idx (idx)}
 								{#if nudge?.nudgesType === 'mandate'}
-									<DiscoverFundsNudge
-										{nudge}
-										clickEvent={nudgeClick}
-										impressionEvent={nudgeImpression}
-										class="mt-2 sm:mt-4"
+									<SipBookAutoPayNudge
+										amount={nudge.amount}
+										on:autoPayClick={() => {
+											navigateToEMandate(nudge.amount);
+										}}
 									/>
 								{/if}
 							{/each}

@@ -220,7 +220,14 @@
 </section>
 
 {#if upiState.flow === 2}
-	<UpiTransactionPopup {amount} timer={upiState.timer} onClose={onUPITransactionPopupClose} />
+	<UpiTransactionPopup
+		{amount}
+		timer={upiState.timer}
+		onClose={onUPITransactionPopupClose}
+		accNO={bankAccounts?.[paymentHandler?.selectedAccount]?.accNO}
+		bankName={bankAccounts?.[paymentHandler?.selectedAccount]?.bankName}
+		bankLogo={bankAccounts?.[paymentHandler?.selectedAccount]?.bankLogo}
+	/>
 {:else if upiState.flow === 3}
 	<UpiClosePopup onClose={onUPITransactionContinuation} onConfirm={upiCloseLogic} />
 {/if}

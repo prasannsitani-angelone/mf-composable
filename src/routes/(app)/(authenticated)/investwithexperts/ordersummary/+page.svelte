@@ -1,17 +1,14 @@
 <script lang="ts">
 	import OrderSummaryComponent from './components/OrderSummaryComponent.svelte';
 	import { OrderSummaryStatus } from './components/OrderSummaryStatus';
-	import AutopaySetupTile from '$components/AutopaySetupTile/AutopaySetupTile.svelte';
-	import Mandate from '$components/mandate/Mandate.svelte';
 	import { goto } from '$app/navigation';
 	import type { PageData } from './$types';
-	import { decodeToObject } from '$lib/utils/helpers/params';
+	import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
 	import { page } from '$app/stores';
 	import { Button } from 'svelte-components';
 	import { base } from '$app/paths';
 	import SkeletonLoader from './components/SkeletonLoader.svelte';
-
-	let mandateInstance = null;
+	import OrdersAutoPayComponent from '$components/AutopaySetupTile/OrdersAutoPayComponent.svelte';
 
 	export let data: PageData;
 
@@ -25,6 +22,15 @@
 
 	const navigateToOrders = async () => {
 		await goto(`${base}/orders/orderspage`, { replaceState: true });
+	};
+
+	const navigateToEmandate = (amount, date) => {
+		const params = encodeObject({
+			amount: amount,
+			date: date,
+			sipID: sipID
+		});
+		goto(`${base}/autopay/manage?params=${params}`);
 	};
 </script>
 
@@ -40,22 +46,11 @@
 	/>
 
 	{#if !isMandateLinked}
-		<div class="h-[130px]" />
-
-		<AutopaySetupTile
-			clazz="fixed inset-0 top-auto bg-white px-4 pb-5 pt-3"
-			onSubmit={() => {
-				mandateInstance?.startProcess();
-			}}
-		/>
-
-		<Mandate
-			bind:this={mandateInstance}
+		<OrdersAutoPayComponent
 			{sipID}
+			class="mx-2 mb-2 mt-2"
 			amount={totalAmount}
-			date={nextSipDueDate}
-			successButtonTitle="GO TO ORDERS"
-			onSuccess={navigateToOrders}
+			on:autoPayClick={() => navigateToEmandate(totalAmount, nextSipDueDate)}
 		/>
 	{:else}
 		<div class="flex justify-center bg-white pb-4">

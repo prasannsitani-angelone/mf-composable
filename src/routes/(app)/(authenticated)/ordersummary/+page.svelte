@@ -4,31 +4,25 @@
 	import type { PageData } from './$types';
 	import Header from './Header/HeaderComponent.svelte';
 	import { format } from 'date-fns';
-	import { decodeToObject } from '$lib/utils/helpers/params';
+	import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
 	import SchemeCard from './SchemeCard/SchemeCard.svelte';
 	import OrderStatusCard from './OrderStatusCard/OrderStatusCard.svelte';
 	import AutopayTile from './AutopayEnabledTile/AutopayEnabledTile.svelte';
-	import AutopaySetupTile from '$components/AutopaySetupTile/AutopaySetupTile.svelte';
 	import Button from '$components/Button.svelte';
 	import { onMount } from 'svelte';
 	import type { SIPData } from './type';
-	import {
-		goToDashboardButtonAnalytics,
-		sipGoTOSetupAutopayButtonAnalytics,
-		orderScreenOpenAnalytics
-	} from './analytics';
-	import Mandate from '$lib/components/mandate/Mandate.svelte';
+	import { goToDashboardButtonAnalytics, orderScreenOpenAnalytics } from './analytics';
 	import LoadingIndicator from '$components/LoadingIndicator.svelte';
 	import { invalidate } from '$app/navigation';
-	import { goTODashBoardButtonAnalytics } from '$components/mandate/analytics';
 	import { SEO } from 'svelte-components';
 	import { ORDER_STATUS } from '$lib/constants/orderFlowStatuses';
+	import OrdersAutoPayComponent from '$components/AutopaySetupTile/OrdersAutoPayComponent.svelte';
+	import { base } from '$app/paths';
 	export let data: PageData;
 
 	const params = $page.url.searchParams.get('params') || '';
 	const decodedParams = decodeToObject(params);
 	const { firstTimePayment, orderID, sipID, amount, date } = decodedParams;
-	let mandateInstance = null;
 
 	let orderStatusString = '';
 	let paymentStatusString = '';
@@ -63,18 +57,17 @@
 		await goto('orders/orderspage', { replaceState: true });
 	};
 
-	const navigateToOrdersByEmandate = async () => {
-		goTODashBoardButtonAnalytics();
-		await goto('orders/orderspage', { replaceState: true });
-	};
-
 	const onRefresh = async () => {
 		invalidate('app:ordersummary');
 	};
 
 	const navigateToEmandate = () => {
-		sipGoTOSetupAutopayButtonAnalytics();
-		mandateInstance.startProcess();
+		const params = encodeObject({
+			amount: amount,
+			date: date,
+			sipID: sipID
+		});
+		goto(`${base}/autopay/manage?params=${params}`);
 	};
 
 	const getNextSIPDate = (data: SIPData = {}) => {
@@ -172,15 +165,9 @@
 							GO TO ORDERS
 						</Button>
 					{:else if isSIPOrder && orderSummaryData?.paymentStatus === 'success'}
-						<AutopaySetupTile
-							clazz="mt-2 hidden sm:flex shadow-csm rounded"
-							onSubmit={navigateToEmandate}
-						/>
+						<OrdersAutoPayComponent class="mt-2" {amount} on:autoPayClick={navigateToEmandate} />
 					{:else if isSIPOrder}
-						<AutopaySetupTile
-							clazz="mt-2 hidden sm:flex shadow-csm rounded"
-							onSubmit={navigateToEmandate}
-						/>
+						<OrdersAutoPayComponent class="mt-2" {amount} on:autoPayClick={navigateToEmandate} />
 						<Button variant="transparent" class="mt-6 w-max self-center" onClick={navigateToOrders}>
 							GO TO ORDERS
 						</Button>
@@ -190,18 +177,7 @@
 						</Button>
 					{/if}
 				</div>
-				{#if !orderSummaryData.emandateBankDetails && isSIPOrder}
-					<AutopaySetupTile clazz="mt-2 sm:hidden" onSubmit={navigateToEmandate} />
-				{/if}
 			</div>
-			<Mandate
-				bind:this={mandateInstance}
-				{sipID}
-				{amount}
-				{date}
-				successButtonTitle="GO TO ORDERS"
-				onSuccess={navigateToOrdersByEmandate}
-			/>
 		{:else}
 			<div class="flex h-full flex-col items-center self-center px-4 py-4">
 				<div class="mb-4 text-center text-base font-medium text-black-title">

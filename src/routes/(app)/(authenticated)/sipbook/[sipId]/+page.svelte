@@ -54,6 +54,8 @@
 	import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 	import type { IInvestmentTypeSIP } from '$lib/types/ISipType';
 	import type { MandateWithBankDetails } from '$lib/types/IEmandate';
+	import SipBookAutoPayNudge from '$components/AutopaySetupTile/SipBookAutoPayNudge.svelte';
+	import { encodeObject } from '$lib/utils/helpers/params';
 
 	$: bankDetails = $profileStore?.bankDetails;
 	let showCancelSipActionModal = false;
@@ -350,13 +352,26 @@
 						linkHeading: mandateList.length > 0 ? linkAutopayHeading : setupAutopayHeading,
 						type: 'warn'
 					}}
-					<DiscoverFundsNudge
-						nudge={nudgeData}
-						onAction={mandateList.length > 0 ? () => onAction(sipData) : null}
-						clickEvent={() => nudgeClick(sipData, mandateList.length > 0)}
-						impressionEvent={() => nudgeImpression(sipData, mandateList.length > 0)}
-						class="mb-2 sm:mt-4"
+					<SipBookAutoPayNudge
+						amount={sipData.installmentAmount}
+						on:autoPayClick={() => {
+							if (mandateList.length > 0) {
+								onAction(sipData);
+							} else {
+								const params = encodeObject({ amount: sipData.installmentAmount, showAlert: true });
+								goto(`${base}/autopay/manage?params=${params}`);
+							}
+						}}
 					/>
+					{#if false}
+						<DiscoverFundsNudge
+							nudge={nudgeData}
+							onAction={mandateList.length > 0 ? () => onAction(sipData) : null}
+							clickEvent={() => nudgeClick(sipData, mandateList.length > 0)}
+							impressionEvent={() => nudgeImpression(sipData, mandateList.length > 0)}
+							class="mb-2 sm:mt-4"
+						/>
+					{/if}
 				{/await}
 			{/if}
 

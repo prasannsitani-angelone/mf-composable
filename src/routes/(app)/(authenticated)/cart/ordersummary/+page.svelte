@@ -2,18 +2,14 @@
 	import { goto, invalidate } from '$app/navigation';
 	import { base } from '$app/paths';
 	import Button from '$components/Button.svelte';
-	import Mandate from '$components/mandate/Mandate.svelte';
 	import { onMount } from 'svelte';
-	import AutopaySetupTile from '$components/AutopaySetupTile/AutopaySetupTile.svelte';
 	import HeaderComponent from '../../ordersummary/Header/HeaderComponent.svelte';
 	import OrdersTile from '../components/OrdersTile.svelte';
 	import type { PageData } from './$types';
-	import {
-		goToOrders,
-		mountAnalytics,
-		setUpAutoPayClickAnalytics
-	} from '../analytics/ordersummary';
+	import { goToOrders, mountAnalytics } from '../analytics/ordersummary';
 	import OrderSummaryLoader from '../components/OrderSummaryLoader.svelte';
+	import OrdersAutoPayComponent from '$components/AutopaySetupTile/OrdersAutoPayComponent.svelte';
+	import { encodeObject } from '$lib/utils/helpers/params';
 
 	export let data: PageData;
 
@@ -25,8 +21,6 @@
 		});
 	});
 
-	let mandateInstance = null;
-
 	const navigateToOrders = async () => {
 		goToOrders();
 		await goto(`${base}/orders/orderspage`, { replaceState: true });
@@ -36,9 +30,11 @@
 		invalidate('app:cart:ordersummary');
 	};
 
-	const navigateToEmandate = () => {
-		setUpAutoPayClickAnalytics();
-		mandateInstance.startProcess();
+	const navigateToEmandate = (amount) => {
+		const params = encodeObject({
+			amount: amount
+		});
+		goto(`${base}/autopay/manage?params=${params}`);
 	};
 </script>
 
@@ -64,17 +60,15 @@
 						onClick={navigateToOrders}
 						schemeLogoUrl={ordersData.schemeLogoUrl}
 					/>
+					{#if !ordersData.isMandateLinked && ordersData.investmentType === 'SIP'}
+						<OrdersAutoPayComponent
+							amount={ordersData.totalAmount}
+							class="mt-2"
+							on:autoPayClick={() => navigateToEmandate(ordersData.totalAmount)}
+						/>
+					{/if}
 				</div>
-				{#if !ordersData.isMandateLinked && ordersData.investmentType === 'SIP'}
-					<AutopaySetupTile onSubmit={navigateToEmandate} />
-				{/if}
 			</div>
-			<Mandate
-				bind:this={mandateInstance}
-				amount={ordersData.totalAmount?.toString()}
-				successButtonTitle="GO TO ORDERS"
-				onSuccess={navigateToOrders}
-			/>
 		{:else}
 			<div class="flex h-full flex-col items-center self-center px-4 py-4">
 				<div class="mb-4 text-center text-base font-medium text-black-title">

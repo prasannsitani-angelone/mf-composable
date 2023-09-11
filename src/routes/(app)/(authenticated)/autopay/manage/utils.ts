@@ -1,9 +1,22 @@
-import type { INudge } from '$lib/types/INudge';
-
-export const getSipAmountWithoutMandate = (list: INudge[]) => {
-	if (!list || !Array.isArray(list)) {
-		return 0;
+export const getSipAmountWithoutMandate = (data, permanentAmount = 0) => {
+	if (permanentAmount) {
+		return {
+			totalAmount: permanentAmount,
+			mandateAmount: permanentAmount
+		};
 	}
-	const filteredSip = list.filter((item: INudge) => item.nudgesType === 'mandate');
-	return filteredSip.reduce((acc: number, curr: INudge) => acc + Number(curr.amount), 0) || 0;
+
+	let totalAmount = 0;
+	let mandateAmount = 0;
+
+	totalAmount = data?.bookOverView?.totalSipInstallmentAmount || 0;
+
+	(data?.sips || []).forEach((element) => {
+		mandateAmount = Math.max(element.installmentAmount, mandateAmount);
+	});
+
+	return {
+		totalAmount,
+		mandateAmount
+	};
 };

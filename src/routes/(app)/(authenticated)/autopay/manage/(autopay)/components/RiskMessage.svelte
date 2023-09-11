@@ -1,12 +1,8 @@
 <script lang="ts">
 	import { WMSIcon } from 'svelte-components';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount.js';
-	import type { INudge } from '$lib/types/INudge';
-	import { getSipAmountWithoutMandate } from '../../utils';
 
-	export let nudgeData: INudge[];
-	let amount: number;
-	$: amount = getSipAmountWithoutMandate(nudgeData);
+	export let totalAmount: number;
 </script>
 
 <section
@@ -14,7 +10,7 @@
 		''}"
 >
 	<div class=" text-base font-semibold">
-		Your SIPs worth ₹{addCommasToAmountString(amount)} are at risk
+		Your SIPs worth ₹{addCommasToAmountString(totalAmount)} are at risk
 	</div>
 	<WMSIcon class="ml-2.5" name="risk-plug" />
 </section>

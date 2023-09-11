@@ -4,20 +4,20 @@ import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
 
 export const load = (async ({ fetch }) => {
-	const getNudgeData = async () => {
-		let nudgesData;
+	const getSipData = async () => {
+		let sipData = {};
 
-		const url = `${PUBLIC_MF_CORE_BASE_URL}/nudges`;
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/sips`;
 		const res = await useFetch(url, {}, fetch);
 		if (res.ok) {
-			nudgesData = res?.data;
-			return nudgesData;
+			sipData = res?.data;
+			return sipData;
 		}
-		return nudgesData;
+		return sipData;
 	};
 	return {
 		api: {
-			data: browser ? getNudgeData() : await getNudgeData()
+			data: browser ? getSipData() : await getSipData()
 		}
 	};
 }) satisfies PageLoad;

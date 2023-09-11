@@ -1575,7 +1575,14 @@
 {/if}
 
 {#if upiState.flow === 2}
-	<UpiTransactionPopup {amount} timer={upiState.timer} onClose={onUPITransactionPopupClose} />
+	<UpiTransactionPopup
+		{amount}
+		timer={upiState.timer}
+		onClose={onUPITransactionPopupClose}
+		accNO={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO}
+		bankName={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName}
+		bankLogo={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankLogo}
+	/>
 {:else if upiState.flow === 3}
 	<UpiClosePopup onClose={onUPITransactionContinuation} onConfirm={upiCloseLogic} />
 {/if}

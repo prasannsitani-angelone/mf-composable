@@ -1,34 +1,57 @@
 <script lang="ts">
-	import ResultPopup from '$components/Popup/ResultPopup.svelte';
-	import MandateLimitTile from './MandateLimitTile.svelte';
-	import WMSIcon from '$lib/components/WMSIcon.svelte';
+	import Modal from '$components/Modal.svelte';
+	import WmsIcon from '$components/WMSIcon.svelte';
+	import Button from '$components/Button.svelte';
+	import { addCommasToAmountString } from 'svelte-components';
 
-	export let buttonTitle: string;
+	export let mandateLimit: number;
+	export let closeModal = () => '';
 	export let onSubmit = (): void => undefined;
-	export let mandateLimit: string;
 </script>
 
-<ResultPopup
-	{buttonTitle}
-	buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
-	class="h-full px-4 pb-6 pt-12 sm:h-max sm:px-12 sm:py-20 md:rounded-lg"
-	handleButtonClick={onSubmit}
-	isModalOpen
-	buttonVariant="contained"
->
-	<svelte:fragment slot="popupBody">
-		<div class="flex flex-col items-center">
-			<div>
-				<WMSIcon name="success-tick-sparkle" height={112} width={270} />
+<Modal {closeModal} isModalOpen>
+	<div
+		class=" w-screen justify-between rounded-b-none rounded-t-2xl bg-white px-4 pb-3 pt-6 text-left sm:!w-[460px] sm:rounded-lg sm:px-16 sm:py-8"
+	>
+		<div class="flex flex-col items-center justify-between">
+			<div class=""><WmsIcon width={92} height={92} name="success-tick-circle" /></div>
+			<div class=" my-4 text-2xl font-medium text-black-title">Autopay Registered</div>
+			<div class="mb-5 text-center text-sm font-normal text-grey-body">
+				Autopay activation is in progress. It may take up to 7 days. Existing unlinked and Future
+				SIP payments will be automatically debited post activation.
 			</div>
-			<div class="my-8 flex flex-col items-center">
-				<div class="mb-2 mt-4 text-lg font-medium text-black-title">Autopay Setup Successfully</div>
-				<div class="mb-5 text-center text-sm text-grey-body">
-					Future SIP instalments will be paid automatically every month. Please note it takes up to
-					7 days to activate your eMandate
+			<div
+				class=" mb-4 flex w-full items-center justify-center rounded bg-blue-background px-6 py-2"
+			>
+				<div class=" mr-1 text-sm font-medium text-grey-body">Autopay limit</div>
+				<div class=" text-lg font-medium text-black-title">
+					₹{addCommasToAmountString(mandateLimit)}
 				</div>
-				<MandateLimitTile {mandateLimit} />
 			</div>
+			<div class=" mb-9 flex w-full items-center rounded bg-blue-background p-2">
+				<div class="info-icon-container">
+					<WmsIcon
+						width={20}
+						height={20}
+						name="info-in-circle-dark"
+						class="info-in-circle-dark-icon"
+					/>
+				</div>
+				<div class="ml-3 text-sm font-normal text-grey-body">
+					If your SIP order is already in progress, autopay will be used from the next instalment
+				</div>
+			</div>
+
+			<Button class="w-full sm:w-48" onClick={onSubmit}>DONE</Button>
 		</div>
-	</svelte:fragment>
-</ResultPopup>
+	</div>
+</Modal>
+
+<style>
+	.info-icon-container :global(.info-in-circle-dark-icon path) {
+		stroke: #3f5bd9;
+	}
+	.info-icon-container :global(.info-in-circle-dark-icon circle) {
+		stroke: #3f5bd9;
+	}
+</style>

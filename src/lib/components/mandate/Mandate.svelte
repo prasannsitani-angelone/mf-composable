@@ -1,364 +1,326 @@
 <script lang="ts">
 	import BankSelectionPopup from '$components/BankSelectionPopup.svelte';
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
-	import logger from '$lib/utils/logger';
-	import { onDestroy, onMount } from 'svelte';
+	import type { UserProfile } from '$lib/types/IUserProfile';
+	import { onDestroy } from 'svelte';
 	import LoadingPopup from '../../../routes/(app)/InvestmentPad/OrderPadComponents/LoadingPopup.svelte';
-	import {
-		PUBLIC_MANDATE_BASE_URL,
-		PUBLIC_MANDATE_SOURCE,
-		PUBLIC_MF_CORE_BASE_URL
-	} from '$env/static/public';
-	import { useFetch } from '$lib/utils/useFetch';
-	import { base } from '$app/paths';
-	import { add } from 'date-fns';
-	import { page } from '$app/stores';
-	import { stringToFloat, stringToInteger } from '$lib/utils/helpers/numbers';
-	import { getCompleteSIPDateBasedonDD } from '$lib/utils/helpers/date';
+
+	import { EMANDATE_MODE } from './constants';
+	import UpiTransactionPopup from '$components/Payment/UPITransactionPopup.svelte';
+	import UpiClosePopup from '$components/Payment/UPIClosePopup.svelte';
 	import SuccessPopup from './components/SuccessPopup.svelte';
-	import { browser } from '$app/environment';
-	import {
-		screenOpenAnalytics,
-		accounChangeAnalytics,
-		emandateProceedButtonAnalytics,
-		netBankingPopupAnalytics,
-		emandateCreatedSuccessfullyAnalytics,
-		emandateCreatedSuccessDoneButtonAnalytics,
-		emandateCreateFailedAnalytics,
-		emandateCreateFailedDoneButtonAnalytics
-	} from './analytics';
+	import EmandateMethod from './components/EmandateMethod.svelte';
+	import { stringToFloat } from 'svelte-components';
+	import { getMandateAmount, initializeUPIState, intializeNetBankingState } from './utils';
+	import { netBankingFlow, upiFlow, walletFlow } from './flow';
+	import { add } from 'date-fns';
+	import { accounChangeAnalytics } from './analytics';
 
-	export let sipID = '';
-	export let amount = '';
-	export let date = '';
-	export let successButtonTitle = '';
-	export let onSuccess = (): void => undefined;
-	export let displayErrorCallback = (): void => undefined;
-	export let selectedAccount = 0;
+	export let profileData: UserProfile;
+	export let amount: string;
+	export let mode: string;
+	export let defaultBankAccount: number;
+	export let allowedPaymentMethods = Object.keys(EMANDATE_MODE);
+	export let onStart = (): void => undefined;
+	export let onSuccessCallback = (): void => undefined;
+	export let onErrorCallback = (): void => undefined;
+	export let onPendingCallback = (): void => undefined;
+	export let onSuccessPopupClick = (): void => undefined;
+	export let updateMode = (): void => undefined;
 
-	let bankPopupOpen = false;
-	let emandateWindow = null;
-	let interval = null;
+	// emandate
 	const amountInNumber = stringToFloat(amount);
-	const sipDate = date ? getCompleteSIPDateBasedonDD(stringToInteger(date)) : new Date();
-
-	$: profileData = $page?.data?.profile;
-
-	let isLoading = false;
 	let isSuccess = false;
+	let paymentHandler = {
+		selectedAccount: 0,
+		emandateMode: mode,
+		upiId: '',
+		firstTimeUser: true
+	};
+	let inputPaymentError = '';
+	let bankPopupVisible = false;
+	let validateUPILoading = false;
 	const error = {
 		visible: false,
 		heading: '',
 		subHeading: ''
 	};
-
-	const onBankPopupClose = (): void => {
-		toggleBankPopup();
+	const loadingState = {
+		heading: '',
+		isLoading: false
 	};
-
-	const toggleBankPopup = () => {
-		bankPopupOpen = !bankPopupOpen;
+	const state = {
+		interval: null
 	};
-
-	const stopLoading = () => {
-		isLoading = false;
+	const upiState = {
+		flow: 0,
+		timer: 0,
+		timerInterval: null,
+		paymentWindowInterval: null
 	};
-
-	const displayError = ({ heading = 'Autopay Setup Failed', errorSubHeading = '' }) => {
-		error.visible = true;
-		error.heading = heading;
-		error.subHeading = errorSubHeading;
-		displayErrorCallback();
+	const netBankingState = {
+		paymentWindow: null,
+		paymentWindowInterval: null
 	};
-
-	const closeErrorPopup = () => {
-		emandateCreateFailedDoneButtonAnalytics();
-		error.heading = '';
-		error.subHeading = '';
-		error.visible = false;
+	const gpayPaymentState = {
+		paymentWindowInterval: null,
+		waitTime: 10
 	};
-
-	const resetEmandateInterval = () => {
-		if (interval) {
-			clearInterval(interval);
-		}
-	};
-
-	const closeEmandateWindow = () => {
-		if (emandateWindow) {
-			emandateWindow.close();
-		}
-	};
-
-	const orderPurchasePatchFunc = async (emandateId: string) => {
-		try {
-			const url = `${PUBLIC_MF_CORE_BASE_URL}/sips/${sipID}`;
-			await useFetch(url, {
-				method: 'PATCH',
-				body: JSON.stringify({
-					emandateId
-				})
-			});
-		} catch (e) {
-			return;
-		}
-	};
-
-	const orderPurchaseBulkPatchFunc = async (emandateId: string) => {
-		try {
-			const url = `${PUBLIC_MF_CORE_BASE_URL}/sips/bulk`;
-			await useFetch(url, {
-				method: 'PATCH',
-				body: JSON.stringify({
-					emandateId
-				})
-			});
-		} catch (e) {
-			return;
-		}
-	};
-
-	const listenerFunc = (event) => {
-		if (location.origin === event?.origin && event?.data?.source === 'emandateCallback') {
-			logger.debug({
-				type: 'Emandate Redirection Response',
-				params: event?.data
-			});
-			stopLoading();
-			resetEmandateInterval();
-			closeEmandateWindow();
-			if (event.data.status === 'success') {
-				const emandateID = event.data.digio_doc_id;
-				if (sipID) {
-					orderPurchasePatchFunc(emandateID);
-				} else {
-					orderPurchaseBulkPatchFunc(emandateID);
-				}
-				isSuccess = true;
-				emandateCreatedSuccessfullyAnalytics();
-			} else if (event.data.status === 'failure') {
-				emandateCreateFailedAnalytics();
-				stopLoading();
-				displayError({
-					heading: 'Autopay Setup Failed',
-					errorSubHeading:
-						event.data.message ||
-						'We were unable to set up your autopay due to a technical issue. Please try again'
-				});
-			} else {
-				emandateCreateFailedAnalytics();
-				stopLoading();
-				displayError({
-					heading: 'Autopay Setup Failed',
-					errorSubHeading:
-						event.data.message ||
-						'You have cancelled the eMandate request for Autopay. Please try again or use another authorisation mode'
-				});
-			}
-		}
-	};
-
-	onMount(() => {
-		window.addEventListener('message', listenerFunc);
-	});
 
 	onDestroy(() => {
-		if (browser) {
-			resetEmandateInterval();
-			window.removeEventListener('message', listenerFunc, false);
-		}
+		resetState();
 	});
 
-	const getSipStartDateWithoutFormat = () => {
-		const now = new Date();
-		return add(now, { days: 1 });
-	};
+	//  ------- helpers functions -----------
 
-	const getSipStartDate = () => {
-		return getSipStartDateWithoutFormat().getTime();
-	};
-
-	const isValidDate = (date: Date): boolean => {
-		if (isNaN(date)) {
-			return false;
-		}
-		return true;
-	};
-
-	const getSipEndDate = () => {
-		const date = isValidDate(sipDate) ? sipDate : getSipStartDateWithoutFormat();
-		return add(date, {
-			months: 9999
-		}).getTime();
-	};
-
-	const getMandateAmount = (amount: number) => {
-		if (amount <= 100000) {
-			return 100000;
-		} else if (amount <= 500000) {
-			return 500000;
-		} else if (amount > 500000) {
-			return 1000000;
-		}
-		return 100000;
-	};
-
-	const getMandateBody = (authMode: string) => {
-		return {
-			client_full_name: profileData.clientDetails.shortName,
-			client_mobile_number: profileData?.mobile,
-			client_code: profileData?.clientId,
-			bank_name: profileData?.bankDetails?.[selectedAccount]?.bankName,
-			bank_account_number: profileData?.bankDetails?.[selectedAccount]?.accNO,
-			bank_account_type: profileData?.bankDetails?.[selectedAccount]?.accountType || 'savings',
-			bank_ifsc_code: profileData?.bankDetails?.[selectedAccount]?.ifscCode,
-			type: authMode,
-			frequency: 'monthly',
-			product: 'mf',
-			amount: getMandateAmount(amountInNumber),
-			request_source: PUBLIC_MANDATE_SOURCE,
-			start_date: getSipStartDate(),
-			end_date: getSipEndDate()
+	const updatePaymentHandler = (updateItem) => {
+		paymentHandler = {
+			...paymentHandler,
+			...updateItem
 		};
 	};
 
-	const callMandateAPI = async () => {
-		try {
-			const url = `${PUBLIC_MANDATE_BASE_URL}/mandate`;
-			const response = await useFetch(url, {
-				method: 'POST',
-				body: JSON.stringify(getMandateBody('api'))
-			});
-			return response;
-		} catch (e) {
-			return {};
-		}
+	const onEmandateModeSelect = (emandateMode: string) => {
+		updateMode(emandateMode);
+		updatePaymentHandler({
+			emandateMode,
+			firstTimeUser: false
+		});
+
+		const eventMetaData = {
+			mode: paymentHandler?.emandateMode
+		};
+
+		EMANDATE_MODE[emandateMode].analytics(eventMetaData);
 	};
 
-	const handleMandateResponse = (response) => {
-		if (!emandateWindow || (emandateWindow && emandateWindow.closed)) {
-			stopLoading();
-			displayError({
-				heading: 'Autopay Setup Failed',
-				errorSubHeading: 'You have cancelled the request for Autopay. Please try again.'
-			});
-			throw new Error('');
-		} else if (!response?.ok) {
-			closeEmandateWindow();
-			stopLoading();
-			if (response?.data?.error_code === 'ERROR-API-MANDATE-NOT-SUPPORTED') {
-				displayError({
-					heading: 'Autopay Currently Unavailable',
-					errorSubHeading:
-						'Autopay is temporarily unavailable. Please try again later from the SIPs section.'
-				});
-			} else {
-				displayError({
-					heading: 'Autopay Setup Failed',
-					errorSubHeading:
-						response?.data?.message ||
-						'We were unable to set up your autopay due to a technical issue. Please try again'
-				});
-			}
-			throw new Error('');
-		}
-	};
-
-	const paymentWindowCloseLogic = (delay = 1) => {
-		interval = setInterval(() => {
-			if (emandateWindow && emandateWindow.closed) {
-				resetEmandateInterval();
-				stopLoading();
-				displayError({
-					heading: 'Autopay Setup Failed',
-					errorSubHeading:
-						'You have cancelled the eMandate request for Autopay. Please try again or use another authorisation mode'
-				});
-			}
-		}, delay * 1000);
-	};
-
-	const startEmandateProcess = async () => {
-		try {
-			emandateProceedButtonAnalytics({
-				Amount: amount,
-				sipID,
-				date
-			});
-			openWindow();
-			netBankingPopupAnalytics();
-			isLoading = true;
-			const response = await callMandateAPI();
-			handleMandateResponse(response);
-			emandateWindow.location.replace(
-				`${response?.data?.data?.redirect_url}?redirect_url=${window.location.origin}${base}/emandateCallback`
-			);
-			paymentWindowCloseLogic();
-		} catch (e) {
-			stopLoading();
-		}
-	};
-
-	const openWindow = () => {
-		emandateWindow = window.open(
-			`${window.location.origin}${base}/intermediateLoading`,
-			'EMANDATE_WINDOW'
-		);
-	};
-
-	export const startProcess = (skipBankSelection = false) => {
-		screenOpenAnalytics();
-		if (profileData?.bankDetails.length > 1 && !skipBankSelection) {
-			toggleBankPopup();
-		} else {
-			startEmandateProcess();
-		}
+	const resetInputPaymentError = () => {
+		inputPaymentError = '';
 	};
 
 	const onAccountChange = (index: number) => {
 		accounChangeAnalytics({
 			BankAccount: profileData?.bankDetails?.[index]?.bankName
 		});
-		selectedAccount = index;
-		startEmandateProcess();
+		updatePaymentHandler({
+			selectedAccount: index
+		});
 	};
+
+	const hideBankPopup = () => {
+		bankPopupVisible = false;
+	};
+
+	const showBankPopup = () => {
+		bankPopupVisible = true;
+	};
+
+	const stopLoading = () => {
+		loadingState.isLoading = false;
+		loadingState.heading = '';
+	};
+
+	const showUPILoading = () => {
+		validateUPILoading = true;
+	};
+
+	const stopUPILoading = () => {
+		validateUPILoading = false;
+	};
+
+	const displayError = ({ heading = 'Autopay Setup Failed', errorSubHeading = '' }) => {
+		error.visible = true;
+		error.heading = heading;
+		error.subHeading = errorSubHeading;
+	};
+
+	const closeErrorPopup = () => {
+		error.heading = '';
+		error.subHeading = '';
+		error.visible = false;
+	};
+
+	const showLoading = (heading: string) => {
+		loadingState.isLoading = true;
+		loadingState.heading = heading;
+	};
+
+	const onUPITransactionPopupClose = () => {
+		upiState.flow = 3;
+	};
+
+	const onUPITransactionContinuation = () => {
+		upiState.flow = 2;
+	};
+
+	const upiCloseLogic = async () => {
+		upiState.flow = 0;
+	};
+
+	const resetState = () => {
+		if (state.interval) {
+			clearInterval(state.interval);
+		}
+		intializeNetBankingState(netBankingState);
+		initializeUPIState(upiState);
+		// initializeGPayState(gpayPaymentState);
+	};
+	// -------- **** ----------
+
+	const upiValidationErrorHandler = (error) => {
+		inputPaymentError = error;
+	};
+
+	const updateUPITimer = (time: number) => {
+		upiState.timer = time;
+	};
+
+	const getSipStartDateWithoutFormat = () => {
+		const now = new Date();
+		return add(now, { days: 0 });
+	};
+
+	const getSipStartDate = () => {
+		return getSipStartDateWithoutFormat().getTime();
+	};
+
+	const getSipEndDate = () => {
+		return add(getSipStartDateWithoutFormat(), {
+			months: 360
+		}).getTime();
+	};
+
+	const onError = ({ heading = '', errorSubHeading = '' }) => {
+		onErrorCallback();
+		displayError({
+			heading,
+			errorSubHeading
+		});
+	};
+
+	const onSuccess = (params) => {
+		isSuccess = true;
+		onSuccessCallback(params);
+	};
+
+	const onPending = ({ heading = '', errorSubHeading = '' }) => {
+		onPendingCallback();
+		displayError({
+			heading,
+			errorSubHeading
+		});
+	};
+
+	const onEmandateSubmit = async (inputId: string) => {
+		onStart(paymentHandler.emandateMode);
+		const commonInput = {
+			amount,
+			sipStartDate: getSipStartDate(),
+			sipEndDate: getSipEndDate(),
+			accNO: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO,
+			ifscCode: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.ifscCode,
+			bankName: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
+			shortName: profileData?.clientDetails?.shortName,
+			clientId: profileData?.clientId,
+			accountType: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accountType,
+			mobile: profileData?.mobile,
+			showLoading,
+			stopLoading,
+			onError,
+			onSuccess,
+			onPending
+		};
+
+		if (paymentHandler.emandateMode === 'NET_BANKING') {
+			netBankingFlow({
+				...commonInput,
+				netBankingState
+			});
+		} else if (paymentHandler.emandateMode === 'UPI') {
+			upiFlow({
+				...commonInput,
+				inputId,
+				upiState,
+				state,
+				showUPILoading,
+				stopUPILoading,
+				updateUPITimer,
+				onUPIValidationFailure: upiValidationErrorHandler
+			});
+		} else {
+			walletFlow({
+				emandateModeName: EMANDATE_MODE[paymentHandler.emandateMode].name,
+				emandateModeAPIName: EMANDATE_MODE[paymentHandler.emandateMode].apiName,
+				...commonInput,
+				gpayPaymentState,
+				state
+			});
+		}
+	};
+
+	$: updatePaymentHandler({
+		selectedAccount: defaultBankAccount > 0 ? defaultBankAccount : 0,
+		emandateMode: mode
+	});
 </script>
 
-<div>
-	{#if bankPopupOpen}
-		<BankSelectionPopup
-			bankAccounts={profileData?.bankDetails}
-			{onAccountChange}
-			{selectedAccount}
-			onClose={onBankPopupClose}
-		/>
-	{/if}
+<EmandateMethod
+	emandateModes={allowedPaymentMethods}
+	selectedMode={paymentHandler?.emandateMode}
+	onSelect={onEmandateModeSelect}
+	onSubmit={onEmandateSubmit}
+	{amount}
+	bankAccounts={profileData?.bankDetails}
+	selectedAccount={paymentHandler?.selectedAccount}
+	inputError={inputPaymentError}
+	resetInputError={resetInputPaymentError}
+	defaultInputVal={paymentHandler?.upiId || ''}
+	onChangeBankClick={showBankPopup}
+	isLoading={validateUPILoading || loadingState.isLoading}
+	class="sm:px-8 sm:py-8"
+/>
 
-	{#if isLoading}
-		<LoadingPopup heading="Redirecting to your Bank" />
-	{:else if error.visible}
-		<ResultPopup
-			popupType="FAILURE"
-			title={error.heading}
-			text={error.subHeading}
-			class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
-			isModalOpen
-			handleButtonClick={closeErrorPopup}
-			closeModal={closeErrorPopup}
-			buttonTitle="RETRY"
-			buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
-			buttonVariant="contained"
-		/>
-	{:else if isSuccess}
-		<slot name="mandate-success">
-			<SuccessPopup
-				mandateLimit={getMandateAmount(amountInNumber)?.toString()}
-				buttonTitle={successButtonTitle}
-				onSubmit={() => {
-					emandateCreatedSuccessDoneButtonAnalytics();
-					onSuccess();
-				}}
-			/>
-		</slot>
-	{/if}
-</div>
+{#if bankPopupVisible}
+	<BankSelectionPopup
+		bankAccounts={profileData?.bankDetails}
+		selectedAccount={paymentHandler?.selectedAccount}
+		{onAccountChange}
+		onClose={hideBankPopup}
+	/>
+{/if}
+
+{#if upiState.flow === 2}
+	<UpiTransactionPopup
+		{amount}
+		timer={upiState.timer}
+		onClose={onUPITransactionPopupClose}
+		accNO={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO}
+		bankName={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName}
+		bankLogo={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankLogo}
+	/>
+{:else if upiState.flow === 3}
+	<UpiClosePopup onClose={onUPITransactionContinuation} onConfirm={upiCloseLogic} />
+{/if}
+
+{#if loadingState.isLoading}
+	<LoadingPopup heading={loadingState.heading} />
+{:else if error.visible}
+	<ResultPopup
+		popupType="FAILURE"
+		title={error.heading}
+		text={error.subHeading}
+		class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+		isModalOpen
+		handleButtonClick={closeErrorPopup}
+		closeModal={closeErrorPopup}
+		buttonTitle="TRY AGAIN"
+		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
+		buttonVariant="contained"
+	/>
+{:else if isSuccess}
+	<SuccessPopup
+		mandateLimit={getMandateAmount(paymentHandler.emandateMode, amountInNumber)?.toString()}
+		buttonTitle="DONE"
+		onSubmit={onSuccessPopupClick}
+	/>
+{/if}

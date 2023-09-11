@@ -59,7 +59,7 @@
 		</div>
 	</div>
 	{#if selected}
-		<div class="ml-6 flex flex-col pb-4">
+		<div class="ml-6 flex flex-col pb-4 {$$props.innerClass}">
 			{#if showInput}
 				<UpiHandlerDropDown {inputText} {onInputChange} {inputError} />
 			{/if}

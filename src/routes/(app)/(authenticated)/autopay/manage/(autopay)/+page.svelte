@@ -9,8 +9,12 @@
 	import BankDetails from './components/BankDetails.svelte';
 	import { getSipAmountWithoutMandate } from '../utils';
 	import ManageSkeletanLoader from './components/ManageSkeletanLoader.svelte';
+	import { page } from '$app/stores';
+	import { decodeToObject } from '$lib/utils/helpers/params';
 
 	export let data;
+	const params = $page.url.searchParams.get('params');
+	const { showAlert = false } = decodeToObject(params || '');
 
 	const navigateToAutopayDashboard = () => {
 		goto(`${base}/autopay`);
@@ -20,16 +24,19 @@
 {#await data.api.data}
 	<ManageSkeletanLoader />
 {:then response}
-	{#if getSipAmountWithoutMandate(response.nudges) > 0}
+	{@const { totalAmount } = getSipAmountWithoutMandate(response?.data)}
+	{#if totalAmount > 0}
 		<Card class="px-2 pb-6 pt-4">
-			<RiskMessage nudgeData={response.nudges || []} />
+			{#if showAlert}
+				<RiskMessage {totalAmount} />
+			{/if}
 			<AutopayIllustration class="mt-5 flex justify-center" />
 			<section class=" m-auto text-center text-2xl font-medium text-black-title">
 				<div>Automate your SIP</div>
 				<div>Payments with Autopay</div>
 			</section>
 			<InfoList />
-			<BankDetails nudgeData={response.nudges || []} />
+			<BankDetails {totalAmount} />
 		</Card>
 	{:else}
 		<Card

@@ -2,14 +2,10 @@
 	import Card from '$components/Card.svelte';
 	import WmsIcon from '$components/WMSIcon.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount.js';
-	import type { INudge } from '$lib/types/INudge';
-	import { getSipAmountWithoutMandate } from '../../utils';
-	import { autopayLimit } from '../../constants';
 	import Modal from '$components/Modal.svelte';
 
-	export let nudgeData: INudge[];
-	let amount: number;
-	$: amount = getSipAmountWithoutMandate(nudgeData);
+	export let totalAmount: number;
+	export let mandateLimit: number;
 
 	let maxAutopayLimitVisible = false;
 
@@ -20,9 +16,6 @@
 		{
 			detail:
 				'This is a one-time setup. Payments for your future SIPs will be linked with this Autopay '
-		},
-		{
-			detail: 'The daily payment limit via this autopay is ₹1 Lakh'
 		}
 	];
 
@@ -41,7 +34,9 @@
 			<div class=" mb-1 text-1xs font-normal leading-normal text-grey-body">
 				Unlinked SIP Amount
 			</div>
-			<div class=" text-xl font-medium text-black-title">₹{addCommasToAmountString(amount)}</div>
+			<div class=" text-xl font-medium text-black-title">
+				₹{addCommasToAmountString(totalAmount)}
+			</div>
 		</div>
 		<div class="  flex-1 text-right">
 			<div
@@ -56,7 +51,7 @@
 				/>
 			</div>
 			<div class=" text-xl font-medium text-black-title">
-				₹{addCommasToAmountString(autopayLimit)}
+				₹{addCommasToAmountString(mandateLimit)}
 			</div>
 		</div>
 	</div>

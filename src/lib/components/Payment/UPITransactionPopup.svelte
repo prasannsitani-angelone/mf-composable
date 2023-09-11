@@ -10,6 +10,9 @@
 	export let amount = '';
 	export let timer: number;
 	export let onClose = (): void => undefined;
+	export let bankLogo = '';
+	export let bankName = '';
+	export let accNO = '';
 
 	const intstructions = [
 		{
@@ -39,13 +42,13 @@
 		class="flex h-full flex-col items-center justify-between overflow-y-auto bg-white shadow-clg sm:h-max sm:w-120 sm:rounded-lg"
 	>
 		<div
-			class="flex w-full flex-col-reverse px-4 pt-6 sm:flex-row sm:border-b sm:border-grey-line sm:px-8 sm:pb-10"
+			class="flex w-full flex-col-reverse p-4 sm:flex-row sm:border-b sm:border-grey-line sm:p-8"
 		>
-			<div class="mt-10 flex flex-1 flex-col items-center font-medium text-black-title sm:mt-4">
-				<div class="mb-4 w-8/12 text-center text-base sm:mb-6 sm:text-lg">
+			<div class="mt-10 flex flex-1 flex-col items-center font-medium text-black-title sm:mt-0">
+				<div class="mb-6 w-8/12 text-center text-base sm:text-lg">
 					Please Approve Payment on your UPI App
 				</div>
-				<div class="mb-20 text-4xl sm:mb-6">
+				<div class="mb-6 text-4xl">
 					{`₹${addCommasToAmountString(amount)}`}
 				</div>
 				<div class="flex w-max flex-col justify-center rounded bg-grey px-8 py-3">
@@ -56,6 +59,28 @@
 						{timeToDisplay}
 					</div>
 				</div>
+				{#if accNO}
+					<div class="mt-14 flex flex-col items-center">
+						<img src={bankLogo} class="mb-4 h-16 w-16" alt="bank logo" />
+						<div class="flex flex-row text-base font-normal text-black-title">
+							Use
+							<div class="ml-2 flex flex-row font-medium">
+								<span>{bankName}</span>
+								<div class="ml-1 flex flex-row items-center">
+									<div class="mr-1 h-1 w-1 rounded-full bg-black-title" />
+									<div class="mr-1 h-1 w-1 rounded-full bg-black-title" />
+									<div class="mr-1 h-1 w-1 rounded-full bg-black-title" />
+									<div class="mr-1 h-1 w-1 rounded-full bg-black-title" />
+									{accNO?.substring(accNO.length - 4)}
+								</div>
+							</div>
+						</div>
+					</div>
+				{/if}
+
+				<div class="mt-5 text-xs text-grey-body">
+					It can take up to 10 seconds to get a notification on your UPI app
+				</div>
 			</div>
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<div on:click={onClose}>
@@ -63,7 +88,7 @@
 			</div>
 		</div>
 
-		<div class="px-4 pb-6 sm:px-8 sm:py-6">
+		<div class="bg-grey p-4 sm:p-8">
 			<div class="mb-5 text-sm font-medium text-black-title">UPI Payment Instructions</div>
 			{#each intstructions as instruction, index (index)}
 				<div class="mb-3 flex flex-row">
