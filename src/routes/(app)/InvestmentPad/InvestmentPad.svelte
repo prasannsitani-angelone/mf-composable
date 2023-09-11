@@ -85,7 +85,7 @@
 	import UpiTransactionPopup from '$components/Payment/UPITransactionPopup.svelte';
 	import LoadingPopup from '$components/Payment/LoadingPopup.svelte';
 	import PaymentSleeve from '$components/Payment/OrderPadPaymentSleeve.svelte';
-	import { PAYMENT_MODE } from '$components/Payment/constants';
+	import { PAYMENT_MODE, PAYMENT_MODE_STATUS } from '$components/Payment/constants';
 	import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
 	import { stringToInteger } from '$lib/utils/helpers/numbers';
 	import OrderpadReturns from './OrderPadComponents/OrderpadReturns.svelte';
@@ -94,6 +94,7 @@
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import ChangePaymentContainer from '$components/Payment/ChangePaymentContainer.svelte';
 	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
+	import type { PaymentMethodsStatusTypes } from '$lib/types/IPayments';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -1004,6 +1005,21 @@
 				paymentHandler.paymentMode = 'UPI';
 			} else {
 				paymentHandler.paymentMode = paymentMode;
+			}
+
+			const paymentModesStatus: PaymentMethodsStatusTypes =
+				$page?.data?.userPaymentMethodsStatus?.payment_modes[
+					`${bankDetails[paymentHandler?.selectedAccount]?.ifscCode}`
+				] || {};
+
+			if (paymentHandler?.paymentMode === 'NET_BANKING') {
+				if (paymentModesStatus?.net_banking?.status === PAYMENT_MODE_STATUS?.disabled) {
+					defaultValueToPaymentHandler();
+				}
+			} else {
+				if (paymentModesStatus?.upi?.status === PAYMENT_MODE_STATUS?.disabled) {
+					defaultValueToPaymentHandler();
+				}
 			}
 		} else {
 			defaultValueToPaymentHandler();

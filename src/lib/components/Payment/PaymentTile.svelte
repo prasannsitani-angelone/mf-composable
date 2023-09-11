@@ -3,7 +3,9 @@
 	import RadioButton from '$components/RadioButton.svelte';
 	import UpiHandlerDropDown from '$components/UPIHandlerDropDown.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
-	import { onDestroy } from 'svelte';
+	import { afterUpdate, onDestroy } from 'svelte';
+	import { PAYMENT_MODE_STATUS } from './constants';
+	import type { PaymentMethodsStatusTypes } from '$lib/types/IPayments';
 
 	export let identifier = '';
 	export let selected = false;
@@ -17,6 +19,7 @@
 	export let defaultInputVal = '';
 	export let isLoading = false;
 	export let isSchemeDisabled = false;
+	export let paymentModesStatus: PaymentMethodsStatusTypes;
 
 	export let onSelect: (identifier: string) => void = () => undefined;
 	export let onSubmit: (text: string) => void = () => undefined;
@@ -39,6 +42,27 @@
 		resetInputError();
 		inputText = data;
 	};
+
+	let paymentModeStatus = PAYMENT_MODE_STATUS?.enabled;
+
+	const setPaymentModeStatus = () => {
+		if (identifier === 'NET_BANKING') {
+			paymentModeStatus = paymentModesStatus?.net_banking?.status || PAYMENT_MODE_STATUS?.enabled;
+		} else {
+			paymentModeStatus = paymentModesStatus?.upi?.status || PAYMENT_MODE_STATUS?.enabled;
+		}
+	};
+
+	setPaymentModeStatus();
+
+	afterUpdate(() => {
+		setPaymentModeStatus();
+	});
+
+	const lowSuccessRateStatusRemark =
+		'Facing high failure rates currently. Please use another payment method';
+	const disabledStatusRemark =
+		'Facing high failure rates currently. Please use another payment method';
 </script>
 
 <div
@@ -47,6 +71,7 @@
 	}`}
 >
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div class="flex flex-row items-center py-4" on:click={() => onSelect(identifier)}>
 		<RadioButton {selected} clazz="mr-2" />
 		<div
@@ -58,6 +83,28 @@
 			<slot name="content" />
 		</div>
 	</div>
+
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
+	<slot name="statusRemark">
+		{#if paymentModeStatus !== PAYMENT_MODE_STATUS?.enabled}
+			<section
+				class="-mt-2 mb-3 ml-6 text-[11px] font-normal text-red-errorDark"
+				on:click={() => onSelect(identifier)}
+			>
+				{#if paymentModeStatus === PAYMENT_MODE_STATUS?.low_success_rate}
+					<div>
+						{lowSuccessRateStatusRemark}
+					</div>
+				{:else if paymentModeStatus === PAYMENT_MODE_STATUS?.disabled}
+					<div>
+						{disabledStatusRemark}
+					</div>
+				{/if}
+			</section>
+		{/if}
+	</slot>
+
 	{#if selected}
 		<div class="ml-6 flex flex-col pb-4 {$$props.innerClass}">
 			{#if showInput}
@@ -91,7 +138,10 @@
 			</div>
 			<Button
 				class="rounded"
-				disabled={!amount?.length || isLoading || isSchemeDisabled}
+				disabled={!amount?.length ||
+					isLoading ||
+					isSchemeDisabled ||
+					paymentModeStatus === PAYMENT_MODE_STATUS?.disabled}
 				onClick={() => onSubmit(inputText)}
 			>
 				PAY {amount?.length ? `₹${addCommasToAmountString(amount)}` : ''}

@@ -23,6 +23,11 @@
 
 	const amountInNumber: number = stringToFloat(amount);
 	$: os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
+
+	$: paymentModesStatus =
+		$page?.data?.userPaymentMethodsStatus?.payment_modes[
+			`${bankAccounts[selectedAccount]?.ifscCode}`
+		] || {};
 </script>
 
 <div class="flex flex-col overflow-y-scroll bg-white px-4 py-3 {$$props.class}">
@@ -47,6 +52,7 @@
 					{isLoading}
 					{isSchemeDisabled}
 					changeBank={onChangeBankClick}
+					{paymentModesStatus}
 					class="first:rounded-t-lg last:rounded-b-lg"
 				>
 					<svelte:component this={PAYMENT_MODE[paymentModeKey].logo} slot="icon" />

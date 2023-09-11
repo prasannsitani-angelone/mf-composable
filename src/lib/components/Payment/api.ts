@@ -5,6 +5,24 @@ import { stringToFloat } from '$lib/utils/helpers/numbers';
 import { useFetch } from '$lib/utils/useFetch';
 import { getFormattedSIPDate } from './util';
 
+export const getUserPaymentMethodsStatus = async (params) => {
+	try {
+		const { token, source } = params || {};
+		const url = `${PUBLIC_PAYMENT_BASE_URL}/payment-page-data?product=${source}`;
+		const response = await useFetch(url, {
+			headers: {
+				authorization: `Bearer ${token}`,
+				// 'X-Request-Id': xRequestId,
+				'X-Source': source || 'diy'
+			}
+		});
+
+		return response;
+	} catch (e) {
+		return {};
+	}
+};
+
 export const orderDeletePatchFunc = async (params) => {
 	try {
 		const { orderId, pgTxnId } = params || {};

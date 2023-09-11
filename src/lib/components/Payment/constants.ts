@@ -81,3 +81,9 @@ export const INTENT_PAYMENT_APP_KEY_MAP = {
 };
 
 export const NON_INTENT_PAYMENT_APP_KEY = ['UPI', 'NET_BANKING'];
+
+export const PAYMENT_MODE_STATUS = {
+	enabled: 'enabled',
+	low_success_rate: 'low_success_rate',
+	disabled: 'disabled'
+};
