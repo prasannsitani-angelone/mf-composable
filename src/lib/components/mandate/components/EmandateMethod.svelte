@@ -48,6 +48,7 @@
 					changeBank={onChangeBankClick}
 					class="first:rounded-t-lg last:rounded-b-lg"
 					innerClass="sm:w-max"
+					submitButtonText="PROCEED"
 				>
 					<svelte:component this={EMANDATE_MODE[emandateModeKey].logo} slot="icon" />
 					<div slot="content">

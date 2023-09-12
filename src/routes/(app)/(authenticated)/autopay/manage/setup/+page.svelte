@@ -19,6 +19,8 @@
 	import BankTile from '../(autopay)/components/BankTile.svelte';
 	import BankSelectionPopup from '$components/BankSelectionPopup.svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
+	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+	import { useFetch } from '$lib/utils/useFetch';
 
 	export let data;
 	let selectedAccount: number;
@@ -124,9 +126,26 @@
 		selectedAutopayMethodImpression(eventMetaData);
 	});
 
-	const onSuccessCallback = () => {
+	const orderPurchaseBulkPatchFunc = async (emandateId: string) => {
+		try {
+			const url = `${PUBLIC_MF_CORE_BASE_URL}/sips/bulk`;
+			await useFetch(url, {
+				method: 'PATCH',
+				body: JSON.stringify({
+					emandateId
+				})
+			});
+		} catch (e) {
+			return;
+		}
+	};
+
+	const onSuccessCallback = ({ id }) => {
 		const eventMetaData = { Autopaylimit: '100000' };
 		autopayRegisteredImpressionAnalytics(eventMetaData);
+		if (id) {
+			orderPurchaseBulkPatchFunc(id);
+		}
 	};
 
 	const onSuccessPopupClick = async () => {
@@ -151,11 +170,11 @@
 
 	const onAccountChange = async (index: number) => {
 		selectedAccount = index;
-		encodeObject({
+		const params = encodeObject({
 			...data?.pageParam,
 			acc: profileData?.bankDetails?.[selectedAccount]?.accNO
 		});
-		await goto(`${base}/autopay/manage/setup?params=${encodeObject}`, {
+		await goto(`${base}/autopay/manage/setup?params=${params}`, {
 			replaceState: true
 		});
 	};
@@ -177,7 +196,7 @@
 				<div class="mb-2" />
 				<Mandate
 					onStart={intiateAutoPayProcess}
-					amount={String(getMandateAmount(mode, mandateAmount))}
+					amount={String(mandateAmount)}
 					onErrorCallback={onAutopaySetupFail}
 					{onSuccessCallback}
 					onPendingCallback={onAutopaySetupFail}
@@ -187,14 +206,16 @@
 					{mode}
 					{updateMode}
 					{allowedPaymentMethods}
+					onAccChange={onAccountChange}
 				/>
 			{:else}
 				{@const bankAccountsLength = profileData?.bankDetails?.length}
 				{#if bankAccountsLength > 1}
 					<div class="rounded-lg bg-white p-4 shadow-csm">
 						<div class="mb-4 text-sm text-grey-body">
-							You can't create a mandate with this Account. Still you can proceed by changing your
-							account.
+							Your current bank account does not support AutoPay. Please choose another bank
+							account. If none of your bank accounts support AutoPay, you can still proceed with
+							your SIPs by making a one-time payment on the SIP due date.
 						</div>
 						<BankTile
 							bankLogo={profileData?.bankDetails?.[selectedAccount]?.bankLogo}
@@ -207,7 +228,8 @@
 				{:else}
 					<div class="rounded-lg bg-white p-4 shadow-csm">
 						<div class="text-sm text-black-title">
-							You can't create a mandate with this Account for now.
+							Your bank account does not support AutoPay. You can still continue with your SIPs by
+							making a one-time payment on your SIP due date.
 						</div>
 					</div>
 				{/if}
@@ -224,7 +246,7 @@
 		{:else}
 			<div class="rounded-lg bg-white p-4 shadow-csm">
 				<div class="text-sm text-black-title">
-					This account number doesn't belong to this client id.
+					A technical error occurred while setting up an AutoPay. Please try again later.
 				</div>
 			</div>
 		{/if}

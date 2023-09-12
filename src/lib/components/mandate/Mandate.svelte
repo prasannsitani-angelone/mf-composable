@@ -27,6 +27,7 @@
 	export let onPendingCallback = (): void => undefined;
 	export let onSuccessPopupClick = (): void => undefined;
 	export let updateMode = (): void => undefined;
+	export let onAccChange = (): void => undefined;
 
 	// emandate
 	const amountInNumber = stringToFloat(amount);
@@ -99,6 +100,7 @@
 	};
 
 	const onAccountChange = (index: number) => {
+		onAccChange(index);
 		accounChangeAnalytics({
 			BankAccount: profileData?.bankDetails?.[index]?.bankName
 		});

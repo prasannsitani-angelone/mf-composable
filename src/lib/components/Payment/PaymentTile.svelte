@@ -20,6 +20,7 @@
 	export let isLoading = false;
 	export let isSchemeDisabled = false;
 	export let paymentModesStatus: PaymentMethodsStatusTypes;
+	export let submitButtonText = '';
 
 	export let onSelect: (identifier: string) => void = () => undefined;
 	export let onSubmit: (text: string) => void = () => undefined;
@@ -144,7 +145,9 @@
 					paymentModeStatus === PAYMENT_MODE_STATUS?.disabled}
 				onClick={() => onSubmit(inputText)}
 			>
-				PAY {amount?.length ? `₹${addCommasToAmountString(amount)}` : ''}
+				{submitButtonText
+					? submitButtonText
+					: `PAY ${amount?.length ? `₹${addCommasToAmountString(amount)}` : ''}`}
 			</Button>
 		</div>
 	{/if}
