@@ -63,10 +63,13 @@ function createStore() {
 	return {
 		subscribe,
 		checkIfPaymentAppInstalledElseGetFallback: (app?: string) => {
+			if (!app) {
+				return app;
+			}
 			if (app && store.allPaymentApps.includes(app)) {
 				return app;
 			}
-			return store.allPaymentApps[0] || null;
+			return store.allPaymentApps[0] || '';
 		}
 	};
 }

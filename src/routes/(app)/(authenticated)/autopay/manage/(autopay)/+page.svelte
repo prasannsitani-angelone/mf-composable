@@ -4,13 +4,13 @@
 	import { goto } from '$app/navigation';
 	import Card from '$components/Card.svelte';
 	import RiskMessage from './components/RiskMessage.svelte';
-	import AutopayIllustration from './components/AutopayIllustration.svelte';
 	import InfoList from './components/InfoList.svelte';
 	import BankDetails from './components/BankDetails.svelte';
 	import { getSipAmountWithoutMandate } from '../utils';
 	import ManageSkeletanLoader from './components/ManageSkeletanLoader.svelte';
 	import { page } from '$app/stores';
 	import { decodeToObject } from '$lib/utils/helpers/params';
+	import UPIMandateIcon from '$lib/images/icons/UPIMandateIcon.svelte';
 
 	export let data;
 	const params = $page.url.searchParams.get('params');
@@ -30,7 +30,9 @@
 			{#if showAlert}
 				<RiskMessage {totalAmount} />
 			{/if}
-			<AutopayIllustration class="mt-5 flex justify-center" />
+			<div class="my-16 flex justify-center">
+				<UPIMandateIcon class=" h-[200px] w-[265px]" />
+			</div>
 			<section class=" m-auto text-center text-2xl font-medium text-black-title">
 				<div>Automate your SIP</div>
 				<div>Payments with Autopay</div>
