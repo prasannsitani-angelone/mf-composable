@@ -31,6 +31,9 @@
 	import FullWidth from '$lib/layouts/FullWidth.svelte';
 	import { bannerStore } from '$lib/stores/BannerStore';
 	import Clevertap from '$lib/utils/Clevertap';
+	import { useFetch } from '$lib/utils/useFetch';
+	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+	import { ctTrackExternalInvestmentsStore } from '$lib/stores/CtTrackExternalInvestment';
 
 	$: pageMetaData = $page?.data?.layoutConfig;
 	let searchFocused = false;
@@ -49,6 +52,12 @@
 	let showAngelBeeBanner = false;
 
 	const initClevertap = async () => {
+		useFetch(`${PUBLIC_MF_CORE_BASE_URL}/events`, {
+			method: 'POST',
+			body: JSON.stringify({
+				type: 'CLEVERTAP'
+			})
+		});
 		await Clevertap.init();
 		Clevertap.setProfile(profile);
 	};
@@ -74,6 +83,13 @@
 		} else {
 			initClevertap();
 		}
+		document.addEventListener('CT_web_native_display', function (event) {
+			const data = event.detail;
+			const ctKv = data.kv;
+			if (ctKv.topic === 'mf_trackext_invdash_type_a') {
+				ctTrackExternalInvestmentsStore.set(ctKv);
+			}
+		});
 
 		handleBackHistoryForDeeplinks();
 	});

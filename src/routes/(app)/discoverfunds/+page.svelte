@@ -41,14 +41,14 @@
 	import { exitNudgeStore } from '$lib/stores/ExitNudgeStore';
 	import { browser } from '$app/environment';
 	import ExternalFundsNfoCalculatorCard from './ExternalFundsNfoCalculatorCard/ExternalFundsNfoCalculatorCard.svelte';
-	import Clevertap from '$lib/utils/Clevertap';
 
 	interface CtKv {
-		topic: string;
-		Name: string;
-		Product: string;
+		topic: string; /// value
+		title: '';
+		subtext: '';
+		ctatext: '';
+		ctaurl: '';
 	}
-	let cleavertap;
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
 	$: isGuest = $page.data.isGuest;
@@ -198,7 +198,6 @@
 
 		return '/';
 	};
-	// let clevertap;
 	onMount(async () => {
 		await tick();
 
@@ -219,24 +218,6 @@
 		exitNudgeStore.subscribe((store) => {
 			showExitNudge = store.showExitNudge;
 		});
-		document.addEventListener('CT_web_native_display', function (event) {
-			// alert("CT Event ")
-			const data = event.detail;
-			ctKv = data.kv;
-		});
-		cleavertap = await Clevertap.initialized;
-
-		if (
-			data?.investementSummary?.investedValue < 5000 ||
-			!data?.investementSummary?.investedValue
-		) {
-			cleavertap.event.push('Holdings_less_than_threshhold', {
-				Name: 'Test',
-				Category: 'Holdings',
-				value: data?.investementSummary?.investedValue,
-				Date: new Date()
-			});
-		}
 	});
 
 	onDestroy(() => {

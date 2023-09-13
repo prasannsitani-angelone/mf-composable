@@ -14,7 +14,7 @@
 	<div class="m-auto max-w-[350px] text-center">
 		<div class="mb-2 text-xl font-medium text-black-title sm:mb-3">Already Invested Somewhere?</div>
 		<div class="mb-10 text-base font-normal leading-5 text-grey-body">
-			View all your investments in one place by tracking external investments with Angel One
+			View your entire mutual fund portfolio in one place, including investments on other platforms
 		</div>
 		<img
 			class="ml-[5%]"
@@ -23,7 +23,7 @@
 			alt="Illustration shoeing first time import"
 		/>
 		<Button class="mt-8 w-full px-2 text-sm" onClick={onConfirmationClick}
-			>TRACK EXTERNAL INVESTMENTS</Button
+			>Track All Investments</Button
 		>
 
 		<div class="mt-2 text-xs text-black">

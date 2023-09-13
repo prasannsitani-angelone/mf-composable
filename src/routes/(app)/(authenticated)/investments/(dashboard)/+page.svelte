@@ -34,6 +34,9 @@
 	import { regularToDirectFundsStore } from '$lib/stores/RegularToDirectFundStore';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
+	import Button from '$components/Button.svelte';
+	import { ctTrackExternalInvestmentsStore } from '$lib/stores/CtTrackExternalInvestment';
+	import Clevertap from '$lib/utils/Clevertap';
 
 	let isXIRRModalOpen = false;
 	let isOptimisePortfolioOpen = false;
@@ -49,6 +52,7 @@
 		isXIRRModalOpen = true;
 	};
 
+	let cleavertap;
 	const toggleOptimisePorfolioCard = () => {
 		const investmentSummary = data?.investementSummary;
 		fundForYouClickAnalytics({
@@ -104,6 +108,11 @@
 		};
 		investmentDashboardImpressionAnalytics(eventMetaData);
 		switchToDirectFundsImpression();
+
+		cleavertap = await Clevertap.init();
+		cleavertap.event.push('MF Inv Dash Internal', {
+			event_type: 'impression'
+		});
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/recommendation/sip`;
 		const res = await useFetch(url, {}, fetch);
 		if (res?.ok && res?.status === 200) {
@@ -255,4 +264,19 @@
 			{/if}
 		</section>
 	</section>
+
+	{#if $ctTrackExternalInvestmentsStore?.subtext}
+		<aside class="fixed bottom-20 -ml-2 flex w-full items-center bg-purple-glow p-3 align-middle">
+			<WMSIcon name="import-external-funds" />
+			<p class="text-xs">
+				{$ctTrackExternalInvestmentsStore?.subtext}
+			</p>
+			<Button variant="transparent" class="ml-auto">
+				{$ctTrackExternalInvestmentsStore?.ctatext || 'Track Now'}
+			</Button>
+			<Button variant="transparent">
+				<WMSIcon name="cross-circle" />
+			</Button>
+		</aside>
+	{/if}
 {/if}
