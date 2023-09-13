@@ -107,7 +107,6 @@ export const netBankingFlow = async (params) => {
 						id: emandateID
 					});
 				} else if (event.data.status === 'failure') {
-					stopLoading();
 					onError({
 						heading: 'Autopay Setup Failed',
 						errorSubHeading:
@@ -115,7 +114,6 @@ export const netBankingFlow = async (params) => {
 							'We were unable to set up your autopay due to a technical issue. Please try again'
 					});
 				} else {
-					stopLoading();
 					onError({
 						heading: 'Autopay Setup Failed',
 						errorSubHeading:
@@ -279,7 +277,7 @@ export const upiFlow = async (params) => {
 				});
 			}
 		});
-
+		stopLoading();
 		onSuccess({
 			id: response.data?.data?.mandate_id
 		});
@@ -400,6 +398,7 @@ export const walletFlow = async (params) => {
 				});
 			}
 		});
+		stopLoading();
 		onSuccess({
 			id: response.data?.data?.mandate_id
 		});
