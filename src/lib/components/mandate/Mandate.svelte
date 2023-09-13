@@ -216,7 +216,7 @@
 	const onEmandateSubmit = async (inputId: string) => {
 		onStart(paymentHandler.emandateMode);
 		const commonInput = {
-			amount,
+			amount: getMandateAmount(paymentHandler.emandateMode, amountInNumber)?.toString(),
 			sipStartDate: getSipStartDate(),
 			sipEndDate: getSipEndDate(),
 			accNO: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO,
@@ -271,7 +271,7 @@
 	selectedMode={paymentHandler?.emandateMode}
 	onSelect={onEmandateModeSelect}
 	onSubmit={onEmandateSubmit}
-	{amount}
+	amount={getMandateAmount(paymentHandler.emandateMode, amountInNumber)?.toString()}
 	bankAccounts={profileData?.bankDetails}
 	selectedAccount={paymentHandler?.selectedAccount}
 	inputError={inputPaymentError}
@@ -293,7 +293,7 @@
 
 {#if upiState.flow === 2}
 	<UpiTransactionPopup
-		{amount}
+		amount={getMandateAmount(paymentHandler.emandateMode, amountInNumber)?.toString()}
 		timer={upiState.timer}
 		onClose={onUPITransactionPopupClose}
 		accNO={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO}

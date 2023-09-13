@@ -9,8 +9,8 @@ export const EMANDATE_MODE = {
 		name: 'PhonePe',
 		apiName: 'phonepe',
 		analytics: () => undefined,
-		enabled: (amountInNumber: number, os: string) => {
-			if (os === 'Android' || os === 'iOS') {
+		enabled: (os: string) => {
+			if (os === 'Android') {
 				return true;
 			}
 			return false;
@@ -22,7 +22,7 @@ export const EMANDATE_MODE = {
 		name: 'Google Pay',
 		apiName: 'gpay',
 		analytics: () => undefined,
-		enabled: (amountInNumber: number, os: string) => {
+		enabled: (os: string) => {
 			if (os === 'Android' || os === 'iOS') {
 				return true;
 			}

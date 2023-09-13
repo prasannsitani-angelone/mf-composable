@@ -63,6 +63,18 @@
 		allowedPaymentMethods = [];
 		if (mandateResponse.ok) {
 			const methods = mandateResponse.data?.data;
+
+			const upiMethod = methods?.['upi'];
+			if (
+				upiMethod?.status === 'supported' &&
+				mandateAmount >= upiMethod?.min_amount &&
+				mandateAmount <= upiMethod?.max_amount
+			) {
+				allowedPaymentMethods.push('PHONEPE');
+				allowedPaymentMethods.push('GOOGLEPAY');
+				allowedPaymentMethods.push('UPI');
+			}
+
 			const netBankingMethod = methods?.['net_banking'];
 			const debitCardMethod = methods?.['debit_card'];
 			if (
@@ -77,16 +89,6 @@
 				mandateAmount <= debitCardMethod?.max_amount
 			) {
 				allowedPaymentMethods.push('NET_BANKING');
-			}
-			const upiMethod = methods?.['upi'];
-			if (
-				upiMethod?.status === 'supported' &&
-				mandateAmount >= upiMethod?.min_amount &&
-				mandateAmount <= upiMethod?.max_amount
-			) {
-				allowedPaymentMethods.push('UPI');
-				allowedPaymentMethods.push('PHONEPE');
-				allowedPaymentMethods.push('GOOGLEPAY');
 			}
 		}
 		assignDefaultMode();

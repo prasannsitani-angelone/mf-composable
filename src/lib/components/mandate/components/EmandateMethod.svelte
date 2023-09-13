@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { BankDetailsEntity } from '$lib/types/IUserProfile';
-	import { stringToFloat } from '$lib/utils/helpers/numbers';
 	import { page } from '$app/stores';
 	import { EMANDATE_MODE } from '../constants';
 	import PaymentTile from '$components/Payment/PaymentTile.svelte';
@@ -19,7 +18,6 @@
 	export let onChangeBankClick = (): void => undefined;
 	export let resetInputError = (): void => undefined;
 
-	const amountInNumber: number = stringToFloat(amount);
 	$: os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
 </script>
 
@@ -29,7 +27,7 @@
 	<div class="mb-3 text-sm font-medium text-black-title">Set Up Autopay With</div>
 	<div class="divide-y divide-grey-line rounded-lg border border-grey-line">
 		{#each emandateModes as emandateModeKey (emandateModeKey)}
-			{#if EMANDATE_MODE[emandateModeKey].enabled(amountInNumber, os)}
+			{#if EMANDATE_MODE[emandateModeKey].enabled(os)}
 				<PaymentTile
 					selected={selectedMode === emandateModeKey}
 					identifier={emandateModeKey}

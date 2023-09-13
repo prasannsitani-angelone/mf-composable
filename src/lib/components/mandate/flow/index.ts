@@ -9,7 +9,6 @@ import {
 } from '../handlers';
 import {
 	closeNetBankingPaymentWindow,
-	getMandateAmount,
 	intializeNetBankingState,
 	isNetBakingPaymentWindowClosed,
 	netBankingWindowCloseLogic,
@@ -61,7 +60,7 @@ export const netBankingFlow = async (params) => {
 			type: 'api',
 			frequency: 'monthly',
 			product: 'mf',
-			amount: getMandateAmount('NET_BANKING', amount),
+			amount,
 			request_source: PUBLIC_MANDATE_SOURCE,
 			start_date: sipStartDate,
 			end_date: sipEndDate
@@ -200,7 +199,7 @@ export const upiFlow = async (params) => {
 			vpa: inputId,
 			frequency: 'monthly',
 			product: 'mf',
-			amount: getMandateAmount('UPI', amount),
+			amount,
 			request_source: PUBLIC_MANDATE_SOURCE,
 			start_date: sipStartDate,
 			end_date: sipEndDate
@@ -325,7 +324,7 @@ export const walletFlow = async (params) => {
 			intent: true,
 			frequency: 'monthly',
 			product: 'mf',
-			amount: getMandateAmount('UPI', amount),
+			amount,
 			request_source: PUBLIC_MANDATE_SOURCE,
 			start_date: sipStartDate,
 			end_date: sipEndDate
