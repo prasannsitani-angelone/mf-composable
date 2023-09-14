@@ -1,11 +1,4 @@
-export const getSipAmountWithoutMandate = (data, permanentAmount = 0) => {
-	if (permanentAmount) {
-		return {
-			totalAmount: permanentAmount,
-			mandateAmount: permanentAmount
-		};
-	}
-
+export const getSipAmountWithoutMandate = (data, amount = 0) => {
 	let totalAmount = 0;
 	let mandateAmount = 0;
 
@@ -15,6 +8,10 @@ export const getSipAmountWithoutMandate = (data, permanentAmount = 0) => {
 			totalAmount += element.installmentAmount
 		}
 	});
+
+	if(amount){
+		mandateAmount = amount
+	}
 
 	return {
 		totalAmount,

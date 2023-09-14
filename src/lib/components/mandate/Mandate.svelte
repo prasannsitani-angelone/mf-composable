@@ -216,7 +216,7 @@
 	const onEmandateSubmit = async (inputId: string) => {
 		onStart(paymentHandler.emandateMode);
 		const commonInput = {
-			amount: getMandateAmount(paymentHandler.emandateMode, amountInNumber)?.toString(),
+			amount: getMandateAmount(paymentHandler.emandateMode, amountInNumber),
 			sipStartDate: getSipStartDate(),
 			sipEndDate: getSipEndDate(),
 			accNO: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO,
