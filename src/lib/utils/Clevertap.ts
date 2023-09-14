@@ -1,3 +1,4 @@
+import { PUBLIC_CT_ID, PUBLIC_CT_LOG_LEVEL } from '$env/static/public';
 import type { UserProfile } from '$lib/types/IUserProfile';
 
 function promiseWrapper() {
@@ -22,8 +23,8 @@ class Clevertap {
 		this.clevertap = (await import('clevertap-web-sdk')).default;
 		this.clevertap.privacy.push({ optOut: false });
 		this.clevertap.privacy.push({ useIP: false });
-		this.clevertap.init('TEST-W8R-Z44-K76Z', 'in1');
-		this.clevertap.setLogLevel(3);
+		this.clevertap.init(PUBLIC_CT_ID, 'in1');
+		this.clevertap.setLogLevel(PUBLIC_CT_LOG_LEVEL);
 
 		this.loaded = true;
 	}

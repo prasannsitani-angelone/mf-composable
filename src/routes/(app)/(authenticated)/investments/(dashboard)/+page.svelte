@@ -37,6 +37,8 @@
 	import Button from '$components/Button.svelte';
 	import { ctTrackExternalInvestmentsStore } from '$lib/stores/CtTrackExternalInvestment';
 	import Clevertap from '$lib/utils/Clevertap';
+	import type { ITab } from '$lib/types/ITab';
+	import { getCookie, setCookie } from '$lib/utils/helpers/cookie';
 
 	let isXIRRModalOpen = false;
 	let isOptimisePortfolioOpen = false;
@@ -47,7 +49,7 @@
 		logoUrl: ''
 	};
 	let holdings: Array<InvestmentEntity>;
-
+	let showTefNudge = true;
 	const showXirrModal = () => {
 		isXIRRModalOpen = true;
 	};
@@ -108,8 +110,10 @@
 		};
 		investmentDashboardImpressionAnalytics(eventMetaData);
 		switchToDirectFundsImpression();
+		const mf_trackext_invdash_type_a = getCookie('mf_trackext_invdash_type_a');
+		showTefNudge = mf_trackext_invdash_type_a !== 'false';
 
-		cleavertap = await Clevertap.init();
+		cleavertap = await Clevertap.initialized;
 		cleavertap.event.push('MF Inv Dash Internal', {
 			event_type: 'impression'
 		});
@@ -142,6 +146,20 @@
 			switchableFunds: regularFunds?.length
 		});
 		await goto(`${base}/investments/RegularToDirect`);
+	};
+
+	const navigateToTef = () => {
+		const tefTab: ITab[] = tabs.filter((tab) => tab.name === 'All');
+		tefTab[0]?.onClick();
+	};
+
+	const hideTefNudge = () => {
+		showTefNudge = false;
+		setCookie('mf_trackext_invdash_type_a', 'false', {
+			maxAge: 2592000,
+			secure: true,
+			sameSite: 'Strict'
+		});
 	};
 </script>
 
@@ -265,17 +283,19 @@
 		</section>
 	</section>
 
-	{#if $ctTrackExternalInvestmentsStore?.subtext}
+	{#if $ctTrackExternalInvestmentsStore?.subtext && showTefNudge}
 		<aside class="fixed bottom-20 -ml-2 flex w-full items-center bg-purple-glow p-3 align-middle">
-			<WMSIcon name="import-external-funds" />
+			<div>
+				<WMSIcon name="import-external-funds" />
+			</div>
 			<p class="text-xs">
 				{$ctTrackExternalInvestmentsStore?.subtext}
 			</p>
-			<Button variant="transparent" class="ml-auto">
-				{$ctTrackExternalInvestmentsStore?.ctatext || 'Track Now'}
+			<Button variant="transparent" class="ml-auto text-xs !uppercase" onClick={navigateToTef}>
+				{$ctTrackExternalInvestmentsStore?.ctatext}
 			</Button>
-			<Button variant="transparent">
-				<WMSIcon name="cross-circle" />
+			<Button variant="transparent" onClick={hideTefNudge}>
+				<WMSIcon name="cross-circle" width={24} height={24} />
 			</Button>
 		</aside>
 	{/if}

@@ -3,14 +3,14 @@ export const getSipAmountWithoutMandate = (data, amount = 0) => {
 	let mandateAmount = 0;
 
 	(data?.sips || []).forEach((element) => {
-		if(!element.mandateRefId){
+		if (!element.mandateRefId) {
 			mandateAmount = Math.max(element.installmentAmount, mandateAmount);
-			totalAmount += element.installmentAmount
+			totalAmount += element.installmentAmount;
 		}
 	});
 
-	if(amount){
-		mandateAmount = amount
+	if (amount) {
+		mandateAmount = amount;
 	}
 
 	return {
