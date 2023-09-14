@@ -1188,16 +1188,16 @@
 			submitButtonSIPClickAnalyticsFunc();
 			walletSIPFlow({
 				...commonSIPInput,
-				paymentModeName: PAYMENT_MODE[paymentHandler.paymentMode].name,
-				paymentModeAPIName: PAYMENT_MODE[paymentHandler.paymentMode].apiName,
+				paymentModeName: PAYMENT_MODE[paymentHandler.paymentMode]?.name,
+				paymentModeAPIName: PAYMENT_MODE[paymentHandler.paymentMode]?.apiName,
 				gpayPaymentState
 			});
 		} else {
 			walletLumpsumFlow({
 				...commonLumpsumInput,
 				...sipInstallmentInput,
-				paymentModeName: PAYMENT_MODE[paymentHandler.paymentMode].name,
-				paymentModeAPIName: PAYMENT_MODE[paymentHandler.paymentMode].apiName,
+				paymentModeName: PAYMENT_MODE[paymentHandler.paymentMode]?.name,
+				paymentModeAPIName: PAYMENT_MODE[paymentHandler.paymentMode]?.apiName,
 				gpayPaymentState
 			});
 		}

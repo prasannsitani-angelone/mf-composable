@@ -185,8 +185,8 @@
 			onUPIValidationFailure: upiValidationErrorHandler,
 			updateUPITimer,
 			//wallet
-			paymentModeName: PAYMENT_MODE[paymentHandler.paymentMode].name,
-			paymentModeAPIName: PAYMENT_MODE[paymentHandler.paymentMode].apiName,
+			paymentModeName: PAYMENT_MODE[paymentHandler.paymentMode]?.name,
+			paymentModeAPIName: PAYMENT_MODE[paymentHandler.paymentMode]?.apiName,
 			gpayPaymentState
 		};
 
