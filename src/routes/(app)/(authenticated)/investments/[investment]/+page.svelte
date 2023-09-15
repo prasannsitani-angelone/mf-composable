@@ -162,8 +162,9 @@
 				'Withdrawal is disabled as exchange has disabled withdrawal for this scheme';
 		} else if (!totalRedeemableUnits) {
 			if (totalBlockedUnits && !totalPledgedUnits && !totalUnitsUnderProcess) {
-				withdrawDisableText = 'Withdrawal is disabled as your investment is in lock-in period';
-				isWithdrawDisableLockInCase = true;
+				withdrawDisableText =
+					'Withdraw is disabled temporarily as withdrawal units are in process of being credited to your demat account';
+				// isWithdrawDisableLockInCase = true;
 			} else if (totalPledgedUnits && !totalBlockedUnits && !totalUnitsUnderProcess) {
 				withdrawDisableText = 'Withdrawal is disabled as you have pledged these funds';
 			} else if (totalUnitsUnderProcess && !totalBlockedUnits && !totalPledgedUnits) {
