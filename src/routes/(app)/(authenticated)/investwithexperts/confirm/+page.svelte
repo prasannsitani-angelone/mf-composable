@@ -86,9 +86,11 @@
 	};
 
 	const updatePaymentHandler = (input) => {
-		paymentHandler.firstTimeUser = input.firstTimeUser || paymentHandler.firstTimeUser;
+		paymentHandler.firstTimeUser =
+			typeof input.firstTimeUser === 'boolean' ? input.firstTimeUser : paymentHandler.firstTimeUser;
 		paymentHandler.paymentMode = input.paymentMode || paymentHandler.paymentMode;
-		paymentHandler.selectedAccount = input.selectedAccount || paymentHandler.selectedAccount;
+		paymentHandler.selectedAccount =
+			input.selectedAccount >= 0 ? input.selectedAccount : paymentHandler.selectedAccount;
 		paymentHandler.upiId = input.upiId || paymentHandler.upiId;
 	};
 
