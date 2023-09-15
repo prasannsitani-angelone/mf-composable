@@ -1,13 +1,13 @@
 <script lang="ts">
 	import Card from '$components/Card.svelte';
-	import WmsIcon from '$components/WMSIcon.svelte';
+	// import WmsIcon from '$components/WMSIcon.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount.js';
-	import Modal from '$components/Modal.svelte';
+	// import Modal from '$components/Modal.svelte';
 
 	export let totalAmount: number;
 	export let mandateLimit: number;
 
-	let maxAutopayLimitVisible = false;
+	// let maxAutopayLimitVisible = false;
 
 	const autopayNotes = [
 		{
@@ -19,13 +19,13 @@
 		}
 	];
 
-	const onShowAutopayLimitmodal = () => {
-		maxAutopayLimitVisible = true;
-	};
+	// const onShowAutopayLimitmodal = () => {
+	// 	maxAutopayLimitVisible = true;
+	// };
 
-	const onHideAutopayLimitmodal = () => {
-		maxAutopayLimitVisible = false;
-	};
+	// const onHideAutopayLimitmodal = () => {
+	// 	maxAutopayLimitVisible = false;
+	// };
 </script>
 
 <Card class="!p-3">
@@ -42,13 +42,14 @@
 			<div
 				class=" mb-1 flex w-full items-center justify-end text-1xs font-normal leading-normal text-grey-body"
 			>
-				Autopay Limit <WmsIcon
+				Autopay Limit
+				 <!-- <WmsIcon
 					height={12}
 					width={12}
 					class="ml-1 cursor-pointer"
 					on:click={onShowAutopayLimitmodal}
 					name="question-mark-circle"
-				/>
+				/> -->
 			</div>
 			<div class=" text-xl font-medium text-black-title">
 				₹{addCommasToAmountString(mandateLimit)}
@@ -65,7 +66,7 @@
 	</div>
 </Card>
 
-{#if maxAutopayLimitVisible}
+<!-- {#if maxAutopayLimitVisible}
 	<Modal closeModal={onHideAutopayLimitmodal} isModalOpen>
 		<div
 			class=" w-screen justify-between rounded-b-none rounded-t-2xl bg-white p-4 text-left sm:!w-[460px] sm:rounded-lg sm:px-20 sm:py-8"
@@ -80,4 +81,4 @@
 			</div>
 		</div>
 	</Modal>
-{/if}
+{/if} -->
