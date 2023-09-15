@@ -163,7 +163,7 @@
 		} else if (!totalRedeemableUnits) {
 			if (totalBlockedUnits && !totalPledgedUnits && !totalUnitsUnderProcess) {
 				withdrawDisableText =
-					'Withdraw is disabled temporarily as withdrawal units are in process of being credited to your demat account';
+					'Withdraw is disabled temporarily as withdrawal units are in process of being credited to your account or are in lock-in';
 				// isWithdrawDisableLockInCase = true;
 			} else if (totalPledgedUnits && !totalBlockedUnits && !totalUnitsUnderProcess) {
 				withdrawDisableText = 'Withdrawal is disabled as you have pledged these funds';
