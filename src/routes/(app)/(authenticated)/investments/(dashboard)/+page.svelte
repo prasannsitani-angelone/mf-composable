@@ -284,7 +284,9 @@
 	</section>
 
 	{#if $ctTrackExternalInvestmentsStore?.subtext && showTefNudge}
-		<aside class="fixed bottom-20 -ml-2 flex w-full items-center bg-purple-glow p-3 align-middle">
+		<aside
+			class="fixed bottom-20 -ml-2 flex w-full items-center bg-purple-glow p-3 align-middle sm:hidden"
+		>
 			<div>
 				<WMSIcon name="import-external-funds" />
 			</div>

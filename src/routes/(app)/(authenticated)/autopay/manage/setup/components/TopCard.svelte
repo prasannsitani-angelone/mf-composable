@@ -43,7 +43,7 @@
 				class=" mb-1 flex w-full items-center justify-end text-1xs font-normal leading-normal text-grey-body"
 			>
 				Autopay Limit
-				 <!-- <WmsIcon
+				<!-- <WmsIcon
 					height={12}
 					width={12}
 					class="ml-1 cursor-pointer"
