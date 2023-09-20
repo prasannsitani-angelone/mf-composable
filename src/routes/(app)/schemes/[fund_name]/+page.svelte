@@ -101,7 +101,9 @@
 		setQueryParamsData();
 	});
 </script>
-
+<svelte:head>
+	<meta name="robots" content="noindex, follow" />
+</svelte:head>
 {#await data?.api?.schemeData}
 	<FundDetailsLoader />
 
