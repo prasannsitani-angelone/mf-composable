@@ -64,7 +64,7 @@
 					for (let i = 0; i < segments.length; i++) {
 						ctx.fillStyle = 'white';
 						const fontSize = 11;
-						ctx.font = `${fontSize}px Barlow`;
+						ctx.font = `${fontSize}px Roboto`;
 						// Get needed variables
 						const radius = segments[i].outerRadius;
 						const value1 = data.displayData[i];
@@ -78,7 +78,7 @@
 							ctx.fillText(value1, posX - ctx.measureText(value1).width / 2, posY);
 							ctx.restore();
 							ctx.fillStyle = 'white';
-							ctx.font = `${fontSize}px Barlow`;
+							ctx.font = `${fontSize}px Roboto`;
 							ctx.fillText(value2, posX - ctx.measureText(value2).width / 2, posY + fontSize + 4);
 							ctx.restore();
 						}
