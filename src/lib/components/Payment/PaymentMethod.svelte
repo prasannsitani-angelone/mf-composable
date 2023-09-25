@@ -4,6 +4,7 @@
 	import { PAYMENT_MODE } from './constants';
 	import { stringToFloat } from '$lib/utils/helpers/numbers';
 	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
 
 	export let selectedMode = '';
 	export let paymentModes: Array<string> = [];
@@ -28,6 +29,20 @@
 		$page?.data?.userPaymentMethodsStatus?.payment_modes[
 			`${bankAccounts[selectedAccount]?.ifscCode}`
 		] || {};
+
+	function setDefaultSelection() {
+		if (!selectedMode) {
+			// if selected payment mode is not given, choose the first application as default selected
+			const firstPaymentOption = paymentModes.find((element) =>
+					PAYMENT_MODE[element].enabled(amountInNumber, os, redirectedFrom)
+			);
+			onSelect(firstPaymentOption || '');
+		}
+	}
+
+	onMount(() => {
+		setDefaultSelection();
+	});
 </script>
 
 <div class="flex flex-col overflow-y-scroll bg-white px-4 py-3 {$$props.class}">
