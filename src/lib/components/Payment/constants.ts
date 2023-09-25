@@ -45,7 +45,7 @@ export const PAYMENT_MODE = {
 		apiName: 'Paytm',
 		analytics: selectPaymentModeAnalytics,
 		enabled: (amountInNumber: number, os: string) => {
-			if (os === 'Android') {
+			if (os === 'Android' || os === 'iOS') {
 				return amountInNumber <= UPI_MAX_LIMIT;
 			}
 			return false;
