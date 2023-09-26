@@ -20,7 +20,7 @@
 	import { SEO, WMSIcon } from 'svelte-components';
 	import { tabs } from '../constants';
 	import OptimisePortfolioCard from './components/OptimisePortfolioCard.svelte';
-	import { onMount, tick } from 'svelte';
+	import { onDestroy, onMount, tick } from 'svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import type { IOPtimsiePortfolioData, InvestmentEntity } from '$lib/types/IInvestments';
@@ -39,6 +39,7 @@
 	import Clevertap from '$lib/utils/Clevertap';
 	import type { ITab } from '$lib/types/ITab';
 	import { getCookie, setCookie } from '$lib/utils/helpers/cookie';
+	import { browser } from '$app/environment';
 
 	let isXIRRModalOpen = false;
 	let isOptimisePortfolioOpen = false;
@@ -117,6 +118,7 @@
 		cleavertap.event.push('MF Inv Dash Internal', {
 			event_type: 'impression'
 		});
+
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/recommendation/sip`;
 		const res = await useFetch(url, {}, fetch);
 		if (res?.ok && res?.status === 200) {
@@ -133,6 +135,15 @@
 		}
 	});
 
+	onDestroy(() => {
+		if (browser) {
+			ctTrackExternalInvestmentsStore.set({
+				ctatext: '',
+				subtext: '',
+				topic: ''
+			});
+		}
+	});
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 
 	let activeTab: string;
