@@ -14,7 +14,8 @@ const defaultOptions = {
 	headers: {
 		accept: 'application/json',
 		'X-Source': 'mutualfunds',
-		'content-type': 'application/json'
+		'content-type': 'application/json',
+		Origin: 'http://localhost:8080'
 	}
 };
 
