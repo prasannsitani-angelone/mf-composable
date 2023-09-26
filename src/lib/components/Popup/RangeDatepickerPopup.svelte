@@ -42,15 +42,21 @@
 	const iOSVersionCompatible = '14.5';
 
 	$: isDownloadEnabled = (() => {
-		return (
-			// iOS 14.5 and above
-			!(
-				appStore.isSparkIOSUser() &&
-				!compareVersion($page?.data?.deviceType?.osVersion, iOSVersionCompatible)
-			) &&
-			// android webview
-			$page?.data?.deviceType?.os !== 'Android'
-		);
+		if (appStore.platform() === 'mf-web') {
+			return true;
+		} else if (
+			appStore.isSparkIOSUser() &&
+			compareVersion($page?.data?.deviceType?.osVersion, iOSVersionCompatible)
+		) {
+			return true;
+		} else if (
+			$page?.data?.deviceType?.os === 'Android' &&
+			typeof window?.JSBlobDownloadInterface?.getBase64FromBlobData === 'function'
+		) {
+			return true;
+		} else {
+			return false;
+		}
 	})();
 
 	const applyDate = () => {
