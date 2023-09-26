@@ -95,7 +95,7 @@
 		data={SipHistoryData}
 		titleFontSize="text-base"
 		{disableCollapse}
-		class="mt-2 rounded-lg bg-white text-sm font-medium text-black-title shadow-csm"
+		class="mt-2 rounded-lg bg-white text-sm font-medium text-black-title shadow-csm {$$props.class}"
 		on:cardToggled={handleSipHistoryToggle}
 	>
 		<svelte:fragment slot="accordionHeader">

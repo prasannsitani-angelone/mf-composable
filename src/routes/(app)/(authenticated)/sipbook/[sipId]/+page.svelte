@@ -443,6 +443,7 @@
 				sipOrderHistory={sipData?.sipOrderHistory}
 				sipCreatedTs={sipData?.createdTs}
 				maxTxnShowCount={maxTransactionsCap}
+				class="!max-w-full"
 			/>
 
 			<section style={`bottom: ${bottomHeight}px`} class={`w-full`}>

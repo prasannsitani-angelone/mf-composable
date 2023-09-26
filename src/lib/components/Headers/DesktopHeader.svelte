@@ -93,6 +93,9 @@
 	$: ordersTabClass = $page.url?.pathname?.includes('/orders/orderspage')
 		? activePageTabClass
 		: inactivePageTabClass;
+	$: sipsTabClass = $page.url?.pathname?.includes('/sipbook/dashboard')
+		? activePageTabClass
+		: inactivePageTabClass;
 	let isCartActive: boolean;
 	$: isCartActive = $page.url?.pathname?.includes('/cart');
 	const dispatch = createEventDispatcher();
@@ -128,6 +131,13 @@
 			<div class={`hidden cursor-pointer uppercase md:block ${myInvestmentsTabClass}`}>
 				INVESTMENTS
 			</div>
+		</Link>
+		<Link
+			to={`/sipbook/dashboard`}
+			preloadData={isGuest ? 'off' : 'hover'}
+			on:linkClicked={() => onTabClickAnalytics('SIPS')}
+		>
+			<div class="mr-4 hidden cursor-pointer uppercase md:block {sipsTabClass}">SIPS</div>
 		</Link>
 		<Link
 			to={`/orders/orderspage`}

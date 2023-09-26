@@ -65,11 +65,11 @@
 							<svelte:fragment slot="cardFooter">
 								{#if isInvestmentAllowed(userType, sip?.schemePlan)}
 									<section
-										class="mx-3 flex items-center justify-end border-t border-grey-line py-2"
+										class="mx-3 mt-4 flex items-center justify-end border-t border-grey-line pb-1 pt-3"
 									>
 										<Button
 											variant="transparent"
-											class="flex w-full cursor-default justify-end !pr-0"
+											class="flex !h-fit !min-h-fit w-full cursor-default justify-end !pr-0"
 											onClick={() => redirectToOrderPad(sip)}
 										>
 											<span class="text-sm font-semibold text-blue-primary"> RESTART SIP </span>

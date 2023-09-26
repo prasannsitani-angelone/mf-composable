@@ -121,14 +121,18 @@
 
 <section>
 	{#if sipBookData?.sips?.length}
-		<section>
+		<section class="grid grid-cols-[100%] sm:grid-cols-[70%_30%] sm:gap-x-5">
 			<!-- SIP Summary Section -->
 			{#if sipBookData?.bookOverView}
-				<SipSummary bookSummary={sipBookData?.bookOverView} {automatedSipsCount} />
+				<SipSummary
+					bookSummary={sipBookData?.bookOverView}
+					{automatedSipsCount}
+					class="col-start-1 row-start-1 h-min sm:col-start-2"
+				/>
 			{/if}
 
 			<!-- SIP Cards section -->
-			<section>
+			<section class="col-start-1 row-start-2 sm:row-start-1">
 				<!-- SIPs with payment due -->
 				{#each paymentDueSips || [] as sip, index (sip?.sipId)}
 					<SipCard {sip} bankLogo={getBankLogoUrl(bankDetails, sip?.accountNo)} />
@@ -171,7 +175,11 @@
 			</section>
 
 			<!-- Inactive SIPs CTA section -->
-			<Link to="/sipbook/inactivesips" on:linkClicked={handleInactiveSipsClick}>
+			<Link
+				to="/sipbook/inactivesips"
+				on:linkClicked={handleInactiveSipsClick}
+				class="col-start-1 row-start-3 sm:row-start-2"
+			>
 				{#if showInactiveSipsCta}
 					<section class="mt-8 cursor-default text-center text-sm font-semibold text-blue-primary">
 						INACTIVE SIPs

@@ -5,7 +5,6 @@
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import NudgeComponent from '$lib/components/Nudge/NudgeComponent.svelte';
 	import OctagonalYellowWarningIcon from '$lib/images/icons/OctagonalYellowWarningIcon.svelte';
-	import BigDotIcon from '$lib/images/icons/BigDotIcon.svelte';
 	import BigTimePendingIcon from '$lib/images/icons/BigTimePendingIcon.svelte';
 	import type { ISip } from '$lib/types/ISipType';
 	import { goto } from '$app/navigation';
@@ -15,7 +14,7 @@
 	import { onMount } from 'svelte';
 	import DateFns from '$lib/utils/asyncDateFns';
 	import { sipCardClickAnalytics } from '$lib/analytics/sipbook/sipbook';
-	import { page } from '$app/stores';
+	import { WMSIcon } from 'svelte-components';
 
 	let sipCount = 0;
 	let alertSleeveText = '';
@@ -25,7 +24,6 @@
 	let isUpcomingSip = false;
 	let isCurrentDateEqualToT3Date = false;
 	let inactiveSip = false;
-	$: deviceType = $page.data.deviceType;
 
 	const timezoneOffset = -330; // should be constant in minutes, as our app should be handled based on Indian Timezone
 	const daysLeft = getTimestampDaysDifference(
@@ -78,9 +76,7 @@
 			});
 			goto(`${base}/${path}?params=${params}&orderpad=INVEST`);
 		} else if (!isCta) {
-			if (deviceType.isMobile) {
-				goto(`${base}/sipbook/${sip?.sipId}`);
-			}
+			goto(`${base}/sipbook/${sip?.sipId}`);
 		}
 	};
 
@@ -134,7 +130,7 @@
 </script>
 
 <article
-	class="mb-2 rounded-lg bg-white shadow-csm {$$props.class}"
+	class="mb-2 rounded-lg bg-white py-3 shadow-csm {$$props.class}"
 	on:click={handleClick}
 	on:keydown={handleClick}
 >
@@ -154,21 +150,17 @@
 	{/if}
 
 	<!-- Upper section -->
-	<section
-		class="py-4"
-		class:border-b={sip?.accountNo || isUpcomingSip}
-		class:border-grey-line={sip?.accountNo || isUpcomingSip}
-		class:pt-2={sipCount > 1}
-	>
+	<section class:pt-2={sipCount > 1} class="mb-2">
 		<!-- Scheme Details section -->
 		<section class="mx-3">
 			<ResultItem
-				class={`border-none !p-0 ${sipCount > 1 ? '!pb-2' : '!pb-4'}`}
+				class="border-none !p-0 !pb-2"
 				data={sip}
 				categoryName={`${sipCount > 1 ? '' : sip?.schemePlan?.toLowerCase()}`}
 				categoryStyle="text-[10px] capitalize"
 				logoStyle="w-9 h-9 p-0.5"
 			>
+				<div slot="schemeInfo" />
 				<svelte:fragment slot="schemeLogo">
 					{#if sipCount > 1}
 						<img
@@ -185,7 +177,7 @@
 						<img
 							src={sip?.logoUrl}
 							alt="logo"
-							class="mr-3 h-9 w-9 rounded-full border object-cover p-0.5 shadow-csm group-hover:bg-white md:p-2"
+							class="mr-1 h-9 w-9 object-cover p-1"
 							loading="lazy"
 						/>
 					{/if}
@@ -230,7 +222,7 @@
 
 		<!-- Pay Now button for SIP payment -->
 		{#if sip?.isSipPaymentNudge}
-			<section class="px-3 pb-1 pt-2">
+			<section class="mt-3 px-3">
 				<Button
 					class="flex h-12 w-full items-center justify-center rounded"
 					onClick={(e) => handleClick(e, true)}
@@ -243,41 +235,31 @@
 
 	<!-- Lower section -->
 	<slot name="cardFooter">
-		{#if sip?.accountNo}
-			<section class="px-3 py-2">
-				<section class="flex items-center justify-between">
-					<article class="flex items-center text-black-title">
-						<div class="px-3 py-1.5">
-							<img src={bankLogo} alt="bank logo" class="h-4 w-4" />
-						</div>
-						<div class="text-sm font-medium">
-							{sip?.bankName}
-						</div>
-					</article>
-
-					<article class="flex items-center">
-						{#each Array(4) as item}
-							<BigDotIcon class="mr-1" />
-						{/each}
-						<div class="text-xs font-medium text-grey-body">
-							{sip?.accountNo?.slice(sip?.accountNo?.length - 4)}
-						</div>
-					</article>
-				</section>
-
+		<section class="px-3">
+			{#if sip?.accountNo}
 				<!-- Upcoming SIP nudge -->
 				{#if isUpcomingSip}
 					<NudgeComponent
 						nudgeText="Upcoming SIP. Please maintain required balance in bank account"
-						nudgeClasses="mt-2 px-4"
+						nudgeClasses="px-3 py-2 rounded !justify-start"
 					>
 						<div slot="nudgeIcon">
-							<BigTimePendingIcon class="mr-3" />
+							<BigTimePendingIcon class="mr-1" />
 						</div>
 					</NudgeComponent>
+				{:else}
+					<section class="flex items-center text-xs font-medium text-green-amount">
+						<WMSIcon name="tick-in-circle" height={12} width={12} stroke="#008F75" bgStroke="#fff" />
+						Autopay Enabled
+					</section>
 				{/if}
-			</section>
-		{/if}
+			{:else}
+				<section class="flex items-center text-xs font-medium text-red-errorDark">
+					<WMSIcon name="filledInfo" />
+					Pending Autopay
+				</section>
+			{/if}
+		</section>
 		{#if sip?.installmentSkip}
 			<section class="px-3 pb-4">
 				<NudgeComponent nudgeText={skipSipText} nudgeClasses="!p-1" />
