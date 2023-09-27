@@ -431,31 +431,27 @@
 				{#await assignPreviousPaymentDetails(data.api.previousPaymentDetails, itemList)}
 					<div />
 				{:then}
-					<div
-						class="flex flex-col bg-white sm:flex-row sm:items-center sm:justify-between sm:px-4 sm:py-3"
-					>
+					<div class="flex flex-row items-center justify-between bg-white px-4 py-3">
 						{#if !firstTimeUser}
-							<div>
+							<div class="flex flex-1">
 								<PaymentSleeve
-									class="border-b border-t border-grey-line sm:border-0"
 									selectedMode={paymentHandler?.paymentMode}
 									onPaymentMethodChange={showPaymentMethodScreen}
 									bankName={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName}
 									bankAccount={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO}
 									upiId={paymentHandler.upiId}
-									amount={itemList?.totalAmount}
 								/>
 							</div>
-						{:else}
-							<div />
 						{/if}
-						<div class="px-4 py-3 sm:p-0">
+						<div class="flex flex-1">
 							<Button
-								class="w-full sm:w-80"
+								class="flex h-12 flex-1 rounded"
 								onClick={() => onPayment(paymentHandler.upiId)}
 								disabled={loadingState.isLoading || validateUPILoading}
 							>
-								PAY ₹{addCommasToAmountString(itemList?.totalAmount?.toString())} NOW
+								{firstTimeUser
+									? 'PROCEED'
+									: `PAY ₹${addCommasToAmountString(itemList?.totalAmount?.toString())}`}
 							</Button>
 						</div>
 					</div>

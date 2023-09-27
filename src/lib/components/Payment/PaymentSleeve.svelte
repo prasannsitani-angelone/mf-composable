@@ -1,8 +1,7 @@
 <script lang="ts">
-	import Button from '$components/Button.svelte';
+	import WmsIcon from '$components/WMSIcon.svelte';
 	import { PAYMENT_MODE } from './constants';
 
-	export let amount: number;
 	export let selectedMode = '';
 	export let bankName = '';
 	export let bankAccount = '';
@@ -10,33 +9,42 @@
 	export let onPaymentMethodChange = (): void => undefined;
 </script>
 
-<div class="flex w-full flex-row items-center border-t border-grey-line px-4 py-3 {$$props.class}">
+<div class="flex w-full flex-row items-center {$$props.class}">
 	<div>
 		<svelte:component this={PAYMENT_MODE[selectedMode]?.sleeveIcon} />
 	</div>
-	<div class="ml-5 mr-3 flex w-full flex-col">
-		<div class="text-xs font-medium text-black-title">
-			{selectedMode === 'UPI'
-				? upiId?.length
-					? upiId
-					: 'Your UPI Id'
-				: PAYMENT_MODE[selectedMode]?.name}
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<div
+		class="ml-3 flex w-full cursor-pointer flex-col px-2 active:opacity-70"
+		role="button"
+		tabindex={0}
+		on:click={onPaymentMethodChange}
+	>
+		<div class="flex flex-row items-center text-xs font-medium text-black-title">
+			<span class="break-all">
+				{selectedMode === 'UPI'
+					? upiId?.length
+						? upiId
+						: 'Your UPI Id'
+					: PAYMENT_MODE[selectedMode]?.name}
+			</span>
+			<WmsIcon
+				name="arrow-up-solid"
+				width={12}
+				height={6}
+				stroke="#3F5BD9"
+				class="ml-1 min-w-[12px]"
+			/>
 		</div>
 		<div class="text-[10px] font-normal text-black-title">
-			{bankName} - *{bankAccount?.substring(bankAccount.length - 4)}
+			{bankName}
 		</div>
-		<div class="text-[10px] font-normal text-grey-body">
-			Use the same bank account on {PAYMENT_MODE[selectedMode]?.name}
-			{selectedMode === 'UPI' ? 'app' : ''}
+		<div class="flex flex-row items-center text-[10px] font-normal text-black-title">
+			<div class="mr-1 h-1 w-1 rounded-full bg-black-title" />
+			<div class="mr-1 h-1 w-1 rounded-full bg-black-title" />
+			<div class="mr-1 h-1 w-1 rounded-full bg-black-title" />
+			<div class="mr-1 h-1 w-1 rounded-full bg-black-title" />
+			{bankAccount?.substring(bankAccount.length - 4)}
 		</div>
 	</div>
-	{#if amount > 0}
-		<Button
-			variant="transparent"
-			class="!h-fit !min-h-0 !px-0 text-xs !uppercase"
-			onClick={onPaymentMethodChange}
-		>
-			Change
-		</Button>
-	{/if}
 </div>

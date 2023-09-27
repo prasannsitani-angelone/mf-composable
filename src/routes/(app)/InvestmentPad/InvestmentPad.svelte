@@ -84,7 +84,7 @@
 	import UpiClosePopup from '$components/Payment/UPIClosePopup.svelte';
 	import UpiTransactionPopup from '$components/Payment/UPITransactionPopup.svelte';
 	import LoadingPopup from '$components/Payment/LoadingPopup.svelte';
-	import PaymentSleeve from '$components/Payment/OrderPadPaymentSleeve.svelte';
+	import PaymentSleeve from '$components/Payment/PaymentSleeve.svelte';
 	import { PAYMENT_MODE, PAYMENT_MODE_STATUS } from '$components/Payment/constants';
 	import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
 	import { stringToInteger } from '$lib/utils/helpers/numbers';

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import AmountText from '$components/AmountText.svelte';
-	import InfoModal from '$components/InfoModal.svelte';
+	// import InfoModal from '$components/InfoModal.svelte';
 	import WmsIcon from '$components/WMSIcon.svelte';
 	import type { AutopayDetailsType } from '$lib/types/IEmandate';
 	import { getDateTimeString } from '$lib/utils/helpers/date';
@@ -8,11 +8,11 @@
 
 	export let autopay: AutopayDetailsType;
 
-	let showMaxAutopayLimitModal = false;
+	// let showMaxAutopayLimitModal = false;
 
-	const toggleShowMaxAutopayLimitModal = () => {
-		showMaxAutopayLimitModal = !showMaxAutopayLimitModal;
-	};
+	// const toggleShowMaxAutopayLimitModal = () => {
+	// 	showMaxAutopayLimitModal = !showMaxAutopayLimitModal;
+	// };
 </script>
 
 <section class="p-4 px-1 pb-2 {$$props?.class}">
@@ -27,13 +27,13 @@
 		<section class="flex-1 p-2">
 			<div class="flex items-center text-[11px] font-normal text-grey-body">
 				<div>Max. Autopay Limit</div>
-				<WmsIcon
+				<!-- <WmsIcon
 					name="question-mark-circle"
 					class="ml-1"
 					width={12}
 					height={12}
 					on:click={toggleShowMaxAutopayLimitModal}
-				/>
+				/> -->
 			</div>
 			<div class="text-sm font-medium uppercase text-black-title">
 				<AmountText amount={autopay?.amount} />
@@ -67,7 +67,7 @@
 	</article>
 </section>
 
-{#if showMaxAutopayLimitModal}
+<!-- {#if showMaxAutopayLimitModal}
 	<InfoModal
 		showModal={showMaxAutopayLimitModal}
 		heading="Max. Autopay Limit"
@@ -92,4 +92,4 @@
 			</section>
 		</svelte:fragment>
 	</InfoModal>
-{/if}
+{/if} -->

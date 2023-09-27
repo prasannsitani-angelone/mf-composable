@@ -249,19 +249,19 @@
 					</NudgeComponent>
 				{:else}
 					<section class="flex items-center text-xs font-medium text-green-amount">
-						<WMSIcon name="tick-in-circle" height={12} width={12} stroke="#008F75" bgStroke="#fff" />
+						<WMSIcon name="tick-in-circle" height={12} width={12} stroke="#fff" bgStroke="#008F75" class="min-w-[12px] mr-0.5" />
 						Autopay Enabled
 					</section>
 				{/if}
 			{:else}
 				<section class="flex items-center text-xs font-medium text-red-errorDark">
-					<WMSIcon name="filledInfo" />
+					<WMSIcon name="filledInfo" height={12} width={12} class="min-w-[12px] mr-0.5" />
 					Pending Autopay
 				</section>
 			{/if}
 		</section>
 		{#if sip?.installmentSkip}
-			<section class="px-3 pb-4">
+			<section class="px-3 mt-2">
 				<NudgeComponent nudgeText={skipSipText} nudgeClasses="!p-1" />
 			</section>
 		{/if}

@@ -8,7 +8,6 @@
 	import LinkedSipCard from './components/LinkedSipCard.svelte';
 	import AutopayDetailsLoader from './components/AutopayDetailsLoader.svelte';
 	import AutopaySipsLinkedLoader from './components/AutopaySipsLinkedLoader.svelte';
-	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';

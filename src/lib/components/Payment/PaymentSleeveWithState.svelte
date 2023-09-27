@@ -16,7 +16,7 @@
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
 	import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 	import Button from '$components/Button.svelte';
-	import OrderPadPaymentSleeve from './OrderPadPaymentSleeve.svelte';
+	import PaymentSleeve from './PaymentSleeve.svelte';
 	import { stringToInteger } from '$lib/utils/helpers/numbers';
 
 	export let amount: string;
@@ -196,7 +196,7 @@
 
 <section class="flex w-full flex-row">
 	{#if !paymentHandler.firstTimeUser && stringToInteger(amount) > 0 && isPaymentSleeveVisible}
-		<OrderPadPaymentSleeve
+		<PaymentSleeve
 			selectedMode={paymentHandler?.paymentMode}
 			onPaymentMethodChange={showPaymentMethodScreen}
 			bankName={bankAccounts?.[paymentHandler?.selectedAccount]?.bankName}
