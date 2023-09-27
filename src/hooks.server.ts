@@ -10,7 +10,7 @@ import type { Handle, HandleFetch, HandleServerError } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { handleDeviecDetector } from 'sveltekit-device-detector';
 import * as servertime from 'servertime';
-import { PRIVATE_MF_CORE_BASE_URL } from '$env/static/private';
+import { PRIVATE_MF_CORE_BASE_URL, PRIVATE_MF_CORE_BASE_URL_V2 } from '$env/static/private';
 import { PUBLIC_ENV_NAME, PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { dev } from '$app/environment';
 import { getHoldingSummary } from '$lib/api/holdings';
@@ -83,7 +83,11 @@ const handler = (async ({ event, resolve }) => {
 		let userPaymentMethodsStatus: UserPaymentMethodsData;
 
 		if (!event.request.url.includes('/api/')) {
-			const searchDashboardPromise = getsearchDashboardData(token, fetch, PRIVATE_MF_CORE_BASE_URL);
+			const searchDashboardPromise = getsearchDashboardData(
+				token,
+				fetch,
+				PRIVATE_MF_CORE_BASE_URL_V2
+			);
 
 			if (isGuest) {
 				searchDashboardData = await searchDashboardPromise;
@@ -115,7 +119,7 @@ const handler = (async ({ event, resolve }) => {
 				searchDashboardData = await getsearchDashboardData(
 					token,
 					fetch,
-					PRIVATE_MF_CORE_BASE_URL,
+					PRIVATE_MF_CORE_BASE_URL_V2,
 					'B2B'
 				);
 			}
