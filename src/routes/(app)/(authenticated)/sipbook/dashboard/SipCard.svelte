@@ -129,6 +129,7 @@
 	export { sip, sipCount, bankLogo, inactiveSip };
 </script>
 
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <article
 	class="mb-2 rounded-lg bg-white py-3 shadow-csm {$$props.class}"
 	on:click={handleClick}
@@ -249,19 +250,26 @@
 					</NudgeComponent>
 				{:else}
 					<section class="flex items-center text-xs font-medium text-green-amount">
-						<WMSIcon name="tick-in-circle" height={12} width={12} stroke="#fff" bgStroke="#008F75" class="min-w-[12px] mr-0.5" />
+						<WMSIcon
+							name="tick-in-circle"
+							height={12}
+							width={12}
+							stroke="#fff"
+							bgStroke="#008F75"
+							class="mr-0.5 min-w-[12px]"
+						/>
 						Autopay Enabled
 					</section>
 				{/if}
 			{:else}
 				<section class="flex items-center text-xs font-medium text-red-errorDark">
-					<WMSIcon name="filledInfo" height={12} width={12} class="min-w-[12px] mr-0.5" />
+					<WMSIcon name="filledInfo" height={12} width={12} class="mr-0.5 min-w-[12px]" />
 					Pending Autopay
 				</section>
 			{/if}
 		</section>
 		{#if sip?.installmentSkip}
-			<section class="px-3 mt-2">
+			<section class="mt-2 px-3">
 				<NudgeComponent nudgeText={skipSipText} nudgeClasses="!p-1" />
 			</section>
 		{/if}

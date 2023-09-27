@@ -36,6 +36,7 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div on:click={gotoSchemeDetails} class={`flex cursor-pointer flex-col ${clazz}`}>
 	<div class="flex flex-row items-start">
 		<SchemeLogo
@@ -90,7 +91,7 @@
 									height="12"
 								/>
 								<p class="text-xs font-normal">
-									<span class="text-base font-medium">{schemes?.returns3yr}%</span> p.a
+									<span class="text-base font-medium">{schemes?.returns3yr?.toFixed(2)}%</span> p.a
 								</p>
 							</div>
 						</div>

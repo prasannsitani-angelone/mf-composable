@@ -7,7 +7,8 @@ export const load = (async () => {
 			showCloseIcon: true,
 			showSearchIcon: true,
 			showBottomNavigation: true,
-			layoutType: 'TWO_COLUMN'
+			layoutType: 'TWO_COLUMN',
+			showAskAngelEntry: true
 		}
 	};
 }) satisfies PageLoad;

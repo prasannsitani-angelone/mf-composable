@@ -19,6 +19,7 @@
 	export let showShareIcon = false;
 	export let showCartIcon = false;
 	export let showFaqIcon = false;
+	export let showRightIcon = false;
 	export let faqParams = '';
 	export let titleClass = '';
 	export let onClickShareIcon: (() => void) | null = null;
@@ -56,8 +57,10 @@
 </script>
 
 <section class={`p-2 pl-4 text-center shadow-csm md:p-5 ${$$props?.class}`}>
-	<article class="flex flex-col items-center justify-around py-[6px] md:hidden">
-		<article class="flex w-full cursor-pointer items-center justify-between">
+	<article
+		class="flex cursor-pointer flex-col items-center justify-around py-[6px] md:hidden {$$props?.class2}"
+	>
+		<article class="flex w-full items-center justify-between">
 			<article class="flex items-center justify-start">
 				<slot name="icon">
 					{#if showBackIcon}
@@ -81,7 +84,7 @@
 					<h1 class="text-lg font-medium text-black-title {titleClass || ''}">
 						<div
 							class="truncate text-left"
-							class:w-80={!showSearchIcon && !showShareIcon && !showFaqIcon}
+							class:w-80={!showSearchIcon && !showShareIcon && !showFaqIcon && !showRightIcon}
 						>
 							{title || ''}
 						</div>
@@ -137,6 +140,7 @@
 						</article>
 					{/if}
 				</slot>
+				<slot name="rightIcon" />
 			</div>
 		</article>
 	</article>

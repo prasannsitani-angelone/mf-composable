@@ -34,6 +34,7 @@
 	import { useFetch } from '$lib/utils/useFetch';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { ctTrackExternalInvestmentsStore } from '$lib/stores/CtTrackExternalInvestment';
+	import AskAngelEntry from '$components/AskAngel/AskAngelEntry.svelte';
 
 	$: pageMetaData = $page?.data?.layoutConfig;
 	let searchFocused = false;
@@ -179,6 +180,9 @@
 		<Default {searchFocused}>
 			<slot />
 		</Default>
+	{/if}
+	{#if pageMetaData?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN}
+		<AskAngelEntry />
 	{/if}
 	{#if pageMetaData?.showBottomNavigation}
 		<footer>

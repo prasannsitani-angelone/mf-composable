@@ -21,6 +21,7 @@ interface LayoutConfig {
 	showCartIcon: boolean;
 	showFaqIcon: boolean;
 	faqParams: string;
+	showAskAngelEntry: boolean;
 	onClickShareIcon: (() => void) | null;
 	onClickFaqsIcon: (() => void) | null;
 	layoutType:

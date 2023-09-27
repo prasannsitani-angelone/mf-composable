@@ -34,7 +34,7 @@
 		if (!selectedMode) {
 			// if selected payment mode is not given, choose the first application as default selected
 			const firstPaymentOption = paymentModes.find((element) =>
-					PAYMENT_MODE[element].enabled(amountInNumber, os, redirectedFrom)
+				PAYMENT_MODE[element].enabled(amountInNumber, os, redirectedFrom)
 			);
 			onSelect(firstPaymentOption || '');
 		}
