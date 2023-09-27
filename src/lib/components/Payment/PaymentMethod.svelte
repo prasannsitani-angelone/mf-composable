@@ -26,7 +26,7 @@
 	$: os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
 
 	$: paymentModesStatus =
-		$page?.data?.userPaymentMethodsStatus?.payment_modes[
+		$page?.data?.userPaymentMethodsStatus?.payment_modes?.[
 			`${bankAccounts[selectedAccount]?.ifscCode}`
 		] || {};
 
