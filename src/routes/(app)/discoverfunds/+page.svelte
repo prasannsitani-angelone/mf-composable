@@ -1,7 +1,6 @@
 <script lang="ts">
 	import TrendingFunds from '$components/TrendingFunds/TrendingFunds.svelte';
 	import StartNewInvestment from './StartNewInvestment.svelte';
-	import ExploreScheme from './ExploreScheme/ExploreScheme.svelte';
 	import PortfolioCard from '$components/PortfolioCards/PortfolioCard.svelte';
 	import { page } from '$app/stores';
 	import IntersectionObserver from 'svelte-intersection-observer';
@@ -41,6 +40,7 @@
 	import { exitNudgeStore } from '$lib/stores/ExitNudgeStore';
 	import { browser } from '$app/environment';
 	import ExternalFundsNfoCalculatorCard from './ExternalFundsNfoCalculatorCard/ExternalFundsNfoCalculatorCard.svelte';
+	import CategoriesComponent from './CategoriesComponent.svelte';
 
 	interface CtKv {
 		topic: string; /// value
@@ -320,11 +320,10 @@
 
 	<!-- 4. Category Section -->
 	<article
-		class="max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:mt-0 row-start-{placementMapping
-			?.categories?.rowStart} col-start-{placementMapping?.categories
-			?.columnStart} {placementMapping?.categories?.rowStart > 1 ? '!mt-2' : ''}"
+		class="row-start-{placementMapping?.categories?.rowStart} col-start-{placementMapping
+			?.categories?.columnStart} {placementMapping?.categories?.rowStart > 1 ? '!mt-2' : ''}"
 	>
-		<ExploreScheme searchOptions={data?.searchDashboardData?.searchOptions} />
+		<CategoriesComponent categories={data?.searchDashboardData?.categories} />
 	</article>
 
 	<!-- 5. CeleverTap Track -->
@@ -446,7 +445,7 @@
 					<PortfolioCard discoverPage={true} investmentSummary={data.investementSummary} />
 				</div>
 			{:else}
-				<StartNewInvestment searchOptions={data?.searchDashboardData?.searchOptions} />
+				<StartNewInvestment />
 			{/if}
 			{#if sipPaymentNudges?.length}
 				<section class="row-start-{placementMapping?.sipNudges?.rowStart} mt-2">

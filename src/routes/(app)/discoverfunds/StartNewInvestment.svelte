@@ -2,18 +2,10 @@
 	import Button from '$components/Button.svelte';
 	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
-	import type { SearchOptionsEntity } from '$lib/types/IDiscoverFunds';
-	let searchOptions: SearchOptionsEntity[];
 
 	const navigateToExploreFunds = () => {
-		goto(
-			`${base}/explorefunds/${searchOptions?.[0]?.name?.split(' ').join('-').toLowerCase()}?id=${
-				searchOptions?.[0]?.id
-			}`
-		);
+		goto(`${base}/explorefunds/high-returns?id=19`);
 	};
-
-	export { searchOptions };
 </script>
 
 <aside

@@ -1,9 +1,35 @@
 export interface DiscoverFund {
-	searchOptions?: SearchOptionsEntity[];
+	categories?: DashboardCategoryEntity[];
 	weeklyTopSchemes?: WeeklyTopSchemesEntity[] | null;
 	banner?: null;
 	amcData?: PromotionsEntity;
 }
+export interface DashboardCategoryEntity {
+	type: string;
+	name: string;
+	data: CategoryOptionsEntity[];
+}
+
+export interface CategoryOptionsEntity extends SearchOptionsEntity {
+	shortDescription: string;
+	detailedDescription: string[];
+	data: CategorySubOptionsEntity[];
+}
+
+export interface CategorySubOptionsEntity {
+	schemeCode: string;
+	isin: string;
+	schemeName: string;
+	schemePlan: string;
+	logoUrl: string;
+	returns3yr: number;
+	sortBy2: number;
+	noOfClientInvested: number;
+	schemeCategory: string;
+	categoryOptionName: string;
+	textMessage: string;
+}
+
 export interface SearchOptionsEntity {
 	id: string;
 	name: string;

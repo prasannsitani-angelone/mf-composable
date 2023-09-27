@@ -19,12 +19,7 @@
 		Start investing with SIPs today to generate long term returns and grow your wealth
 	</div>
 
-	<Link
-		to={`/explorefunds/${data?.searchDashboardData?.searchOptions[0]?.name
-			?.split(' ')
-			.join('-')
-			.toLowerCase()}?id=${data?.searchDashboardData?.searchOptions[0]?.id}`}
-	>
+	<Link to={`/explorefunds/high-returns?id=19`}>
 		<div
 			class="mt-5 w-52 cursor-default rounded border border-blue-primary bg-white py-4 text-center text-sm font-semibold text-blue-primary active:opacity-95 md:cursor-pointer"
 		>

@@ -27,13 +27,7 @@
 				<div
 					class=" flex cursor-pointer items-center justify-center text-sm font-semibold uppercase text-blue-primary"
 				>
-					<Link
-						to={`/explorefunds/${data?.searchDashboardData?.searchOptions[0]?.name
-							?.split(' ')
-							.join('-')
-							.toLowerCase()}?id=${data?.searchDashboardData?.searchOptions[0]?.id}`}
-						class="flex items-center"
-					>
+					<Link to={`/explorefunds/high-returns?id=19`} class="flex items-center">
 						<span class="uppercase">explore funds</span>
 						<RightIcon class="ml-2" stroke="#3F5BD9" />
 					</Link>

@@ -1,28 +1,24 @@
 <script lang="ts">
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
-	import Button from '$components/Button.svelte';
 
 	import Link from '$components/Link.svelte';
-	import RightIcon from '$lib/images/icons/RightIcon.svelte';
-	import TaxSavingIcon from '$lib/images/icons/TaxSavingIcon.svelte';
 	import { onMount } from 'svelte';
-	import type { ExploreFundNavItem, ExploreModalData } from '../../types';
-	import { exploreMFFilter } from '../analytics';
+	import { exploreMFFilter } from '../../explorefunds/[slug]/analytics';
+	import type { CategoryNavItem, CategoryDetailsModalData } from '../types';
 
-	let exploreFundsNavigation: ExploreFundNavItem[];
-	let toggleTaxSavingModal: (() => void) | null = null;
+	let categoryFilterOptions: CategoryNavItem[];
 	let pageID: string;
 	const activeLink = 'text-white bg-blue-primary';
 	const inActiveLink = 'border-grey-line  text-grey-body bg-white';
-	let modalList: ExploreModalData;
+	let categoryDetails: CategoryDetailsModalData;
 
 	const setScrollPosition = () => {
 		const currentLink = document.getElementById(`filter-${pageID}`);
 		currentLink?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
 	};
 
-	const handleLinkClick = (nav: ExploreFundNavItem) => {
+	const handleLinkClick = (nav: CategoryNavItem) => {
 		setTimeout(() => {
 			setScrollPosition();
 		}, 66);
@@ -42,34 +38,33 @@
 			}, 66);
 		}
 	});
-	export { exploreFundsNavigation, toggleTaxSavingModal, modalList, pageID };
+	export { categoryFilterOptions, categoryDetails, pageID };
 </script>
 
 <section class="scrollbar-hide flex w-full gap-2 overflow-x-scroll px-3 pt-3 md:px-0">
-	{#each exploreFundsNavigation as nav (nav?.id)}
+	{#each categoryFilterOptions as nav (nav?.id)}
 		{@const isActive =
 			`${$page.url.pathname}?id=${$page.url.searchParams.get('id')}` === `${base}${nav.href}`}
 		<Link
 			to={nav.href}
-			class={`w-28 cursor-pointer rounded border ${isActive ? activeLink : inActiveLink}`}
+			class={`cursor-pointer whitespace-nowrap rounded border ${
+				isActive ? activeLink : inActiveLink
+			}`}
 			on:linkClicked={() => handleLinkClick(nav)}
 			id="filter-{nav.id}"
 			replaceState={true}
 		>
-			<h2 class="w-28 px-4 py-3 text-center text-xs font-medium">{nav.title}</h2>
+			<h2 class="p-3 text-center text-xs font-medium">{nav.title}</h2>
 		</Link>
 	{/each}
 </section>
-{#if modalList?.shortDescription}
-	<Button
-		variant="transparent"
-		class="no-animation w-full px-3 md:px-0"
-		onClick={toggleTaxSavingModal}
-	>
-		<aside class="mt-5 flex w-full cursor-pointer items-center rounded bg-grey px-5 py-3">
-			<TaxSavingIcon />
-			<span class="ml-3 text-sm font-medium text-black-title">{modalList?.shortDescription}</span>
-			<RightIcon class="ml-auto" />
-		</aside>
-	</Button>
+{#if categoryDetails?.shortDescription}
+	<p class="mx-3 mt-5 text-sm font-medium text-black-title">{categoryDetails?.shortDescription}</p>
+	<ul class="mx-6">
+		{#each categoryDetails?.detailedDescription || [] as description}
+			<li class="mb-1 list-disc text-xs font-normal text-black-title">
+				{description}
+			</li>
+		{/each}
+	</ul>
 {/if}

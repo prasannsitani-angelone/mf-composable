@@ -1,16 +1,18 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
+	import SearchOptionHeader from './SearchOptionHeader/SearchOptionHeader.svelte';
 	import { onMount } from 'svelte';
-	import { fundCardClick, sExploreMutualFunds } from './analytics';
 	import { SEO } from 'svelte-components';
 	import SchemeCardExt from '$components/SchemeCardExt.svelte';
-	import ExploreFundsLoader from './ExploreFundsLoader.svelte';
 	import type { ExploreFundsOptions } from '$lib/types/IExploreFunds';
+	import { fundCardClick, sExploreMutualFunds } from '../explorefunds/[slug]/analytics';
+	import { getCategoriesFundsNavigationPath } from '$lib/utils';
+	import type { CategoryNavItem } from './types';
+	import CategoriesLoader from './CategoriesLoader.svelte';
 
-	let data: PageData;
+	export let data: PageData;
 	$: pageID = data?.pageID;
-	$: modalList = data.filter;
 	$: breadCrumbs = [
 		{
 			text: 'Home',
@@ -21,12 +23,15 @@
 			href: '/explorefunds/sip-with-100'
 		}
 	];
+
+	let allFilterOptions: CategoryNavItem[] = [];
+	let currentFilter: CategoryNavItem;
+
 	const handleFundCardClick = (scheme: ExploreFundsOptions) => {
 		const { isin } = scheme;
 		const order = scheme?.sortBy2;
 		const recommended = order > 0 && order < 3;
-		const filter = modalList?.name;
-
+		const filter = currentFilter?.title;
 		fundCardClick({
 			'Fund Name': `${scheme?.schemeName}(${scheme?.categoryName})`,
 			isin,
@@ -37,11 +42,25 @@
 	};
 
 	onMount(() => {
-		const filter = modalList?.name;
+		const filter = currentFilter?.title;
 		sExploreMutualFunds({ filter });
 	});
 
-	export { data };
+	async function getFilterAndSchemes(searchOption: Promise) {
+		const response = await searchOption;
+		const { filterCategories, schemes } = response;
+		allFilterOptions = filterCategories.map((options) => {
+			return {
+				href: getCategoriesFundsNavigationPath(options.id),
+				title: options.name,
+				id: options.id,
+				shortDescription: options.shortDescription,
+				detailedDescription: options.detailedDescription
+			};
+		});
+		currentFilter = filterCategories.find(({ id }) => id === pageID) || {};
+		return { filterOptions: allFilterOptions, schemes };
+	}
 </script>
 
 <article class="flex min-h-screen flex-col">
@@ -52,7 +71,7 @@
 	<Breadcrumbs items={breadCrumbs} class="mb-4 hidden items-center justify-start md:flex" />
 
 	<h1 class="hidden pb-6 text-lg font-medium text-black-title sm:mt-3 md:block">
-		{modalList?.name}
+		Explore Mutual Funds
 	</h1>
 
 	<section class="md:rounded-b-lg md:shadow-csm">
@@ -60,15 +79,21 @@
 			class="ml-[calc(50%-50vw)] w-screen rounded-b-lg sm:ml-0 sm:w-full md:bg-white md:pt-3"
 		>
 			<section>
-				{#await data?.api?.searchOption}
-					<ExploreFundsLoader />
-				{:then searchOption}
+				{#await getFilterAndSchemes(data?.api?.searchOption)}
+					<CategoriesLoader />
+				{:then { filterOptions, schemes }}
+					<SearchOptionHeader
+						categoryDetails={currentFilter}
+						categoryFilterOptions={filterOptions}
+						{pageID}
+					/>
+
 					<section class="flex flex-col flex-wrap items-center px-2 md:flex-row md:px-6 md:pb-1">
-						{#each searchOption || [] as schemes}
+						{#each schemes || [] as scheme}
 							<SchemeCardExt
 								class="mb-2 w-full rounded-lg bg-white p-3 md:mb-4 md:mr-4 md:w-[336px]"
-								{schemes}
-								on:onCardClick={() => handleFundCardClick(schemes)}
+								schemes={scheme}
+								on:onCardClick={() => handleFundCardClick(scheme)}
 							/>
 						{/each}
 					</section>

@@ -32,7 +32,6 @@
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import TrendingFunds from '$components/TrendingFunds/TrendingFunds.svelte';
-	import ExploreScheme from '../../discoverfunds/ExploreScheme/ExploreScheme.svelte';
 	import ExternalFundsNfoCalculatorCard from '../../discoverfunds/ExternalFundsNfoCalculatorCard/ExternalFundsNfoCalculatorCard.svelte';
 	import FailedOrdersNudge from '../../discoverfunds/FailedOrdersNudge.svelte';
 	import StartNewInvestment from '../../discoverfunds/StartNewInvestment.svelte';
@@ -45,6 +44,7 @@
 	} from '$components/Stories/utils';
 	import { exitNudgeStore } from '$lib/stores/ExitNudgeStore';
 	import { browser } from '$app/environment';
+	import DiscoverCategoriesComponent from '../../discoverfunds/CategoriesComponent.svelte';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -324,7 +324,7 @@
 			?.categories?.rowStart} col-start-{placementMapping?.categories
 			?.columnStart} {placementMapping?.categories?.rowStart > 1 ? '!mt-2' : ''}"
 	>
-		<ExploreScheme searchOptions={data?.searchDashboardData?.searchOptions} />
+		<DiscoverCategoriesComponent categories={data?.searchDashboardData?.categories} />
 	</article>
 
 	<!-- 7. Other Nudges - Retry Payment Nudge & Others -->
@@ -403,7 +403,7 @@
 				<PortfolioCard discoverPage={true} investmentSummary={data.investementSummary} />
 			</div>
 		{:else}
-			<StartNewInvestment searchOptions={data?.searchDashboardData?.searchOptions} />
+			<StartNewInvestment />
 		{/if}
 	</div>
 	{#if sipPaymentNudges?.length}

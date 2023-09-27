@@ -200,6 +200,10 @@ export const getExploreFundsNavigationPath = (option: SearchOptionsEntity) => {
 	return `/explorefunds/${option.name?.split(' ').join('-').toLowerCase()}?id=${option.id}`;
 };
 
+export const getCategoriesFundsNavigationPath = (optionId: string) => {
+	return `/categories?id=${optionId}`;
+};
+
 export const getPromotionsNavigationPath = (option: PromotionsEntity) => {
 	const scheme = option.schemeInfo;
 	if (scheme) {
