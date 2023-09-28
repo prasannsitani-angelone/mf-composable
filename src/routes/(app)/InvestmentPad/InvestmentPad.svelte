@@ -118,7 +118,7 @@
 		source,
 		paymentMandatory,
 		mandateId,
-		folioNumber,
+		folioNumber
 	} = params || {};
 
 	const os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
@@ -1104,7 +1104,8 @@
 			onSuccess: navigateToLumpsumCompletePage,
 			redirectedFrom,
 			fromInvestmentDetailsPage,
-			isAdditional: redirectedFrom === 'INVESTMENT_DETAILS' || fromInvestmentDetailsPage || folioNumber?.length,
+			isAdditional:
+				redirectedFrom === 'INVESTMENT_DETAILS' || fromInvestmentDetailsPage || folioNumber?.length
 		};
 
 		const commonSIPInput = {

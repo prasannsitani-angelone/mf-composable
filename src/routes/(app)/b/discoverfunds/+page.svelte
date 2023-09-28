@@ -45,6 +45,7 @@
 	import { exitNudgeStore } from '$lib/stores/ExitNudgeStore';
 	import { browser } from '$app/environment';
 	import DiscoverCategoriesComponent from '../../discoverfunds/CategoriesComponent.svelte';
+	import { askAngelEntryImpressionAnalytics } from '$lib/analytics/askangel/askangel';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -210,6 +211,10 @@
 		exitNudgeStore.subscribe((store) => {
 			showExitNudge = store.showExitNudge;
 		});
+
+		if (data?.layoutConfig?.showAskAngelEntry) {
+			askAngelEntryImpressionAnalytics();
+		}
 	});
 
 	onDestroy(() => {

@@ -41,6 +41,7 @@
 	import { browser } from '$app/environment';
 	import ExternalFundsNfoCalculatorCard from './ExternalFundsNfoCalculatorCard/ExternalFundsNfoCalculatorCard.svelte';
 	import CategoriesComponent from './CategoriesComponent.svelte';
+	import { askAngelEntryImpressionAnalytics } from '$lib/analytics/askangel/askangel';
 
 	interface CtKv {
 		topic: string; /// value
@@ -218,6 +219,10 @@
 		exitNudgeStore.subscribe((store) => {
 			showExitNudge = store.showExitNudge;
 		});
+
+		if (data?.layoutConfig?.showAskAngelEntry) {
+			askAngelEntryImpressionAnalytics();
+		}
 	});
 
 	onDestroy(() => {

@@ -302,7 +302,7 @@ export const netBankingLumpsumFlow = async (params) => {
 			transactionRefNumber: netBankingResponse.data?.data?.transaction_id,
 			xRequestId,
 			source,
-			isAdditional,
+			isAdditional
 		});
 		handleOrderPostResponse({
 			orderPostResponse,
@@ -972,7 +972,7 @@ export const upiLumpsumFlow = async (params) => {
 			sipDueDate,
 			xRequestId,
 			source,
-			isAdditional,
+			isAdditional
 		});
 		handleOrderPostResponse({
 			orderPostResponse,
@@ -1707,7 +1707,7 @@ export const walletLumpsumFlow = async (params) => {
 			sipDueDate,
 			xRequestId,
 			source,
-			isAdditional,
+			isAdditional
 		});
 		handleOrderPostResponse({
 			orderPostResponse,

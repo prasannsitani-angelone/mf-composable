@@ -169,7 +169,7 @@ export const lumpsumOrderPostFunction = async (params) => {
 			sipDueDate,
 			xRequestId,
 			source,
-			isAdditional,
+			isAdditional
 		} = params || {};
 		const response = await useFetch(url, {
 			method: 'POST',

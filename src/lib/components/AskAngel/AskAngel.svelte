@@ -1,6 +1,6 @@
 <script lang="ts">
 	import MobileHeader from '$components/Headers/MobileHeader.svelte';
-	import { WMSIcon } from 'svelte-components';
+	import { Button, WMSIcon } from 'svelte-components';
 	import { goto } from '$app/navigation';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { page } from '$app/stores';
@@ -21,6 +21,13 @@
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import DotLoader from '$components/Loader/DotLoader.svelte';
+	import {
+		askAngelChoiceClickAnalytics,
+		askAngelCrossClickAnalytics,
+		askAngelEntryClickAnalytics,
+		askAngelRetryClickAnalytics,
+		askAngelStartAgainIconClickAnalytics
+	} from '$lib/analytics/askangel/askangel';
 
 	const dispatch = createEventDispatcher();
 
@@ -28,6 +35,8 @@
 	$: isTablet = $page?.data?.deviceType?.isTablet;
 
 	const redirectToHomepage = () => {
+		askAngelCrossClickAnalytics();
+
 		if (isMobile || isTablet) {
 			goto('discoverfunds');
 		} else {
@@ -40,13 +49,24 @@
 
 	let contextCounter = 0;
 
+	let showError = false;
+
 	const resetToDefaultState = () => {
 		getInitialData();
+
 		if (promptContext !== undefined) {
 			promptContext.rootPromptId = '';
 			promptContext.context = [];
 			contextCounter = 0;
 		}
+
+		showError = false;
+	};
+
+	const handleRefreshButtonClick = () => {
+		resetToDefaultState();
+
+		askAngelStartAgainIconClickAnalytics();
 	};
 
 	const defaultMessagesList = [
@@ -154,7 +174,7 @@
 		if (res?.data?.status === 'success') {
 			rootPromptsList = res?.data?.prompt || [];
 		} else {
-			// TODO: show error
+			showError = true;
 		}
 
 		showLoader = false;
@@ -168,6 +188,8 @@
 
 	onMount(() => {
 		getInitialData();
+
+		askAngelEntryClickAnalytics();
 	});
 
 	const convertLastChoiceToMessage = () => {
@@ -234,7 +256,7 @@
 		if (res?.data?.status === 'success') {
 			addNextPromptsInChat(res?.data?.data);
 		} else {
-			// TODO: show error
+			showError = true;
 		}
 
 		showLoader = false;
@@ -334,7 +356,7 @@
 		if (res?.data?.status === 'success') {
 			addEvaluateDataInChat(res?.data?.data);
 		} else {
-			// TODO: show error
+			showError = true;
 		}
 
 		showLoader = false;
@@ -344,6 +366,8 @@
 		let selectedChoice = e?.detail;
 
 		setPromptContext(selectedChoice);
+
+		askAngelChoiceClickAnalytics(promptContext);
 
 		convertLastChoiceToMessage();
 		updateChatDataOnUserSelection(selectedChoice);
@@ -366,11 +390,18 @@
 		})}`;
 		goto(schemeDetailsPath);
 	};
+
+	const handleRetryButtonClick = () => {
+		askAngelRetryClickAnalytics(promptContext);
+
+		resetToDefaultState();
+	};
 </script>
 
 <section>
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+	<!-- Header -->
 	<article>
 		<MobileHeader
 			title="Ask Angel"
@@ -391,7 +422,7 @@
 			</svelte:fragment>
 			<svelte:fragment slot="rightIcon">
 				<article class="-ml-4 flex items-center">
-					<article on:click={resetToDefaultState}>
+					<article on:click={handleRefreshButtonClick}>
 						<WMSIcon name="reset" class="cursor-pointer" />
 					</article>
 
@@ -408,7 +439,12 @@
 		</MobileHeader>
 	</article>
 
-	<article class="mt-14 overflow-y-auto bg-white px-4 py-2 lg:mt-0 lg:h-120 lg:w-[360px] lg:px-5">
+	<!-- Chat Body -->
+	<article
+		class="mt-14 overflow-y-auto bg-white px-4 py-2 lg:mt-0 lg:h-120 lg:w-[360px] lg:px-5 {showError
+			? 'pb-20'
+			: ''}"
+	>
 		<div class="hidden h-14 lg:block" />
 
 		{#each chatData || [] as chatItem, index (index)}
@@ -420,6 +456,7 @@
 					{chatItem}
 					on:promptChoiceSelect={handlePromptChoiceClick}
 					on:schemeCardClick={(e) => handleSchemeCardClick(e.detail)}
+					isMobileOrTablet={isMobile || isTablet || false}
 				/>
 			{/if}
 		{/each}
@@ -427,5 +464,22 @@
 		{#if showLoader}
 			<DotLoader class="mt-1" />
 		{/if}
+
+		<!-- Footer (Error Message) -->
 	</article>
+
+	{#if showError}
+		<article
+			class="fixed inset-0 top-auto z-10 mx-2 mb-3 flex !h-16 items-center justify-between rounded bg-red-errorDark p-4 text-white lg:left-auto lg:top-auto lg:w-[344px]"
+		>
+			<div class="text-sm font-normal">Something went wrong. Please try again</div>
+
+			<Button
+				variant="transparent"
+				class="text-sm font-medium text-white"
+				size="xs"
+				onClick={handleRetryButtonClick}>Retry</Button
+			>
+		</article>
+	{/if}
 </section>

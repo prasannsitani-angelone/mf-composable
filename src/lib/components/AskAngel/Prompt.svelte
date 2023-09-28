@@ -9,6 +9,7 @@
 	import CuratedInvestmentCardComponent from '$components/InvestWithExperts/CuratedInvestmentCardComponent.svelte';
 
 	export let chatItem: ChatItem;
+	export let isMobileOrTablet: boolean;
 
 	const dispatch = createEventDispatcher();
 
@@ -25,6 +26,9 @@
 	{#if chatItem?.type === 'message' || chatItem?.texts?.length}
 		<!-- Show Message(s) -->
 		{#each chatItem?.texts || [] as text, index (index)}
+			{#if text?.type === 'emoji'}
+				<div class="mb-1 text-[10px] font-medium text-black-bolder">Angel</div>
+			{/if}
 			<Message
 				owner={chatItem?.owner}
 				type={chatItem?.type}
@@ -84,7 +88,7 @@
 			{#each chatItem?.data?.nudges || [] as nudge, index (index)}
 				<article class="mt-5">
 					{#if nudge}
-						<CuratedInvestmentCardComponent nudgeData={nudge} />
+						<CuratedInvestmentCardComponent nudgeData={nudge} stopRedirection={!isMobileOrTablet} />
 					{/if}
 				</article>
 			{/each}
