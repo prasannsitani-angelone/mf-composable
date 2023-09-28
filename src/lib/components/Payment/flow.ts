@@ -257,7 +257,7 @@ export const netBankingLumpsumFlow = async (params) => {
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
 		redirectedFrom, // for redirection
-		fromInvestmentDetailsPage, // for redirection
+		isAdditional,
 		netBankingState = {},
 		state = {},
 		showLoading = () => undefined,
@@ -299,10 +299,10 @@ export const netBankingLumpsumFlow = async (params) => {
 			poaStatus,
 			schemeCode,
 			redirectedFrom,
-			fromInvestmentDetailsPage,
 			transactionRefNumber: netBankingResponse.data?.data?.transaction_id,
 			xRequestId,
-			source
+			source,
+			isAdditional,
 		});
 		handleOrderPostResponse({
 			orderPostResponse,
@@ -909,7 +909,7 @@ export const upiLumpsumFlow = async (params) => {
 		sipDueDate, // for sip installments
 		sipRegistrationNumber, // for sip installments
 		redirectedFrom, // for redirection
-		fromInvestmentDetailsPage, // for redirection
+		isAdditional,
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
 		upiState = {},
@@ -967,12 +967,12 @@ export const upiLumpsumFlow = async (params) => {
 			poaStatus,
 			schemeCode,
 			redirectedFrom,
-			fromInvestmentDetailsPage,
 			transactionRefNumber: upiResponse.data?.data?.transaction_id,
 			sipId,
 			sipDueDate,
 			xRequestId,
-			source
+			source,
+			isAdditional,
 		});
 		handleOrderPostResponse({
 			orderPostResponse,
@@ -1660,7 +1660,7 @@ export const walletLumpsumFlow = async (params) => {
 		sipDueDate, // for sip installments
 		sipRegistrationNumber, // for sip installments
 		redirectedFrom, // for redirection
-		fromInvestmentDetailsPage, // for redirection
+		isAdditional,
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
 		gpayPaymentState = {},
@@ -1702,12 +1702,12 @@ export const walletLumpsumFlow = async (params) => {
 			poaStatus,
 			schemeCode,
 			redirectedFrom,
-			fromInvestmentDetailsPage,
 			transactionRefNumber: walletResponse.data?.data?.transaction_id,
 			sipId,
 			sipDueDate,
 			xRequestId,
-			source
+			source,
+			isAdditional,
 		});
 		handleOrderPostResponse({
 			orderPostResponse,

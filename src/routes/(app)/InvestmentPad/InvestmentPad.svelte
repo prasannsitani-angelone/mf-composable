@@ -117,7 +117,8 @@
 		sipDueDate,
 		source,
 		paymentMandatory,
-		mandateId
+		mandateId,
+		folioNumber,
 	} = params || {};
 
 	const os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
@@ -1102,7 +1103,8 @@
 			poaStatus: profileData?.poaStatus,
 			onSuccess: navigateToLumpsumCompletePage,
 			redirectedFrom,
-			fromInvestmentDetailsPage
+			fromInvestmentDetailsPage,
+			isAdditional: redirectedFrom === 'INVESTMENT_DETAILS' || fromInvestmentDetailsPage || folioNumber?.length,
 		};
 
 		const commonSIPInput = {

@@ -164,12 +164,12 @@ export const lumpsumOrderPostFunction = async (params) => {
 			poaStatus,
 			schemeCode,
 			redirectedFrom,
-			fromInvestmentDetailsPage,
 			transactionRefNumber,
 			sipId,
 			sipDueDate,
 			xRequestId,
-			source
+			source,
+			isAdditional,
 		} = params || {};
 		const response = await useFetch(url, {
 			method: 'POST',
@@ -187,7 +187,7 @@ export const lumpsumOrderPostFunction = async (params) => {
 				transactionRefNumber,
 				sipId,
 				sipDueDate,
-				isAdditional: redirectedFrom === 'INVESTMENT_DETAILS' || fromInvestmentDetailsPage
+				isAdditional: isAdditional
 			}),
 			headers: {
 				'X-Request-Id': xRequestId,

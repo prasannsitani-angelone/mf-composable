@@ -21,4 +21,5 @@ export interface decodedParamsTypes {
 	orderpad?: string;
 	paymentMandatory?: boolean;
 	mandateId?: string;
+	folioNumber?: string;
 }
