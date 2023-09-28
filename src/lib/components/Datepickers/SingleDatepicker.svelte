@@ -47,7 +47,7 @@
 		background: #f4f6fb;
 		border-radius: 0.25rem;
 		color: #3f5bd9;
-		font-family: 'Roboto';
+		font-family: 'Barlow';
 		font-style: normal;
 		font-weight: 500;
 		font-size: 1rem;
@@ -87,7 +87,7 @@
 
 	.dp-con :global(.calendar-view) {
 		border: 0 !important;
-		font-family: 'Roboto' !important;
+		font-family: 'Barlow' !important;
 		inline-size: 25rem !important;
 		max-width: 90vw;
 	}
@@ -100,7 +100,7 @@
 		font-size: 1rem !important;
 		font-weight: 500;
 		color: #2a394e;
-		font-family: 'Roboto' !important;
+		font-family: 'Barlow' !important;
 	}
 
 	.dp-con :global(.calendar-view .calendar-view-item:hover) {
@@ -126,7 +126,7 @@
 
 	.dp-con :global(.calendar-view .calendar-view-table.view-days th) {
 		color: #2a394e !important;
-		font-family: 'Roboto';
+		font-family: Barlow;
 		font-weight: 300;
 		font-size: 1rem;
 	}

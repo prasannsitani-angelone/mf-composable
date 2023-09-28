@@ -206,7 +206,7 @@
 								}
 
 								const style =
-									'color: #2A394E; font-size: 1rem; font-weight: 500; font-family: Roboto;';
+									'color: #2A394E; font-size: 1rem; font-weight: 500; font-family: Barlow;';
 								const span = `<span style="${style}">${
 									formattedText?.length ? formattedText : body
 								}</span>`;
@@ -217,7 +217,7 @@
 							});
 							titleLines.forEach((title) => {
 								const style =
-									'color: #6A7582; font-size: 1rem; font-weight: 400; font-family: Roboto; margin-left: 0.5rem;';
+									'color: #6A7582; font-size: 1rem; font-weight: 400; font-family: Barlow; margin-left: 0.5rem;';
 								innerHtml += `<span style="${style}">${formatDate(title)}</span>`;
 							});
 							innerHtml += '</div>';

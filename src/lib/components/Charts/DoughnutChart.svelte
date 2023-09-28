@@ -82,13 +82,13 @@
 
 							bodyLines.forEach((body) => {
 								const style =
-									'color: #2A394E; font-size: 1rem; font-weight: 500; font-family: Roboto;';
+									'color: #2A394E; font-size: 1rem; font-weight: 500; font-family: Barlow;';
 								span = `<span style="${style}">${body}</span>`;
 								innerHtml += span;
 							});
 							titleLines.forEach((title) => {
 								const style =
-									'color: #6A7582; font-size: 1rem; font-weight: 400; font-family: Roboto; margin-left: 0.25rem;';
+									'color: #6A7582; font-size: 1rem; font-weight: 400; font-family: Barlow; margin-left: 0.25rem;';
 								innerHtml += `<span style="${style}">${title}</span>`;
 							});
 							innerHtml += '</div>';
