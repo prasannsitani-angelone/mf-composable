@@ -16,7 +16,11 @@ import { shareFundDetailClickAnalytics } from './analytics';
 import { hydrate } from '$lib/utils/helpers/hydrated';
 
 export const load = (async ({ fetch, params, url, parent }) => {
-	const queryParam = url?.searchParams?.get('params') || '';
+	const decodedQuery = decodeURIComponent(url.search);
+	const startSubstring = 'params=';
+	const startIdx = decodedQuery?.indexOf(startSubstring) + startSubstring?.length;
+	const queryParam = decodedQuery?.substring(startIdx);
+
 	const fundName = params['fund_name'];
 	const decodedParams = decodeToObject(queryParam);
 	const { redirectedFrom, isExternal, clientCode } = decodedParams || {};

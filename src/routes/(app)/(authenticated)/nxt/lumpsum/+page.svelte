@@ -113,7 +113,7 @@
 				schemeCode: schemeDetails?.schemeCode,
 				subBrokerCode: $profileStore?.clientDetails?.subBroker,
 				transactionType: 'PURCHASE',
-				isAdditional: false
+				isAdditional: orderDetails?.folioNumber?.length ? true : false
 			})
 		});
 
