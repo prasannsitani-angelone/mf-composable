@@ -20,6 +20,7 @@
 		autopayDashboardSetupAutopayCtaClickAnalytics
 	} from '$lib/analytics/sipbook/sipbook';
 	import type { AutopayDetailsType } from '$lib/types/IEmandate';
+	import PageTitle from '$components/PageTitle.svelte';
 
 	$: bankDetails = $profileStore?.bankDetails;
 
@@ -77,6 +78,9 @@
 </script>
 
 <article class="mb-2" data-testid="autopayDashboard">
+	<header class="hidden sm:block">
+		<PageTitle title="Autopay" class="mb-4 flex" />
+	</header>
 	{#await data.api.mandateData}
 		<AutopayDashboardLoader />
 	{:then response}

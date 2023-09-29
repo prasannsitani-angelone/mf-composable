@@ -56,6 +56,7 @@
 	import type { MandateWithBankDetails } from '$lib/types/IEmandate';
 	import SipBookAutoPayNudge from '$components/AutopaySetupTile/SipBookAutoPayNudge.svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
+	import PageTitle from '$components/PageTitle.svelte';
 
 	$: bankDetails = $profileStore?.bankDetails;
 	let showCancelSipActionModal = false;
@@ -338,6 +339,9 @@
 	seoTitle="SIP Details | Angel One"
 	seoDescription="Get your sip details with one click including sip id, amount etc."
 />
+<header class="hidden sm:block">
+	<PageTitle title="SIP Details" class="mb-4 flex" />
+</header>
 {#await data?.api?.getSipData}
 	<SipDetailLoader />
 {:then sipData}

@@ -14,6 +14,22 @@
 	import { restartSipButtonClickAnalytics } from '$lib/analytics/sipbook/sipbook';
 	import { userStore } from '$lib/stores/UserStore';
 	import { SEO } from 'svelte-components';
+	import Breadcrumbs from '$components/Breadcrumbs.svelte';
+
+	interface BreadcrumbType {
+		text: string;
+		href: string;
+	}
+	let breadCrumbs: BreadcrumbType [] = [
+			{
+				text: 'SIPs',
+				href: '/sipbook/dashboard'
+			},
+			{
+				text: 'Inactive SIPs',
+				href: '/sipbook/inactivesips'
+			}
+		];
 
 	const userType = userStore.userType();
 	const redirectToOrderPad = (sip: IInactiveSip) => {
@@ -45,6 +61,7 @@
 	seoTitle="Inactive SIPs | Angel One"
 	seoDescription="Get Access to your Mutual Funds inactive sips here."
 />
+<Breadcrumbs items={breadCrumbs} class="my-4 hidden items-center justify-start md:flex" />
 {#await data?.api?.getInactiveSipData}
 	<SipCardLoader />
 {:then inactiveSips}
