@@ -60,7 +60,11 @@
 	</div>
 	<div class="flex flex-col">
 		<slot name="details">
-			<div class="relative mt-3 w-full overflow-hidden">
+			<div
+				class="relative mt-3 w-full overflow-hidden {schemes?.noOfClientInvested
+					? ''
+					: 'rounded-b'}"
+			>
 				<img
 					src="{base}/images/TrendingFundsBackground.svg"
 					class="absolute h-full w-full"
@@ -100,27 +104,29 @@
 			</div>
 		</slot>
 		<slot name="detailsFooter">
-			<div class="flex flex-row items-center rounded-b-lg bg-[#D1D8F6] p-2">
-				<slot name="detailsFooterIcon">
-					<img
-						src={PeopleIcon}
-						class="mr-2 p-1"
-						decoding="async"
-						alt="Number of people invested"
-						width="24"
-						height="24"
-					/>
-				</slot>
+			{#if schemes?.noOfClientInvested}
+				<div class="flex flex-row items-center rounded-b bg-[#D1D8F6] p-2">
+					<slot name="detailsFooterIcon">
+						<img
+							src={PeopleIcon}
+							class="mr-2 p-1"
+							decoding="async"
+							alt="Number of people invested"
+							width="24"
+							height="24"
+						/>
+					</slot>
 
-				<slot name="detailsFooterDescription">
-					<p class="text-xs">
-						<span class=" font-semibold">
-							{addCommasToAmountString(schemes?.noOfClientInvested)}
-						</span>
-						people have invested in this fund
-					</p>
-				</slot>
-			</div>
+					<slot name="detailsFooterDescription">
+						<p class="text-xs">
+							<span class=" font-semibold">
+								{addCommasToAmountString(schemes?.noOfClientInvested)}
+							</span>
+							people have invested in this fund
+						</p>
+					</slot>
+				</div>
+			{/if}
 		</slot>
 	</div>
 
