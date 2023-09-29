@@ -20,16 +20,16 @@
 		text: string;
 		href: string;
 	}
-	let breadCrumbs: BreadcrumbType [] = [
-			{
-				text: 'SIPs',
-				href: '/sipbook/dashboard'
-			},
-			{
-				text: 'Inactive SIPs',
-				href: '/sipbook/inactivesips'
-			}
-		];
+	let breadCrumbs: BreadcrumbType[] = [
+		{
+			text: 'SIPs',
+			href: '/sipbook/dashboard'
+		},
+		{
+			text: 'Inactive SIPs',
+			href: '/sipbook/inactivesips'
+		}
+	];
 
 	const userType = userStore.userType();
 	const redirectToOrderPad = (sip: IInactiveSip) => {

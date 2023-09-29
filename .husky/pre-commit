@@ -2,4 +2,5 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 # Temp changed to 90 since lots of new warning coming with sveltekit upgrade
+pnpm format:check
 pnpm lint --max-warnings=91

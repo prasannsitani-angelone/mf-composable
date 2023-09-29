@@ -16,6 +16,8 @@ USER node
 
 RUN echo BUILD_ENV is $BUILD_ENV
 RUN pnpm install
+RUN pnpm format:check
+RUN pnpm lint --max-warnings=91
 RUN pnpm run build:$BUILD_ENV
 
 #ARCHIVE#
