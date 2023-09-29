@@ -54,12 +54,12 @@
 			id="filter-{nav.id}"
 			replaceState={true}
 		>
-			<h2 class="p-3 text-center text-xs font-medium">{nav.title}</h2>
+			<h2 class="px-4 py-2 text-center text-xs font-medium">{nav.title}</h2>
 		</Link>
 	{/each}
 </section>
 {#if categoryDetails?.shortDescription}
-	<p class="mx-3 mt-5 text-sm font-medium text-black-title">{categoryDetails?.shortDescription}</p>
+	<p class="mx-3 my-3 text-sm font-medium text-black">{categoryDetails?.shortDescription}</p>
 	<ul class="mx-6">
 		{#each categoryDetails?.detailedDescription || [] as description}
 			<li class="mb-1 list-disc text-xs font-normal text-black-title">
