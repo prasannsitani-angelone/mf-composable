@@ -5,10 +5,12 @@
 	import type { CategorySubOptionsEntity } from '$lib/types/IDiscoverFunds';
 	import { WMSIcon } from 'svelte-components';
 	import { encodeObject } from '$lib/utils/helpers/params';
-
+	import { createEventDispatcher } from 'svelte';
 	export let schemeData: CategorySubOptionsEntity;
 	export let parentCategoryId: string;
 	const MAX_RETURN_FILTER_ID = '107';
+
+	const dispatch = createEventDispatcher();
 
 	const goToFundDetailsPage = async () => {
 		const schemeDetailsPath = `${base}/schemes/${normalizeFundName(
@@ -20,6 +22,9 @@
 			paymentMandatory: true
 		})}`;
 		await goto(schemeDetailsPath);
+		dispatch('subCategoryClicked', {
+			subCategory: schemeData
+		});
 	};
 </script>
 
@@ -36,7 +41,9 @@
 			>
 				<img src={schemeData?.logoUrl} alt="schemelogo" />
 			</div>
-			<div class="mr-3 text-sm font-medium text-black-title">{schemeData.schemeName}</div>
+			<div class="mr-3 line-clamp-2 self-center text-sm font-medium text-black-title">
+				{schemeData.schemeName}
+			</div>
 		</div>
 		{#if schemeData?.returns3yr > 0}
 			<div class="whitespace-nowrap">
@@ -54,7 +61,7 @@
 			{:else}
 				<WMSIcon name="people-icon" class="mr-2 p-1" />
 			{/if}
-			<div class="text-xs text-black-title">
+			<div class="text-xs text-grey-body">
 				{schemeData.textMessage}
 			</div>
 		</div>

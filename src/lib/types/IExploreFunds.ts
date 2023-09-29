@@ -25,4 +25,5 @@ export interface ExploreFundsOptions {
 	isLumpsumAllowed: string;
 	isSipAllowed: string;
 	minPurchaseAmount: number;
+	noOfClientInvested: number;
 }
