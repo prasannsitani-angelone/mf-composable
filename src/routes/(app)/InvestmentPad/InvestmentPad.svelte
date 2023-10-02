@@ -1105,7 +1105,9 @@
 			redirectedFrom,
 			fromInvestmentDetailsPage,
 			isAdditional:
-				redirectedFrom === 'INVESTMENT_DETAILS' || fromInvestmentDetailsPage || folioNumber?.length
+				redirectedFrom === 'INVESTMENT_DETAILS' ||
+				fromInvestmentDetailsPage ||
+				!!folioNumber?.length
 		};
 
 		const commonSIPInput = {
