@@ -57,6 +57,7 @@
 	import SipBookAutoPayNudge from '$components/AutopaySetupTile/SipBookAutoPayNudge.svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import PageTitle from '$components/PageTitle.svelte';
+	import { onMount } from 'svelte';
 
 	$: bankDetails = $profileStore?.bankDetails;
 	let showCancelSipActionModal = false;
@@ -333,303 +334,316 @@
 	};
 
 	export let data: PageData;
+
+	const scrollToTop = () => {
+		document?.getElementsByTagName?.('main')?.[0]?.scrollTo(0, 0);
+	};
+
+	onMount(() => {
+		scrollToTop();
+	});
 </script>
 
-<SEO
-	seoTitle="SIP Details | Angel One"
-	seoDescription="Get your sip details with one click including sip id, amount etc."
-/>
-<header class="hidden sm:block">
-	<PageTitle title="SIP Details" class="mb-4 flex" />
-</header>
-{#await data?.api?.getSipData}
-	<SipDetailLoader />
-{:then sipData}
-	{#if sipData}
-		<article class="mb-36">
-			{#if !sipData?.mandateRefId}
-				{#await createMandateWithBankList(sipData) then mandateList}
-					{@const nudgeData = {
-						description: mandateList.length > 0 ? linkSipNudgeDescription : setupNudgeDescription,
-						heading: 'Automate Future SIP Payments',
-						link: '/autopay/manage',
-						linkHeading: mandateList.length > 0 ? linkAutopayHeading : setupAutopayHeading,
-						type: 'warn'
-					}}
-					<SipBookAutoPayNudge
-						amount={sipData.installmentAmount}
-						on:autoPayClick={() => {
-							if (mandateList.length > 0) {
-								onAction(sipData);
-							} else {
-								const params = encodeObject({ amount: sipData.installmentAmount, showAlert: true });
-								goto(`${base}/autopay/manage?params=${params}`);
-							}
+<article>
+	<SEO
+		seoTitle="SIP Details | Angel One"
+		seoDescription="Get your sip details with one click including sip id, amount etc."
+	/>
+	<header class="hidden sm:block">
+		<PageTitle title="SIP Details" class="mb-4 flex" />
+	</header>
+	{#await data?.api?.getSipData}
+		<SipDetailLoader />
+	{:then sipData}
+		{#if sipData}
+			<article class="mb-36">
+				{#if !sipData?.mandateRefId}
+					{#await createMandateWithBankList(sipData) then mandateList}
+						{@const nudgeData = {
+							description: mandateList.length > 0 ? linkSipNudgeDescription : setupNudgeDescription,
+							heading: 'Automate Future SIP Payments',
+							link: '/autopay/manage',
+							linkHeading: mandateList.length > 0 ? linkAutopayHeading : setupAutopayHeading,
+							type: 'warn'
 						}}
-					/>
-					{#if false}
-						<DiscoverFundsNudge
-							nudge={nudgeData}
-							onAction={mandateList.length > 0 ? () => onAction(sipData) : null}
-							clickEvent={() => nudgeClick(sipData, mandateList.length > 0)}
-							impressionEvent={() => nudgeImpression(sipData, mandateList.length > 0)}
-							class="mb-2 sm:mt-4"
+						<SipBookAutoPayNudge
+							amount={sipData.installmentAmount}
+							on:autoPayClick={() => {
+								if (mandateList.length > 0) {
+									onAction(sipData);
+								} else {
+									const params = encodeObject({
+										amount: sipData.installmentAmount,
+										showAlert: true
+									});
+									goto(`${base}/autopay/manage?params=${params}`);
+								}
+							}}
 						/>
-					{/if}
-				{/await}
-			{/if}
+						{#if false}
+							<DiscoverFundsNudge
+								nudge={nudgeData}
+								onAction={mandateList.length > 0 ? () => onAction(sipData) : null}
+								clickEvent={() => nudgeClick(sipData, mandateList.length > 0)}
+								impressionEvent={() => nudgeImpression(sipData, mandateList.length > 0)}
+								class="mb-2 sm:mt-4"
+							/>
+						{/if}
+					{/await}
+				{/if}
 
-			<SipDetailsBasic
-				schemeName={sipData?.schemeName}
-				schemePlan={sipData?.schemePlan}
-				logoUrl={sipData?.logoUrl}
-				isin={sipData?.isin}
-				schemeCode={sipData?.schemeCode}
-			/>
-			<SipSchedule
-				amount={sipData?.installmentAmount}
-				nextSipDateTs={sipData?.nextSipDueDate}
-				class="mt-2"
-			/>
-
-			{#if sipData?.accountNo}
-				<BankAutopayCard
-					bankAccountNumber={sipData?.accountNo}
-					bankName={sipData?.bankName}
-					bankLogo={getBankLogoUrl(bankDetails, sipData?.accountNo)}
+				<SipDetailsBasic
+					schemeName={sipData?.schemeName}
+					schemePlan={sipData?.schemePlan}
+					logoUrl={sipData?.logoUrl}
+					isin={sipData?.isin}
+					schemeCode={sipData?.schemeCode}
+				/>
+				<SipSchedule
+					amount={sipData?.installmentAmount}
+					nextSipDateTs={sipData?.nextSipDueDate}
 					class="mt-2"
-				>
-					<svelte:fragment slot="footer">
-						{#await createMandateWithBankList(sipData)}
-							<SkeletonWrapper class=" mt-2 flex justify-end border-t pt-3">
-								<SkeletonRectangle class="h-4 w-24" />
-							</SkeletonWrapper>
-						{:then mandateList}
-							{#if mandateList.length > 1}
-								<div class=" mt-2 border-t pt-1 text-right">
-									<Button
-										onClick={() => {
-											autopayType = 'switch';
-											showAutopaySelectionPopup(sipData);
-										}}
-										variant="transparent"
-										size="xs"
-										class="!h-auto min-h-fit !px-0 text-xs font-semibold text-blue-primary"
-										>SWITCH AUTOPAY</Button
-									>
+				/>
+
+				{#if sipData?.accountNo}
+					<BankAutopayCard
+						bankAccountNumber={sipData?.accountNo}
+						bankName={sipData?.bankName}
+						bankLogo={getBankLogoUrl(bankDetails, sipData?.accountNo)}
+						class="mt-2"
+					>
+						<svelte:fragment slot="footer">
+							{#await createMandateWithBankList(sipData)}
+								<SkeletonWrapper class=" mt-2 flex justify-end border-t pt-3">
+									<SkeletonRectangle class="h-4 w-24" />
+								</SkeletonWrapper>
+							{:then mandateList}
+								{#if mandateList.length > 1}
+									<div class=" mt-2 border-t pt-1 text-right">
+										<Button
+											onClick={() => {
+												autopayType = 'switch';
+												showAutopaySelectionPopup(sipData);
+											}}
+											variant="transparent"
+											size="xs"
+											class="!h-auto min-h-fit !px-0 text-xs font-semibold text-blue-primary"
+											>SWITCH AUTOPAY</Button
+										>
+									</div>
+								{/if}
+							{/await}
+						</svelte:fragment>
+					</BankAutopayCard>
+				{/if}
+
+				{#if bankPopupVisible}
+					<AutopaySelectionPopup
+						{mandateList}
+						{selectedMandate}
+						onMandateChange={(choosenMandate) => onAccountChange(choosenMandate, sipData)}
+						onClose={hideAutopaySelectionPopup}
+						class=" relative"
+					>
+						<svelte:fragment slot="loader">
+							{#if showAutopaySelectionLoader}
+								<div class="absolute inset-0 flex items-center justify-center">
+									<WmsIcon class=" !h-24 !w-24" name="loading-indicator" />
 								</div>
 							{/if}
-						{/await}
-					</svelte:fragment>
-				</BankAutopayCard>
-			{/if}
+						</svelte:fragment>
+					</AutopaySelectionPopup>
+				{/if}
 
-			{#if bankPopupVisible}
-				<AutopaySelectionPopup
-					{mandateList}
-					{selectedMandate}
-					onMandateChange={(choosenMandate) => onAccountChange(choosenMandate, sipData)}
-					onClose={hideAutopaySelectionPopup}
-					class=" relative"
+				<SipHistory
+					sipId={sipData?.sipId}
+					sipOrderHistory={sipData?.sipOrderHistory}
+					sipCreatedTs={sipData?.createdTs}
+					maxTxnShowCount={maxTransactionsCap}
+					class="!max-w-full"
+				/>
+
+				<section style={`bottom: ${bottomHeight}px`} class={`w-full`}>
+					{#if sipData?.isSipInprocess}
+						<NudgeComponent
+							nudgeText="Your SIP order is already in progress. Skip and cancel are not available."
+							nudgeClasses={`m-4 mb-2`}
+						>
+							<svelte:fragment slot="nudgeIcon">
+								<HexagonalYellowWarningIcon class="mr-3" />
+							</svelte:fragment>
+						</NudgeComponent>
+					{/if}
+
+					{#if sipData?.installmentSkip}
+						<NudgeComponent
+							nudgeText="You have already skipped your next SIP instalment."
+							nudgeClasses={`m-4 mb-2`}
+						>
+							<svelte:fragment slot="nudgeIcon">
+								<HexagonalYellowWarningIcon class="mr-3" />
+							</svelte:fragment>
+						</NudgeComponent>
+					{/if}
+
+					{#if sipData?.isSipPaymentNudge}
+						<NudgeComponent
+							nudgeText={`Please complete the payment for your current SIP instalment. Skip will be available after ${getDateTimeString(
+								sipData?.sipAmountPayTillDate,
+								'DATE',
+								true
+							)}.`}
+							nudgeClasses={`m-4 mb-2`}
+						>
+							<svelte:fragment slot="nudgeIcon">
+								<HexagonalYellowWarningIcon class="mr-3" />
+							</svelte:fragment>
+						</NudgeComponent>
+					{/if}
+				</section>
+
+				<section
+					bind:offsetHeight={bottomHeight}
+					class="fixed inset-0 top-auto block bg-white px-4 py-3 md:hidden"
 				>
-					<svelte:fragment slot="loader">
-						{#if showAutopaySelectionLoader}
-							<div class="absolute inset-0 flex items-center justify-center">
-								<WmsIcon class=" !h-24 !w-24" name="loading-indicator" />
-							</div>
-						{/if}
-					</svelte:fragment>
-				</AutopaySelectionPopup>
-			{/if}
-
-			<SipHistory
-				sipId={sipData?.sipId}
-				sipOrderHistory={sipData?.sipOrderHistory}
-				sipCreatedTs={sipData?.createdTs}
-				maxTxnShowCount={maxTransactionsCap}
-				class="!max-w-full"
-			/>
-
-			<section style={`bottom: ${bottomHeight}px`} class={`w-full`}>
-				{#if sipData?.isSipInprocess}
-					<NudgeComponent
-						nudgeText="Your SIP order is already in progress. Skip and cancel are not available."
-						nudgeClasses={`m-4 mb-2`}
-					>
-						<svelte:fragment slot="nudgeIcon">
-							<HexagonalYellowWarningIcon class="mr-3" />
-						</svelte:fragment>
-					</NudgeComponent>
-				{/if}
-
-				{#if sipData?.installmentSkip}
-					<NudgeComponent
-						nudgeText="You have already skipped your next SIP instalment."
-						nudgeClasses={`m-4 mb-2`}
-					>
-						<svelte:fragment slot="nudgeIcon">
-							<HexagonalYellowWarningIcon class="mr-3" />
-						</svelte:fragment>
-					</NudgeComponent>
-				{/if}
-
-				{#if sipData?.isSipPaymentNudge}
-					<NudgeComponent
-						nudgeText={`Please complete the payment for your current SIP instalment. Skip will be available after ${getDateTimeString(
-							sipData?.sipAmountPayTillDate,
-							'DATE',
-							true
-						)}.`}
-						nudgeClasses={`m-4 mb-2`}
-					>
-						<svelte:fragment slot="nudgeIcon">
-							<HexagonalYellowWarningIcon class="mr-3" />
-						</svelte:fragment>
-					</NudgeComponent>
-				{/if}
-			</section>
-
-			<section
-				bind:offsetHeight={bottomHeight}
-				class="fixed inset-0 top-auto block bg-white px-4 py-3 md:hidden"
-			>
-				{#if sipData?.sipType === 'SIP'}
-					{@const isSkipSipDisabled =
-						sipData?.isSipInprocess ||
-						sipData?.installmentSkip ||
-						sipData?.isSipPaymentNudge ||
-						false}
+					{#if sipData?.sipType === 'SIP'}
+						{@const isSkipSipDisabled =
+							sipData?.isSipInprocess ||
+							sipData?.installmentSkip ||
+							sipData?.isSipPaymentNudge ||
+							false}
+						<Button
+							size="md"
+							variant={`${isSkipSipDisabled ? 'outlined' : 'contained'}`}
+							class={`mb-2 w-full ${
+								isSkipSipDisabled
+									? 'pointer-events-none !cursor-not-allowed border-grey-disabled !bg-white !text-grey-disabled'
+									: ''
+							}`}
+							onClick={toggleShowSkipModal}>SKIP NEXT INSTALMENT</Button
+						>
+					{/if}
 					<Button
 						size="md"
-						variant={`${isSkipSipDisabled ? 'outlined' : 'contained'}`}
-						class={`mb-2 w-full ${
-							isSkipSipDisabled
-								? 'pointer-events-none !cursor-not-allowed border-grey-disabled !bg-white !text-grey-disabled'
+						variant="transparent"
+						class={`bottom-0  w-full ${
+							sipData?.isSipInprocess
+								? 'pointer-events-none !cursor-not-allowed !bg-white !text-grey-disabled'
 								: ''
 						}`}
-						onClick={toggleShowSkipModal}>SKIP NEXT INSTALMENT</Button
+						onClick={toggleShowCancelSipActionModal}
 					>
-				{/if}
-				<Button
-					size="md"
-					variant="transparent"
-					class={`bottom-0  w-full ${
-						sipData?.isSipInprocess
-							? 'pointer-events-none !cursor-not-allowed !bg-white !text-grey-disabled'
-							: ''
-					}`}
-					onClick={toggleShowCancelSipActionModal}
+						CANCEL SIP
+					</Button>
+				</section>
+
+				<!-- CANCEL MODAL -->
+				<ConfirmationPopup
+					closeModal={toggleShowCancelSipActionModal}
+					isModalOpen={showCancelSipActionModal}
+					confirm={handleCancelSip}
+					title="Cancel SIP?"
+					confirmButtonDisable={disableConfirmCancelSip}
+					confirmButtonTitle="YES, CANCEL"
+				/>
+
+				<!-- SKIP MODAL -->
+				<ConfirmationPopup
+					closeModal={() => {
+						toggleShowSkipModal();
+						skipSipModalButtonClickAnalytics({
+							value: 'No'
+						});
+					}}
+					isModalOpen={showSkipModal}
+					confirm={() => handleSkipSip(sipData?.nextSipDueDate, sipData)}
+					titleClass="!font-medium"
+					title="Skip Next SIP Instalment?"
+					confirmButtonTitle="YES, SKIP"
+					confirmButtonDisable={disableConfirmSkipSip}
 				>
-					CANCEL SIP
-				</Button>
-			</section>
-
-			<!-- CANCEL MODAL -->
-			<ConfirmationPopup
-				closeModal={toggleShowCancelSipActionModal}
-				isModalOpen={showCancelSipActionModal}
-				confirm={handleCancelSip}
-				title="Cancel SIP?"
-				confirmButtonDisable={disableConfirmCancelSip}
-				confirmButtonTitle="YES, CANCEL"
-			/>
-
-			<!-- SKIP MODAL -->
-			<ConfirmationPopup
-				closeModal={() => {
-					toggleShowSkipModal();
-					skipSipModalButtonClickAnalytics({
-						value: 'No'
-					});
-				}}
-				isModalOpen={showSkipModal}
-				confirm={() => handleSkipSip(sipData?.nextSipDueDate, sipData)}
-				titleClass="!font-medium"
-				title="Skip Next SIP Instalment?"
-				confirmButtonTitle="YES, SKIP"
-				confirmButtonDisable={disableConfirmSkipSip}
-			>
-				<svelte:fragment slot="body">
-					<p class="font-normal text-grey-body">
-						Your SIP instalment <span class="font-medium text-black-title"
-							>for {getDateTimeProperties(sipData?.nextSipDueDate).month}
-							{getDateTimeProperties(sipData?.nextSipDueDate).year}</span
-						> will be skipped. Skip instalment?
-					</p>
-				</svelte:fragment>
-			</ConfirmationPopup>
-
-			<!-- CANCEL MODAL SUCCESS FAILURE POPUPS -->
-			<ResultPopup
-				closeModal={toggleShowSuccessModal}
-				isModalOpen={showSuccessModal}
-				popupType={STATUS_ARR.SUCCESS}
-				title="SIP Cancelled"
-				text={`You have cancelled your SIP for ${sipData?.schemeName}`}
-				buttonTitle="DONE"
-				class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
-				buttonClass="mt-8 w-40 border border-blue-primary rounded !bg-white !text-blue-primary cursor-default md:cursor-pointer"
-				handleButtonClick={handleSuccessModalCta}
-			/>
-
-			<ResultPopup
-				closeModal={toggleShowFailureModal}
-				isModalOpen={showFailureModal}
-				popupType={STATUS_ARR.FAILURE}
-				title="Cancellation Error"
-				text="We could not cancel your SIP due to a tecnhical error. Please try again"
-				buttonTitle="RETRY"
-				class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
-				buttonClass="mt-8 w-40 border border-blue-primary rounded !bg-white !text-blue-primary cursor-default md:cursor-pointer"
-				handleButtonClick={handleFailureModalCta}
-			/>
-
-			<!-- SKIP SIP MODAL SUCCESS FAILURE POPUPS -->
-			<ResultPopup
-				closeModal={toggleSkipSuccessModal}
-				isModalOpen={showSkipSuccessModal}
-				popupType={STATUS_ARR.SUCCESS}
-				buttonTitle="DONE"
-				class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
-				buttonClass="mt-8 w-40 border border-blue-primary rounded !bg-white !text-blue-primary cursor-default md:cursor-pointer"
-				handleButtonClick={() => {
-					invalidate('skipsip');
-					showSkipSuccessModal = false;
-				}}
-			>
-				<svelte:fragment slot="popupBody">
-					<article class="mt-6 text-center">
-						<div class={`text-2xl font-medium text-black-title`}>SIP Instalment Skipped</div>
-
-						<div class={`mt-3 text-sm font-normal text-grey-body`}>
-							Your SIP instalment for {sipData?.schemeName}
-							<span class="font-medium text-black-title"
+					<svelte:fragment slot="body">
+						<p class="font-normal text-grey-body">
+							Your SIP instalment <span class="font-medium text-black-title"
 								>for {getDateTimeProperties(sipData?.nextSipDueDate).month}
 								{getDateTimeProperties(sipData?.nextSipDueDate).year}</span
-							>
-							will be skipped. Next SIP order is scheduled for {getNextMonthDate(
-								sipData?.nextSipDueDate
-							)}
-						</div>
-					</article>
-				</svelte:fragment>
-			</ResultPopup>
+							> will be skipped. Skip instalment?
+						</p>
+					</svelte:fragment>
+				</ConfirmationPopup>
 
-			<ResultPopup
-				closeModal={toggleSkipFailureModal}
-				isModalOpen={showSkipFailureModal}
-				popupType={STATUS_ARR.FAILURE}
-				title="Something Went Wrong"
-				text="We could not process your skip request due to a technical error. Please try again"
-				buttonTitle="RETRY"
-				class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
-				buttonClass="mt-8 w-40 border border-blue-primary rounded !bg-white !text-blue-primary cursor-default md:cursor-pointer"
-				handleButtonClick={toggleSkipFailureModal}
-			/>
-		</article>
-	{:else}
+				<!-- CANCEL MODAL SUCCESS FAILURE POPUPS -->
+				<ResultPopup
+					closeModal={toggleShowSuccessModal}
+					isModalOpen={showSuccessModal}
+					popupType={STATUS_ARR.SUCCESS}
+					title="SIP Cancelled"
+					text={`You have cancelled your SIP for ${sipData?.schemeName}`}
+					buttonTitle="DONE"
+					class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+					buttonClass="mt-8 w-40 border border-blue-primary rounded !bg-white !text-blue-primary cursor-default md:cursor-pointer"
+					handleButtonClick={handleSuccessModalCta}
+				/>
+
+				<ResultPopup
+					closeModal={toggleShowFailureModal}
+					isModalOpen={showFailureModal}
+					popupType={STATUS_ARR.FAILURE}
+					title="Cancellation Error"
+					text="We could not cancel your SIP due to a tecnhical error. Please try again"
+					buttonTitle="RETRY"
+					class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+					buttonClass="mt-8 w-40 border border-blue-primary rounded !bg-white !text-blue-primary cursor-default md:cursor-pointer"
+					handleButtonClick={handleFailureModalCta}
+				/>
+
+				<!-- SKIP SIP MODAL SUCCESS FAILURE POPUPS -->
+				<ResultPopup
+					closeModal={toggleSkipSuccessModal}
+					isModalOpen={showSkipSuccessModal}
+					popupType={STATUS_ARR.SUCCESS}
+					buttonTitle="DONE"
+					class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+					buttonClass="mt-8 w-40 border border-blue-primary rounded !bg-white !text-blue-primary cursor-default md:cursor-pointer"
+					handleButtonClick={() => {
+						invalidate('skipsip');
+						showSkipSuccessModal = false;
+					}}
+				>
+					<svelte:fragment slot="popupBody">
+						<article class="mt-6 text-center">
+							<div class={`text-2xl font-medium text-black-title`}>SIP Instalment Skipped</div>
+
+							<div class={`mt-3 text-sm font-normal text-grey-body`}>
+								Your SIP instalment for {sipData?.schemeName}
+								<span class="font-medium text-black-title"
+									>for {getDateTimeProperties(sipData?.nextSipDueDate).month}
+									{getDateTimeProperties(sipData?.nextSipDueDate).year}</span
+								>
+								will be skipped. Next SIP order is scheduled for {getNextMonthDate(
+									sipData?.nextSipDueDate
+								)}
+							</div>
+						</article>
+					</svelte:fragment>
+				</ResultPopup>
+
+				<ResultPopup
+					closeModal={toggleSkipFailureModal}
+					isModalOpen={showSkipFailureModal}
+					popupType={STATUS_ARR.FAILURE}
+					title="Something Went Wrong"
+					text="We could not process your skip request due to a technical error. Please try again"
+					buttonTitle="RETRY"
+					class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+					buttonClass="mt-8 w-40 border border-blue-primary rounded !bg-white !text-blue-primary cursor-default md:cursor-pointer"
+					handleButtonClick={toggleSkipFailureModal}
+				/>
+			</article>
+		{:else}
+			<InvalidUrl />
+		{/if}
+	{:catch}
 		<InvalidUrl />
-	{/if}
-{:catch}
-	<InvalidUrl />
-{/await}
+	{/await}
+</article>

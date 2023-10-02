@@ -3,7 +3,16 @@
 	import SipDashboardLoader from './SipDashboardLoader.svelte';
 	import type { PageData } from './$types';
 	import { SEO } from 'svelte-components';
+	import { onMount } from 'svelte';
 	export let data: PageData;
+
+	const scrollToTop = () => {
+		document?.getElementsByTagName?.('main')?.[0]?.scrollTo(0, 0);
+	};
+
+	onMount(() => {
+		scrollToTop();
+	});
 </script>
 
 <article>
