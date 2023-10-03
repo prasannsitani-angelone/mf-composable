@@ -279,7 +279,7 @@ export const upiFlow = async (params) => {
 		});
 		stopLoading();
 		onSuccess({
-			id: response.data?.data?.mandate_id
+			id: response.data?.data?.reference_number
 		});
 	} catch (e) {
 		stopLoading();
@@ -400,7 +400,7 @@ export const walletFlow = async (params) => {
 		});
 		stopLoading();
 		onSuccess({
-			id: response.data?.data?.mandate_id
+			id: response.data?.data?.reference_number
 		});
 	} catch (e) {
 		stopLoading();
