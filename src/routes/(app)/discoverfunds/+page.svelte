@@ -26,7 +26,7 @@
 	import { logoutAttemptStore } from '$lib/stores/LogoutAttemptStore';
 	import StoriesComponent from '$components/Stories/StoriesComponent.svelte';
 	import Button from '$components/Button.svelte';
-	import { SEO, WMSIcon } from 'svelte-components';
+	import { SEO } from 'svelte-components';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 	import { onDestroy, onMount, tick } from 'svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
@@ -43,13 +43,6 @@
 	import CategoriesComponent from './CategoriesComponent.svelte';
 	import { askAngelEntryImpressionAnalytics } from '$lib/analytics/askangel/askangel';
 
-	interface CtKv {
-		topic: string; /// value
-		title: '';
-		subtext: '';
-		ctatext: '';
-		ctaurl: '';
-	}
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
 	$: isGuest = $page.data.isGuest;
@@ -62,11 +55,6 @@
 	let start4SipsNudgeData: Start4SipsNudgeType;
 	let elementOnce: HTMLElement;
 	let intersectOnce: boolean;
-	let ctKv: CtKv = {
-		topic: '',
-		Name: '',
-		Product: ''
-	};
 	let showExitNudge = false;
 
 	const getNudgeData = async () => {
@@ -242,26 +230,23 @@
 			placementMapping = {
 				stories: { rowStart: 1, columnStart: 1 },
 				investments: { rowStart: 2, columnStart: 1 },
-				trendingFunds: { rowStart: 6, columnStart: 1 },
-				categories: { rowStart: 7, columnStart: 1 },
-				startFirstSip: { rowStart: 3, columnStart: 1 },
-				clevertapTrack: { rowStart: 4, columnStart: 1 },
-				sipNudges: { rowStart: 5, columnStart: 1 },
-				failedOrdersNudge: { rowStart: 8, columnStart: 1 },
-				curatedInvestmentCard: { rowStart: 9, columnStart: 1 },
-				quickEntryPoints: { rowStart: 10, columnStart: 1 },
-				promotionCard: { rowStart: 11, columnStart: 1 },
-				logout: { rowStart: 12, columnStart: 1 }
+				trendingFunds: { rowStart: 4, columnStart: 1 },
+				categories: { rowStart: 5, columnStart: 1 },
+				sipNudges: { rowStart: 3, columnStart: 1 },
+				failedOrdersNudge: { rowStart: 6, columnStart: 1 },
+				curatedInvestmentCard: { rowStart: 7, columnStart: 1 },
+				quickEntryPoints: { rowStart: 8, columnStart: 1 },
+				promotionCard: { rowStart: 9, columnStart: 1 },
+				logout: { rowStart: 10, columnStart: 1 }
 			};
 		} else {
 			placementMapping = {
 				stories: { rowStart: 1, columnStart: 1 },
-				trendingFunds: { rowStart: 3, columnStart: 1 },
-				categories: { rowStart: 4, columnStart: 1 },
-				clevertapTrack: { rowStart: 2, columnStart: 1 },
-				failedOrdersNudge: { rowStart: 5, columnStart: 1 },
-				curatedInvestmentCard: { rowStart: 6, columnStart: 1 },
-				quickEntryPoints: { rowStart: 7, columnStart: 1 },
+				trendingFunds: { rowStart: 2, columnStart: 1 },
+				categories: { rowStart: 3, columnStart: 1 },
+				failedOrdersNudge: { rowStart: 4, columnStart: 1 },
+				curatedInvestmentCard: { rowStart: 5, columnStart: 1 },
+				quickEntryPoints: { rowStart: 6, columnStart: 1 },
 				investments: { rowStart: 1, columnStart: 2 },
 				sipNudges: { rowStart: 2, columnStart: 2 },
 				promotionCard: { rowStart: 3, columnStart: 2 }
@@ -303,16 +288,6 @@
 		{/if}
 	{/if}
 
-	<!-- 3. Start First SIP -->
-	<LazyComponent
-		class="row-start-{placementMapping?.startFirstSip?.rowStart} col-start-{placementMapping
-			?.startFirstSip?.columnStart} {placementMapping?.startFirstSip?.rowStart > 1 ? 'mt-2' : ''}"
-		when={isLoggedInUser && deviceType?.isMobile && nudgesData && startFirstSipNudgeData}
-		component={async () => await import('$components/StartFirstSip/StartFirstSipNudge.svelte')}
-		nudgeData={startFirstSipNudgeData}
-		version="A"
-	/>
-
 	<!-- 3. Most Bought Section -->
 	<TrendingFunds
 		class="row-start-{placementMapping?.trendingFunds?.rowStart} col-start-{placementMapping
@@ -330,27 +305,6 @@
 	>
 		<CategoriesComponent categories={data?.searchDashboardData?.categories} />
 	</article>
-
-	<!-- 5. CeleverTap Track -->
-	{#if ctKv.topic}
-		<div
-			class="row-start-{placementMapping?.clevertapTrack?.rowStart} col-start-{placementMapping
-				?.clevertapTrack
-				?.columnStart} flex overflow-hidden rounded bg-purple-glow p-3 {placementMapping
-				?.clevertapTrack?.rowStart > 1
-				? 'mt-2'
-				: ''}"
-		>
-			<WMSIcon class="h-9 w-9" name="import-external-funds" width={36} height={36} />
-			<p class="text-sm">
-				View your entire mutual fund portfolio in one place <span class="font-bold">Name:</span>
-				{ctKv.Name}, <span class="font-bold">Topic :</span>
-				{ctKv.topic}, <span class="font-bold">Product:</span>
-				{ctKv.Product}
-			</p>
-			<Button variant="transparent">Track Now</Button>
-		</div>
-	{/if}
 
 	<!-- 6. Sip Nudges -->
 	<LazyComponent
