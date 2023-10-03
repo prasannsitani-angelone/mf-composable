@@ -17,10 +17,9 @@
 	import RightArrowIcon from './RightArrowIcon.svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { needHelpClickAnalytics } from '$lib/analytics/orders/orders';
-	import { afterUpdate, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 
 	let isPageMounted = false;
-	let isDataFetched = false;
 
 	$: breadCrumbs = [
 		{
@@ -57,14 +56,6 @@
 	onMount(() => {
 		isPageMounted = true;
 	});
-
-	afterUpdate(() => {
-		if (isPageMounted && data?.api?.getOrdersData?.data?.orderId) {
-			isDataFetched = true;
-		} else {
-			isDataFetched = false;
-		}
-	});
 </script>
 
 <article class="flex flex-col">
@@ -73,7 +64,7 @@
 		seoDescription="Get your order status details with one click including transaction date, id, charges etc."
 	/>
 	<Breadcrumbs items={breadCrumbs} class="mb-4 hidden items-center justify-start md:flex" />
-	{#if !isPageMounted || !isDataFetched}
+	{#if !isPageMounted}
 		<OrderDetailLoader />
 	{:else}
 		{#await data?.api?.getOrdersData}
