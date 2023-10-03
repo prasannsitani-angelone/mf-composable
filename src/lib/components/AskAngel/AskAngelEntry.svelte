@@ -4,6 +4,7 @@
 	import { WMSIcon } from 'svelte-components';
 	import AskAngel from './AskAngel.svelte';
 	import Button from '../Button.svelte';
+	import { base } from '$app/paths';
 
 	let showAskAngel = false;
 
@@ -12,7 +13,7 @@
 
 	const handleAskAngelEntryPointClick = () => {
 		if (isMobile || isTablet) {
-			goto('askangel');
+			goto(`${base}/askangel`);
 		} else {
 			showAskAngel = true;
 		}

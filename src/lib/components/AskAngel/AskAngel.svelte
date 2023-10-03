@@ -38,7 +38,7 @@
 		askAngelCrossClickAnalytics();
 
 		if (isMobile || isTablet) {
-			goto('discoverfunds');
+			history?.back();
 		} else {
 			dispatch('closeAskAngel');
 		}

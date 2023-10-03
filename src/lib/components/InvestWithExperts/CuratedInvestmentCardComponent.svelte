@@ -8,6 +8,7 @@
 		curatedCardImpressionEvent
 	} from '$components/InvestWithExperts/analytics';
 	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 
 	export let nudgeData: Start4SipsNudgeType;
 	export let stopRedirection = false;
@@ -22,7 +23,7 @@
 		}
 
 		curatedCardClickEvent();
-		goto('investwithexperts');
+		goto(`${base}/investwithexperts`);
 	};
 </script>
 
