@@ -1,11 +1,10 @@
 <script lang="ts">
-	import HelloEmojiIcon from '$lib/images/icons/HelloEmojiIcon.svelte';
 	import type { ChatItem, PromptSchemeDetails } from '$lib/types/IAskAngel';
 	import { createEventDispatcher } from 'svelte';
 	import Choices from './Choices.svelte';
 	import Message from './Message.svelte';
 	import TrendingCarouselItems from '$components/TrendingFunds/TrendingCarouselItems.svelte';
-	import { addCommasToAmountString } from 'svelte-components';
+	import { LazyComponent, addCommasToAmountString } from 'svelte-components';
 	import CuratedInvestmentCardComponent from '$components/InvestWithExperts/CuratedInvestmentCardComponent.svelte';
 
 	export let chatItem: ChatItem;
@@ -36,7 +35,10 @@
 			>
 				<svelte:fragment slot="messageData">
 					{#if text?.type === 'emoji'}
-						<HelloEmojiIcon />
+						<LazyComponent
+							when={text?.type === 'emoji'}
+							component={async () => await import('$lib/images/icons/HelloEmojiIcon.svelte')}
+						/>
 					{:else}
 						{text?.displayText}
 					{/if}
