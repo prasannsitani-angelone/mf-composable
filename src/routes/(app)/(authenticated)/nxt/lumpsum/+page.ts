@@ -11,13 +11,7 @@ import type { PageLoad } from './$types';
 export const load = (async ({ url, fetch, parent }) => {
 	const parentData = await parent();
 
-	const decodedQuery = decodeURIComponent(url.search);
-	const startSubstring = 'params=';
-	const endSubstring = '&';
-	const startIdx = decodedQuery?.indexOf(startSubstring) + startSubstring?.length;
-	const endIdx = decodedQuery?.indexOf(endSubstring, startIdx);
-	const params = decodedQuery?.substring(startIdx, endIdx);
-
+	const params = url.searchParams.get('params');
 	const requestId = url.searchParams.get('requestId');
 	const decodedParams = decodeToObject(params || undefined);
 	let { schemeDetails } = decodedParams;
