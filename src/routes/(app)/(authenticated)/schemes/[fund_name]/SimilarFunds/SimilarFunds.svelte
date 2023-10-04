@@ -60,7 +60,7 @@
 					<SimilarFundsIcon />
 					<!-- {JSON.stringify(similarFunds)} -->
 				</div>
-				<h2 class="ml-3 flex items-center text-left font-medium text-black-title">
+				<h2 class="ml-3 flex items-center text-left font-normal text-black-title">
 					<span> Similar Funds</span>
 				</h2>
 			</section>

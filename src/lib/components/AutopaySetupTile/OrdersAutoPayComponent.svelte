@@ -19,13 +19,13 @@
 
 	<div class="flex flex-col items-center">
 		{#if amount <= UPI_MANDATE_MAX_AMOUNT}
-			<p class="mb-2 mt-6 text-sm font-semibold text-black-title">Set Up UPI Autopay</p>
+			<p class="mb-2 mt-6 text-sm font-medium text-black-title">Set Up UPI Autopay</p>
 
 			<p class="mb-4 text-xs text-black-title">Automate your SIP payments in 2 simple steps</p>
 
 			<Button onClick={autoPayClick} class="w-full sm:w-[328px]">SET UP UPI AUTOPAY</Button>
 		{:else}
-			<p class="mb-2 mt-6 text-sm font-semibold text-black-title">Set Up Autopay Now</p>
+			<p class="mb-2 mt-6 text-sm font-medium text-black-title">Set Up Autopay Now</p>
 
 			<p class="mb-4 text-xs text-black-title">Make SIP payments automatically with Autopay</p>
 

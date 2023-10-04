@@ -40,7 +40,7 @@
 	>
 		<slot name="preinput" />
 		<div class="flex w-full flex-col justify-center">
-			<label class={`mb-0.5 text-sm font-medium text-black-title ${classes.label}`} for={id}
+			<label class={`mb-0.5 text-sm font-normal text-black-title ${classes.label}`} for={id}
 				>{heading}
 			</label>
 			<input
@@ -50,7 +50,7 @@
 				{placeholder}
 				{type}
 				maxlength={maxLength}
-				class={`outline w-full border-0 text-center text-base font-medium text-black-title outline-none ${classes.input}`}
+				class={`outline w-full border-0 text-center text-base font-normal text-black-title outline-none ${classes.input}`}
 				on:input={onInput}
 				on:keyup={handleEnter}
 				on:click={onClick}

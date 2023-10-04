@@ -8,9 +8,9 @@
 </script>
 
 <section class={`rounded-lg bg-white px-4 py-5 shadow-csm ${$$props.class}`}>
-	<div class="font-medium text-black-title">SIP Schedule</div>
+	<div class="font-normal text-black-title">SIP Schedule</div>
 
-	<article class="mt-3 rounded border p-4 font-medium">
+	<article class="mt-3 rounded border p-4 font-normal">
 		<section class="flex items-baseline justify-between">
 			<div class="text-xs text-grey-body">Instalment Amount</div>
 			<div class="text-base text-black-title">

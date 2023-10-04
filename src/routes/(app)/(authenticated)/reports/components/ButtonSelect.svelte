@@ -18,7 +18,7 @@
 		<Button
 			variant="outlined"
 			color="secondary"
-			class={`w-36 rounded bg-white py-2 font-medium ${
+			class={`w-36 rounded bg-white py-2 font-normal ${
 				item.title === selected?.title
 					? '!border !border-blue-primary !bg-grey !text-blue-primary'
 					: '!border !border-grey-line !bg-white !text-grey-body'

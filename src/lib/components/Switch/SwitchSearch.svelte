@@ -36,7 +36,7 @@
 			class="flex items-center justify-start bg-white px-3 py-4 text-center shadow-csm md:hidden"
 		>
 			<CrossIcon onClick={toggleModal} />
-			<h1 class="ml-4 text-lg font-medium text-black-title">
+			<h1 class="ml-4 text-lg font-normal text-black-title">
 				<div class="w-80 truncate text-left">Select Switch in Fund</div>
 			</h1>
 		</section>
@@ -56,7 +56,7 @@
 			<svelte:fragment slot="resultsData" let:resultsData>
 				<section class="flex items-center justify-between px-3 py-2 pt-2 text-xs md:px-0 lg:pt-2">
 					<article>
-						<span class="font-medium text-grey-body"> Available mutual funds from AMC </span>
+						<span class="font-normal text-grey-body"> Available mutual funds from AMC </span>
 					</article>
 					<article><span class="text-grey-body"> 3Y Returns </span></article>
 				</section>

@@ -476,7 +476,7 @@
 
 			<Button
 				variant="transparent"
-				class="text-sm font-medium text-white"
+				class="text-sm font-normal text-white"
 				size="xs"
 				onClick={handleRetryButtonClick}>Retry</Button
 			>

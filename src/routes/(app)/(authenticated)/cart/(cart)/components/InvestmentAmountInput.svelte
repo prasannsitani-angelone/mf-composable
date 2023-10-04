@@ -59,7 +59,7 @@
 		on:input={onInputChange}
 		class="{inputError
 			? '!outline-red-sell'
-			: '!outline-blue-primary '}   cart-input !outline !h-7 w-full !rounded border-0 bg-white pl-3.5 text-base font-medium !leading-none text-black-title !outline-1 focus:outline-offset-0"
+			: '!outline-blue-primary '}   cart-input !outline !h-7 w-full !rounded border-0 bg-white pl-3.5 text-base font-normal !leading-none text-black-title !outline-1 focus:outline-offset-0"
 		size={100}
 		disabled={false}
 	/>

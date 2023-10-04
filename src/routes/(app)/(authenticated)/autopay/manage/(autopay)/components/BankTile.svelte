@@ -20,7 +20,7 @@
 		</div>
 		<div class="ml-1">
 			<div class="flex flex-row items-start">
-				<div class="flex items-center text-sm font-medium text-black-title">
+				<div class="flex items-center text-sm font-normal text-black-title">
 					<div>{bankName}</div>
 					{#if bankAccounts > 1}
 						<div class="ml-1 min-w-[12px] flex-1">
@@ -30,7 +30,7 @@
 				</div>
 			</div>
 
-			<div class="mt-1 flex flex-row items-center text-xs font-medium text-grey-body">
+			<div class="mt-1 flex flex-row items-center text-xs font-normal text-grey-body">
 				<div class="mr-1 h-1 w-1 rounded-full bg-grey-body" />
 				<div class="mr-1 h-1 w-1 rounded-full bg-grey-body" />
 				<div class="mr-1 h-1 w-1 rounded-full bg-grey-body" />
@@ -41,7 +41,7 @@
 	</div>
 	{#if showWhyThisBank}
 		<Button
-			class=" !text-xs !font-medium normal-case text-blue-primary"
+			class=" !text-xs !font-normal normal-case text-blue-primary"
 			variant="transparent"
 			on:click={openWhyThisBank}>Why this bank?</Button
 		>

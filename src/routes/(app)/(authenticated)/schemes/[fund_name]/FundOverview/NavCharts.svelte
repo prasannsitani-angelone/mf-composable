@@ -118,7 +118,7 @@
 					size="xs"
 					class={`${
 						selectedMonth === tag.months ? '!border-blue-primary !text-blue-primary' : ''
-					} noselect flex h-5 w-9 cursor-pointer flex-row items-center justify-center rounded-sm border border-grey-line bg-white  p-0 py-[2px] text-xs font-semibold !text-grey-body active:opacity-70 sm:h-6 sm:w-11 sm:text-sm sm:font-medium`}
+					} noselect flex h-5 w-9 cursor-pointer flex-row items-center justify-center rounded-sm border border-grey-line bg-white  p-0 py-[2px] text-xs font-medium !text-grey-body active:opacity-70 sm:h-6 sm:w-11 sm:text-sm sm:font-normal`}
 					onClick={() => selectNavDuration(tag.months)}
 				>
 					{tag.label}

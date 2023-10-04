@@ -106,24 +106,24 @@
 		<div class="flex h-10 gap-4">
 			<Button
 				variant={`${currentCalculatorMode === 'SIP' ? 'contained' : 'outlined'}`}
-				class={`flex-grow basis-0 rounded !py-0 !text-sm !font-medium uppercase`}
+				class={`flex-grow basis-0 rounded !py-0 !text-sm !font-normal uppercase`}
 				onClick={() => changeCalculatorMode('SIP')}>SIP</Button
 			>
 			<Button
 				variant={`${currentCalculatorMode === 'OneTime' ? 'contained' : 'outlined'}`}
-				class="flex-grow basis-0 rounded !py-0 !text-sm !font-medium !uppercase"
+				class="flex-grow basis-0 rounded !py-0 !text-sm !font-normal !uppercase"
 				onClick={() => changeCalculatorMode('OneTime')}>One-Time</Button
 			>
 		</div>
 		<div class="mt-11">
 			<div class="mb-5 flex justify-between">
 				<span
-					class="flex items-center justify-center text-xs font-normal text-black-title md:text-sm md:font-medium md:text-grey-body"
+					class="flex items-center justify-center text-xs font-normal text-black-title md:text-sm md:font-normal md:text-grey-body"
 				>
 					{currentCalculatorMode === 'SIP' ? 'Monthly Investment' : 'Select Amount'}
 				</span>
 				<div
-					class="flex border-b border-l-0 border-r-0 border-t-0 border-grey-disabled text-2xl font-medium text-black-title"
+					class="flex border-b border-l-0 border-r-0 border-t-0 border-grey-disabled text-2xl font-normal text-black-title"
 				>
 					<AmountText amount={amountReturnSlider[0]} />
 				</div>
@@ -149,12 +149,12 @@
 			<div class="mt-11">
 				<div class="mb-5 flex justify-between">
 					<span
-						class="flex items-center justify-center text-xs font-normal text-black-title md:text-sm md:font-medium md:text-grey-body"
+						class="flex items-center justify-center text-xs font-normal text-black-title md:text-sm md:font-normal md:text-grey-body"
 					>
 						Expected Return (Yearly)
 					</span>
 					<div
-						class="border-b border-l-0 border-r-0 border-t-0 border-grey-disabled text-2xl font-medium text-black-title"
+						class="border-b border-l-0 border-r-0 border-t-0 border-grey-disabled text-2xl font-normal text-black-title"
 					>
 						<div>{ROISlider[0]} %</div>
 					</div>
@@ -178,12 +178,12 @@
 		<div class="mt-11">
 			<div class="mb-5 flex justify-between">
 				<span
-					class="flex items-center justify-center text-xs font-normal text-black-title md:text-sm md:font-medium md:text-grey-body"
+					class="flex items-center justify-center text-xs font-normal text-black-title md:text-sm md:font-normal md:text-grey-body"
 				>
 					Time Period
 				</span>
 				<div
-					class="border-b border-l-0 border-r-0 border-t-0 border-grey-disabled text-2xl font-medium text-black-title"
+					class="border-b border-l-0 border-r-0 border-t-0 border-grey-disabled text-2xl font-normal text-black-title"
 				>
 					<div>{yearsReturnSlider[0]} Y</div>
 				</div>

@@ -33,7 +33,7 @@
 	class="rounded-lg bg-white px-4 py-3 text-black-title shadow-csm {$$props.class}"
 	data-testid="startFirstSipNudge"
 >
-	<div class="text-lg font-medium">Start your Investment Journey</div>
+	<div class="text-lg font-normal">Start your Investment Journey</div>
 	<div class="font-sm mt-2">Step-by-Step guide to make your first investment</div>
 	<div class="mt-3 flex justify-center">
 		<StartFirstSipImage />

@@ -45,7 +45,7 @@
 		{#if transactionList?.length && transactionList?.length > 5 && !isExternal}
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<div
-				class="flex cursor-pointer items-end justify-center py-5 text-sm font-semibold text-blue-primary"
+				class="flex cursor-pointer items-end justify-center py-5 text-sm font-medium text-blue-primary"
 				on:click={toggleShowFullTransactionList}
 			>
 				View {showFullTransactionList ? 'Less' : 'All'}
@@ -53,7 +53,7 @@
 		{:else if transactionList?.length && transactionList?.length > 5 && isExternal}
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<div
-				class="flex cursor-pointer items-center justify-center py-5 text-sm font-semibold text-blue-primary"
+				class="flex cursor-pointer items-center justify-center py-5 text-sm font-medium text-blue-primary"
 				on:click={toggleShowFullTransactionList}
 			>
 				{#if !showFullTransactionList}

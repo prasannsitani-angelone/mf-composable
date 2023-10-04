@@ -18,7 +18,7 @@
 			loading="lazy"
 			alt="Illustration showing not able to fetch chart data"
 		/>
-		<span class="mt-6 text-lg font-medium text-black-title">
+		<span class="mt-6 text-lg font-normal text-black-title">
 			{heading}
 		</span>
 	</article>
@@ -29,7 +29,7 @@
 			''}"
 	>
 		<div class="flex items-center">
-			<span class="text-lg font-medium text-black-title">
+			<span class="text-lg font-normal text-black-title">
 				{heading}
 			</span>
 			<div

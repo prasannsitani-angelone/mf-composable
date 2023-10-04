@@ -45,7 +45,7 @@
 	<article class="flex items-center justify-between border-b border-white/10 pb-5">
 		<section class="flex-1 text-center">
 			<div class="text-xs font-normal">Active SIPs</div>
-			<div class="text-lg font-medium">
+			<div class="text-lg font-normal">
 				{bookSummary?.totalSipOrder}
 			</div>
 		</section>
@@ -55,7 +55,7 @@
 
 		<section class="flex-1 text-center">
 			<div class="text-xs font-normal">Monthly SIP Total</div>
-			<div class="flex items-center justify-center text-lg font-medium">
+			<div class="flex items-center justify-center text-lg font-normal">
 				<div class="text-sm">₹</div>
 				<div class="ml-0.5">
 					{addCommasToAmountString(bookSummary?.totalSipInstallmentAmount?.toFixed(0))}
@@ -65,14 +65,14 @@
 	</article>
 
 	<article class="flex items-center justify-between px-4 pt-3">
-		<div class="text-xs font-medium">
+		<div class="text-xs font-normal">
 			Automated SIPs - <span class={automatedSipsCount ? 'text-white' : 'text-red-errorDark'}
 				>{automatedSipsCount}</span
 			>
 		</div>
 
 		<button class="z-10 flex items-center" on:click={handleAutopayButtonClick}>
-			<div class="text-sm font-semibold">
+			<div class="text-sm font-medium">
 				{automatedSipsCount ? 'MANAGE AUTOPAY' : 'SETUP AUTOPAY'}
 			</div>
 			<RightIcon stroke="white" />

@@ -31,7 +31,7 @@
 				<div class="flex h-12 w-12 items-center justify-center rounded-full bg-grey">
 					<UserIcon />
 				</div>
-				<h2 class="ml-3 flex items-center text-left font-medium text-black-title">
+				<h2 class="ml-3 flex items-center text-left font-normal text-black-title">
 					<span> Fund Manager</span>
 				</h2>
 			</section>
@@ -47,16 +47,16 @@
 						<div
 							class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-primary/[.12]"
 						>
-							<span class="text-sm font-semibold text-blue-primary">
+							<span class="text-sm font-medium text-blue-primary">
 								{fundManagerInitials(fundManager?.name)}
 							</span>
 						</div>
 					</div>
 					<div>
-						<h3 class="text-sm font-medium text-black-title sm:text-base">
+						<h3 class="text-sm font-normal text-black-title sm:text-base">
 							{fundManager?.name}
 						</h3>
-						<h4 class="text-xs font-medium text-grey-body sm:text-sm">
+						<h4 class="text-xs font-normal text-grey-body sm:text-sm">
 							<span>Fund Manager since </span>
 							{getStartDate(fundManager?.startDate)}
 						</h4>

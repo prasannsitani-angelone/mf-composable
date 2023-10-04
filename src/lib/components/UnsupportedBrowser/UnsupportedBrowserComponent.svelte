@@ -49,7 +49,7 @@
 			class="mb-11 sm:h-40 sm:w-64"
 			alt="browser not supported"
 		/>
-		<h4 class="mb-3 text-xl font-medium text-black-title">
+		<h4 class="mb-3 text-xl font-normal text-black-title">
 			Update <span class="capitalize">{browserDetails.alias || browserDetails.browser}</span>
 		</h4>
 		<div class="mb-3 text-sm text-grey-body">

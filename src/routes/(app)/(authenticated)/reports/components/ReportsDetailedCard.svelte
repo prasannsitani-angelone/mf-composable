@@ -63,14 +63,14 @@
 <section class="bg-white sm:m-2 sm:rounded-lg sm:py-5 sm:shadow-csm">
 	{#if info}
 		<div
-			class="mx-4 mb-[18px] rounded-lg bg-grey px-4 py-2 text-sm font-medium text-grey-body sm:mx-6 sm:mb-6"
+			class="mx-4 mb-[18px] rounded-lg bg-grey px-4 py-2 text-sm font-normal text-grey-body sm:mx-6 sm:mb-6"
 		>
 			{info}
 		</div>
 	{/if}
 	{#if subHeading}
 		<p
-			class={`px-4 pb-2 text-xs font-medium text-grey-body sm:border-b sm:border-grey-line sm:px-6 ${
+			class={`px-4 pb-2 text-xs font-normal text-grey-body sm:border-b sm:border-grey-line sm:px-6 ${
 				subHeadingClass || ''
 			}`}
 		>

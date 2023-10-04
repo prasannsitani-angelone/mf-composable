@@ -6,7 +6,7 @@
 	class="z-[70] flex flex-col justify-center rounded-lg !bg-yellow-primary !bg-opacity-30 text-black-title shadow-csm"
 >
 	<div class="px-6 pt-6">
-		<div class="pb-2 text-2xl font-medium">Switch Funds</div>
+		<div class="pb-2 text-2xl font-normal">Switch Funds</div>
 		<div class="pb-4 text-sm">
 			Switch helps you transfer your investment (partial or full) to another mutual fund from the
 			same AMC

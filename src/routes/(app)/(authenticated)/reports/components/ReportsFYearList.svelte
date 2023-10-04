@@ -24,7 +24,7 @@
 			} ${index !== list?.length - 1 ? 'border-b border-grey-line sm:border-none' : ''}`}
 			on:click={() => selectOption(item)}
 		>
-			<span class="text-sm font-medium">{item?.title}</span>
+			<span class="text-sm font-normal">{item?.title}</span>
 
 			<RadioTick selected={selected.title === item.title} class="ml-auto" />
 		</div>

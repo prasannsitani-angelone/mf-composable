@@ -16,7 +16,7 @@
 		''}"
 >
 	<article
-		class="flex items-center justify-evenly rounded-t-xl bg-white px-6 pt-4 text-center text-sm font-semibold"
+		class="flex items-center justify-evenly rounded-t-xl bg-white px-6 pt-4 text-center text-sm font-medium"
 	>
 		{#each tabs as tab}
 			<Button

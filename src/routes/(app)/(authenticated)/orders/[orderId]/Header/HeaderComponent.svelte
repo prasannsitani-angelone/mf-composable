@@ -23,7 +23,7 @@
 <article class={`hidden rounded-t-lg bg-white px-5 py-4 text-center md:flex ${$$props?.class}`}>
 	<article class="flex w-full cursor-pointer items-center justify-start">
 		<LeftArrowIcon class="mr-4 cursor-pointer" onClick={handleBackNavigation} />
-		<h1 class="text-lg font-medium text-black-title">
+		<h1 class="text-lg font-normal text-black-title">
 			<div class="truncate text-left">
 				{title}
 			</div>
@@ -37,7 +37,7 @@
 	class:!bg-yellow-background={status === STATUS_ARR.PENDING}
 >
 	{#if heading}
-		<div class="flex flex-row items-center font-medium text-black-title">
+		<div class="flex flex-row items-center font-normal text-black-title">
 			{#if STATUS_ARR.FAILED === status || status === STATUS_ARR.FAILURE}
 				<ErrorIcon />
 			{:else if STATUS_ARR.PENDING === status}

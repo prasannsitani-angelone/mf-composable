@@ -19,7 +19,7 @@
 <SEO seoTitle="Favourites Funds | Angelone" seoDescription="List of Funds added to Favourites" />
 <article>
 	<header class="hidden sm:block">
-		<h2 class="mb-6 mt-1 text-lg font-medium text-black-title">Favourites</h2>
+		<h2 class="mb-6 mt-1 text-lg font-normal text-black-title">Favourites</h2>
 	</header>
 	<section class="ml-[calc(50%-50vw)] w-screen shadow-csm sm:ml-0 sm:w-full sm:shadow-none">
 		{#await data.api.favourites}

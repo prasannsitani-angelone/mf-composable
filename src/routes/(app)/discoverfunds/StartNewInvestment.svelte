@@ -17,7 +17,7 @@
 		height="156"
 		alt="Start a new investment"
 	/>
-	<div class="mt-3 text-center text-base font-medium text-black-title">Start a new investment</div>
+	<div class="mt-3 text-center text-base font-normal text-black-title">Start a new investment</div>
 	<div class="mt-1 text-sm font-normal text-grey-body">Invest in a New Fund</div>
 	<Button
 		class="mt-8 w-full rounded py-4 text-sm uppercase !text-[#F9FAFF]"

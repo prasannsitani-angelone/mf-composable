@@ -23,7 +23,7 @@
 
 <Modal on:backdropclicked={onClose} isModalOpen>
 	<div class="w-full rounded-t-3xl bg-white sm:w-120 sm:rounded-lg">
-		<div class="ml-4 pb-4 pt-6 text-lg font-medium text-black-title">Select Bank Account</div>
+		<div class="ml-4 pb-4 pt-6 text-lg font-normal text-black-title">Select Bank Account</div>
 		<div class="flex flex-col pb-4">
 			{#each bankAccounts as bankAccount, index (bankAccount.accNO)}
 				<BankAccountTile

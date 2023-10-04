@@ -1218,7 +1218,7 @@
 			: 'bg-white'}"
 	>
 		<slot name="header">
-			<section class="hidden rounded-t-lg bg-white px-3 py-5 font-medium text-black-title md:block">
+			<section class="hidden rounded-t-lg bg-white px-3 py-5 font-normal text-black-title md:block">
 				{activeTab === 'SIP' ? 'Start SIP' : 'One Time Investment'}
 			</section>
 		</slot>
@@ -1247,12 +1247,12 @@
 						>
 							<img src={schemeData?.logoUrl} alt="schemelogo" />
 						</div>
-						<div class="mr-3 text-sm font-medium text-black-title">{schemeData.schemeName}</div>
+						<div class="mr-3 text-sm font-normal text-black-title">{schemeData.schemeName}</div>
 					</div>
 					{#if schemeData?.returns3yr > 0}
 						<div class="whitespace-nowrap">
-							<div class="text-xs font-medium text-grey-body">Returns p.a</div>
-							<div class="text-right text-base font-medium text-black-title">
+							<div class="text-xs font-normal text-grey-body">Returns p.a</div>
+							<div class="text-right text-base font-normal text-black-title">
 								{schemeData?.returns3yr?.toFixed(1)}%
 							</div>
 						</div>
@@ -1269,7 +1269,7 @@
 							height="24"
 						/>
 						<div class="text-xs text-black-title">
-							<span class="font-semibold"
+							<span class="font-medium"
 								>{addCommasToAmountString(schemeData?.noOfClientInvested)}</span
 							> people have invested in this fund
 						</div>
@@ -1308,7 +1308,7 @@
 					<!-- Amount input -->
 					<article class="flex flex-col items-center rounded border border-grey-line py-2.5">
 						<!-- svelte-ignore a11y-label-has-associated-control -->
-						<label class="mb-2 text-xs font-medium text-grey-body">ENTER AMOUNT</label>
+						<label class="mb-2 text-xs font-normal text-grey-body">ENTER AMOUNT</label>
 						<button
 							class="flex w-full cursor-text items-center justify-start"
 							on:click={handleAmountInputFocus}
@@ -1319,7 +1319,7 @@
 								maxlength="13"
 								placeholder="₹"
 								value={amountVal}
-								class="w-full bg-white text-center text-2xl font-medium leading-none text-black-title outline-none"
+								class="w-full bg-white text-center text-2xl font-normal leading-none text-black-title outline-none"
 								on:input={onInputChange}
 								on:focus={handleAmountInputBlur}
 							/>
@@ -1338,7 +1338,7 @@
 					{#if activeTab === 'SIP'}
 						<article class="mt-3 flex w-full flex-row items-center justify-between">
 							<!-- svelte-ignore a11y-label-has-associated-control -->
-							<label class="text-xs font-medium text-black-title">Monthly SIP Date</label>
+							<label class="text-xs font-normal text-black-title">Monthly SIP Date</label>
 							<section
 								class="flex items-center md:cursor-pointer {isSelectedInvestmentTypeAllowed()
 									? 'md:cursor-pointer'
@@ -1348,7 +1348,7 @@
 									// add logic
 								}}
 							>
-								<div class="text-xs font-medium text-black-title">
+								<div class="text-xs font-normal text-black-title">
 									{`${calendarDate}${dateSuperscript}`}
 								</div>
 								<section class="pl-1">
@@ -1365,13 +1365,13 @@
 							>
 								<div class="flex items-start">
 									<WMSIcon class="mr-1 mt-1" name="double-tick" width={15} height={9} />
-									<p class="w-[80%] text-xs font-medium text-black-title">
+									<p class="w-[80%] text-xs font-normal text-black-title">
 										To reduce the risk of market fluctuations, consider investing this amount as SIP
 									</p>
 								</div>
 								<Button
 									variant="transparent"
-									class="!h-fit !min-h-0 !px-0 !text-[11px] !font-medium"
+									class="!h-fit !min-h-0 !px-0 !text-[11px] !font-normal"
 									onClick={toggleShowLumpsumToSipModal}
 								>
 									Learn How
@@ -1383,7 +1383,7 @@
 					<!-- Checkbox for SIP payment now -->
 					{#if activeTab === 'SIP' && !paymentMandatory}
 						<article
-							class={`mt-4 flex w-fit items-center justify-start text-xs font-medium text-grey-body ${
+							class={`mt-4 flex w-fit items-center justify-start text-xs font-normal text-grey-body ${
 								isSelectedInvestmentTypeAllowed() ? 'md:cursor-pointer' : 'md:cursor-not-allowed'
 							}`}
 							on:click={toggleFirstSipPayment}
@@ -1560,7 +1560,7 @@
 		asModal={isMobile ? true : false}
 	>
 		<div slot="schemeTile" class="m-4 mb-0 rounded-lg border border-grey-line bg-white p-3">
-			<div class="mb-2 flex flex-row items-center rounded-full text-xs font-medium text-grey-body">
+			<div class="mb-2 flex flex-row items-center rounded-full text-xs font-normal text-grey-body">
 				<span>{activeTab === 'SIP' ? 'SIP' : 'ONE TIME INVESTMENT'}</span>
 				{#if activeTab === 'SIP'}
 					<div class="mx-1 h-1 w-1 min-w-[4px] rounded-full bg-grey-body" />
@@ -1574,11 +1574,11 @@
 					<div class="mr-2.5 flex h-8 w-8 min-w-[32px] items-center justify-center">
 						<img src={schemeData?.logoUrl} alt="schemelogo" />
 					</div>
-					<div class="trucateTo2Line mr-2.5 text-sm font-medium text-black-title">
+					<div class="trucateTo2Line mr-2.5 text-sm font-normal text-black-title">
 						{schemeData?.schemeName}
 					</div>
 				</div>
-				<div class="whitespace-nowrap text-sm font-semibold text-black-title">
+				<div class="whitespace-nowrap text-sm font-medium text-black-title">
 					₹{addCommasToAmountString(amount)}
 				</div>
 			</div>

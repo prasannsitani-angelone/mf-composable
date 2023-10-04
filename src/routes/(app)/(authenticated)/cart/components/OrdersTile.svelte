@@ -9,7 +9,7 @@
 </script>
 
 <div class="flex flex-col rounded border border-grey-line bg-white px-4 py-3 shadow-csm sm:py-6">
-	<div class="font-sm mb-2 flex flex-row items-center font-medium text-black-title">
+	<div class="font-sm mb-2 flex flex-row items-center font-normal text-black-title">
 		<div class="flex max-w-[56px] flex-row">
 			<div
 				class="flex h-9 w-9 min-w-[36px] flex-row items-center justify-center rounded-full border border-grey-line bg-white shadow-csm"
@@ -27,8 +27,8 @@
 		<div class="ml-2">{items} {items > 1 ? 'Orders' : 'Order'} Placed</div>
 	</div>
 	<div class="flex w-full flex-col bg-grey px-4 py-2 sm:px-6 sm:py-4">
-		<div class="mb-1 text-sm font-medium text-grey-body">Amount</div>
-		<div class="text-base font-medium text-black-title">
+		<div class="mb-1 text-sm font-normal text-grey-body">Amount</div>
+		<div class="text-base font-normal text-black-title">
 			₹{addCommasToAmountString(totalAmount?.toString())}
 		</div>
 	</div>

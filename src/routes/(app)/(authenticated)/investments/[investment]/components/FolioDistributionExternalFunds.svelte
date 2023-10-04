@@ -18,12 +18,12 @@
 					Folio Number
 				</div>
 				<div
-					class=" col-span-1 col-start-2 row-span-1 row-start-1 text-right text-sm font-medium text-black-title"
+					class=" col-span-1 col-start-2 row-span-1 row-start-1 text-right text-sm font-normal text-black-title"
 				>
 					{eachItem.distributor}
 				</div>
 				<div
-					class=" col-span-1 col-start-2 row-span-1 row-start-2 text-right text-xs font-medium text-grey-body"
+					class=" col-span-1 col-start-2 row-span-1 row-start-2 text-right text-xs font-normal text-grey-body"
 				>
 					{eachItem.folio}
 				</div>

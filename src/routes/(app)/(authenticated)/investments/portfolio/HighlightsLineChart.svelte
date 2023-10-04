@@ -68,7 +68,7 @@
 			>
 				{#each selectionTags as tag (tag.months)}
 					<Button variant="transparent" class="cursor-pointer !p-0" onClick={() => changeTag(tag)}>
-						<div class="mx-1 flex flex-col items-center justify-between font-medium lg:mb-4">
+						<div class="mx-1 flex flex-col items-center justify-between font-normal lg:mb-4">
 							<span
 								class={`pb-4 text-center text-sm md:pb-0 ${
 									selectedTag === tag.label

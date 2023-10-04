@@ -8,8 +8,8 @@
 	<PortfolioCard class="!px-0 !pb-0 !pt-0 {$$props.class}" variant="success">
 		<section class="flex items-center justify-between lg:mx-0">
 			<article class="flex w-7/12 flex-col items-start py-3 pl-4">
-				<div class="text-base font-semibold md:text-sm">Optimise Your Portfolio</div>
-				<div class="mt-1 text-xs font-medium">
+				<div class="text-base font-medium md:text-sm">Optimise Your Portfolio</div>
+				<div class="mt-1 text-xs font-normal">
 					Take your portfolio to the next level by investing in this fund
 				</div>
 				<Button size={BtnSize.SM} class="mt-3 !bg-white !text-1xs !text-green-amount" on:click

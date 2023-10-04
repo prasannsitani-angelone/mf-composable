@@ -31,7 +31,7 @@
 					decoding="async"
 				/>
 				<span
-					class={`block text-[10px] font-semibold uppercase ${
+					class={`block text-[10px] font-medium uppercase ${
 						isActive ? 'text-blue-primary' : 'text-black-bolder'
 					}`}>{nav.label} {nav.label === 'Cart' ? '(' + $cartStore.count + ')' : ''}</span
 				>

@@ -20,7 +20,7 @@
 		tabindex={0}
 		on:click={onPaymentMethodChange}
 	>
-		<div class="flex flex-row items-center text-xs font-medium text-black-title">
+		<div class="flex flex-row items-center text-xs font-normal text-black-title">
 			<span class="break-all">
 				{selectedMode === 'UPI'
 					? upiId?.length

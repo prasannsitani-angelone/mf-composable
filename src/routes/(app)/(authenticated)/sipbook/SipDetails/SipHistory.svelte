@@ -95,7 +95,7 @@
 		data={SipHistoryData}
 		titleFontSize="text-base"
 		{disableCollapse}
-		class="mt-2 rounded-lg bg-white text-sm font-medium text-black-title shadow-csm {$$props.class}"
+		class="mt-2 rounded-lg bg-white text-sm font-normal text-black-title shadow-csm {$$props.class}"
 		on:cardToggled={handleSipHistoryToggle}
 	>
 		<svelte:fragment slot="accordionHeader">
@@ -116,13 +116,13 @@
 							/>
 						{/if}
 					</article>
-					<div class="mb-5 text-xs font-medium text-grey-body">
+					<div class="mb-5 text-xs font-normal text-grey-body">
 						SIP ID: {Math?.abs(sipId)}
 					</div>
 				</slot>
 
 				<article>
-					<div class="flex items-center font-medium">
+					<div class="flex items-center font-normal">
 						<span
 							class="mr-1 flex h-5 w-5 items-center justify-center rounded-full bg-green-buy bg-opacity-10 text-xs text-green-buy"
 							class:px-1.5={successfulTxns}

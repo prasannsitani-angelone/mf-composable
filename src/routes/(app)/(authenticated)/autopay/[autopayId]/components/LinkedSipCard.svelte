@@ -15,11 +15,11 @@
 				</div>
 
 				<article class="ml-2 flex flex-col items-start">
-					<div class="w-52 text-sm font-medium">
+					<div class="w-52 text-sm font-normal">
 						{name}
 					</div>
 					<slot name="subtextSlot">
-						<div class="mt-1 text-xs font-medium text-grey-body">
+						<div class="mt-1 text-xs font-normal text-grey-body">
 							{subtext}
 						</div>
 					</slot>

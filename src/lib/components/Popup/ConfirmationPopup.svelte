@@ -30,7 +30,7 @@
 		<section class="px-4 pb-6 pt-0 text-sm md:px-8 md:pt-6">
 			<slot name="body">
 				<p class="font-normal text-grey-body">
-					Cancelling will stop <span class="font-semibold">ALL</span> your upcoming investments in this
+					Cancelling will stop <span class="font-medium">ALL</span> your upcoming investments in this
 					SIP. Proceed to cancel?
 				</p>
 			</slot>
@@ -38,8 +38,8 @@
 
 		<slot name="footer">
 			<section class="px-4 pb-6 pt-0 text-sm md:px-8 md:pt-6">
-				<article class="flex items-center justify-end text-sm font-semibold text-blue-primary">
-					<Button variant="transparent" size="sm" class="mr-2 p-2 font-medium" onClick={closeModal}
+				<article class="flex items-center justify-end text-sm font-medium text-blue-primary">
+					<Button variant="transparent" size="sm" class="mr-2 p-2 font-normal" onClick={closeModal}
 						>NO</Button
 					>
 

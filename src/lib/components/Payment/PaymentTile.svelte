@@ -80,7 +80,7 @@
 		>
 			<slot name="icon" />
 		</div>
-		<div class="text-sm font-medium text-black-title">
+		<div class="text-sm font-normal text-black-title">
 			<slot name="content" />
 		</div>
 	</div>

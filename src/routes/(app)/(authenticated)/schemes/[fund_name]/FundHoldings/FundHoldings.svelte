@@ -96,7 +96,7 @@
 				<div class="flex h-12 w-12 items-center justify-center rounded-full bg-grey">
 					<FundHoldingIcon />
 				</div>
-				<h2 class="ml-3 flex items-center text-left font-medium text-black-title">
+				<h2 class="ml-3 flex items-center text-left font-normal text-black-title">
 					<span> Fund Holdings</span>
 				</h2>
 			</section>

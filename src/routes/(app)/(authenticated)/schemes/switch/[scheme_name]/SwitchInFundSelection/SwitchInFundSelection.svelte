@@ -13,7 +13,7 @@
 	</div>
 
 	<div class="flex items-center justify-center">
-		<div class="text-medium flex items-center font-medium text-black-title">
+		<div class="text-medium flex items-center font-normal text-black-title">
 			<p>Switch In Fund</p>
 			<WMSIcon
 				height={16}

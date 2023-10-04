@@ -20,8 +20,8 @@
 <article>
 	<section class="flex items-center justify-between">
 		<div class="flex items-start">
-			<span class="mt-1.5 text-xs font-medium text-black-bolder">₹</span>
-			<span class="ml-0.5 text-3xl font-medium text-black-key">
+			<span class="mt-1.5 text-xs font-normal text-black-bolder">₹</span>
+			<span class="ml-0.5 text-3xl font-normal text-black-key">
 				{addCommasToAmountString(amount)}
 			</span>
 		</div>

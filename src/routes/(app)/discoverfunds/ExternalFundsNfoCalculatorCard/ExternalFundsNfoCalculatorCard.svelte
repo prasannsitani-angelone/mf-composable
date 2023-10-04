@@ -33,7 +33,7 @@
 			>
 				<WMSIcon name="import-external-funds" />
 			</div>
-			<div class="text-title-black mt-2 text-sm font-medium lg:text-base">External Funds</div>
+			<div class="text-title-black mt-2 text-sm font-normal lg:text-base">External Funds</div>
 		</div>
 	</Link>
 	<Link to="/nfo" on:linkClicked={() => homepageNfoClickAnalytics(openNfo)}>
@@ -47,7 +47,7 @@
 
 				<WMSIcon name="announcement" />
 			</div>
-			<div class="text-title-black mt-2 text-sm font-medium lg:text-base">NFO</div>
+			<div class="text-title-black mt-2 text-sm font-normal lg:text-base">NFO</div>
 		</div>
 	</Link>
 	<Link to="/sipCalculator" on:linkClicked={homepageSipCalculatorClickAnalytics}>
@@ -55,7 +55,7 @@
 			<div class="flex h-9 w-9 items-center justify-center rounded-full bg-[#C9F3E1] p-[6px]">
 				<WMSIcon name="fund-calculator" />
 			</div>
-			<div class="text-title-black mt-2 text-sm font-medium lg:text-base">SIP Calculator</div>
+			<div class="text-title-black mt-2 text-sm font-normal lg:text-base">SIP Calculator</div>
 		</div>
 	</Link>
 </article>

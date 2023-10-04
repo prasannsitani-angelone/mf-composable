@@ -120,7 +120,7 @@
 		<div
 			class=" w-screen justify-between rounded-b-none rounded-t-2xl bg-white p-4 text-left sm:!w-[460px] sm:rounded-lg sm:px-20 sm:py-8"
 		>
-			<div class=" pb-6 pt-2 text-lg font-medium text-black-title">Why this bank?</div>
+			<div class=" pb-6 pt-2 text-lg font-normal text-black-title">Why this bank?</div>
 
 			<div class=" text-sm font-normal text-grey-body">
 				Your autopay will be created in your selected bank account. <br />Your money will be debited

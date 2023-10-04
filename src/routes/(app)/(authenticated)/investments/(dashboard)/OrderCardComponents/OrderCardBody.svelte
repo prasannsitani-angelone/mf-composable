@@ -89,11 +89,11 @@
 			schemeName: item?.schemeName || '-'
 		}}
 		itemStyle="items-start"
-		titleStyle="font-medium"
-		categoryStyle="font-medium"
+		titleStyle="font-normal"
+		categoryStyle="font-normal"
 	>
 		<svelte.fragment slot="returns">
-			<section class="flex flex-col items-end font-medium">
+			<section class="flex flex-col items-end font-normal">
 				<article
 					class="rounded-sm bg-opacity-20 px-1 text-[10px]"
 					class:bg-green-buy={item?.transactionType === 'PURCHASE'}

@@ -62,7 +62,7 @@
 					-->
 				</div>
 			</slot>
-			<div class="text-sm font-medium text-black-title lg:text-base {titleStyle || ''}">
+			<div class="text-sm font-normal text-black-title lg:text-base {titleStyle || ''}">
 				{data?.schemeName || schemeName || '-'}
 			</div>
 			<slot name="ratingSection">

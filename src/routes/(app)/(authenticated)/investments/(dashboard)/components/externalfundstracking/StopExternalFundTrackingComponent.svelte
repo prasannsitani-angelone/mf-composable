@@ -11,7 +11,7 @@
 </script>
 
 <div class="flex flex-col items-center {$$props.class} ">
-	<p class="text-xs font-medium text-grey-body">No longer want to track?</p>
+	<p class="text-xs font-normal text-grey-body">No longer want to track?</p>
 
 	<Button variant="transparent" size="btn-sm" class="pt-0" onClick={onTrackingClicked}>
 		STOP TRACKING

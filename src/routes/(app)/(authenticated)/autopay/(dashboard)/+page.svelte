@@ -109,7 +109,7 @@
 								{#if !mandate?.inProgress}
 									<section class="flex items-center">
 										<AutopayEnabledIcon class="mr-1" />
-										<div class="text-xs font-medium text-grey-body">Autopay Enabled</div>
+										<div class="text-xs font-normal text-grey-body">Autopay Enabled</div>
 									</section>
 								{:else}
 									<div class="flex items-center bg-yellow-primary/10 p-1">
@@ -144,7 +144,7 @@
 						<svelte:fragment slot="autopayStatusSlot">
 							<Button
 								variant="transparent"
-								class={'!h-fit !min-h-0 !px-0 text-xs font-semibold'}
+								class={'!h-fit !min-h-0 !px-0 text-xs font-medium'}
 								ariaLabel="SetupAutopay"
 								onClick={() => handleSetupAutopayClick(bank?.accNO)}
 							>

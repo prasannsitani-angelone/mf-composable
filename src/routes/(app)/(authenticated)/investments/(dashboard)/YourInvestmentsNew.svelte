@@ -163,14 +163,14 @@
 									imageClass="h-9 w-9"
 								/>
 								<h3
-									class="this-scheme-name line-clamp-2 whitespace-normal pr-3 text-sm font-medium text-black-title sm:pr-8 sm:text-base"
+									class="this-scheme-name line-clamp-2 whitespace-normal pr-3 text-sm font-normal text-black-title sm:pr-8 sm:text-base"
 								>
 									{schemes?.schemeName}
 								</h3>
 							</div>
 							<div class="flex w-[25%] flex-col text-right sm:w-[18%] sm:text-left">
-								<span class="text-xs font-medium text-grey-body sm:text-sm">Current</span><span
-									class="scheme-current-value text-sm font-semibold text-black-title"
+								<span class="text-xs font-normal text-grey-body sm:text-sm">Current</span><span
+									class="scheme-current-value text-sm font-medium text-black-title"
 									>₹{schemes?.currentValue?.toString()
 										? addCommasToAmountString(schemes?.currentValue?.toFixed(2)?.toString())
 										: '-'}</span
@@ -181,10 +181,10 @@
 							class="flex w-full justify-between border-t max-sm:pt-3 sm:w-[29%] sm:border-none sm:text-left"
 						>
 							<div class="flex flex-col max-sm:justify-center sm:items-start sm:pr-2">
-								<div class="mr-1 text-xs font-medium text-grey-body sm:hidden sm:text-sm">
+								<div class="mr-1 text-xs font-normal text-grey-body sm:hidden sm:text-sm">
 									Invested Amount
 								</div>
-								<div class="mr-1 text-xs font-medium text-grey-body max-sm:hidden sm:text-sm">
+								<div class="mr-1 text-xs font-normal text-grey-body max-sm:hidden sm:text-sm">
 									Invested
 								</div>
 								<div>
@@ -193,7 +193,7 @@
 									{:else}
 										<div
 											data-testid={'invested-' + schemes?.isin + index}
-											class="scheme-invested-value text-xs font-medium text-black-key max-sm:text-sm sm:text-sm sm:font-semibold"
+											class="scheme-invested-value text-xs font-normal text-black-key max-sm:text-sm sm:text-sm sm:font-medium"
 										>
 											₹{schemes?.investedValue?.toString()
 												? addCommasToAmountString(schemes?.investedValue?.toFixed(2)?.toString())
@@ -205,9 +205,9 @@
 
 							<div class=" flex flex-col items-end max-sm:justify-center sm:text-left">
 								{#if activeFilter === 'absolute'}
-									<div class="text-xs font-medium text-grey-body sm:text-sm">Returns</div>
+									<div class="text-xs font-normal text-grey-body sm:text-sm">Returns</div>
 								{:else}
-									<div class="text-xs font-medium text-grey-body sm:text-sm">XIRR</div>
+									<div class="text-xs font-normal text-grey-body sm:text-sm">XIRR</div>
 								{/if}
 								<div>
 									{#if isPartialImport(schemes)}
@@ -219,7 +219,7 @@
 											{#if activeFilter === 'absolute'}
 												<span
 													data-testid={'returnsAmount-' + schemes?.isin + index}
-													class="scheme-returns-value text-sm font-medium text-black-key sm:font-semibold"
+													class="scheme-returns-value text-sm font-normal text-black-key sm:font-medium"
 												>
 													{schemes?.returnsValue?.toString() && schemes?.returnsValue < 0
 														? '- '
@@ -232,7 +232,7 @@
 
 												<span
 													data-testid={'returnsPercentage-' + schemes?.isin + index}
-													class="scheme-percentage-returns ml-1 font-medium sm:text-sm sm:font-semibold {schemes?.returnsAbsolutePer <
+													class="scheme-percentage-returns ml-1 font-normal sm:text-sm sm:font-medium {schemes?.returnsAbsolutePer <
 													0
 														? 'text-red-sell'
 														: 'text-green-buy'}"
@@ -246,7 +246,7 @@
 											{:else}
 												<span
 													data-testid={'xirr-' + schemes?.isin + index}
-													class="scheme-xirr-returns ml-1 font-medium sm:text-sm sm:font-semibold {schemes?.xirrPer <
+													class="scheme-xirr-returns ml-1 font-normal sm:text-sm sm:font-medium {schemes?.xirrPer <
 													0
 														? 'text-red-sell'
 														: schemes?.xirrPer > 0
@@ -305,7 +305,7 @@
 		>
 			<div
 				data-testid="investmentXirrModal"
-				class=" pb-6 text-lg font-medium text-black-title sm:pb-3 sm:text-xl"
+				class=" pb-6 text-lg font-normal text-black-title sm:pb-3 sm:text-xl"
 			>
 				What is XIRR?
 			</div>

@@ -20,7 +20,7 @@
 			>
 				₹
 			</div>
-			<h3 class="mb-1 text-xs font-medium text-grey-body">Asset Under Management</h3>
+			<h3 class="mb-1 text-xs font-normal text-grey-body">Asset Under Management</h3>
 			<h4><AmountText amount={schemeDetails?.aum} /> <span>Cr.</span></h4>
 		</article>
 	</section>
@@ -34,7 +34,7 @@
 			>
 				%
 			</div>
-			<h3 class="mb-1 text-xs font-medium text-grey-body">Expense Ratio</h3>
+			<h3 class="mb-1 text-xs font-normal text-grey-body">Expense Ratio</h3>
 			<h4>
 				<span>{schemeDetails?.expenseRatio}%</span>
 				<span> (inclusive of GST)</span>
@@ -47,7 +47,7 @@
 			class="flex-grow basis-0 rounded border-b border-grey-line bg-white px-3 py-4 lg:border lg:bg-grey"
 		>
 			<ExitLoadIcon />
-			<h3 class="mb-1 mt-3 text-xs font-medium text-grey-body">Exit Load</h3>
+			<h3 class="mb-1 mt-3 text-xs font-normal text-grey-body">Exit Load</h3>
 			<h4>{schemeDetails?.exitLoadValue}</h4>
 		</article>
 	</section>

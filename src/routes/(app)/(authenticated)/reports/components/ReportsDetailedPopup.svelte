@@ -25,7 +25,7 @@
 		class="w-screen items-stretch rounded-b-none rounded-t-2xl bg-white max-sm:!p-0 sm:rounded-lg"
 	>
 		<div class="flex items-center justify-between px-4 pb-4 pt-6">
-			<span class="text-lg font-medium text-black-title">
+			<span class="text-lg font-normal text-black-title">
 				{heading}
 			</span>
 		</div>

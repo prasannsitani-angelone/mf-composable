@@ -114,17 +114,17 @@
 <article
 	class="flex w-full flex-col rounded-b-none rounded-t-2xl bg-white px-5 pb-3 pt-8 text-black-key shadow-clg md:rounded-lg {$$props?.class}"
 >
-	<div class="text-center text-2xl font-medium">You are missing out on potential returns!</div>
+	<div class="text-center text-2xl font-normal">You are missing out on potential returns!</div>
 
 	<section class="flex h-fit max-h-96 flex-col overflow-auto">
 		<div class="my-4 rounded text-center text-sm font-normal">
-			Earn <span class="font-medium"
+			Earn <span class="font-normal"
 				>up to ₹{addCommasToAmountString(fiveYearMaturityAmount?.toString())} more</span
 			> in returns over 5 years
 		</div>
 
 		<article class="flex items-end justify-center">
-			<section class="flex items-end justify-center text-xs font-medium">
+			<section class="flex items-end justify-center text-xs font-normal">
 				{#each graphData as bar, index (index)}
 					<article class="flex flex-col items-center justify-center">
 						<div class="mb-2">
@@ -176,7 +176,7 @@
 		{#if exitLoadDetails?.length}
 			<!-- if condition is temporary (to be removed later in phase 2) -->
 			<section class="my-4 rounded bg-grey p-2">
-				<div class="text-xs font-medium">Additional Charges on Withdrawal (if applicable)</div>
+				<div class="text-xs font-normal">Additional Charges on Withdrawal (if applicable)</div>
 				{#each additionalChargesData as point, index (index)}
 					<article class="mt-3 text-[11px]">
 						<section class="flex items-center">

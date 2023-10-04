@@ -51,7 +51,7 @@
 	/>
 	<Breadcrumbs items={breadCrumbs} class="mb-4 hidden items-center justify-start md:flex" />
 
-	<h1 class="hidden pb-6 text-lg font-medium text-black-title sm:mt-3 md:block">
+	<h1 class="hidden pb-6 text-lg font-normal text-black-title sm:mt-3 md:block">
 		{modalList?.name}
 	</h1>
 

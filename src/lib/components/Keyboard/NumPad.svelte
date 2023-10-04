@@ -75,7 +75,7 @@
 			<button
 				type="button"
 				on:click={() => handleKeyClick(key.value)}
-				class={`my-[1px] flex w-[30%] touch-manipulation justify-center rounded py-2 text-xl font-medium text-black-key ${
+				class={`my-[1px] flex w-[30%] touch-manipulation justify-center rounded py-2 text-xl font-normal text-black-key ${
 					typeof key.value === 'number' ? 'active:bg-gray-100' : ''
 				}`}
 			>

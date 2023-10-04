@@ -35,10 +35,10 @@
 			{#each quickInputs as pill, index (pill)}
 				<Button
 					variant="outlined"
-					class="!h-fit !min-h-0 px-3 py-1 {index > 0 ? 'ml-2' : ''} text-xs font-medium"
+					class="!h-fit !min-h-0 px-3 py-1 {index > 0 ? 'ml-2' : ''} text-xs font-normal"
 					onClick={() => handleQuickInputClick(pill)}
 				>
-					<AmountText class="font-medium" amount={pill} />
+					<AmountText class="font-normal" amount={pill} />
 				</Button>
 			{/each}
 		</div>

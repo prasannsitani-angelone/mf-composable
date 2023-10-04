@@ -16,7 +16,7 @@
 			<RatingIcon />
 		</div>
 
-		<h3 class="ml-4 text-lg font-medium text-black-title">Ratings</h3>
+		<h3 class="ml-4 text-lg font-normal text-black-title">Ratings</h3>
 	</header>
 	<article class="mt-5 flex flex-col justify-center gap-6 lg:flex-row">
 		<section class="w-full border-y border-grey-line px-6 py-8 lg:border">
@@ -53,7 +53,7 @@
 		</section>
 		<section class="w-full">
 			<h4
-				class="rounded px-4 py-2 text-center text-xs font-medium text-grey-body lg:bg-grey lg:text-left"
+				class="rounded px-4 py-2 text-center text-xs font-normal text-grey-body lg:bg-grey lg:text-left"
 			>
 				Ratings By Other Agencies
 			</h4>
@@ -67,7 +67,7 @@
 						height="11"
 					/>
 				</div>
-				<h5 class="ml-4 text-sm font-medium text-black-title">Value Research</h5>
+				<h5 class="ml-4 text-sm font-normal text-black-title">Value Research</h5>
 				<h6 class="m-auto mr-1 flex w-11 items-center justify-end rounded-sm">
 					<ChipArqRating arqRating={schemeDetails?.valueResearchRating} />
 				</h6>
@@ -83,7 +83,7 @@
 						height="11"
 					/>
 				</div>
-				<h5 class="ml-4 text-sm font-medium text-black-title">Crisil</h5>
+				<h5 class="ml-4 text-sm font-normal text-black-title">Crisil</h5>
 				<h6 class="m-auto mr-1 flex w-11 items-center justify-end rounded-sm">
 					<ChipArqRating arqRating={schemeDetails?.crisilRating} />
 				</h6>
@@ -99,7 +99,7 @@
 						height="11"
 					/>
 				</div>
-				<h5 class="ml-4 text-sm font-medium text-black-title">Morning Star</h5>
+				<h5 class="ml-4 text-sm font-normal text-black-title">Morning Star</h5>
 				<h6 class="m-auto mr-1 flex w-11 items-center justify-end rounded-sm">
 					<ChipArqRating arqRating={schemeDetails?.morningstarRating} />
 				</h6>

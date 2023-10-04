@@ -77,7 +77,7 @@
 		size="xs"
 		onClick={toggleDropdown}
 	>
-		<span class="text-1xs font-medium leading-3 text-black-title"
+		<span class="text-1xs font-normal leading-3 text-black-title"
 			>{activeSelection?.label || '-'}</span
 		><span><WMSIcon width={12} height={6} name="arrow-expand" /></span>
 	</Button>
@@ -91,7 +91,7 @@
 				<Button
 					variant="transparent"
 					size="xs"
-					class=" !w-full justify-start !rounded-none !border-b !border-inherit !text-xs font-medium !text-black-title {option.value ===
+					class=" !w-full justify-start !rounded-none !border-b !border-inherit !text-xs font-normal !text-black-title {option.value ===
 					activeSelection.value
 						? '!bg-purple-background !font-normal !text-blue-primary'
 						: ''}"

@@ -14,7 +14,7 @@
             text-lg md:px-6 md:py-5"
 >
 	<section class="hidden md:block">
-		<h4 class="text-left font-medium">
+		<h4 class="text-left font-normal">
 			<span class="text-lg text-black-title">Folio Summary</span>
 		</h4>
 	</section>
@@ -24,8 +24,8 @@
 		>
 			<UnitsAllocatedIcon class="mr-2" />
 			<div class="flex flex-col">
-				<span class="text-xs font-medium text-black-title/70"> Units </span>
-				<span class="text-sm font-medium text-black-title">
+				<span class="text-xs font-normal text-black-title/70"> Units </span>
+				<span class="text-sm font-normal text-black-title">
 					{data?.totalUnitsAllocated?.toFixed(3)}
 				</span>
 			</div>
@@ -35,8 +35,8 @@
 		>
 			<CurrentNavIcon class="mr-2" />
 			<div class="flex flex-col">
-				<span class="text-xs font-medium text-black-title/70"> Current NAV </span>
-				<span class="text-sm font-medium text-black-title">
+				<span class="text-xs font-normal text-black-title/70"> Current NAV </span>
+				<span class="text-sm font-normal text-black-title">
 					₹{addCommasToAmountString(data?.currentNav?.toFixed(2))}
 				</span>
 			</div>
@@ -46,8 +46,8 @@
 		>
 			<AverageNavIcon class="mr-2" />
 			<div class="flex flex-col">
-				<span class="text-xs font-medium text-black-title/70"> Your Average NAV </span>
-				<span class="text-sm font-medium text-black-title">
+				<span class="text-xs font-normal text-black-title/70"> Your Average NAV </span>
+				<span class="text-sm font-normal text-black-title">
 					₹{addCommasToAmountString(data?.averageNav?.toFixed(2))}
 				</span>
 			</div>

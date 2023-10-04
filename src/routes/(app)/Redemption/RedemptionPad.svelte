@@ -420,9 +420,9 @@
 		logoUrl={holdingDetails?.logoUrl}
 		categoryName={holdingDetails?.schemePlan}
 		subcategoryName={holdingDetails?.sipEnabled ? 'SIP' : 'ONE-TIME'}
-		titleStyle="ml-1 text-sm lg:text-lg font-medium text-black-title"
-		categoryStyle="mx-1 font-medium"
-		subCategoryStyle="ml-1 font-medium"
+		titleStyle="ml-1 text-sm lg:text-lg font-normal text-black-title"
+		categoryStyle="mx-1 font-normal"
+		subCategoryStyle="ml-1 font-normal"
 		on:click={handleSchemeCardClick}
 	>
 		<svelte:fragment slot="schemeInfo">
@@ -448,7 +448,7 @@
 					: 'rounded-lg'}"
 			>
 				{#if folioList?.length > 1}
-					<div class="flex items-center justify-start text-sm font-medium text-grey-body">
+					<div class="flex items-center justify-start text-sm font-normal text-grey-body">
 						<span class="mr-1 text-sm text-grey-body"> Current Value </span>
 						<article
 							class="rounded-sm px-1 py-0.5 text-[10px] text-black-title"
@@ -461,7 +461,7 @@
 					<div class="text-sm text-grey-body">Current Value</div>
 				{/if}
 
-				<div class="flex items-center justify-center text-base font-medium text-black-title">
+				<div class="flex items-center justify-center text-base font-normal text-black-title">
 					<span class="text-sm md:text-base">
 						₹{addCommasToAmountString(holdingDetails?.currentValue?.toFixed(2))}
 					</span>
@@ -477,7 +477,7 @@
 
 			{#if folioList?.length > 1}
 				<article
-					class="mx-0 rounded-b-lg border-t-0 bg-white p-3 font-medium shadow-csm md:mx-3 md:border md:shadow-none"
+					class="mx-0 rounded-b-lg border-t-0 bg-white p-3 font-normal shadow-csm md:mx-3 md:border md:shadow-none"
 				>
 					<section class="mb-4 flex items-center justify-between">
 						<div class="text-sm text-grey-body">Selected Folio</div>
@@ -507,7 +507,7 @@
 			>
 				{#if redemableAmount !== redemableAmount + blockedAmount}
 					<!-- Withdrawable amount section -->
-					<section class="mb-2.5 flex items-center justify-between font-medium">
+					<section class="mb-2.5 flex items-center justify-between font-normal">
 						<article class="flex items-center justify-start text-black-title">
 							<div class="text-xs text-grey-body">Withdrawable Amount</div>
 							<div>
@@ -583,8 +583,8 @@
 
 				{#if isRedeemableAmountLessThanWithdrawableAmount}
 					<article class="flex justify-center px-5 pb-4 pt-1 text-center">
-						<p class="text-xs font-medium text-grey-body">
-							Minimum Withdrawable Amount is <span class="font-semibold text-black-title"
+						<p class="text-xs font-normal text-grey-body">
+							Minimum Withdrawable Amount is <span class="font-medium text-black-title"
 								>₹{minimumRedeemAmount?.toFixed(2)}</span
 							>. Please withdraw full amount
 						</p>
@@ -592,7 +592,7 @@
 				{/if}
 
 				<article
-					class="flex w-fit items-center justify-start pt-1 text-xs font-medium text-grey-body {isRedeemableAmountLessThanWithdrawableAmount
+					class="flex w-fit items-center justify-start pt-1 text-xs font-normal text-grey-body {isRedeemableAmountLessThanWithdrawableAmount
 						? 'cursor-not-allowed'
 						: 'cursor-pointer'}"
 					on:click={() => handleFullAmountClick()}
@@ -733,7 +733,7 @@
 			on:crossClicked={toggleWithdrawableAmountInfoModal}
 		>
 			<svelte:fragment slot="headingDetails">
-				<div class="flex flex-col font-medium">
+				<div class="flex flex-col font-normal">
 					<span class="text-lg text-black-title md:text-xl"> Withdrawable Amount </span>
 					<span class="text-sm text-grey-body">
 						Folio No: #{selectedFolio?.folioNumber}
@@ -747,8 +747,8 @@
 							<WMSIcon width={40} height={40} name="unlock-green" />
 						</span>
 						<div class="flex flex-col items-start justify-center">
-							<span class="text-xs font-medium text-grey-body">Available To Withdraw</span>
-							<span class="text-base font-medium text-black-title">
+							<span class="text-xs font-normal text-grey-body">Available To Withdraw</span>
+							<span class="text-base font-normal text-black-title">
 								₹{addCommasToAmountString(selectedFolio?.redemableAmount?.toFixed(2))}
 								<span class="text-sm font-normal text-grey-body">
 									({selectedFolio?.redemableUnits?.toFixed(3)} units)
@@ -762,8 +762,8 @@
 							<WMSIcon width={40} height={40} name="lock-red" />
 						</span>
 						<div class="flex flex-col items-start justify-center">
-							<span class="text-xs font-medium text-grey-body">Blocked</span>
-							<span class="text-base font-medium text-black-title">
+							<span class="text-xs font-normal text-grey-body">Blocked</span>
+							<span class="text-base font-normal text-black-title">
 								₹{addCommasToAmountString(selectedFolio?.blockedAmount?.toFixed(2))}
 								<span class="text-sm font-normal text-grey-body">
 									({selectedFolio?.blockedunits?.toFixed(3)} units)
@@ -779,7 +779,7 @@
 							<WMSIcon width={25} height={25} name="not-allowed-icon" />
 						</span>
 						<div class="text-xs font-normal">
-							Withdrawal of <span class="font-medium text-black-title"
+							Withdrawal of <span class="font-normal text-black-title"
 								>{selectedFolio?.blockedunits?.toFixed(3)} units</span
 							>
 							is blocked. This could be due to the following reasons (one or more):

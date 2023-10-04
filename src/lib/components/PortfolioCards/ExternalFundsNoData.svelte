@@ -25,14 +25,14 @@
 	<section class="flex items-center justify-between lg:mx-0">
 		<article class="flex flex-col items-start">
 			<div class="text-xs md:text-sm">Total Invested</div>
-			<div class="text-[18px] font-medium md:text-xl">
+			<div class="text-[18px] font-normal md:text-xl">
 				{totalInvested}
 			</div>
 		</article>
 
 		<article class="flex flex-col items-end">
 			<div class="text-xs md:text-sm">Current Value</div>
-			<div class="text-[18px] font-medium md:text-xl">
+			<div class="text-[18px] font-normal md:text-xl">
 				{currentValue}
 			</div>
 		</article>

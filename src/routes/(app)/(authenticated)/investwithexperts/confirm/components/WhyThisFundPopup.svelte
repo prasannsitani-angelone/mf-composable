@@ -5,7 +5,7 @@
 
 <Modal isModalOpen={true} on:backdropclicked={hide}>
 	<div class="flex flex-col rounded-t-2xl bg-white">
-		<div class="px-4 py-6 text-lg font-medium text-black-title">Why these funds?</div>
+		<div class="px-4 py-6 text-lg font-normal text-black-title">Why these funds?</div>
 		<div class="p-4 pt-0 text-sm text-grey-body">
 			<div class="mb-5">
 				This portfolio includes a mix of large cap, mid cap, small cap, and index funds, offering

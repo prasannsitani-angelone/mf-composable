@@ -118,9 +118,9 @@
 								on:click={toggleShowCalendar}
 							>
 								{#if date}
-									<span class="test font-medium">{displayDate}</span>
+									<span class="test font-normal">{displayDate}</span>
 								{:else}
-									<span class="text-base font-medium text-grey-disabled">DD/MM/YYYY</span>
+									<span class="text-base font-normal text-grey-disabled">DD/MM/YYYY</span>
 								{/if}
 								<CalendarIcon class="mb-1 ml-auto" />
 							</div>
@@ -156,9 +156,9 @@
 						on:click={toggleShowCalendar}
 					>
 						{#if date}
-							<span class="test text-base font-medium">{displayDate}</span>
+							<span class="test text-base font-normal">{displayDate}</span>
 						{:else}
-							<span class="text-base font-medium text-grey-disabled">DD/MM/YYYY</span>
+							<span class="text-base font-normal text-grey-disabled">DD/MM/YYYY</span>
 						{/if}
 						<CalendarIcon class="mb-1 ml-auto" />
 					</div>

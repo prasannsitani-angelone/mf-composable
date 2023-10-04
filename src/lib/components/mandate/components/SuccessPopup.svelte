@@ -15,7 +15,7 @@
 	>
 		<div class="flex flex-col items-center justify-between">
 			<div class=""><WmsIcon width={92} height={92} name="success-tick-circle" /></div>
-			<div class=" my-4 text-2xl font-medium text-black-title">Autopay Registered</div>
+			<div class=" my-4 text-2xl font-normal text-black-title">Autopay Registered</div>
 			<div class="mb-5 text-center text-sm font-normal text-grey-body">
 				All future SIP payments will be automatically debited from your bank account on the monthly
 				SIP date.
@@ -23,8 +23,8 @@
 			<div
 				class=" mb-4 flex w-full items-center justify-center rounded bg-blue-background px-6 py-2"
 			>
-				<div class=" mr-1 text-sm font-medium text-grey-body">Autopay limit</div>
-				<div class=" text-lg font-medium text-black-title">
+				<div class=" mr-1 text-sm font-normal text-grey-body">Autopay limit</div>
+				<div class=" text-lg font-normal text-black-title">
 					₹{addCommasToAmountString(mandateLimit)}
 				</div>
 			</div>

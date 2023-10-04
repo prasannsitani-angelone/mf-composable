@@ -8,7 +8,7 @@
 >
 	<NoOrdersImage class="m-3" />
 	<section class="mt-6 flex flex-col items-center">
-		<div class="text-base font-medium">
+		<div class="text-base font-normal">
 			{title}
 		</div>
 	</section>

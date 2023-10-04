@@ -46,7 +46,7 @@
 </script>
 
 <div class="flex flex-col overflow-y-scroll bg-white px-4 py-3 {$$props.class}">
-	<div class="mb-3 text-sm font-medium text-black-title">Pay With</div>
+	<div class="mb-3 text-sm font-normal text-black-title">Pay With</div>
 	<div class="divide-y divide-grey-line rounded-lg border border-grey-line">
 		{#each paymentModes as paymentModeKey (paymentModeKey)}
 			{#if PAYMENT_MODE[paymentModeKey].enabled(amountInNumber, os, redirectedFrom)}

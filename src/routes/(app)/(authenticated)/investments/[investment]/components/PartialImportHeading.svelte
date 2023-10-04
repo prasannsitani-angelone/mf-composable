@@ -7,7 +7,7 @@
 		<WMSIcon name="polygon-red-warning" width={16} height={16} />
 	</div>
 
-	<div class="text-bg-title text-xs font-medium">
+	<div class="text-bg-title text-xs font-normal">
 		We are facing some technical issues identifying this investment.
 	</div>
 </section>

@@ -39,7 +39,7 @@
 			class="bg-white {pageMetaData?.headerClass || ''}"
 		>
 			<svelte:fragment slot="title">
-				<h1 class="text-lg font-medium text-black-title {pageMetaData?.titleClass || ''}">
+				<h1 class="text-lg font-normal text-black-title {pageMetaData?.titleClass || ''}">
 					{#if userType === 'B2C' && pageMetaData?.title === 'Mutual Funds'}
 						<span class="ml-1 flex flex-col">
 							<span class="flex"> Direct Mutual Funds</span>
@@ -61,12 +61,12 @@
 	<svelte:component this={pageMetaData.component} />
 {/if}
 {#if !cookieEnabled}
-	<div class="bg-yellow-secondary px-4 py-2 text-lg font-medium text-black-title">
+	<div class="bg-yellow-secondary px-4 py-2 text-lg font-normal text-black-title">
 		Enable your browser cookies to enjoy a seamless experience in investing in Mutual Funds.
 	</div>
 {/if}
 <noscript>
-	<div class="bg-yellow-secondary px-4 py-2 text-lg font-medium text-black-title">
+	<div class="bg-yellow-secondary px-4 py-2 text-lg font-normal text-black-title">
 		Enable Javascript in your Chrome Settings to enjoy a seamless experience in investing in Mutual
 		Funds.
 	</div>

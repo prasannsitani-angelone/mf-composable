@@ -17,7 +17,7 @@
 	class={`my-2 max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:pb-4 ${classes.container} ${$$props.class}`}
 >
 	<header class={`flex flex-col px-6 py-3 sm:py-6 ${classes.header}`}>
-		<h2 class="text-lg font-medium text-black-title">{title}</h2>
+		<h2 class="text-lg font-normal text-black-title">{title}</h2>
 	</header>
 	<TrendingCarousel {tableData} {version} />
 	<slot name="footer" />

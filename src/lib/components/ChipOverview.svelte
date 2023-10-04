@@ -18,7 +18,7 @@
 </script>
 
 <div
-	class={`flex  items-center text-[10px] font-medium text-grey-body sm:mb-1 sm:border-none sm:pb-0 sm:text-xs ${$$props.class}`}
+	class={`flex  items-center text-[10px] font-normal text-grey-body sm:mb-1 sm:border-none sm:pb-0 sm:text-xs ${$$props.class}`}
 >
 	<slot name="categoryNameIcon" />
 	{#if headingPrimary}

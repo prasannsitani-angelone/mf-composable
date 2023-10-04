@@ -157,9 +157,9 @@
 			logoUrl={holdings?.logoUrl}
 			categoryName={holdings?.schemePlan}
 			subcategoryName={holdings?.sipEnabled ? 'SIP' : 'ONE-TIME'}
-			titleStyle="ml-1 text-sm lg:text-lg font-medium text-black-title"
-			categoryStyle="mx-1 font-medium"
-			subCategoryStyle="ml-1 font-medium"
+			titleStyle="ml-1 text-sm lg:text-lg font-normal text-black-title"
+			categoryStyle="mx-1 font-normal"
+			subCategoryStyle="ml-1 font-normal"
 			on:click={handleSchemeCardClick}
 		>
 			<svelte.fragment slot="ratingSection">

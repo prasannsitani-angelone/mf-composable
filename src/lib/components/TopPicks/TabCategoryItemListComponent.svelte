@@ -41,14 +41,14 @@
 			>
 				<img src={schemeData?.logoUrl} alt="schemelogo" />
 			</div>
-			<div class="mr-3 line-clamp-2 self-center text-sm font-medium text-black-title">
+			<div class="mr-3 line-clamp-2 self-center text-sm font-normal text-black-title">
 				{schemeData.schemeName}
 			</div>
 		</div>
 		{#if schemeData?.returns3yr > 0}
 			<div class="whitespace-nowrap">
-				<div class="text-xs font-medium text-grey-body">Returns p.a</div>
-				<div class="text-right text-base font-medium text-black-title">
+				<div class="text-xs font-normal text-grey-body">Returns p.a</div>
+				<div class="text-right text-base font-normal text-black-title">
 					{schemeData?.returns3yr?.toFixed(1)}%
 				</div>
 			</div>
@@ -61,7 +61,7 @@
 			{:else}
 				<WMSIcon name="people-icon" width={14} height={12} fill="#6A7582" class="mr-2" />
 			{/if}
-			<div class="text-xs font-medium text-grey-body">
+			<div class="text-xs font-normal text-grey-body">
 				{schemeData.textMessage}
 			</div>
 		</div>

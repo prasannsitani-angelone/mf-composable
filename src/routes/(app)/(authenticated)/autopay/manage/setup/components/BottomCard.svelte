@@ -22,14 +22,14 @@
 </script>
 
 <Card class="mt-2 !p-3">
-	<div class=" mb-3 text-sm font-medium text-black-title">Set Up Autopay With</div>
+	<div class=" mb-3 text-sm font-normal text-black-title">Set Up Autopay With</div>
 	<div class=" border border-grey-line bg-blue-background p-4">
 		<div class="mb-2 flex items-center">
 			<RadioButton selected={true} />
 			<div class="ml-2 flex h-8 w-12 items-center justify-center border border-grey-line bg-white">
 				<WMSIcon name="card-icon" />
 			</div>
-			<div class="ml-3 text-sm font-medium text-black-title">Debit Card/Net Banking</div>
+			<div class="ml-3 text-sm font-normal text-black-title">Debit Card/Net Banking</div>
 		</div>
 		<div class="flex items-center p-2 pl-8">
 			<div class="mr-3 flex h-6 w-16 items-center justify-center bg-white">

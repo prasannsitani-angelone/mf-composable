@@ -30,7 +30,7 @@
 			</section>
 			<section class="flex items-center justify-between pt-2">
 				<div class="text-grey-body">Folio Value</div>
-				<div class="font-medium text-black-title">
+				<div class="font-normal text-black-title">
 					₹{addCommasToAmountString((redemableAmount + selectedFolio?.blockedAmount)?.toFixed(2))}
 				</div>
 			</section>

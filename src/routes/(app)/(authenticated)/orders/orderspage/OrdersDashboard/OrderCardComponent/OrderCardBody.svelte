@@ -83,8 +83,8 @@
 		categoryContainerStyle="overflow-hidden"
 		containerStyle="w-[70%] !pr-0"
 		logoStyle="w-9 h-9"
-		titleStyle="font-medium overflow-hidden text-ellipsis whitespace-nowrap"
-		categoryStyle="font-medium"
+		titleStyle="font-normal overflow-hidden text-ellipsis whitespace-nowrap"
+		categoryStyle="font-normal"
 	>
 		<svelte:fragment slot="schemeInfo">
 			<span />
@@ -93,7 +93,7 @@
 			<span class="mt-1 rounded-sm bg-grey p-1 text-3xs md:text-1xs">{investmentTypeText}</span>
 		</svelte:fragment>
 		<div class="w-[30%] pl-2" slot="returns">
-			<section class="flex w-full flex-col font-medium">
+			<section class="flex w-full flex-col font-normal">
 				<article class="truncate text-end text-sm md:text-base">
 					{item?.amount > 0
 						? `₹${addCommasToAmountString(item?.amount?.toFixed(0))}`

@@ -40,7 +40,7 @@
 		class="via-yellow flex items-center justify-start gap-3 rounded-tl rounded-tr-lg border-l-4 border-yellow-primary bg-gradient-to-r from-white to-yellow-50 px-4 py-2"
 	>
 		<WMSIcon name="alert-icon" />
-		<p class="text-xs font-medium text-black">Order Payment Failed</p>
+		<p class="text-xs font-normal text-black">Order Payment Failed</p>
 	</div>
 	<div class="rounded-b-lg bg-white px-2 pb-3 pt-4">
 		<div>
@@ -68,7 +68,7 @@
 								class="relative mr-3 h-12 w-12 rounded-full border object-cover p-2 shadow-csm group-hover:bg-white"
 							/>
 							<span
-								class="absolute left-6 top-0 z-10 mr-3 h-12 w-12 rounded-full border bg-white object-cover py-4 text-center text-xs font-medium shadow-csm"
+								class="absolute left-6 top-0 z-10 mr-3 h-12 w-12 rounded-full border bg-white object-cover py-4 text-center text-xs font-normal shadow-csm"
 								>+ {orderCount - 1}</span
 							>
 						</div>
@@ -89,12 +89,12 @@
 					{/if}
 				</svelte:fragment>
 				<svelte:fragment slot="returns">
-					<section class="flex flex-col items-end font-medium">
+					<section class="flex flex-col items-end font-normal">
 						<span class="text-sm font-normal"
 							>₹{addCommasToAmountString(order?.amount?.toString())}</span
 						>
 						<span
-							class="flex items-center gap-1 rounded-sm bg-red-sell bg-opacity-12 p-1 text-3xs font-medium"
+							class="flex items-center gap-1 rounded-sm bg-red-sell bg-opacity-12 p-1 text-3xs font-normal"
 						>
 							<WMSIcon name="red-exclamation" width={12} height={12} /> FAILED</span
 						>

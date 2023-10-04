@@ -260,7 +260,7 @@
 	{#if showModal === modalsAvaialable.reportGenerating}
 		<SimplePopup
 			subHeading1={loaderText}
-			subHeading1Class="!pt-8 sm:!pt-5 !text-base sm:!text-lg !font-medium"
+			subHeading1Class="!pt-8 sm:!pt-5 !text-base sm:!text-lg !font-normal"
 			subHeading2="This could take a few seconds. Please wait."
 			subHeading2Class={`sm:!px-8 !text-sm !font-normal ${isMobile ? 'pb-4' : ''}
           `}

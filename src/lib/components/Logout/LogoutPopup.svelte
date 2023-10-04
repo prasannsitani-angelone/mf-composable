@@ -27,13 +27,13 @@
 	>
 		<div class="w-full">
 			<div
-				class="px-4 pb-2 pt-6 text-lg font-medium text-black-title sm:border-b sm:px-8 sm:py-6 sm:text-xl"
+				class="px-4 pb-2 pt-6 text-lg font-normal text-black-title sm:border-b sm:px-8 sm:py-6 sm:text-xl"
 			>
 				Log out from Angel One?
 			</div>
 
 			<div
-				class="px-4 text-sm text-grey-body sm:px-8 sm:py-8 sm:text-base sm:font-medium sm:text-black-title"
+				class="px-4 text-sm text-grey-body sm:px-8 sm:py-8 sm:text-base sm:font-normal sm:text-black-title"
 			>
 				Do you want to log out from the app?
 			</div>

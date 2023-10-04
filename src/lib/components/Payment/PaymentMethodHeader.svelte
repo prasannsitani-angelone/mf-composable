@@ -24,7 +24,7 @@
 		{:else}
 			<WMSIcon class="mr-3" name="left-arrow" width={16} height={16} on:click={onBackClick} />
 		{/if}
-		<div class="text-lg font-medium text-black-title sm:text-xl">{title}</div>
+		<div class="text-lg font-normal text-black-title sm:text-xl">{title}</div>
 	</div>
 	{#if isPartOfModal}
 		<div class="hidden sm:flex">

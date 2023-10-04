@@ -7,7 +7,7 @@
 	<slot name="header">
 		{#if title}
 			<header class={`flex flex-col p-6 ${defaultHeaderClass}`}>
-				<h2 class="text-lg font-medium text-black-title">{title}</h2>
+				<h2 class="text-lg font-normal text-black-title">{title}</h2>
 			</header>
 		{/if}
 	</slot>

@@ -17,5 +17,5 @@
 		<LeftArrowIcon class="mr-4 cursor-pointer" />
 	</Button>
 
-	<div class="text-lg font-medium text-black-title">{title}</div>
+	<div class="text-lg font-normal text-black-title">{title}</div>
 </div>

@@ -49,7 +49,7 @@
 
 		<slot name="popupBody">
 			<article class="mt-6 text-center">
-				<div class={`text-2xl font-medium text-black-title ${titleClass}`}>
+				<div class={`text-2xl font-normal text-black-title ${titleClass}`}>
 					{title}
 				</div>
 

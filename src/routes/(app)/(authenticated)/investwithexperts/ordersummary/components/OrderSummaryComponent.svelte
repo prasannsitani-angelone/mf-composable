@@ -41,28 +41,28 @@
 				<WMSIcon name="well-done" />
 			</div>
 		{/if}
-		<p class="text-center text-lg font-medium text-black-title">
+		<p class="text-center text-lg font-normal text-black-title">
 			{getStatusTitle()}
 		</p>
 	</div>
 
 	<img src={getImagePath()} alt="Order Status" />
 
-	<div class="m-3 rounded-lg bg-gradient-to-l from-green p-3 text-sm font-medium">
+	<div class="m-3 rounded-lg bg-gradient-to-l from-green p-3 text-sm font-normal">
 		{getStatusDescription()}
 	</div>
 
 	<section class="mx-3 mb-4 flex items-center justify-between rounded bg-grey px-4 py-3">
 		<article class="flex-1">
-			<div class="text-xs font-medium text-grey-body">Total SIP Amount</div>
-			<div class="text-base font-medium text-black-title">
+			<div class="text-xs font-normal text-grey-body">Total SIP Amount</div>
+			<div class="text-base font-normal text-black-title">
 				₹{addCommasToAmountString(Math.trunc(sipAmount ?? 0))}
 			</div>
 		</article>
 
 		<article class="flex-1 text-right">
-			<div class="text-xs font-medium text-grey-body">Next SIP Payment</div>
-			<div class="text-base font-medium text-black-title">
+			<div class="text-xs font-normal text-grey-body">Next SIP Payment</div>
+			<div class="text-base font-normal text-black-title">
 				{getDateTimeString(sipNextDate, 'DATE', true)}
 			</div>
 		</article>

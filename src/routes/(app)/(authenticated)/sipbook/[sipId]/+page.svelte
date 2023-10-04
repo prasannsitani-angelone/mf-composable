@@ -427,7 +427,7 @@
 											}}
 											variant="transparent"
 											size="xs"
-											class="!h-auto min-h-fit !px-0 text-xs font-semibold text-blue-primary"
+											class="!h-auto min-h-fit !px-0 text-xs font-medium text-blue-primary"
 											>SWITCH AUTOPAY</Button
 										>
 									</div>
@@ -557,14 +557,14 @@
 					}}
 					isModalOpen={showSkipModal}
 					confirm={() => handleSkipSip(sipData?.nextSipDueDate, sipData)}
-					titleClass="!font-medium"
+					titleClass="!font-normal"
 					title="Skip Next SIP Instalment?"
 					confirmButtonTitle="YES, SKIP"
 					confirmButtonDisable={disableConfirmSkipSip}
 				>
 					<svelte:fragment slot="body">
 						<p class="font-normal text-grey-body">
-							Your SIP instalment <span class="font-medium text-black-title"
+							Your SIP instalment <span class="font-normal text-black-title"
 								>for {getDateTimeProperties(sipData?.nextSipDueDate).month}
 								{getDateTimeProperties(sipData?.nextSipDueDate).year}</span
 							> will be skipped. Skip instalment?
@@ -612,11 +612,11 @@
 				>
 					<svelte:fragment slot="popupBody">
 						<article class="mt-6 text-center">
-							<div class={`text-2xl font-medium text-black-title`}>SIP Instalment Skipped</div>
+							<div class={`text-2xl font-normal text-black-title`}>SIP Instalment Skipped</div>
 
 							<div class={`mt-3 text-sm font-normal text-grey-body`}>
 								Your SIP instalment for {sipData?.schemeName}
-								<span class="font-medium text-black-title"
+								<span class="font-normal text-black-title"
 									>for {getDateTimeProperties(sipData?.nextSipDueDate).month}
 									{getDateTimeProperties(sipData?.nextSipDueDate).year}</span
 								>

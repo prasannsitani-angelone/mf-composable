@@ -98,7 +98,7 @@
 			}}
 		>
 			<header
-				class="pb-4 pl-4 text-lg font-medium text-black-title sm:mb-4 sm:border-b md:text-xl lg:px-8 lg:pb-6"
+				class="pb-4 pl-4 text-lg font-normal text-black-title sm:mb-4 sm:border-b md:text-xl lg:px-8 lg:pb-6"
 			>
 				Remove from Favourites?
 			</header>

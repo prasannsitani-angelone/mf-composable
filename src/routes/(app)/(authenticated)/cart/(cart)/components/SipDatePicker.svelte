@@ -96,7 +96,7 @@
 		size="xs"
 		onClick={toggleCalendar}
 	>
-		<span class="mr-1 text-left text-1xs font-medium leading-3 text-black-title"
+		<span class="mr-1 text-left text-1xs font-normal leading-3 text-black-title"
 			>SIP Date : {calanderDisplayDate}</span
 		>
 		<WMSIcon name="calander-icon" width={10} height={10} />

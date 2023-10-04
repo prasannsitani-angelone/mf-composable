@@ -45,7 +45,7 @@
 		<section class=" flex items-center justify-between lg:mx-0">
 			<article class="flex flex-col items-start">
 				<div class="text-xs md:text-sm">Total Invested</div>
-				<div class="text-[18px] font-medium md:text-xl">
+				<div class="text-[18px] font-normal md:text-xl">
 					₹{investmentSummary?.investedValue
 						? addCommasToAmountString(investmentSummary?.investedValue?.toFixed(2))
 						: '0.00'}
@@ -54,7 +54,7 @@
 
 			<article class="flex flex-col items-end">
 				<div class="text-xs md:text-sm">Current Value</div>
-				<div class="text-[18px] font-medium md:text-xl">
+				<div class="text-[18px] font-normal md:text-xl">
 					₹{investmentSummary?.currentValue
 						? addCommasToAmountString(investmentSummary?.currentValue?.toFixed(2))
 						: '0.00'}
@@ -84,7 +84,7 @@
 						<span class="text-[11px] md:text-xs"> Total Returns </span>
 					</div>
 					<div class="mx-1 mt-2 text-center text-xs md:text-sm">
-						<span class="mr-1 font-medium">
+						<span class="mr-1 font-normal">
 							{investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
 								? '-'
 								: ''}₹{investmentSummary?.returnsValue
@@ -115,7 +115,7 @@
 						<span class="text-[11px] md:text-xs"> 1 Day Return </span>
 					</div>
 					<div class="mx-1 mt-2 text-center text-xs md:text-sm">
-						<span class="mr-1 font-medium">
+						<span class="mr-1 font-normal">
 							{investmentSummary?.previousDayReturns && investmentSummary.previousDayReturns < 0
 								? '-'
 								: ''}₹{investmentSummary?.previousDayReturns
@@ -150,7 +150,7 @@
 						<span class="text-[11px] md:text-xs"> Total Returns </span>
 					</div>
 					<div class="mx-1 mt-2 text-center text-xs md:text-sm">
-						<span class="mr-1 font-medium">
+						<span class="mr-1 font-normal">
 							{investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
 								? '-'
 								: ''}₹{investmentSummary?.returnsValue
@@ -179,7 +179,7 @@
 					<Button
 						onClick={onGoToPortfolioClick}
 						variant="transparent"
-						class=" px-17 flex !h-auto !w-full cursor-pointer items-center justify-center pt-4 text-center text-sm font-semibold hover:border-white hover:outline-white lg:rounded lg:border lg:border-white lg:py-4"
+						class=" px-17 flex !h-auto !w-full cursor-pointer items-center justify-center pt-4 text-center text-sm font-medium hover:border-white hover:outline-white lg:rounded lg:border lg:border-white lg:py-4"
 					>
 						<span class=" text-white"> VIEW PORTFOLIO ANALYSIS </span>
 						<RightIcon class="ml-2" stroke="white" />

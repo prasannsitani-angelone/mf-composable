@@ -87,7 +87,7 @@
 			{/if}
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<div
-				class="flex cursor-pointer items-end justify-center border-t py-5 text-sm font-semibold text-blue-primary"
+				class="flex cursor-pointer items-end justify-center border-t py-5 text-sm font-medium text-blue-primary"
 				on:click={toggleShowFolioList}
 			>
 				{showFolioList ? 'Hide' : 'Show All Folios'}

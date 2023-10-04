@@ -25,7 +25,7 @@
 		<div class="my-16 flex justify-center">
 			<UPIMandateIcon class=" h-[200px] w-[265px]" />
 		</div>
-		<section class=" m-auto text-center text-2xl font-medium text-black-title">
+		<section class=" m-auto text-center text-2xl font-normal text-black-title">
 			<div>Automate your SIP</div>
 			<div>Payments with Autopay</div>
 		</section>

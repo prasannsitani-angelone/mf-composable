@@ -1,5 +1,5 @@
 <section class=" mx-4 rounded bg-green">
-	<div class=" summary-gradient-overlay px-2.5 py-2 text-sm font-semibold text-black-title">
+	<div class=" summary-gradient-overlay px-2.5 py-2 text-sm font-medium text-black-title">
 		Your order has been placed successfully. Please wait while your order is being processed
 	</div>
 </section>

@@ -44,7 +44,7 @@
 					</div>
 					<div
 						class="mb-1 mt-2 text-sm text-black-title {$$props?.titleClass || ''}"
-						class:font-medium={item?.currentState}
+						class:font-normal={item?.currentState}
 						class:!text-black-title={item?.currentState}
 						class:text-grey-body={item.status === STATUS_ARR.NONE}
 						class:text-red-sell={item.status === STATUS_ARR.FAILED}
@@ -67,7 +67,7 @@
 							{#if item?.showSubTitle}
 								<p
 									class="mb-1 {$$props?.subTitleClass || ''}"
-									class:font-medium={item?.currentState}
+									class:font-normal={item?.currentState}
 								>
 									{item.subTitle}
 								</p>
@@ -78,7 +78,7 @@
 						<div
 							class="text-xs text-grey-body"
 							class:!text-black-title={item?.currentState}
-							class:font-medium={item?.currentState}
+							class:font-normal={item?.currentState}
 						>
 							{#if item?.showSubTitle}
 								{item.subTitle}
@@ -117,7 +117,7 @@
 						<div
 							class="mb-1 text-sm text-grey-body {$$props?.titleClass || ''}"
 							class:!text-black-title={item?.currentState}
-							class:font-medium={item?.currentState}
+							class:font-normal={item?.currentState}
 							class:!text-grey-body={item.status === STATUS_ARR.NONE}
 							class:!text-red-sell={item.status === STATUS_ARR.FAILED}
 							class:!text-yellow-primary={item.status === STATUS_ARR.PAYMENT_PENDING}
@@ -138,7 +138,7 @@
 								class:!text-black-title={item?.currentState}
 							>
 								{#if item?.showSubTitle}
-									<p class="mb-1" class:font-medium={item?.currentState}>
+									<p class="mb-1" class:font-normal={item?.currentState}>
 										{item.subTitle}
 									</p>
 								{/if}
@@ -148,7 +148,7 @@
 							<div
 								class="text-xs text-grey-body {$$props?.subTitleClass || ''}"
 								class:!text-black-title={item?.currentState}
-								class:font-medium={item?.currentState}
+								class:font-normal={item?.currentState}
 							>
 								{#if item?.showSubTitle}
 									{item.subTitle}

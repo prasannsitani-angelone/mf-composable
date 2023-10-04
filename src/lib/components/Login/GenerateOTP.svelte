@@ -80,7 +80,7 @@
 </script>
 
 <div class="flex w-full flex-col items-center lg:w-120">
-	<div class="mb-6 w-full text-xl font-medium text-black-neutral md:mb-12">
+	<div class="mb-6 w-full text-xl font-normal text-black-neutral md:mb-12">
 		Login with your mobile number
 	</div>
 	<div class="flex w-full flex-col items-center">

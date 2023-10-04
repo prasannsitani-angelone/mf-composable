@@ -137,7 +137,7 @@
 		>
 			<svelte:fragment slot="topRightSection">
 				<section class="ml-1 flex flex-col items-end">
-					<div class="w-20 text-right text-xs font-medium text-black-bolder">Returns p.a</div>
+					<div class="w-20 text-right text-xs font-normal text-black-bolder">Returns p.a</div>
 					<article class="mt-0.5 flex items-center">
 						<WMSIcon class="mr-1 mt-1 h-4 w-3" name="green-uparrow-trending-fund" />
 						<div class="text-base font-bold text-black-title">
@@ -149,14 +149,14 @@
 
 			<svelte:fragment slot="detailsLeft">
 				<section>
-					<div class="text-xs font-medium text-black-bolder">Monthly Amount</div>
-					<div class="font-medium"><AmountText {amount} /></div>
+					<div class="text-xs font-normal text-black-bolder">Monthly Amount</div>
+					<div class="font-normal"><AmountText {amount} /></div>
 				</section>
 			</svelte:fragment>
 
 			<svelte:fragment slot="detailsRight">
 				<section class="flex flex-col items-end">
-					<div class="text-xs font-medium text-black-bolder">Expected 3Y Returns</div>
+					<div class="text-xs font-normal text-black-bolder">Expected 3Y Returns</div>
 					<div class="text-base font-bold text-green-amount">
 						<AmountText amount={expected3yReturns} />
 					</div>
@@ -165,7 +165,7 @@
 
 			<svelte:fragment slot="cardFooter">
 				<button
-					class="mt-3 w-fit text-left text-xs font-medium text-blue-primary"
+					class="mt-3 w-fit text-left text-xs font-normal text-blue-primary"
 					on:click={toggleShowWhyThisFundModal}
 				>
 					Why this fund?
@@ -174,7 +174,7 @@
 
 			<svelte:fragment slot="detailsFooterDescription">
 				<p class="text-xs">
-					<span class=" font-semibold">
+					<span class=" font-medium">
 						{addCommasToAmountString(scheme?.noOfClientInvested || 0)}+
 					</span>
 					people have invested in this fund
@@ -185,9 +185,9 @@
 
 	<article class="mt-2 flex items-center justify-between rounded-lg bg-white p-3 shadow-csm">
 		<section>
-			<div class="text-sm font-medium text-black-key">Monthly SIP Date</div>
+			<div class="text-sm font-normal text-black-key">Monthly SIP Date</div>
 			<button
-				class="w-fit text-xs font-medium text-blue-primary"
+				class="w-fit text-xs font-normal text-blue-primary"
 				on:click={toggleShowCalendarLearnMoreModal}>Learn More</button
 			>
 		</section>
@@ -204,7 +204,7 @@
 	<InfoModal
 		showModal={showWhyThisFundModal}
 		heading={whyThisFundModalData?.heading}
-		headingClass={'!font-medium'}
+		headingClass={'!font-normal'}
 		on:crossClicked={toggleShowWhyThisFundModal}
 	>
 		<svelte:fragment slot="crossIconSlot">
@@ -233,7 +233,7 @@
 		showModal={showCalendarLearnMoreModal}
 		heading="Monthly SIP Date"
 		detailText="Date on which your monthly instalment is due for investment"
-		headingClass={'!font-medium'}
+		headingClass={'!font-normal'}
 		on:crossClicked={toggleShowCalendarLearnMoreModal}
 	>
 		<svelte:fragment slot="crossIconSlot">

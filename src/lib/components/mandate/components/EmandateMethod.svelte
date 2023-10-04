@@ -24,7 +24,7 @@
 <div
 	class="flex flex-col overflow-y-scroll rounded-lg bg-white px-4 py-3 shadow-csm {$$props.class}"
 >
-	<div class="mb-3 text-sm font-medium text-black-title">Set Up Autopay With</div>
+	<div class="mb-3 text-sm font-normal text-black-title">Set Up Autopay With</div>
 	<div class="divide-y divide-grey-line rounded-lg border border-grey-line">
 		{#each emandateModes as emandateModeKey (emandateModeKey)}
 			{#if EMANDATE_MODE[emandateModeKey].enabled(os)}

@@ -55,7 +55,7 @@
 
 					<svelte:fragment slot="accordionBody">
 						<section class="px-5 py-2 sm:pb-6 sm:pt-5">
-							<div class="mb-4 mt-2 text-lg font-medium text-black-title">Switch Details</div>
+							<div class="mb-4 mt-2 text-lg font-normal text-black-title">Switch Details</div>
 							<SwitchOrderTitleCard class="!mb-0">
 								<svelte:fragment slot="switchOut">
 									<SwitchOrderTile
@@ -83,21 +83,21 @@
 									class="flex flex-row items-center justify-between border-b border-grey-line py-3 sm:flex-col sm:border-none sm:py-0"
 								>
 									<span
-										class="text-sm font-normal text-grey-body sm:mb-1 sm:text-xs sm:font-medium"
+										class="text-sm font-normal text-grey-body sm:mb-1 sm:text-xs sm:font-normal"
 									>
 										Amount</span
 									>
-									<span class="text-base font-medium text-black-title">
+									<span class="text-base font-normal text-black-title">
 										₹{addCommasToAmountString(ordersDetails?.ordersData?.amount)}
 									</span>
 								</div>
 								<div class="flex flex-row items-center justify-between py-3 sm:flex-col sm:py-0">
 									<span
-										class="text-sm font-normal text-grey-body sm:mb-1 sm:text-xs sm:font-medium"
+										class="text-sm font-normal text-grey-body sm:mb-1 sm:text-xs sm:font-normal"
 									>
 										Estimated By</span
 									>
-									<span class="text-base font-medium text-black-title">
+									<span class="text-base font-normal text-black-title">
 										{ordersDetails?.estimatedETA}
 									</span>
 								</div>
@@ -108,11 +108,11 @@
 
 				<!-- Order Timeline -->
 				<div class="bg-white p-4 !pt-2 md:mx-0 md:mt-4 md:rounded-lg md:p-6 md:!pt-4">
-					<div class="mb-5 text-lg font-medium text-black-title">Order Status</div>
+					<div class="mb-5 text-lg font-normal text-black-title">Order Status</div>
 					<OrderTimeLine
 						items={ordersDetails?.orderStatusItems || []}
-						titleClass="!font-medium"
-						subTitleClass="!font-medium"
+						titleClass="!font-normal"
+						subTitleClass="!font-normal"
 					/>
 				</div>
 

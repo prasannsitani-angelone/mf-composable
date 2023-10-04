@@ -59,7 +59,7 @@
 					on:linkClicked={() => {
 						toast?.callback?.(toast);
 					}}
-					><span class=" mr-1.5 text-sm font-semibold">{toast.redirectText}</span><WMSIcon
+					><span class=" mr-1.5 text-sm font-medium">{toast.redirectText}</span><WMSIcon
 						name="arrow-right-custom"
 						width={6}
 						height={12}

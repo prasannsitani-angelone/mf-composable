@@ -163,7 +163,7 @@
 
 <div class="flex w-full flex-col items-center lg:w-120">
 	<div class="mb-6 w-full md:mb-12">
-		<div class="text-xl font-medium text-black-neutral">
+		<div class="text-xl font-normal text-black-neutral">
 			{heading}
 		</div>
 		{#if subHeading}

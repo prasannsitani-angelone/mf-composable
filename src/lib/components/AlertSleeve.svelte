@@ -21,7 +21,7 @@
 		</slot>
 		<slot name="content">
 			<div class="w-full text-center">
-				<div class="mb-4 px-4 text-2xl font-medium text-black-title sm:mb-2">
+				<div class="mb-4 px-4 text-2xl font-normal text-black-title sm:mb-2">
 					{heading}
 				</div>
 				<div class="flex flex-col gap-1 px-4 text-sm text-grey-body">

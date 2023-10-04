@@ -346,9 +346,9 @@
 									on:click={() => showCalendarModal('from')}
 								>
 									{#if customFromDate}
-										<span class="test font-medium">{displayFromDate}</span>
+										<span class="test font-normal">{displayFromDate}</span>
 									{:else}
-										<span class="text-base font-medium text-grey-disabled">DD/MM/YYYY</span>
+										<span class="text-base font-normal text-grey-disabled">DD/MM/YYYY</span>
 									{/if}
 									<CalendarIcon class="mb-1 ml-auto" />
 								</div>
@@ -360,9 +360,9 @@
 									on:click={() => showCalendarModal('to')}
 								>
 									{#if customToDate}
-										<span class="test font-medium">{displayToDate}</span>
+										<span class="test font-normal">{displayToDate}</span>
 									{:else}
-										<span class="text-base font-medium text-grey-disabled">DD/MM/YYYY</span>
+										<span class="text-base font-normal text-grey-disabled">DD/MM/YYYY</span>
 									{/if}
 									<CalendarIcon class="mb-1 ml-auto" />
 								</div>

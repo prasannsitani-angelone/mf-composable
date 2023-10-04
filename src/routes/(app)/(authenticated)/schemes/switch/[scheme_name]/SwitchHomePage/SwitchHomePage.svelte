@@ -365,7 +365,7 @@
 			class="mr-3 cursor-pointer"
 			on:click={() => handleBackNavigation()}
 		/>
-		<div class="text-md font-medium text-black-title">{currentTitle}</div>
+		<div class="text-md font-normal text-black-title">{currentTitle}</div>
 	</article>
 {/if}
 {#if folioHolding?.schemeName}
@@ -443,7 +443,7 @@
 								<Button
 									variant="transparent"
 									color="primary"
-									class="!font-medium"
+									class="!font-normal"
 									on:click={toggleModal}
 								>
 									CHANGE
@@ -463,7 +463,7 @@
 				/>
 				<section class=" mb-2 mt-0.5 rounded rounded-b-lg bg-white p-4 shadow-csm md:p-4">
 					{#if selectedFolio?.blockedunits > 0}
-						<section class="mb-2.5 flex items-center justify-between font-medium">
+						<section class="mb-2.5 flex items-center justify-between font-normal">
 							<article class="flex items-center justify-start text-black-title">
 								<div class="text-xs text-black-title">Switchable Amount</div>
 								<WMSIcon
@@ -500,7 +500,7 @@
 								maxlength="13"
 								placeholder="₹"
 								value={amountVal}
-								class="w-full bg-white text-base font-medium leading-none text-black-title outline-none"
+								class="w-full bg-white text-base font-normal leading-none text-black-title outline-none"
 								on:input={onInputChange}
 								size={amountVal.length + 1}
 								disabled={isRedeemableAmountLessThanWithdrawableAmount || dpError}
@@ -521,7 +521,7 @@
 							</article>
 						{/if}
 						<article
-							class="flex w-fit items-center justify-start pt-1 text-xs font-medium text-grey-body {isRedeemableAmountLessThanWithdrawableAmount ||
+							class="flex w-fit items-center justify-start pt-1 text-xs font-normal text-grey-body {isRedeemableAmountLessThanWithdrawableAmount ||
 							dpError
 								? 'cursor-not-allowed'
 								: 'cursor-pointer'}"
@@ -686,8 +686,8 @@
 					<article class="mb-6 flex items-center justify-start">
 						<WMSIcon name="unlock-green" height={40} width={40} class="mr-3" />
 						<div class="flex flex-col items-start justify-center">
-							<span class="text-xs font-medium text-grey-body">Available for Switch</span>
-							<span class="text-base font-medium text-black-title">
+							<span class="text-xs font-normal text-grey-body">Available for Switch</span>
+							<span class="text-base font-normal text-black-title">
 								₹{addCommasToAmountString(redemableAmount?.toFixed(2))}
 								<span class="text-sm font-normal text-grey-body">
 									({redemableUnits?.toFixed(3)} units)
@@ -699,8 +699,8 @@
 					<article class="mb-6 flex items-center justify-start">
 						<WMSIcon name="lock-red" height={40} width={40} class="mr-3" />
 						<div class="flex flex-col items-start justify-center">
-							<span class="text-xs font-medium text-grey-body">Blocked</span>
-							<span class="text-base font-medium text-black-title">
+							<span class="text-xs font-normal text-grey-body">Blocked</span>
+							<span class="text-base font-normal text-black-title">
 								₹{addCommasToAmountString(selectedFolio?.blockedAmount?.toFixed(2))}
 								<span class="text-sm font-normal text-grey-body">
 									({selectedFolio?.blockedunits?.toFixed(3)} units)

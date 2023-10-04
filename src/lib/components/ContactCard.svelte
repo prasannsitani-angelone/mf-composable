@@ -82,7 +82,7 @@
 </script>
 
 <section class="rounded-lg bg-white p-4 shadow-csm md:rounded-t-none">
-	<h2 class="flex items-center text-left text-sm font-medium text-black-title">
+	<h2 class="flex items-center text-left text-sm font-normal text-black-title">
 		<span> {faq?.question}</span>
 	</h2>
 	<section class="details-container ml-1 mt-1 pb-5 text-sm text-grey-body">
@@ -93,12 +93,12 @@
 		<div>
 			<WMSIcon name="message-in-circle" width={36} height={36} />
 		</div>
-		<div class="text-sm font-medium text-black-title">
+		<div class="text-sm font-normal text-black-title">
 			{#if shouldDisplay(phoneCall)}
 				<p>
 					Call: <Button
 						size="xs"
-						class="!h-fit !min-h-0 !transform-none !px-0 !font-medium"
+						class="!h-fit !min-h-0 !transform-none !px-0 !font-normal"
 						variant="transparent"
 						on:click={onClickTel}>{contactNumber}</Button
 					>
@@ -108,7 +108,7 @@
 				<p>
 					Email: <Button
 						size="xs"
-						class="!h-fit !min-h-0 !transform-none !px-0 !font-medium !lowercase"
+						class="!h-fit !min-h-0 !transform-none !px-0 !font-normal !lowercase"
 						variant="transparent"
 						on:click={onClickMail}>{contactEmail}</Button
 					>

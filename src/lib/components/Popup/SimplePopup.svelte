@@ -28,7 +28,7 @@
 		<div class="my-4 flex flex-col items-center justify-between bg-white px-3 py-2 md:px-3.5">
 			<slot name="popupIcon" />
 			{#if heading}
-				<p class={`py-2 text-2xl font-medium text-black-title sm:text-xl ${headingClass || ''}`}>
+				<p class={`py-2 text-2xl font-normal text-black-title sm:text-xl ${headingClass || ''}`}>
 					{heading}
 				</p>
 			{/if}

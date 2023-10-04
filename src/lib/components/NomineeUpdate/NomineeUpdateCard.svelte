@@ -32,7 +32,7 @@
 			to={os !== 'Android'
 				? redirectLink
 				: `intent://${redirectLink.split('//', 2)[1]}#Intent;scheme=https;end`}
-			class="inline-flex flex-shrink-0 text-xs font-semibold text-blue-primary {buttonClass}"
+			class="inline-flex flex-shrink-0 text-xs font-medium text-blue-primary {buttonClass}"
 		>
 			{textForButton}
 		</Link>

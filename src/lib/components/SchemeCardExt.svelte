@@ -63,7 +63,7 @@
 				{#if (schemes?.sortBy2 > 0 && schemes?.sortBy2 < 3) || showTopRated}
 					<div class="bottom absolute inset-0" />
 					<div class="top absolute inset-0" />
-					<div class="absolute right-1 flex h-[20px] items-center text-1xs font-medium text-white">
+					<div class="absolute right-1 flex h-[20px] items-center text-1xs font-normal text-white">
 						Top Rated
 					</div>
 				{/if}
@@ -75,7 +75,7 @@
 			{#if showLogo}
 				<SchemeLogo class="!mr-2 !h-12 !w-12" src={schemes?.logoUrl} alt={schemes?.schemeName} />
 			{/if}
-			<p class="line-clamp-2 whitespace-normal text-sm font-medium text-black-title md:text-sm">
+			<p class="line-clamp-2 whitespace-normal text-sm font-normal text-black-title md:text-sm">
 				{schemes?.schemeName}
 			</p>
 		</section>
@@ -94,7 +94,7 @@
 			<slot name="detailsLeft">
 				<div class="flex w-6/12 flex-col items-start">
 					<p class="text-xs text-[#515151]">Min. SIP Amount</p>
-					<p class="text-base font-medium">
+					<p class="text-base font-normal">
 						<AmountText amount={schemes?.minSipAmount || 0} />
 					</p>
 				</div>
@@ -112,7 +112,7 @@
 							height="12"
 						/>
 						<p class="text-xs font-normal">
-							<span class="text-base font-medium">{schemes?.returns3yr?.toFixed(2)}%</span> p.a
+							<span class="text-base font-normal">{schemes?.returns3yr?.toFixed(2)}%</span> p.a
 						</p>
 					</div>
 				</div>
@@ -135,7 +135,7 @@
 
 					<slot name="detailsFooterDescription">
 						<p class="text-xs text-grey-body">
-							<span class=" font-semibold">
+							<span class=" font-medium">
 								{addCommasToAmountString(schemes?.noOfClientInvested)}
 							</span>
 							people have invested in this fund

@@ -39,7 +39,7 @@
 <article class={$$props?.class}>
 	<section class="max-h-full overflow-auto rounded pb-8 md:max-h-96 md:rounded-none">
 		<slot name="header">
-			<h4 class="p-2 text-lg font-medium text-black-title md:hidden md:p-0">
+			<h4 class="p-2 text-lg font-normal text-black-title md:hidden md:p-0">
 				Select Folio for Withdrawal
 			</h4>
 		</slot>
@@ -48,7 +48,7 @@
 			<section class="mb-4 mt-3 sm:mb-1">
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<article
-					class="cursor-default rounded-lg border bg-white font-medium shadow-csm md:cursor-pointer {!isSwitchOrRedeemAllowed(
+					class="cursor-default rounded-lg border bg-white font-normal shadow-csm md:cursor-pointer {!isSwitchOrRedeemAllowed(
 						folio
 					) && 'cursor-not-allowed opacity-50 shadow-none'}"
 					on:click={() => handleFolioSelection(folio)}
@@ -56,7 +56,7 @@
 					<article
 						class="flex items-center justify-between rounded-t-lg border-b bg-grey p-3 md:bg-grey"
 					>
-						<div class="text-sm font-medium text-black-title">
+						<div class="text-sm font-normal text-black-title">
 							<span class="mr-1">
 								#{folio?.folioNumber}
 							</span>

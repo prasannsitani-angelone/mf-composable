@@ -297,7 +297,7 @@
 				</slot>
 
 				<slot name="bodySection">
-					<section class="px-4 pb-6 text-sm font-medium md:px-8 md:py-6 md:text-base">
+					<section class="px-4 pb-6 text-sm font-normal md:px-8 md:py-6 md:text-base">
 						<p class="text-gray-500">
 							An OTP has been sent to {maskedEmailId} and {maskedMobileNumber} registered with the folio
 							{folio?.folioNumber}. Please enter the OTP to verify your order
@@ -340,7 +340,7 @@
 						</article>
 
 						<!-- Error and Resent OTP section -->
-						<article class="flex items-start justify-between text-sm font-medium">
+						<article class="flex items-start justify-between text-sm font-normal">
 							{#if isIncorrectOtp || wrongOtpCount >= wrongOtpLimit}
 								<div class="text-red-sell">
 									{#if wrongOtpCount >= wrongOtpLimit}

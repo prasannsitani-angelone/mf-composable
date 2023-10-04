@@ -15,13 +15,13 @@
 		<div
 			class="mb-10 hidden w-full flex-row items-center justify-between border-b border-grey-line px-8 py-6 sm:flex"
 		>
-			<div class="text-xl font-medium text-black-title">Cancel UPI payment verification?</div>
+			<div class="text-xl font-normal text-black-title">Cancel UPI payment verification?</div>
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<div on:click={onClose} class="cursor-pointer">
 				<CrossInCircleIcon />
 			</div>
 		</div>
-		<div class="flex w-full px-4 py-4 text-lg font-medium text-black-title sm:hidden">
+		<div class="flex w-full px-4 py-4 text-lg font-normal text-black-title sm:hidden">
 			Close UPI payment verification?
 		</div>
 
@@ -31,7 +31,7 @@
 			</div>
 			<div class="flex flex-row items-center rounded bg-grey px-4 py-3">
 				<!-- <MessageIcon /> -->
-				<div class="ml-4 text-xs font-medium text-grey-body sm:text-sm">
+				<div class="ml-4 text-xs font-normal text-grey-body sm:text-sm">
 					You can always check the status in the
 					<span class="text-black-title">Transaction Details</span>
 					if you have approved payment

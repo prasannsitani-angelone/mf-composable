@@ -54,7 +54,7 @@
 							>
 								<svelte:fragment slot="popupHeader">
 									<div class="flex items-center justify-between px-4 pb-3 pt-6 md:px-8 md:py-6">
-										<span class="text-lg font-medium text-black-title md:text-xl">
+										<span class="text-lg font-normal text-black-title md:text-xl">
 											{statusItems[key]?.informationHeading}
 										</span>
 									</div>
@@ -62,7 +62,7 @@
 							</InfoPopup>
 						{/if}
 					</div>
-					<div class="flex items-center text-sm font-medium">
+					<div class="flex items-center text-sm font-normal">
 						{#if statusItems[key].node}
 							{@html statusItems[key].value}
 						{:else}

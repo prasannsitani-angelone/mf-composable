@@ -104,7 +104,7 @@
 		<div class="mb-6 flex items-start justify-between sm:items-center lg:mt-6">
 			<SchemeLogo src={schemeDetails?.logoUrl} alt={schemeDetails?.schemeName} />
 			<div class="m-0 mr-auto flex flex-col">
-				<h1 class="text-base font-medium text-black-title sm:text-lg">
+				<h1 class="text-base font-normal text-black-title sm:text-lg">
 					{schemeDetails?.schemeName}
 				</h1>
 			</div>
@@ -123,10 +123,10 @@
 		{#if !isNFO}
 			<div class="relative flex">
 				<div class="flex flex-grow basis-0 flex-col pb-3 pt-3">
-					<span class="text-base font-medium text-black-title sm:text-2xl"
+					<span class="text-base font-normal text-black-title sm:text-2xl"
 						>{schemeDetails[returnPeriod]?.toFixed(2)}%</span
 					>
-					<span class="flex gap-1 text-xs font-medium text-grey-body sm:text-sm"
+					<span class="flex gap-1 text-xs font-normal text-grey-body sm:text-sm"
 						>Fund {selectedTag[0].text} return</span
 					>
 				</div>
@@ -138,12 +138,12 @@
 			<NavCharts {schemeDetails} on:chartRangeChange={handleChartRangeChange} />
 			<div class="mt-9 flex justify-between">
 				<div class="flex flex-col">
-					<span class="mr-1 text-sm font-medium text-grey-body sm:text-sm"
+					<span class="mr-1 text-sm font-normal text-grey-body sm:text-sm"
 						>NAV on {formatDate(schemeDetails?.navDate)}</span
 					><span class="mr-1 text-lg text-black-title">₹{schemeDetails?.navValue?.toFixed(2)}</span>
 				</div>
 				<div class="flex flex-col">
-					<span class="text-sm font-medium text-grey-body ${oneDayReturnClass}">
+					<span class="text-sm font-normal text-grey-body ${oneDayReturnClass}">
 						1D Returns
 					</span><span class={`${oneDayReturnClass}`}
 						>{oneDayReturnSuffix}{oneDayReturn(schemeDetails)}%</span
@@ -154,7 +154,7 @@
 
 		<footer class="flex items-center justify-center border-t border-t-grey-line pb-4 pt-5">
 			<RocketIcon />
-			<span class="ml-5 text-xs font-medium text-black-title sm:text-sm">
+			<span class="ml-5 text-xs font-normal text-black-title sm:text-sm">
 				Launched in {fundLaunchMonth}
 				{fundLaunchYear}
 				<span class="text-sm font-normal text-grey-body">

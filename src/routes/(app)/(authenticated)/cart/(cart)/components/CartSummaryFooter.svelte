@@ -30,7 +30,7 @@
 			<div class="flex justify-between">
 				<div class=" text-left">
 					<div class="text-sm font-normal text-black-bolder">Funds selected</div>
-					<div class="font-sm flex items-center font-medium text-black-key">
+					<div class="font-sm flex items-center font-normal text-black-key">
 						{#if selectedFunds?.length > maxCheckoutItems}
 							<div>
 								<WMSIcon name="polygon-yellow-warning" width={16} height={16} class="mr-1" />
@@ -41,7 +41,7 @@
 				</div>
 				<div class=" text-right">
 					<div class="text-sm font-normal text-black-bolder">Total Amount</div>
-					<div class="font-sm font-medium text-black-key">
+					<div class="font-sm font-normal text-black-key">
 						₹ {addCommasToAmountString(totalSelectedAmount) || '0'}
 					</div>
 				</div>
@@ -53,7 +53,7 @@
 			{#if hydrate}
 				<Button
 					disabled={notAllowedToProceed(selectedFunds)}
-					class="w-full !font-medium disabled:bg-grey-line disabled:text-grey-disabled sm:max-w-fit sm:px-16 "
+					class="w-full !font-normal disabled:bg-grey-line disabled:text-grey-disabled sm:max-w-fit sm:px-16 "
 					onClick={onProceedButtonClick}>PROCEED TO PLACE ORDER</Button
 				>
 			{:else}

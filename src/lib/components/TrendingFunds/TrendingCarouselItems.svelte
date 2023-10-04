@@ -45,7 +45,7 @@
 			class="border-line-grey"
 			lazy={index > 1 ? 'lazy' : 'eager'}
 		/>
-		<h3 class="line-clamp-2 whitespace-normal text-sm font-medium text-black-title md:text-sm">
+		<h3 class="line-clamp-2 whitespace-normal text-sm font-normal text-black-title md:text-sm">
 			{schemes?.schemeName}
 		</h3>
 		<div class="flex-1" />
@@ -75,7 +75,7 @@
 					<slot name="detailsLeft">
 						<div class="flex flex-col items-start">
 							<p class="text-xs font-normal">Min. SIP Amount</p>
-							<p class="text-base font-medium">
+							<p class="text-base font-normal">
 								₹ {addCommasToAmountString(schemes?.minSipAmount?.toString()) ||
 									schemes?.minSipAmount}
 							</p>
@@ -95,7 +95,7 @@
 									height="12"
 								/>
 								<p class="text-xs font-normal">
-									<span class="text-base font-medium">{schemes?.returns3yr?.toFixed(2)}%</span> p.a
+									<span class="text-base font-normal">{schemes?.returns3yr?.toFixed(2)}%</span> p.a
 								</p>
 							</div>
 						</div>
@@ -119,7 +119,7 @@
 
 					<slot name="detailsFooterDescription">
 						<p class="text-xs">
-							<span class=" font-semibold">
+							<span class=" font-medium">
 								{addCommasToAmountString(schemes?.noOfClientInvested)}
 							</span>
 							people have invested in this fund

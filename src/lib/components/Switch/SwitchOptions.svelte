@@ -99,7 +99,7 @@
 				class="mr-3 cursor-pointer"
 				on:click={handleBackButtonNavigation}
 			/>
-			<div class="text-md font-medium text-black-title">More Options</div>
+			<div class="text-md font-normal text-black-title">More Options</div>
 		</article>
 	{/if}
 	{#if !activePage}
@@ -117,7 +117,7 @@
 					<WMSIcon height={36} width={36} name="switch-fund" />
 				</div>
 				<div class="px-2 text-left text-grey-body">
-					<p class="pb-1 text-sm font-medium text-black-title">Switch Funds</p>
+					<p class="pb-1 text-sm font-normal text-black-title">Switch Funds</p>
 					<p class="border-bottom !text-xs text-grey-body">
 						Transfer your investment (partial or full) to another mutual fund from the same AMC
 					</p>

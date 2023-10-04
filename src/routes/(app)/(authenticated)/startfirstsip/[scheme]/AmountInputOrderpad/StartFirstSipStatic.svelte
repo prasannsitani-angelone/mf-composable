@@ -6,7 +6,7 @@
 </script>
 
 <article>
-	<div class="text-xl font-semibold text-black-key">Start investing in Mutual Funds!</div>
+	<div class="text-xl font-medium text-black-key">Start investing in Mutual Funds!</div>
 
 	<div class="mt-2">
 		{#each textPoints as point (point)}

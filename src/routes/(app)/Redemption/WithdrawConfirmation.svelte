@@ -273,10 +273,10 @@
 				class="mr-2 cursor-default md:cursor-pointer"
 				on:click={closeConfirmationScreen}
 			/>
-			<span class="text-base font-medium text-black-title"> Confirm Your Withdrawal </span>
+			<span class="text-base font-normal text-black-title"> Confirm Your Withdrawal </span>
 		</article>
 		<article class="mb-3 pb-1 md:mb-0 md:pb-0">
-			<div class="mx-3 mb-2 mt-2 pt-2 text-sm font-medium text-black-title md:mt-4 md:pt-0">
+			<div class="mx-3 mb-2 mt-2 pt-2 text-sm font-normal text-black-title md:mt-4 md:pt-0">
 				Credit to Account
 			</div>
 
@@ -290,7 +290,7 @@
 						{#if bankAccounts?.length > 1}
 							<Button
 								variant="transparent"
-								class="cursor-default text-sm font-semibold !uppercase text-blue-primary md:cursor-pointer"
+								class="cursor-default text-sm font-medium !uppercase text-blue-primary md:cursor-pointer"
 								onClick={toggleBankDropdown}
 							>
 								Change
@@ -304,12 +304,12 @@
 
 	<section class="-mt-1 rounded-lg bg-white pb-0.5 md:mt-4 md:border md:pb-0">
 		<article class="border-b p-4 pl-3">
-			<span class="text-base font-medium text-black-title"> Withdrawal Summary </span>
+			<span class="text-base font-normal text-black-title"> Withdrawal Summary </span>
 		</article>
 		<article>
 			<article class="mx-3 my-4 flex items-center justify-between">
 				<div class="flex items-center justify-start">
-					<span class="mr-1 text-sm font-medium text-grey-body"> Withdrawal Amount (Approx) </span>
+					<span class="mr-1 text-sm font-normal text-grey-body"> Withdrawal Amount (Approx) </span>
 					<WMSIcon
 						width={16}
 						height={16}
@@ -318,21 +318,21 @@
 						on:click={withdrawableAmountInfoTagClick}
 					/>
 				</div>
-				<div class="text-base font-medium text-black-title">
+				<div class="text-base font-normal text-black-title">
 					₹{addCommasToAmountString(withdrawalAmount)}
 				</div>
 			</article>
 			<article class="mx-3 my-4 flex items-center justify-between">
 				<div>
-					<span class="mr-1 text-sm font-medium text-grey-body"> Number of Units </span>
+					<span class="mr-1 text-sm font-normal text-grey-body"> Number of Units </span>
 				</div>
-				<div class="text-base font-medium text-black-title">
+				<div class="text-base font-normal text-black-title">
 					{numberOfUnits?.toFixed(3)}
 				</div>
 			</article>
 			<article class="mx-3 my-4 flex items-center justify-between">
 				<div class="flex items-center justify-start">
-					<span class="mr-1 text-sm font-medium text-grey-body"> Expected NAV Date </span>
+					<span class="mr-1 text-sm font-normal text-grey-body"> Expected NAV Date </span>
 					<WMSIcon
 						width={16}
 						height={16}
@@ -341,7 +341,7 @@
 						on:click={expectedNavDateInfoTagClick}
 					/>
 				</div>
-				<div class="text-base font-medium text-black-title">
+				<div class="text-base font-normal text-black-title">
 					{getDateTimeString(utilsMetaData?.expectedNavDate * 1000, 'DATE', true)}
 				</div>
 			</article>
@@ -349,11 +349,11 @@
 	</section>
 
 	<section class="mt-3 flex flex-col items-center justify-center pb-5">
-		<article class="mb-1 flex items-center justify-start text-xs font-medium text-grey-body">
+		<article class="mb-1 flex items-center justify-start text-xs font-normal text-grey-body">
 			<WMSIcon width={16} height={16} name="clock-bold" class="mr-1" />
 			<span> Estimated Credit Date </span>
 		</article>
-		<article class="text-base font-medium text-black-title">
+		<article class="text-base font-normal text-black-title">
 			{getDateTimeString(utilsMetaData?.estimatedCompletionDate * 1000, 'DATE', true)}
 		</article>
 	</section>

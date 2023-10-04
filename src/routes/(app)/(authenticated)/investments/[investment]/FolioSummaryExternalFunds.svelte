@@ -57,7 +57,7 @@
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			{#if distributorsData.length > 3}
 				<div
-					class=" flex cursor-pointer items-center justify-center border-t py-5 text-sm font-semibold text-blue-primary"
+					class=" flex cursor-pointer items-center justify-center border-t py-5 text-sm font-medium text-blue-primary"
 					on:click={toggleDistributorList}
 				>
 					{#if !showAllDistributorList}

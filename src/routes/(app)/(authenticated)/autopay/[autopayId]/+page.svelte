@@ -97,7 +97,7 @@
 				>
 					<svelte:fragment slot="header">
 						{#if !response?.data?.inProgress}
-							<div class="-mt-4 mb-2 text-[10px] font-medium uppercase text-grey-body">
+							<div class="-mt-4 mb-2 text-[10px] font-normal uppercase text-grey-body">
 								{response?.data?.authenticationMode}
 							</div>
 						{:else}
@@ -123,7 +123,7 @@
 		<section>
 			{#if response?.status === 'success' && response?.data?.sips?.length}
 				<article class="mt-2 rounded-lg bg-white p-3 text-black-title shadow-csm">
-					<div class="text-sm font-medium">SIPs Linked</div>
+					<div class="text-sm font-normal">SIPs Linked</div>
 					<section class="mt-4">
 						{#each response?.data?.sips as sip, index (sip?.sipId)}
 							<div
@@ -142,7 +142,7 @@
 									}`}
 								>
 									<svelte:fragment slot="subtextSlot">
-										<div class="mt-1 text-xs font-medium text-grey-body">
+										<div class="mt-1 text-xs font-normal text-grey-body">
 											SIP Amount
 											<span class="text-black-key">
 												<AmountText amount={sip?.installmentAmount} />

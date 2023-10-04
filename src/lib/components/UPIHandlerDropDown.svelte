@@ -64,7 +64,7 @@
 	/>
 	{#if filteredHandlers?.length > 0}
 		<div
-			class="absolute left-0 right-0 flex flex-1 flex-col gap-2 border border-t-0 bg-white p-2.5 text-sm font-semibold text-black-title"
+			class="absolute left-0 right-0 flex flex-1 flex-col gap-2 border border-t-0 bg-white p-2.5 text-sm font-medium text-black-title"
 		>
 			{#each filteredHandlers as item, index (index)}
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -76,7 +76,7 @@
 		</div>
 	{/if}
 	{#if inputError}
-		<div class="text-xs font-medium text-red-sell">
+		<div class="text-xs font-normal text-red-sell">
 			{inputError}
 		</div>
 	{/if}

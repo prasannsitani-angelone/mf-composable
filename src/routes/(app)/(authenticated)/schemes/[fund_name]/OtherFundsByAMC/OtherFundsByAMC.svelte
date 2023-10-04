@@ -63,7 +63,7 @@
 				<div class="flex h-12 w-12 items-center justify-center rounded-full bg-grey">
 					<OtherFundsIcon />
 				</div>
-				<h2 class="ml-3 flex items-center text-left font-medium text-black-title">
+				<h2 class="ml-3 flex items-center text-left font-normal text-black-title">
 					<span>Other Funds by {sameAmcScheme?.amcName}</span>
 				</h2>
 			</section>
@@ -114,7 +114,7 @@
 											headingSecondary={schemes?.subcategoryName}
 										/>
 										<h3
-											class="block w-full whitespace-pre-wrap font-medium text-black-title sm:text-sm"
+											class="block w-full whitespace-pre-wrap font-normal text-black-title sm:text-sm"
 										>
 											{schemes?.schemeName}
 										</h3>

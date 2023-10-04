@@ -105,7 +105,7 @@
 					</Td>
 					<Td class="text-center">
 						<div
-							class="flex flex-col justify-center text-center align-middle text-base font-medium text-black-title md:text-sm"
+							class="flex flex-col justify-center text-center align-middle text-base font-normal text-black-title md:text-sm"
 						>
 							<span>₹{scheme?.navValue?.toFixed(2)}</span>
 							<span class:text-green-buy={isNavTrendingUp} class:text-red-sell={!isNavTrendingUp}>

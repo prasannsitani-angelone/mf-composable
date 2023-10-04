@@ -17,7 +17,7 @@
 		<div class="flex h-12 w-12 items-center justify-center rounded-full bg-grey">
 			<SchemeInformationIcon />
 		</div>
-		<h2 class="ml-3 flex items-center text-left font-medium text-black-title">
+		<h2 class="ml-3 flex items-center text-left font-normal text-black-title">
 			<span class="mr-2">Basic Information</span>
 
 			<Button

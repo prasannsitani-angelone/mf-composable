@@ -408,9 +408,9 @@
 	};
 
 	const inactiveButtonClass =
-		'font-medium bg-white !text-black-title/80 border hover:bg-inherit border-grey-primary';
+		'font-normal bg-white !text-black-title/80 border hover:bg-inherit border-grey-primary';
 	const inactiveMobileButtonClass =
-		'font-medium bg-white text-black-title/80 border-0 border-white';
+		'font-normal bg-white text-black-title/80 border-0 border-white';
 	const disabledClass = '!border-grey-line !bg-white';
 
 	const equityDebtTabSwitchAnalyticsFunc = () => {
@@ -505,10 +505,10 @@
 						<AssetAnalysisIcon />
 					</div>
 					<div class="ml-4 flex flex-col">
-						<span class="text-left text-base font-medium text-black-title md:text-lg"
+						<span class="text-left text-base font-normal text-black-title md:text-lg"
 							>Asset Class Analysis</span
 						>
-						<span class="text-left text-xs font-medium text-grey-body md:text-sm"
+						<span class="text-left text-xs font-normal text-grey-body md:text-sm"
 							>Category wise fund analysis</span
 						>
 					</div>
@@ -570,7 +570,7 @@
 				<article class="lg:hidden">
 					<article class="flex border-b">
 						<Button
-							class={`w-1/2 !rounded-none !bg-white !py-5 font-semibold !text-blue-primary ${
+							class={`w-1/2 !rounded-none !bg-white !py-5 font-medium !text-blue-primary ${
 								showEquityDebt === 'DEBT'
 									? inactiveMobileButtonClass
 									: 'border-b-[3px] !border-b-blue-primary'
@@ -581,7 +581,7 @@
 							Equity ({equityTotalPercentage?.toFixed(2)}%)
 						</Button>
 						<Button
-							class={`w-1/2 !rounded-none !bg-white !py-5 font-semibold !text-blue-primary ${
+							class={`w-1/2 !rounded-none !bg-white !py-5 font-medium !text-blue-primary ${
 								showEquityDebt === 'EQUITY'
 									? inactiveMobileButtonClass
 									: 'border-b-[3px] !border-b-blue-primary'
@@ -598,7 +598,7 @@
 			<article class="px-20 pb-5 pt-10 lg:hidden">
 				<article class="flex">
 					<Button
-						class={`mr-1 rounded !py-2 !font-medium ${
+						class={`mr-1 rounded !py-2 !font-normal ${
 							showIndexedChartForMobile === 1 ? inactiveButtonClass : ''
 						}`}
 						variant={showIndexedChartForMobile === 1 ? 'outlined' : 'contained'}
@@ -608,7 +608,7 @@
 						{showEquityDebt === 'EQUITY' ? 'Market Cap' : 'Instruments'}
 					</Button>
 					<Button
-						class={`ml-1 rounded !py-2 !font-medium ${
+						class={`ml-1 rounded !py-2 !font-normal ${
 							showIndexedChartForMobile === 0 ? inactiveButtonClass : ''
 						}`}
 						variant={showIndexedChartForMobile === 0 ? 'outlined' : 'contained'}

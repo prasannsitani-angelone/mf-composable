@@ -16,8 +16,8 @@
 	>
 		<ReportsMobileIcon />
 		<div class="ml-2 flex flex-col">
-			<p class="text-sm font-medium text-black-title">Reports</p>
-			<p class="text-xs font-medium text-grey-body">Tax Filing, Fund Holdings, Transactions</p>
+			<p class="text-sm font-normal text-black-title">Reports</p>
+			<p class="text-xs font-normal text-grey-body">Tax Filing, Fund Holdings, Transactions</p>
 		</div>
 		<RightIcon class="ml-auto" />
 	</Link>

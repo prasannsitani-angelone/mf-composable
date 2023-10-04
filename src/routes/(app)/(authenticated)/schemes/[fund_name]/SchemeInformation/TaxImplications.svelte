@@ -15,10 +15,10 @@
 				<ScissorsIcon />
 			</div>
 
-			<h3 class="ml-4 text-lg font-medium text-black-title">Tax Implications</h3>
+			<h3 class="ml-4 text-lg font-normal text-black-title">Tax Implications</h3>
 		</header>
 		<article class="hidden sm:flex">
-			<div class="relative mr-3 w-full rounded border border-grey-line py-4 pl-5 font-medium">
+			<div class="relative mr-3 w-full rounded border border-grey-line py-4 pl-5 font-normal">
 				<h4 class="text-sm text-grey-body">
 					{taxImplications[0]?.header}
 				</h4>
@@ -35,7 +35,7 @@
 				<WMSIcon name="polygon-right-medium" class="mr-1" />
 				<WMSIcon name="polygon-right-small" />
 			</div>
-			<div class="relative w-full rounded border border-grey-line py-4 pl-5 font-medium">
+			<div class="relative w-full rounded border border-grey-line py-4 pl-5 font-normal">
 				<h4 class="text-sm text-grey-body">
 					{taxImplications[1]?.header}
 				</h4>
@@ -55,7 +55,7 @@
 					<h4 class="mb-1 text-sm text-grey-body">
 						{taxImplications[0]?.header}
 					</h4>
-					<h5 class="text-sm font-medium text-black-title">
+					<h5 class="text-sm font-normal text-black-title">
 						{taxImplications[0]?.value}
 					</h5>
 				</div>
@@ -69,7 +69,7 @@
 					<h4 class="mb-1 text-sm text-grey-body">
 						{taxImplications[1]?.header}
 					</h4>
-					<h5 class="text-sm font-medium text-black-title">
+					<h5 class="text-sm font-normal text-black-title">
 						{taxImplications[1]?.value}
 					</h5>
 				</div>

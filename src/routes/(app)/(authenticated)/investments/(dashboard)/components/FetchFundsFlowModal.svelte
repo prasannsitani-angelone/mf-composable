@@ -146,7 +146,7 @@
 		{#if step === 'GENERATE'}
 			<!-- Render Generate OTP contents -->
 			<div class="flex items-center justify-between p-0 sm:border-b sm:px-8 sm:py-6">
-				<div class="mr-1 text-xl font-medium">Generate OTP</div>
+				<div class="mr-1 text-xl font-normal">Generate OTP</div>
 				<button class="hidden sm:block md:cursor-pointer" on:click={onModalClick}>
 					<WMSIcon name="cross-circle" />
 				</button>
@@ -155,7 +155,7 @@
 				<div
 					class="mb-10 mt-3 text-left text-sm font-normal text-grey-body sm:mb-11 sm:mt-5 sm:text-base"
 				>
-					You will receive an OTP from MFCentral on <span class="font-medium text-black-title"
+					You will receive an OTP from MFCentral on <span class="font-normal text-black-title"
 						>{getMaskedMobileNumber(data.profile.mobile)}</span
 					>. Please verify this OTP in the next step
 				</div>
@@ -166,7 +166,7 @@
 		{:else if step === 'VALIDATE' && stepIsValidate()}
 			<!-- Render Validate OTP contents -->
 			<div class="flex items-center justify-between p-0 sm:border-b sm:px-8 sm:py-6">
-				<div class="mr-1 text-lg font-medium">Verify OTP</div>
+				<div class="mr-1 text-lg font-normal">Verify OTP</div>
 				<button class="hidden sm:block md:cursor-pointer" on:click={onModalClick}>
 					<WMSIcon name="cross-circle" />
 				</button>
@@ -182,7 +182,7 @@
 					class="mb-8 mt-3 text-left text-sm font-normal text-grey-body sm:mb-11 sm:mt-5 sm:text-base"
 				>
 					By verifying the OTP, you are allowing Angel One to fetch all mutual funds investment
-					information mapped to your <span class="font-medium text-black-title"
+					information mapped to your <span class="font-normal text-black-title"
 						>PAN {getMaskedMobileNumber(data.profile.pan)}</span
 					>
 				</div>

@@ -79,7 +79,7 @@
 		container: 'py-3 mr-1 w-full border-none rounded-md',
 		label: '',
 		input:
-			'w-full !border-none focus:outline-none placeholder-grey-medium md:placeholder-grey-disabled !text-base !text-black-title font-medium lg:font-normal !input-xs !pl-0',
+			'w-full !border-none focus:outline-none placeholder-grey-medium md:placeholder-grey-disabled !text-base !text-black-title font-normal lg:font-normal !input-xs !pl-0',
 		error: '',
 		parent: 'w-full'
 	};

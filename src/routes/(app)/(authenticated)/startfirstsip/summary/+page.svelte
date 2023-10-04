@@ -94,7 +94,7 @@
 			</div>
 		{:else}
 			<div class="flex h-full flex-col items-center self-center px-4 py-4">
-				<div class="mb-4 text-center text-base font-medium text-black-title">
+				<div class="mb-4 text-center text-base font-normal text-black-title">
 					We are facing some issue at our end. Please try again or contact field support
 				</div>
 				<Button variant="transparent" class="mt-6 w-max self-center" onClick={onRefresh}>
@@ -107,7 +107,7 @@
 		{/if}
 	{:catch}
 		<div class="flex h-full flex-col items-center self-center px-4 py-4">
-			<div class="mb-4 text-center text-base font-medium text-black-title">
+			<div class="mb-4 text-center text-base font-normal text-black-title">
 				We are facing some issue at our end. Please try again or contact field support
 			</div>
 			<Button variant="transparent" class="mt-6 w-max self-center" onClick={onRefresh}>

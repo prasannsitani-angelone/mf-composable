@@ -9,7 +9,7 @@
 	class="mx-5 flex justify-center rounded-full bg-red-light px-3 py-2 text-red-errorDark {$$props.class ||
 		''}"
 >
-	<div class=" text-base font-semibold">
+	<div class=" text-base font-medium">
 		Your SIPs worth ₹{addCommasToAmountString(totalAmount)} are at risk
 	</div>
 	<WMSIcon class="ml-2.5" name="risk-plug" />

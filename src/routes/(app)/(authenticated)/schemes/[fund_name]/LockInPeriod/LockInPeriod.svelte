@@ -19,17 +19,17 @@
 						{#if schemeDetails?.isSipAllowed === 'Y'}
 							<PiggyBankIcon class="h-9 w-9" />
 							<div class="ml-2">
-								<div class="text-base font-medium text-black-title sm:text-2xl">
+								<div class="text-base font-normal text-black-title sm:text-2xl">
 									<AmountText amount={schemeDetails?.minSipAmount} />
 								</div>
-								<div class="text-xs font-medium text-grey-body sm:text-sm">
+								<div class="text-xs font-normal text-grey-body sm:text-sm">
 									Minimum SIP investment
 								</div>
 							</div>
 						{:else}
 							<PiggyBankIcon disabled={true} />
 							<div class="ml-2 flex justify-center">
-								<span class="text-center text-xs font-medium">
+								<span class="text-center text-xs font-normal">
 									This fund does not support SIP Investment
 								</span>
 							</div>
@@ -41,17 +41,17 @@
 						{#if schemeDetails?.isLumpsumAllowed === 'Y'}
 							<MinLumpSumIcon class="h-9 w-9" />
 							<div class="ml-2">
-								<div class="text-base font-medium text-black-title sm:text-2xl">
+								<div class="text-base font-normal text-black-title sm:text-2xl">
 									<AmountText amount={schemeDetails?.minLumpsumAmount} />
 								</div>
-								<div class="text-xs font-medium text-grey-body sm:text-sm">
+								<div class="text-xs font-normal text-grey-body sm:text-sm">
 									Minimum one time investment
 								</div>
 							</div>
 						{:else}
 							<MinLumpSumIcon disabled={true} />
 							<div class="ml-2 flex justify-center">
-								<span class="text-center text-xs font-medium">
+								<span class="text-center text-xs font-normal">
 									This fund does not support One-Time Investment
 								</span>
 							</div>
@@ -61,10 +61,10 @@
 			</div>
 			{#if !isNFO}
 				<div
-					class="mt-3 flex items-center justify-center rounded border border-grey-line py-2 font-medium text-black-title"
+					class="mt-3 flex items-center justify-center rounded border border-grey-line py-2 font-normal text-black-title"
 				>
 					<LockInIcon />
-					<span class="font-semibold"> Lock-in:</span>
+					<span class="font-medium"> Lock-in:</span>
 					{#if schemeDetails?.sipLockinPeriodFlag === 'Y'}
 						<div>
 							Fund has {schemeDetails?.sipLockinPeriod}Y lock-in period

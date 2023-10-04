@@ -23,7 +23,7 @@
 			variant={isActive ? BtnVariant.Contained : BtnVariant.Outlined}
 			text={{
 				label: category.name,
-				customClass: `min-w-fit font-medium text-xs normal-case ${
+				customClass: `min-w-fit font-normal text-xs normal-case ${
 					isActive ? activeLink : inActiveLink
 				}`
 			}}

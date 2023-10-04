@@ -38,7 +38,7 @@ export const load = async ({ fetch, url, depends }) => {
 								new Date(data?.estimatedCompletionDate),
 								'do MMMM yyyy'
 							)}`,
-							class: '!text-black-title font-medium'
+							class: '!text-black-title font-normal'
 						}
 					];
 					headerContent.status = STATUS_ARR.SUCCESS;

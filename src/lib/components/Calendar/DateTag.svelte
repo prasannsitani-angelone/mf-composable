@@ -15,7 +15,7 @@
 		: '';
 
 	const DateTagClass =
-		'flex justify-center items-center w-min px-2 py-2 sm:px-3 sm:py-3 text-base sm:text-lg font-medium text-black-title cursor-pointer';
+		'flex justify-center items-center w-min px-2 py-2 sm:px-3 sm:py-3 text-base sm:text-lg font-normal text-black-title cursor-pointer';
 
 	const onClick = () => {
 		dispatch('dateTagClicked');

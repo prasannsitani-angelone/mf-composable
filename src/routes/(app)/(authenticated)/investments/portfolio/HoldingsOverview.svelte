@@ -60,7 +60,7 @@
 								<div>Generating your investment value graph.</div>
 								{#if isExternal}
 									<div>
-										This can take up to <span class="font-medium text-black">24 hours</span>
+										This can take up to <span class="font-normal text-black">24 hours</span>
 									</div>
 								{/if}
 							</div>
@@ -72,7 +72,7 @@
 			<!-- This section is not visible on portfolio details page as the data doesnot have "sipEnabled" kry. -->
 			{#if folioSummary?.sipEnabled && !isExternal}
 				<section
-					class="flex items-end justify-center rounded bg-grey py-2.5 text-sm font-medium text-black-title lg:mx-0 lg:bg-inherit lg:py-5"
+					class="flex items-end justify-center rounded bg-grey py-2.5 text-sm font-normal text-black-title lg:mx-0 lg:bg-inherit lg:py-5"
 				>
 					<CalendarTickIcon class="mr-3" />
 					<div>
@@ -88,7 +88,7 @@
 		</div>
 		{#if isExternal}
 			<section
-				class="flex items-center justify-center border-t py-3 text-xs font-medium text-black-title sm:mt-4 sm:text-sm lg:mx-0 lg:bg-inherit lg:py-5"
+				class="flex items-center justify-center border-t py-3 text-xs font-normal text-black-title sm:mt-4 sm:text-sm lg:mx-0 lg:bg-inherit lg:py-5"
 			>
 				<div class="mr-1">
 					<WMSIcon width={32} height={32} name="refresh-icon" />

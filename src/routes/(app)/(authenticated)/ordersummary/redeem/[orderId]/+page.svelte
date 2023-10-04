@@ -64,11 +64,11 @@
 
 				<!-- Order Timeline -->
 				<div class="mx-2 mt-2 rounded-lg bg-white p-4 shadow-csm md:mx-0 md:mt-4 md:p-6">
-					<div class="mb-5 text-lg font-medium text-black-title">Withdrawal Status</div>
+					<div class="mb-5 text-lg font-normal text-black-title">Withdrawal Status</div>
 					<OrderTimeLine
 						items={ordersDetails?.orderStatusItems || []}
-						titleClass="!font-medium"
-						subTitleClass="!font-medium"
+						titleClass="!font-normal"
+						subTitleClass="!font-normal"
 					/>
 				</div>
 

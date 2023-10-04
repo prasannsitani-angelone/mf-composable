@@ -221,12 +221,12 @@
 					<!-- Section 1 -->
 					<div class="mb-2 rounded-lg bg-white p-3">
 						<!-- Heading  -->
-						<div class="mb-4 text-base font-medium text-black-title">
+						<div class="mb-4 text-base font-normal text-black-title">
 							Investing in 4 Mutual Funds
 						</div>
 						<!-- Investment Info  -->
 						<div
-							class="flex flex-row justify-between rounded bg-grey p-2 text-sm font-medium text-black-title"
+							class="flex flex-row justify-between rounded bg-grey p-2 text-sm font-normal text-black-title"
 						>
 							<div class="flex flex-col">
 								<div class="text-xs text-grey-body">Total SIP Amount</div>
@@ -241,7 +241,7 @@
 					<!-- Section 2 -->
 					<div class="rounded-lg bg-white p-3">
 						<!-- Heading  -->
-						<div class="mb-7 text-base font-medium text-black-title">Investment Allocation</div>
+						<div class="mb-7 text-base font-normal text-black-title">Investment Allocation</div>
 						<!-- Pie Chart  -->
 						<div class="mb-6 flex w-full flex-row items-center justify-center">
 							<PieChart data={basket?.chartData} />
@@ -258,7 +258,7 @@
 							<!-- data  -->
 							<div class="flex flex-col gap-5 pt-6">
 								{#each basket.schemes as scheme, index (index)}
-									<div class="flex flex-row text-sm font-medium text-black-title">
+									<div class="flex flex-row text-sm font-normal text-black-title">
 										<div class="flex w-2/3 flex-row">
 											<div
 												class="flex h-6 w-6 min-w-[24px] flex-row items-center justify-center rounded-full bg-white shadow-csm"
@@ -330,7 +330,7 @@
 									</div>
 								{/if}
 							</div>
-							<div class="flex w-full flex-row items-center justify-between text-sm font-medium">
+							<div class="flex w-full flex-row items-center justify-between text-sm font-normal">
 								<div>{basket.schemes?.length} Mutual Funds</div>
 								<div>₹{addCommasToAmountString(amount)}</div>
 							</div>
@@ -345,7 +345,7 @@
 		{/if}
 	{:else}
 		<div class="flex h-full flex-col items-center self-center px-4 py-4">
-			<div class="mb-4 text-center text-base font-medium text-black-title">
+			<div class="mb-4 text-center text-base font-normal text-black-title">
 				We are facing some issue at our end. Please try again or contact field support
 			</div>
 			<Button variant="transparent" class="mt-6 w-max self-center" onClick={onRefresh}>
@@ -358,7 +358,7 @@
 	{/if}
 {:catch}
 	<div class="flex h-full flex-col items-center self-center px-4 py-4">
-		<div class="mb-4 text-center text-base font-medium text-black-title">
+		<div class="mb-4 text-center text-base font-normal text-black-title">
 			We are facing some issue at our end. Please try again or contact field support
 		</div>
 		<Button variant="transparent" class="mt-6 w-max self-center" onClick={onRefresh}>

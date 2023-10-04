@@ -36,7 +36,7 @@
 				tdClass: '!text-left',
 				thWrapperClass: 'flex flex-row items-center justify-start',
 				tdWrapperClass:
-					'items-start justify-between mr-4 truncate text-sm font-medium text-black-title'
+					'items-start justify-between mr-4 truncate text-sm font-normal text-black-title'
 			},
 			{
 				label: '% Allocation',
@@ -177,7 +177,7 @@
 							class={`border-b border-grey-line py-4 pl-5 pr-6 text-center text-grey-body ${eachCol.tdClass}`}
 						>
 							<div
-								class={`text-sm font-medium text-black-title ${eachCol.tdWrapperClass || ''} ${
+								class={`text-sm font-normal text-black-title ${eachCol.tdWrapperClass || ''} ${
 									eachCol.field === 'name' ? 'flex items-center !justify-start' : ''
 								}`}
 							>
@@ -202,9 +202,7 @@
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
 			class={`flex cursor-pointer items-end justify-center border-t py-4
-      text-sm font-semibold text-blue-primary ${
-				isCompaniesTableVisible ? 'border-b' : 'rounded-b'
-			}`}
+      text-sm font-medium text-blue-primary ${isCompaniesTableVisible ? 'border-b' : 'rounded-b'}`}
 			on:click={emitToggleFilterTable}
 		>
 			{isCompaniesTableVisible ? 'Hide' : `Show ${footerText || 'Funds'}`}
@@ -214,7 +212,7 @@
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
 			class="flex cursor-pointer items-end justify-center rounded-b border-t py-4
-      text-sm font-semibold uppercase text-blue-primary"
+      text-sm font-medium uppercase text-blue-primary"
 			on:click={toggleTableData}
 		>
 			View {viewAllData ? 'Less' : 'All'}

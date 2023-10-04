@@ -21,7 +21,7 @@
 					<img src={option.iconUrl} class="h-9 w-9" alt="option.name" loading="lazy" />
 				</div>
 				<h2
-					class="mt-2 px-2 text-center text-sm font-medium text-black-title lg:ml-3 lg:mt-0 lg:pl-0 lg:pr-3 lg:text-left lg:text-base"
+					class="mt-2 px-2 text-center text-sm font-normal text-black-title lg:ml-3 lg:mt-0 lg:pl-0 lg:pr-3 lg:text-left lg:text-base"
 				>
 					{option.name}
 				</h2>

@@ -94,7 +94,7 @@
 		class="w-screen items-stretch rounded-b-none rounded-t-2xl bg-white max-sm:!p-0 sm:!w-[460px] sm:rounded-lg"
 	>
 		<div class="flex items-center justify-between border-b border-grey-line px-8">
-			<p class="py-6 text-xl font-medium text-black-title">
+			<p class="py-6 text-xl font-normal text-black-title">
 				{heading}
 			</p>
 			{#if !isMobile}
@@ -110,9 +110,9 @@
 						on:click={() => updateShowFromDateDatepicker('from')}
 					>
 						{#if fromDate}
-							<span class="text-base font-medium text-black-title">{displayFromDate}</span>
+							<span class="text-base font-normal text-black-title">{displayFromDate}</span>
 						{:else}
-							<span class="text-base font-medium text-grey-disabled">DD/MM/YYYY</span>{/if}
+							<span class="text-base font-normal text-grey-disabled">DD/MM/YYYY</span>{/if}
 						<CalendarIcon class="mb-1 ml-auto" />
 					</div>
 				</div>
@@ -123,9 +123,9 @@
 						on:click={() => updateShowFromDateDatepicker()}
 					>
 						{#if toDate}
-							<span class="tetx-black-title text-base font-medium">{displayToDate}</span>
+							<span class="tetx-black-title text-base font-normal">{displayToDate}</span>
 						{:else}
-							<span class="text-base font-medium text-grey-disabled">DD/MM/YYYY</span>
+							<span class="text-base font-normal text-grey-disabled">DD/MM/YYYY</span>
 						{/if}
 						<CalendarIcon class="mb-1 ml-auto" />
 					</div>

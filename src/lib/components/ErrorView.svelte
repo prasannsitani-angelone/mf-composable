@@ -27,7 +27,7 @@
 	</slot>
 
 	<slot name="heading">
-		<div class="mt-4 text-center text-lg font-medium text-black-title">
+		<div class="mt-4 text-center text-lg font-normal text-black-title">
 			{heading}
 		</div>
 	</slot>

@@ -34,7 +34,7 @@
 			<div class=" mb-1 text-1xs font-normal leading-normal text-grey-body">
 				Unlinked SIP Amount
 			</div>
-			<div class=" text-xl font-medium text-black-title">
+			<div class=" text-xl font-normal text-black-title">
 				₹{addCommasToAmountString(totalAmount)}
 			</div>
 		</div>
@@ -51,13 +51,13 @@
 					name="question-mark-circle"
 				/> -->
 			</div>
-			<div class=" text-xl font-medium text-black-title">
+			<div class=" text-xl font-normal text-black-title">
 				₹{addCommasToAmountString(mandateLimit)}
 			</div>
 		</div>
 	</div>
 	<div class=" rounded bg-yellow-background px-2 py-1">
-		<div class=" mb-1 text-base font-medium text-black-title">Note:</div>
+		<div class=" mb-1 text-base font-normal text-black-title">Note:</div>
 		<ul>
 			{#each autopayNotes as item, index (index)}
 				<li class=" mb-1 ml-4 list-disc text-sm font-normal text-black-title">{item.detail}</li>
@@ -71,7 +71,7 @@
 		<div
 			class=" w-screen justify-between rounded-b-none rounded-t-2xl bg-white p-4 text-left sm:!w-[460px] sm:rounded-lg sm:px-20 sm:py-8"
 		>
-			<div class=" pb-6 pt-2 text-lg font-medium text-black-title">Max. Autopay Limit</div>
+			<div class=" pb-6 pt-2 text-lg font-normal text-black-title">Max. Autopay Limit</div>
 
 			<div class=" text-sm font-normal text-grey-body">
 				This is the maximum amount that can be deducted from your bank account if you had cumulative

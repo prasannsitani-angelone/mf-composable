@@ -16,7 +16,7 @@
 	class="mb-3 mt-1 flex max-w-4xl flex-row items-center rounded-lg bg-white p-4 py-6 shadow-csm {$$props.class}"
 >
 	<div class="flex flex-1 flex-col">
-		<p class="mb-2 text-sm font-semibold text-black-title">Automate all future instalments</p>
+		<p class="mb-2 text-sm font-medium text-black-title">Automate all future instalments</p>
 		<p class="mb-4 text-xs text-black-title">
 			Automating SIP is easier than ever.<br />Set it up in just 2 clicks.
 		</p>

@@ -128,9 +128,9 @@
 				<section
 					class="fixed inset-0 top-auto z-20 block rounded-t-lg bg-white px-3 py-6 shadow-csm md:hidden"
 				>
-					<div class="text-lg font-semibold text-black-key">Choose monthly investment amount</div>
+					<div class="text-lg font-medium text-black-key">Choose monthly investment amount</div>
 
-					<div class="text-xs font-medium text-black-bolder">Start investing with just ₹100!</div>
+					<div class="text-xs font-normal text-black-bolder">Start investing with just ₹100!</div>
 
 					<section class="mt-6">
 						<AmountSection

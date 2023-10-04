@@ -10,7 +10,7 @@
 			loading="lazy"
 			alt="Illustration shoeing first time import"
 		/>
-		<div class="mb-3 mt-5 text-base font-medium">Fetching Your Investments...</div>
+		<div class="mb-3 mt-5 text-base font-normal">Fetching Your Investments...</div>
 
 		<ul
 			class="list-disc rounded bg-blue-background p-3 pl-7 text-left text-sm font-normal leading-[18px] text-grey-body"

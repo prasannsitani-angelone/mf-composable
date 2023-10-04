@@ -113,7 +113,7 @@
 				{nameInitials}
 			</div>
 			<div>
-				<div class="mb-1 text-lg font-medium text-black-neutral">
+				<div class="mb-1 text-lg font-normal text-black-neutral">
 					{usersName}
 				</div>
 				<div class="text-base text-grey-dark">
@@ -158,7 +158,7 @@
 
 			<div id="forgot_mpin" class="mt-2 flex w-full flex-row justify-end">
 				<button
-					class="cursor-pointer text-sm font-semibold text-blue-primary active:opacity-80"
+					class="cursor-pointer text-sm font-medium text-blue-primary active:opacity-80"
 					on:click={onForgotPin}
 				>
 					Forgot PIN?
@@ -177,7 +177,7 @@
 		<div class="mt-5 flex w-full flex-row text-sm text-grey-medium lg:w-120">
 			<span class="mr-2">Login to another account?</span>
 			<button
-				class="cursor-pointer text-sm font-medium text-blue-primary active:opacity-80"
+				class="cursor-pointer text-sm font-normal text-blue-primary active:opacity-80"
 				on:click={onSwitchHereClick}
 			>
 				Switch Here

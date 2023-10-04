@@ -13,7 +13,7 @@
 			loading="lazy"
 			alt="Illustration shoeing first time import"
 		/>
-		<div class="mb-3 mt-5 text-base font-medium text-black-title sm:mt-8">
+		<div class="mb-3 mt-5 text-base font-normal text-black-title sm:mt-8">
 			{title}
 		</div>
 		<div class="mb-6 text-sm text-grey-body">

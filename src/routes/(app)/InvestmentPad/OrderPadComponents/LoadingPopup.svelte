@@ -12,7 +12,7 @@
 	>
 		<div class="mb-16 flex flex-col items-center">
 			<img src={`${base}/images/AngelOneLogo.webp`} class="w-32" alt="Angelone logo" />
-			<div class="mt-4 text-center text-base font-medium text-black-title">
+			<div class="mt-4 text-center text-base font-normal text-black-title">
 				{heading}
 			</div>
 		</div>
@@ -20,7 +20,7 @@
 		<LoadingIndicator svgClass="!w-28 !h-28 mr-0 mb-16" />
 
 		<div class="flex flex-col items-center">
-			<div class="mb-4 text-center text-xl font-medium text-black-title">Please wait</div>
+			<div class="mb-4 text-center text-xl font-normal text-black-title">Please wait</div>
 			<div class="mb-4 text-center text-sm text-grey-body">
 				Note: Do not press back or close the app
 			</div>

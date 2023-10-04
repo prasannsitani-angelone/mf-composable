@@ -84,7 +84,7 @@
 
 <section class="w-full" data-testid="mpin-setup">
 	<div class="flex w-full flex-col items-center lg:w-120">
-		<div class="mb-6 w-full text-xl font-medium text-black-neutral md:mb-12">Set Up PIN</div>
+		<div class="mb-6 w-full text-xl font-normal text-black-neutral md:mb-12">Set Up PIN</div>
 		<div class="flex w-full flex-col items-center">
 			<BaseInput
 				id="mpin"

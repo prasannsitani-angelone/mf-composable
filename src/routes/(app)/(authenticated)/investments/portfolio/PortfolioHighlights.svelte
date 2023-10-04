@@ -16,8 +16,8 @@
 	<section
 		class="flex flex-1 flex-col items-start justify-center py-3 pt-2 lg:items-center lg:border-r lg:pt-3"
 	>
-		<div class="text-xs font-medium text-grey-body">Total Invested</div>
-		<div class="text-base font-medium text-black-title">
+		<div class="text-xs font-normal text-grey-body">Total Invested</div>
+		<div class="text-base font-normal text-black-title">
 			₹{!Number.isNaN(Math.abs(data?.investedValue))
 				? addCommasToAmountString(Math.abs(data?.investedValue)?.toFixed(2))
 				: ''}
@@ -34,13 +34,13 @@
 	<section
 		class="ml-10 hidden flex-1 flex-col items-end justify-center py-3 lg:flex lg:items-center"
 	>
-		<div class="text-xs font-medium text-grey-body">
+		<div class="text-xs font-normal text-grey-body">
 			{#if isPartialImport}
 				<WMSIcon name="polygon-red-warning" class="inline-block" width={12} height={12} />
 			{/if}
 			<span>Total Returns</span>
 		</div>
-		<div class="text-base font-medium text-black-title">
+		<div class="text-base font-normal text-black-title">
 			{#if isPartialImport}
 				<span class="mr-1">- -</span>
 			{:else}
@@ -67,14 +67,14 @@
 	<section
 		class="ml-10 flex flex-1 flex-col items-end justify-center py-3 pt-2 lg:hidden lg:items-center lg:pt-3"
 	>
-		<div class="text-xs font-medium text-grey-body">
+		<div class="text-xs font-normal text-grey-body">
 			{#if isPartialImport}
 				<WMSIcon name="polygon-red-warning" class="inline-block" width={12} height={12} />
 			{/if}
 			<span>Current Value</span>
 		</div>
 
-		<div class="text-base font-medium text-black-title">
+		<div class="text-base font-normal text-black-title">
 			{#if isPartialImport}
 				<span class="mr-1">- -</span>
 			{:else}
@@ -92,13 +92,13 @@
 	</span>
 
 	<section class="hidden flex-1 flex-col items-center justify-center border-l py-3 lg:flex">
-		<div class="text-xs font-medium text-grey-body">
+		<div class="text-xs font-normal text-grey-body">
 			{#if isPartialImport}
 				<WMSIcon name="polygon-red-warning" class="inline-block" width={12} height={12} />
 			{/if}
 			<span>Current Value</span>
 		</div>
-		<div class="text-base font-medium text-black-title">
+		<div class="text-base font-normal text-black-title">
 			{#if isPartialImport}
 				<span class="mr-1">- -</span>
 			{:else}
@@ -112,7 +112,7 @@
 {#if !isPartialImport}
 	<article class="lg:hidden">
 		<section class="my-1 flex items-center justify-center rounded border py-1">
-			<div class="-mb-1 mr-1 flex items-center text-xs font-medium text-grey-body">
+			<div class="-mb-1 mr-1 flex items-center text-xs font-normal text-grey-body">
 				{#if data?.returnsValue >= 0}
 					<GraphUpIcon class="mr-1" />
 				{:else}
@@ -120,7 +120,7 @@
 				{/if}
 				<span> Returns </span>
 			</div>
-			<div class="text-base font-medium text-black-title">
+			<div class="text-base font-normal text-black-title">
 				<span class="mr-1">
 					{data?.returnsValue < 0 ? '-' : ''}₹{!Number.isNaN(Math.abs(data?.returnsValue))
 						? addCommasToAmountString(Math.abs(data?.returnsValue)?.toFixed(2))

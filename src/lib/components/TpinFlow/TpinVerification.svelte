@@ -407,12 +407,12 @@
 				</slot>
 
 				<slot name="bodySection">
-					<section class="px-4 py-3 text-base font-medium md:px-8 md:py-6">
+					<section class="px-4 py-3 text-base font-normal md:px-8 md:py-6">
 						<article class="rounded text-sm font-normal text-grey-body md:border md:p-4">
 							Once you proceed, you will be redirected to the <span
-								class="font-medium text-black-title">CDSL</span
+								class="font-normal text-black-title">CDSL</span
 							>
-							website. Please enter your <span class="font-medium text-black-title">TPIN</span> to verify
+							website. Please enter your <span class="font-normal text-black-title">TPIN</span> to verify
 							the order.
 						</article>
 
@@ -422,7 +422,7 @@
 							<WMSIcon width={25} height={24} name="message" class="mr-3" />
 							<span>
 								If you do not have your TPIN available, you can <span
-									class="font-medium text-black-title">regenerate TPIN</span
+									class="font-normal text-black-title">regenerate TPIN</span
 								> below
 							</span>
 						</article>

@@ -38,7 +38,7 @@
 				headingSecondary={schemes?.subcategoryName}
 			/>
 		</slot>
-		<h3 class={`whitespace-normal text-sm font-medium text-black-title md:text-sm ${titleClass}`}>
+		<h3 class={`whitespace-normal text-sm font-normal text-black-title md:text-sm ${titleClass}`}>
 			{schemes?.schemeName}
 		</h3>
 		<slot name="rating">

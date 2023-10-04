@@ -29,7 +29,7 @@
 		<article class="absolute inset-0 bottom-20 left-auto right-2 top-auto lg:bottom-11 lg:right-11">
 			<Button class="w-full rounded-full" onClick={handleAskAngelEntryPointClick}>
 				<WMSIcon name="happy-face-emoji" />
-				<span class="ml-1 font-medium">Ask Angel</span>
+				<span class="ml-1 font-normal">Ask Angel</span>
 			</Button>
 		</article>
 	{:else}

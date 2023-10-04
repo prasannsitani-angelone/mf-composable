@@ -30,14 +30,14 @@
 				</div>
 
 				<article class="flex flex-col items-start {bankDetailsClass}">
-					<div class="text-sm font-medium">
+					<div class="text-sm font-normal">
 						{bankName}
 					</div>
 					<article class="flex items-center {bankAccNoClass}">
 						{#each Array(4) as item}
 							<BigDotIcon class="mr-1" />
 						{/each}
-						<div class="text-xs font-medium text-grey-body">
+						<div class="text-xs font-normal text-grey-body">
 							{bankAccountNumber?.slice(bankAccountNumber?.length - 4)}
 						</div>
 					</article>
@@ -47,7 +47,7 @@
 			<slot name="autopayStatusSlot">
 				<section class="flex items-center">
 					<AutopayEnabledIcon class="mr-1" />
-					<div class="text-xs font-medium text-grey-body">Autopay Enabled</div>
+					<div class="text-xs font-normal text-grey-body">Autopay Enabled</div>
 				</section>
 			</slot>
 		</section>

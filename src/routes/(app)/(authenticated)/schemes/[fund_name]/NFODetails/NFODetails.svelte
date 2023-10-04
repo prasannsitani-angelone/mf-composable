@@ -18,7 +18,7 @@
 				<div class="flex h-12 w-12 items-center justify-center rounded-full bg-grey">
 					<WMSIcon name="nfo-icon" />
 				</div>
-				<h2 class="ml-3 flex items-center text-left font-medium text-black-title">
+				<h2 class="ml-3 flex items-center text-left font-normal text-black-title">
 					<span>NFO Details</span>
 				</h2>
 			</section>
@@ -27,13 +27,13 @@
 	<section class="origin-top transition duration-100">
 		<div class="flex flex-col px-3 py-4">
 			<div class="flex flex-col gap-2 sm:flex-row">
-				<div class="flex flex-col rounded-lg bg-grey py-3 pl-3 font-medium sm:grow sm:basis-0">
+				<div class="flex flex-col rounded-lg bg-grey py-3 pl-3 font-normal sm:grow sm:basis-0">
 					<div class="text-xs text-grey-body">Open Date</div>
 					<span class="mt-1 text-black-title"
 						>{`${nfoStartDate.date} ${nfoStartDate.month} ${nfoStartDate.year}`}</span
 					>
 				</div>
-				<div class="flex flex-col rounded-lg bg-grey py-3 pl-3 font-medium sm:grow sm:basis-0">
+				<div class="flex flex-col rounded-lg bg-grey py-3 pl-3 font-normal sm:grow sm:basis-0">
 					<div class="text-xs text-grey-body">Close Date</div>
 					<span class="mt-1 text-black-title"
 						>{`${nfoEndDate.date} ${nfoEndDate.month} ${nfoEndDate.year}`}</span

@@ -72,10 +72,10 @@
 					<article>
 						<SipCard {sip} inactiveSip={true}>
 							<article class="flex-1 text-right" slot="sipCardDetailsRightSection">
-								<div class="text-[11px] font-medium text-red-sell">
+								<div class="text-[11px] font-normal text-red-sell">
 									{sip?.isExpiredSip ? 'Expired On' : 'Cancelled On'}
 								</div>
-								<div class="text-base font-medium text-black-title">
+								<div class="text-base font-normal text-black-title">
 									{getDateTimeString(sip?.cancelledTs, 'DATE', true)}
 								</div>
 							</article>
@@ -89,7 +89,7 @@
 											class="flex !h-fit !min-h-fit w-full cursor-default justify-end !pr-0"
 											onClick={() => redirectToOrderPad(sip)}
 										>
-											<span class="text-sm font-semibold text-blue-primary"> RESTART SIP </span>
+											<span class="text-sm font-medium text-blue-primary"> RESTART SIP </span>
 											<RightIcon class="ml-2 mt-0.5" stroke="#3F5BD9" />
 										</Button>
 									</section>

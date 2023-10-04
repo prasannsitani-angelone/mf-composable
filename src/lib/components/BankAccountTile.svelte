@@ -24,12 +24,12 @@
 			</div>
 			<div class="ml-2">
 				<div class="flex flex-row">
-					<div class="text-sm font-medium text-black-title">
+					<div class="text-sm font-normal text-black-title">
 						{bankName}
 					</div>
 				</div>
 
-				<div class="mt-1 flex flex-row items-center text-xs font-medium text-grey-body">
+				<div class="mt-1 flex flex-row items-center text-xs font-normal text-grey-body">
 					<div class="mr-1 h-1 w-1 rounded-full bg-grey-body" />
 					<div class="mr-1 h-1 w-1 rounded-full bg-grey-body" />
 					<div class="mr-1 h-1 w-1 rounded-full bg-grey-body" />

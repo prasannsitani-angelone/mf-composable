@@ -287,7 +287,7 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
-	class="text-title-black hidden flex-row items-center pb-6 pt-3 text-lg font-medium active:opacity-80 sm:flex"
+	class="text-title-black hidden flex-row items-center pb-6 pt-3 text-lg font-normal active:opacity-80 sm:flex"
 	on:click={goBack}
 >
 	<WMSIcon name="left-arrow" height={16} width={16} class="mr-4" />
@@ -314,7 +314,7 @@
 		isLoading={loadingState.isLoading || validateUPILoading}
 	>
 		<div slot="schemeTile" class="m-4 mb-0 rounded-lg border border-grey-line bg-white p-3">
-			<div class="mb-2 flex flex-row items-center rounded-full text-xs font-medium text-grey-body">
+			<div class="mb-2 flex flex-row items-center rounded-full text-xs font-normal text-grey-body">
 				<span>SIP</span>
 				<div class="mx-1 h-1 w-1 min-w-[4px] rounded-full bg-grey-body" />
 				<span>
@@ -326,11 +326,11 @@
 					<div class="mr-2.5 flex h-8 w-8 min-w-[32px] items-center justify-center">
 						<img src={scheme?.logoUrl} alt="schemelogo" />
 					</div>
-					<div class="trucateTo2Line mr-2.5 text-sm font-medium text-black-title">
+					<div class="trucateTo2Line mr-2.5 text-sm font-normal text-black-title">
 						{scheme?.schemeName}
 					</div>
 				</div>
-				<div class="whitespace-nowrap text-sm font-semibold text-black-title">
+				<div class="whitespace-nowrap text-sm font-medium text-black-title">
 					₹{addCommasToAmountString(amount)}
 				</div>
 			</div>

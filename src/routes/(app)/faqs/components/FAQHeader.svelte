@@ -18,7 +18,7 @@
 					width={16}
 					on:click={handleBackNavigation}
 				/>
-				<h1 class="text-lg font-medium text-black-title">
+				<h1 class="text-lg font-normal text-black-title">
 					<div class="truncate text-left {!title && 'h-7'}">
 						{title || ''}
 					</div>

@@ -22,7 +22,7 @@
 </script>
 
 <header class="flex flex-col p-6 pb-2 pt-4 lg:pt-6">
-	<h1 class="text-lg font-medium text-black-title">Discover Mutual Funds</h1>
+	<h1 class="text-lg font-normal text-black-title">Discover Mutual Funds</h1>
 </header>
 <section class="mb-3 flex flex-wrap px-4 pb-4 sm:px-6 lg:items-center lg:justify-center">
 	{#each searchOptions || [] as option}
@@ -40,7 +40,7 @@
 					<img src={option.iconUrl} class="h-9 w-9" alt="option.name" loading="lazy" />
 				</div>
 				<h2
-					class="mt-2 px-3 text-center text-sm font-medium text-black-title lg:ml-3 lg:mt-0 lg:pl-0 lg:pr-3 lg:text-left lg:text-base"
+					class="mt-2 px-3 text-center text-sm font-normal text-black-title lg:ml-3 lg:mt-0 lg:pl-0 lg:pr-3 lg:text-left lg:text-base"
 				>
 					{option.name}
 				</h2>

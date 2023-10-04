@@ -102,7 +102,7 @@
 </script>
 
 <article class="mb-3 mt-1 max-w-4xl rounded-lg bg-white p-4 py-6 shadow-csm">
-	<p class="alignment-center mb-6 text-center text-xl font-semibold text-black-title">
+	<p class="alignment-center mb-6 text-center text-xl font-medium text-black-title">
 		Earn more returns with a high performance portfolio
 	</p>
 
@@ -118,7 +118,7 @@
 </article>
 
 <article class="mb-24 max-w-4xl rounded-lg bg-white p-4 shadow-csm">
-	<p class="mb-4 text-base font-medium text-black-title">Choose Monthly Investment Amount</p>
+	<p class="mb-4 text-base font-normal text-black-title">Choose Monthly Investment Amount</p>
 
 	<AmountSection
 		{amount}
@@ -131,9 +131,9 @@
 
 	<section class="flex flex-row items-center">
 		<section class="flex flex-col">
-			<div class="text-sm font-medium text-black-key">Monthly SIP Date</div>
+			<div class="text-sm font-normal text-black-key">Monthly SIP Date</div>
 			<button
-				class="w-fit text-xs font-medium text-blue-primary"
+				class="w-fit text-xs font-normal text-blue-primary"
 				on:click={toggleShowCalendarLearnMoreModal}
 			>
 				Learn More
@@ -150,7 +150,7 @@
 			class="flex w-[100px] flex-row items-center rounded border"
 			on:click={toggleCalendar}
 		>
-			<div class="m-2 mr-6 text-xs font-medium text-black-title">
+			<div class="m-2 mr-6 text-xs font-normal text-black-title">
 				{`${sipStartDate}${getDateSuperscript(sipStartDate)}`}
 			</div>
 			<div class="flex-1" />
@@ -172,7 +172,7 @@
 		showModal={showCalendarLearnMoreModal}
 		heading="Monthly SIP Date"
 		detailText="Date on which your monthly instalment is due for investment"
-		headingClass={'!font-medium'}
+		headingClass={'!font-normal'}
 		on:crossClicked={toggleShowCalendarLearnMoreModal}
 	>
 		<svelte:fragment slot="crossIconSlot">

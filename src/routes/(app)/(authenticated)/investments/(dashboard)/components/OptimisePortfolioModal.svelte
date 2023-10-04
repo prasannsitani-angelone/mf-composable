@@ -134,7 +134,7 @@
 <Modal isModalOpen {isMobile} on:backdropclicked={() => toggleOptimisePorfolioCard(false)}>
 	<div class="w-full rounded-t-2xl bg-white px-5 py-4 sm:w-120 sm:!rounded-lg">
 		<div class="mb-4">
-			<div class="flex items-center text-lg font-medium">
+			<div class="flex items-center text-lg font-normal">
 				<div class="flex-1">Optimise Your Portfolio</div>
 				<WMSIcon
 					name="cross-circle"
@@ -171,9 +171,9 @@
 					WHY THIS FUND?
 				</Button>
 				<div class="flex flex-col items-center">
-					<p class="text-sm font-medium">Projected portfolio performance</p>
+					<p class="text-sm font-normal">Projected portfolio performance</p>
 					{#if !isFetchingScheme}
-						<div class="my-4 flex flex-col text-xs font-medium">
+						<div class="my-4 flex flex-col text-xs font-normal">
 							<div class="flex flex-row">
 								<img src={PortfolioPerformace} alt="Performace graph" />
 								<div class="ml-[-12px] mt-[5px] flex flex-col">
@@ -212,7 +212,7 @@
 {#if showFundModal}
 	<Modal {isMobile} isModalOpen on:backdropclicked={() => toggleFundModal(false)}>
 		<div class="w-full rounded-t-2xl bg-white px-4 sm:w-120 sm:!rounded-lg">
-			<div class="flex items-center py-6 text-lg font-medium">
+			<div class="flex items-center py-6 text-lg font-normal">
 				<div class="flex-1">Why this fund?</div>
 				<WMSIcon
 					name="cross-circle"

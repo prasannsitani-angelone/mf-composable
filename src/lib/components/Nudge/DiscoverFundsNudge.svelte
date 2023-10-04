@@ -36,7 +36,7 @@
 			<WarningIcon fill={nudge?.type === 'warn' ? '#F9BA4D' : '#F65E5A'} />
 		</div>
 		<div class="flex flex-col">
-			<div class="text-lg font-medium text-black-title">
+			<div class="text-lg font-normal text-black-title">
 				{nudge?.heading || ''}
 			</div>
 			<div class="text-sm text-grey-body">
@@ -47,7 +47,7 @@
 	<div>
 		<Button
 			variant="transparent"
-			class="flex w-full cursor-pointer flex-row items-center justify-end whitespace-nowrap border-t border-grey-line px-3 py-4 !pr-0 text-sm font-semibold text-blue-primary hover:border-grey-line active:opacity-75 sm:border-t-0 sm:px-0 sm:py-0"
+			class="flex w-full cursor-pointer flex-row items-center justify-end whitespace-nowrap border-t border-grey-line px-3 py-4 !pr-0 text-sm font-medium text-blue-primary hover:border-grey-line active:opacity-75 sm:border-t-0 sm:px-0 sm:py-0"
 			onClick={navigateToPage}
 			ariaLabel={nudge?.linkHeading}
 		>

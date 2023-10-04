@@ -386,7 +386,7 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
-	class="text-title-black hidden flex-row items-center pb-6 pt-3 text-lg font-medium active:opacity-80 sm:flex"
+	class="text-title-black hidden flex-row items-center pb-6 pt-3 text-lg font-normal active:opacity-80 sm:flex"
 	on:click={goBack}
 >
 	<WMSIcon name="left-arrow" height={16} width={16} class="mr-4" />
@@ -401,7 +401,7 @@
 			<div class="flex h-full flex-col overflow-hidden sm:h-max sm:overflow-auto">
 				<div class="flex flex-1 flex-col overflow-auto sm:mb-3 sm:flex-initial sm:overflow-visible">
 					<div
-						class="hidden grid-cols-[46%_18%_18%_18%] items-center border-b border-t border-grey-line bg-white px-6 py-4 text-sm font-medium text-grey-dark sm:grid"
+						class="hidden grid-cols-[46%_18%_18%_18%] items-center border-b border-t border-grey-line bg-white px-6 py-4 text-sm font-normal text-grey-dark sm:grid"
 					>
 						<div>Fund</div>
 						<div>Investment Type</div>
@@ -459,7 +459,7 @@
 			</div>
 		{:else}
 			<div class="flex h-full flex-col items-center self-center px-4 py-4">
-				<div class="mb-4 text-center text-base font-medium text-black-title">
+				<div class="mb-4 text-center text-base font-normal text-black-title">
 					We are facing some issue at our end. Please try again or contact field support
 				</div>
 				<Button variant="transparent" class="mt-6 w-max self-center" onClick={onRefresh}>
@@ -527,7 +527,7 @@
 		{/if}
 	{:catch}
 		<div class="flex h-full flex-col items-center self-center px-4 py-4">
-			<div class="mb-4 text-center text-base font-medium text-black-title">
+			<div class="mb-4 text-center text-base font-normal text-black-title">
 				We are facing some issue at our end. Please try again or contact field support
 			</div>
 			<Button variant="transparent" class="mt-6 w-max self-center" onClick={onRefresh}>

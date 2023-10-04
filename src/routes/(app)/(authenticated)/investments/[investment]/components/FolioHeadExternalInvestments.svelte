@@ -16,7 +16,7 @@
             text-lg md:px-6 md:py-5"
 >
 	<section class="hidden sm:block">
-		<h4 class="text-left font-medium">
+		<h4 class="text-left font-normal">
 			<span class="text-lg text-black-title">Folio Summary</span>
 		</h4>
 	</section>
@@ -26,8 +26,8 @@
 		>
 			<UnitsAllocatedIcon class="mr-2" />
 			<div class="flex flex-col">
-				<span class="text-xs font-medium text-black-title/70"> Units </span>
-				<span class="text-sm font-medium text-black-title">
+				<span class="text-xs font-normal text-black-title/70"> Units </span>
+				<span class="text-sm font-normal text-black-title">
 					{data?.totalUnitsAllocated?.toFixed(3)}
 				</span>
 			</div>
@@ -37,13 +37,13 @@
 		>
 			<CurrentNavIcon class="mr-2" />
 			<div class="flex flex-col">
-				<span class="text-xs font-medium text-black-title/70">
+				<span class="text-xs font-normal text-black-title/70">
 					{#if isPartialImport}
 						<WMSIcon name="polygon-red-warning" class="inline-block" width={12} height={12} />
 					{/if}
 					<span>Current Nav</span>
 				</span>
-				<span class="text-sm font-medium text-black-title">
+				<span class="text-sm font-normal text-black-title">
 					{#if isPartialImport}
 						- -
 					{:else}
@@ -57,15 +57,15 @@
 		>
 			<AverageNavIcon class="mr-2" />
 			<div class="flex flex-col">
-				<span class="text-xs font-medium text-black-title/70">
+				<span class="text-xs font-normal text-black-title/70">
 					<span>Average NAV</span>
 				</span>
 				{#if data?.investedValue && data?.totalUnitsAllocated}
-					<span class="text-sm font-medium text-black-title">
+					<span class="text-sm font-normal text-black-title">
 						₹{addCommasToAmountString((data?.investedValue / data.totalUnitsAllocated)?.toFixed(2))}
 					</span>
 				{:else}
-					<span class="text-sm font-medium text-black-title"> -- </span>
+					<span class="text-sm font-normal text-black-title"> -- </span>
 				{/if}
 			</div>
 		</article>
@@ -74,13 +74,13 @@
 		>
 			<WMSIcon width={35} height={35} class="mr-2" name="percentage-in-circle" />
 			<div class="flex flex-col">
-				<span class="text-xs font-medium text-black-title/70">
+				<span class="text-xs font-normal text-black-title/70">
 					{#if isPartialImport}
 						<WMSIcon name="polygon-red-warning" class="inline-block" width={12} height={12} />
 					{/if}
 					<span>Returns</span>
 				</span>
-				<span class="text-sm font-medium text-black-title">
+				<span class="text-sm font-normal text-black-title">
 					{#if isPartialImport}
 						- -
 					{:else}
@@ -95,11 +95,11 @@
 					<span>Your average NAV</span>
 				</span>
 				{#if data?.investedValue && data?.totalUnitsAllocated}
-					<span class="text-sm font-medium text-black-title">
+					<span class="text-sm font-normal text-black-title">
 						₹{addCommasToAmountString((data?.investedValue / data.totalUnitsAllocated)?.toFixed(2))}
 					</span>
 				{:else}
-					<span class="text-sm font-medium text-black-title"> -- </span>
+					<span class="text-sm font-normal text-black-title"> -- </span>
 				{/if}
 			</div>
 		</article>

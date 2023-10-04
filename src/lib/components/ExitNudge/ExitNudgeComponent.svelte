@@ -78,8 +78,8 @@
 		<article
 			class="flex flex-col items-center justify-center rounded-t-2xl bg-white px-4 py-6 sm:w-160 sm:rounded-lg sm:p-16"
 		>
-			<div class="mb-4 text-lg font-medium">Not sure where to get started?</div>
-			<div class="mb-4 text-center text-sm font-medium">
+			<div class="mb-4 text-lg font-normal">Not sure where to get started?</div>
+			<div class="mb-4 text-center text-sm font-normal">
 				<div>Index funds are the right choice for new investors.</div>
 				<div>Get started in two steps!</div>
 			</div>
@@ -92,8 +92,8 @@
 			>
 				<svelte:fragment slot="detailsLeft">
 					<div class="flex flex-col items-start">
-						<p class="text-xs font-medium text-black-bolder">Monthly Amount</p>
-						<p class="text-base font-medium">
+						<p class="text-xs font-normal text-black-bolder">Monthly Amount</p>
+						<p class="text-base font-normal">
 							₹{addCommasToAmountString(schemeData?.minSipAmount?.toString()) ||
 								schemeData?.minSipAmount}
 						</p>
@@ -101,7 +101,7 @@
 				</svelte:fragment>
 				<svelte:fragment slot="topRightSection">
 					<section class="ml-1 flex flex-col items-end">
-						<div class="w-20 text-right text-xs font-medium text-black-bolder">Returns p.a</div>
+						<div class="w-20 text-right text-xs font-normal text-black-bolder">Returns p.a</div>
 						<article class="mt-0.5 flex items-center">
 							<WMSIcon class="mr-1 mt-1 h-4 w-3" name="green-uparrow-trending-fund" />
 							<div class="text-base font-bold text-black-title">
@@ -113,7 +113,7 @@
 
 				<svelte:fragment slot="detailsRight">
 					<section class="flex flex-col items-end">
-						<div class="text-xs font-medium text-black-bolder">Expected 3Y Returns</div>
+						<div class="text-xs font-normal text-black-bolder">Expected 3Y Returns</div>
 						<div class="text-base font-bold text-green-amount">
 							<AmountText amount={schemeData?.returns3yr} />
 						</div>
@@ -122,7 +122,7 @@
 
 				<svelte:fragment slot="detailsFooterDescription">
 					<p class="text-xs">
-						<span class="font-semibold">
+						<span class="font-medium">
 							{addCommasToAmountString(schemeData?.totalInvesetment?.toString())}
 						</span>
 						people have invested in this fund
@@ -137,7 +137,7 @@
 					exitNudgeKnowMoreClickEvent();
 				}}
 			>
-				<div class="mb-4 text-xs font-medium text-[#3F5BD9]">Know more about this fund</div>
+				<div class="mb-4 text-xs font-normal text-[#3F5BD9]">Know more about this fund</div>
 			</Link>
 
 			<Link

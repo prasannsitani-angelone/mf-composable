@@ -160,7 +160,7 @@
 <CartTableHeader {isSelectAllChecked} handleCheckboxChange={toggleSelectAll} />
 <section class=" bg-white max-sm:h-[calc(100vh-330px)] max-sm:overflow-auto max-sm:pb-20 sm:mb-4">
 	<div id="cartGridTable">
-		<div id="cartGridTableHeader" class="text-xs font-medium text-grey-dark">
+		<div id="cartGridTableHeader" class="text-xs font-normal text-grey-dark">
 			<div
 				class="hidden grid-cols-[10%_1fr_28%] border-b px-6 py-3 sm:grid sm:grid-cols-[6%_43%_20%_20%_11%]"
 			>
@@ -191,7 +191,7 @@
 			class="flex w-screen flex-col items-center justify-between rounded-b-none rounded-t-2xl bg-white p-4 text-center sm:!w-[460px] sm:rounded-lg sm:px-20 sm:py-8"
 		>
 			<div class=""><WMSIcon width={92} height={92} name="red-exclamation-thin" /></div>
-			<div class="mb-4 mt-6 text-2xl font-medium text-black-key">Order size limit exceeded</div>
+			<div class="mb-4 mt-6 text-2xl font-normal text-black-key">Order size limit exceeded</div>
 
 			<div class=" text-sm font-normal text-black-key">
 				{proceedNotAllowedMessage}
@@ -223,7 +223,7 @@
 				</div>
 			{:else if bulkUpdateModalType === 'failure'}
 				<div class=""><WMSIcon width={92} height={92} name="red-cross-circle" /></div>
-				<div class="mb-4 mt-6 text-2xl font-medium text-black-key">
+				<div class="mb-4 mt-6 text-2xl font-normal text-black-key">
 					Unable to process your request.
 				</div>
 			{/if}

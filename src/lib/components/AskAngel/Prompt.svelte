@@ -26,7 +26,7 @@
 		<!-- Show Message(s) -->
 		{#each chatItem?.texts || [] as text, index (index)}
 			{#if text?.type === 'emoji'}
-				<div class="mb-1 text-[10px] font-medium text-black-bolder">Angel</div>
+				<div class="mb-1 text-[10px] font-normal text-black-bolder">Angel</div>
 			{/if}
 			<Message
 				owner={chatItem?.owner}
@@ -74,7 +74,7 @@
 
 						<svelte:fragment slot="detailsFooterDescription">
 							<p class="text-xs">
-								<span class=" font-semibold">
+								<span class=" font-medium">
 									{addCommasToAmountString(scheme?.noOfClientInvested)}
 								</span>
 								people have invested in this fund

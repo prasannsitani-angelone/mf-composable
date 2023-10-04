@@ -42,10 +42,10 @@
 					<ReturnEstimatorIcon />
 				</div>
 				<div class="ml-4 flex flex-col">
-					<h2 class="flex items-center text-left font-medium text-black-title">
+					<h2 class="flex items-center text-left font-normal text-black-title">
 						<span> Calculate Returns</span>
 					</h2>
-					<h3 class="text-left font-medium">
+					<h3 class="text-left font-normal">
 						<span class="text-sm text-grey-body">Based on past performance of this fund</span>
 					</h3>
 				</div>

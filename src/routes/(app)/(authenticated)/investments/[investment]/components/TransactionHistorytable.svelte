@@ -56,11 +56,11 @@
 			<tr>
 				<Td class={`border-b border-grey-line py-4 pl-5 pr-6 text-left text-grey-body`}>
 					<div
-						class="flex flex-col font-medium text-black-title md:flex-row md:items-baseline md:justify-start"
+						class="flex flex-col font-normal text-black-title md:flex-row md:items-baseline md:justify-start"
 					>
 						{#if deviceType?.isMobile}
 							<div
-								class={`mb-2 block w-fit rounded-sm bg-opacity-20 px-1 text-[10px] font-medium md:hidden ${getTranscationTypeCss(
+								class={`mb-2 block w-fit rounded-sm bg-opacity-20 px-1 text-[10px] font-normal md:hidden ${getTranscationTypeCss(
 									data
 								)}`}
 							>
@@ -78,7 +78,7 @@
 					<Td class={`border-b border-grey-line py-4 pl-5 pr-6 text-center text-grey-body`}>
 						<article class="flex items-center justify-end text-black-title md:justify-center">
 							<div
-								class={`rounded-sm bg-opacity-20 px-1 text-[10px] font-medium ${getTranscationTypeCss(
+								class={`rounded-sm bg-opacity-20 px-1 text-[10px] font-normal ${getTranscationTypeCss(
 									data
 								)}`}
 							>
@@ -91,7 +91,7 @@
 				{/if}
 				<Td class={`border-b border-grey-line py-4 pl-5 pr-6 text-center text-grey-body`}>
 					<div
-						class="flex flex-col font-medium text-black-title md:flex-row md:items-baseline md:justify-center"
+						class="flex flex-col font-normal text-black-title md:flex-row md:items-baseline md:justify-center"
 					>
 						<div class="text-base text-black-title md:mr-1">
 							{data?.units?.toFixed(3)}
@@ -105,7 +105,7 @@
 				</Td>
 				<Td class={`border-b border-grey-line py-4 pl-5 pr-6 text-right text-grey-body`}>
 					<div
-						class="flex items-start justify-end text-base font-medium text-black-title md:block md:items-center md:justify-center md:text-sm"
+						class="flex items-start justify-end text-base font-normal text-black-title md:block md:items-center md:justify-center md:text-sm"
 					>
 						{data?.amount !== undefined ? '₹' : ''}{data?.amount !== undefined
 							? addCommasToAmountString(data?.amount?.toFixed(2))

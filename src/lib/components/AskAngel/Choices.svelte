@@ -36,7 +36,7 @@
 					on:click={() => handleChoiceClick(choice)}
 				>
 					{#if choice?.label?.length}
-						<div class="flex items-start justify-between text-sm font-medium text-black-title">
+						<div class="flex items-start justify-between text-sm font-normal text-black-title">
 							<div>
 								{choice?.label}
 							</div>

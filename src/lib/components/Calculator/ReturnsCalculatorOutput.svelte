@@ -30,7 +30,7 @@
 	</div>
 	<div class="rounded {!isStandAlone ? 'border border-grey-line p-4' : ''}">
 		<div class="pb-5">
-			<div class="mb-3 flex justify-between text-sm font-medium text-grey-body">
+			<div class="mb-3 flex justify-between text-sm font-normal text-grey-body">
 				<div>
 					<p>Your Investment</p>
 					<p class="text-xl text-black-title">
@@ -66,7 +66,7 @@
 			</div>
 			<div>
 				<div class="text-sm font-normal text-grey-body">Total Value</div>
-				<div class="text-2xl font-medium text-black-title">
+				<div class="text-2xl font-normal text-black-title">
 					<AmountText amount={outputData?.matuarityAmount || 0} />
 				</div>
 			</div>

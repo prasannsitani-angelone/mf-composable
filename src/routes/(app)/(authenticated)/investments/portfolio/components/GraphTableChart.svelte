@@ -60,7 +60,7 @@
 			{#if showFundsFilterTable}
 				<section>
 					<article class="mt-4 flex items-baseline justify-start px-5 py-4">
-						<div class="hidden min-w-fit text-xs font-medium text-grey-body lg:block">
+						<div class="hidden min-w-fit text-xs font-normal text-grey-body lg:block">
 							FILTER BY
 						</div>
 						<section>

@@ -35,7 +35,7 @@
 	<article
 		class="flex w-full flex-col items-center rounded-t-2xl bg-white px-4 pt-6 sm:w-120 sm:rounded-lg sm:p-8"
 	>
-		<p class="w-full text-center text-base font-medium text-black-title">
+		<p class="w-full text-center text-base font-normal text-black-title">
 			{#if 'direct' === schemePlan.toLowerCase()}
 				Earn more returns with Angel One
 			{:else}
@@ -65,7 +65,7 @@
 			<svelte:fragment slot="topRightSection">
 				<section class="ml-1 flex flex-col items-end">
 					{#if mappingScheme?.returns3yr > 0}
-						<div class="w-20 text-right text-xs font-medium text-black-bolder">Returns p.a</div>
+						<div class="w-20 text-right text-xs font-normal text-black-bolder">Returns p.a</div>
 						<article class="mt-0.5 flex items-center">
 							<WMSIcon class="mr-1 mt-1 h-4 w-3" name="green-uparrow-trending-fund" />
 							<div class="text-base font-bold text-black-title">
@@ -73,7 +73,7 @@
 							</div>
 						</article>
 					{:else}
-						<div class="w-20 text-right text-xs font-medium text-black-bolder" />
+						<div class="w-20 text-right text-xs font-normal text-black-bolder" />
 					{/if}
 				</section>
 			</svelte:fragment>

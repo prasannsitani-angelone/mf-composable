@@ -51,7 +51,7 @@
 			}`}
 		>
 			<span
-				class={`text-sm font-semibold text-grey-body sm:text-xl sm:font-medium sm:text-black-title ${classes?.title}`}
+				class={`text-sm font-medium text-grey-body sm:text-xl sm:font-normal sm:text-black-title ${classes?.title}`}
 			>
 				{title}
 			</span>

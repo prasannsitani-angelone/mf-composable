@@ -154,7 +154,7 @@
 					<section
 						class="mb-2 mt-2 rounded-b-lg rounded-t-lg bg-white px-3 shadow-csm md:mb-0 md:mt-0 md:px-4"
 					>
-						<div class="rounded-t-lg py-3 text-base font-medium md:py-4">Recent orders</div>
+						<div class="rounded-t-lg py-3 text-base font-normal md:py-4">Recent orders</div>
 
 						{#each ordersList as item (item?.orderId)}
 							<article class="mb-3 rounded-lg bg-white px-2 py-4 shadow-csm md:px-4">
@@ -197,7 +197,7 @@
 						: ''} shadow-csm"
 				>
 					{#if data?.showRecentOrders}
-						<div class="rounded-t-lg py-3 text-base font-medium md:py-4">
+						<div class="rounded-t-lg py-3 text-base font-normal md:py-4">
 							<span class="capitalize">{data?.tag === 'sips' ? 'SIPs' : data?.tag}</span> FAQs
 						</div>
 					{/if}
@@ -205,7 +205,7 @@
 					{#each faqsArray as faq, index (index)}
 						<Button
 							color="white"
-							class="flex !h-auto w-full !transform-none flex-nowrap justify-between rounded-none border-b-[1px] border-b-grey-line !px-0 !pb-2 !pt-3 text-left !font-medium !normal-case text-grey-body hover:!transform-none hover:!border-b-grey-line focus:!border-b-grey-line active:!transform-none md:!pb-5 md:!pt-5 {index ===
+							class="flex !h-auto w-full !transform-none flex-nowrap justify-between rounded-none border-b-[1px] border-b-grey-line !px-0 !pb-2 !pt-3 text-left !font-normal !normal-case text-grey-body hover:!transform-none hover:!border-b-grey-line focus:!border-b-grey-line active:!transform-none md:!pb-5 md:!pt-5 {index ===
 								faqData?.data?.faqs?.length - 1 && 'border-none !pb-4 md:!pb-5'}"
 							on:click={() => navigateToFAQDetails(faq, index)}
 						>
@@ -245,8 +245,8 @@
 						<div class="flex flex-row items-center">
 							<WMSIcon name="ticket" class="h-8 w-8" />
 							<div class="ml-2 flex flex-col">
-								<div class="text-sm font-medium text-black-title">Your Tickets</div>
-								<div class="text-xs font-medium text-grey-body">Create and track your Ticket</div>
+								<div class="text-sm font-normal text-black-title">Your Tickets</div>
+								<div class="text-xs font-normal text-grey-body">Create and track your Ticket</div>
 							</div>
 						</div>
 						<WMSIcon name="right-arrow" />

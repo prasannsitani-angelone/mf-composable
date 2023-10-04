@@ -19,7 +19,7 @@
 		<div class="">
 			<WMSIcon width={92} height={92} name="red-cross-circle" />
 		</div>
-		<div class="mb-3 mt-6 text-xl font-medium">Something went wrong!</div>
+		<div class="mb-3 mt-6 text-xl font-normal">Something went wrong!</div>
 
 		<div class=" text-sm font-normal text-grey-body">
 			{invalidLinkMessage}

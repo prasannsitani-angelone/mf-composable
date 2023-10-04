@@ -17,7 +17,7 @@
 	<section class="flex items-center justify-between lg:mx-0">
 		<article class="flex flex-col items-start">
 			<div class="text-xs md:text-sm">Total Invested</div>
-			<div class="text-[18px] font-medium md:text-xl">
+			<div class="text-[18px] font-normal md:text-xl">
 				₹{investmentSummary?.investedValue
 					? addCommasToAmountString(investmentSummary?.investedValue?.toFixed(2))
 					: '0.00'}
@@ -26,7 +26,7 @@
 
 		<article class="flex flex-col items-end">
 			<div class="text-xs md:text-sm">Current Value</div>
-			<div class="text-[18px] font-medium md:text-xl">
+			<div class="text-[18px] font-normal md:text-xl">
 				₹{investmentSummary?.currentValue
 					? addCommasToAmountString(investmentSummary?.currentValue?.toFixed(2))
 					: '0.00'}
@@ -44,14 +44,14 @@
 			{#if isPartialImport}
 				<div class="mx-1 mt-2 flex items-center text-center text-xs md:text-sm">
 					<WMSIcon name="polygon-red-warning" width={10} height={10} class="mr-1" />
-					<span class="mr-1 font-medium"
+					<span class="mr-1 font-normal"
 						>{Number(totalImportedFundCount - partialImportedFundCount)}/{totalImportedFundCount ||
 							'-'}
 					</span>
 				</div>
 			{:else}
 				<div class="mx-1 mt-2 text-center text-xs md:text-sm">
-					<span class="mr-1 font-medium"> {totalImportedFundCount} </span>
+					<span class="mr-1 font-normal"> {totalImportedFundCount} </span>
 				</div>
 			{/if}
 		</article>
@@ -70,7 +70,7 @@
 				<span class="text-[11px] md:text-xs"> Total Returns </span>
 			</div>
 			<div class="mx-1 mt-2 text-center text-xs md:text-sm">
-				<span class="mr-1 font-medium">
+				<span class="mr-1 font-normal">
 					{investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
 						? '-'
 						: ''}₹{investmentSummary?.returnsValue

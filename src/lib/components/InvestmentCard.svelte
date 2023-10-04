@@ -4,11 +4,11 @@
 	<section class="mx-4 flex items-center justify-between pb-3">
 		<article class="flex flex-col items-start">
 			<div class="text-sm font-normal">Total Invested</div>
-			<div class="text-lg font-medium">₹00.00</div>
+			<div class="text-lg font-normal">₹00.00</div>
 		</article>
 		<article class="flex flex-col items-start">
 			<div class="text-sm font-normal">Current Value</div>
-			<div class="text-lg font-medium">₹00.00</div>
+			<div class="text-lg font-normal">₹00.00</div>
 		</article>
 	</section>
 	<section class="mx-4 border-t border-neutral-100 border-opacity-10 pt-2 text-xs font-normal">

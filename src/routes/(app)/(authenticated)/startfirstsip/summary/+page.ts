@@ -121,7 +121,7 @@ export const load = async ({ fetch, url, depends }) => {
 										new Date(data.statusHistory[data.statusHistory.length - 1].timeStamp),
 										'do MMMM yyyy'
 									)}`,
-									class: '!text-black-title font-medium'
+									class: '!text-black-title font-normal'
 								}
 							];
 							headerContent.status = STATUS_ARR.SUCCESS;
@@ -175,7 +175,7 @@ export const load = async ({ fetch, url, depends }) => {
 			headerContent.subHeadingArr = [
 				{
 					text: `Your first SIP payment is on ${getNextSIPDate(data)}`,
-					class: '!text-black-title font-medium'
+					class: '!text-black-title font-normal'
 				}
 			];
 			headerContent.status = STATUS_ARR.SUCCESS;

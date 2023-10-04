@@ -69,7 +69,7 @@
 				class="max-sm:h-9 max-sm:w-9"
 				imageClass="max-sm:!h-9"
 			/>
-			<h3 class={`whitespace-normal text-sm font-medium text-black-title`}>
+			<h3 class={`whitespace-normal text-sm font-normal text-black-title`}>
 				{cartItem?.schemeName}
 			</h3>
 		</div>
@@ -91,7 +91,7 @@
 	</div>
 	{#if inputError}
 		<span
-			class="col-span-3 col-start-1 row-span-1 row-start-3 mt-1 text-right text-xs font-medium text-red-sell sm:col-span-5 sm:row-start-2"
+			class="col-span-3 col-start-1 row-span-1 row-start-3 mt-1 text-right text-xs font-normal text-red-sell sm:col-span-5 sm:row-start-2"
 			>{inputError}</span
 		>
 	{/if}

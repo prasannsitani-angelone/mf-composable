@@ -31,7 +31,7 @@
 					width={item?.iconWidth || iconWidth}
 				/>
 			</div>
-			<div class="text-base font-medium text-black-title">
+			<div class="text-base font-normal text-black-title">
 				{item.title}
 			</div>
 		</div>

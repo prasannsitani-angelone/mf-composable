@@ -217,7 +217,7 @@
 		</div>
 	</svelte:fragment>
 </SwitchOrderTitleCard>
-<section class="mt-3 rounded-lg bg-white px-4 py-6 font-medium shadow-csm">
+<section class="mt-3 rounded-lg bg-white px-4 py-6 font-normal shadow-csm">
 	<article class="pb-2 text-sm text-black-title">Switch Details</article>
 	<article class="flex-col rounded-lg border">
 		{#if folioListLength > 1}

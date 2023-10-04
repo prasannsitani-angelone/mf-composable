@@ -26,7 +26,7 @@
 	>
 		<WMSIcon name="alert-triangle" height={64} width={64} class="mb-3" />
 
-		<p class="mb-6 text-lg font-medium text-black-title">Stop Tracking Funds?</p>
+		<p class="mb-6 text-lg font-normal text-black-title">Stop Tracking Funds?</p>
 
 		<ul class="mb-10 px-6 sm:px-14">
 			{#each descriptionItems as item, i}

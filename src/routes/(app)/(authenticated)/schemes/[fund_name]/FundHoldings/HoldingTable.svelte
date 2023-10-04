@@ -43,7 +43,7 @@
 						</div>
 					{/if}
 				</Td>
-				<Td class="mr-4 text-right text-sm font-semibold !text-black-title"
+				<Td class="mr-4 text-right text-sm font-medium !text-black-title"
 					>{holding.percentageHold}%</Td
 				>
 			</Tr>

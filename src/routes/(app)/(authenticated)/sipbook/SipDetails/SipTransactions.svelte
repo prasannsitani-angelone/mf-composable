@@ -45,7 +45,7 @@
 						class="pb-5 text-sm"
 						class:pb-2.5={index === items?.slice(0, maxTxnShowCount || items?.length).length - 1}
 					>
-						<div class="mb-1.5 font-medium text-black-title">
+						<div class="mb-1.5 font-normal text-black-title">
 							{item.title}
 						</div>
 

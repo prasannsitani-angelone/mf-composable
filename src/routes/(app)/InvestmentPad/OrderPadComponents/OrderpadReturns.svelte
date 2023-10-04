@@ -66,7 +66,7 @@
 		on:crossClicked={toggleShowthreeYearReturnsInfoModal}
 	>
 		<svelte:fragment slot="headingDetails">
-			<span class="text-lg font-medium text-black-key lg:text-xl"> Current Value </span>
+			<span class="text-lg font-normal text-black-key lg:text-xl"> Current Value </span>
 		</svelte:fragment>
 
 		<svelte:fragment slot="crossIconSlot">

@@ -39,7 +39,7 @@
 			>
 				<svelte:component this={item?.icon} class="mr-3" />
 				<div class="flex items-center">
-					<h2 class="mr-2 text-sm font-medium text-black-title">
+					<h2 class="mr-2 text-sm font-normal text-black-title">
 						{item?.title}
 					</h2>
 					{#if item?.postHeading}
@@ -50,7 +50,7 @@
 									: 'bg-grey text-black-title'
 							}`}
 						>
-							<div class="text-[10px] font-medium">
+							<div class="text-[10px] font-normal">
 								{item?.postHeading}
 							</div>
 						</div>

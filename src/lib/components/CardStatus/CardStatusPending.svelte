@@ -9,7 +9,7 @@
 
 <article class="flex flex-col bg-yellow-background px-5 py-2 {$$props?.class}">
 	{#if heading}
-		<div class="flex flex-row items-center font-medium text-black-title {headerClass}">
+		<div class="flex flex-row items-center font-normal text-black-title {headerClass}">
 			<slot name="statusIcon">
 				<WmsIcon name="time-pending" />
 			</slot>

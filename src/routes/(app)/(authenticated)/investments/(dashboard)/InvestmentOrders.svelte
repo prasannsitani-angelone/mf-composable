@@ -130,7 +130,7 @@
 		>
 			<svelte:fragment slot="titleIcon"
 				><div
-					class={`flex h-4 w-4 items-center justify-center rounded-full bg-opacity-10 text-[10px] font-medium ${
+					class={`flex h-4 w-4 items-center justify-center rounded-full bg-opacity-10 text-[10px] font-normal ${
 						portfolio.orderCountStyles || ''
 					}`}
 				>

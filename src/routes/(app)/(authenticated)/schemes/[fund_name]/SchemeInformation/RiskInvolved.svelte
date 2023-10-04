@@ -42,7 +42,7 @@
 			<RiskometerIcon />
 		</div>
 
-		<h3 class="ml-4 text-lg font-medium text-black-title">Risk Involved</h3>
+		<h3 class="ml-4 text-lg font-normal text-black-title">Risk Involved</h3>
 	</header>
 	<section
 		class="mt-5 flex flex-col items-center gap-12 rounded border-t border-grey-line p-6 pl-11 lg:flex-row lg:items-stretch lg:border lg:bg-grey"
@@ -54,9 +54,9 @@
 			class="flex flex-col items-center justify-center rounded border-0 bg-white px-9 lg:border"
 			style="border-color: {borderColor};"
 		>
-			<div class="text-center text-sm font-medium text-grey-body">Your principal will be at</div>
+			<div class="text-center text-sm font-normal text-grey-body">Your principal will be at</div>
 
-			<h4 class="text-lg font-medium" style="color: {borderColor};">
+			<h4 class="text-lg font-normal" style="color: {borderColor};">
 				{schemeDetails?.riskoMeterValue} risk
 			</h4>
 		</div>

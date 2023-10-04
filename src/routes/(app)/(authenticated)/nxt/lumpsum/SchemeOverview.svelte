@@ -153,7 +153,7 @@
 				<div class="flex h-12 w-12 items-center justify-center rounded-full bg-grey">
 					<SchemeInformationIcon />
 				</div>
-				<h2 class="ml-3 flex items-center text-left font-medium text-black-title">
+				<h2 class="ml-3 flex items-center text-left font-normal text-black-title">
 					<span class="mr-2">Scheme Information</span>
 
 					<Button
@@ -184,7 +184,7 @@
 						>
 							₹
 						</div>
-						<h3 class="mb-1 text-xs font-medium text-grey-body">Asset Under Management</h3>
+						<h3 class="mb-1 text-xs font-normal text-grey-body">Asset Under Management</h3>
 						<h4><AmountText amount={schemeDetails?.aum} /> <span>Cr.</span></h4>
 					</article>
 				</section>
@@ -198,7 +198,7 @@
 						>
 							%
 						</div>
-						<h3 class="mb-1 text-xs font-medium text-grey-body">Expense Ratio</h3>
+						<h3 class="mb-1 text-xs font-normal text-grey-body">Expense Ratio</h3>
 						<h4>
 							<span>{schemeDetails?.expenseRatio}%</span>
 							<span> (inclusive of GST)</span>
@@ -211,7 +211,7 @@
 				<section class="flex flex-col gap-4 p-4 pt-0 lg:w-1/3 lg:flex-row">
 					<article class="flex-grow basis-0 rounded bg-white py-4 lg:border lg:bg-grey lg:px-3">
 						<ExitLoadIcon />
-						<h3 class="mb-1 mt-3 text-xs font-medium text-grey-body">Exit Load</h3>
+						<h3 class="mb-1 mt-3 text-xs font-normal text-grey-body">Exit Load</h3>
 						<h4>{schemeDetails?.exitLoadValue}</h4>
 					</article>
 				</section>

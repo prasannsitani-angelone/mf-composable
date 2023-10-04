@@ -22,7 +22,7 @@
 
 <Breadcrumbs items={breadCrumbs} class="my-4 hidden items-center justify-start md:flex" />
 <header class="hidden sm:block">
-	<h2 class="mb-6 mt-1 text-lg font-medium text-black-title">Open NFO’s</h2>
+	<h2 class="mb-6 mt-1 text-lg font-normal text-black-title">Open NFO’s</h2>
 </header>
 <div />
 {#await data.api.nfo}

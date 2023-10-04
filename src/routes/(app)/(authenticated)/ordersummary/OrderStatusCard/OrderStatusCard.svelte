@@ -19,7 +19,7 @@
 	</div>
 	<div slot="titleUserAction">
 		<div class="mb-1 text-xs text-grey-body">Order Status</div>
-		<div class="mb-1 text-sm font-medium text-black-title">{heading}</div>
+		<div class="mb-1 text-sm font-normal text-black-title">{heading}</div>
 		<div class="text-xs text-grey-body">Track progress for this order</div>
 	</div>
 	<div

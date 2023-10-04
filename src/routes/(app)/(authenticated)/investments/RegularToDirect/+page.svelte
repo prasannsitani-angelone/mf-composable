@@ -76,7 +76,7 @@
 		<section
 			class="flex h-max flex-col rounded-lg bg-white p-3 shadow-csm sm:col-start-2 sm:row-start-1"
 		>
-			<div class="mb-2 text-center text-base font-medium text-black-title">
+			<div class="mb-2 text-center text-base font-normal text-black-title">
 				Earn up to 1.5% more returns with your existing investments!
 			</div>
 			<div class="flex flex-row items-center bg-purple-light px-4 py-3">
@@ -88,7 +88,7 @@
 			</div>
 			<div class="mb-5 mt-10 flex w-full flex-row items-end">
 				<div class="flex flex-1 flex-col items-center">
-					<div class="mb-3 text-sm font-medium text-black-title">
+					<div class="mb-3 text-sm font-normal text-black-title">
 						₹{addCommasToAmountString(regularSchemes.regularCumullativeAmount?.toString())}
 					</div>
 					<div class="h-12 w-8 bg-red-sell" />
@@ -96,7 +96,7 @@
 					<div class="mt-3 text-xs text-grey-body">Regular Funds</div>
 				</div>
 				<div class="flex flex-1 flex-col items-center">
-					<div class="mb-3 text-sm font-medium text-black-title">
+					<div class="mb-3 text-sm font-normal text-black-title">
 						₹{addCommasToAmountString(regularSchemes.directCumullativeAmount?.toString())}
 					</div>
 					<div class="h-28 w-8 bg-blue-sell" />
@@ -111,7 +111,7 @@
 			</div>
 		</section>
 		<section class="h-max rounded-lg bg-white pt-4 shadow-csm sm:col-start-1 sm:row-start-1">
-			<div class="px-3 text-base font-medium text-black-title">
+			<div class="px-3 text-base font-normal text-black-title">
 				Funds with Available Direct Plans
 			</div>
 
@@ -124,9 +124,9 @@
 				>
 					<div class="flex flex-row items-center">
 						<img class="mr-1 h-9 w-9" src={scheme.logoUrl} alt="Scheme Logo" />
-						<div class="mr-1 text-sm font-medium text-black-title">{scheme.schemeName}</div>
+						<div class="mr-1 text-sm font-normal text-black-title">{scheme.schemeName}</div>
 					</div>
-					<div class="flex flex-row items-center text-sm font-semibold text-blue-primary">
+					<div class="flex flex-row items-center text-sm font-medium text-blue-primary">
 						<span>SWITCH</span>
 						<WMSIcon name="right-arrow" class="h-6 w-6 min-w-[24px]" stroke="#3F5BD9" />
 					</div>

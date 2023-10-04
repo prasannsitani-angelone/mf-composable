@@ -63,7 +63,7 @@
 					</div>
 				</div>
 			</label>
-			<div class="text-[10px] font-medium text-black-title">{story.title}</div>
+			<div class="text-[10px] font-normal text-black-title">{story.title}</div>
 		</div>
 	{/each}
 </article>

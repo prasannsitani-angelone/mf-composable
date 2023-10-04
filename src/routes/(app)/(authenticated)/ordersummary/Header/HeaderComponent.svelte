@@ -14,7 +14,7 @@
 
 <article class={`flex flex-col items-center bg-white px-4 py-3 ${clazz}`}>
 	{#if heading}
-		<div class="flex flex-row items-center text-lg font-medium text-black-title">
+		<div class="flex flex-row items-center text-lg font-normal text-black-title">
 			{#if STATUS_ARR.FAILED === status}
 				<ErrorIcon />
 			{:else if STATUS_ARR.PENDING === status}

@@ -84,7 +84,7 @@
 						<OrderCard orderDetails={ordersData.data} showStatusNote={ordersData.showStatusNote} />
 						<div class="mt-3 rounded-lg bg-white px-3 py-3">
 							<div
-								class="mb-5 text-sm font-medium text-black-title"
+								class="mb-5 text-sm font-normal text-black-title"
 								class:!text-base={ordersData?.data?.investmentType?.toUpperCase() === 'REDEEM'}
 							>
 								{ordersData?.data?.investmentType?.toUpperCase() === 'REDEEM'
@@ -103,7 +103,7 @@
 								<div class="flex items-center">
 									<WMSIcon name="question-mark-circle" class="mr-3" width={18} height={18} />
 									<div class="text-left">
-										<div class="font-medium capitalize">Need help ?</div>
+										<div class="font-normal capitalize">Need help ?</div>
 										<div class="text-xs font-normal capitalize text-grey-body">
 											Queries related to order status, charges and more
 										</div>

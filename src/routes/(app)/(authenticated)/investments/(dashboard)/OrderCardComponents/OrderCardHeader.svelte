@@ -8,7 +8,7 @@
 	<div>
 		{textString}
 	</div>
-	<div class:text-red-sell={orderType === 'FAILED'} class:font-medium={orderType === 'FAILED'}>
+	<div class:text-red-sell={orderType === 'FAILED'} class:font-normal={orderType === 'FAILED'}>
 		{status}
 	</div>
 </section>

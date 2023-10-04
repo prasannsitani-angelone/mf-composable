@@ -24,7 +24,7 @@
 </script>
 
 <section class="mx-2 mb-2 mt-2 rounded-lg bg-white p-4 shadow-csm md:mx-0 md:mt-4 md:p-6 md:pt-5">
-	<div class="pb-2 text-lg font-medium text-black-title md:hidden">
+	<div class="pb-2 text-lg font-normal text-black-title md:hidden">
 		{sectionTitle}
 	</div>
 
@@ -51,7 +51,7 @@
 		</div>
 
 		<article
-			class="flex w-full items-center justify-between border-t px-4 py-3 font-medium text-black-title md:w-fit md:flex-col md:items-end md:border-none md:p-0"
+			class="flex w-full items-center justify-between border-t px-4 py-3 font-normal text-black-title md:w-fit md:flex-col md:items-end md:border-none md:p-0"
 		>
 			<div class="text-base md:text-sm md:text-grey-body">
 				{amountTitle}
@@ -73,7 +73,7 @@
 					? 'border-t md:border-l md:border-t-0'
 					: ''} {index === statusItems?.length - 1 ? 'rounded-b' : ''}"
 			>
-				<div class="flex items-center text-sm text-grey-body md:mb-1 md:text-xs md:font-medium">
+				<div class="flex items-center text-sm text-grey-body md:mb-1 md:text-xs md:font-normal">
 					{item?.title}
 					{#if item?.title === ORDER_DATA?.EXPECTED_NAV_DATE}
 						<WMSIcon
@@ -86,7 +86,7 @@
 					{/if}
 				</div>
 				{#if !item?.node}
-					<div class="flex items-center text-base font-medium text-black-title md:text-sm">
+					<div class="flex items-center text-base font-normal text-black-title md:text-sm">
 						{#if item?.title === ORDER_DATA?.TRANSACTION_ID}
 							<WMSIcon
 								class="mr-2 cursor-pointer active:opacity-50"
@@ -99,7 +99,7 @@
 						{item?.value}
 					</div>
 				{:else}
-					<div class="text-base font-medium text-black-title md:text-sm">
+					<div class="text-base font-normal text-black-title md:text-sm">
 						{@html item?.value}
 					</div>
 				{/if}

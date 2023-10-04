@@ -214,7 +214,7 @@
 						<svelte:fragment slot="footer">
 							<footer class="mt-3 border-t border-grey-line py-5">
 								<div
-									class=" flex cursor-pointer items-center justify-center text-sm font-semibold uppercase text-blue-primary"
+									class=" flex cursor-pointer items-center justify-center text-sm font-medium uppercase text-blue-primary"
 								>
 									<Link to={`/explorefunds/high-returns?id=19`} class="flex items-center">
 										<span class="uppercase">explore funds</span>
