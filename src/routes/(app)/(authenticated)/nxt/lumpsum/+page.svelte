@@ -18,7 +18,7 @@
 	import type { IMandateDetails, IOrderDetails } from './type';
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
 	import Button from '$components/Button.svelte';
-	import FundDetailsLoader from '../../../schemes/[fund_name]/FundDetailsLoader/FundDetailsLoader.svelte';
+	import FundDetailsLoader from '../../../(authenticated)/schemes/[fund_name]/FundDetailsLoader/FundDetailsLoader.svelte';
 
 	export let data: PageData;
 

@@ -5,7 +5,7 @@ import { tokenStore } from '$lib/stores/TokenStore';
 import { userStore } from '$lib/stores/UserStore';
 import type { PromotionsEntity, SearchOptionsEntity } from '$lib/types/IDiscoverFunds';
 import type { BankDetailsEntity } from '$lib/types/IUserProfile';
-import type { PageParentData } from '../../routes/(app)/schemes/[fund_name]/$types';
+import type { PageParentData } from '../../routes/(app)/(authenticated)/schemes/[fund_name]/$types';
 import { appStore } from '$lib/stores/SparkStore';
 import type { LayoutData } from '../../../.svelte-kit/types/src/routes/(app)/$types';
 import type { AutopayTypes } from '$lib/types/IEmandate';

@@ -28,7 +28,7 @@
 		verifyWithOtpProceedButtonAnalytics
 	} from '$lib/analytics/redemption/redemption';
 	import type { IOrderPostData } from '$lib/types/IOrderPostData';
-	import LoadingPopup from '../../../../InvestmentPad/OrderPadComponents/LoadingPopup.svelte';
+	import LoadingPopup from '../../../../../InvestmentPad/OrderPadComponents/LoadingPopup.svelte';
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';

@@ -9,8 +9,8 @@
 	import type { FolioHoldingType } from '$lib/types/IInvestments';
 	import { base } from '$app/paths';
 	import { createEventDispatcher } from 'svelte';
-	import SwitchSkeletonLoader from '../../../routes/(app)/schemes/switch/[scheme_name]/SwitchSkeletonLoader.svelte';
-	import SwitchHomePage from '../../../routes/(app)/schemes/switch/[scheme_name]/SwitchHomePage/SwitchHomePage.svelte';
+	import SwitchSkeletonLoader from '../../../routes/(app)/(authenticated)/schemes/switch/[scheme_name]/SwitchSkeletonLoader.svelte';
+	import SwitchHomePage from '../../../routes/(app)/(authenticated)/schemes/switch/[scheme_name]/SwitchHomePage/SwitchHomePage.svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import { decodeToObject } from '$lib/utils/helpers/params';

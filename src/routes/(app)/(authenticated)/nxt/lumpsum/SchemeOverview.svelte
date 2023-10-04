@@ -3,8 +3,8 @@
 	import { base } from '$app/paths';
 	import AmountText from '$components/AmountText.svelte';
 	import Button from '$components/Button.svelte';
-	import SchemeInformationModal from '../../../schemes/[fund_name]/SchemeInformation/SchemeInformationModal.svelte';
-	import TaxImplications from '../../../schemes/[fund_name]/SchemeInformation/TaxImplications.svelte';
+	import SchemeInformationModal from '../../../(authenticated)/schemes/[fund_name]/SchemeInformation/SchemeInformationModal.svelte';
+	import TaxImplications from '../../../(authenticated)/schemes/[fund_name]/SchemeInformation/TaxImplications.svelte';
 	import ExitLoadIcon from '$lib/images/icons/ExitLoadIcon.svelte';
 	import PeopleIcon from '$lib/images/PeopleIcon.svg';
 	import RocketIcon from '$lib/images/icons/RocketIcon.svelte';
