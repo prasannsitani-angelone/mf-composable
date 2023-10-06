@@ -342,6 +342,14 @@
 	onMount(() => {
 		scrollToTop();
 	});
+
+	const handleLinkAutopayCtaClick = (sipData: ISip) => {
+		const params = encodeObject({
+			amount: sipData.installmentAmount,
+			showAlert: true
+		});
+		goto(`${base}/autopay/manage?params=${params}`);
+	};
 </script>
 
 <article>
@@ -366,27 +374,18 @@
 							linkHeading: mandateList.length > 0 ? linkAutopayHeading : setupAutopayHeading,
 							type: 'warn'
 						}}
-						<SipBookAutoPayNudge
-							amount={sipData.installmentAmount}
-							on:autoPayClick={() => {
-								if (mandateList.length > 0) {
-									onAction(sipData);
-								} else {
-									const params = encodeObject({
-										amount: sipData.installmentAmount,
-										showAlert: true
-									});
-									goto(`${base}/autopay/manage?params=${params}`);
-								}
-							}}
-						/>
-						{#if false}
+						{#if mandateList.length > 0}
 							<DiscoverFundsNudge
 								nudge={nudgeData}
-								onAction={mandateList.length > 0 ? () => onAction(sipData) : null}
+								onAction={() => onAction(sipData)}
 								clickEvent={() => nudgeClick(sipData, mandateList.length > 0)}
 								impressionEvent={() => nudgeImpression(sipData, mandateList.length > 0)}
 								class="mb-2 sm:mt-4"
+							/>
+						{:else}
+							<SipBookAutoPayNudge
+								amount={sipData.installmentAmount}
+								on:autoPayClick={() => handleLinkAutopayCtaClick(sipData)}
 							/>
 						{/if}
 					{/await}

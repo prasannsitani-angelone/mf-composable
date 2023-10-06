@@ -23,9 +23,11 @@
 				<div class="flex items-center text-sm font-normal text-black-title">
 					<div>{bankName}</div>
 					{#if bankAccounts > 1}
-						<div class="ml-1 min-w-[12px] flex-1">
-							<WMSIcon name="arrow-up-solid" height={8} width={10} />
-						</div>
+						<slot name="dropdown-icon">
+							<div class="ml-1 min-w-[12px] flex-1">
+								<WMSIcon name="arrow-up-solid" height={8} width={10} />
+							</div>
+						</slot>
 					{/if}
 				</div>
 			</div>
@@ -39,11 +41,13 @@
 			</div>
 		</div>
 	</div>
-	{#if showWhyThisBank}
-		<Button
-			class=" !text-xs !font-normal normal-case text-blue-primary"
-			variant="transparent"
-			on:click={openWhyThisBank}>Why this bank?</Button
-		>
-	{/if}
+	<slot name="right-section">
+		{#if showWhyThisBank}
+			<Button
+				class=" !text-xs !font-normal normal-case text-blue-primary"
+				variant="transparent"
+				on:click={openWhyThisBank}>Why this bank?</Button
+			>
+		{/if}
+	</slot>
 </section>

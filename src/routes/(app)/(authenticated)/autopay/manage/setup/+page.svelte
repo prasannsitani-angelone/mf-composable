@@ -21,6 +21,7 @@
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
+	import { Button, WMSIcon } from 'svelte-components';
 
 	export let data;
 	let selectedAccount: number;
@@ -58,8 +59,10 @@
 
 	const setupPaymentMethods = async (mandateResponsePromise, promiseResponse) => {
 		const response = await promiseResponse;
+
 		const { mandateAmount } = getSipAmountWithoutMandate(response?.data, data?.pageParam?.amount);
 		const mandateResponse = await mandateResponsePromise;
+
 		allowedPaymentMethods = [];
 		if (mandateResponse.ok) {
 			const methods = mandateResponse.data?.data;
@@ -180,6 +183,10 @@
 			replaceState: true
 		});
 	};
+
+	const handleGoBackCtaClick = () => {
+		history?.back();
+	};
 </script>
 
 {#await data.api.data}
@@ -194,14 +201,20 @@
 					response?.data,
 					data?.pageParam?.amount
 				)}
-				<TopCard {totalAmount} mandateLimit={getMandateAmount(mode, mandateAmount)} />
+				<TopCard
+					{totalAmount}
+					mandateLimit={getMandateAmount(mode, mandateAmount)}
+					paymentMode={mode}
+				/>
 				<div class="mb-2" />
 				<Mandate
 					onStart={intiateAutoPayProcess}
 					amount={String(mandateAmount)}
 					onErrorCallback={onAutopaySetupFail}
 					{onSuccessCallback}
-					onPendingCallback={onAutopaySetupFail}
+					onPendingCallback={() => {
+						//
+					}}
 					profileData={$page?.data?.profile}
 					defaultBankAccount={selectedAccount}
 					{onSuccessPopupClick}
@@ -212,29 +225,57 @@
 				/>
 			{:else}
 				{@const bankAccountsLength = profileData?.bankDetails?.length}
-				{#if bankAccountsLength > 1}
-					<div class="rounded-lg bg-white p-4 shadow-csm">
-						<div class="mb-4 text-sm text-grey-body">
-							Your current bank account does not support AutoPay. Please choose another bank
-							account. If none of your bank accounts support AutoPay, you can still proceed with
-							your SIPs by making a one-time payment on the SIP due date.
-						</div>
-						<BankTile
-							bankLogo={profileData?.bankDetails?.[selectedAccount]?.bankLogo}
-							bankName={profileData?.bankDetails?.[selectedAccount]?.bankName}
-							selectedBankAccount={profileData?.bankDetails?.[selectedAccount]?.accNO}
-							bankAccounts={bankAccountsLength}
-							{showBankSelectionPopup}
-						/>
+				<div class="rounded-lg bg-white px-2 py-12 shadow-csm">
+					<WMSIcon name="red-exclamation-thin" height={92} width={92} class="mx-auto" />
+
+					<div class="mx-1 mt-6 text-center text-sm font-normal text-black-title">
+						{#if bankAccountsLength > 1}
+							<div>
+								Your bank does not support UPI Autopay. Please set up autopay with a different bank
+								account.
+							</div>
+
+							<div class="mt-4">
+								If none of your bank accounts work, please complete your SIP payment manually on the
+								SIP date.
+							</div>
+
+							<article class="mt-6">
+								<BankTile
+									bankLogo={profileData?.bankDetails?.[selectedAccount]?.bankLogo}
+									bankName={profileData?.bankDetails?.[selectedAccount]?.bankName}
+									selectedBankAccount={profileData?.bankDetails?.[selectedAccount]?.accNO}
+									bankAccounts={bankAccountsLength}
+								>
+									<svelte:fragment slot="dropdown-icon">
+										<span />
+									</svelte:fragment>
+
+									<svelte:fragment slot="right-section">
+										<Button
+											class="mr-3 px-0 !text-xs !font-medium text-blue-primary"
+											variant="transparent"
+											on:click={showBankSelectionPopup}>CHANGE</Button
+										>
+									</svelte:fragment>
+								</BankTile>
+							</article>
+						{:else}
+							<div>
+								Your bank does not support UPI Autopay. Please complete your SIP payment manually on
+								the SIP date.
+							</div>
+
+							<article class="mt-6 text-center">
+								<Button
+									class="mr-3 !h-0 !min-h-0 px-0 !text-sm !font-medium text-blue-primary"
+									variant="transparent"
+									on:click={handleGoBackCtaClick}>GO BACK</Button
+								>
+							</article>
+						{/if}
 					</div>
-				{:else}
-					<div class="rounded-lg bg-white p-4 shadow-csm">
-						<div class="text-sm text-black-title">
-							Your bank account does not support AutoPay. You can still continue with your SIPs by
-							making a one-time payment on your SIP due date.
-						</div>
-					</div>
-				{/if}
+				</div>
 
 				{#if bankPopupVisible}
 					<BankSelectionPopup

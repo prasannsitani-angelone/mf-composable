@@ -118,7 +118,7 @@ export const netBankingFlow = async (params) => {
 						heading: 'Autopay Setup Failed',
 						errorSubHeading:
 							event.data.message ||
-							'You have cancelled the eMandate request for Autopay. Please try again or use another authorisation mode'
+							'We are confirming the status of your autopay. We will notify you once we have an update. If you already completed the first payment, please wait.'
 					});
 				}
 			}
@@ -138,7 +138,7 @@ export const netBankingFlow = async (params) => {
 			onError({
 				heading: 'Autopay Setup Failed',
 				errorSubHeading:
-					'You have cancelled the eMandate request for Autopay. Please try again or use another authorisation mode'
+					'We are confirming the status of your autopay. We will notify you once we have an update. If you already completed the first payment, please wait.'
 			});
 		}
 	} catch (e) {
@@ -273,7 +273,7 @@ export const upiFlow = async (params) => {
 					heading: 'Autopay Setup Pending',
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
-						'You have cancelled the eMandate request for Autopay. Please try again or use another authorisation mode'
+						'We are confirming the status of your autopay. We will notify you once we have an update. If you already completed the first payment, please wait.'
 				});
 			}
 		});
@@ -394,7 +394,7 @@ export const walletFlow = async (params) => {
 					heading: 'Autopay Setup Pending',
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
-						'You have cancelled the eMandate request for Autopay. Please try again or use another authorisation mode'
+						'We are confirming the status of your autopay. We will notify you once we have an update. If you already completed the first payment, please wait.'
 				});
 			}
 		});

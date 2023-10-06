@@ -15,6 +15,7 @@
 	import { netBankingFlow, upiFlow, walletFlow } from './flow';
 	import { add } from 'date-fns';
 	import { accounChangeAnalytics } from './analytics';
+	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
 
 	export let profileData: UserProfile;
 	export let amount: string;
@@ -42,6 +43,11 @@
 	let bankPopupVisible = false;
 	let validateUPILoading = false;
 	const error = {
+		visible: false,
+		heading: '',
+		subHeading: ''
+	};
+	const pending = {
 		visible: false,
 		heading: '',
 		subHeading: ''
@@ -136,10 +142,22 @@
 		error.subHeading = errorSubHeading;
 	};
 
+	const displayPending = ({ heading = 'Autopay Setup Pending', pendingSubHeading = '' }) => {
+		pending.visible = true;
+		pending.heading = heading;
+		pending.subHeading = pendingSubHeading;
+	};
+
 	const closeErrorPopup = () => {
 		error.heading = '';
 		error.subHeading = '';
 		error.visible = false;
+	};
+
+	const closePendingPopup = () => {
+		pending.heading = '';
+		pending.subHeading = '';
+		pending.visible = false;
 	};
 
 	const showLoading = (heading: string) => {
@@ -205,11 +223,11 @@
 		onSuccessCallback(params);
 	};
 
-	const onPending = ({ heading = '', errorSubHeading = '' }) => {
+	const onPending = ({ heading = '', pendingSubHeading = '' }) => {
 		onPendingCallback();
-		displayError({
+		displayPending({
 			heading,
-			errorSubHeading
+			pendingSubHeading
 		});
 	};
 
@@ -318,6 +336,19 @@
 		buttonTitle="TRY AGAIN"
 		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
 		buttonVariant="contained"
+	/>
+{:else if pending.visible}
+	<ResultPopup
+		popupType={STATUS_ARR?.PENDING}
+		title={pending.heading}
+		text={pending.subHeading}
+		class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+		isModalOpen
+		handleButtonClick={closePendingPopup}
+		closeModal={closePendingPopup}
+		buttonTitle="DONE"
+		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
+		buttonVariant="outlined"
 	/>
 {:else if isSuccess}
 	<SuccessPopup

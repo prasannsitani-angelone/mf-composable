@@ -18,7 +18,7 @@
 	<ManageSkeletanLoader />
 {:then response}
 	{@const { totalAmount } = getSipAmountWithoutMandate(response?.data)}
-	<Card class="px-2 pb-6 pt-4">
+	<Card class="mb-36 px-2 pb-4 pt-4">
 		{#if showAlert}
 			<RiskMessage {totalAmount} />
 		{/if}
@@ -30,6 +30,9 @@
 			<div>Payments with Autopay</div>
 		</section>
 		<InfoList />
-		<BankDetails {totalAmount} />
 	</Card>
+
+	<article class="fixed inset-0 top-auto z-20 block bg-white p-2 md:hidden">
+		<BankDetails {totalAmount} />
+	</article>
 {/await}
