@@ -385,7 +385,7 @@ export const initiateWalletPayment = async (params) => {
 				product: 'mf',
 				request_source: 'mf-web',
 				request_type: 'INTENT',
-				app_name: apiName,
+				app_name: apiName?.toLowerCase(),
 				mf_order_reference_number: sipRegistrationNumber,
 				mf_order_type: redirectedFrom === 'SIP_PAYMENTS' ? 'sip' : undefined
 			}),

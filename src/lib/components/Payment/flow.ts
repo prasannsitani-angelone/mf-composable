@@ -2495,7 +2495,7 @@ export const walletIntegeratedFlow = async (params) => {
 			bank_ifsc_code: ifscCode,
 			type: 'upi',
 			sub_type: 'intent',
-			app_name: paymentModeAPIName,
+			app_name: paymentModeAPIName?.toLowerCase(),
 			frequency: 'monthly',
 			product: 'mf',
 			amount: 15000,

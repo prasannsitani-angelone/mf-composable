@@ -322,7 +322,7 @@ export const walletFlow = async (params) => {
 			bank_ifsc_code: ifscCode,
 			type: 'upi',
 			sub_type: 'intent',
-			app_name: emandateModeAPIName,
+			app_name: emandateModeAPIName?.toLowerCase(),
 			frequency: 'monthly',
 			product: 'mf',
 			amount,

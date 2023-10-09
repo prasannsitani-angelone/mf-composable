@@ -1205,7 +1205,8 @@
 					mandateId: response.mandateId,
 					mobile: profileData?.mobile,
 					clientId: profileData?.clientId,
-					accountType: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accountType
+					accountType: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accountType,
+					amount: stringToInteger(amount)
 				});
 			if (response.isIntegeratedFlow) {
 				showIntegeratedFlowPopup(integeratedFlowFunc, normalFlowFunc);
@@ -1247,7 +1248,8 @@
 					os,
 					mobile: profileData?.mobile,
 					clientId: profileData?.clientId,
-					accountType: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accountType
+					accountType: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accountType,
+					amount: stringToInteger(amount)
 				});
 			if (response.isIntegeratedFlow) {
 				showIntegeratedFlowPopup(integeratedFlowFunc, normalFlowFunc);
