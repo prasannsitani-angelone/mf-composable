@@ -338,7 +338,7 @@ export const walletFlow = async (params) => {
 			resetState: () => initializeGPayState(gpayPaymentState)
 		});
 
-		const redirectUrl = response.data?.data?.[`${os}_deep_link`];
+		const redirectUrl = response.data?.data?.[`${os?.toLowerCase() || ''}_deep_link`];
 		window.open(redirectUrl, '_self');
 		showLoading('Waiting for approval');
 		const promiseResponse = await Promise.any([

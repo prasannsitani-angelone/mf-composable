@@ -1,3 +1,4 @@
+import { add, sub } from 'date-fns';
 import { fetchTransactionDataFunc } from '../api';
 
 export const getMandateAmount = (mode: string, amount: number) => {
@@ -156,5 +157,20 @@ export const transactionRetryLogic = ({
 export const resetTransactionInterval = (state) => {
 	if (state.interval) {
 		clearInterval(state.interval);
+	}
+};
+
+export const getSipEndDate = (startDate) => {
+	try {
+		return sub(
+			add(startDate, {
+				months: 360
+			}),
+			{
+				days: 1
+			}
+		).getTime();
+	} catch (e) {
+		return '';
 	}
 };

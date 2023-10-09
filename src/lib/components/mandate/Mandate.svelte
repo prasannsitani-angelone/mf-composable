@@ -11,7 +11,12 @@
 	import SuccessPopup from './components/SuccessPopup.svelte';
 	import EmandateMethod from './components/EmandateMethod.svelte';
 	import { stringToFloat } from 'svelte-components';
-	import { getMandateAmount, initializeUPIState, intializeNetBankingState } from './utils';
+	import {
+		getMandateAmount,
+		getSipEndDate,
+		initializeUPIState,
+		intializeNetBankingState
+	} from './utils';
 	import { netBankingFlow, upiFlow, walletFlow } from './flow';
 	import { add } from 'date-fns';
 	import { accounChangeAnalytics } from './analytics';
@@ -205,12 +210,6 @@
 		return getSipStartDateWithoutFormat().getTime();
 	};
 
-	const getSipEndDate = () => {
-		return add(getSipStartDateWithoutFormat(), {
-			months: 360
-		}).getTime();
-	};
-
 	const onError = ({ heading = '', errorSubHeading = '' }) => {
 		onErrorCallback();
 		displayError({
@@ -237,7 +236,7 @@
 		const commonInput = {
 			amount: getMandateAmount(paymentHandler.emandateMode, amountInNumber),
 			sipStartDate: getSipStartDate(),
-			sipEndDate: getSipEndDate(),
+			sipEndDate: getSipEndDate(getSipStartDateWithoutFormat()),
 			accNO: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO,
 			ifscCode: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.ifscCode,
 			bankName: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,

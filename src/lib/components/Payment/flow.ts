@@ -26,7 +26,7 @@ import {
 	handleEmandateResponse as handleMandateResponse,
 	handleTransactionResponse as handleMandateStatusResponse
 } from '../mandate/handlers';
-import { transactionRetryLogic as mandateStatusRetryLogic } from '../mandate/utils';
+import { getSipEndDate, transactionRetryLogic as mandateStatusRetryLogic } from '../mandate/utils';
 import { getPrimaryAccountMandateData } from '$lib/utils/helpers/emandate';
 import {
 	googlePayCloseLogic,
@@ -43,7 +43,6 @@ import { base } from '$app/paths';
 import { initializeUPIState } from './util';
 import { callMandateAPI } from '$components/mandate/api';
 import { PUBLIC_MANDATE_SOURCE } from '$env/static/public';
-import { add } from 'date-fns';
 
 export const noPaymentFlow = async (params) => {
 	const {
@@ -1388,11 +1387,7 @@ export const upiIntegeratedFlow = async (params) => {
 			amount: 15000,
 			request_source: PUBLIC_MANDATE_SOURCE,
 			start_date: sipDate?.getTime() || '',
-			end_date: sipDate
-				? add(sipDate, {
-						months: 360
-				  }).getTime()
-				: '',
+			end_date: getSipEndDate(sipDate),
 			upfront_payment: {
 				amount: amount,
 				upstream_reference_number: xRequestId
@@ -2506,11 +2501,7 @@ export const walletIntegeratedFlow = async (params) => {
 			amount: 15000,
 			request_source: PUBLIC_MANDATE_SOURCE,
 			start_date: sipDate?.getTime() || '',
-			end_date: sipDate
-				? add(sipDate, {
-						months: 360
-				  }).getTime()
-				: '',
+			end_date: getSipEndDate(sipDate),
 			upfront_payment: {
 				amount: amount,
 				upstream_reference_number: xRequestId
@@ -2524,7 +2515,7 @@ export const walletIntegeratedFlow = async (params) => {
 		});
 
 		// redirection
-		const redirectUrl = mandateResponse.data?.data?.[`${os}_deep_link`];
+		const redirectUrl = mandateResponse.data?.data?.[`${os?.toLowerCase() || ''}_deep_link`];
 		showLoading('Waiting for approval');
 		window.open(redirectUrl, '_self');
 
