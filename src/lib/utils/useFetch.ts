@@ -51,7 +51,9 @@ export const useFetch = async (
 	url: string,
 	options: RequestInit = {},
 	fetchServer?: FetchType,
-	isNonJsonFetch = false
+	isNonJsonFetch = false,
+	// Api timeput of 15second for Browser and 5second for Server
+	timeout = browser ? 15000 : 5000
 ) => {
 	const baseFetch = fetchServer || fetch;
 	const opts = {
@@ -77,6 +79,9 @@ export const useFetch = async (
 				browser
 			}
 		});
+		if (AbortSignal?.timeout) {
+			opts.signal = AbortSignal.timeout(timeout);
+		}
 		const res = await baseFetch(url, opts);
 		let data = res;
 		if (!isNonJsonFetch) {
@@ -91,6 +96,7 @@ export const useFetch = async (
 			response: data,
 			statusCode: res.status
 		};
+
 		if (res.ok) {
 			Logger.debug({
 				type: 'Network Response Success',
