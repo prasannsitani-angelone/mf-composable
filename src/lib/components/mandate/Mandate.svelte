@@ -22,6 +22,7 @@
 	export let mode: string;
 	export let defaultBankAccount: number;
 	export let allowedPaymentMethods = Object.keys(EMANDATE_MODE);
+	export let os = '';
 	export let onStart = (): void => undefined;
 	export let onSuccessCallback = (): void => undefined;
 	export let onErrorCallback = (): void => undefined;
@@ -273,7 +274,8 @@
 				emandateModeAPIName: EMANDATE_MODE[paymentHandler.emandateMode].apiName,
 				...commonInput,
 				gpayPaymentState,
-				state
+				state,
+				os
 			});
 		}
 	};

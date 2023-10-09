@@ -1,5 +1,9 @@
 import { base } from '$app/paths';
-import { PUBLIC_MF_CORE_BASE_URL, PUBLIC_PAYMENT_BASE_URL } from '$env/static/public';
+import {
+	PUBLIC_MANDATE_BASE_URL,
+	PUBLIC_MF_CORE_BASE_URL,
+	PUBLIC_PAYMENT_BASE_URL
+} from '$env/static/public';
 import getEmandateData from '$lib/api/emandate';
 import { stringToFloat } from '$lib/utils/helpers/numbers';
 import { useFetch } from '$lib/utils/useFetch';
@@ -123,6 +127,22 @@ export const fetchTransactionDataFunc = async (params) => {
 	}
 };
 
+export const fetchMandateTransactionDataFunc = async (params) => {
+	try {
+		const { xRequestId, source } = params || {};
+		const url = `${PUBLIC_MANDATE_BASE_URL}/transaction?upstream_reference_number=${xRequestId}`;
+		const response = await useFetch(url, {
+			headers: {
+				'X-Request-Id': xRequestId,
+				'X-Source': source || 'diy'
+			}
+		});
+		return response;
+	} catch (e) {
+		return {};
+	}
+};
+
 export const initiateNetBankingPaymentFunc = async (params) => {
 	const url = `${PUBLIC_PAYMENT_BASE_URL}/net-banking-initiate-payment`;
 	try {
@@ -216,7 +236,8 @@ export const sipOrderPostFunction = async (params) => {
 			sipDate,
 			xRequestId,
 			source,
-			isFirstSip
+			isFirstSip,
+			integratedFlow
 		} = params || {};
 
 		const response = await useFetch(url, {
@@ -233,7 +254,8 @@ export const sipOrderPostFunction = async (params) => {
 				firstOrderToday: firstSipPayment,
 				folioNumber: '',
 				transactionRefNumber,
-				veryFirstSip: isFirstSip ? true : false
+				veryFirstSip: isFirstSip ? true : false,
+				integratedFlow: integratedFlow || false
 			}),
 			headers: {
 				'X-Request-Id': xRequestId,

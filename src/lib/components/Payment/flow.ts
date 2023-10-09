@@ -22,12 +22,18 @@ import {
 	handleUPIResponse,
 	handleUPIValidationResponse
 } from './handler';
+import {
+	handleEmandateResponse as handleMandateResponse,
+	handleTransactionResponse as handleMandateStatusResponse
+} from '../mandate/handlers';
+import { transactionRetryLogic as mandateStatusRetryLogic } from '../mandate/utils';
 import { getPrimaryAccountMandateData } from '$lib/utils/helpers/emandate';
 import {
 	googlePayCloseLogic,
 	initializeGPayState,
 	intializeNetBankingState,
 	isNetBakingPaymentWindowClosed,
+	mandateTransactionRetryLogic,
 	netBankingWindowCloseLogic,
 	resetTransactionInterval,
 	transactionRetryLogic,
@@ -35,6 +41,9 @@ import {
 } from './util';
 import { base } from '$app/paths';
 import { initializeUPIState } from './util';
+import { callMandateAPI } from '$components/mandate/api';
+import { PUBLIC_MANDATE_SOURCE } from '$env/static/public';
+import { add } from 'date-fns';
 
 export const noPaymentFlow = async (params) => {
 	const {
@@ -1111,22 +1120,28 @@ export const upiSIPFlow = async (params) => {
 		onUPIValidationFailure = () => undefined,
 		displayPendingPopup = () => undefined,
 		onSuccess = () => undefined,
-		isFirstSip = false
+		isFirstSip = false,
+		upiIdValid = false
 	} = params || {};
 	let { sipType = 'SIP' } = params || {};
 	try {
-		const upiValidationResponse = await upiValidateFunc({
-			bankName,
-			id: inputId,
-			xRequestId,
-			source,
-			showLoading: showUPILoading,
-			stopLoading: stopUPILoading
-		});
-		handleUPIValidationResponse({
-			upiValidationResponse,
-			onUPIValidationFailure
-		});
+		// initiate only when we don't know upi id is valid or not
+		if (!upiIdValid) {
+			const upiValidationResponse = await upiValidateFunc({
+				bankName,
+				id: inputId,
+				xRequestId,
+				source,
+				showLoading: showUPILoading,
+				stopLoading: stopUPILoading
+			});
+			handleUPIValidationResponse({
+				upiValidationResponse,
+				onUPIValidationFailure
+			});
+		}
+
+		// initiate only when we don't have mandate id
 		let autoMandate;
 		if (!mandateId) {
 			showLoading('Getting Mandate Data');
@@ -1146,6 +1161,7 @@ export const upiSIPFlow = async (params) => {
 			autoMandate = getPrimaryAccountMandateData(emandateResponse?.data);
 			sipType = autoMandate?.mandateType;
 		}
+
 		showLoading('Initiating UPI Payment');
 		const upiResponse = await initiateUPIPayment({
 			amount,
@@ -1275,6 +1291,240 @@ export const upiSIPFlow = async (params) => {
 				});
 			}
 		});
+		showLoading('Waiting for order status');
+		const orderPatchResponse = await orderPatch();
+		handleOrderPatchResponse({
+			orderPatchResponse,
+			stopLoading,
+			displayError
+		});
+		onSuccess({
+			orderId: orderPostResponse.data?.data?.orderId,
+			sipId: orderPostResponse.data?.data?.sipId
+		});
+	} catch (e) {
+		stopLoading();
+	}
+};
+
+export const upiIntegeratedFlow = async (params) => {
+	const {
+		mobile,
+		clientId,
+		accountType,
+		amount,
+		sipDate,
+		accNO,
+		ifscCode,
+		fullName,
+		dpNumber,
+		sipFrequency,
+		sipMaxInstallmentNo,
+		schemeCode,
+		inputId,
+		bankName,
+		xRequestId,
+		source = '',
+		mandateId = '',
+		previousOrderId, // for previous order deletion
+		previousPGTxnId, // for previous order deletion
+		upiState = {},
+		state = {},
+		showLoading = () => undefined,
+		stopLoading = () => undefined,
+		displayError = () => undefined,
+		updateUPITimer = () => undefined,
+		displayPendingPopup = () => undefined,
+		onSuccess = () => undefined,
+		isFirstSip = false
+	} = params || {};
+
+	const { sipType = 'SIP' } = params || {};
+
+	try {
+		// creating order
+		showLoading('Creating your order');
+		const orderPostResponse = await sipOrderPostFunction({
+			amount,
+			dpNumber,
+			schemeCode,
+			sipType,
+			emandateId: mandateId,
+			sipFrequency,
+			sipMaxInstallmentNo,
+			firstSipPayment: true,
+			sipDate,
+			xRequestId,
+			source,
+			isFirstSip,
+			integratedFlow: true
+		});
+		handleOrderPostResponse({
+			orderPostResponse,
+			previousOrderId,
+			previousPGTxnId,
+			resetState: () => {
+				initializeUPIState(upiState);
+			},
+			stopLoading,
+			displayError
+		});
+
+		// initiating integerated flow
+		showLoading('Initiating UPI Payment');
+		const mandateResponse = await callMandateAPI({
+			client_full_name: fullName,
+			client_mobile_number: mobile,
+			client_code: clientId,
+			bank_name: bankName,
+			bank_account_number: accNO,
+			bank_account_type: accountType || 'savings',
+			bank_ifsc_code: ifscCode,
+			type: 'upi',
+			sub_type: 'collect',
+			vpa: inputId,
+			frequency: 'monthly',
+			product: 'mf',
+			amount: 15000,
+			request_source: PUBLIC_MANDATE_SOURCE,
+			start_date: sipDate?.getTime() || '',
+			end_date: sipDate
+				? add(sipDate, {
+						months: 360
+				  }).getTime()
+				: '',
+			upfront_payment: {
+				amount: amount,
+				upstream_reference_number: xRequestId
+			}
+		});
+		handleMandateResponse({
+			response: mandateResponse,
+			stopLoading,
+			onError: displayError,
+			resetState: () => initializeUPIState(upiState)
+		});
+		stopLoading();
+		upiState.flow = 2;
+		upiState.timer = 10 * 60; // hardcoding the tiner for upi to 10 minutes
+		upiState.timerInterval = setInterval(() => {
+			if (upiState.timer <= 0) {
+				clearInterval(upiState.timerInterval);
+			}
+			updateUPITimer(upiState.timer - 1);
+		}, 1000);
+
+		// mandate status check
+		const promiseResponse = await Promise.any([
+			mandateStatusRetryLogic({
+				mandateID: mandateResponse.data?.data?.mandate_id,
+				retryNumber: 0,
+				retries: Math.ceil((10 * 60) / 3), // hardcoding transaction validity
+				retryDelay: 3,
+				resetState: () => {
+					resetTransactionInterval(state);
+					initializeUPIState(upiState);
+				},
+				state
+			}),
+			upiWindowCloseLogic({
+				upiState,
+				resetState: () => {
+					resetTransactionInterval(state);
+					initializeUPIState(upiState);
+				}
+			})
+		]);
+		let mandateStatusResponse = {};
+		if (promiseResponse === 'WINDOW_CLOSED') {
+			showLoading('Waiting for approval');
+			mandateStatusResponse = await mandateStatusRetryLogic({
+				mandateID: mandateResponse.data?.data?.mandate_id,
+				retryNumber: 0,
+				retries: 5,
+				retryDelay: 1,
+				resetState: () => {
+					resetTransactionInterval(state);
+					initializeUPIState(upiState);
+				},
+				state
+			});
+		} else {
+			mandateStatusResponse = promiseResponse;
+		}
+		await handleMandateStatusResponse({
+			transactionResponse: mandateStatusResponse,
+			failureCallback: () => {
+				stopLoading();
+				displayError({
+					heading: 'Autopay Setup Failed',
+					errorSubHeading:
+						mandateStatusResponse?.data?.data?.response_description ||
+						'We were unable to set up your autopay due to a technical issue. Please try again'
+				});
+			},
+			pendingCallback: () => {
+				stopLoading();
+				displayPendingPopup({
+					heading: 'Autopay Setup Pending',
+					errorSubHeading:
+						mandateStatusResponse?.data?.data?.response_description ||
+						'You have cancelled the eMandate request for Autopay. Please try again or use another authorisation mode'
+				});
+			}
+		});
+
+		// transaction status check
+		showLoading('Waiting for payment status');
+		const transactionResponse = await mandateTransactionRetryLogic({
+			retryNumber: 0,
+			retries: 5,
+			retryDelay: 1,
+			xRequestId,
+			source,
+			resetState: () => {
+				resetTransactionInterval(state);
+				initializeUPIState(upiState);
+			},
+			state
+		});
+		await handleTransactionResponse({
+			transactionResponse,
+			failureCallback: () => {
+				stopLoading();
+				displayError({
+					type: 'PAYMENT_FAILED',
+					orderId: orderPostResponse?.data?.data?.orderId,
+					sipId: orderPostResponse?.data?.data?.sipId,
+					heading: 'Payment Failed',
+					errorSubHeading:
+						transactionResponse?.data?.data?.response_description ||
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+				});
+			},
+			pendingCallback: () => {
+				stopLoading();
+				displayPendingPopup({
+					orderId: orderPostResponse?.data?.data?.orderId,
+					sipId: orderPostResponse?.data?.data?.sipId,
+					heading: 'Payment Pending',
+					errorSubHeading:
+						transactionResponse?.data?.data?.response_description ||
+						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+				});
+			}
+		});
+
+		const orderPatch = () =>
+			sipOrderPatchFunc({
+				reference_number: transactionResponse?.data?.data?.reference_number,
+				response_description: transactionResponse?.data?.data?.response_description,
+				status: transactionResponse?.data?.data?.status,
+				transaction_id: transactionResponse?.data?.data?.transaction_id,
+				sipId: orderPostResponse?.data?.data?.sipId,
+				xRequestId,
+				source
+			});
 		showLoading('Waiting for order status');
 		const orderPatchResponse = await orderPatch();
 		handleOrderPatchResponse({
@@ -2170,6 +2420,238 @@ export const walletBulkSIPFlow = async (params) => {
 		});
 		onSuccess({
 			bulkRequestId: orderPostResponse?.data?.data?.bulkRequestId
+		});
+	} catch (e) {
+		stopLoading();
+	}
+};
+
+export const walletIntegeratedFlow = async (params) => {
+	const {
+		mobile,
+		clientId,
+		accountType,
+		os,
+		paymentModeName,
+		paymentModeAPIName,
+		amount,
+		sipDate,
+		accNO,
+		ifscCode,
+		fullName,
+		dpNumber,
+		sipFrequency,
+		sipMaxInstallmentNo,
+		schemeCode,
+		bankName,
+		xRequestId,
+		source = '',
+		mandateId = '',
+		previousOrderId, // for previous order deletion
+		previousPGTxnId, // for previous order deletion
+		gpayPaymentState = {},
+		state = {},
+		showLoading = () => undefined,
+		stopLoading = () => undefined,
+		displayError = () => undefined,
+		displayPendingPopup = () => undefined,
+		onSuccess = () => undefined,
+		isFirstSip = false
+	} = params || {};
+
+	const { sipType = 'SIP' } = params || {};
+
+	try {
+		// creating order
+		showLoading('Creating your order');
+		const orderPostResponse = await sipOrderPostFunction({
+			amount,
+			dpNumber,
+			schemeCode,
+			sipType,
+			emandateId: mandateId,
+			sipFrequency,
+			sipMaxInstallmentNo,
+			firstSipPayment: true,
+			sipDate,
+			xRequestId,
+			source,
+			isFirstSip,
+			integratedFlow: true
+		});
+		handleOrderPostResponse({
+			orderPostResponse,
+			previousOrderId,
+			previousPGTxnId,
+			resetState: () => initializeGPayState(gpayPaymentState),
+			stopLoading,
+			displayError
+		});
+
+		// initiating integerated flow
+		showLoading(`Redirecting to ${paymentModeName}`);
+		const mandateResponse = await callMandateAPI({
+			client_full_name: fullName,
+			client_mobile_number: mobile,
+			client_code: clientId,
+			bank_name: bankName,
+			bank_account_number: accNO,
+			bank_account_type: accountType || 'savings',
+			bank_ifsc_code: ifscCode,
+			type: 'upi',
+			sub_type: 'intent',
+			app_name: paymentModeAPIName,
+			frequency: 'monthly',
+			product: 'mf',
+			amount: 15000,
+			request_source: PUBLIC_MANDATE_SOURCE,
+			start_date: sipDate?.getTime() || '',
+			end_date: sipDate
+				? add(sipDate, {
+						months: 360
+				  }).getTime()
+				: '',
+			upfront_payment: {
+				amount: amount,
+				upstream_reference_number: xRequestId
+			}
+		});
+		handleMandateResponse({
+			response: mandateResponse,
+			stopLoading,
+			onError: displayError,
+			resetState: () => initializeGPayState(gpayPaymentState)
+		});
+
+		// redirection
+		const redirectUrl = mandateResponse.data?.data?.[`${os}_deep_link`];
+		showLoading('Waiting for approval');
+		window.open(redirectUrl, '_self');
+
+		// mandate status check
+		const promiseResponse = await Promise.any([
+			mandateStatusRetryLogic({
+				mandateID: mandateResponse.data?.data?.mandate_id,
+				retryNumber: 0,
+				retries: Math.ceil((10 * 60) / 3), // hardcoding transaction validity
+				retryDelay: 3,
+				resetState: () => {
+					resetTransactionInterval(state);
+					initializeGPayState(gpayPaymentState);
+				},
+				state
+			}),
+			googlePayCloseLogic({
+				gpayPaymentState,
+				resetState: () => {
+					resetTransactionInterval(state);
+					initializeGPayState(gpayPaymentState);
+				},
+				paymentModeName,
+				showLoading
+			})
+		]);
+		let mandateStatusResponse = {};
+		if (promiseResponse === 'WINDOW_CLOSED') {
+			showLoading('Waiting for approval');
+			mandateStatusResponse = await mandateStatusRetryLogic({
+				mandateID: mandateResponse.data?.data?.mandate_id,
+				retryNumber: 0,
+				retries: 5,
+				retryDelay: 1,
+				resetState: () => {
+					resetTransactionInterval(state);
+					initializeGPayState(gpayPaymentState);
+				},
+				state
+			});
+		} else {
+			mandateStatusResponse = promiseResponse;
+		}
+		await handleMandateStatusResponse({
+			transactionResponse: mandateStatusResponse,
+			failureCallback: () => {
+				stopLoading();
+				displayError({
+					heading: 'Autopay Setup Failed',
+					errorSubHeading:
+						mandateStatusResponse?.data?.data?.response_description ||
+						'We were unable to set up your autopay due to a technical issue. Please try again'
+				});
+			},
+			pendingCallback: () => {
+				stopLoading();
+				displayPendingPopup({
+					heading: 'Autopay Setup Pending',
+					errorSubHeading:
+						mandateStatusResponse?.data?.data?.response_description ||
+						'You have cancelled the eMandate request for Autopay. Please try again or use another authorisation mode'
+				});
+			}
+		});
+		stopLoading();
+
+		// transaction status check
+		showLoading('Waiting for payment status');
+		const transactionResponse = await mandateTransactionRetryLogic({
+			retryNumber: 0,
+			retries: 5,
+			retryDelay: 1,
+			xRequestId,
+			source,
+			resetState: () => {
+				resetTransactionInterval(state);
+				initializeGPayState(gpayPaymentState);
+			},
+			state
+		});
+		await handleTransactionResponse({
+			transactionResponse,
+			failureCallback: () => {
+				stopLoading();
+				displayError({
+					type: 'PAYMENT_FAILED',
+					orderId: orderPostResponse?.data?.data?.orderId,
+					sipId: orderPostResponse?.data?.data?.sipId,
+					heading: 'Payment Failed',
+					errorSubHeading:
+						transactionResponse?.data?.data?.response_description ||
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+				});
+			},
+			pendingCallback: () => {
+				stopLoading();
+				displayPendingPopup({
+					orderId: orderPostResponse?.data?.data?.orderId,
+					sipId: orderPostResponse?.data?.data?.sipId,
+					heading: 'Payment Pending',
+					errorSubHeading:
+						transactionResponse?.data?.data?.response_description ||
+						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+				});
+			}
+		});
+
+		const orderPatch = () =>
+			sipOrderPatchFunc({
+				reference_number: transactionResponse?.data?.data?.reference_number,
+				response_description: transactionResponse?.data?.data?.response_description,
+				status: transactionResponse?.data?.data?.status,
+				transaction_id: transactionResponse?.data?.data?.transaction_id,
+				sipId: orderPostResponse?.data?.data?.sipId,
+				xRequestId,
+				source
+			});
+		showLoading('Waiting for order status');
+		const orderPatchResponse = await orderPatch();
+		handleOrderPatchResponse({
+			orderPatchResponse,
+			stopLoading,
+			displayError
+		});
+		onSuccess({
+			orderId: orderPostResponse.data?.data?.orderId,
+			sipId: orderPostResponse.data?.data?.sipId
 		});
 	} catch (e) {
 		stopLoading();

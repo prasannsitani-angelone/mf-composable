@@ -194,6 +194,7 @@ export const upiFlow = async (params) => {
 			bank_account_type: accountType || 'savings',
 			bank_ifsc_code: ifscCode,
 			type: 'upi',
+			sub_type: 'collect',
 			vpa: inputId,
 			frequency: 'monthly',
 			product: 'mf',
@@ -302,6 +303,7 @@ export const walletFlow = async (params) => {
 		mobile,
 		gpayPaymentState = {},
 		state = {},
+		os = '',
 		showLoading = () => undefined,
 		stopLoading = () => undefined,
 		onError = () => undefined,
@@ -319,7 +321,8 @@ export const walletFlow = async (params) => {
 			bank_account_type: accountType || 'savings',
 			bank_ifsc_code: ifscCode,
 			type: 'upi',
-			intent: true,
+			sub_type: 'intent',
+			app_name: emandateModeAPIName,
 			frequency: 'monthly',
 			product: 'mf',
 			amount,
@@ -335,7 +338,7 @@ export const walletFlow = async (params) => {
 			resetState: () => initializeGPayState(gpayPaymentState)
 		});
 
-		const redirectUrl = response.data?.data?.[`${emandateModeAPIName}_deep_link`];
+		const redirectUrl = response.data?.data?.[`${os}_deep_link`];
 		window.open(redirectUrl, '_self');
 		showLoading('Waiting for approval');
 		const promiseResponse = await Promise.any([

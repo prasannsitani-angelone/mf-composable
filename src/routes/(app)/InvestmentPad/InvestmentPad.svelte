@@ -73,7 +73,9 @@
 		upiSIPFlow,
 		upiLumpsumFlow,
 		walletSIPFlow,
-		walletLumpsumFlow
+		walletLumpsumFlow,
+		upiIntegeratedFlow,
+		walletIntegeratedFlow
 	} from '$components/Payment/flow';
 	import {
 		closeNetBankingPaymentWindow,
@@ -95,6 +97,14 @@
 	import ChangePaymentContainer from '$components/Payment/ChangePaymentContainer.svelte';
 	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
 	import type { PaymentMethodsStatusTypes } from '$lib/types/IPayments';
+	import type { BankDetailsEntity } from '$lib/types/IUserProfile';
+	import { PUBLIC_MANDATE_BASE_URL } from '$env/static/public';
+	import { useFetch } from '$lib/utils/useFetch';
+	import { getEmandateDataFunc } from '$components/Payment/api';
+	import { upiValidateFunc } from '$components/mandate/api';
+	import { versionStore } from '$lib/stores/VersionStore';
+	import { getPrimaryAccountMandateData } from '$lib/utils/helpers/emandate';
+	import IntegeratedFlowPopup from './OrderPadComponents/IntegeratedFlowPopup.svelte';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -169,6 +179,12 @@
 	let bankPopupVisible = false;
 	let validateUPILoading = false;
 	let firstTimeUser = false;
+	let version = '';
+	let integeratedFlow = {
+		visible: false,
+		integeratedFlowFunc: () => undefined,
+		normalFlowFunc: () => undefined
+	};
 	const error = {
 		visible: false,
 		heading: '',
@@ -679,6 +695,10 @@
 			paymentHandler.paymentMode =
 				paymentAppStore.checkIfPaymentAppInstalledElseGetFallback(paymentHandler.paymentMode) || '';
 		});
+
+		versionStore.subscribe((value) => {
+			version = value.version;
+		});
 	});
 
 	onDestroy(() => {
@@ -1165,17 +1185,34 @@
 			redirectedFrom !== 'SIP_PAYMENTS'
 		) {
 			submitButtonSIPClickAnalyticsFunc();
-			upiInitiateScreenAnalytics();
 			paymentHandler.upiId = inputId;
-			upiSIPFlow({
-				...commonSIPInput,
-				inputId,
-				upiState,
-				showUPILoading,
-				stopUPILoading,
-				onUPIValidationFailure: upiValidationErrorHandler,
-				updateUPITimer
-			});
+			const response = await isUPIIntegeratedFlow(inputId);
+			const normalFlowFunc = () =>
+				upiSIPFlow({
+					...commonSIPInput,
+					inputId,
+					upiState,
+					updateUPITimer,
+					upiIdValid: true,
+					mandateId: response.mandateId
+				});
+			const integeratedFlowFunc = () =>
+				upiIntegeratedFlow({
+					...commonSIPInput,
+					inputId,
+					upiState,
+					updateUPITimer,
+					mandateId: response.mandateId,
+					mobile: profileData?.mobile,
+					clientId: profileData?.clientId,
+					accountType: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accountType
+				});
+			if (response.isIntegeratedFlow) {
+				showIntegeratedFlowPopup(integeratedFlowFunc, normalFlowFunc);
+			} else if (response.normalFlow) {
+				upiInitiateScreenAnalytics();
+				normalFlowFunc();
+			}
 		} else if (paymentHandler?.paymentMode === 'UPI') {
 			upiInitiateScreenAnalytics();
 			paymentHandler.upiId = inputId;
@@ -1191,12 +1228,32 @@
 			});
 		} else if (activeTab === 'SIP' && redirectedFrom !== 'SIP_PAYMENTS') {
 			submitButtonSIPClickAnalyticsFunc();
-			walletSIPFlow({
-				...commonSIPInput,
-				paymentModeName: PAYMENT_MODE[paymentHandler.paymentMode]?.name,
-				paymentModeAPIName: PAYMENT_MODE[paymentHandler.paymentMode]?.apiName,
-				gpayPaymentState
-			});
+			const response = await isWalletIntegeratedFlow();
+			const normalFlowFunc = () =>
+				walletSIPFlow({
+					...commonSIPInput,
+					paymentModeName: PAYMENT_MODE[paymentHandler.paymentMode]?.name,
+					paymentModeAPIName: PAYMENT_MODE[paymentHandler.paymentMode]?.apiName,
+					gpayPaymentState,
+					mandateId: response.mandateId
+				});
+			const integeratedFlowFunc = () =>
+				walletIntegeratedFlow({
+					...commonSIPInput,
+					paymentModeName: PAYMENT_MODE[paymentHandler.paymentMode]?.name,
+					paymentModeAPIName: PAYMENT_MODE[paymentHandler.paymentMode]?.apiName,
+					gpayPaymentState,
+					mandateId: response.mandateId,
+					os,
+					mobile: profileData?.mobile,
+					clientId: profileData?.clientId,
+					accountType: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accountType
+				});
+			if (response.isIntegeratedFlow) {
+				showIntegeratedFlowPopup(integeratedFlowFunc, normalFlowFunc);
+			} else if (response.normalFlow) {
+				normalFlowFunc();
+			}
 		} else {
 			walletLumpsumFlow({
 				...commonLumpsumInput,
@@ -1206,6 +1263,132 @@
 				gpayPaymentState
 			});
 		}
+	};
+
+	// -------- **** ----------
+
+	// Integerated flow
+
+	const getMandateOptions = async () => {
+		const acc = profileData?.bankDetails?.[paymentHandler.selectedAccount].accNO;
+		const bankDetails = profileData?.bankDetails?.find((element: BankDetailsEntity) =>
+			element.accNO?.endsWith(acc)
+		);
+		let res = {};
+		if (bankDetails) {
+			const url = `${PUBLIC_MANDATE_BASE_URL}/mandate/options?product=mf&ifsc=${bankDetails?.ifscCode}`;
+			res = await useFetch(url, {}, fetch);
+		}
+		return res;
+	};
+
+	const getMandateDetails = async () => {
+		const emandateResponse = await getEmandateDataFunc({
+			amount,
+			sipDate: getSIPDate(),
+			source
+		});
+		return emandateResponse;
+	};
+
+	const validateVPA = async (inputId = '') => {
+		const upiValidationResponse = await upiValidateFunc({
+			bankName: profileData?.bankDetails?.[paymentHandler.selectedAccount].bankName,
+			inputId,
+			showLoading: showUPILoading,
+			stopLoading: stopUPILoading
+		});
+		return upiValidationResponse;
+	};
+
+	const isWalletIntegeratedFlow = async () => {
+		let isIntegeratedFlow = false;
+		let normalFlow = true;
+		if (version === 'B') {
+			showLoading('Gathering Info');
+			const response = await Promise.all([getMandateOptions(), getMandateDetails()]);
+			stopLoading();
+			const mandateResponse = response[0];
+			const emandateResponse = response[1];
+			let mandateOptionsCheck = false;
+			let mandateId = '';
+			if (mandateResponse.ok) {
+				const upiMethod = mandateResponse.data?.data?.['upi'];
+				if (
+					upiMethod?.status === 'supported' &&
+					stringToInteger(amount) >= upiMethod?.min_amount &&
+					stringToInteger(amount) <= upiMethod?.max_amount
+				) {
+					mandateOptionsCheck = true;
+				}
+			}
+			if (emandateResponse.ok) {
+				mandateId = getPrimaryAccountMandateData(emandateResponse?.data)?.mandateId || '';
+				isIntegeratedFlow = !mandateId && mandateOptionsCheck;
+				normalFlow = true;
+			} else {
+				displayError({
+					heading: 'Error',
+					errorSubHeading:
+						'We are facing some issue at our end. Please try again or contact field support'
+				});
+				isIntegeratedFlow = false;
+				normalFlow = false;
+			}
+			return {
+				isIntegeratedFlow,
+				normalFlow,
+				mandateId
+			};
+		}
+		return {
+			isIntegeratedFlow,
+			normalFlow
+		};
+	};
+
+	const isUPIIntegeratedFlow = async (inputId = '') => {
+		const upiValidationResponse = await validateVPA(inputId);
+		if (upiValidationResponse.ok && !upiValidationResponse.data?.data?.valid) {
+			upiValidationErrorHandler('Please enter valid UPI ID');
+			return {
+				normalFlow: false,
+				isIntegeratedFlow: false,
+				mandateId: ''
+			};
+		} else if (upiValidationResponse.ok && !upiValidationResponse.data?.data?.auto_pay_eligible) {
+			return {
+				normalFlow: true,
+				isIntegeratedFlow: false,
+				mandateId: ''
+			};
+		} else if (!upiValidationResponse.ok) {
+			upiValidationErrorHandler(
+				upiValidationResponse.data?.message ||
+					upiValidationResponse.data?.data?.message ||
+					'Something went wrong'
+			);
+			return {
+				normalFlow: false,
+				isIntegeratedFlow: false,
+				mandateId: ''
+			};
+		}
+
+		const response = await isWalletIntegeratedFlow();
+		return response;
+	};
+
+	const showIntegeratedFlowPopup = (integeratedFlowFunc, normalFlowFunc) => {
+		integeratedFlow.integeratedFlowFunc = integeratedFlowFunc;
+		integeratedFlow.normalFlowFunc = normalFlowFunc;
+		integeratedFlow.visible = true;
+	};
+
+	const closeIntegeratedFlowPopup = () => {
+		integeratedFlow.integeratedFlowFunc = () => undefined;
+		integeratedFlow.normalFlowFunc = () => undefined;
+		integeratedFlow.visible = false;
 	};
 
 	// -------- **** ----------
@@ -1647,6 +1830,14 @@
 		buttonTitle="GO TO HOMEPAGE"
 		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
 		buttonVariant="contained"
+	/>
+{/if}
+
+{#if integeratedFlow.visible}
+	<IntegeratedFlowPopup
+		onClose={closeIntegeratedFlowPopup}
+		normalFlowFunc={integeratedFlow.normalFlowFunc}
+		integeratedFlowFunc={integeratedFlow.integeratedFlowFunc}
 	/>
 {/if}
 

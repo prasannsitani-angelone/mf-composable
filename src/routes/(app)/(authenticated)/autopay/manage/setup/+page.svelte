@@ -30,6 +30,7 @@
 	let allowedPaymentMethods: Array<string> = [];
 
 	$: profileData = $page?.data?.profile;
+	$: os = $page.data?.deviceType?.osName || $page.data?.deviceType?.os;
 
 	const setupBankDetails = (profileDetail: UserProfile) => {
 		const bankList = profileDetail?.bankDetails;
@@ -222,6 +223,7 @@
 					{updateMode}
 					{allowedPaymentMethods}
 					onAccChange={onAccountChange}
+					{os}
 				/>
 			{:else}
 				{@const bankAccountsLength = profileData?.bankDetails?.length}
