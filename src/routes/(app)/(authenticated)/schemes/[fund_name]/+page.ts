@@ -20,8 +20,9 @@ export const load = (async ({ fetch, params, url, parent }) => {
 	const startSubstring = 'params=';
 	const startIdx = decodedQuery?.indexOf(startSubstring) + startSubstring?.length;
 	const queryParam = decodedQuery?.substring(startIdx);
-
+	const orderpadParam = url?.searchParams?.get('orderpad');
 	const fundName = params['fund_name'];
+
 	const decodedParams = decodeToObject(queryParam);
 	const { redirectedFrom, isExternal, clientCode } = decodedParams || {};
 	const { pathname, search } = url;
@@ -123,7 +124,8 @@ export const load = (async ({ fetch, params, url, parent }) => {
 			showShareIcon: showShare,
 			showCartIcon: true,
 			onClickShareIcon: onClickShareIcon,
-			decodedParams
+			decodedParams,
+			hideMobileHeader: orderpadParam === 'INVEST'
 		},
 		api: {
 			schemeData: hydrate ? getSchemeData() : await getSchemeData(),
@@ -132,6 +134,7 @@ export const load = (async ({ fetch, params, url, parent }) => {
 			previousPaymentDetails: hydrate
 				? getPreviousPaymentDetails()
 				: await getPreviousPaymentDetails()
-		}
+		},
+		showInvestmentPad: orderpadParam === 'INVEST'
 	};
 }) satisfies PageLoad;

@@ -22,6 +22,7 @@ interface LayoutConfig {
 	showFaqIcon: boolean;
 	faqParams: string;
 	showAskAngelEntry: boolean;
+	hideMobileHeader: boolean;
 	onClickShareIcon: (() => void) | null;
 	onClickFaqsIcon: (() => void) | null;
 	layoutType:

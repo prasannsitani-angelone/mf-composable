@@ -239,6 +239,7 @@
 	$: isTablet = $page?.data?.deviceType?.isTablet;
 	$: profileData = $page?.data?.profile;
 
+	$: showOrderPadHeader = isMobile || isTablet;
 	let dateArray: Array<dateArrayTypes> = [{ value: 1, disabled: false }];
 
 	$: {
@@ -1454,7 +1455,7 @@
 				{activeTab === 'SIP' ? 'Start SIP' : 'One Time Investment'}
 			</section>
 		</slot>
-		{#if (isMobile || isTablet) && !$headerStore?.showMobileHeader}
+		{#if showOrderPadHeader}
 			<slot name="customMobileHeader">
 				<MobileHeader
 					title={activeTab === 'SIP' ? 'Start SIP' : 'One Time Investment'}

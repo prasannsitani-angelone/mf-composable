@@ -33,7 +33,7 @@
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 	$: isTablet = $page?.data?.deviceType?.isTablet;
-	$: showInvestmentPad = false;
+	$: showInvestmentPad = data?.showInvestmentPad;
 	$: queryParamsObj = <OrderPadTypes>{};
 	let orderpadParams = <decodedParamsTypes>{};
 
@@ -88,7 +88,6 @@
 
 	const setQueryParamsData = () => {
 		orderpadParams = decodeToObject(queryParamsObj?.params);
-
 		if (queryParamsObj?.orderpad === 'INVEST' || orderpadParams?.orderpad === 'INVEST') {
 			showInvestmentPad = true;
 		} else {
