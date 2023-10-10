@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { base } from '$app/paths';
-	import AmountSection from '../../startfirstsip/[scheme]/AmountInputOrderpad/AmountSection.svelte';
 	import InfoModal from '$components/InfoModal.svelte';
 	import { getDateSuperscript } from '$lib/utils/helpers/date';
 	import type { dateArrayTypes } from '$lib/types/Calendar/ICalendar';
@@ -16,6 +15,7 @@
 		investWithExpertQuickSelectEvent,
 		investWithExpertScreenImpressionEvent
 	} from './analytics';
+	import AmountSection from '$components/AmountInputOrderpad/AmountSection.svelte';
 
 	const descriptionItems = [
 		'Simply choose your monthly investment amount',

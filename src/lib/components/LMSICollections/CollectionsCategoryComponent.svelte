@@ -16,7 +16,7 @@
 				class="flex h-full flex-col lg:h-auto lg:flex-row lg:items-center"
 			>
 				<div
-					class="my-auto flex h-9 w-9 self-center group-hover:bg-white lg:h-14 lg:w-14 lg:items-center lg:justify-center"
+					class="my-auto flex h-9 w-9 self-center lg:h-14 lg:w-14 lg:items-center lg:justify-center"
 				>
 					<img src={option.iconUrl} class="h-9 w-9" alt="option.name" loading="lazy" />
 				</div>

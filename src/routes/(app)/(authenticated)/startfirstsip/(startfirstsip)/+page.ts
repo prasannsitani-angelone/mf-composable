@@ -7,28 +7,15 @@ import { goto } from '$app/navigation';
 import { base } from '$app/paths';
 import { redirect } from '@sveltejs/kit';
 
-export const load = (async ({ fetch, params }) => {
-	const isinSchemeCode = params['scheme'];
-	const schemeMetadata = isinSchemeCode?.split('isin-')[1]?.toUpperCase();
+export const load = (async ({ fetch }) => {
+	let schemeData: [SchemeDetails];
 
-	const [isin = '', schemeCode = ''] = schemeMetadata?.split('-SCHEMECODE-') || [];
-
-	let schemeData: SchemeDetails;
-
-	const getSchemeData = async (): Promise<SchemeDetails> => {
-		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/${schemeCode}`;
-		const res = await useFetch(
-			url,
-			{
-				headers: {
-					'X-LRU': 'true'
-				}
-			},
-			fetch
-		);
+	const getSchemePack = async (): Promise<[SchemeDetails]> => {
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/packs?packId=start_your_first_sip`;
+		const res = await useFetch(url, { headers: { 'X-LRU': 'true' } }, fetch);
 
 		if (res.ok) {
-			schemeData = res.data;
+			schemeData = res.data.packs[0].schemes;
 		} else {
 			if (browser) {
 				goto(`${base}/schemes/error`, { replaceState: true });
@@ -47,7 +34,7 @@ export const load = (async ({ fetch, params }) => {
 			layoutType: 'DEFAULT'
 		},
 		api: {
-			schemeData: browser ? getSchemeData() : await getSchemeData()
+			schemePack: browser ? getSchemePack() : await getSchemePack()
 		}
 	};
 }) satisfies PageLoad;

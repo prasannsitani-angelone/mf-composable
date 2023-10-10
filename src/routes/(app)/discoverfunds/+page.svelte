@@ -394,6 +394,16 @@
 			</Button>
 		</article>
 	{/if}
+
+	<!-- 12. Start First SIP -->
+	<LazyComponent
+		class="row-start-{placementMapping?.startFirstSip?.rowStart} col-start-{placementMapping
+			?.startFirstSip?.columnStart} {placementMapping?.startFirstSip?.rowStart > 1 ? 'mt-2' : ''}"
+		when={isLoggedInUser && deviceType?.isMobile && nudgesData && startFirstSipNudgeData}
+		component={async () => await import('$components/StartFirstSip/StartFirstSipNudge.svelte')}
+		nudgeData={startFirstSipNudgeData}
+		version="A"
+	/>
 </article>
 
 {#if deviceType?.isBrowser}
