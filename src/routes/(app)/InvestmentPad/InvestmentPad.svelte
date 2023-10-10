@@ -1353,7 +1353,7 @@
 	const isWalletIntegeratedFlow = async () => {
 		let isIntegeratedFlow = false;
 		let normalFlow = true;
-		if (version === 'B') {
+		if (version === 'B' && !mandateId) {
 			showLoading('Gathering Info');
 			const response = await Promise.all([getMandateOptions(), getMandateDetails()]);
 			stopLoading();
@@ -1392,7 +1392,8 @@
 		}
 		return {
 			isIntegeratedFlow,
-			normalFlow
+			normalFlow,
+			mandateId
 		};
 	};
 
