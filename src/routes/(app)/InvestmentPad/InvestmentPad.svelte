@@ -1551,7 +1551,7 @@
 								maxlength="13"
 								placeholder="₹"
 								value={amountVal}
-								class="w-full bg-white text-center text-2xl font-normal leading-none text-black-title outline-none"
+								class="w-full bg-white text-center text-2xl font-medium leading-none text-black-title outline-none"
 								on:input={onInputChange}
 								on:focus={handleAmountInputBlur}
 							/>

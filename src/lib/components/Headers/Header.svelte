@@ -40,11 +40,13 @@
 				class="bg-white {pageMetaData?.headerClass || ''}"
 			>
 				<svelte:fragment slot="title">
-					<h1 class="text-lg font-normal text-black-title {pageMetaData?.titleClass || ''}">
+					<h1 class="text-lg font-medium text-black-title {pageMetaData?.titleClass || ''}">
 						{#if userType === 'B2C' && pageMetaData?.title === 'Mutual Funds'}
 							<span class="ml-1 flex flex-col">
 								<span class="flex"> Direct Mutual Funds</span>
-								<span class="text-left text-xs text-grey-body">Zero commission | Zero fees</span>
+								<span class="text-left text-xs font-normal text-grey-body"
+									>Zero commission | Zero fees</span
+								>
 							</span>
 						{:else}
 							<div class="flex truncate text-left">

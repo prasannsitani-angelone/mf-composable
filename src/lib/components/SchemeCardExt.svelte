@@ -94,7 +94,7 @@
 			<slot name="detailsLeft">
 				<div class="flex w-6/12 flex-col items-start">
 					<p class="text-xs text-[#515151]">Min. SIP Amount</p>
-					<p class="text-base font-normal">
+					<p class="text-base font-medium">
 						<AmountText amount={schemes?.minSipAmount || 0} />
 					</p>
 				</div>

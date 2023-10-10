@@ -75,7 +75,7 @@
 					<slot name="detailsLeft">
 						<div class="flex flex-col items-start">
 							<p class="text-xs font-normal">Min. SIP Amount</p>
-							<p class="text-base font-normal">
+							<p class="text-base font-medium">
 								₹ {addCommasToAmountString(schemes?.minSipAmount?.toString()) ||
 									schemes?.minSipAmount}
 							</p>
@@ -95,7 +95,7 @@
 									height="12"
 								/>
 								<p class="text-xs font-normal">
-									<span class="text-base font-normal">{schemes?.returns3yr?.toFixed(2)}%</span> p.a
+									<span class="text-base font-medium">{schemes?.returns3yr?.toFixed(2)}%</span> p.a
 								</p>
 							</div>
 						</div>
