@@ -204,6 +204,12 @@
 		type: '',
 		code: ''
 	};
+	const integeratedFlowError = {
+		visible: false,
+		heading: '',
+		subHeading: '',
+		occured: false
+	};
 	const loadingState = {
 		heading: '',
 		isLoading: false
@@ -936,6 +942,13 @@
 		}
 	};
 
+	const displayIntegeratedFlowError = ({ heading = 'Error', errorSubHeading = '' }) => {
+		integeratedFlowError.visible = true;
+		integeratedFlowError.heading = heading;
+		integeratedFlowError.subHeading = errorSubHeading;
+		integeratedFlowError.occured = true;
+	};
+
 	const closeErrorPopup = () => {
 		if (error.type === 'PAYMENT_FAILED') {
 			paymentFailedScreenCloseButtonAnalytics();
@@ -945,6 +958,12 @@
 		error.visible = false;
 		error.type = '';
 		error.code = '';
+	};
+
+	const closeIntegeratedFlowErrorPopup = () => {
+		integeratedFlowError.heading = '';
+		integeratedFlowError.subHeading = '';
+		integeratedFlowError.visible = false;
 	};
 
 	const retryWithSamePaymentMethod = () => {
@@ -1253,7 +1272,8 @@
 					mobile: profileData?.mobile,
 					clientId: profileData?.clientId,
 					accountType: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accountType,
-					amount: stringToInteger(amount)
+					amount: stringToInteger(amount),
+					displayError: displayIntegeratedFlowError
 				});
 			if (response.isIntegeratedFlow) {
 				showIntegeratedFlowPopup(integeratedFlowFunc, normalFlowFunc);
@@ -1296,7 +1316,8 @@
 					mobile: profileData?.mobile,
 					clientId: profileData?.clientId,
 					accountType: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accountType,
-					amount: stringToInteger(amount)
+					amount: stringToInteger(amount),
+					displayError: displayIntegeratedFlowError
 				});
 			if (response.isIntegeratedFlow) {
 				showIntegeratedFlowPopup(integeratedFlowFunc, normalFlowFunc);
@@ -1353,7 +1374,7 @@
 	const isWalletIntegeratedFlow = async () => {
 		let isIntegeratedFlow = false;
 		let normalFlow = true;
-		if (version === 'B' && !mandateId) {
+		if (version === 'B' && !mandateId && !integeratedFlowError.occured) {
 			showLoading('Gathering Info');
 			const response = await Promise.all([getMandateOptions(), getMandateDetails()]);
 			stopLoading();
@@ -1850,20 +1871,14 @@
 		text={error.subHeading}
 		class="w-full rounded-b-none rounded-t-2xl p-6 px-4 sm:p-12 md:rounded-lg"
 		isModalOpen
-		handleButtonClick={error?.code === WRONG_BANK_ERROR_CODE
-			? retryWithSamePaymentMethod
-			: closeErrorPopup}
+		handleButtonClick={retryWithSamePaymentMethod}
 		closeModal={closeErrorPopup}
-		buttonTitle={error?.code === WRONG_BANK_ERROR_CODE
-			? `RETRY WITH ${PAYMENT_MODE[paymentHandler?.paymentMode]?.name}`
-			: 'TRY AGAIN'}
-		secondaryButtonTitle={error?.code === WRONG_BANK_ERROR_CODE ? 'USE ANOTHER PAYMENT METHOD' : ''}
-		buttonClass={`mt-5 w-full rounded cursor-default md:cursor-pointer ${
-			error?.code === WRONG_BANK_ERROR_CODE ? '!uppercase' : ''
-		}`}
+		buttonTitle={`RETRY WITH ${PAYMENT_MODE[paymentHandler?.paymentMode]?.name}`}
+		secondaryButtonTitle="USE ANOTHER PAYMENT METHOD"
+		buttonClass={`mt-5 w-full rounded cursor-default md:cursor-pointer !uppercase`}
 		secondaryButtonClass="mt-3 w-full rounded cursor-default md:cursor-pointer"
 		buttonVariant="contained"
-		titleClass={error?.code === WRONG_BANK_ERROR_CODE ? 'px-3 -mt-4' : ''}
+		titleClass="px-3 -mt-4"
 		on:secondaryButtonClick={handleChangePaymentMethodRetryClick}
 	>
 		<svelte:fragment slot="middleSection">
@@ -1876,7 +1891,36 @@
 						If any money has been debited from your account, it will be refunded automatically.
 					</div>
 				</section>
+			{:else}
+				<section class="mt-4 text-sm text-grey-body">
+					To complete your order, please retry payment
+				</section>
 			{/if}
+		</svelte:fragment>
+	</ResultPopup>
+{:else if true || integeratedFlowError.visible}
+	<ResultPopup
+		popupType="FAILURE"
+		title={integeratedFlowError.heading}
+		text={integeratedFlowError.subHeading}
+		class="w-full rounded-b-none rounded-t-2xl p-6 px-4 sm:p-12 md:rounded-lg"
+		isModalOpen
+		handleButtonClick={closeIntegeratedFlowErrorPopup}
+		closeModal={closeIntegeratedFlowErrorPopup}
+		buttonTitle={`PAY ₹${addCommasToAmountString(amount)}`}
+		buttonClass="mt-5 w-full rounded cursor-default md:cursor-pointer"
+		buttonVariant="contained"
+	>
+		<svelte:fragment slot="middleSection">
+			<section class="item-center mt-2 flex rounded bg-grey p-2">
+				<div class="my-auto flex-1">
+					<WMSIcon name="info-in-circle-dark" class="p-1" stroke="#3F5BD9" />
+				</div>
+				<div class="ml-3 text-left text-sm font-normal text-grey-body">
+					Please complete your first SIP payment for ₹{addCommasToAmountString(amount)} now. You can
+					set up autopay later
+				</div>
+			</section>
 		</svelte:fragment>
 	</ResultPopup>
 {/if}

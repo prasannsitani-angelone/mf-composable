@@ -1460,7 +1460,7 @@ export const upiIntegeratedFlow = async (params) => {
 			failureCallback: () => {
 				stopLoading();
 				displayError({
-					heading: 'Autopay Setup Failed',
+					heading: 'SIP Setup Failed',
 					errorSubHeading:
 						mandateStatusResponse?.data?.data?.response_description ||
 						'We were unable to set up your autopay due to a technical issue. Please try again'
@@ -1469,7 +1469,7 @@ export const upiIntegeratedFlow = async (params) => {
 			pendingCallback: () => {
 				stopLoading();
 				displayPendingPopup({
-					heading: 'Autopay Setup Pending',
+					heading: 'SIP Setup Pending',
 					errorSubHeading:
 						mandateStatusResponse?.data?.data?.response_description ||
 						'You have cancelled the eMandate request for Autopay. Please try again or use another authorisation mode'
@@ -1496,14 +1496,12 @@ export const upiIntegeratedFlow = async (params) => {
 			failureCallback: () => {
 				stopLoading();
 				displayError({
-					type: 'PAYMENT_FAILED',
 					orderId: orderPostResponse?.data?.data?.orderId,
 					sipId: orderPostResponse?.data?.data?.sipId,
-					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
+					heading: 'SIP Setup Failed',
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
-					code: transactionResponse?.data?.error_code || ''
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
 				});
 			},
 			pendingCallback: () => {
@@ -1511,7 +1509,7 @@ export const upiIntegeratedFlow = async (params) => {
 				displayPendingPopup({
 					orderId: orderPostResponse?.data?.data?.orderId,
 					sipId: orderPostResponse?.data?.data?.sipId,
-					heading: 'Payment Pending',
+					heading: 'SIP Setup Pending',
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
 						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
