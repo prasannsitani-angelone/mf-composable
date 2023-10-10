@@ -43,6 +43,7 @@ import { base } from '$app/paths';
 import { initializeUPIState } from './util';
 import { callMandateAPI } from '$components/mandate/api';
 import { PUBLIC_MANDATE_SOURCE } from '$env/static/public';
+import { addCommasToAmountString } from 'svelte-components';
 
 export const noPaymentFlow = async (params) => {
 	const {
@@ -214,10 +215,11 @@ export const netBankingCartFlow = async (params) => {
 				displayError({
 					type: orderPatchResponse.ok ? 'PAYMENT_FAILED' : 'PAYMENT_PATCH_FAILED',
 					orderId: orderPostResponse?.data?.orderId,
-					heading: 'Payment Failed',
+					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+					code: transactionResponse?.data?.error_code || ''
 				});
 			},
 			pendingCallback: () => {
@@ -368,10 +370,11 @@ export const netBankingLumpsumFlow = async (params) => {
 				displayError({
 					type: 'PAYMENT_FAILED',
 					orderId: orderPostResponse?.data?.data?.orderId,
-					heading: 'Payment Failed',
+					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+					code: transactionResponse?.data?.error_code || ''
 				});
 			},
 			pendingCallback: () => {
@@ -536,10 +539,11 @@ export const netBankingSIPFlow = async (params) => {
 					type: 'PAYMENT_FAILED',
 					orderId: orderPostResponse?.data?.data?.orderId,
 					sipId: orderPostResponse?.data?.data?.sipId,
-					heading: 'Payment Failed',
+					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+					code: transactionResponse?.data?.error_code || ''
 				});
 			},
 			pendingCallback: () => {
@@ -692,10 +696,11 @@ export const netBankingBulkSIPFlow = async (params) => {
 				displayError({
 					type: 'PAYMENT_FAILED',
 					bulkRequestId: orderPostResponse?.data?.data?.bulkRequestId,
-					heading: 'Payment Failed',
+					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+					code: transactionResponse?.data?.error_code || ''
 				});
 			},
 			pendingCallback: () => {
@@ -864,10 +869,11 @@ export const upiCartFlow = async (params) => {
 				displayError({
 					type: orderPatchResponse.ok ? 'PAYMENT_FAILED' : 'PAYMENT_PATCH_FAILED',
 					orderId: orderPostResponse?.data?.orderId,
-					heading: 'Payment Failed',
+					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+					code: transactionResponse?.data?.error_code || ''
 				});
 			},
 			pendingCallback: () => {
@@ -1058,10 +1064,11 @@ export const upiLumpsumFlow = async (params) => {
 				displayError({
 					type: 'PAYMENT_FAILED',
 					orderId: orderPostResponse?.data?.data?.orderId,
-					heading: 'Payment Failed',
+					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+					code: transactionResponse?.data?.error_code || ''
 				});
 			},
 			pendingCallback: () => {
@@ -1272,10 +1279,11 @@ export const upiSIPFlow = async (params) => {
 					type: 'PAYMENT_FAILED',
 					orderId: orderPostResponse?.data?.data?.orderId,
 					sipId: orderPostResponse?.data?.data?.sipId,
-					heading: 'Payment Failed',
+					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+					code: transactionResponse?.data?.error_code || ''
 				});
 			},
 			pendingCallback: () => {
@@ -1491,10 +1499,11 @@ export const upiIntegeratedFlow = async (params) => {
 					type: 'PAYMENT_FAILED',
 					orderId: orderPostResponse?.data?.data?.orderId,
 					sipId: orderPostResponse?.data?.data?.sipId,
-					heading: 'Payment Failed',
+					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+					code: transactionResponse?.data?.error_code || ''
 				});
 			},
 			pendingCallback: () => {
@@ -1695,10 +1704,11 @@ export const upiBulkSIPFlow = async (params) => {
 				displayError({
 					type: 'PAYMENT_FAILED',
 					bulkRequestId: orderPostResponse?.data?.data?.bulkRequestId,
-					heading: 'Payment Failed',
+					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+					code: transactionResponse?.data?.error_code || ''
 				});
 			},
 			pendingCallback: () => {
@@ -1851,10 +1861,11 @@ export const walletCartFlow = async (params) => {
 				displayError({
 					type: orderPatchResponse.ok ? 'PAYMENT_FAILED' : 'PAYMENT_PATCH_FAILED',
 					orderId: orderPostResponse?.data?.orderId,
-					heading: 'Payment Failed',
+					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+					code: transactionResponse?.data?.error_code || ''
 				});
 			},
 			pendingCallback: () => {
@@ -2029,10 +2040,11 @@ export const walletLumpsumFlow = async (params) => {
 				displayError({
 					type: 'PAYMENT_FAILED',
 					orderId: orderPostResponse?.data?.data?.orderId,
-					heading: 'Payment Failed',
+					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+					code: transactionResponse?.data?.error_code || ''
 				});
 			},
 			pendingCallback: () => {
@@ -2216,10 +2228,11 @@ export const walletSIPFlow = async (params) => {
 					type: 'PAYMENT_FAILED',
 					orderId: orderPostResponse?.data?.data?.orderId,
 					sipId: orderPostResponse?.data?.data?.sipId,
-					heading: 'Payment Failed',
+					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+					code: transactionResponse?.data?.error_code || ''
 				});
 			},
 			pendingCallback: () => {
@@ -2389,10 +2402,11 @@ export const walletBulkSIPFlow = async (params) => {
 				displayError({
 					type: 'PAYMENT_FAILED',
 					bulkRequestId: orderPostResponse?.data?.data?.bulkRequestId,
-					heading: 'Payment Failed',
+					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+					code: transactionResponse?.data?.error_code || ''
 				});
 			},
 			pendingCallback: () => {
@@ -2604,10 +2618,11 @@ export const walletIntegeratedFlow = async (params) => {
 					type: 'PAYMENT_FAILED',
 					orderId: orderPostResponse?.data?.data?.orderId,
 					sipId: orderPostResponse?.data?.data?.sipId,
-					heading: 'Payment Failed',
+					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically'
+						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+					code: transactionResponse?.data?.error_code || ''
 				});
 			},
 			pendingCallback: () => {

@@ -87,11 +87,18 @@
 	import UpiTransactionPopup from '$components/Payment/UPITransactionPopup.svelte';
 	import LoadingPopup from '$components/Payment/LoadingPopup.svelte';
 	import PaymentSleeve from '$components/Payment/PaymentSleeve.svelte';
-	import { PAYMENT_MODE, PAYMENT_MODE_STATUS } from '$components/Payment/constants';
+	import {
+		PAYMENT_MODE,
+		PAYMENT_MODE_STATUS,
+		WRONG_BANK_ERROR_CODE
+	} from '$components/Payment/constants';
 	import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
 	import { stringToInteger } from '$lib/utils/helpers/numbers';
 	import OrderpadReturns from './OrderPadComponents/OrderpadReturns.svelte';
-	import { checkRequestIdExpired } from '$lib/api/investmentPad';
+	import {
+		checkPreviousWrongBankFailedPayment,
+		checkRequestIdExpired
+	} from '$lib/api/investmentPad';
 	import PeopleIcon from '$lib/images/PeopleIcon.svg';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import ChangePaymentContainer from '$components/Payment/ChangePaymentContainer.svelte';
@@ -105,6 +112,7 @@
 	import { versionStore } from '$lib/stores/VersionStore';
 	import { getPrimaryAccountMandateData } from '$lib/utils/helpers/emandate';
 	import IntegeratedFlowPopup from './OrderPadComponents/IntegeratedFlowPopup.svelte';
+	import SelectedBankDetails from '$components/Payment/SelectedBankDetails.svelte';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -163,6 +171,8 @@
 	let isLumpsumToSipEligible = false;
 	let lumpsumToSipAmount = '';
 	let showLumpsumToSipModal = false;
+	let showBeforePaymentAckModal = false;
+	let beforePaymentAckDone = false;
 
 	const nextSipDateBufferDaysWithFtp = 30;
 	const nextSipDateBufferDaysWithoutFtp = 10;
@@ -185,11 +195,14 @@
 		integeratedFlowFunc: () => undefined,
 		normalFlowFunc: () => undefined
 	};
+	let previousWrongBankFailedPayment = false;
+
 	const error = {
 		visible: false,
 		heading: '',
 		subHeading: '',
-		type: ''
+		type: '',
+		code: ''
 	};
 	const loadingState = {
 		heading: '',
@@ -388,6 +401,16 @@
 		if (showLumpsumToSipModal) {
 			lumspsumToSipSleeveAnalytics();
 		}
+	};
+
+	const toggleShowBeforePaymentAckModal = () => {
+		showBeforePaymentAckModal = !showBeforePaymentAckModal;
+	};
+
+	const setBeforePaymentAckDone = () => {
+		beforePaymentAckDone = true;
+		toggleShowBeforePaymentAckModal();
+		handleInvestClick(paymentHandler?.upiId);
 	};
 
 	const redirectToSip = () => {
@@ -617,6 +640,11 @@
 	};
 
 	const handleInvestClick = (inputId: string) => {
+		if (previousWrongBankFailedPayment && !beforePaymentAckDone) {
+			toggleShowBeforePaymentAckModal();
+			return;
+		}
+
 		paymentHandler.upiId = inputId;
 
 		if (activeTab === 'ONETIME' && isLumpsumToSipEligible && lumpsumToSipAmount?.length) {
@@ -687,6 +715,8 @@
 			investmentPadScreenOpenAnalyticsFunc();
 		}
 		window.addEventListener('message', listenerFunc);
+
+		previousWrongBankFailedPayment = await checkPreviousWrongBankFailedPayment();
 
 		await tick();
 		checkIfOrderIsValidFromDeeplink();
@@ -889,11 +919,17 @@
 		validateUPILoading = false;
 	};
 
-	const displayError = ({ heading = 'Error', errorSubHeading = '', type = '' }) => {
+	const displayError = ({ heading = 'Error', errorSubHeading = '', type = '', code = '' }) => {
 		error.visible = true;
 		error.heading = heading;
 		error.subHeading = errorSubHeading;
 		error.type = type;
+		error.code = code?.toUpperCase();
+
+		if (error?.code === WRONG_BANK_ERROR_CODE) {
+			error.subHeading =
+				'Your transaction failed as you selected different bank account on your UPI app.';
+		}
 
 		if (error.type === 'PAYMENT_FAILED') {
 			paymentFailedScreenAnalyticsWithData();
@@ -908,6 +944,17 @@
 		error.subHeading = '';
 		error.visible = false;
 		error.type = '';
+		error.code = '';
+	};
+
+	const retryWithSamePaymentMethod = () => {
+		closeErrorPopup();
+		handleInvestClick(paymentHandler?.upiId);
+	};
+
+	const handleChangePaymentMethodRetryClick = () => {
+		closeErrorPopup();
+		showChangePayment = true;
 	};
 
 	const displayPendingPopup = ({ orderId, sipId }) => {
@@ -1800,14 +1847,32 @@
 		popupType="FAILURE"
 		title={error.heading}
 		text={error.subHeading}
-		class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+		class="w-full rounded-b-none rounded-t-2xl p-6 px-4 sm:p-12 md:rounded-lg"
 		isModalOpen
-		handleButtonClick={closeErrorPopup}
+		handleButtonClick={error?.code === WRONG_BANK_ERROR_CODE
+			? retryWithSamePaymentMethod
+			: closeErrorPopup}
 		closeModal={closeErrorPopup}
-		buttonTitle="TRY AGAIN"
-		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
+		buttonTitle={error?.code === WRONG_BANK_ERROR_CODE
+			? `RETRY WITH ${PAYMENT_MODE[paymentHandler?.paymentMode]?.name}`
+			: 'TRY AGAIN'}
+		secondaryButtonTitle={error?.code === WRONG_BANK_ERROR_CODE ? 'USE ANOTHER PAYMENT METHOD' : ''}
+		buttonClass={`mt-5 w-full rounded cursor-default md:cursor-pointer ${
+			error?.code === WRONG_BANK_ERROR_CODE ? '!uppercase' : ''
+		}`}
+		secondaryButtonClass="mt-3 w-full rounded cursor-default md:cursor-pointer"
 		buttonVariant="contained"
-	/>
+		on:secondaryButtonClick={handleChangePaymentMethodRetryClick}
+	>
+		<svelte:fragment slot="middleSection">
+			{#if error?.code === WRONG_BANK_ERROR_CODE}
+				<SelectedBankDetails
+					bankAccountDetails={profileData?.bankDetails?.[paymentHandler?.selectedAccount]}
+					text="To complete your order, please pay using"
+				/>
+			{/if}
+		</svelte:fragment>
+	</ResultPopup>
 {/if}
 
 {#if showLumpsumToSipModal}
@@ -1818,6 +1883,36 @@
 			on:primaryCtaClick={redirectToSip}
 			on:secondaryCtaClick={handleLumpsumToSipOtiClick}
 		/>
+	</Modal>
+{/if}
+
+{#if showBeforePaymentAckModal}
+	<Modal
+		isModalOpen={showBeforePaymentAckModal}
+		on:backdropclicked={toggleShowBeforePaymentAckModal}
+	>
+		<section class="rounded-t-2xl bg-white px-4 py-6 shadow-clg sm:w-120 sm:rounded-lg sm:p-6">
+			<section class="flex w-full flex-col items-start justify-center overflow-y-auto">
+				<div class="px-2">
+					<div class="text-left text-lg font-normal text-black-title">Before you proceed</div>
+					<div class="mt-2 text-sm font-normal text-grey-body">
+						We noticed that you selected the wrong bank last time when placing an order.
+					</div>
+					<div class="text-sm font-normal text-grey-body">
+						In your UPI app, select the following bank account to complete your transaction
+					</div>
+
+					<SelectedBankDetails
+						bankAccountDetails={profileData?.bankDetails?.[paymentHandler?.selectedAccount]}
+						class="!mt-2 ml-3 flex justify-start"
+					/>
+				</div>
+			</section>
+
+			<Button variant="contained" class="mt-5 w-full" onClick={setBeforePaymentAckDone}>
+				PAY ₹{addCommasToAmountString(amount)}
+			</Button>
+		</section>
 	</Modal>
 {/if}
 

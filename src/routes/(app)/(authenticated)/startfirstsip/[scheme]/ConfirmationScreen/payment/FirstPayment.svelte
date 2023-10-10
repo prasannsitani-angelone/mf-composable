@@ -8,7 +8,7 @@
 	import LoadingPopup from '$components/Payment/LoadingPopup.svelte';
 	import UpiClosePopup from '$components/Payment/UPIClosePopup.svelte';
 	import UpiTransactionPopup from '$components/Payment/UPITransactionPopup.svelte';
-	import { PAYMENT_MODE } from '$components/Payment/constants';
+	import { PAYMENT_MODE, WRONG_BANK_ERROR_CODE } from '$components/Payment/constants';
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
 	import { getCompleteSIPDateBasedonDD } from '$lib/utils/helpers/date';
 	import { encodeObject } from '$lib/utils/helpers/params';
@@ -29,6 +29,7 @@
 	} from '$lib/analytics/startFirstSip/payment';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
+	import SelectedBankDetails from '$components/Payment/SelectedBankDetails.svelte';
 
 	export let scheme: SchemeDetails;
 	export let amount: number;
@@ -57,7 +58,8 @@
 		visible: false,
 		heading: '',
 		subHeading: '',
-		type: ''
+		type: '',
+		code: ''
 	};
 	const loadingState = {
 		heading: '',
@@ -140,7 +142,7 @@
 		validateUPILoading = false;
 	};
 
-	const displayError = ({ heading = 'Error', errorSubHeading = '', type = '' }) => {
+	const displayError = ({ heading = 'Error', errorSubHeading = '', type = '', code = '' }) => {
 		if (type === 'PAYMENT_FAILED' || type === 'PAYMENT_PATCH_FAILED') {
 			paymentFailureScreenAnalytics();
 			const eventMetaData = { status: 'Failure', message: errorSubHeading };
@@ -150,6 +152,12 @@
 		error.heading = heading;
 		error.subHeading = errorSubHeading;
 		error.type = type;
+		error.code = code?.toUpperCase();
+
+		if (error?.code === WRONG_BANK_ERROR_CODE) {
+			error.subHeading =
+				'Your transaction failed as you selected different bank account on your UPI app.';
+		}
 	};
 
 	const closeErrorPopup = () => {
@@ -157,7 +165,13 @@
 		error.subHeading = '';
 		error.visible = false;
 		error.type = '';
+		error.code = '';
 		onRetryClickAnalytics();
+	};
+
+	const retryWithSamePaymentMethod = () => {
+		closeErrorPopup();
+		onPayment(paymentHandler?.upiId);
 	};
 
 	const displayPendingPopup = async ({ errorSubHeading = '', orderId, sipId }) => {
@@ -366,14 +380,33 @@
 			popupType="FAILURE"
 			title={error.heading}
 			text={error.subHeading}
-			class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+			class="w-full rounded-b-none rounded-t-2xl p-6 px-4 sm:px-12 sm:py-12 md:rounded-lg"
 			isModalOpen
-			handleButtonClick={closeErrorPopup}
-			buttonTitle={error.type === 'PATCH_FAILED' || error.type === 'PAYMENT_PATCH_FAILED'
-				? 'CLOSE'
-				: 'RETRY'}
-			buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
+			handleButtonClick={error?.code === WRONG_BANK_ERROR_CODE
+				? retryWithSamePaymentMethod
+				: closeErrorPopup}
+			closeModal={closeErrorPopup}
+			buttonTitle={error?.code === WRONG_BANK_ERROR_CODE
+				? `RETRY WITH ${PAYMENT_MODE[paymentHandler?.paymentMode]?.name}`
+				: 'TRY AGAIN'}
+			secondaryButtonTitle={error?.code === WRONG_BANK_ERROR_CODE
+				? 'USE ANOTHER PAYMENT METHOD'
+				: ''}
+			buttonClass={`mt-5 w-full rounded cursor-default md:cursor-pointer ${
+				error?.code === WRONG_BANK_ERROR_CODE ? '!uppercase' : ''
+			}`}
+			secondaryButtonClass="mt-3 w-full rounded cursor-default md:cursor-pointer"
 			buttonVariant="contained"
-		/>
+			on:secondaryButtonClick={closeErrorPopup}
+		>
+			<svelte:fragment slot="middleSection">
+				{#if error?.code === WRONG_BANK_ERROR_CODE}
+					<SelectedBankDetails
+						bankAccountDetails={profileData?.bankDetails?.[paymentHandler?.selectedAccount]}
+						text="To complete your order, please pay using"
+					/>
+				{/if}
+			</svelte:fragment>
+		</ResultPopup>
 	{/if}
 </article>

@@ -13,7 +13,8 @@
 	import {
 		NET_BANKING_MIN_LIMIT,
 		PAYMENT_MODE,
-		UPI_MAX_LIMIT
+		UPI_MAX_LIMIT,
+		WRONG_BANK_ERROR_CODE
 	} from '$components/Payment/constants';
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
 	import { profileStore } from '$lib/stores/ProfileStore';
@@ -45,6 +46,7 @@
 	} from '../analytics/confirmation';
 	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
 	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
+	import SelectedBankDetails from '$components/Payment/SelectedBankDetails.svelte';
 
 	export let data: PageData;
 
@@ -66,7 +68,8 @@
 		visible: false,
 		heading: '',
 		subHeading: '',
-		type: ''
+		type: '',
+		code: ''
 	};
 	const loadingState = {
 		heading: '',
@@ -233,7 +236,7 @@
 		});
 	};
 
-	const displayError = ({ heading = 'Error', errorSubHeading = '', type = '' }) => {
+	const displayError = ({ heading = 'Error', errorSubHeading = '', type = '', code = '' }) => {
 		if (type === 'PAYMENT_FAILED' || type === 'PAYMENT_PATCH_FAILED') {
 			paymentFailedScreenAnalyticsWithData();
 		}
@@ -241,6 +244,12 @@
 		error.heading = heading;
 		error.subHeading = errorSubHeading;
 		error.type = type;
+		error.code = code?.toUpperCase();
+
+		if (error?.code === WRONG_BANK_ERROR_CODE) {
+			error.subHeading =
+				'Your transaction failed as you selected different bank account on your UPI app.';
+		}
 	};
 
 	const closeErrorPopup = () => {
@@ -258,6 +267,12 @@
 			onRefresh();
 		}
 		error.type = '';
+		error.code = '';
+	};
+
+	const retryWithSamePaymentMethod = () => {
+		closeErrorPopup();
+		onPayment(paymentHandler?.upiId);
 	};
 
 	const displayPendingPopup = async ({ orderId }) => {
@@ -515,15 +530,34 @@
 				popupType="FAILURE"
 				title={error.heading}
 				text={error.subHeading}
-				class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+				class="w-full rounded-b-none rounded-t-2xl p-6 px-4 sm:px-12 sm:py-12 md:rounded-lg"
 				isModalOpen
-				handleButtonClick={closeErrorPopup}
-				buttonTitle={error.type === 'PATCH_FAILED' || error.type === 'PAYMENT_PATCH_FAILED'
-					? 'CLOSE'
-					: 'RETRY'}
-				buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
+				handleButtonClick={error?.code === WRONG_BANK_ERROR_CODE
+					? retryWithSamePaymentMethod
+					: closeErrorPopup}
+				closeModal={closeErrorPopup}
+				buttonTitle={error?.code === WRONG_BANK_ERROR_CODE
+					? `RETRY WITH ${PAYMENT_MODE[paymentHandler?.paymentMode]?.name}`
+					: 'TRY AGAIN'}
+				secondaryButtonTitle={error?.code === WRONG_BANK_ERROR_CODE
+					? 'USE ANOTHER PAYMENT METHOD'
+					: ''}
+				buttonClass={`mt-5 w-full rounded cursor-default md:cursor-pointer ${
+					error?.code === WRONG_BANK_ERROR_CODE ? '!uppercase' : ''
+				}`}
+				secondaryButtonClass="mt-3 w-full rounded cursor-default md:cursor-pointer"
 				buttonVariant="contained"
-			/>
+				on:secondaryButtonClick={closeErrorPopup}
+			>
+				<svelte:fragment slot="middleSection">
+					{#if error?.code === WRONG_BANK_ERROR_CODE}
+						<SelectedBankDetails
+							bankAccountDetails={profileData?.bankDetails?.[paymentHandler?.selectedAccount]}
+							text="To complete your order, please pay using"
+						/>
+					{/if}
+				</svelte:fragment>
+			</ResultPopup>
 		{/if}
 	{:catch}
 		<div class="flex h-full flex-col items-center self-center px-4 py-4">

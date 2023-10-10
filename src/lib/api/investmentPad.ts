@@ -32,3 +32,14 @@ export const checkRequestIdExpired = async (linkSource?: string, linkRequestId?:
 		return false;
 	}
 };
+
+export const checkPreviousWrongBankFailedPayment = async () => {
+	const url = `${PUBLIC_MF_CORE_BASE_URL}/utils/meta?differentBankFailure=true`;
+	const response = await useFetch(url);
+
+	try {
+		return response?.data || false;
+	} catch (e) {
+		return false;
+	}
+};

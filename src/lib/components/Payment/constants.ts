@@ -87,3 +87,5 @@ export const PAYMENT_MODE_STATUS = {
 	low_success_rate: 'low_success_rate',
 	disabled: 'disabled'
 };
+
+export const WRONG_BANK_ERROR_CODE = 'ERROR-UPI-B3';

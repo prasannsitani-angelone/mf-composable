@@ -5,15 +5,19 @@
 	import FailedIcon from '$lib/images/icons/FailedIcon.svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import SuccessTickInCircleIcon from '$lib/images/icons/SuccessTickInCircleIcon.svelte';
+	import { createEventDispatcher } from 'svelte';
 	let popupType = '';
 	let title = '';
 	let text = '';
 	let buttonTitle = '';
+	let secondaryButtonTitle = '';
 	let titleClass = '';
 	let textClass = '';
 	let buttonClass = '';
+	let secondaryButtonClass = '';
 	let isModalOpen = false;
 	let buttonVariant: 'outlined' | 'contained' | 'transparent' = 'outlined';
+	let secondaryButtonVariant: 'outlined' | 'contained' | 'transparent' = 'outlined';
 	let closeModal: (() => void) | null = null;
 	let handleButtonClick: () => void;
 	export {
@@ -21,13 +25,22 @@
 		title,
 		text,
 		buttonTitle,
+		secondaryButtonTitle,
 		titleClass,
 		textClass,
 		buttonClass,
+		secondaryButtonClass,
 		isModalOpen,
 		closeModal,
 		handleButtonClick,
-		buttonVariant
+		buttonVariant,
+		secondaryButtonVariant
+	};
+
+	const dispatch = createEventDispatcher();
+
+	const handleSecondaryButtonClick = () => {
+		dispatch('secondaryButtonClick');
 	};
 </script>
 
@@ -56,6 +69,7 @@
 				<div class={`mt-3 text-sm font-normal text-grey-body ${textClass}`}>
 					{text}
 				</div>
+				<slot name="middleSection" />
 			</article>
 		</slot>
 
@@ -63,6 +77,16 @@
 			<Button variant={buttonVariant} class={buttonClass} onClick={handleButtonClick}>
 				{buttonTitle}
 			</Button>
+
+			{#if secondaryButtonTitle?.length}
+				<Button
+					variant={secondaryButtonVariant}
+					class={secondaryButtonClass}
+					onClick={handleSecondaryButtonClick}
+				>
+					{secondaryButtonTitle}
+				</Button>
+			{/if}
 		</slot>
 	</div>
 </Modal>
