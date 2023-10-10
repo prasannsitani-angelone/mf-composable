@@ -230,6 +230,7 @@
 			placementMapping = {
 				stories: { rowStart: 1, columnStart: 1 },
 				investments: { rowStart: 2, columnStart: 1 },
+				startFirstSip: { rowStart: 3, columnStart: 1 },
 				trendingFunds: { rowStart: 4, columnStart: 1 },
 				categories: { rowStart: 5, columnStart: 1 },
 				sipNudges: { rowStart: 3, columnStart: 1 },

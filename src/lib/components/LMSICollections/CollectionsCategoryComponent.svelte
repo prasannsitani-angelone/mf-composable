@@ -6,7 +6,7 @@
 	export let category: DashboardCategoryEntity;
 </script>
 
-<section class="mb-3 flex flex-wrap px-4 pb-3 sm:px-6 lg:items-center lg:justify-center">
+<section class="flex flex-wrap px-4 pb-3 sm:px-6 lg:items-center lg:justify-center">
 	{#each category.data || [] as option}
 		<article
 			class="group mr-0 flex basis-1/4 cursor-pointer items-center justify-center rounded-lg bg-white hover:bg-grey sm:justify-start sm:pl-6"

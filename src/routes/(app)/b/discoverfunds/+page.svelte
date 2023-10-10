@@ -234,16 +234,15 @@
 		if ($page.data.deviceType?.isMobile) {
 			placementMapping = {
 				investments: { rowStart: 1, columnStart: 1 },
-				startFirstSip: { rowStart: 2, columnStart: 1 },
-				stories: { rowStart: 3, columnStart: 1 },
-				trendingFunds: { rowStart: 4, columnStart: 1 },
-				sipNudges: { rowStart: 5, columnStart: 1 },
-				categories: { rowStart: 6, columnStart: 1 },
-				failedOrdersNudge: { rowStart: 7, columnStart: 1 },
-				curatedInvestmentCard: { rowStart: 8, columnStart: 1 },
-				quickEntryPoints: { rowStart: 9, columnStart: 1 },
-				promotionCard: { rowStart: 10, columnStart: 1 },
-				logout: { rowStart: 11, columnStart: 1 }
+				stories: { rowStart: 2, columnStart: 1 },
+				trendingFunds: { rowStart: 3, columnStart: 1 },
+				sipNudges: { rowStart: 4, columnStart: 1 },
+				categories: { rowStart: 5, columnStart: 1 },
+				failedOrdersNudge: { rowStart: 6, columnStart: 1 },
+				curatedInvestmentCard: { rowStart: 7, columnStart: 1 },
+				quickEntryPoints: { rowStart: 8, columnStart: 1 },
+				promotionCard: { rowStart: 9, columnStart: 1 },
+				logout: { rowStart: 10, columnStart: 1 }
 			};
 		} else {
 			placementMapping = {
@@ -280,16 +279,6 @@
 			{/if}
 		{/if}
 	</div>
-
-	<!-- 2. Start First SIP -->
-	<LazyComponent
-		class="row-start-{placementMapping?.startFirstSip?.rowStart} col-start-{placementMapping
-			?.startFirstSip?.columnStart} {placementMapping?.startFirstSip?.rowStart > 1 ? 'mt-2' : ''}"
-		when={isLoggedInUser && deviceType?.isMobile && nudgesData && startFirstSipNudgeData}
-		component={async () => await import('$components/StartFirstSip/StartFirstSipNudge.svelte')}
-		nudgeData={startFirstSipNudgeData}
-		version="A"
-	/>
 
 	<!-- 3. Stories section -->
 	{#if storiesData?.stories?.length}
