@@ -265,14 +265,18 @@ export const upiFlow = async (params) => {
 					heading: 'Autopay Setup Failed',
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
-						'We were unable to set up your autopay due to a technical issue. Please try again'
+						'We were unable to set up your autopay due to a technical issue. Please try again',
+					code:
+						transactionResponse?.data?.data?.response_code ||
+						transactionResponse?.data?.error_code ||
+						''
 				});
 			},
 			pendingCallback: () => {
 				stopLoading();
 				onPending({
 					heading: 'Autopay Setup Pending',
-					errorSubHeading:
+					pendingSubHeading:
 						transactionResponse?.data?.data?.response_description ||
 						'We are confirming the status of your autopay. We will notify you once we have an update. If you already completed the first payment, please wait.'
 				});
@@ -388,14 +392,18 @@ export const walletFlow = async (params) => {
 					heading: 'Autopay Setup Failed',
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
-						'We were unable to set up your autopay due to a technical issue. Please try again'
+						'We were unable to set up your autopay due to a technical issue. Please try again',
+					code:
+						transactionResponse?.data?.data?.response_code ||
+						transactionResponse?.data?.error_code ||
+						''
 				});
 			},
 			pendingCallback: () => {
 				stopLoading();
 				onPending({
 					heading: 'Autopay Setup Pending',
-					errorSubHeading:
+					pendingSubHeading:
 						transactionResponse?.data?.data?.response_description ||
 						'We are confirming the status of your autopay. We will notify you once we have an update. If you already completed the first payment, please wait.'
 				});

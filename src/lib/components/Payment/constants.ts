@@ -88,4 +88,4 @@ export const PAYMENT_MODE_STATUS = {
 	disabled: 'disabled'
 };
 
-export const WRONG_BANK_ERROR_CODE = 'ERROR-UPI-B3';
+export const WRONG_BANK_ERROR_CODE = 'error-upi-b3';

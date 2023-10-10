@@ -1898,7 +1898,7 @@
 			{/if}
 		</svelte:fragment>
 	</ResultPopup>
-{:else if true || integeratedFlowError.visible}
+{:else if integeratedFlowError.visible}
 	<ResultPopup
 		popupType="FAILURE"
 		title={integeratedFlowError.heading}

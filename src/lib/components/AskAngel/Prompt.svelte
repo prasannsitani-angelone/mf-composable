@@ -4,7 +4,7 @@
 	import Choices from './Choices.svelte';
 	import Message from './Message.svelte';
 	import TrendingCarouselItems from '$components/TrendingFunds/TrendingCarouselItems.svelte';
-	import { LazyComponent, addCommasToAmountString } from 'svelte-components';
+	import { addCommasToAmountString } from 'svelte-components';
 	import CuratedInvestmentCardComponent from '$components/InvestWithExperts/CuratedInvestmentCardComponent.svelte';
 
 	export let chatItem: ChatItem;
@@ -35,10 +35,7 @@
 			>
 				<svelte:fragment slot="messageData">
 					{#if text?.type === 'emoji'}
-						<LazyComponent
-							when={text?.type === 'emoji'}
-							component={async () => await import('$lib/images/icons/HelloEmojiIcon.svelte')}
-						/>
+						<div class="px-1 text-2xl">👋</div>
 					{:else}
 						{text?.displayText}
 					{/if}

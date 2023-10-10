@@ -21,6 +21,7 @@
 	import { add } from 'date-fns';
 	import { accounChangeAnalytics } from './analytics';
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
+	import { PAYMENT_MODE, WRONG_BANK_ERROR_CODE } from '$components/Payment/constants';
 
 	export let profileData: UserProfile;
 	export let amount: string;
@@ -51,7 +52,8 @@
 	const error = {
 		visible: false,
 		heading: '',
-		subHeading: ''
+		subHeading: '',
+		code: ''
 	};
 	const pending = {
 		visible: false,
@@ -142,10 +144,11 @@
 		validateUPILoading = false;
 	};
 
-	const displayError = ({ heading = 'Autopay Setup Failed', errorSubHeading = '' }) => {
+	const displayError = ({ heading = 'Autopay Setup Failed', errorSubHeading = '', code = '' }) => {
 		error.visible = true;
 		error.heading = heading;
 		error.subHeading = errorSubHeading;
+		error.code = code;
 	};
 
 	const displayPending = ({ heading = 'Autopay Setup Pending', pendingSubHeading = '' }) => {
@@ -158,6 +161,16 @@
 		error.heading = '';
 		error.subHeading = '';
 		error.visible = false;
+		error.code = '';
+	};
+
+	const retryWithSamePaymentMethod = () => {
+		closeErrorPopup();
+		onEmandateSubmit(paymentHandler?.upiId);
+	};
+
+	const handleChangePaymentMethodRetryClick = () => {
+		closeErrorPopup();
 	};
 
 	const closePendingPopup = () => {
@@ -210,11 +223,12 @@
 		return getSipStartDateWithoutFormat().getTime();
 	};
 
-	const onError = ({ heading = '', errorSubHeading = '' }) => {
+	const onError = ({ heading = '', errorSubHeading = '', code = '' }) => {
 		onErrorCallback();
 		displayError({
 			heading,
-			errorSubHeading
+			errorSubHeading,
+			code
 		});
 	};
 
@@ -325,6 +339,23 @@
 
 {#if loadingState.isLoading}
 	<LoadingPopup heading={loadingState.heading} />
+{:else if error.visible && error?.code === WRONG_BANK_ERROR_CODE}
+	<ResultPopup
+		popupType="FAILURE"
+		title={error.heading}
+		text={error.subHeading}
+		class="w-full rounded-b-none rounded-t-2xl p-6 px-4 sm:p-12 md:rounded-lg"
+		isModalOpen
+		handleButtonClick={retryWithSamePaymentMethod}
+		closeModal={closeErrorPopup}
+		buttonTitle={`RETRY WITH ${PAYMENT_MODE[paymentHandler?.paymentMode]?.name || ''}`}
+		secondaryButtonTitle="USE ANOTHER PAYMENT METHOD"
+		buttonClass={`mt-5 w-full rounded cursor-default md:cursor-pointer !uppercase`}
+		secondaryButtonClass="mt-3 w-full rounded cursor-default md:cursor-pointer"
+		buttonVariant="contained"
+		titleClass="px-3 -mt-4"
+		on:secondaryButtonClick={handleChangePaymentMethodRetryClick}
+	/>
 {:else if error.visible}
 	<ResultPopup
 		popupType="FAILURE"

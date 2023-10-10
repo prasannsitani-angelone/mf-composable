@@ -219,7 +219,10 @@ export const netBankingCartFlow = async (params) => {
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
 						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
-					code: transactionResponse?.data?.error_code || ''
+					code:
+						transactionResponse?.data?.data?.response_code ||
+						transactionResponse?.data?.error_code ||
+						''
 				});
 			},
 			pendingCallback: () => {
@@ -374,7 +377,10 @@ export const netBankingLumpsumFlow = async (params) => {
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
 						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
-					code: transactionResponse?.data?.error_code || ''
+					code:
+						transactionResponse?.data?.data?.response_code ||
+						transactionResponse?.data?.error_code ||
+						''
 				});
 			},
 			pendingCallback: () => {
@@ -543,7 +549,10 @@ export const netBankingSIPFlow = async (params) => {
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
 						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
-					code: transactionResponse?.data?.error_code || ''
+					code:
+						transactionResponse?.data?.data?.response_code ||
+						transactionResponse?.data?.error_code ||
+						''
 				});
 			},
 			pendingCallback: () => {
@@ -700,7 +709,10 @@ export const netBankingBulkSIPFlow = async (params) => {
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
 						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
-					code: transactionResponse?.data?.error_code || ''
+					code:
+						transactionResponse?.data?.data?.response_code ||
+						transactionResponse?.data?.error_code ||
+						''
 				});
 			},
 			pendingCallback: () => {
@@ -873,7 +885,10 @@ export const upiCartFlow = async (params) => {
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
 						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
-					code: transactionResponse?.data?.error_code || ''
+					code:
+						transactionResponse?.data?.data?.response_code ||
+						transactionResponse?.data?.error_code ||
+						''
 				});
 			},
 			pendingCallback: () => {
@@ -1068,7 +1083,10 @@ export const upiLumpsumFlow = async (params) => {
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
 						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
-					code: transactionResponse?.data?.error_code || ''
+					code:
+						transactionResponse?.data?.data?.response_code ||
+						transactionResponse?.data?.error_code ||
+						''
 				});
 			},
 			pendingCallback: () => {
@@ -1283,7 +1301,10 @@ export const upiSIPFlow = async (params) => {
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
 						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
-					code: transactionResponse?.data?.error_code || ''
+					code:
+						transactionResponse?.data?.data?.response_code ||
+						transactionResponse?.data?.error_code ||
+						''
 				});
 			},
 			pendingCallback: () => {
@@ -1706,7 +1727,10 @@ export const upiBulkSIPFlow = async (params) => {
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
 						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
-					code: transactionResponse?.data?.error_code || ''
+					code:
+						transactionResponse?.data?.data?.response_code ||
+						transactionResponse?.data?.error_code ||
+						''
 				});
 			},
 			pendingCallback: () => {
@@ -1863,7 +1887,10 @@ export const walletCartFlow = async (params) => {
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
 						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
-					code: transactionResponse?.data?.error_code || ''
+					code:
+						transactionResponse?.data?.data?.response_code ||
+						transactionResponse?.data?.error_code ||
+						''
 				});
 			},
 			pendingCallback: () => {
@@ -2042,7 +2069,10 @@ export const walletLumpsumFlow = async (params) => {
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
 						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
-					code: transactionResponse?.data?.error_code || ''
+					code:
+						transactionResponse?.data?.data?.response_code ||
+						transactionResponse?.data?.error_code ||
+						''
 				});
 			},
 			pendingCallback: () => {
@@ -2230,7 +2260,10 @@ export const walletSIPFlow = async (params) => {
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
 						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
-					code: transactionResponse?.data?.error_code || ''
+					code:
+						transactionResponse?.data?.data?.response_code ||
+						transactionResponse?.data?.error_code ||
+						''
 				});
 			},
 			pendingCallback: () => {
@@ -2404,7 +2437,10 @@ export const walletBulkSIPFlow = async (params) => {
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
 						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
-					code: transactionResponse?.data?.error_code || ''
+					code:
+						transactionResponse?.data?.data?.response_code ||
+						transactionResponse?.data?.error_code ||
+						''
 				});
 			},
 			pendingCallback: () => {
@@ -2620,7 +2656,10 @@ export const walletIntegeratedFlow = async (params) => {
 					errorSubHeading:
 						transactionResponse?.data?.data?.response_description ||
 						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
-					code: transactionResponse?.data?.error_code || ''
+					code:
+						transactionResponse?.data?.data?.response_code ||
+						transactionResponse?.data?.error_code ||
+						''
 				});
 			},
 			pendingCallback: () => {
