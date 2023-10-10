@@ -29,7 +29,6 @@
 	} from '$lib/analytics/startFirstSip/payment';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
-	import SelectedBankDetails from '$components/Payment/SelectedBankDetails.svelte';
 
 	export let scheme: SchemeDetails;
 	export let amount: number;
@@ -155,8 +154,7 @@
 		error.code = code?.toUpperCase();
 
 		if (error?.code === WRONG_BANK_ERROR_CODE) {
-			error.subHeading =
-				'Your transaction failed as you selected different bank account on your UPI app.';
+			error.heading = 'Incorrect Bank Account Selected on UPI App';
 		}
 	};
 
@@ -397,14 +395,19 @@
 			}`}
 			secondaryButtonClass="mt-3 w-full rounded cursor-default md:cursor-pointer"
 			buttonVariant="contained"
+			titleClass={error?.code === WRONG_BANK_ERROR_CODE ? 'px-3 -mt-4' : ''}
 			on:secondaryButtonClick={closeErrorPopup}
 		>
 			<svelte:fragment slot="middleSection">
 				{#if error?.code === WRONG_BANK_ERROR_CODE}
-					<SelectedBankDetails
-						bankAccountDetails={profileData?.bankDetails?.[paymentHandler?.selectedAccount]}
-						text="To complete your order, please pay using"
-					/>
+					<section class="item-center mt-2 flex rounded bg-grey p-2">
+						<div class="my-auto flex-1">
+							<WMSIcon name="info-in-circle-dark" class="p-1" stroke="#3F5BD9" />
+						</div>
+						<div class="ml-3 text-left text-sm font-normal text-grey-body">
+							If any money has been debited from your account, it will be refunded automatically.
+						</div>
+					</section>
 				{/if}
 			</svelte:fragment>
 		</ResultPopup>

@@ -928,8 +928,7 @@
 		error.code = code?.toUpperCase();
 
 		if (error?.code === WRONG_BANK_ERROR_CODE) {
-			error.subHeading =
-				'Your transaction failed as you selected different bank account on your UPI app.';
+			error.heading = 'Incorrect Bank Account Selected on UPI App';
 		}
 
 		if (error.type === 'PAYMENT_FAILED') {
@@ -1863,14 +1862,19 @@
 		}`}
 		secondaryButtonClass="mt-3 w-full rounded cursor-default md:cursor-pointer"
 		buttonVariant="contained"
+		titleClass={error?.code === WRONG_BANK_ERROR_CODE ? 'px-3 -mt-4' : ''}
 		on:secondaryButtonClick={handleChangePaymentMethodRetryClick}
 	>
 		<svelte:fragment slot="middleSection">
 			{#if error?.code === WRONG_BANK_ERROR_CODE}
-				<SelectedBankDetails
-					bankAccountDetails={profileData?.bankDetails?.[paymentHandler?.selectedAccount]}
-					text="To complete your order, please pay using"
-				/>
+				<section class="item-center mt-2 flex rounded bg-grey p-2">
+					<div class="my-auto flex-1">
+						<WMSIcon name="info-in-circle-dark" class="p-1" stroke="#3F5BD9" />
+					</div>
+					<div class="ml-3 text-left text-sm font-normal text-grey-body">
+						If any money has been debited from your account, it will be refunded automatically.
+					</div>
+				</section>
 			{/if}
 		</svelte:fragment>
 	</ResultPopup>
@@ -1895,18 +1899,28 @@
 		<section class="rounded-t-2xl bg-white px-4 py-6 shadow-clg sm:w-120 sm:rounded-lg sm:p-6">
 			<section class="flex w-full flex-col items-start justify-center overflow-y-auto">
 				<div class="px-2">
-					<div class="text-left text-lg font-normal text-black-title">Before you proceed</div>
-					<div class="mt-2 text-sm font-normal text-grey-body">
-						We noticed that you selected the wrong bank last time when placing an order.
+					<div class="text-left text-lg font-normal text-black-title">
+						Important: For Successful Payment
 					</div>
-					<div class="text-sm font-normal text-grey-body">
-						In your UPI app, select the following bank account to complete your transaction
+					<div class="mt-2 text-sm font-normal text-grey-body">
+						Please complete the transaction in your UPI app with only <span class="text-black"
+							>the registered bank account on Angel One</span
+						>
 					</div>
 
 					<SelectedBankDetails
 						bankAccountDetails={profileData?.bankDetails?.[paymentHandler?.selectedAccount]}
 						class="!mt-2 ml-3 flex justify-start"
 					/>
+
+					<section class="item-center mt-2 flex rounded bg-grey p-2">
+						<div class="my-auto flex-1">
+							<WMSIcon name="info-in-circle-dark" class="p-1" stroke="#3F5BD9" />
+						</div>
+						<div class="ml-3 text-left text-sm font-normal text-grey-body">
+							Your last transaction failed as you selected a different bank account in your UPI app
+						</div>
+					</section>
 				</div>
 			</section>
 
