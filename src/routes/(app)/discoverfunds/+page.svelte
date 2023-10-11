@@ -338,10 +338,11 @@
 	<div
 		class="row-start-{placementMapping?.curatedInvestmentCard?.rowStart} col-start-{placementMapping
 			?.curatedInvestmentCard?.columnStart} {placementMapping?.curatedInvestmentCard?.rowStart > 1
-			? '!my-0 mt-2'
+			? '!my-0'
 			: '!-my-2'}"
 	>
 		<LazyComponent
+			class="!mt-2"
 			when={isLoggedInUser && deviceType?.isMobile && start4SipsNudgeData}
 			nudgeData={start4SipsNudgeData}
 			component={async () =>

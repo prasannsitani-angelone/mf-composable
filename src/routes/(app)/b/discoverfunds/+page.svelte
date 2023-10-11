@@ -44,7 +44,7 @@
 	} from '$components/Stories/utils';
 	import { exitNudgeStore } from '$lib/stores/ExitNudgeStore';
 	import { browser } from '$app/environment';
-	import DiscoverCategoriesComponent from '../../discoverfunds/CategoriesComponent.svelte';
+	import CategoriesComponent from '../../discoverfunds/CategoriesComponent.svelte';
 	import { askAngelEntryImpressionAnalytics } from '$lib/analytics/askangel/askangel';
 
 	$: isLoggedInUser = !data?.isGuest;
@@ -314,11 +314,10 @@
 
 	<!-- 6. Category Section -->
 	<article
-		class="max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:mt-0 row-start-{placementMapping
-			?.categories?.rowStart} col-start-{placementMapping?.categories
-			?.columnStart} {placementMapping?.categories?.rowStart > 1 ? '!mt-2' : ''}"
+		class="row-start-{placementMapping?.categories?.rowStart} col-start-{placementMapping
+			?.categories?.columnStart} {placementMapping?.categories?.rowStart > 1 ? '!mt-2' : ''}"
 	>
-		<DiscoverCategoriesComponent categories={data?.searchDashboardData?.categories} />
+		<CategoriesComponent categories={data?.searchDashboardData?.categories} />
 	</article>
 
 	<!-- 7. Other Nudges - Retry Payment Nudge & Others -->
@@ -340,10 +339,11 @@
 	<div
 		class="row-start-{placementMapping?.curatedInvestmentCard?.rowStart} col-start-{placementMapping
 			?.curatedInvestmentCard?.columnStart} {placementMapping?.curatedInvestmentCard?.rowStart > 1
-			? '!my-0 mt-2'
+			? '!my-0'
 			: '!-my-2'}"
 	>
 		<LazyComponent
+			class="!mt-2"
 			when={isLoggedInUser && deviceType?.isMobile && start4SipsNudgeData}
 			nudgeData={start4SipsNudgeData}
 			component={async () =>
