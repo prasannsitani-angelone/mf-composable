@@ -79,20 +79,22 @@
 				allowedPaymentMethods.push('UPI');
 			}
 
-			const netBankingMethod = methods?.['net_banking'];
-			const debitCardMethod = methods?.['debit_card'];
-			if (
-				netBankingMethod?.status === 'supported' &&
-				mandateAmount >= netBankingMethod?.min_amount &&
-				mandateAmount <= netBankingMethod?.max_amount
-			) {
-				allowedPaymentMethods.push('NET_BANKING');
-			} else if (
-				debitCardMethod?.status === 'supported' &&
-				mandateAmount >= debitCardMethod?.min_amount &&
-				mandateAmount <= debitCardMethod?.max_amount
-			) {
-				allowedPaymentMethods.push('NET_BANKING');
+			if (!data?.pageParam?.mandateType || data?.pageParam?.mandateType?.toLowerCase() !== 'upi') {
+				const netBankingMethod = methods?.['net_banking'];
+				const debitCardMethod = methods?.['debit_card'];
+				if (
+					netBankingMethod?.status === 'supported' &&
+					mandateAmount >= netBankingMethod?.min_amount &&
+					mandateAmount <= netBankingMethod?.max_amount
+				) {
+					allowedPaymentMethods.push('NET_BANKING');
+				} else if (
+					debitCardMethod?.status === 'supported' &&
+					mandateAmount >= debitCardMethod?.min_amount &&
+					mandateAmount <= debitCardMethod?.max_amount
+				) {
+					allowedPaymentMethods.push('NET_BANKING');
+				}
 			}
 		}
 		assignDefaultMode();
