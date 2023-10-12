@@ -48,6 +48,8 @@
 			return;
 		}
 
+		const isBackspacePressedOnEmptyCell = e.key == 'Backspace' && otp[index]?.value !== null;
+
 		otp[index].value = item.value || String(item.value) === '0' ? String(item.value).charAt(0) : '';
 		if (index < otp.length - 1 && (item.value || item.value === '0')) {
 			otp[index + 1].self?.focus();
@@ -57,6 +59,10 @@
 			otp[index].value = '';
 			if (index !== 0) {
 				otp[index - 1].self?.focus();
+
+				if (isBackspacePressedOnEmptyCell) {
+					otp[index - 1].value = '';
+				}
 			}
 		}
 
