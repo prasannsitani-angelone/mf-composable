@@ -84,7 +84,7 @@
 					<div class="flex-1" />
 					<slot name="detailsRight">
 						<div class="flex flex-col items-end">
-							<p class="text-xs font-normal">3 Year Return</p>
+							<p class="text-xs font-normal">3 Year Returns</p>
 							<div class="flex flex-row items-center">
 								<img
 									src={GreenUpArrowTrendingFund}
