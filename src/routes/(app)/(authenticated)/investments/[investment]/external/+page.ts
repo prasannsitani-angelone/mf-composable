@@ -56,7 +56,7 @@ export const load = (async ({ fetch, params }) => {
 			holdingsData: res[0].ok ? res[0].data || {} : {},
 			chartData: res[1].ok && res[1].data?.status === 'success' ? res[1].data?.data || {} : {},
 			ordersData:
-				res[2].ok && res[2].data?.status === 'success' ? res[2].data?.transactions || {} : {},
+				res[2].ok && res[2].data?.status === 'success' ? res[2].data?.transactions || [] : [],
 			schemeData: res[3].ok ? res[3].data || {} : {},
 			mappingScheme:
 				res[4].ok && res[4].data?.status === 'success' ? res[4].data.regularDirectScheme[0] : {}

@@ -12,7 +12,7 @@
 
 	let showFullTransactionList = false;
 	let modifiedTransactionList: Transaction[];
-	$: modifiedTransactionList = transactionList?.slice(0, tableListThreshold) || [];
+	$: modifiedTransactionList = (transactionList || [])?.slice(0, tableListThreshold) || [];
 
 	const toggleShowFullTransactionList = () => {
 		showFullTransactionList = !showFullTransactionList;
