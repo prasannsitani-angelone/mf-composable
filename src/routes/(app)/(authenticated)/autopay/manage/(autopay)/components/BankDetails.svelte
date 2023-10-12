@@ -6,7 +6,7 @@
 	import { Button } from 'svelte-components';
 	import Modal from '$components/Modal.svelte';
 	import BankSelectionPopup from '$components/BankSelectionPopup.svelte';
-	import { encodeObject } from '$lib/utils/helpers/params';
+	import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import {
 		autopayBankSelectionAnalytics,
@@ -73,8 +73,13 @@
 	};
 
 	const navigatToSetup = async () => {
+		const searchParams = $page?.url?.searchParams?.get('params');
+		const decodedParams = decodeToObject(searchParams || '');
+		const mandateType = decodedParams?.mandateType;
+
 		const params = encodeObject({
-			acc: bankAccount
+			acc: bankAccount,
+			...(mandateType?.length && { mandateType })
 		});
 		const eventMetaData = {
 			BankName: bankName,
