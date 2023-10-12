@@ -83,7 +83,7 @@
 
 					<div class="ml-2 flex items-start">
 						<span class="mt-2 min-w-fit"><DotIcon /></span>
-						<span class="ml-2.5">Only the SIP amount will deducted from your bank account.</span>
+						<span class="ml-2.5">Only the SIP amount will be deducted from your bank account.</span>
 					</div>
 
 					<div class="ml-2 flex items-start">

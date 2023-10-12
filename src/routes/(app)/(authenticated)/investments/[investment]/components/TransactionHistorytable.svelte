@@ -7,9 +7,9 @@
 	import TBody from '$components/Table/TBody.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { getDateTimeString } from '$lib/utils/helpers/date';
-	import type { OrdersEntity } from '$lib/types/IInvestments';
+	import type { Transaction } from '$lib/types/IInvestments';
 	$: deviceType = $page.data.deviceType;
-	export let modifiedTransactionList: OrdersEntity[] = [];
+	export let modifiedTransactionList: Transaction[] = [];
 
 	const getTransactionTypeLabel = (transactionType = '') => {
 		const transactionTypeLabelMap = {
@@ -23,7 +23,7 @@
 		return transactionTypeLabelMap[transactionType] ? transactionTypeLabelMap[transactionType] : '';
 	};
 
-	const getTranscationTypeCss = (data: OrdersEntity) => {
+	const getTranscationTypeCss = (data: Transaction) => {
 		const cssMap = {
 			PURCHASE: 'bg-green-buy bg-opacity-[12%]',
 			REDEEM: 'bg-red-sell bg-opacity-[12%]',
@@ -70,7 +70,7 @@
 							</div>
 						{/if}
 						<div class="text-xs text-black-title md:text-sm">
-							{getDateTimeString(data?.createdTs, 'DATE', true)}
+							{getDateTimeString(data?.transactionDate, 'DATE', true)}
 						</div>
 					</div>
 				</Td>

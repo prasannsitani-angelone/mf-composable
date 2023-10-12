@@ -230,6 +230,15 @@ export interface OrdersData {
 	summary: OrdersSummary;
 }
 
+export interface Transaction {
+	transactionId: number;
+	transactionDate: number;
+	transactionType: string;
+	units: number;
+	nav: number;
+	amount: number;
+}
+
 type ColRenderFn = (data: FolioObject) => string;
 
 export interface FolioTableColumn {

@@ -13,7 +13,7 @@
 	import TransactionHistory from './TransactionHistory.svelte';
 	import PartialImportHeading from './components/PartialImportHeading.svelte';
 	import { partialImportCheck } from '../utils';
-	import type { FolioHoldingType, ChartData, OrdersData } from '$lib/types/IInvestments';
+	import type { FolioHoldingType, ChartData, Transaction } from '$lib/types/IInvestments';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import {
 		fundCardClickAnalytics,
@@ -24,7 +24,7 @@
 
 	export let holdings: FolioHoldingType;
 	export let chartData: ChartData;
-	export let ordersData: OrdersData;
+	export let ordersData: Transaction[];
 	export let schemeDetails: SchemeDetails;
 	export let mappingScheme: SchemeDetails;
 	export let isRedemptionNotAllowed = false;
@@ -187,7 +187,7 @@
 		<FolioSummary folioDetails={holdings} on:viewHideAllFolioClicked={hideAllFoliosAnalyticsFunc} />
 	{/if}
 	<TransactionHistory
-		transactionList={ordersData.orders}
+		transactionList={ordersData}
 		class={isInvestmentNotAllowed || isRedemptionNotAllowed
 			? 'mb-48'
 			: !holdings?.investmentAllowed

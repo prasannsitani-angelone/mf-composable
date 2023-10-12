@@ -931,7 +931,7 @@
 		error.heading = heading;
 		error.subHeading = errorSubHeading;
 		error.type = type;
-		error.code = code?.toUpperCase();
+		error.code = code;
 
 		if (error?.code === WRONG_BANK_ERROR_CODE) {
 			error.heading = 'Incorrect Bank Account Selected on UPI App';
@@ -1881,6 +1881,13 @@
 		titleClass="px-3 -mt-4"
 		on:secondaryButtonClick={handleChangePaymentMethodRetryClick}
 	>
+		<svelte:fragment slot="popupHeader">
+			{#if error?.code === WRONG_BANK_ERROR_CODE}
+				<WMSIcon name="red-exclamation-thin" width={92} height={92} />
+			{:else}
+				<WMSIcon name="red-cross-circle" width={92} height={92} />
+			{/if}
+		</svelte:fragment>
 		<svelte:fragment slot="middleSection">
 			{#if error?.code === WRONG_BANK_ERROR_CODE}
 				<section class="item-center mt-2 flex rounded bg-grey p-2">

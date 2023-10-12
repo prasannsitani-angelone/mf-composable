@@ -243,7 +243,7 @@
 		error.heading = heading;
 		error.subHeading = errorSubHeading;
 		error.type = type;
-		error.code = code?.toUpperCase();
+		error.code = code;
 
 		if (error?.code === WRONG_BANK_ERROR_CODE) {
 			error.heading = 'Incorrect Bank Account Selected on UPI App';

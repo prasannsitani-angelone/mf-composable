@@ -30,6 +30,10 @@
 			<div>Payments with Autopay</div>
 		</section>
 		<InfoList />
+
+		<article class="mt-4 hidden md:block">
+			<BankDetails {totalAmount} />
+		</article>
 	</Card>
 
 	<article class="fixed inset-0 top-auto z-20 block bg-white p-2 md:hidden">

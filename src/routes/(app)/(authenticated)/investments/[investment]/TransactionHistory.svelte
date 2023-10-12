@@ -1,17 +1,17 @@
 <script lang="ts">
 	import Card from '$components/Card.svelte';
 	import TransactionHistorytable from './components/TransactionHistorytable.svelte';
-	import type { OrdersEntity } from '$lib/types/IInvestments';
+	import type { Transaction } from '$lib/types/IInvestments';
 	import { page } from '$app/stores';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import { investmentDetailsExternalFolioSectionCtaClick } from '../analytics';
 
-	export let transactionList: OrdersEntity[] = [];
+	export let transactionList: Transaction[] = [];
 
 	const tableListThreshold = 5;
 
 	let showFullTransactionList = false;
-	let modifiedTransactionList: OrdersEntity[];
+	let modifiedTransactionList: Transaction[];
 	$: modifiedTransactionList = transactionList?.slice(0, tableListThreshold) || [];
 
 	const toggleShowFullTransactionList = () => {
@@ -44,6 +44,7 @@
 
 		{#if transactionList?.length && transactionList?.length > 5 && !isExternal}
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<!-- svelte-ignore a11y-no-static-element-interactions -->
 			<div
 				class="flex cursor-pointer items-end justify-center py-5 text-sm font-medium text-blue-primary"
 				on:click={toggleShowFullTransactionList}
@@ -52,6 +53,7 @@
 			</div>
 		{:else if transactionList?.length && transactionList?.length > 5 && isExternal}
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<!-- svelte-ignore a11y-no-static-element-interactions -->
 			<div
 				class="flex cursor-pointer items-center justify-center py-5 text-sm font-medium text-blue-primary"
 				on:click={toggleShowFullTransactionList}
