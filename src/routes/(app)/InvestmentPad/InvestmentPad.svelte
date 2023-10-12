@@ -647,7 +647,7 @@
 	};
 
 	const handleInvestClick = (inputId: string) => {
-		if (previousWrongBankFailedPayment && !beforePaymentAckDone) {
+		if (previousWrongBankFailedPayment && !beforePaymentAckDone && firstSipPayment) {
 			toggleShowBeforePaymentAckModal();
 			return;
 		}
@@ -711,6 +711,10 @@
 		investmentPadTabSwitchAnalytics(eventMetaData);
 	};
 
+	const getPreviousWrongBankFailedPayment = async () => {
+		previousWrongBankFailedPayment = await checkPreviousWrongBankFailedPayment();
+	};
+
 	onMount(async () => {
 		handleShowTabNotSupported();
 
@@ -723,7 +727,7 @@
 		}
 		window.addEventListener('message', listenerFunc);
 
-		previousWrongBankFailedPayment = await checkPreviousWrongBankFailedPayment();
+		await getPreviousWrongBankFailedPayment();
 
 		await tick();
 		checkIfOrderIsValidFromDeeplink();
@@ -949,7 +953,11 @@
 		integeratedFlowError.occured = true;
 	};
 
-	const closeErrorPopup = () => {
+	const closeErrorPopup = (fetchPreviousWrongBankFailedPayment = false) => {
+		if (fetchPreviousWrongBankFailedPayment) {
+			getPreviousWrongBankFailedPayment();
+		}
+
 		if (error.type === 'PAYMENT_FAILED') {
 			paymentFailedScreenCloseButtonAnalytics();
 		}
@@ -972,7 +980,7 @@
 	};
 
 	const handleChangePaymentMethodRetryClick = () => {
-		closeErrorPopup();
+		closeErrorPopup(true);
 		showChangePayment = true;
 	};
 
@@ -1872,7 +1880,7 @@
 		class="w-full rounded-b-none rounded-t-2xl p-6 px-4 sm:p-12 md:rounded-lg"
 		isModalOpen
 		handleButtonClick={retryWithSamePaymentMethod}
-		closeModal={closeErrorPopup}
+		closeModal={() => closeErrorPopup(true)}
 		buttonTitle={`RETRY WITH ${PAYMENT_MODE[paymentHandler?.paymentMode]?.name}`}
 		secondaryButtonTitle="USE ANOTHER PAYMENT METHOD"
 		buttonClass={`mt-5 w-full rounded cursor-default md:cursor-pointer !uppercase`}
