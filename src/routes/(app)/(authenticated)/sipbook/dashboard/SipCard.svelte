@@ -15,6 +15,7 @@
 	import DateFns from '$lib/utils/asyncDateFns';
 	import { sipCardClickAnalytics } from '$lib/analytics/sipbook/sipbook';
 	import { WMSIcon } from 'svelte-components';
+	import SchemeLogo from '$components/SchemeLogo.svelte';
 
 	let sipCount = 0;
 	let alertSleeveText = '';
@@ -155,32 +156,24 @@
 		<!-- Scheme Details section -->
 		<section class="mx-3">
 			<ResultItem
+				categoryContainerStyle="flex-1 flex"
 				class="border-none !p-0 !pb-2"
 				data={sip}
 				categoryName={`${sipCount > 1 ? '' : sip?.schemePlan?.toLowerCase()}`}
 				categoryStyle="text-[10px] capitalize"
-				logoStyle="w-9 h-9 p-0.5"
+				logoStyle="w-9 h-9"
 			>
 				<div slot="schemeInfo" />
 				<svelte:fragment slot="schemeLogo">
 					{#if sipCount > 1}
-						<img
-							src={sip?.logoUrl}
-							alt="logo"
-							class="mr-3 h-9 w-9 rounded-full border object-cover p-0.5 shadow-csm group-hover:bg-white"
-						/>
+						<SchemeLogo size="sm" src={sip?.logoUrl} alt="logo" />
 						<div
-							class="-ml-7 mr-3 flex h-9 w-9 items-center justify-center rounded-full border bg-white object-cover p-0.5 text-xs font-normal opacity-100 shadow-csm group-hover:bg-white"
+							class="-ml-7 mr-3 flex h-12 w-12 items-center justify-center rounded-full border bg-white object-cover p-0.5 text-xs font-normal opacity-100 shadow-csm group-hover:bg-white"
 						>
 							+ {sipCount - 1}
 						</div>
 					{:else}
-						<img
-							src={sip?.logoUrl}
-							alt="logo"
-							class="mr-1 h-9 w-9 object-cover p-1"
-							loading="lazy"
-						/>
+						<SchemeLogo size="sm" src={sip?.logoUrl} alt="logo" />
 					{/if}
 				</svelte:fragment>
 				<span slot="ratingSection" />

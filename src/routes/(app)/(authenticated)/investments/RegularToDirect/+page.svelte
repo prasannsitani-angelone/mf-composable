@@ -19,6 +19,7 @@
 		switchToDirectFundClickAnalytics,
 		switchToDirectScreenImpressionAnalytics
 	} from '../analytics';
+	import SchemeLogo from '$components/SchemeLogo.svelte';
 
 	export let data: import('./$types').PageData;
 
@@ -123,7 +124,7 @@
 					on:click={() => switchFund(scheme)}
 				>
 					<div class="flex flex-row items-center">
-						<img class="mr-1 h-9 w-9" src={scheme.logoUrl} alt="Scheme Logo" />
+						<SchemeLogo size="xs" src={scheme.logoUrl} alt="Scheme Logo" />
 						<div class="mr-1 text-sm font-normal text-black-title">{scheme.schemeName}</div>
 					</div>
 					<div class="flex flex-row items-center text-sm font-medium text-blue-primary">

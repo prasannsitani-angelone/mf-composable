@@ -82,7 +82,7 @@
 		itemStyle="items-start !px-0"
 		categoryContainerStyle="overflow-hidden"
 		containerStyle="w-[70%] !pr-0"
-		logoStyle="w-9 h-9"
+		logoStyle="w-12 h-12"
 		titleStyle="font-normal overflow-hidden text-ellipsis whitespace-nowrap"
 		categoryStyle="font-normal"
 	>

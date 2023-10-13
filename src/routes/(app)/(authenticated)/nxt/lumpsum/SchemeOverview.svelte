@@ -10,6 +10,7 @@
 	import RocketIcon from '$lib/images/icons/RocketIcon.svelte';
 	import SchemeInformationIcon from '$lib/images/icons/SchemeInformationIcon.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	import SchemeLogo from '$components/SchemeLogo.svelte';
 
 	export let schemeDetails: SchemeDetails;
 	let showSchemeInfoModal = false;
@@ -56,11 +57,7 @@
 	{/if}
 	<div class="flex items-center justify-between">
 		<div class="flex items-center p-6 pb-0">
-			<div
-				class="flex h-12 w-12 items-center justify-center rounded-full border border-grey bg-white shadow-csm"
-			>
-				<img src={schemeDetails?.logoUrl} alt={schemeDetails?.schemeName} />
-			</div>
+			<SchemeLogo src={schemeDetails?.logoUrl} alt={schemeDetails?.schemeName} />
 			<div class="mx-3">
 				<div class="text-sm uppercase text-grey-body">
 					{schemeDetails?.categoryName} • {schemeDetails?.reInvestmentPlan}

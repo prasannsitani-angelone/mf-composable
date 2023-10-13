@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { SchemeCardItems } from '../type';
+	import SchemeLogo from '$components/SchemeLogo.svelte';
 
 	export let logoUrl: string;
 	export let schemePlan = '';
@@ -12,9 +13,7 @@
 	class={`w-full rounded border border-grey-line bg-white px-2 py-3 sm:px-4 sm:py-6 ${clazz}`}
 >
 	<div class="mb-2 flex w-full flex-row items-center">
-		<div class="mr-2 h-8 w-8 flex-none rounded-full border border-grey-line bg-white">
-			<img alt="Bank Logo" src={logoUrl} class="h-full w-full object-cover" />
-		</div>
+		<SchemeLogo size="xs" src={logoUrl} alt="Bank logo" />
 		<div class="flex flex-col">
 			<div class="text-xs font-normal text-grey-body">{schemePlan}</div>
 			<div class="text-sm font-normal text-black-title">{schemeName}</div>

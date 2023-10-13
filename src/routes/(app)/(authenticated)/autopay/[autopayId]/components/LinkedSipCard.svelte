@@ -1,5 +1,6 @@
 <script lang="ts">
 	import RightArrowDarkIcon from '$lib/images/icons/RightArrowDarkIcon.svelte';
+	import SchemeLogo from '$components/SchemeLogo.svelte';
 
 	export let name = '';
 	export let subtext = '';
@@ -10,10 +11,7 @@
 	<article class="flex items-center">
 		<slot name="leftSection">
 			<section class="flex items-center justify-between">
-				<div class="flex-1 rounded-full border border-grey">
-					<img src={logoUrl} alt="logo" class="h-9 w-9" />
-				</div>
-
+				<SchemeLogo size="xs" src={logoUrl} alt="logo" />
 				<article class="ml-2 flex flex-col items-start">
 					<div class="w-52 text-sm font-normal">
 						{name}

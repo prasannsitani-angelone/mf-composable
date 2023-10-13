@@ -24,7 +24,7 @@
 			logoUrl: logoUrl
 		}}
 		categoryStyle="text-[10px] capitalize"
-		logoStyle="w-9 h-9 p-0.5 !mr-2"
+		logoStyle="w-12 h-12"
 		class="!border-b-0 !p-4 md:cursor-pointer"
 		on:click={navigateToDetailsPage}
 	>

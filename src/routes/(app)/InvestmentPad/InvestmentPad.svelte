@@ -113,6 +113,7 @@
 	import { getPrimaryAccountMandateData } from '$lib/utils/helpers/emandate';
 	import IntegeratedFlowPopup from './OrderPadComponents/IntegeratedFlowPopup.svelte';
 	import SelectedBankDetails from '$components/Payment/SelectedBankDetails.svelte';
+	import SchemeLogo from '$components/SchemeLogo.svelte';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -1504,11 +1505,7 @@
 			>
 				<div class="flex flex-row justify-between">
 					<div class="flex flex-row">
-						<div
-							class="mr-3 flex h-9 w-9 min-w-[36px] items-center justify-center rounded-full shadow-csm"
-						>
-							<img src={schemeData?.logoUrl} alt="schemelogo" />
-						</div>
+						<SchemeLogo size="xs" src={schemeData?.logoUrl} alt="schemelogo" />
 						<div class="mr-3 text-sm font-normal text-black-title">{schemeData.schemeName}</div>
 					</div>
 					{#if schemeData?.returns3yr > 0}
@@ -1833,9 +1830,7 @@
 			</div>
 			<div class=" flex flex-row justify-between">
 				<div class="flex flex-row">
-					<div class="mr-2.5 flex h-8 w-8 min-w-[32px] items-center justify-center">
-						<img src={schemeData?.logoUrl} alt="schemelogo" />
-					</div>
+					<SchemeLogo size="xs" src={schemeData?.logoUrl} alt="schemelogo" />
 					<div class="trucateTo2Line mr-2.5 text-sm font-normal text-black-title">
 						{schemeData?.schemeName}
 					</div>

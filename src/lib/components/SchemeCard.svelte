@@ -29,7 +29,7 @@
 	class="flex items-start justify-between {$$props.class}"
 >
 	{#if showLogo}
-		<SchemeLogo src={schemes?.logoUrl} alt={schemes?.schemeName} />
+		<SchemeLogo size="sm" src={schemes?.logoUrl} alt={schemes?.schemeName} />
 	{/if}
 	<div class="m-0 mr-auto flex flex-col">
 		<slot name="chip-overview">

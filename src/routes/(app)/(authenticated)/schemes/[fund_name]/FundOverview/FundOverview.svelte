@@ -102,7 +102,7 @@
 			headingTertiary={schemeDetails?.reInvestmentPlan}
 		/>
 		<div class="mb-6 flex items-start justify-between sm:items-center lg:mt-6">
-			<SchemeLogo src={schemeDetails?.logoUrl} alt={schemeDetails?.schemeName} />
+			<SchemeLogo size="sm" src={schemeDetails?.logoUrl} alt={schemeDetails?.schemeName} />
 			<div class="m-0 mr-auto flex flex-col">
 				<h1 class="text-base font-normal text-black-title sm:text-lg">
 					{schemeDetails?.schemeName}

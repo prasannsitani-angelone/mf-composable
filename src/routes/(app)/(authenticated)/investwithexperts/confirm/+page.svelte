@@ -27,6 +27,7 @@
 		payNowClickAnalytics
 	} from './analytics';
 	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
+	import SchemeLogo from '$components/SchemeLogo.svelte';
 
 	export let data: import('./$types').PageData;
 
@@ -260,11 +261,7 @@
 								{#each basket.schemes as scheme, index (index)}
 									<div class="flex flex-row text-sm font-normal text-black-title">
 										<div class="flex w-2/3 flex-row">
-											<div
-												class="flex h-6 w-6 min-w-[24px] flex-row items-center justify-center rounded-full bg-white shadow-csm"
-											>
-												<img src={scheme.logoUrl} height="100%" width="100%" alt="scheme logo" />
-											</div>
+											<SchemeLogo size="xs" src={scheme.logoUrl} alt="scheme logo" />
 											<div class="ml-2">{scheme.schemeName}</div>
 										</div>
 										<div class="w-1/3 text-end">₹{addCommasToAmountString(scheme.amount)}</div>
@@ -317,11 +314,12 @@
 					<div class="flex w-full flex-col bg-white px-3 py-4">
 						<div class="flex flex-row">
 							<div class="mr-2 flex max-w-[56px] flex-row">
-								<div
-									class="flex h-9 w-9 min-w-[36px] flex-row items-center justify-center rounded-full border border-grey-line bg-white shadow-csm"
-								>
-									<img src={basket.schemes?.[0].logoUrl} alt="scheme logo" />
-								</div>
+								<SchemeLogo
+									class="!mr-0"
+									size="xs"
+									src={basket.schemes?.[0].logoUrl}
+									alt="scheme logo"
+								/>
 								{#if basket.schemes?.length > 1}
 									<div
 										class="relative left-[-16px] flex h-9 w-9 min-w-[36px] flex-row items-center justify-center rounded-full border border-grey-line bg-white text-xs shadow-csm"

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { IOrderDetails } from '$lib/types/IOrderDetails';
 	import { SwitchOrderTitleCard } from 'svelte-components';
+	import SchemeLogo from '$components/SchemeLogo.svelte';
 	let orderDetails: IOrderDetails;
 
 	export { orderDetails };
@@ -8,11 +9,7 @@
 
 {#if orderDetails?.transactionType?.toUpperCase() !== 'SWITCH'}
 	<div class="flex items-center pb-3">
-		<div
-			class={`mr-3 flex h-12 w-12 shrink-0 items-center rounded-full border border-grey-line shadow-csm group-hover:bg-white ${$$props.class}`}
-		>
-			<img src={orderDetails?.logoUrl} loading={'lazy'} width="48" height="48" alt="logo" />
-		</div>
+		<SchemeLogo src={orderDetails?.logoUrl} alt="logo" />
 		<p class="text-sm text-black-title md:text-base">{orderDetails?.schemeName}</p>
 	</div>
 {:else}

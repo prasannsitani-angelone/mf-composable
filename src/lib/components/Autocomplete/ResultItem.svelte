@@ -1,5 +1,6 @@
 <script lang="ts">
 	import StarIcon from '$lib/images/icons/StarIcon.svelte';
+	import SchemeLogo from '$components/SchemeLogo.svelte';
 
 	interface dataObj {
 		logoUrl: string;
@@ -32,15 +33,9 @@
 		: 'items-center justify-between border-b lg:border-none'} {$$props.class || ''}"
 	on:click
 >
-	<section class="flex pr-8 {containerStyle} {itemStyle ? itemStyle : 'items-center'}">
+	<section class="flex pr-4 {containerStyle} {itemStyle ? itemStyle : 'items-center'}">
 		<slot name="schemeLogo">
-			<img
-				src={data?.logoUrl || logoUrl}
-				alt="logo"
-				class="mr-3 h-12 w-12 rounded-full border object-cover p-2 shadow-csm group-hover:bg-white {logoStyle ||
-					''}"
-				loading="lazy"
-			/>
+			<SchemeLogo src={data?.logoUrl || logoUrl} alt="logo" class={logoStyle} />
 		</slot>
 		<div class={categoryContainerStyle}>
 			<slot name="schemeInfo">

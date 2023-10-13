@@ -10,6 +10,7 @@
 	import type { IMandateDetails } from './type';
 	import type { IOrderDetails } from '$lib/types/IOrderDetails';
 	import type { BankDetailsEntity, UserProfile } from '$lib/types/IUserProfile';
+	import SchemeLogo from '$components/SchemeLogo.svelte';
 
 	export let schemeDetails: SchemeDetails;
 	export let mandateDetails: IMandateDetails;
@@ -39,11 +40,7 @@
 <div class="mt-3 rounded bg-white sm:mt-0">
 	<p class="border-b p-4">Order Details</p>
 	<div class="flex items-center gap-3 border-b p-6">
-		<div
-			class="flex h-12 w-16 items-center justify-center rounded-full border border-grey bg-white shadow-csm"
-		>
-			<img src={schemeDetails?.logoUrl} alt={schemeDetails?.schemeName} height="48" width="48" />
-		</div>
+		<SchemeLogo src={schemeDetails?.logoUrl} alt={schemeDetails?.schemeName} />
 		<div class="">
 			<ChipOverview
 				headingPrimary={schemeDetails?.categoryName}

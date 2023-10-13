@@ -9,6 +9,7 @@
 
 	import { goto } from '$app/navigation';
 	import type { IRetryPaymentNudge } from '$lib/types/INudge';
+	import SchemeLogo from '$components/SchemeLogo.svelte';
 	let orderCount = 0;
 	let order: IRetryPaymentNudge;
 
@@ -62,22 +63,14 @@
 				<svelte:fragment slot="schemeLogo">
 					{#if orderCount > 1}
 						<div class="w-18 relative">
-							<img
-								src={order.logoUrl}
-								alt="logo"
-								class="relative mr-3 h-12 w-12 rounded-full border object-cover p-2 shadow-csm group-hover:bg-white"
-							/>
+							<SchemeLogo src={order.logoUrl} alt="logo" />
 							<span
 								class="absolute left-6 top-0 z-10 mr-3 h-12 w-12 rounded-full border bg-white object-cover py-4 text-center text-xs font-normal shadow-csm"
 								>+ {orderCount - 1}</span
 							>
 						</div>
 					{:else}
-						<img
-							src={order.logoUrl}
-							alt="logo"
-							class="relative mr-3 h-12 w-12 rounded-full border object-cover p-2 shadow-csm group-hover:bg-white"
-						/>
+						<SchemeLogo src={order.logoUrl} alt="logo" />
 					{/if}
 				</svelte:fragment>
 

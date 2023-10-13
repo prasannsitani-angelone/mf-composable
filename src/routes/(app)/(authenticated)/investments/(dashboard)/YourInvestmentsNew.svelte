@@ -155,13 +155,7 @@
 					>
 						<div class="flex w-full max-sm:pb-3 sm:w-[71%] sm:pr-[2%]">
 							<div class="flex w-[75%] items-center sm:w-[82%]">
-								<SchemeLogo
-									alt="bank logo"
-									src={schemes.logoUrl}
-									{schemes}
-									class="!mr-2 !h-9 !w-9 items-center"
-									imageClass="h-9 w-9"
-								/>
+								<SchemeLogo size="sm" alt="bank logo" src={schemes.logoUrl} />
 								<h3
 									class="this-scheme-name line-clamp-2 whitespace-normal pr-3 text-sm font-normal text-black-title sm:pr-8 sm:text-base"
 								>

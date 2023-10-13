@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Button from '$components/Button.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
+	import SchemeLogo from '$components/SchemeLogo.svelte';
 
 	export let items: number;
 	export let totalAmount: number;
@@ -11,11 +12,7 @@
 <div class="flex flex-col rounded border border-grey-line bg-white px-4 py-3 shadow-csm sm:py-6">
 	<div class="font-sm mb-2 flex flex-row items-center font-normal text-black-title">
 		<div class="flex max-w-[56px] flex-row">
-			<div
-				class="flex h-9 w-9 min-w-[36px] flex-row items-center justify-center rounded-full border border-grey-line bg-white shadow-csm"
-			>
-				<img src={schemeLogoUrl} alt="scheme logo" />
-			</div>
+			<SchemeLogo size="xs" src={schemeLogoUrl} alt="scheme logo" />
 			{#if items > 1}
 				<div
 					class="relative left-[-16px] flex h-9 w-9 min-w-[36px] flex-row items-center justify-center rounded-full border border-grey-line bg-white text-xs shadow-csm"

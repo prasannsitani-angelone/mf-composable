@@ -63,12 +63,7 @@
 	</div>
 	<div class="col-span-1 col-start-2 row-span-1 row-start-1">
 		<div class="flex sm:items-center">
-			<SchemeLogo
-				src={cartItem?.logoUrl}
-				alt={cartItem?.schemeName}
-				class="max-sm:h-9 max-sm:w-9"
-				imageClass="max-sm:!h-9"
-			/>
+			<SchemeLogo size="xs" src={cartItem?.logoUrl} alt={cartItem?.schemeName} />
 			<h3 class={`whitespace-normal text-sm font-normal text-black-title`}>
 				{cartItem?.schemeName}
 			</h3>

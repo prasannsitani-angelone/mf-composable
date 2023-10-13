@@ -4,6 +4,7 @@
 	import { getDateSuperscript } from '$lib/utils/helpers/date';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
+	import SchemeLogo from '$components/SchemeLogo.svelte';
 
 	export let schemeLogo = '';
 	export let schemeName = '';
@@ -21,11 +22,7 @@
 		class="grid w-full grid-cols-[55%_45%] gap-y-2 border-b border-grey-line px-3 py-3 sm:grid-cols-[46%_18%_18%_18%] sm:items-center sm:px-6 sm:py-4"
 	>
 		<div class="col-start-1 row-start-1 flex flex-row items-center">
-			<div
-				class="mr-2 flex h-6 w-6 min-w-[24px] items-center rounded-full border border-grey-line bg-white shadow-csm sm:h-12 sm:w-12 sm:min-w-[48px]"
-			>
-				<img src={schemeLogo} alt="scheme logo" class="h-full w-full" />
-			</div>
+			<SchemeLogo size="xs" src={schemeLogo} alt="scheme logo" />
 			<div class="text-sm font-normal text-black-title">{schemeName}</div>
 		</div>
 		<div

@@ -1,13 +1,22 @@
 <script lang="ts">
+	enum IconSize {
+		sm = 'h-12 w-12',
+		xs = 'h-9 w-9'
+	}
 	let src: string;
 	let alt = '';
 	let lazy = 'lazy';
 	let imageClass = '';
-	export { src, alt, lazy, imageClass };
+	let size: string = IconSize.sm;
+	export { src, alt, lazy, imageClass, size };
+	let iconSize: string;
+	$: {
+		iconSize = IconSize[size] || IconSize.sm;
+	}
 </script>
 
 <div
-	class={`mr-3 flex h-12 w-12 shrink-0 items-center rounded-full border border-grey-line object-cover shadow-csm group-hover:bg-white ${$$props.class}`}
+	class="mr-3 flex {iconSize} shrink-0 items-center justify-center rounded-full border border-grey-line object-cover group-hover:bg-white {$$props.class}"
 >
-	<img {src} loading={lazy} width="48" height="48" {alt} class={imageClass} />
+	<img {src} loading={lazy} {alt} class=" aspect-square {imageClass}" />
 </div>
