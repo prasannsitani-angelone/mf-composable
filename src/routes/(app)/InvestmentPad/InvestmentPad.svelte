@@ -47,8 +47,11 @@
 	} from './analytics/changePayment';
 	import {
 		paymentFailedScreenAnalytics,
-		paymentFailedScreenCloseButtonAnalytics,
-		upiInitiateScreenAnalytics
+		paymentFailedRetrySameMethodCtaClickAnalytics,
+		upiInitiateScreenAnalytics,
+		paymentFailedUseDifferentMethodCtaClickAnalytics,
+		wrongBankPaymentFailedCautionModalImpressionAnalytics,
+		wrongBankPaymentFailedCautionModalCtaClickAnalytics
 	} from './analytics/paymentFlow';
 	import {
 		changePaymentMethodButtonClickAnalytics,
@@ -411,12 +414,39 @@
 		}
 	};
 
+	const wrongBankPaymentFailedCautionModalImpressionAnalyticsFunc = () => {
+		const eventMetaData = {
+			message: 'Your Last payment failed as you selected a different bank account in your UPI'
+		};
+		wrongBankPaymentFailedCautionModalImpressionAnalytics(eventMetaData);
+	};
+
+	const wrongBankPaymentFailedCautionModalCtaClickAnalyticsFunc = () => {
+		const eventMetaData = {
+			Fundname: schemeData?.schemeName,
+			ISIN: schemeData?.isin,
+			Amount: amount,
+			SIPData: calendarDate?.toString(),
+			firstTimePayment: firstSipPayment,
+			InvestmentType: activeTab === 'SIP' ? 'SIP' : 'OTI',
+			PaymentMethod: paymentHandler?.paymentMode,
+			Bank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName
+		};
+		wrongBankPaymentFailedCautionModalCtaClickAnalytics(eventMetaData);
+	};
+
 	const toggleShowBeforePaymentAckModal = () => {
 		showBeforePaymentAckModal = !showBeforePaymentAckModal;
+
+		if (showBeforePaymentAckModal) {
+			wrongBankPaymentFailedCautionModalImpressionAnalyticsFunc();
+		}
 	};
 
 	const setBeforePaymentAckDone = () => {
 		beforePaymentAckDone = true;
+		wrongBankPaymentFailedCautionModalCtaClickAnalyticsFunc();
+
 		toggleShowBeforePaymentAckModal();
 		handleInvestClick(paymentHandler?.upiId);
 	};
@@ -648,7 +678,12 @@
 	};
 
 	const handleInvestClick = (inputId: string) => {
-		if (previousWrongBankFailedPayment && !beforePaymentAckDone && firstSipPayment) {
+		if (
+			previousWrongBankFailedPayment &&
+			!beforePaymentAckDone &&
+			firstSipPayment &&
+			paymentHandler?.paymentMode !== 'NET_BANKING'
+		) {
 			toggleShowBeforePaymentAckModal();
 			return;
 		}
@@ -836,7 +871,8 @@
 			PaymentBank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName,
 			PaymentPending:
 				'If the money has been debited from your bank account, please do not worry, it will be refunded automatically',
-			SchemeURL: getDeeplinkForUrl(schemeDetailsUrl)
+			SchemeURL: getDeeplinkForUrl(schemeDetailsUrl),
+			PGErrorCode: error?.code
 		});
 	};
 
@@ -959,9 +995,6 @@
 			getPreviousWrongBankFailedPayment();
 		}
 
-		if (error.type === 'PAYMENT_FAILED') {
-			paymentFailedScreenCloseButtonAnalytics();
-		}
 		error.heading = '';
 		error.subHeading = '';
 		error.visible = false;
@@ -975,12 +1008,32 @@
 		integeratedFlowError.visible = false;
 	};
 
+	const paymentFailedRetrySameMethodCtaClickAnalyticsFunc = () => {
+		const eventMetaData = {
+			Fundname: schemeData?.schemeName,
+			ISIN: schemeData?.isin,
+			Amount: amount,
+			SIPData: calendarDate?.toString(),
+			firstTimePayment: firstSipPayment,
+			InvestmentType: activeTab === 'SIP' ? 'SIP' : 'OTI',
+			PaymentMethod: paymentHandler?.paymentMode,
+			Bank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName
+		};
+
+		paymentFailedRetrySameMethodCtaClickAnalytics(eventMetaData);
+	};
+
 	const retryWithSamePaymentMethod = () => {
 		closeErrorPopup();
+
+		paymentFailedRetrySameMethodCtaClickAnalyticsFunc();
+
 		handleInvestClick(paymentHandler?.upiId);
 	};
 
 	const handleChangePaymentMethodRetryClick = () => {
+		paymentFailedUseDifferentMethodCtaClickAnalytics();
+
 		closeErrorPopup(true);
 		showChangePayment = true;
 	};
