@@ -18,6 +18,7 @@
 	import { BrowserSupportDefault, isBrowserSupported } from '$lib/utils/helpers/browserSupport';
 	import LazyComponent from '$components/LazyComponent.svelte';
 	import { hydratedStore } from '$lib/stores/AppHydratedStore';
+	import { urlStore } from '$lib/stores/UrlStore';
 	export let data;
 	interface WebVitals {
 		type: string;
@@ -26,8 +27,17 @@
 	$: webVitals = <WebVitals[]>[];
 
 	// Update store with Spark headers
-	const { scheme, host, deviceType, token, sparkHeaders, isMissingHeaders, isGuest, sparkQuery } =
-		data;
+	const {
+		scheme,
+		host,
+		deviceType,
+		token,
+		sparkHeaders,
+		isMissingHeaders,
+		isGuest,
+		sparkQuery,
+		urlSource
+	} = data;
 	// initialising logging for routes outside of (app) like login page
 	Logger.init({
 		batchSize: browser ? 10 : 1,
@@ -115,6 +125,7 @@
 		// update data in stores
 		appStore.updateStore({ ...sparkHeaders });
 		deviceStore.updateStore({ ...deviceType });
+		urlStore.updateStore({ urlSource });
 		Analytics.init({
 			batchSize: 10,
 			baseUrl: '',

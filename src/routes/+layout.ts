@@ -3,6 +3,7 @@ import type { PageLoad } from './$types';
 import { v4 as uuidv4 } from 'uuid';
 import { browser } from '$app/environment';
 import sessionStorage from '$lib/utils/sessionStorage';
+import { decodeToObject } from '$lib/utils/helpers/params';
 
 const isObjectWithNonEmptyKeys = (obj: Record<string, string | null>) => {
 	try {
@@ -69,12 +70,18 @@ const hydrateAppVariables = (sparkHeaders: SparkStore, sparkQuery: SparkStore) =
 		return sparkHeaders;
 	}
 };
-export const load = (async ({ data }) => {
+export const load = (async ({ data, url }) => {
+	const urlParams = url.searchParams.get('params') || url.searchParams.get('param') || '';
+
+	const decodedParams = decodeToObject(urlParams);
+	const { urlSource } = decodedParams || {};
+
 	const hydrated = browser
 		? hydrateAppVariables(data.sparkHeaders, data.sparkQuery)
 		: data.sparkHeaders;
 	return {
 		...data,
-		sparkHeaders: hydrated
+		sparkHeaders: hydrated,
+		urlSource
 	};
 }) satisfies PageLoad;

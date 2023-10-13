@@ -5,6 +5,7 @@ import { profileStore } from '$lib/stores/ProfileStore';
 import { appStore } from '$lib/stores/SparkStore';
 import { deviceStore } from '$lib/stores/DeviceStore';
 import { PUBLIC_ANALYTICS_TOPIC, PUBLIC_ENV_NAME } from '$env/static/public';
+import { urlStore } from '$lib/stores/UrlStore';
 
 class Analytics extends BaseLogger {
 	constructor() {
@@ -44,6 +45,7 @@ class Analytics extends BaseLogger {
 				platformVariant: appStore.platformvariant(),
 				platformVersion: appStore.platformversion()
 			},
+			urlSource: urlStore?.urlSource(),
 			eventList: logs
 		};
 	};
