@@ -29,7 +29,7 @@
 	<div
 		class="flex w-full flex-col items-center overflow-y-auto rounded-none rounded-t-2xl bg-white p-4 pt-8 shadow-clg sm:w-120 sm:rounded-lg"
 	>
-		<div class="text-2xl font-semibold text-black-title">Start Your SIP with Autopay</div>
+		<div class="text-2xl font-medium text-black-title">Start Your SIP with Autopay</div>
 		<UpiMandateIcon class="mt-4 h-[195px] w-[258px]" />
 		<div class="mt-4 flex flex-col gap-4">
 			{#each instructions as instruction, index (index)}

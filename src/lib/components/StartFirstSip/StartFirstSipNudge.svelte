@@ -30,7 +30,7 @@
 	data-testid="startFirstSipNudge"
 >
 	<div class="flex flex-1 flex-col">
-		<p class="mb-2 text-base font-semibold text-black-title">{nudgeData.heading}</p>
+		<p class="mb-2 text-base font-medium text-black-title">{nudgeData.heading}</p>
 		<p class="mb-2 text-xs font-medium text-grey-body">{nudgeData.description}</p>
 
 		<Button

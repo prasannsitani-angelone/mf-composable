@@ -35,11 +35,11 @@
 	let queryParamsObj: videoQuery;
 	let playVideoInterval;
 
-	$: if (showVideoSection && queryParamsObj?.storyPlayer !== 'true') {
-		setTimeout(() => {
-			crossButtonClicked(false);
-		});
-	}
+	// $: if (showVideoSection && queryParamsObj?.storyPlayer !== 'true') {
+	// 	setTimeout(() => {
+	// 		crossButtonClicked(false);
+	// 	});
+	// }
 
 	afterUpdate(() => {
 		queryParamsObj = getQueryParamsObj();
