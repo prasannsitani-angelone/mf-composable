@@ -2,11 +2,15 @@
 	import type { PageData } from '../$types';
 	import { SEO } from 'svelte-components';
 	import { page } from '$app/stores';
-	import { startFirstSipScreenImpressionAnalytics } from '$lib/analytics/startFirstSip/startFirstSip';
+	import {
+		startFirstSipSchemeClickAnalytics,
+		startFirstSipScreenImpressionAnalytics
+	} from '$lib/analytics/startFirstSip/startFirstSip';
 	import TrendingCarouselItems from '$components/TrendingFunds/TrendingCarouselItems.svelte';
 	import StartFirstSipSkeleton from './StartFirstSipSkeleton.svelte';
 	import StartFirstSipStatic from './StartFirstSipStatic.svelte';
 	import { onMount } from 'svelte';
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 
 	export let data: PageData;
 
@@ -16,6 +20,14 @@
 	onMount(() => {
 		startFirstSipScreenImpressionAnalytics();
 	});
+
+	const schemeCardClicked = (scheme: SchemeDetails, position: number) => {
+		startFirstSipSchemeClickAnalytics({
+			MinSIPAmount: `${scheme.minSipAmount}`,
+			ISIN: `${scheme.isin}`,
+			rank: `${position}`
+		});
+	};
 </script>
 
 {#await data?.api?.schemePack}
@@ -35,11 +47,12 @@
 					Select a fund based on your goals and start an SIP
 				</p>
 
-				{#each schemePack as scheme}
+				{#each schemePack as scheme, index}
 					<TrendingCarouselItems
 						clazz="rounded-lg border p-3 bg-white mb-2"
 						schemes={scheme}
 						index="1"
+						on:onCardClick={() => schemeCardClicked(scheme, index + 1)}
 					>
 						<div slot="topRightSection" />
 						<div slot="cardFooter">

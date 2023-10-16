@@ -37,7 +37,7 @@
 >
 	<div class="flex flex-row justify-between">
 		<div class="flex flex-row">
-			<SchemeLogo size="xs" src={schemeData?.logoUrl} alt="schemelogo" />
+			<SchemeLogo size="sm" src={schemeData?.logoUrl} alt="schemelogo" />
 			<div class="mr-3 line-clamp-2 self-center text-sm font-normal text-black-title">
 				{schemeData.schemeName}
 			</div>
