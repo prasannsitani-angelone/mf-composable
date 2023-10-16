@@ -53,7 +53,7 @@ export const useFetch = async (
 	fetchServer?: FetchType,
 	isNonJsonFetch = false,
 	// Api timeput of 15second for Browser and 5second for Server
-	timeout = browser ? 15000 : 5000
+	timeout = browser ? 60000 : 5000
 ) => {
 	const baseFetch = fetchServer || fetch;
 	const opts = {
