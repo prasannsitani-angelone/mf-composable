@@ -1,7 +1,6 @@
 <script lang="ts">
 	import UPIMandateIcon from '$lib/images/icons/UPIMandateIcon.svelte';
-	import { BtnSize } from 'svelte-components';
-	import Button from '$components/Button.svelte';
+	import { BtnSize, Button } from 'svelte-components';
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();

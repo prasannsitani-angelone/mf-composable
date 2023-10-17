@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Start4SipsNudgeType } from '$lib/types/INudge';
 	import CuratedInvestmentCardBackground from '../../images/CuratedInvestmentCardBackground.svelte';
-	import Button from '$components/Button.svelte';
+	import { Button } from 'svelte-components';
 	import { onMount } from 'svelte';
 	import {
 		curatedCardClickEvent,

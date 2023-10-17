@@ -21,8 +21,7 @@
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
-	import { WMSIcon } from 'svelte-components';
-	import Button from '$components/Button.svelte';
+	import { Button, WMSIcon } from 'svelte-components';
 
 	export let data;
 	let selectedAccount: number;

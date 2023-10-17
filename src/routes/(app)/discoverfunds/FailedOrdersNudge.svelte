@@ -4,7 +4,7 @@
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { encodeObject } from '$lib/utils/helpers/params';
-	import Button from '$components/Button.svelte';
+	import { Button } from 'svelte-components';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	import { goto } from '$app/navigation';

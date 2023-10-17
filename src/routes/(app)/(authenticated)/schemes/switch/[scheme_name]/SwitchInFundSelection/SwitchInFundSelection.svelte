@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Button from '$components/Button.svelte';
+	import { Button } from 'svelte-components';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	let toggleSwitchCue: () => void;

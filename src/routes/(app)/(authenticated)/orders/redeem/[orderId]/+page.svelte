@@ -3,8 +3,7 @@
 	import { goto } from '$app/navigation';
 	import ErrorView from '$components/ErrorView.svelte';
 	import { base } from '$app/paths';
-	import { SEO, SwitchOrderTitleCard, SwitchOrderTile } from 'svelte-components';
-	import Button from '$components/Button.svelte';
+	import { SEO, SwitchOrderTitleCard, Button, SwitchOrderTile } from 'svelte-components';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	import OrderDetailLoader from '../../../orders/[orderId]/Loader/OrderDetailLoader.svelte';

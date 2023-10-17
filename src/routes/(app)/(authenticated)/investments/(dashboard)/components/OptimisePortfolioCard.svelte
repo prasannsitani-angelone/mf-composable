@@ -1,6 +1,5 @@
 <script>
-	import { BtnSize, PortfolioCard } from 'svelte-components';
-	import Button from '$components/Button.svelte';
+	import { BtnSize, Button, PortfolioCard } from 'svelte-components';
 	import OptimisePorfolioBg from '$lib/images/OptimisePortfolioBackground.svg';
 </script>
 

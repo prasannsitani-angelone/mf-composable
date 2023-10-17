@@ -8,8 +8,7 @@
 		firstSipCardGetStartedButtonClickAnalytics,
 		firstSipCardMountedAnalytics
 	} from '$lib/analytics/startFirstSip/startFirstSip';
-	import { BtnSize } from 'svelte-components';
-	import Button from '$components/Button.svelte';
+	import { BtnSize, Button } from 'svelte-components';
 
 	export let nudgeData: StartFirstSipNudgeType;
 	export let version: string;
