@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { Button, Overlay, WMSIcon } from 'svelte-components';
+	import { Overlay, WMSIcon } from 'svelte-components';
+	import Button from '$components/Button.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { stopExternalFundTrackingConfirmClickEvent } from './analytics.js';
 

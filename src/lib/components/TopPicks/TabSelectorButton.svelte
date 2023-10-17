@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { BtnSize, BtnVariant, Button } from 'svelte-components';
+	import { BtnSize, BtnVariant } from 'svelte-components';
+	import Button from '$components/Button.svelte';
 	import type { CategoryOptionsEntity } from '$lib/types/IDiscoverFunds.js';
 	import { topPicksCategoryImpressionEvent } from '$components/TopPicks/analytics';
 

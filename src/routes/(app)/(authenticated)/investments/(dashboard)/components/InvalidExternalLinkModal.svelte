@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { Button, Modal, WMSIcon } from 'svelte-components';
+	import { Modal, WMSIcon } from 'svelte-components';
+	import Button from '$components/Button.svelte';
 
 	export let openErrorModal = false;
 	const dispatch = createEventDispatcher();

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button } from 'svelte-components';
+	import Button from '$components/Button.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { stopExternalFundTrackingClickEvent } from './analytics.js';
 

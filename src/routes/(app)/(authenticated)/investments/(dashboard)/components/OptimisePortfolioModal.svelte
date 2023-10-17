@@ -3,12 +3,12 @@
 	import {
 		BtnSize,
 		BtnVariant,
-		Button,
 		Modal,
 		WMSIcon,
 		SkeletonRectangle,
 		SkeletonWrapper
 	} from 'svelte-components';
+	import Button from '$components/Button.svelte';
 	import PortfolioPerformace from '$lib/images/PortfolioPerformace.svg';
 	import type {
 		IOPtimsiePortfolioData,

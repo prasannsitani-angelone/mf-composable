@@ -6,7 +6,8 @@
 	import CalendarSmallIcon from '$lib/images/icons/CalendarSmallIcon.svelte';
 	import { goto } from '$app/navigation';
 	import { encodeObject } from '$lib/utils/helpers/params';
-	import { Button, CalendarComponent, Modal } from 'svelte-components';
+	import { CalendarComponent, Modal } from 'svelte-components';
+	import Button from '$components/Button.svelte';
 	import { onMount } from 'svelte';
 	import {
 		investWithExpertAmountDecrementEvent,

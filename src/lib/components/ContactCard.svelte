@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { contactEmail, contactNumber } from '$lib/constants/contactInfo';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
-	import { Button } from 'svelte-components';
+	import Button from '$components/Button.svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import type { FAQ } from '../../routes/(app)/faqs/type';
 	import { faqCallCtaClick, faqEmailCtaClick } from '$lib/analytics/faqs/faqs';

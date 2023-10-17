@@ -1,6 +1,7 @@
 <script lang="ts">
 	import MobileHeader from '$components/Headers/MobileHeader.svelte';
-	import { Button, WMSIcon } from 'svelte-components';
+	import { WMSIcon } from 'svelte-components';
+	import Button from '$components/Button.svelte';
 	import { goto } from '$app/navigation';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { page } from '$app/stores';

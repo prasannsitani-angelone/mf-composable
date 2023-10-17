@@ -5,7 +5,7 @@
 	import { SwitchOrderTitleCard } from 'svelte-components';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
-	import { Button } from 'svelte-components';
+	import Button from '$components/Button.svelte';
 	import { v4 as uuidv4 } from 'uuid';
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import TpinVerification from '$components/TpinFlow/TpinVerification.svelte';

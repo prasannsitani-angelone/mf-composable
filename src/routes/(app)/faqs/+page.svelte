@@ -1,7 +1,8 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { afterUpdate, onMount } from 'svelte';
-	import { Button, SEO, SkeletonRectangle } from 'svelte-components';
+	import { SEO, SkeletonRectangle } from 'svelte-components';
+	import Button from '$components/Button.svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	import type { FAQ, FaqParams } from './type';

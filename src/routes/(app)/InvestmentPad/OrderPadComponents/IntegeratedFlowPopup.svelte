@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Modal from '$components/Modal.svelte';
 	import UpiMandateIcon from '$lib/images/icons/UPIMandateIcon.svelte';
-	import { Button } from 'svelte-components';
+	import Button from '$components/Button.svelte';
 
 	export let onClose = () => undefined;
 	export let normalFlowFunc = () => undefined;

@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { WMSIcon, Button } from 'svelte-components';
+	import { WMSIcon } from 'svelte-components';
+	import Button from '$components/Button.svelte';
 
 	export let bankLogo = '';
 	export let bankName = '';

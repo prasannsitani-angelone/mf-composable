@@ -11,7 +11,8 @@
 	import ErrorView from '$components/ErrorView.svelte';
 	import { base } from '$app/paths';
 	import { TRANSACTION_TYPE } from '$lib/constants/transactionType';
-	import { Button, SEO } from 'svelte-components';
+	import { SEO } from 'svelte-components';
+	import Button from '$components/Button.svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	import RightArrowIcon from './RightArrowIcon.svelte';

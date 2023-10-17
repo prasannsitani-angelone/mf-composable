@@ -21,7 +21,8 @@
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
-	import { Button, WMSIcon } from 'svelte-components';
+	import { WMSIcon } from 'svelte-components';
+	import Button from '$components/Button.svelte';
 
 	export let data;
 	let selectedAccount: number;
@@ -235,7 +236,7 @@
 					<div class="mx-1 mt-6 text-center text-sm font-normal text-black-title">
 						{#if bankAccountsLength > 1}
 							<div>
-								Your bank does not support UPI Autopay. Please set up autopay with a different bank
+								Your bank does not support Autopay. Please set up autopay with a different bank
 								account.
 							</div>
 
@@ -266,8 +267,8 @@
 							</article>
 						{:else}
 							<div>
-								Your bank does not support UPI Autopay. Please complete your SIP payment manually on
-								the SIP date.
+								Your bank does not support Autopay. Please complete your SIP payment manually on the
+								SIP date.
 							</div>
 
 							<article class="mt-6 text-center">

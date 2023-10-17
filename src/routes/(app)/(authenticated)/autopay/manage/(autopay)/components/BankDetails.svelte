@@ -3,7 +3,7 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { Button } from 'svelte-components';
+	import Button from '$components/Button.svelte';
 	import Modal from '$components/Modal.svelte';
 	import BankSelectionPopup from '$components/BankSelectionPopup.svelte';
 	import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
