@@ -135,12 +135,18 @@
 
 <Button
 	{type}
-	class={`bgv btn border-0 text-sm !font-medium disabled:bg-opacity-50 ${BUTTONS?.get(variant)?.get(
-		color
-	)} uppercase ${clazz} ${size} rounded `}
+	{variant}
+	{color}
+	class={`${clazz} !font-medium`}
+	{size}
 	{style}
 	{disabled}
+	{text}
+	{startAdornment}
+	{endAdornment}
 	on:click={onClickHandler}
 >
-	<slot />
+	<svelte:fragment>
+		<slot />
+	</svelte:fragment>
 </Button>
