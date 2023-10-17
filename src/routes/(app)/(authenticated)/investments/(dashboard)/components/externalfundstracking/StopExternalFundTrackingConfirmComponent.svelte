@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { Button, Overlay, WMSIcon } from 'svelte-components';
+	import { Overlay, WMSIcon } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { stopExternalFundTrackingConfirmClickEvent } from './analytics.js';
 
@@ -36,10 +37,12 @@
 			{/each}
 		</ul>
 
-		<Button onClick={onDismissClicked} class=" mb-2 w-full sm:w-5/6">NO, KEEP TRACKING</Button>
+		<ButtonMedium onClick={onDismissClicked} class=" mb-2 w-full sm:w-5/6"
+			>NO, KEEP TRACKING</ButtonMedium
+		>
 
-		<Button onClick={onRemoveTrackingClicked} variant="transparent" class="mb-2">
+		<ButtonMedium onClick={onRemoveTrackingClicked} variant="transparent" class="mb-2">
 			YES, REMOVE
-		</Button>
+		</ButtonMedium>
 	</article>
 </Overlay>

@@ -5,7 +5,7 @@
 	import { SwitchOrderTitleCard } from 'svelte-components';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
-	import { Button } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import { v4 as uuidv4 } from 'uuid';
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import TpinVerification from '$components/TpinFlow/TpinVerification.svelte';
@@ -253,12 +253,12 @@
 		</article>
 	{/if}
 	<article class="mt-3 hidden sm:block">
-		<Button class="w-full" on:click={handleConfirmSwitch}>CONFIRM SWITCH</Button>
+		<ButtonMedium class="w-full" on:click={handleConfirmSwitch}>CONFIRM SWITCH</ButtonMedium>
 	</article>
 </section>
 
 <article class="fixed inset-0 top-auto mx-2 my-4 block justify-end md:hidden">
-	<Button class="w-full" on:click={handleConfirmSwitch}>CONFIRM SWITCH</Button>
+	<ButtonMedium class="w-full" on:click={handleConfirmSwitch}>CONFIRM SWITCH</ButtonMedium>
 </article>
 
 {#if showTpinVerificationModal && !error.visible}

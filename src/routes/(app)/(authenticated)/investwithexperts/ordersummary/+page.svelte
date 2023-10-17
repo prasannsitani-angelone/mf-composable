@@ -5,8 +5,8 @@
 	import type { PageData } from './$types';
 	import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
 	import { page } from '$app/stores';
-	import { Button } from 'svelte-components';
 	import { base } from '$app/paths';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import SkeletonLoader from './components/SkeletonLoader.svelte';
 	import OrdersAutoPayComponent from '$components/AutopaySetupTile/OrdersAutoPayComponent.svelte';
 
@@ -54,7 +54,9 @@
 		/>
 	{:else}
 		<div class="flex justify-center bg-white pb-4">
-			<Button variant="transparent" class="w-max" onClick={navigateToOrders}>GO TO ORDERS</Button>
+			<ButtonMedium variant="transparent" class="w-max" onClick={navigateToOrders}
+				>GO TO ORDERS</ButtonMedium
+			>
 		</div>
 	{/if}
 {/await}

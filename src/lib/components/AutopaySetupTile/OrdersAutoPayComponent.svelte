@@ -1,6 +1,6 @@
 <script lang="ts">
 	import UPIMandateIcon from '$lib/images/icons/UPIMandateIcon.svelte';
-	import { Button } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
@@ -23,13 +23,15 @@
 
 			<p class="mb-4 text-xs text-black-title">Automate your SIP payments in 2 simple steps</p>
 
-			<Button onClick={autoPayClick} class="w-full sm:w-[328px]">SET UP UPI AUTOPAY</Button>
+			<ButtonMedium onClick={autoPayClick} class="w-full sm:w-[328px]"
+				>SET UP UPI AUTOPAY</ButtonMedium
+			>
 		{:else}
 			<p class="mb-2 mt-6 text-sm font-medium text-black-title">Set Up Autopay Now</p>
 
 			<p class="mb-4 text-xs text-black-title">Make SIP payments automatically with Autopay</p>
 
-			<Button onClick={autoPayClick} class="w-full sm:w-[328px]">SET UP AUTOPAY</Button>
+			<ButtonMedium onClick={autoPayClick} class="w-full sm:w-[328px]">SET UP AUTOPAY</ButtonMedium>
 		{/if}
 	</div>
 </article>

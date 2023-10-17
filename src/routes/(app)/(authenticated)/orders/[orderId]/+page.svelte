@@ -11,7 +11,8 @@
 	import ErrorView from '$components/ErrorView.svelte';
 	import { base } from '$app/paths';
 	import { TRANSACTION_TYPE } from '$lib/constants/transactionType';
-	import { Button, SEO } from 'svelte-components';
+	import { SEO } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	import RightArrowIcon from './RightArrowIcon.svelte';
@@ -94,7 +95,7 @@
 							<OrderTimeLine items={ordersData?.orderStatusItems || []} />
 						</div>
 						{#if ordersData?.data?.transactionType?.toUpperCase() === TRANSACTION_TYPE.PURCHASE}
-							<Button
+							<ButtonMedium
 								color="white"
 								class="mt-2 !h-auto w-full !transform-none items-center justify-between !rounded-lg !px-3 !py-3 shadow-csm"
 								endAdornment={RightArrowIcon}
@@ -109,7 +110,7 @@
 										</div>
 									</div>
 								</div>
-							</Button>
+							</ButtonMedium>
 						{/if}
 						<OrderTransactions
 							orderDetails={ordersData.data}

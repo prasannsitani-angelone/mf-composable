@@ -1,6 +1,7 @@
 <script lang="ts">
 	import MobileHeader from '$components/Headers/MobileHeader.svelte';
-	import { Button, WMSIcon } from 'svelte-components';
+	import { WMSIcon } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import { goto } from '$app/navigation';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { page } from '$app/stores';
@@ -474,11 +475,11 @@
 		>
 			<div class="text-sm font-normal">Something went wrong. Please try again</div>
 
-			<Button
+			<ButtonMedium
 				variant="transparent"
 				class="text-sm font-normal text-white"
 				size="xs"
-				onClick={handleRetryButtonClick}>Retry</Button
+				onClick={handleRetryButtonClick}>Retry</ButtonMedium
 			>
 		</article>
 	{/if}

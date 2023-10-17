@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { stopExternalFundTrackingClickEvent } from './analytics.js';
 
@@ -13,7 +13,7 @@
 <div class="flex flex-col items-center {$$props.class} ">
 	<p class="text-xs font-normal text-grey-body">No longer want to track?</p>
 
-	<Button variant="transparent" size="btn-sm" class="pt-0" onClick={onTrackingClicked}>
+	<ButtonMedium variant="transparent" size="btn-sm" class="pt-0" onClick={onTrackingClicked}>
 		STOP TRACKING
-	</Button>
+	</ButtonMedium>
 </div>

@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { Button, Overlay, WMSIcon } from 'svelte-components';
+	import { Overlay, WMSIcon } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import TrendingCarouselItems from '$components/TrendingFunds/TrendingCarouselItems.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails.js';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
@@ -91,12 +92,12 @@
 				<div />
 			</svelte:fragment>
 		</TrendingCarouselItems>
-		<Button
+		<ButtonMedium
 			class={`!disabled:text-grey-disabled w-full rounded disabled:!bg-grey-line`}
 			onClick={onInvestMoreClicked}
 		>
 			INVEST MORE
-		</Button>
+		</ButtonMedium>
 
 		<section class="mx-3 mb-3 flex justify-center text-1xs font-normal text-black-title sm:mb-0">
 			<article class="flex items-center justify-center px-6 pt-2.5">

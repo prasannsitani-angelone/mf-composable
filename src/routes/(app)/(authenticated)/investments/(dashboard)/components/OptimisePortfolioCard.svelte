@@ -1,5 +1,6 @@
 <script>
-	import { BtnSize, Button, PortfolioCard } from 'svelte-components';
+	import { BtnSize, PortfolioCard } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import OptimisePorfolioBg from '$lib/images/OptimisePortfolioBackground.svg';
 </script>
 
@@ -12,8 +13,8 @@
 				<div class="mt-1 text-xs font-normal">
 					Take your portfolio to the next level by investing in this fund
 				</div>
-				<Button size={BtnSize.SM} class="mt-3 !bg-white !text-1xs !text-green-amount" on:click
-					>GET STARTED</Button
+				<ButtonMedium size={BtnSize.SM} class="mt-3 !bg-white !text-1xs !text-green-amount" on:click
+					>GET STARTED</ButtonMedium
 				>
 			</article>
 

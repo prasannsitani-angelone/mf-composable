@@ -1,7 +1,8 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { afterUpdate, onMount } from 'svelte';
-	import { Button, SEO, SkeletonRectangle } from 'svelte-components';
+	import { SEO, SkeletonRectangle } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	import type { FAQ, FaqParams } from './type';
@@ -164,13 +165,13 @@
 						{/each}
 
 						<article class="flex items-center justify-end py-4">
-							<Button
+							<ButtonMedium
 								variant="transparent"
 								class="!h-fit !min-h-0 cursor-default !px-0 md:cursor-pointer"
 								onClick={redirectToOrdersDashbboard}
 							>
 								VIEW ALL
-							</Button>
+							</ButtonMedium>
 
 							<WMSIcon class="ml-1" name="right-arrow" stroke="#3F5BD9" width={18} height={18} />
 						</article>
@@ -203,7 +204,7 @@
 					{/if}
 
 					{#each faqsArray as faq, index (index)}
-						<Button
+						<ButtonMedium
 							color="white"
 							class="flex !h-auto w-full !transform-none flex-nowrap justify-between rounded-none border-b-[1px] border-b-grey-line !px-0 !pb-2 !pt-3 text-left !font-normal !normal-case text-grey-body hover:!transform-none hover:!border-b-grey-line focus:!border-b-grey-line active:!transform-none md:!pb-5 md:!pt-5 {index ===
 								faqData?.data?.faqs?.length - 1 && 'border-none !pb-4 md:!pb-5'}"
@@ -215,18 +216,18 @@
 							<div>
 								<WMSIcon name="right-arrow" width={18} height={18} />
 							</div>
-						</Button>
+						</ButtonMedium>
 					{/each}
 
 					{#if !viewAll && faqData?.data?.faqs?.length > 5}
 						<article class="flex items-center justify-center py-4">
-							<Button
+							<ButtonMedium
 								variant="transparent"
 								class="!h-fit !min-h-0 cursor-default !px-0 md:cursor-pointer"
 								onClick={toggleViewAll}
 							>
 								VIEW ALL
-							</Button>
+							</ButtonMedium>
 						</article>
 					{/if}
 				</section>

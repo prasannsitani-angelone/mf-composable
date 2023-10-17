@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { contactEmail, contactNumber } from '$lib/constants/contactInfo';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
-	import { Button } from 'svelte-components';
+	import ButtonMedium from './ButtonMedium.svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import type { FAQ } from '../../routes/(app)/faqs/type';
 	import { faqCallCtaClick, faqEmailCtaClick } from '$lib/analytics/faqs/faqs';
@@ -96,21 +96,21 @@
 		<div class="text-sm font-normal text-black-title">
 			{#if shouldDisplay(phoneCall)}
 				<p>
-					Call: <Button
+					Call: <ButtonMedium
 						size="xs"
 						class="!h-fit !min-h-0 !transform-none !px-0 !font-normal"
 						variant="transparent"
-						on:click={onClickTel}>{contactNumber}</Button
+						on:click={onClickTel}>{contactNumber}</ButtonMedium
 					>
 				</p>
 			{/if}
 			{#if shouldDisplay(emailCall)}
 				<p>
-					Email: <Button
+					Email: <ButtonMedium
 						size="xs"
 						class="!h-fit !min-h-0 !transform-none !px-0 !font-normal !lowercase"
 						variant="transparent"
-						on:click={onClickMail}>{contactEmail}</Button
+						on:click={onClickMail}>{contactEmail}</ButtonMedium
 					>
 				</p>
 			{/if}

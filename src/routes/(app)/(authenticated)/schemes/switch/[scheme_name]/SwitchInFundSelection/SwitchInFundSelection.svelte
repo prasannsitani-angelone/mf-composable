@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	let toggleSwitchCue: () => void;
@@ -28,5 +28,7 @@
 		Select a Switch In Fund. Your investment will be <b>transferred to</b> this mutual fund
 	</div>
 
-	<Button variant="outlined" class="mb-4 mt-2" on:click={toggleModal}>SELECT SWITCH IN FUND</Button>
+	<ButtonMedium variant="outlined" class="mb-4 mt-2" on:click={toggleModal}
+		>SELECT SWITCH IN FUND</ButtonMedium
+	>
 </section>

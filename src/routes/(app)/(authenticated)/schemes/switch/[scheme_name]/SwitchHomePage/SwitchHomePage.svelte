@@ -2,7 +2,8 @@
 	import { goto } from '$app/navigation';
 	import Modal from '$components/Modal.svelte';
 	import SwitchSearch from '$components/Switch/SwitchSearch.svelte';
-	import { SwitchOrderTitleCard, SwitchOrderTile, Button, SEO } from 'svelte-components';
+	import { SwitchOrderTitleCard, SwitchOrderTile, SEO } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	import SwitchInFundSelection from '../SwitchInFundSelection/SwitchInFundSelection.svelte';
@@ -440,14 +441,14 @@
 							orderTypeBgColor="bg-purple-primary"
 						>
 							<div class="flex items-center justify-center border-t border-grey-line" slot="footer">
-								<Button
+								<ButtonMedium
 									variant="transparent"
 									color="primary"
 									class="!font-normal"
 									on:click={toggleModal}
 								>
 									CHANGE
-								</Button>
+								</ButtonMedium>
 							</div>
 						</SwitchOrderTile>
 					{/if}
@@ -576,24 +577,24 @@
 		{#if switchInFund && Object.keys(switchInFund).length !== 0}
 			{#if !selectSwitchFund && !showSwitchConfirmation && !showFolioSelection}
 				<section class="mx-3 mt-4 hidden md:block">
-					<Button
+					<ButtonMedium
 						class="h-12 w-full rounded disabled:bg-grey-line disabled:bg-opacity-100 disabled:text-grey-disabled"
 						disabled={!amountVal?.length || !!errorMessage?.length}
 						on:click={() => handleFooterCtaClick(folioHolding)}
 					>
 						PROCEED
-					</Button>
+					</ButtonMedium>
 				</section>
 			{/if}
 			<section class="mx-3 mt-4 block md:hidden">
 				<section class="fixed inset-0 top-auto bg-white px-4 py-3">
-					<Button
+					<ButtonMedium
 						class="bottom-0 h-12 w-full rounded disabled:bg-grey-line disabled:bg-opacity-100 disabled:text-grey-disabled"
 						disabled={!amountVal?.length || !!errorMessage?.length}
 						on:click={() => handleFooterCtaClick(folioHolding)}
 					>
 						PROCEED
-					</Button>
+					</ButtonMedium>
 				</section>
 			</section>
 		{/if}
@@ -737,7 +738,7 @@
 			>
 				<SwitchCue />
 				<div class="pt-4">
-					<Button class="w-full" on:click={toggleSwitchCue}>CONTINUE</Button>
+					<ButtonMedium class="w-full" on:click={toggleSwitchCue}>CONTINUE</ButtonMedium>
 				</div>
 			</div>
 		</Modal>

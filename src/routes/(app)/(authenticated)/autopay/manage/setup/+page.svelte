@@ -21,7 +21,8 @@
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
-	import { Button, WMSIcon } from 'svelte-components';
+	import { WMSIcon } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 
 	export let data;
 	let selectedAccount: number;
@@ -256,10 +257,10 @@
 									</svelte:fragment>
 
 									<svelte:fragment slot="right-section">
-										<Button
+										<ButtonMedium
 											class="mr-3 px-0 !text-xs !font-medium text-blue-primary"
 											variant="transparent"
-											on:click={showBankSelectionPopup}>CHANGE</Button
+											on:click={showBankSelectionPopup}>CHANGE</ButtonMedium
 										>
 									</svelte:fragment>
 								</BankTile>
@@ -271,10 +272,10 @@
 							</div>
 
 							<article class="mt-6 text-center">
-								<Button
+								<ButtonMedium
 									class="mr-3 !h-0 !min-h-0 px-0 !text-sm !font-medium text-blue-primary"
 									variant="transparent"
-									on:click={handleGoBackCtaClick}>GO BACK</Button
+									on:click={handleGoBackCtaClick}>GO BACK</ButtonMedium
 								>
 							</article>
 						{/if}

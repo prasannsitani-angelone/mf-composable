@@ -4,12 +4,12 @@
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { encodeObject } from '$lib/utils/helpers/params';
-	import { Button } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
-
 	import { goto } from '$app/navigation';
 	import type { IRetryPaymentNudge } from '$lib/types/INudge';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
+
 	let orderCount = 0;
 	let order: IRetryPaymentNudge;
 
@@ -97,23 +97,23 @@
 		</div>
 		<div class="border-t border-grey-line pt-1 text-right">
 			{#if orderCount === 1}
-				<Button
+				<ButtonMedium
 					size="xs"
 					class="pr-0 text-xs"
 					variant="transparent"
 					on:click={navigateToInvestmentPad}
 				>
 					RETRY PAYMENT
-				</Button>
+				</ButtonMedium>
 			{:else}
-				<Button
+				<ButtonMedium
 					class="pr-0 text-xs"
 					size="xs"
 					variant="transparent"
 					on:click={navigateToOrdersPage}
 				>
 					VIEW ORDERS
-				</Button>
+				</ButtonMedium>
 			{/if}
 		</div>
 	</div>

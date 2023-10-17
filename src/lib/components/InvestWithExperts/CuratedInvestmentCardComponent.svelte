@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Start4SipsNudgeType } from '$lib/types/INudge';
 	import CuratedInvestmentCardBackground from '../../images/CuratedInvestmentCardBackground.svelte';
-	import { Button } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import { onMount } from 'svelte';
 	import {
 		curatedCardClickEvent,
@@ -42,7 +42,7 @@
 			>
 		</p>
 
-		<Button
+		<ButtonMedium
 			text={{
 				label: nudgeData.linkHeading,
 				customClass: 'text-xs font-medium uppercase text-blue-primary'

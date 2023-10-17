@@ -6,7 +6,8 @@
 	import CalendarSmallIcon from '$lib/images/icons/CalendarSmallIcon.svelte';
 	import { goto } from '$app/navigation';
 	import { encodeObject } from '$lib/utils/helpers/params';
-	import { Button, CalendarComponent, Modal } from 'svelte-components';
+	import { CalendarComponent, Modal } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import { onMount } from 'svelte';
 	import {
 		investWithExpertAmountDecrementEvent,
@@ -163,7 +164,7 @@
 
 <article class="mx-3 mt-4 block md:hidden">
 	<section class="fixed inset-0 top-auto bg-white px-4 py-5">
-		<Button onClick={handleProceedButtonClick} class="w-full">PROCEED</Button>
+		<ButtonMedium onClick={handleProceedButtonClick} class="w-full">PROCEED</ButtonMedium>
 	</section>
 </article>
 

@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { BtnSize, BtnVariant, Button } from 'svelte-components';
+	import { BtnSize, BtnVariant } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import type { CategoryOptionsEntity } from '$lib/types/IDiscoverFunds.js';
 	import { topPicksCategoryImpressionEvent } from '$components/TopPicks/analytics';
 
@@ -18,7 +19,7 @@
 <section class="scrollbar-hide flex w-full gap-x-2 overflow-x-scroll px-5 ${$$props.class}">
 	{#each categories as category}
 		{@const isActive = category.name === selectedCategory.name}
-		<Button
+		<ButtonMedium
 			on:click={() => handleCategoryClick(category)}
 			variant={isActive ? BtnVariant.Contained : BtnVariant.Outlined}
 			text={{

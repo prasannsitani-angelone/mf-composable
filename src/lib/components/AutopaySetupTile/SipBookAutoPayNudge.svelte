@@ -1,6 +1,7 @@
 <script lang="ts">
 	import UPIMandateIcon from '$lib/images/icons/UPIMandateIcon.svelte';
-	import { BtnSize, Button } from 'svelte-components';
+	import { BtnSize } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
@@ -21,13 +22,13 @@
 			Automating SIP is easier than ever.<br />Set it up in just 2 clicks.
 		</p>
 
-		<Button size={BtnSize.SM} onClick={autoPayClick} class="w-fit text-xs">
+		<ButtonMedium size={BtnSize.SM} onClick={autoPayClick} class="w-fit text-xs">
 			{#if amount <= UPI_MANDATE_MAX_AMOUNT}
 				SET UP UPI AUTOPAY
 			{:else}
 				SET UP AUTOPAY
 			{/if}
-		</Button>
+		</ButtonMedium>
 	</div>
 
 	<UPIMandateIcon />

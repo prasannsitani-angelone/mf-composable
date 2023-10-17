@@ -2,7 +2,7 @@
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
 	import type { BrowserSupport } from '$lib/utils/helpers/browserSupport.js';
-	import { Button } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import Overlay from '$components/Overlay.svelte';
 	import { onMount } from 'svelte';
 	import Logger from '$lib/utils/logger';
@@ -67,12 +67,12 @@
 				</div>
 			{/if}
 		</div>
-		<Button class="h-12 w-full uppercase" on:click={() => openBrowserDownloadUrl()}>
+		<ButtonMedium class="h-12 w-full uppercase" on:click={() => openBrowserDownloadUrl()}>
 			{#if browserDetails.fallback}
 				<span> Update Browser</span>
 			{:else}
 				<span>Download Chrome</span>
 			{/if}
-		</Button>
+		</ButtonMedium>
 	</article>
 </Overlay>

@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { WMSIcon, Button } from 'svelte-components';
+	import { WMSIcon } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 
 	export let bankLogo = '';
 	export let bankName = '';
@@ -43,10 +44,10 @@
 	</div>
 	<slot name="right-section">
 		{#if showWhyThisBank}
-			<Button
+			<ButtonMedium
 				class=" !text-xs !font-normal normal-case text-blue-primary"
 				variant="transparent"
-				on:click={openWhyThisBank}>Why this bank?</Button
+				on:click={openWhyThisBank}>Why this bank?</ButtonMedium
 			>
 		{/if}
 	</slot>

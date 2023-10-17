@@ -3,7 +3,8 @@
 	import { goto } from '$app/navigation';
 	import ErrorView from '$components/ErrorView.svelte';
 	import { base } from '$app/paths';
-	import { SEO, SwitchOrderTitleCard, Button, SwitchOrderTile } from 'svelte-components';
+	import { SEO, SwitchOrderTitleCard, SwitchOrderTile } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	import OrderDetailLoader from '../../../orders/[orderId]/Loader/OrderDetailLoader.svelte';
@@ -119,15 +120,15 @@
 				<!-- Mobile view footer button -->
 				<article class="mx-3 mt-4 block md:hidden">
 					<section class="fixed inset-0 top-auto bg-white px-4 py-2 {$$props?.class}">
-						<Button class="w-full" on:click={handleCtaRedirection}>GO TO ORDERS</Button>
+						<ButtonMedium class="w-full" on:click={handleCtaRedirection}>GO TO ORDERS</ButtonMedium>
 					</section>
 				</article>
 
 				<!-- Desktop view footer button -->
 				<article class="mt-6 hidden w-full text-right md:block {$$props?.class}">
-					<Button class="w-6/12 sm:max-w-21" on:click={handleCtaRedirection}>
+					<ButtonMedium class="w-6/12 sm:max-w-21" on:click={handleCtaRedirection}>
 						GO TO DASHBOARD
-					</Button>
+					</ButtonMedium>
 				</article>
 			</div>
 		{:else}

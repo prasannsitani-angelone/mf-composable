@@ -3,7 +3,7 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { Button } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import Modal from '$components/Modal.svelte';
 	import BankSelectionPopup from '$components/BankSelectionPopup.svelte';
 	import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
@@ -110,7 +110,7 @@
 	showWhyThisBank={true}
 />
 <section>
-	<Button on:click={navigatToSetup} class="w-full">SET UP AUTOPAY</Button>
+	<ButtonMedium on:click={navigatToSetup} class="w-full">SET UP AUTOPAY</ButtonMedium>
 </section>
 {#if bankPopupVisible}
 	<BankSelectionPopup

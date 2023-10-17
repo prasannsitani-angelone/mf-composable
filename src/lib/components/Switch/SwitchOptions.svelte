@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { Button } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
@@ -104,7 +104,7 @@
 	{/if}
 	{#if !activePage}
 		<section class="flex-col items-center justify-between p-4 shadow-csm md:px-3 md:shadow-none">
-			<Button
+			<ButtonMedium
 				variant="transparent"
 				size="lg"
 				disabled={switchFlags !== 'Y' ||
@@ -125,7 +125,7 @@
 				<div class="flex items-center justify-center px-2 align-middle">
 					<WMSIcon height={8} width={9} class="-rotate-90" name="arrow-expand" />
 				</div>
-			</Button>
+			</ButtonMedium>
 		</section>
 	{:else if activePage === 'SWITCH_FUNDS' && !isMobile}
 		{#await getFolioHoldings()}

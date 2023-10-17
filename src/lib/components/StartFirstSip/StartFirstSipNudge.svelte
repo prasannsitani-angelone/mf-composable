@@ -8,7 +8,8 @@
 		firstSipCardGetStartedButtonClickAnalytics,
 		firstSipCardMountedAnalytics
 	} from '$lib/analytics/startFirstSip/startFirstSip';
-	import { BtnSize, Button } from 'svelte-components';
+	import { BtnSize } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 
 	export let nudgeData: StartFirstSipNudgeType;
 	export let version: string;
@@ -33,13 +34,13 @@
 		<p class="mb-2 text-base font-medium text-black-title">{nudgeData.heading}</p>
 		<p class="mb-2 text-xs font-medium text-grey-body">{nudgeData.description}</p>
 
-		<Button
+		<ButtonMedium
 			size={BtnSize.SM}
 			onClick={redirectToStartFirstSipLandingPage}
 			class="w-fit px-6 text-xs"
 		>
 			EXPLORE NOW
-		</Button>
+		</ButtonMedium>
 	</div>
 
 	<StartFirstSipImage />

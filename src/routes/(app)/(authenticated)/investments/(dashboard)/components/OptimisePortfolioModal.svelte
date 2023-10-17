@@ -3,12 +3,12 @@
 	import {
 		BtnSize,
 		BtnVariant,
-		Button,
 		Modal,
 		WMSIcon,
 		SkeletonRectangle,
 		SkeletonWrapper
 	} from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import PortfolioPerformace from '$lib/images/PortfolioPerformace.svg';
 	import type {
 		IOPtimsiePortfolioData,
@@ -33,6 +33,7 @@
 		fundForYouWhyImpressionAnalytics
 	} from '../../analytics';
 	import { FUND_CATEGORY_RETURNS } from '$lib/constants/fund';
+
 	export let optimisePorfolioData: IOPtimsiePortfolioData;
 	export let toggleOptimisePorfolioCard: (flag: boolean) => void;
 	export let investmentSummary: InvestmentSummary;
@@ -162,14 +163,14 @@
 				</SkeletonWrapper>
 			{/if}
 			<div class="flex flex-col justify-center">
-				<Button
+				<ButtonMedium
 					size={BtnSize.XS}
 					class="my-4"
 					variant={BtnVariant.Transparent}
 					on:click={() => toggleFundModal(true)}
 				>
 					WHY THIS FUND?
-				</Button>
+				</ButtonMedium>
 				<div class="flex flex-col items-center">
 					<p class="text-sm font-normal">Projected portfolio performance</p>
 					{#if !isFetchingScheme}
@@ -204,7 +205,7 @@
 			</div>
 		</section>
 		<section class="mt-2 flex flex-col">
-			<Button class="mt-4" on:click={gotoSchemeDetails}>INVEST NOW</Button>
+			<ButtonMedium class="mt-4" on:click={gotoSchemeDetails}>INVEST NOW</ButtonMedium>
 		</section>
 	</div>
 </Modal>

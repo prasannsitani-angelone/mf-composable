@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { Button, Modal, WMSIcon } from 'svelte-components';
+	import { Modal, WMSIcon } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 
 	export let openErrorModal = false;
 	const dispatch = createEventDispatcher();
@@ -25,6 +26,8 @@
 			{invalidLinkMessage}
 		</div>
 
-		<Button class="mt-8 w-40 px-2" variant="outlined" onClick={handleCloseModal}>GOT IT</Button>
+		<ButtonMedium class="mt-8 w-40 px-2" variant="outlined" onClick={handleCloseModal}
+			>GOT IT</ButtonMedium
+		>
 	</div>
 </Modal>

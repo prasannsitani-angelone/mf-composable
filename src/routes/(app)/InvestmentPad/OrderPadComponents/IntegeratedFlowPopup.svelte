@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Modal from '$components/Modal.svelte';
 	import UpiMandateIcon from '$lib/images/icons/UPIMandateIcon.svelte';
-	import { Button } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
 
 	export let onClose = () => undefined;
 	export let normalFlowFunc = () => undefined;
@@ -42,10 +42,12 @@
 			{/each}
 		</div>
 		<div class="mt-4 flex w-full flex-col gap-2">
-			<Button class="w-full" on:click={excecuteIntegeratedFlow}>Pay now and start sip</Button>
-			<Button class="w-full" variant="transparent" on:click={excecuteNormalFlow}>
+			<ButtonMedium class="w-full" on:click={excecuteIntegeratedFlow}
+				>Pay now and start sip</ButtonMedium
+			>
+			<ButtonMedium class="w-full" variant="transparent" on:click={excecuteNormalFlow}>
 				Continue without autopay
-			</Button>
+			</ButtonMedium>
 		</div>
 	</div>
 </Modal>
