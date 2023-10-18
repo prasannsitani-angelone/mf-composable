@@ -276,6 +276,16 @@ export const getEmandateDataFunc = (params) => {
 export const upiValidateFunc = async (params) => {
 	const { bankName, id, xRequestId, source, showLoading, stopLoading } = params || {};
 	try {
+		if (!id) {
+			return {
+				ok: true,
+				data: {
+					data: {
+						valid: false
+					}
+				}
+			};
+		}
 		showLoading();
 		const url = `${PUBLIC_PAYMENT_BASE_URL}/upi-validate-vpa`;
 		const response = await useFetch(url, {

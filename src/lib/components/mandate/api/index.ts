@@ -28,6 +28,16 @@ export const callMandateAPI = async (body) => {
 export const upiValidateFunc = async (params) => {
 	const { bankName, inputId, showLoading, stopLoading } = params;
 	try {
+		if (!inputId) {
+			return {
+				ok: true,
+				data: {
+					data: {
+						valid: false
+					}
+				}
+			};
+		}
 		showLoading();
 		const url = `${PUBLIC_MANDATE_BASE_URL}/mandate/validate-vpa`;
 		const response = await useFetch(url, {
