@@ -57,6 +57,10 @@
 		await goto('orders/orderspage', { replaceState: true });
 	};
 
+	const navigateToSipBook = async () => {
+		await goto('sipbook/dashboard', { replaceState: true });
+	};
+
 	const onRefresh = async () => {
 		invalidate('app:ordersummary');
 	};
@@ -161,16 +165,44 @@
 							accNo={orderSummaryData.emandateBankDetails?.accNO}
 							clazz="mt-2"
 						/>
-						<Button variant="transparent" class="mt-6 w-max self-center" onClick={navigateToOrders}>
-							GO TO ORDERS
-						</Button>
+						{#if firstTimePayment}
+							<Button
+								variant="transparent"
+								class="mt-6 w-max self-center"
+								onClick={navigateToOrders}
+							>
+								GO TO ORDERS
+							</Button>
+						{:else}
+							<Button
+								variant="transparent"
+								class="mt-6 w-max self-center"
+								onClick={navigateToSipBook}
+							>
+								GO TO SIPS
+							</Button>
+						{/if}
 					{:else if isSIPOrder && orderSummaryData?.paymentStatus === 'success'}
 						<OrdersAutoPayComponent class="mt-2" {amount} on:autoPayClick={navigateToEmandate} />
 					{:else if isSIPOrder}
 						<OrdersAutoPayComponent class="mt-2" {amount} on:autoPayClick={navigateToEmandate} />
-						<Button variant="transparent" class="mt-6 w-max self-center" onClick={navigateToOrders}>
-							GO TO ORDERS
-						</Button>
+						{#if firstTimePayment}
+							<Button
+								variant="transparent"
+								class="mt-6 w-max self-center"
+								onClick={navigateToOrders}
+							>
+								GO TO ORDERS
+							</Button>
+						{:else}
+							<Button
+								variant="transparent"
+								class="mt-6 w-max self-center"
+								onClick={navigateToSipBook}
+							>
+								GO TO SIPS
+							</Button>
+						{/if}
 					{:else if isLumpsumOrder}
 						<Button variant="transparent" class="mt-6 w-max self-center" onClick={navigateToOrders}>
 							GO TO ORDERS
