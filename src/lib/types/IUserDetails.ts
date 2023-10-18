@@ -5,4 +5,5 @@ export interface IUserDetails {
 	euin?: string;
 	isARNExpired?: string;
 	panSeeded: boolean;
+	isKycInProgress: boolean;
 }

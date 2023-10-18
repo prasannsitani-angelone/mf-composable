@@ -46,11 +46,13 @@
 	} from '../analytics/confirmation';
 	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
 	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
+	import KycProgressPopup from '$components/Payment/KYCProgressPopup.svelte';
 
 	export let data: PageData;
 
 	const os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
 	$: profileData = $page?.data?.profile;
+	$: userData = $page?.data?.userDetails;
 
 	let xRequestId = '';
 	let paymentHandler = {
@@ -63,6 +65,8 @@
 	let inputPaymentError = '';
 	let bankPopupVisible = false;
 	let validateUPILoading = false;
+	let isKYCInProgress = false;
+
 	const error = {
 		visible: false,
 		heading: '',
@@ -224,6 +228,10 @@
 		validateUPILoading = false;
 	};
 
+	const toggleKYCProgressPopup = () => {
+		isKYCInProgress = !isKYCInProgress;
+	};
+
 	const paymentFailedScreenAnalyticsWithData = async () => {
 		const itemList = await data.api.itemList;
 		paymentFailedScreenAnalytics({
@@ -273,6 +281,11 @@
 		onPayment(paymentHandler?.upiId);
 	};
 
+	const handleChangePaymentMethodRetryClick = () => {
+		closeErrorPopup();
+		showChangePayment = true;
+	};
+
 	const displayPendingPopup = async ({ orderId }) => {
 		const itemList = await data.api.itemList;
 		paymentPendingScreenAnalytics({
@@ -314,6 +327,11 @@
 	};
 
 	const onPayment = async (inputId: string) => {
+		if (userData?.isKycInProgress) {
+			toggleKYCProgressPopup();
+			return;
+		}
+
 		// analytics
 		const itemList = await data.api.itemList;
 		if (showChangePayment) {
@@ -528,26 +546,25 @@
 				popupType="FAILURE"
 				title={error.heading}
 				text={error.subHeading}
-				class="w-full rounded-b-none rounded-t-2xl p-6 px-4 sm:px-12 sm:py-12 md:rounded-lg"
+				class="w-full rounded-b-none rounded-t-2xl p-6 px-4 sm:p-12 md:rounded-lg"
 				isModalOpen
-				handleButtonClick={error?.code === WRONG_BANK_ERROR_CODE
-					? retryWithSamePaymentMethod
-					: closeErrorPopup}
+				handleButtonClick={retryWithSamePaymentMethod}
 				closeModal={closeErrorPopup}
-				buttonTitle={error?.code === WRONG_BANK_ERROR_CODE
-					? `RETRY WITH ${PAYMENT_MODE[paymentHandler?.paymentMode]?.name}`
-					: 'TRY AGAIN'}
-				secondaryButtonTitle={error?.code === WRONG_BANK_ERROR_CODE
-					? 'USE ANOTHER PAYMENT METHOD'
-					: ''}
-				buttonClass={`mt-5 w-full rounded cursor-default md:cursor-pointer ${
-					error?.code === WRONG_BANK_ERROR_CODE ? '!uppercase' : ''
-				}`}
+				buttonTitle={`RETRY WITH ${PAYMENT_MODE[paymentHandler?.paymentMode]?.name}`}
+				secondaryButtonTitle="USE ANOTHER PAYMENT METHOD"
+				buttonClass={`mt-5 w-full rounded cursor-default md:cursor-pointer !uppercase`}
 				secondaryButtonClass="mt-3 w-full rounded cursor-default md:cursor-pointer"
 				buttonVariant="contained"
-				titleClass={error?.code === WRONG_BANK_ERROR_CODE ? 'px-3 -mt-4' : ''}
-				on:secondaryButtonClick={closeErrorPopup}
+				titleClass="px-3 -mt-4"
+				on:secondaryButtonClick={handleChangePaymentMethodRetryClick}
 			>
+				<svelte:fragment slot="popupHeader">
+					{#if error?.code === WRONG_BANK_ERROR_CODE}
+						<WMSIcon name="red-exclamation-thin" width={92} height={92} />
+					{:else}
+						<WMSIcon name="red-cross-circle" width={92} height={92} />
+					{/if}
+				</svelte:fragment>
 				<svelte:fragment slot="middleSection">
 					{#if error?.code === WRONG_BANK_ERROR_CODE}
 						<section class="item-center mt-2 flex rounded bg-grey p-2">
@@ -558,9 +575,17 @@
 								If any money has been debited from your account, it will be refunded automatically.
 							</div>
 						</section>
+					{:else}
+						<section class="mt-4 text-sm text-grey-body">
+							To complete your order, please retry payment
+						</section>
 					{/if}
 				</svelte:fragment>
 			</ResultPopup>
+		{/if}
+
+		{#if isKYCInProgress}
+			<KycProgressPopup onClose={toggleKYCProgressPopup} onSubmit={toggleKYCProgressPopup} />
 		{/if}
 	{:catch}
 		<div class="flex h-full flex-col items-center self-center px-4 py-4">

@@ -117,6 +117,7 @@
 	import IntegeratedFlowPopup from './OrderPadComponents/IntegeratedFlowPopup.svelte';
 	import SelectedBankDetails from '$components/Payment/SelectedBankDetails.svelte';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
+	import KycProgressPopup from '$components/Payment/KYCProgressPopup.svelte';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -194,13 +195,14 @@
 	let validateUPILoading = false;
 	let firstTimeUser = false;
 	let version = '';
+	let isKYCInProgress = false;
+	let previousWrongBankFailedPayment = false;
+
 	let integeratedFlow = {
 		visible: false,
 		integeratedFlowFunc: () => undefined,
 		normalFlowFunc: () => undefined
 	};
-	let previousWrongBankFailedPayment = false;
-
 	const error = {
 		visible: false,
 		heading: '',
@@ -248,6 +250,7 @@
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 	$: isTablet = $page?.data?.deviceType?.isTablet;
 	$: profileData = $page?.data?.profile;
+	$: userData = $page?.data?.userDetails;
 
 	$: showOrderPadHeader = isMobile || isTablet;
 	let dateArray: Array<dateArrayTypes> = [{ value: 1, disabled: false }];
@@ -967,6 +970,10 @@
 		validateUPILoading = false;
 	};
 
+	const toggleKYCProgressPopup = () => {
+		isKYCInProgress = !isKYCInProgress;
+	};
+
 	const displayError = ({ heading = 'Error', errorSubHeading = '', type = '', code = '' }) => {
 		error.visible = true;
 		error.heading = heading;
@@ -1193,6 +1200,11 @@
 			await goto(`${base}/login?redirect=${$page.url.href}`, {
 				replaceState: true
 			});
+			return;
+		}
+
+		if (userData?.isKycInProgress) {
+			toggleKYCProgressPopup();
 			return;
 		}
 
@@ -2059,6 +2071,10 @@
 		normalFlowFunc={integeratedFlow.normalFlowFunc}
 		integeratedFlowFunc={integeratedFlow.integeratedFlowFunc}
 	/>
+{/if}
+
+{#if isKYCInProgress}
+	<KycProgressPopup onClose={toggleKYCProgressPopup} onSubmit={toggleKYCProgressPopup} />
 {/if}
 
 <style>

@@ -5,7 +5,7 @@
 	import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 	import { onDestroy, onMount } from 'svelte';
 	import LoadingPopup from '../../../routes/(app)/InvestmentPad/OrderPadComponents/LoadingPopup.svelte';
-	import { PAYMENT_MODE } from './constants';
+	import { PAYMENT_MODE, WRONG_BANK_ERROR_CODE } from './constants';
 	import PaymentMethod from './PaymentMethod.svelte';
 	import PaymentMethodHeader from './PaymentMethodHeader.svelte';
 	import UpiClosePopup from './UPIClosePopup.svelte';
@@ -20,6 +20,7 @@
 		initializeUPIState,
 		intializeNetBankingState
 	} from './util';
+	import { WMSIcon } from 'svelte-components';
 
 	export let amount: string;
 	export let requestId: string;
@@ -52,7 +53,8 @@
 		visible: false,
 		heading: '',
 		subHeading: '',
-		type: ''
+		type: '',
+		code: ''
 	};
 	const loadingState = {
 		heading: '',
@@ -147,11 +149,12 @@
 		validateUPILoading = false;
 	};
 
-	const displayError = ({ heading = 'Error', errorSubHeading = '', type = '' }) => {
+	const displayError = ({ heading = 'Error', errorSubHeading = '', type = '', code = '' }) => {
 		error.visible = true;
 		error.heading = heading;
 		error.subHeading = errorSubHeading;
 		error.type = type;
+		error.code = code;
 	};
 
 	const closeErrorPopup = () => {
@@ -159,6 +162,12 @@
 		error.subHeading = '';
 		error.visible = false;
 		error.type = '';
+		error.code = '';
+	};
+
+	const retryWithSamePaymentMethod = () => {
+		closeErrorPopup();
+		onPaymentTypeSubmit(paymentHandler?.upiId);
 	};
 
 	const displayPendingPopup = (params) => {
@@ -290,12 +299,40 @@
 		popupType="FAILURE"
 		title={error.heading}
 		text={error.subHeading}
-		class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+		class="w-full rounded-b-none rounded-t-2xl p-6 px-4 sm:p-12 md:rounded-lg"
 		isModalOpen
-		handleButtonClick={closeErrorPopup}
+		handleButtonClick={retryWithSamePaymentMethod}
 		closeModal={closeErrorPopup}
-		buttonTitle="TRY AGAIN"
-		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
+		buttonTitle={`RETRY WITH ${PAYMENT_MODE[paymentHandler?.paymentMode]?.name}`}
+		secondaryButtonTitle="USE ANOTHER PAYMENT METHOD"
+		buttonClass={`mt-5 w-full rounded cursor-default md:cursor-pointer !uppercase`}
+		secondaryButtonClass="mt-3 w-full rounded cursor-default md:cursor-pointer"
 		buttonVariant="contained"
-	/>
+		titleClass="px-3 -mt-4"
+		on:secondaryButtonClick={closeErrorPopup}
+	>
+		<svelte:fragment slot="popupHeader">
+			{#if error?.code === WRONG_BANK_ERROR_CODE}
+				<WMSIcon name="red-exclamation-thin" width={92} height={92} />
+			{:else}
+				<WMSIcon name="red-cross-circle" width={92} height={92} />
+			{/if}
+		</svelte:fragment>
+		<svelte:fragment slot="middleSection">
+			{#if error?.code === WRONG_BANK_ERROR_CODE}
+				<section class="item-center mt-2 flex rounded bg-grey p-2">
+					<div class="my-auto flex-1">
+						<WMSIcon name="info-in-circle-dark" class="p-1" stroke="#3F5BD9" />
+					</div>
+					<div class="ml-3 text-left text-sm font-normal text-grey-body">
+						If any money has been debited from your account, it will be refunded automatically.
+					</div>
+				</section>
+			{:else}
+				<section class="mt-4 text-sm text-grey-body">
+					To complete your order, please retry payment
+				</section>
+			{/if}
+		</svelte:fragment>
+	</ResultPopup>
 {/if}

@@ -10,7 +10,7 @@
 	import UpiClosePopup from '$components/Payment/UPIClosePopup.svelte';
 	import SuccessPopup from './components/SuccessPopup.svelte';
 	import EmandateMethod from './components/EmandateMethod.svelte';
-	import { stringToFloat } from 'svelte-components';
+	import { WMSIcon, stringToFloat } from 'svelte-components';
 	import {
 		getMandateAmount,
 		getSipEndDate,
@@ -21,7 +21,7 @@
 	import { add } from 'date-fns';
 	import { accounChangeAnalytics } from './analytics';
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
-	import { PAYMENT_MODE, WRONG_BANK_ERROR_CODE } from '$components/Payment/constants';
+	import { WRONG_BANK_ERROR_CODE } from '$components/Payment/constants';
 
 	export let profileData: UserProfile;
 	export let amount: string;
@@ -339,7 +339,7 @@
 
 {#if loadingState.isLoading}
 	<LoadingPopup heading={loadingState.heading} />
-{:else if error.visible && error?.code === WRONG_BANK_ERROR_CODE}
+{:else if error.visible}
 	<ResultPopup
 		popupType="FAILURE"
 		title={error.heading}
@@ -348,27 +348,22 @@
 		isModalOpen
 		handleButtonClick={retryWithSamePaymentMethod}
 		closeModal={closeErrorPopup}
-		buttonTitle={`RETRY WITH ${PAYMENT_MODE[paymentHandler?.paymentMode]?.name || ''}`}
-		secondaryButtonTitle="USE ANOTHER PAYMENT METHOD"
+		buttonTitle={`RETRY WITH ${EMANDATE_MODE[paymentHandler?.emandateMode]?.name}`}
+		secondaryButtonTitle="USE ANOTHER METHOD"
 		buttonClass={`mt-5 w-full rounded cursor-default md:cursor-pointer !uppercase`}
 		secondaryButtonClass="mt-3 w-full rounded cursor-default md:cursor-pointer"
 		buttonVariant="contained"
 		titleClass="px-3 -mt-4"
 		on:secondaryButtonClick={handleChangePaymentMethodRetryClick}
-	/>
-{:else if error.visible}
-	<ResultPopup
-		popupType="FAILURE"
-		title={error.heading}
-		text={error.subHeading}
-		class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
-		isModalOpen
-		handleButtonClick={closeErrorPopup}
-		closeModal={closeErrorPopup}
-		buttonTitle="TRY AGAIN"
-		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
-		buttonVariant="contained"
-	/>
+	>
+		<svelte:fragment slot="popupHeader">
+			{#if error?.code === WRONG_BANK_ERROR_CODE}
+				<WMSIcon name="red-exclamation-thin" width={92} height={92} />
+			{:else}
+				<WMSIcon name="red-cross-circle" width={92} height={92} />
+			{/if}
+		</svelte:fragment>
+	</ResultPopup>
 {:else if pending.visible}
 	<ResultPopup
 		popupType={STATUS_ARR?.PENDING}

@@ -28,8 +28,11 @@
 	} from './analytics';
 	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
+	import KycProgressPopup from '$components/Payment/KYCProgressPopup.svelte';
 
 	export let data: import('./$types').PageData;
+
+	$: userData = $page?.data?.userDetails;
 
 	const params = $page.url.searchParams.get('params');
 	const { amount = 0, date } = decodeToObject(params || '');
@@ -40,6 +43,7 @@
 
 	let whyThisFundPopupVisible = false;
 	let defaultInputPaymentError = '';
+	let isKYCInProgress = false;
 
 	const navigateToOrders = async () => {
 		await goto(`${base}/orders/orderspage`, { replaceState: true });
@@ -54,6 +58,10 @@
 		if (whyThisFundPopupVisible) {
 			whyTheseFundsClickAnalytics();
 		}
+	};
+
+	const toggleKYCProgressPopup = () => {
+		isKYCInProgress = !isKYCInProgress;
 	};
 
 	onMount(() => {
@@ -100,6 +108,11 @@
 	};
 
 	const paymentFlow = async (params) => {
+		if (userData?.isKycInProgress) {
+			toggleKYCProgressPopup();
+			return;
+		}
+
 		const basketResponse = await data.api.basket;
 		const schemes = basketResponse?.schemes;
 
@@ -370,4 +383,8 @@
 
 {#if whyThisFundPopupVisible}
 	<WhyThisFundPopup hide={toggleWhyThisFundPopup} />
+{/if}
+
+{#if isKYCInProgress}
+	<KycProgressPopup onClose={toggleKYCProgressPopup} onSubmit={toggleKYCProgressPopup} />
 {/if}
