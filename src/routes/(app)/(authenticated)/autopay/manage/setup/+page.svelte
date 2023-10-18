@@ -46,9 +46,12 @@
 	};
 
 	const assignDefaultMode = async () => {
+		const paramMode = data?.pageParam?.mode;
 		const deviceType = $page.data?.deviceType;
 		const os = deviceType?.osName || deviceType?.os;
-		if ((os === 'Android' || os === 'iOS') && allowedPaymentMethods?.includes('GOOGLEPAY')) {
+		if (paramMode && allowedPaymentMethods?.includes(paramMode)) {
+			mode = paramMode;
+		} else if ((os === 'Android' || os === 'iOS') && allowedPaymentMethods?.includes('GOOGLEPAY')) {
 			mode = 'GOOGLEPAY';
 		} else if ((os === 'Android' || os === 'iOS') && allowedPaymentMethods?.includes('PHONEPE')) {
 			mode = 'PHONEPE';
@@ -181,7 +184,8 @@
 		selectedAccount = index;
 		const params = encodeObject({
 			...data?.pageParam,
-			acc: profileData?.bankDetails?.[selectedAccount]?.accNO
+			acc: profileData?.bankDetails?.[selectedAccount]?.accNO,
+			mode
 		});
 		await goto(`${base}/autopay/manage/setup?params=${params}`, {
 			replaceState: true
