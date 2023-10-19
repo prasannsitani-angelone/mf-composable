@@ -1490,6 +1490,7 @@ export const upiIntegeratedFlow = async (params) => {
 			pendingCallback: () => {
 				stopLoading();
 				displayPendingPopup({
+					isIntegeratedFlow: true,
 					heading: 'SIP Setup Pending',
 					errorSubHeading:
 						mandateStatusResponse?.data?.data?.response_description ||
@@ -1528,6 +1529,7 @@ export const upiIntegeratedFlow = async (params) => {
 			pendingCallback: () => {
 				stopLoading();
 				displayPendingPopup({
+					isIntegeratedFlow: true,
 					orderId: orderPostResponse?.data?.data?.orderId,
 					sipId: orderPostResponse?.data?.data?.sipId,
 					heading: 'SIP Setup Pending',
@@ -1557,7 +1559,8 @@ export const upiIntegeratedFlow = async (params) => {
 		});
 		onSuccess({
 			orderId: orderPostResponse.data?.data?.orderId,
-			sipId: orderPostResponse.data?.data?.sipId
+			sipId: orderPostResponse.data?.data?.sipId,
+			isIntegeratedFlow: true
 		});
 	} catch (e) {
 		stopLoading();
@@ -2621,6 +2624,7 @@ export const walletIntegeratedFlow = async (params) => {
 			pendingCallback: () => {
 				stopLoading();
 				displayPendingPopup({
+					isIntegeratedFlow: true,
 					heading: 'Autopay Setup Pending',
 					errorSubHeading:
 						mandateStatusResponse?.data?.data?.response_description ||
@@ -2665,6 +2669,7 @@ export const walletIntegeratedFlow = async (params) => {
 			pendingCallback: () => {
 				stopLoading();
 				displayPendingPopup({
+					isIntegeratedFlow: true,
 					orderId: orderPostResponse?.data?.data?.orderId,
 					sipId: orderPostResponse?.data?.data?.sipId,
 					heading: 'Payment Pending',
@@ -2693,6 +2698,7 @@ export const walletIntegeratedFlow = async (params) => {
 			displayError
 		});
 		onSuccess({
+			isIntegeratedFlow: true,
 			orderId: orderPostResponse.data?.data?.orderId,
 			sipId: orderPostResponse.data?.data?.sipId
 		});

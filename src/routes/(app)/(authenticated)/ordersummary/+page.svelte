@@ -22,7 +22,7 @@
 
 	const params = $page.url.searchParams.get('params') || '';
 	const decodedParams = decodeToObject(params);
-	const { firstTimePayment, orderID, sipID, amount, date } = decodedParams;
+	const { firstTimePayment, orderID, sipID, amount, date, isIntegeratedFlow } = decodedParams;
 
 	let orderStatusString = '';
 	let paymentStatusString = '';
@@ -119,7 +119,8 @@
 			PaymentMethod: od?.paymentMode,
 			PaymentBank: od?.bankName,
 			Status: orderStatus,
-			Remarks: od?.remarks
+			Remarks: od?.remarks,
+			isIntegeratedFlow
 		});
 	};
 

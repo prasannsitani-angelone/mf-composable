@@ -16,13 +16,6 @@
 		normalFlowFunc();
 		onClose();
 	};
-
-	const instructions = [
-		'Autopay helps you make all your SIP payments automatically. Simply proceed and approve the payment mandate on your UPI app',
-		'The autopay limit is ₹15,000',
-		'Only the SIP amount will be debited from your bank account on the monthly SIP date',
-		'You can cancel your SIP any time'
-	];
 </script>
 
 <Modal isModalOpen>
@@ -32,14 +25,29 @@
 		<div class="text-2xl font-medium text-black-title">Start Your SIP with Autopay</div>
 		<UpiMandateIcon class="mt-4 h-[195px] w-[258px]" />
 		<div class="mt-4 flex flex-col gap-4">
-			{#each instructions as instruction, index (index)}
-				<div class="flex flex-row">
-					<div class="mr-1.5 mt-1 h-2 w-2 min-w-[8px] rounded-full bg-black-title" />
-					<div class="text-sm font-bold text-black-title">
-						{instruction}
-					</div>
+			<div class="flex flex-row">
+				<div class="mr-1.5 mt-1 h-2 w-2 min-w-[8px] rounded-full bg-black-title" />
+				<div class="text-sm font-normal text-black-title">
+					Autopay helps you make all your SIP payments automatically. Simply proceed and <span
+						class="font-medium">approve the payment mandate</span
+					> on your UPI app
 				</div>
-			{/each}
+			</div>
+			<div class="flex flex-row">
+				<div class="mr-1.5 mt-1 h-2 w-2 min-w-[8px] rounded-full bg-black-title" />
+				<div class="text-sm font-normal text-black-title">The autopay limit is ₹15,000</div>
+			</div>
+			<div class="flex flex-row">
+				<div class="mr-1.5 mt-1 h-2 w-2 min-w-[8px] rounded-full bg-black-title" />
+				<div class="text-sm font-normal text-black-title">
+					<span class="font-medium">Only the SIP amount will be debited</span> from your bank account
+					on the monthly SIP date
+				</div>
+			</div>
+			<div class="flex flex-row">
+				<div class="mr-1.5 mt-1 h-2 w-2 min-w-[8px] rounded-full bg-black-title" />
+				<div class="text-sm font-normal text-black-title">You can cancel your SIP any time</div>
+			</div>
 		</div>
 		<div class="mt-4 flex w-full flex-col gap-2">
 			<ButtonMedium class="w-full" on:click={excecuteIntegeratedFlow}

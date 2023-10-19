@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { Button, Modal } from 'svelte-components';
+	import ButtonMedium from '$components/ButtonMedium.svelte';
+	import { Modal } from 'svelte-components';
 
 	export let onClose: () => void = () => undefined;
 	export let onSubmit: () => void = () => undefined;
@@ -12,6 +13,6 @@
 			You cannot place this order as your KYC is currently in progress. Please place an order once
 			your KYC is complete
 		</div>
-		<Button on:click={onSubmit} class="w-full">OKAY</Button>
+		<ButtonMedium on:click={onSubmit} class="w-full">OKAY</ButtonMedium>
 	</div>
 </Modal>

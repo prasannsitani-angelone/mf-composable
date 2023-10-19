@@ -51,7 +51,11 @@
 		upiInitiateScreenAnalytics,
 		paymentFailedUseDifferentMethodCtaClickAnalytics,
 		wrongBankPaymentFailedCautionModalImpressionAnalytics,
-		wrongBankPaymentFailedCautionModalCtaClickAnalytics
+		wrongBankPaymentFailedCautionModalCtaClickAnalytics,
+		onIntegeratedFlowPopupImpressionAnalytics,
+		onIntegeratedFlowPopupClickAnalytics,
+		onIntegeratedFlowFailureClickAnalytics,
+		onIntegeratedFlowFailureImpressionAnalytics
 	} from './analytics/paymentFlow';
 	import {
 		changePaymentMethodButtonClickAnalytics,
@@ -995,6 +999,7 @@
 		integeratedFlowError.heading = heading;
 		integeratedFlowError.subHeading = errorSubHeading;
 		integeratedFlowError.occured = true;
+		onIntegeratedFlowFailureImpressionAnalytics();
 	};
 
 	const closeErrorPopup = (fetchPreviousWrongBankFailedPayment = false) => {
@@ -1013,6 +1018,7 @@
 		integeratedFlowError.heading = '';
 		integeratedFlowError.subHeading = '';
 		integeratedFlowError.visible = false;
+		onIntegeratedFlowFailureClickAnalytics();
 	};
 
 	const paymentFailedRetrySameMethodCtaClickAnalyticsFunc = () => {
@@ -1045,7 +1051,7 @@
 		showChangePayment = true;
 	};
 
-	const displayPendingPopup = ({ orderId, sipId }) => {
+	const displayPendingPopup = ({ orderId, sipId, isIntegeratedFlow = false }) => {
 		if (activeTab === 'ONETIME' || redirectedFrom === 'SIP_PAYMENTS') {
 			navigateToLumpsumCompletePage({
 				orderId
@@ -1053,7 +1059,8 @@
 		} else if (activeTab === 'SIP') {
 			navigateToSipCompletePage({
 				orderId,
-				sipId
+				sipId,
+				isIntegeratedFlow
 			});
 		}
 	};
@@ -1084,14 +1091,15 @@
 		initializeGPayState(gpayPaymentState);
 	};
 
-	const navigateToSipCompletePage = async ({ orderId, sipId }) => {
+	const navigateToSipCompletePage = async ({ orderId, sipId, isIntegeratedFlow = false }) => {
 		const params = encodeObject({
 			amount: amount,
 			isin: schemeData?.isin,
 			date: calendarDate,
 			firstTimePayment: firstSipPayment,
 			orderID: orderId,
-			sipID: sipId
+			sipID: sipId,
+			isIntegeratedFlow
 		});
 
 		goto(`${base}/ordersummary?params=${params}`, {
@@ -1327,7 +1335,7 @@
 			submitButtonSIPClickAnalyticsFunc();
 			paymentHandler.upiId = inputId;
 			const response = await isUPIIntegeratedFlow(inputId);
-			const normalFlowFunc = () =>
+			const normalFlowFunc = () => {
 				upiSIPFlow({
 					...commonSIPInput,
 					inputId,
@@ -1336,7 +1344,12 @@
 					upiIdValid: true,
 					mandateId: response.mandateId
 				});
-			const integeratedFlowFunc = () =>
+				onIntegeratedFlowPopupClickAnalytics({
+					cta: 'onlyPayment'
+				});
+			};
+
+			const integeratedFlowFunc = () => {
 				upiIntegeratedFlow({
 					...commonSIPInput,
 					inputId,
@@ -1349,6 +1362,10 @@
 					amount: stringToInteger(amount),
 					displayError: displayIntegeratedFlowError
 				});
+				onIntegeratedFlowPopupClickAnalytics({
+					cta: 'autopay'
+				});
+			};
 			if (response.isIntegeratedFlow) {
 				showIntegeratedFlowPopup(integeratedFlowFunc, normalFlowFunc);
 			} else if (response.normalFlow) {
@@ -1528,6 +1545,9 @@
 		integeratedFlow.integeratedFlowFunc = integeratedFlowFunc;
 		integeratedFlow.normalFlowFunc = normalFlowFunc;
 		integeratedFlow.visible = true;
+		onIntegeratedFlowPopupImpressionAnalytics({
+			previousScreen: showChangePayment ? 'paymentSelection' : 'orderpad'
+		});
 	};
 
 	const closeIntegeratedFlowPopup = () => {
