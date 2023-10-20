@@ -6,6 +6,7 @@
 	let schemeDetails: SchemeDetails;
 	const nfoStartDate = getDateTimeProperties(schemeDetails?.nfoStartDate);
 	const nfoEndDate = getDateTimeProperties(schemeDetails?.nfoEndDate);
+	const nfoAllotmentDate = getDateTimeProperties(schemeDetails?.nfoAllotmentDate);
 	export { schemeDetails };
 </script>
 
@@ -37,6 +38,12 @@
 					<div class="text-xs text-grey-body">Close Date</div>
 					<span class="mt-1 text-black-title"
 						>{`${nfoEndDate.date} ${nfoEndDate.month} ${nfoEndDate.year}`}</span
+					>
+				</div>
+				<div class="flex flex-col rounded-lg bg-grey py-3 pl-3 font-normal sm:grow sm:basis-0">
+					<div class="text-xs text-grey-body">Allotment Date</div>
+					<span class="mt-1 text-black-title"
+						>{`${nfoAllotmentDate.date} ${nfoAllotmentDate.month} ${nfoAllotmentDate.year}`}</span
 					>
 				</div>
 			</div>

@@ -46,10 +46,16 @@
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<!-- svelte-ignore a11y-no-static-element-interactions -->
 			<div
-				class="flex cursor-pointer items-end justify-center py-5 text-sm font-medium text-blue-primary"
+				class="flex cursor-pointer items-center justify-center py-5 text-sm font-medium text-blue-primary"
 				on:click={toggleShowFullTransactionList}
 			>
-				View {showFullTransactionList ? 'Less' : 'All'}
+				{#if !showFullTransactionList}
+					<div>SHOW MORE</div>
+					<div><WMSIcon width={14} height={7} name="arrow-expand" class="ml-2" /></div>
+				{:else}
+					<div>SHOW LESS</div>
+					<div><WMSIcon width={14} height={7} name="arrow-collapse" class="ml-2" /></div>
+				{/if}
 			</div>
 		{:else if transactionList?.length && transactionList?.length > 5 && isExternal}
 			<!-- svelte-ignore a11y-click-events-have-key-events -->

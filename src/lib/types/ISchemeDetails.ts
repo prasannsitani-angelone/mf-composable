@@ -83,6 +83,8 @@ export interface SchemeDetails {
 	stpFlag: string;
 	switchFlag: string;
 	isCartItem: boolean;
+	nfoAllotmentDate: number;
+	nfoEndDate: number;
 }
 
 export interface SchemeHoldings {
