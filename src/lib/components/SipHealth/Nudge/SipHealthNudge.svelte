@@ -9,6 +9,8 @@
 
 	const dispatch = createEventDispatcher();
 
+	export let cardStyle = '';
+
 	const onViewReportClicked = async () => {
 		await goto(`${base}/siphealth`);
 		dispatch('viewReport');
@@ -21,7 +23,7 @@
 			<SipHealthLoader />
 		</slot>
 	{:then result}
-		<div class="flex flex-row items-center rounded-lg bg-white px-3 py-2 shadow-csm">
+		<div class="flex flex-row items-center rounded-lg bg-white px-3 py-2 shadow-csm {cardStyle}">
 			<div class="flex flex-1 flex-col">
 				<p class="text-base font-medium text-black-title">Your SIP Health</p>
 				<p class="mb-2 text-xs font-normal text-black-title">Understand your SIP health report</p>
@@ -31,7 +33,7 @@
 					variant={BtnVariant.Transparent}
 					size={BtnSize.SM}
 				>
-					view report
+					VIEW REPORT
 				</Button>
 			</div>
 

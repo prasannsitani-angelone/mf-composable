@@ -11,6 +11,13 @@
 	import { base } from '$app/paths';
 	import ErrorView from '$components/ErrorView.svelte';
 	import SipHealthDetailsScoreNudge from '$components/SipHealth/Nudge/SipHealthDetailsScoreNudge.svelte';
+	import ActiveAutopay from '$components/SipHealth/Cards/Details/ActiveAutopay.svelte';
+	import ConsistentSip from '$components/SipHealth/Cards/Details/ConsistentSip.svelte';
+	import LongTermSips from '$components/SipHealth/Cards/Details/LongTermSips.svelte';
+	import CueCardCarouselComponent from '$components/CueCardCarouselComponent.svelte';
+	import InActiveAutopay from '$components/SipHealth/Cards/Details/InActiveAutopay.svelte';
+	import WhatIsSipHealth from '$components/SipHealth/Cards/LearnMore/WhatIsSipHealth.svelte';
+	import ImproveSipHealth from '$components/SipHealth/Cards/LearnMore/ImproveSipHealth.svelte';
 
 	export let data;
 
@@ -61,6 +68,32 @@
 		goto(`${base}/autopay/manage`);
 	};
 
+	let showCarousel = false;
+	let carouselItems = [];
+
+	const getSipHealthCalculationCarouselItems = () => {
+		let carouselItems = [];
+		const props = { class: 'mx-2 sm:mx-auto sm:w-[500px]' };
+		if (sipHealthData?.autoPayEnabled) {
+			carouselItems.push({ component: ActiveAutopay, props });
+		} else {
+			carouselItems.push({ component: InActiveAutopay, props });
+		}
+		carouselItems.push({ component: ConsistentSip, props });
+		carouselItems.push({ component: LongTermSips, props });
+
+		return carouselItems;
+	};
+
+	const getLearnMoreCarouselItems = () => {
+		let carouselItems = [];
+		const props = { class: 'mx-2 sm:mx-auto sm:w-[500px]' };
+
+		carouselItems.push({ component: WhatIsSipHealth, props });
+		carouselItems.push({ component: ImproveSipHealth, props });
+		return carouselItems;
+	};
+
 	const breadCrumbs = [{ text: 'Home ', href: '/discoverfunds' }];
 
 	breadCrumbs.push({
@@ -92,7 +125,14 @@
 					SIP Health Check
 				</section>
 
-				<SipHealthDetailsScoreNudge score={sipHealth?.score} class="border-b md:mt-4" />
+				<SipHealthDetailsScoreNudge
+					score={sipHealth?.score}
+					class="border-b md:mt-4"
+					on:learnMoreClick={() => {
+						carouselItems = getLearnMoreCarouselItems();
+						showCarousel = true;
+					}}
+				/>
 
 				<article class="mt-6 px-4 md:px-6">
 					{#if sipHealth?.score >= 68}
@@ -151,7 +191,8 @@
 						class="!h-fit !min-h-0 !w-fit rounded md:w-60"
 						variant="transparent"
 						onClick={() => {
-							// TODO: open cue card
+							carouselItems = getSipHealthCalculationCarouselItems();
+							showCarousel = true;
 						}}
 					>
 						{sipHealth?.score >= 65 ? 'How is SIP health calculated?' : 'IMPROVE your SIP Health'}
@@ -168,3 +209,5 @@
 		/>
 	{/if}
 {/await}
+
+<CueCardCarouselComponent bind:isModalOpen={showCarousel} {carouselItems} />

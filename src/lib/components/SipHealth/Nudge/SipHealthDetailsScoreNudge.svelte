@@ -3,6 +3,7 @@
 	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import { WMSIcon } from 'svelte-components';
 	import SipHealthScoreComponent from './SipHealthScoreComponent.svelte';
+	import { createEventDispatcher } from 'svelte';
 
 	export let score = 0;
 	let scoreClass = 'text-green-buy';
@@ -16,6 +17,12 @@
 			scoreClass = 'text-red-errorDark';
 		}
 	}
+
+	const dispatch = createEventDispatcher();
+
+	const onLearnMoreClicked = () => {
+		dispatch('learnMoreClick');
+	};
 </script>
 
 <section class="px-4 pb-4 md:px-6 {$$props?.class}">
@@ -38,9 +45,7 @@
 	</p>
 
 	<ButtonMedium
-		onClick={() => {
-			// TODO: open cue card
-		}}
+		onClick={onLearnMoreClicked}
 		class="ml-0 mt-2 !h-0 !min-h-0 !w-fit px-0 !text-xs sm:w-[328px]"
 		variant="transparent"
 	>
