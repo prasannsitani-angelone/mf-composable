@@ -16,6 +16,7 @@
 	import ErrorLoadingComponent from '$components/ErrorLoadingComponent.svelte';
 	import { portfolioAnalysisScreenOpenAnalytics, graphYearSelectAnalytics } from '../analytics';
 	import { SEO } from 'svelte-components';
+	import SipHealthNudge from '$components/SipHealth/Nudge/SipHealthNudge.svelte';
 
 	const graphYearSelectAnalyticsFunc = (selectedTag) => {
 		let formattedSelectedTag = '';
@@ -120,6 +121,7 @@
 				on:portfolioChartTagChange={updateLineChart}
 			/>
 		</section>
+		<SipHealthNudge class="mt-2 w-full sm:mt-4" />
 		<section>
 			<AssetAnalysis
 				summary={response.summaryData.summary}

@@ -15,13 +15,13 @@
 			<SchemeLogo class="!mr-0" size="xs" src={schemeLogoUrl} alt="scheme logo" />
 			{#if items > 1}
 				<div
-					class="relative left-[-16px] flex h-9 w-9 flex-row items-center justify-center rounded-full border border-grey-line bg-white text-xs shadow-csm"
+					class="relative left-[-16px] -mr-4 flex h-9 w-9 flex-row items-center justify-center rounded-full border border-grey-line bg-white text-xs shadow-csm"
 				>
 					+ {items - 1}
 				</div>
 			{/if}
 		</div>
-		<div class="relative -ml-2">{items} {items > 1 ? 'Orders' : 'Order'} Placed</div>
+		<div class="relative ml-2">{items} {items > 1 ? 'Orders' : 'Order'} Placed</div>
 	</div>
 	<div class="flex w-full flex-col bg-grey px-4 py-2 sm:px-6 sm:py-4">
 		<div class="mb-1 text-sm font-normal text-grey-body">Amount</div>

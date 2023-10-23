@@ -18,6 +18,7 @@
 	let totalElements = 0;
 	let containerClass = '';
 	let touchPosition: number | null = null;
+	let indicatorClass = '';
 	let dispatch = createEventDispatcher();
 	$: childrens = totalElements;
 	$: nextButtonDisabled = false;
@@ -165,7 +166,8 @@
 		loop,
 		autoplay,
 		autoPlayTime,
-		fixedWidth
+		fixedWidth,
+		indicatorClass
 	};
 </script>
 
@@ -191,27 +193,32 @@
 		</div>
 		{#if pagination}
 			{@const totalNoOfElements = childrens - (Math.round(slidesPerView) - 1)}
-			<div class="my-4 flex items-center justify-center gap-2">
+			<div class="my-4 flex items-center justify-center gap-2 {indicatorClass}">
 				{#if totalNoOfElements > 0}
 					{#each Array(totalNoOfElements) as page, index (index)}
 						{#if currentIndex === index}
-							<img
-								src={RectangleIcon}
-								decoding="async"
-								alt="Carousel Swipe button active"
-								width="16"
-								height="4"
-							/>
+							<slot name="activeIndicator">
+								<img
+									src={RectangleIcon}
+									decoding="async"
+									alt="Carousel Swipe button active"
+									width="16"
+									height="4"
+								/>
+							</slot>
 						{:else}
-							<img
-								src={EclipseIcon}
-								class="h-1 w-1 cursor-pointer"
-								decoding="async"
-								alt="Carousel Swipe button inactive"
-								width="4"
-								height="4"
-								on:click={() => goToSlide(index)}
-							/>
+							<div on:click={() => goToSlide(index)}>
+								<slot name="inActiveIndicator">
+									<img
+										src={EclipseIcon}
+										class="h-1 w-1 cursor-pointer"
+										decoding="async"
+										alt="Carousel Swipe button inactive"
+										width="4"
+										height="4"
+									/>
+								</slot>
+							</div>
 						{/if}
 					{/each}
 				{/if}

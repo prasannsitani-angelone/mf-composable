@@ -45,7 +45,9 @@
 			alt={schemes?.schemeName}
 			lazy={index > 1 ? 'lazy' : 'eager'}
 		/>
-		<h3 class="line-clamp-2 whitespace-normal text-sm font-normal text-black-title md:text-sm">
+		<h3
+			class="line-clamp-2 self-center whitespace-normal text-sm font-normal text-black-title md:text-sm"
+		>
 			{schemes?.schemeName}
 		</h3>
 		<div class="flex-1" />

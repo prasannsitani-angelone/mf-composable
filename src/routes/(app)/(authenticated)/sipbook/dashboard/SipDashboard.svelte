@@ -22,6 +22,7 @@
 	import { base } from '$app/paths';
 	import SipBookAutoPayNudge from '$components/AutopaySetupTile/SipBookAutoPayNudge.svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
+	import SipHealthNudge from '$components/SipHealth/Nudge/SipHealthNudge.svelte';
 
 	const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips`;
 	let showInactiveSipsCta = false;
@@ -123,13 +124,12 @@
 	{#if sipBookData?.sips?.length}
 		<section class="grid grid-cols-[100%] sm:grid-cols-[70%_30%] sm:gap-x-5">
 			<!-- SIP Summary Section -->
-			{#if sipBookData?.bookOverView}
-				<SipSummary
-					bookSummary={sipBookData?.bookOverView}
-					{automatedSipsCount}
-					class="col-start-1 row-start-1 h-min sm:col-start-2"
-				/>
-			{/if}
+			<div class="col-start-1 row-start-1 h-min sm:col-start-2">
+				{#if sipBookData?.bookOverView}
+					<SipSummary bookSummary={sipBookData?.bookOverView} {automatedSipsCount} />
+				{/if}
+				<SipHealthNudge class="mb-2" />
+			</div>
 
 			<!-- SIP Cards section -->
 			<section class="col-start-1 row-start-2 sm:row-start-1">
