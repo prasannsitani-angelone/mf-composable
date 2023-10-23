@@ -129,3 +129,26 @@ export interface IInvestmentTypeSIP {
 	skipSipDueDate: number;
 	paymentNudgeSkip: boolean;
 }
+
+export interface ISipHealth {
+	score: number;
+	scorePercentile: number;
+	autoPayEnabled: boolean;
+	pecrcentageOfInstalmentPaid: number;
+	noOfSkippedInstalments: number;
+	noOfFailedInstalments: number;
+	noOfSuccessfulInstalmnets: number;
+	totalInstalments: number;
+	betterThanOthers: number;
+	completedSiphealth: number;
+	paidSipPercentHealth: number;
+	autoPayHealth: number;
+}
+
+export interface ISipHealthDetails {
+	title: string;
+	description: string;
+	icon: string;
+	showFooter?: boolean;
+	footerType?: string;
+}
