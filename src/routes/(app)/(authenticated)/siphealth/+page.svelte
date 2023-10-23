@@ -10,6 +10,7 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import ErrorView from '$components/ErrorView.svelte';
+	import SipHealthDetailsScoreNudge from '$components/SipHealth/Nudge/SipHealthDetailsScoreNudge.svelte';
 
 	export let data;
 
@@ -84,8 +85,14 @@
 		<section>
 			<Breadcrumb items={breadCrumbs} class="mb-4 hidden items-center justify-start md:flex" />
 
-			<section class="rounded-lg bg-white py-4 shadow-csm">
-				<article class="border-b px-4 md:px-6">Nudge Card {sipHealth?.score}</article>
+			<section class="rounded-lg bg-white py-4 shadow-csm md:pt-5">
+				<section
+					class="hidden border-b px-4 pb-4 text-lg font-medium text-black-title md:block md:px-6"
+				>
+					SIP Health Check
+				</section>
+
+				<SipHealthDetailsScoreNudge score={sipHealth?.score} class="border-b md:mt-4" />
 
 				<article class="mt-6 px-4 md:px-6">
 					{#if sipHealth?.score >= 68}
@@ -144,7 +151,7 @@
 						class="!h-fit !min-h-0 !w-fit rounded md:w-60"
 						variant="transparent"
 						onClick={() => {
-							// TODO
+							// TODO: open cue card
 						}}
 					>
 						{sipHealth?.score >= 65 ? 'How is SIP health calculated?' : 'IMPROVE your SIP Health'}
