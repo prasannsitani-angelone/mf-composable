@@ -19,4 +19,8 @@
 	fullAmountSelected={data?.fullAmountSelected}
 	appsource={data?.appsource}
 	requestId={data?.requestId}
+	interAmcFlag={data?.interAmcFlag}
+	bankAccountNo={data?.bankAccountNo}
+	bankName={data?.bankName}
+	mandateDetails={data?.mandateDetails}
 />

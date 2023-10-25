@@ -59,3 +59,10 @@ export interface AutopayDetailsType {
 export interface MandateWithBankDetails extends AutopayTypes {
 	bankLogo: string;
 }
+
+export interface IMandateDetails {
+	accountNo: string;
+	bankName: string;
+	mandateId: string;
+	mandateType: string;
+}

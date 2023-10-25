@@ -38,6 +38,9 @@
 	import type { FolioHoldingType, FolioObject } from '$lib/types/IInvestments';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { base } from '$app/paths';
+	import Modal from '$components/Modal.svelte';
+	import InterAmcSwitchCue from './InterAmcSwitchCue.svelte';
+	import type { IMandateDetails } from '$lib/types/IEmandate';
 
 	let showTpinVerificationModal = false;
 	let showOtpVerificationModal = false;
@@ -46,6 +49,7 @@
 		heading: '',
 		isLoading: false
 	};
+	let showInterAmcPopup = false;
 
 	const error = {
 		visible: false,
@@ -131,67 +135,164 @@
 		if (appsource) {
 			optionHeaders['X-Source'] = appsource;
 		}
+		if (interAmcFlag) {
+			const switchRefNo = $profileStore?.clientId + Date.now();
+			const redeemResult = await interAmcRedeemOrder(switchRefNo, orderPostData);
+			const purchaseResult = await interAmcPurchaseOrder(switchRefNo);
+			if (
+				redeemResult?.ok &&
+				purchaseResult?.ok &&
+				redeemResult?.data?.status?.toUpperCase() === STATUS_ARR?.SUCCESS &&
+				purchaseResult?.data?.status?.toUpperCase() === STATUS_ARR?.SUCCESS &&
+				redeemResult?.data?.data?.orderId !== undefined
+			) {
+				const path = `${base}/orders/redeem/${redeemResult?.data?.data?.orderId}`;
+				goto(`${path}`);
+			} else {
+				error.visible = true;
+				error.heading = 'Order Failed';
+				error.subHeading = 'Something went wrong';
+				stopLoading();
+			}
+		} else {
+			const res = await useFetch(url, {
+				method: 'POST',
+				headers: optionHeaders,
+				body: JSON.stringify({
+					amount: fullAmountSelected ? selectedFolio?.redemableAmount : parseInt(amount),
+					dpNumber: $profileStore?.dpNumber,
+					folioNumber: selectedFolio?.folioNumber,
+					quantity: fullAmountSelected
+						? selectedFolio?.redemableUnits
+						: parseFloat(getCappedUnitString(numberOfUnits?.toString(), 3)),
+					redeemAll: fullAmountSelected,
+					schemeCode: folioHolding?.schemeCode,
+					toSchemeCode: switchInFund?.schemeCode,
+					transactionType: 'SWITCH',
+					edisExecuteDate: '',
+					isin: folioHolding?.isin,
+					toIsin: switchInFund?.isin,
+					dpFlag: selectedFolio?.dpFlag,
+					emailId: orderPostData?.emailId,
+					mobileNo: orderPostData?.mobileNo?.slice(3),
+					poaStatus: $profileStore.poaStatus
+				})
+			});
+
+			if (
+				res?.ok &&
+				res?.data?.status?.toUpperCase() === STATUS_ARR?.SUCCESS &&
+				res?.data?.data?.orderId !== undefined
+			) {
+				const path = `${base}/orders/redeem/${res?.data?.data?.orderId}`;
+				goto(`${path}`);
+			} else {
+				error.visible = true;
+				error.heading = 'Order Failed';
+				if (res?.data?.message === 'FAILED: SO QUANTITY INSUFFICIENT FOR SI SCHEME') {
+					error.subHeading = 'Please try again with a higher switch out amount';
+				} else {
+					error.subHeading = res?.data?.message || 'Something went wrong';
+				}
+				stopLoading();
+			}
+		}
+	};
+
+	const handleConfirmSwitch = () => {
+		if (interAmcFlag && !showInterAmcPopup) {
+			showInterAmcPopup = true;
+		} else {
+			if (showInterAmcPopup) {
+				toggleInterAMCPopup();
+			}
+			if (selectedFolio?.dpFlag?.toUpperCase() === 'Y') {
+				if ($profileStore?.poaStatus?.toUpperCase() === 'I') {
+					toggleTpinVerificationModal();
+				} else if ($profileStore?.poaStatus?.toUpperCase() === 'A') {
+					postSwitchOrder();
+				}
+			} else if (selectedFolio?.dpFlag?.toUpperCase() === 'N') {
+				toggleOtpVerificationModal();
+			}
+			const eventMetaData = {
+				SwitchOutFund: folioHolding?.schemeName,
+				SwitchinFund: switchInFund?.schemeName,
+				SwitchAmount: amount,
+				Units: numberOfUnits
+			};
+			finalSwitchConfirmationAnalytics(eventMetaData);
+		}
+	};
+	const toggleInterAMCPopup = () => {
+		showInterAmcPopup = !showInterAmcPopup;
+	};
+
+	const interAmcRedeemOrder = async (switchRefNo: string, orderPostData?: IOrderPostData) => {
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/orders`;
 		const res = await useFetch(url, {
 			method: 'POST',
-			headers: optionHeaders,
+			headers: {
+				'X-Request-Id': uuid,
+				'X-SESSION-ID': uuid,
+				'X-device-type': 'WEB'
+			},
 			body: JSON.stringify({
 				amount: fullAmountSelected ? selectedFolio?.redemableAmount : parseInt(amount),
+				emailId: orderPostData?.emailId,
+				mobileNo: orderPostData?.mobileNo?.slice(3),
 				dpNumber: $profileStore?.dpNumber,
 				folioNumber: selectedFolio?.folioNumber,
 				quantity: fullAmountSelected
 					? selectedFolio?.redemableUnits
 					: parseFloat(getCappedUnitString(numberOfUnits?.toString(), 3)),
 				redeemAll: fullAmountSelected,
+				remarks: '',
 				schemeCode: folioHolding?.schemeCode,
-				toSchemeCode: switchInFund?.schemeCode,
-				transactionType: 'SWITCH',
-				edisExecuteDate: '',
-				isin: folioHolding?.isin,
-				toIsin: switchInFund?.isin,
+				subBrokerCode: '',
+				transactionType: 'REDEEM',
+				bankAccountNo: bankAccountNo,
+				edisExecuteDate: orderPostData?.edisExecDate,
+				bankName: bankName,
+				poaStatus: $profileStore?.poaStatus,
 				dpFlag: selectedFolio?.dpFlag,
-				emailId: orderPostData?.emailId,
-				mobileNo: orderPostData?.mobileNo?.slice(3),
-				poaStatus: $profileStore.poaStatus
+				isin: selectedFolio?.isin,
+				switchRefNo: switchRefNo
 			})
 		});
-
-		if (
-			res?.ok &&
-			res?.data?.status?.toUpperCase() === STATUS_ARR?.SUCCESS &&
-			res?.data?.data?.orderId !== undefined
-		) {
-			const path = `${base}/orders/redeem/${res?.data?.data?.orderId}`;
-			goto(`${path}`);
-		} else {
-			error.visible = true;
-			error.heading = 'Order Failed';
-			if (res?.data?.message === 'FAILED: SO QUANTITY INSUFFICIENT FOR SI SCHEME') {
-				error.subHeading = 'Please try again with a higher switch out amount';
-			} else {
-				error.subHeading = res?.data?.message || 'Something went wrong';
-			}
-			stopLoading();
-		}
+		return res;
 	};
 
-	const handleConfirmSwitch = () => {
-		if (selectedFolio?.dpFlag?.toUpperCase() === 'Y') {
-			if ($profileStore?.poaStatus?.toUpperCase() === 'I') {
-				toggleTpinVerificationModal();
-			} else if ($profileStore?.poaStatus?.toUpperCase() === 'A') {
-				postSwitchOrder();
-			}
-		} else if (selectedFolio?.dpFlag?.toUpperCase() === 'N') {
-			toggleOtpVerificationModal();
-		}
-		const eventMetaData = {
-			SwitchOutFund: folioHolding?.schemeName,
-			SwitchinFund: switchInFund?.schemeName,
-			SwitchAmount: amount,
-			Units: numberOfUnits
-		};
-		finalSwitchConfirmationAnalytics(eventMetaData);
+	const interAmcPurchaseOrder = async (switchRefNo: string) => {
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/orders`;
+
+		const res = await useFetch(url, {
+			method: 'POST',
+			headers: {
+				'X-Request-Id': requestId,
+				'X-SESSION-ID': uuid,
+				'X-device-type': 'WEB'
+			},
+			body: JSON.stringify({
+				amount: fullAmountSelected ? selectedFolio?.redemableAmount : parseInt(amount),
+				bankAccountNo: mandateDetails?.accountNo,
+				bankName: mandateDetails?.bankName,
+				mandateType: mandateDetails?.mandateType,
+				mandateId: mandateDetails?.mandateId,
+				dpNumber: $profileStore?.dpNumber,
+				emailId: $profileStore?.clientDetails?.email,
+				mobileNo: $profileStore?.mobile,
+				poaStatus: $profileStore?.poaStatus,
+				schemeCode: switchInFund?.schemeCode,
+				subBrokerCode: $profileStore?.clientDetails?.subBroker,
+				transactionType: 'PURCHASE',
+				isAdditional: false,
+				switchRefNo: switchRefNo
+			})
+		});
+		return res;
 	};
+
 	export let folioHolding: FolioHoldingType;
 	export let switchInFund: SchemeDetails;
 	export let selectedFolio: FolioObject;
@@ -201,6 +302,10 @@
 	export let fullAmountSelected: boolean;
 	export let appsource = '';
 	export let requestId = '';
+	export let interAmcFlag = false;
+	export let bankAccountNo = '';
+	export let bankName = '';
+	export let mandateDetails: IMandateDetails;
 </script>
 
 <SwitchOrderTitleCard
@@ -314,4 +419,19 @@
 		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
 		buttonVariant="contained"
 	/>
+{/if}
+
+{#if interAmcFlag && showInterAmcPopup}
+	<Modal isModalOpen={showInterAmcPopup} closeModal={toggleInterAMCPopup}>
+		<div
+			class="animate-bottomTransition flex w-screen flex-col items-center rounded-b-none rounded-t-2xl bg-white px-4 py-4 shadow-csm sm:!w-[875px] md:animate-none md:rounded-lg"
+		>
+			<InterAmcSwitchCue />
+			<div class="w-full pt-4 sm:w-[375px]">
+				<ButtonMedium class="w-full sm:w-[375px]" on:click={handleConfirmSwitch}
+					>PROCEED</ButtonMedium
+				>
+			</div>
+		</div>
+	</Modal>
 {/if}

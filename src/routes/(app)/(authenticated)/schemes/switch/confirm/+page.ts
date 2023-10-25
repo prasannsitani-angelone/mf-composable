@@ -19,7 +19,11 @@ export const load = (async ({ url, parent }) => {
 		switchInFund,
 		fullAmountSelected,
 		appsource,
-		requestId
+		requestId,
+		interAmcFlag,
+		bankAccountNo,
+		bankName,
+		mandateDetails
 	} = decodedParams;
 	if (!parentData?.tokenObj?.userToken?.NTAccessToken && pathname) {
 		const withRedirectParam = `${base}/login?redirect=${encodeURIComponent(pathname + search)}`;
@@ -40,6 +44,10 @@ export const load = (async ({ url, parent }) => {
 		switchInFund,
 		fullAmountSelected,
 		appsource,
-		requestId
+		requestId,
+		interAmcFlag,
+		bankAccountNo,
+		bankName,
+		mandateDetails
 	};
 }) satisfies PageLoad;
