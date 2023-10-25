@@ -257,7 +257,7 @@
 				poaStatus: $profileStore?.poaStatus,
 				dpFlag: selectedFolio?.dpFlag,
 				isin: selectedFolio?.isin,
-				switchRefNo: switchRefNo
+				switchRefNumber: switchRefNo
 			})
 		});
 		return res;
@@ -287,7 +287,7 @@
 				subBrokerCode: $profileStore?.clientDetails?.subBroker,
 				transactionType: 'PURCHASE',
 				isAdditional: false,
-				switchRefNo: switchRefNo
+				switchRefNumber: switchRefNo
 			})
 		});
 		return res;
