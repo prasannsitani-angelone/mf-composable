@@ -29,7 +29,7 @@
 				}`
 			}}
 			size={BtnSize.SM}
-			class="border-grey-line hover:border-grey-line"
+			class="!border-grey-line hover:border-grey-line"
 		/>
 	{/each}
 </section>

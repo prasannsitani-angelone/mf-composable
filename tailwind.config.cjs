@@ -1,5 +1,7 @@
+import presetsConfig from 'svelte-components/tailwind-config';
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+	presets: [presetsConfig],
 	content: [
 		'./src/**/*.{html,js,svelte,ts}',
 		'./node_modules/svelte-components/**/*.{html,js,svelte,ts}'
@@ -43,6 +45,7 @@ module.exports = {
 				top: '0px -2px 4px rgba(138, 141, 153, 0.16);'
 			},
 			colors: {
+				...presetsConfig.theme.extend.colors,
 				black: {
 					title: '#2A394E',
 					DEFAULT: '#000',

@@ -1,3 +1,4 @@
+@import 'svelte-components/theme.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
