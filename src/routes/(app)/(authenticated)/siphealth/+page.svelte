@@ -18,6 +18,17 @@
 	import InActiveAutopay from '$components/SipHealth/Cards/Details/InActiveAutopay.svelte';
 	import WhatIsSipHealth from '$components/SipHealth/Cards/LearnMore/WhatIsSipHealth.svelte';
 	import ImproveSipHealth from '$components/SipHealth/Cards/LearnMore/ImproveSipHealth.svelte';
+	import {
+		sipHealthDetailsPageCueCardImpressionAnalytics,
+		sipHealthDetailsPageCueCardOpenCtaClickAnalytics,
+		sipHealthDetailsPageImpressionAnalytics,
+		sipHealthDetailsPageLearnMoreCtaClickAnalytics,
+		sipHealthDetailsPageSetupAutopayCtaClickAnalytics
+	} from '$lib/analytics/siphealth/siphealth.js';
+	import {
+		SIP_HEALTH_SCORE_LIMIT_AVERAGE,
+		SIP_HEALTH_SCORE_LIMIT_GOOD
+	} from '$components/SipHealth/constants.js';
 
 	export let data;
 
@@ -54,10 +65,29 @@
 		}
 	}
 
+	const sipHealthDetailsPageImpressionAnalyticsFunc = () => {
+		const eventMetaData = {
+			Score: sipHealthData?.score,
+			Status:
+				sipHealthData?.score >= SIP_HEALTH_SCORE_LIMIT_GOOD
+					? 'Great'
+					: sipHealthData?.score >= SIP_HEALTH_SCORE_LIMIT_AVERAGE
+					? 'Average'
+					: 'Bad',
+			Autopay: sipHealthData?.autoPayEnabled ? 'Enabled' : 'Pending',
+			SIPInstallmentPaidPercentage: sipHealthData?.pecrcentageOfInstalmentPaid,
+			InstalmentPaid: sipHealthData?.noOfSuccessfulInstalmnets
+		};
+
+		sipHealthDetailsPageImpressionAnalytics(eventMetaData);
+	};
+
 	const fetchSipHealthData = async () => {
 		data?.api?.sipHealthData?.then((res: ISipHealth) => {
 			sipHealthData = res;
 		});
+
+		sipHealthDetailsPageImpressionAnalyticsFunc();
 	};
 
 	onMount(() => {
@@ -65,10 +95,13 @@
 	});
 
 	const redirectToAutopaySetup = () => {
+		sipHealthDetailsPageSetupAutopayCtaClickAnalytics({ Page: 'SipHealthCheck' });
+
 		goto(`${base}/autopay/manage`);
 	};
 
 	let showCarousel = false;
+	let isSipHealthDetailsCueCard = false;
 	let carouselItems = [];
 
 	const getSipHealthCalculationCarouselItems = () => {
@@ -109,6 +142,49 @@
 	const handleErrorNavigation = () => {
 		history?.back();
 	};
+
+	const handleLearnMoreClick = () => {
+		carouselItems = getLearnMoreCarouselItems();
+		showCarousel = true;
+
+		sipHealthDetailsPageLearnMoreCtaClickAnalytics();
+	};
+
+	const handleCueCardCtaClick = () => {
+		carouselItems = getSipHealthCalculationCarouselItems();
+		showCarousel = true;
+		isSipHealthDetailsCueCard = true;
+
+		sipHealthDetailsPageCueCardOpenCtaClickAnalytics({
+			msg:
+				sipHealthData?.score >= SIP_HEALTH_SCORE_LIMIT_GOOD
+					? 'How is SIP health calculated?'
+					: 'Improve your SIP Health'
+		});
+	};
+
+	const handleCueCardClose = () => {
+		isSipHealthDetailsCueCard = false;
+	};
+
+	const sipHealthDetailsPageCueCardImpressionAnalyticsFunc = (rank = 0) => {
+		const eventMetaData = {
+			msg:
+				sipHealthData?.score >= SIP_HEALTH_SCORE_LIMIT_GOOD
+					? 'How is SIP health calculated?'
+					: 'Improve your SIP Health',
+			Rank: rank + 1
+		};
+
+		sipHealthDetailsPageCueCardImpressionAnalytics(eventMetaData);
+	};
+
+	const handleCueCardLoad = (e) => {
+		if (showCarousel && isSipHealthDetailsCueCard) {
+			const cardRank = e?.detail?.index || 0;
+			sipHealthDetailsPageCueCardImpressionAnalyticsFunc(cardRank);
+		}
+	};
 </script>
 
 {#await data?.api?.sipHealthData}
@@ -128,19 +204,16 @@
 				<SipHealthDetailsScoreNudge
 					score={sipHealth?.score}
 					class="border-b md:mt-4"
-					on:learnMoreClick={() => {
-						carouselItems = getLearnMoreCarouselItems();
-						showCarousel = true;
-					}}
+					on:learnMoreClick={handleLearnMoreClick}
 				/>
 
 				<article class="mt-6 px-4 md:px-6">
-					{#if sipHealth?.score >= 68}
+					{#if sipHealth?.score >= SIP_HEALTH_SCORE_LIMIT_GOOD}
 						<HighScoreHealhScoreBanner
 							betterThanOthers={sipHealth?.betterThanOthers}
 							scorePercentile={sipHealth?.scorePercentile}
 						/>
-					{:else if sipHealth?.score >= 41}
+					{:else if sipHealth?.score >= SIP_HEALTH_SCORE_LIMIT_AVERAGE}
 						<MidAndLowHealthScoreBanner
 							betterThanOthers={sipHealth?.betterThanOthers}
 							scorePercentile={sipHealth?.scorePercentile}
@@ -157,7 +230,7 @@
 
 				<article class="mt-6 px-4 pb-4 text-black-key md:px-6">
 					<div class="text-sm">
-						{sipHealth?.score >= 68
+						{sipHealth?.score >= SIP_HEALTH_SCORE_LIMIT_GOOD
 							? 'Learn what makes your SIP health great'
 							: 'Here is a detailed report for your SIP Health'}
 					</div>
@@ -190,12 +263,11 @@
 					<ButtonMedium
 						class="!h-fit !min-h-0 !w-fit rounded md:w-60"
 						variant="transparent"
-						onClick={() => {
-							carouselItems = getSipHealthCalculationCarouselItems();
-							showCarousel = true;
-						}}
+						onClick={handleCueCardCtaClick}
 					>
-						{sipHealth?.score >= 65 ? 'How is SIP health calculated?' : 'IMPROVE your SIP Health'}
+						{sipHealth?.score >= SIP_HEALTH_SCORE_LIMIT_GOOD
+							? 'How is SIP health calculated?'
+							: 'Improve your SIP Health'}
 					</ButtonMedium>
 				</article>
 			</section>
@@ -210,4 +282,9 @@
 	{/if}
 {/await}
 
-<CueCardCarouselComponent bind:isModalOpen={showCarousel} {carouselItems} />
+<CueCardCarouselComponent
+	bind:isModalOpen={showCarousel}
+	{carouselItems}
+	on:cueCardLoad={handleCueCardLoad}
+	on:cueCardClose={handleCueCardClose}
+/>

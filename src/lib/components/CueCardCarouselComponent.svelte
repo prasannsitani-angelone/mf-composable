@@ -2,13 +2,32 @@
 	import { Modal, WMSIcon } from 'svelte-components';
 	import CarouselNative from '$components/Carousel/CarouselNative.svelte';
 	import CarouselItem from '$components/Carousel/CarouselItem.svelte';
+	import { afterUpdate, createEventDispatcher } from 'svelte';
+
+	const dispatch = createEventDispatcher();
 
 	export let isModalOpen = true;
+
 	let onBackDropClicked = () => {
+		dispatch('cueCardClose');
+
 		isModalOpen = false;
 	};
 
 	export let carouselItems = [];
+
+	const handleCueCardLoad = (index = 0) => {
+		dispatch('cueCardLoad', { index });
+	};
+
+	const handleOnIndexChange = (e) => {
+		const index = e?.detail?.index || 0;
+		handleCueCardLoad(index);
+	};
+
+	afterUpdate(() => {
+		handleCueCardLoad();
+	});
 </script>
 
 <Modal {isModalOpen}>
@@ -24,6 +43,7 @@
 		<CarouselNative
 			class="w-full justify-center px-4"
 			indicatorClass="sm:!justify-center sm:mx-0 !justify-start !mx-2"
+			on:onIndexChange={handleOnIndexChange}
 		>
 			<div slot="activeIndicator" class="h-2 w-8 rounded bg-white" />
 			<div slot="inActiveIndicator" class="h-2 w-2 rounded bg-grey-disabled sm:cursor-pointer" />

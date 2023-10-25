@@ -1,0 +1,2 @@
+export const SIP_HEALTH_SCORE_LIMIT_GOOD = 68;
+export const SIP_HEALTH_SCORE_LIMIT_AVERAGE = 41;

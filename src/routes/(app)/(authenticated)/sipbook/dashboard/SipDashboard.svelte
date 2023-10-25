@@ -23,6 +23,7 @@
 	import SipBookAutoPayNudge from '$components/AutopaySetupTile/SipBookAutoPayNudge.svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import SipHealthNudge from '$components/SipHealth/Nudge/SipHealthNudge.svelte';
+	import { sipScoreViewDetailsCtaClickAnalytics } from '$lib/analytics/siphealth/siphealth';
 
 	const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips`;
 	let showInactiveSipsCta = false;
@@ -118,6 +119,10 @@
 		const params = encodeObject({ amount: amount, showAlert: true });
 		goto(`${base}/autopay/manage?params=${params}`);
 	};
+
+	const handleViewReportCtaClick = () => {
+		sipScoreViewDetailsCtaClickAnalytics();
+	};
 </script>
 
 <section>
@@ -128,7 +133,7 @@
 				{#if sipBookData?.bookOverView}
 					<SipSummary bookSummary={sipBookData?.bookOverView} {automatedSipsCount} />
 				{/if}
-				<SipHealthNudge class="mb-2" />
+				<SipHealthNudge class="mb-2" on:viewReport={handleViewReportCtaClick} />
 			</div>
 
 			<!-- SIP Cards section -->

@@ -1,6 +1,8 @@
+import { SIP_HEALTH_SCORE_LIMIT_AVERAGE, SIP_HEALTH_SCORE_LIMIT_GOOD } from './constants';
+
 export const getColorSchemeForScore = (score: number): ColorObject => {
-	if (score >= 68) return Colors.Green;
-	if (score >= 41) return Colors.Yellow;
+	if (score >= SIP_HEALTH_SCORE_LIMIT_GOOD) return Colors.Green;
+	if (score >= SIP_HEALTH_SCORE_LIMIT_AVERAGE) return Colors.Yellow;
 	return Colors.Red;
 };
 

@@ -4,14 +4,15 @@
 	import { WMSIcon } from 'svelte-components';
 	import SipHealthScoreComponent from './SipHealthScoreComponent.svelte';
 	import { createEventDispatcher } from 'svelte';
+	import { SIP_HEALTH_SCORE_LIMIT_AVERAGE, SIP_HEALTH_SCORE_LIMIT_GOOD } from '../constants';
 
 	export let score = 0;
 	let scoreClass = 'text-green-buy';
 	let firstName = ($page.data?.profile?.clientDetails?.firstName || '')?.toLowerCase() || '';
 	$: {
-		if (score >= 68) {
+		if (score >= SIP_HEALTH_SCORE_LIMIT_GOOD) {
 			scoreClass = 'text-green-amount';
-		} else if (score >= 41) {
+		} else if (score >= SIP_HEALTH_SCORE_LIMIT_AVERAGE) {
 			scoreClass = 'text-yellow-primary';
 		} else {
 			scoreClass = 'text-red-errorDark';
