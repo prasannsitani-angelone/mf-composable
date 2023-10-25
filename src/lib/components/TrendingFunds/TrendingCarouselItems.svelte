@@ -70,8 +70,9 @@
 				<img
 					src="{base}/images/TrendingFundsBackground.svg"
 					class="absolute h-full w-full"
-					decoding="async"
+					decoding="sync"
 					alt="Trending Funds"
+					fetchpriority="high"
 				/>
 				<div class=" flex flex-row rounded-t-lg p-2 opacity-[.99]">
 					<slot name="detailsLeft">
