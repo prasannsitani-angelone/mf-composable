@@ -80,6 +80,8 @@
 		error.visible = false;
 		error.heading = '';
 		error.subHeading = '';
+		showTpinVerificationModal = false;
+		showOtpVerificationModal = false;
 
 		uuid = uuidv4();
 	};
@@ -138,7 +140,10 @@
 		if (interAmcFlag) {
 			const switchRefNo = $profileStore?.clientId + Date.now();
 			const redeemResult = await interAmcRedeemOrder(switchRefNo, orderPostData);
-			const purchaseResult = await interAmcPurchaseOrder(switchRefNo);
+			let purchaseResult = null;
+			if (redeemResult?.status !== 409) {
+				purchaseResult = await interAmcPurchaseOrder(switchRefNo);
+			}
 			if (
 				redeemResult?.ok &&
 				purchaseResult?.ok &&
@@ -233,7 +238,7 @@
 		const res = await useFetch(url, {
 			method: 'POST',
 			headers: {
-				'X-Request-Id': uuid,
+				'X-Request-Id': requestId,
 				'X-SESSION-ID': uuid,
 				'X-device-type': 'WEB'
 			},
@@ -269,7 +274,7 @@
 		const res = await useFetch(url, {
 			method: 'POST',
 			headers: {
-				'X-Request-Id': requestId,
+				'X-Request-Id': uuid,
 				'X-SESSION-ID': uuid,
 				'X-device-type': 'WEB'
 			},
