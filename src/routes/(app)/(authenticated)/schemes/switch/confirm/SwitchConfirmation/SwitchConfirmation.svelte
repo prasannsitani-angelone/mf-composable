@@ -279,7 +279,9 @@
 				'X-device-type': 'WEB'
 			},
 			body: JSON.stringify({
-				amount: fullAmountSelected ? selectedFolio?.redemableAmount : parseInt(amount),
+				amount: fullAmountSelected
+					? Math.floor(selectedFolio?.redemableAmount)
+					: Math.floor(parseInt(amount)),
 				bankAccountNo: mandateDetails?.accountNo,
 				bankName: mandateDetails?.bankName,
 				mandateType: mandateDetails?.mandateType,
