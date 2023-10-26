@@ -85,7 +85,9 @@
 	const handleProceedButtonClick = async () => {
 		const params = encodeObject({
 			amount: amount,
-			date: sipStartDate
+			date: sipStartDate,
+			packId: '',
+			requestId: ''
 		});
 		const path = `${base}/investwithexperts/confirm?params=${params}`;
 		await goto(path);

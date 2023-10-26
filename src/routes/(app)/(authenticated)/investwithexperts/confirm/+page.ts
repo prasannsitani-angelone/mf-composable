@@ -19,7 +19,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 	depends('app:investwithexperts:confirm');
 
 	const params = url.searchParams.get('params');
-	const { amount = 0 } = decodeToObject(params || '');
+	const { amount = 0, packId = '' } = decodeToObject(params || '');
 	const os = deviceType?.osName || deviceType?.os;
 
 	const getPacks = async () => {
@@ -27,7 +27,9 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			const response = await useFetch(`${PUBLIC_MF_CORE_BASE_URL}/schemes/packs`, {}, fetch);
 
 			if (response.ok) {
-				const data = response?.data?.packs?.[0];
+				const data = packId?.length
+					? response?.data?.packs?.find((itm) => itm.packId === packId)
+					: response?.data?.packs?.[0];
 				const schemesData = data?.schemes;
 				const labels = [];
 				let totalWeightage = 0;

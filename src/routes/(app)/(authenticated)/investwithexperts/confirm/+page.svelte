@@ -35,7 +35,7 @@
 	$: userData = $page?.data?.userDetails;
 
 	const params = $page.url.searchParams.get('params');
-	const { amount = 0, date } = decodeToObject(params || '');
+	const { amount = 0, date, requestId } = decodeToObject(params || '');
 	const profileData = $page.data?.profile;
 
 	const upiPaymentAmountLimit = 100000;
@@ -298,6 +298,7 @@
 						<PaymentSleeveWithState
 							amount={amount.toString()}
 							{paymentHandler}
+							{requestId}
 							bankAccounts={profileData?.bankDetails}
 							{showPaymentMethodScreen}
 							{paymentFlow}
