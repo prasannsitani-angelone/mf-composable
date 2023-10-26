@@ -13,7 +13,12 @@
 			<WMSIcon name="exclamation-circle-solid" />
 		{/if}
 		<div class="ml-2 w-full">
-			<div class="font-medium">{sipHealthDetails?.title || ''}</div>
+			<article class="flex">
+				<div class="font-medium">
+					{sipHealthDetails?.title || ''}
+				</div>
+				<slot name="titleTag" />
+			</article>
 			<div class="mt-2 text-black-bolder">
 				{sipHealthDetails?.description || ''}
 			</div>

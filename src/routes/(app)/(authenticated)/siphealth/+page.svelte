@@ -44,11 +44,12 @@
 					description: 'Autopay enhances your SIP health by building investing discipline',
 					icon: sipHealthData?.autoPayEnabled ? 'green' : 'yellow',
 					showFooter: !sipHealthData?.autoPayEnabled || false,
-					footerType: 'AUTOPAY_SETUP'
+					footerType: 'AUTOPAY_SETUP',
+					titleTag: sipHealthData?.autoPayEnabled ? 'HIGH IMPACT' : ''
 				},
 				{
-					title: `${Math?.floor(
-						sipHealthData?.pecrcentageOfInstalmentPaid
+					title: `${sipHealthData?.pecrcentageOfInstalmentPaid?.toFixed(
+						0
 					)}% Instalments Paid on Time`,
 					description: 'Punctual and consistent with SIP payments improve your SIP health',
 					icon: sipHealthData?.pecrcentageOfInstalmentPaid >= 65 ? 'green' : 'yellow'
@@ -250,6 +251,18 @@
 												</ButtonMedium>
 											</div>
 										{/if}
+									{:else}
+										<span />
+									{/if}
+								</svelte:fragment>
+
+								<svelte:fragment slot="titleTag">
+									{#if detail?.titleTag?.length}
+										<div
+											class="my-auto ml-2 rounded-br-sm rounded-tl-sm bg-green-amount px-1 py-0.5 text-[8px] font-medium leading-3 text-white"
+										>
+											{detail?.titleTag}
+										</div>
 									{:else}
 										<span />
 									{/if}

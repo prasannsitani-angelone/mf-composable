@@ -151,4 +151,5 @@ export interface ISipHealthDetails {
 	icon: string;
 	showFooter?: boolean;
 	footerType?: string;
+	titleTag?: string;
 }

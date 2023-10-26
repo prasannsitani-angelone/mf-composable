@@ -9,6 +9,14 @@
 	export let score = 0;
 	let scoreClass = 'text-green-buy';
 	let firstName = ($page.data?.profile?.clientDetails?.firstName || '')?.toLowerCase() || '';
+
+	$: scoreCardTitle =
+		score >= SIP_HEALTH_SCORE_LIMIT_GOOD
+			? 'You are doing great'
+			: score >= SIP_HEALTH_SCORE_LIMIT_AVERAGE
+			? 'You can do better'
+			: 'Your SIPs are at risk';
+
 	$: {
 		if (score >= SIP_HEALTH_SCORE_LIMIT_GOOD) {
 			scoreClass = 'text-green-amount';
@@ -30,7 +38,7 @@
 	<article class="flex items-center justify-between">
 		<div>
 			<div>
-				You are doing great, <span class="font-medium capitalize">{firstName}</span>
+				{scoreCardTitle}, <span class="font-medium capitalize">{firstName}</span>
 			</div>
 			<div class="mt-2 text-lg font-medium {scoreClass}">
 				SIP Health Score: {score}
