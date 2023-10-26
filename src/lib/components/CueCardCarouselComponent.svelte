@@ -37,7 +37,7 @@
 			stroke="white"
 			width={24}
 			height={24}
-			class="mx-4 mb-4 p-1 sm:mr-[500px] sm:cursor-pointer sm:self-center"
+			class="mx-4 mb-4 p-1 sm:mr-[450px] sm:cursor-pointer sm:self-center"
 			on:click={onBackDropClicked}
 		/>
 		<CarouselNative

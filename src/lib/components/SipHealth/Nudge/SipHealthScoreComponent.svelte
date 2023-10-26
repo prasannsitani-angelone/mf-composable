@@ -17,6 +17,19 @@
 		}
 	}
 
+	const plugin = {
+		id: 'customCanvasBackgroundColor',
+		beforeDraw: (chart, args, options) => {
+			const { ctx } = chart;
+			const radius = chart._metasets[0].controller.innerRadius;
+			const x = chart.getDatasetMeta(0).data[0].x;
+			const y = chart.getDatasetMeta(0).data[0].y;
+			ctx.arc(x, y, radius, 0, 2 * Math.PI);
+			ctx.fillStyle = options.fill;
+			ctx.fill();
+		}
+	};
+
 	$: doughnutData = {
 		datasets: [
 			{
@@ -34,10 +47,20 @@
 	};
 
 	const doughnutChartOptions = {
+		animation: {
+			duration: 500
+		},
 		plugins: {
 			tooltipLine: {},
-			tooltips: {
-				enabled: false
+			tooltip: {
+				enabled: false,
+				callbacks: {},
+				external: function () {
+					return;
+				}
+			},
+			customCanvasBackgroundColor: {
+				fill: 'white'
 			}
 		}
 	};
@@ -45,6 +68,7 @@
 
 <div class="relative h-24 w-24 {$$props.class}">
 	<DoughnutChart
+		chartPlugins={[plugin]}
 		data={doughnutData}
 		chartOptions={doughnutChartOptions}
 		tooltipLength={0}

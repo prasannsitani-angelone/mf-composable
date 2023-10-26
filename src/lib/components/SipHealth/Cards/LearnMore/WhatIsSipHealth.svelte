@@ -7,7 +7,7 @@
 </script>
 
 <div
-	class="flex h-[500px] w-fit flex-col items-start justify-self-center rounded-lg bg-white {$$props.class}"
+	class="flex h-[450px] w-fit flex-col items-start justify-self-center rounded-lg bg-white {$$props.class}"
 >
 	<p class="mt-6 px-6 text-4xl font-medium text-[#581DBE]">01</p>
 	<p class="mb-4 px-6 text-2xl font-medium text-black-title">What is SIP Health?</p>

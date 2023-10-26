@@ -107,7 +107,7 @@
 
 	const getSipHealthCalculationCarouselItems = () => {
 		let carouselItems = [];
-		const props = { class: 'mx-2 sm:mx-auto sm:w-[500px]' };
+		const props = { class: 'mx-2 sm:mx-auto sm:w-[450px]' };
 		if (sipHealthData?.autoPayEnabled) {
 			carouselItems.push({ component: ActiveAutopay, props });
 		} else {
@@ -121,8 +121,7 @@
 
 	const getLearnMoreCarouselItems = () => {
 		let carouselItems = [];
-		const props = { class: 'mx-2 sm:mx-auto sm:w-[500px]' };
-
+		const props = { class: 'mx-2 sm:mx-auto sm:w-[450px]' };
 		carouselItems.push({ component: WhatIsSipHealth, props });
 		carouselItems.push({ component: ImproveSipHealth, props });
 		return carouselItems;
