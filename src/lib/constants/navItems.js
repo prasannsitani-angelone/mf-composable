@@ -17,7 +17,7 @@ export const BOTTOM_NAVBARS = (version) => [
 		icon: DiscoverNav,
 		activeIcon: DiscoverNavFilled,
 		isInternalNavigation: true,
-		width: 25,
+		width: 24,
 		height: 24
 	},
 	{
@@ -26,8 +26,8 @@ export const BOTTOM_NAVBARS = (version) => [
 		icon: CartNavItem,
 		activeIcon: CartNavItemActive,
 		isInternalNavigation: true,
-		width: 25,
-		height: 25
+		width: 24,
+		height: 24
 	},
 	{
 		label: 'Investments',
@@ -44,7 +44,7 @@ export const BOTTOM_NAVBARS = (version) => [
 		icon: SipsNav,
 		activeIcon: SipsNavFilled,
 		isInternalNavigation: true,
-		width: 25,
+		width: 24,
 		height: 24
 	},
 	{
@@ -53,7 +53,7 @@ export const BOTTOM_NAVBARS = (version) => [
 		icon: PadNav,
 		activeIcon: PadNavFilled,
 		isInternalNavigation: true,
-		width: 15,
-		height: 20
+		width: 24,
+		height: 24
 	}
 ];
