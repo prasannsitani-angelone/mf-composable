@@ -109,7 +109,11 @@
 		Earn more returns with a high performance portfolio
 	</p>
 
-	<img class="px-6" src={`${base}/images/invest_with_experts.webp`} alt="Explore Mutual Funds" />
+	<img
+		class="mx-auto px-6"
+		src={`${base}/images/invest_with_experts.webp`}
+		alt="Explore Mutual Funds"
+	/>
 
 	<ul class="px-4">
 		{#each descriptionItems as item}
