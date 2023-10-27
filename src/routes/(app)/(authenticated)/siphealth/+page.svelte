@@ -55,10 +55,10 @@
 					icon: sipHealthData?.pecrcentageOfInstalmentPaid >= 65 ? 'green' : 'yellow'
 				},
 				{
-					title: `${sipHealthData?.totalInstalments} Instalments: Active SIP Age`,
+					title: `${sipHealthData?.noOfSuccessfulInstalmnets} Instalments: Active SIP Age`,
 					description:
 						'Staying invested longer improves SIP health and gives you a better chance to build wealth',
-					icon: sipHealthData?.totalInstalments >= 3 ? 'green' : 'yellow'
+					icon: sipHealthData?.noOfSuccessfulInstalmnets >= 3 ? 'green' : 'yellow'
 				}
 			];
 		} else {

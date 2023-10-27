@@ -7,7 +7,7 @@
 	export let scorePercentile: number;
 	export let title: string;
 
-	$: calculatedScorePercentage = `${scorePercentile?.toFixed(0)}%`;
+	$: calculatedScorePercentage = scorePercentile > 1 ? `${scorePercentile?.toFixed(0)}%` : '1%';
 </script>
 
 <article

@@ -10,7 +10,7 @@
 		{#if sipHealthDetails?.icon === 'green'}
 			<WMSIcon width={16} height={17} name="checkbox-checked-circle" stroke="#008F75" />
 		{:else if sipHealthDetails?.icon === 'yellow'}
-			<WMSIcon name="exclamation-circle-solid" />
+			<WMSIcon name="exclamation-circle-solid" class="-m-0.5" width={21} height={21} />
 		{/if}
 		<div class="ml-2 w-full">
 			<article class="flex">
