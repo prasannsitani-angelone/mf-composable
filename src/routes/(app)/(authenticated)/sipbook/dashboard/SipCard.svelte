@@ -257,7 +257,7 @@
 			{:else}
 				<section class="flex items-center text-xs font-normal text-red-errorDark">
 					<WMSIcon name="filledInfo" height={12} width={12} class="mr-0.5 min-w-[12px]" />
-					Pending Autopay
+					Autopay Pending
 				</section>
 			{/if}
 		</section>

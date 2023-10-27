@@ -8,6 +8,7 @@
 	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import { SIP_HEALTH_SCORE_LIMIT_AVERAGE } from '$components/SipHealth/constants';
 	import SIPHealthCardBG from '$components/SipHealth/Images/SIPHealthCardBG.svelte';
+	import { BtnSize } from 'svelte-components';
 
 	const dispatch = createEventDispatcher();
 
@@ -32,16 +33,25 @@
 			<SipHealthLoader />
 		</slot>
 	{:then result}
-		<div class="relative overflow-hidden rounded-lg shadow-csm">
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<!-- svelte-ignore a11y-no-static-element-interactions -->
+		<div
+			on:click={onViewReportClicked}
+			class="relative cursor-pointer overflow-hidden rounded-lg shadow-csm"
+		>
 			<div class="absolute h-full w-full">
 				<SIPHealthCardBG class="absolute h-full w-full" />
 			</div>
 
-			<div class="flex flex-row items-center px-3 py-2 opacity-[.99] {cardStyle}">
+			<div class="mx-4 mr-2 flex flex-row items-center opacity-[.99] {cardStyle}">
 				<div class="flex flex-1 flex-col">
 					<p class="text-base font-medium text-black-title">Your SIP Health</p>
-					<p class="text-xs font-normal text-black-title">{getLabel(result?.score)}</p>
-					<ButtonMedium on:click={onViewReportClicked} class="w-fit p-0" variant="transparent">
+					<p class="mb-3 text-xs font-normal text-black-title">{getLabel(result?.score)}</p>
+					<ButtonMedium
+						size={BtnSize.XS}
+						class="w-fit p-0 text-xs font-medium"
+						variant="transparent"
+					>
 						VIEW REPORT
 					</ButtonMedium>
 				</div>

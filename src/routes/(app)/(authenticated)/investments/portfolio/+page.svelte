@@ -121,7 +121,7 @@
 				on:portfolioChartTagChange={updateLineChart}
 			/>
 		</section>
-		<SipHealthNudge class="mt-2 w-full sm:mt-4" cardStyle="sm:px-6" />
+		<SipHealthNudge class="mt-2 w-full sm:mt-4" cardStyle="sm:px-3" />
 		<section>
 			<AssetAnalysis
 				summary={response.summaryData.summary}

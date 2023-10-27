@@ -13,7 +13,7 @@
 	<p class="mb-4 px-6 text-2xl font-medium text-black-title">{title}</p>
 	<p class="px-6 text-sm text-black-title">{description}</p>
 
-	<div class="flex h-full w-full items-center justify-center">
+	<div class="mb-20 flex h-full w-full items-center justify-center">
 		<YearTimelineIcon />
 	</div>
 </div>

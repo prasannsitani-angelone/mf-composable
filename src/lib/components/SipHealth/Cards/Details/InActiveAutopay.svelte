@@ -13,7 +13,7 @@
 	};
 </script>
 
-<ActiveAutopay>
+<ActiveAutopay class={$$props.class}>
 	<ButtonMedium slot="footer" onClick={autoPayClick} class="mb-10 w-[90%] self-center">
 		SET UP AUTOPAY
 	</ButtonMedium>
