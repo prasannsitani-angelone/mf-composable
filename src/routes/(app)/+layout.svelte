@@ -88,7 +88,7 @@
 			const data = event.detail;
 			const ctKv = data.kv;
 			if (ctKv.topic === 'mf_trackext_invdash_type_a') {
-				ctTrackExternalInvestmentsStore.set(ctKv);
+				ctTrackExternalInvestmentsStore.set(data);
 			}
 		});
 

@@ -1,11 +1,13 @@
 import { writable } from 'svelte/store';
 
-import type { IctTrackExternalInvestmentsStoreStore } from '$lib/types/IctTrackExternalInvestmentsStoreStore';
+import type { ClevertapEvent } from '$lib/types/IctTrackExternalInvestmentsStoreStore';
 
-const initalStore: IctTrackExternalInvestmentsStoreStore = {
-	topic: '',
-	subtext: '',
-	ctatext: ''
+const initalStore: ClevertapEvent = {
+	kv: {
+		topic: '',
+		subtext: '',
+		ctatext: ''
+	}
 };
 
 function CreateStore() {
@@ -13,7 +15,7 @@ function CreateStore() {
 
 	return {
 		subscribe,
-		set: (store: IctTrackExternalInvestmentsStoreStore) => {
+		set: (store: ClevertapEvent) => {
 			set(store);
 		}
 	};

@@ -45,6 +45,14 @@ class Clevertap {
 
 		this.resolve(this.clevertap);
 	}
+
+	renderNotificationViewed(data) {
+		this.clevertap.renderNotificationViewed(data);
+	}
+
+	renderNotificationClicked(data) {
+		this.clevertap.renderNotificationClicked(data);
+	}
 }
 
 export default new Clevertap();

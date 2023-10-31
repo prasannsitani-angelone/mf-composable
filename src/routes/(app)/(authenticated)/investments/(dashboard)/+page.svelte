@@ -40,6 +40,7 @@
 	import type { ITab } from '$lib/types/ITab';
 	import { getCookie, setCookie } from '$lib/utils/helpers/cookie';
 	import { browser } from '$app/environment';
+	import ClevertapNotificationViewed from '$components/ClevertapNotificationViewed.svelte';
 
 	let isXIRRModalOpen = false;
 	let isOptimisePortfolioOpen = false;
@@ -138,9 +139,11 @@
 	onDestroy(() => {
 		if (browser) {
 			ctTrackExternalInvestmentsStore.set({
-				ctatext: '',
-				subtext: '',
-				topic: ''
+				kv: {
+					topic: '',
+					subtext: '',
+					ctatext: ''
+				}
 			});
 		}
 	});
@@ -159,7 +162,8 @@
 		await goto(`${base}/investments/RegularToDirect`);
 	};
 
-	const navigateToTef = () => {
+	const navigateToTef = (data) => {
+		Clevertap.renderNotificationClicked(data);
 		const tefTab: ITab[] = tabs.filter((tab) => tab.name === 'All');
 		tefTab[0]?.onClick();
 	};
@@ -288,18 +292,23 @@
 		</section>
 	</section>
 
-	{#if $ctTrackExternalInvestmentsStore?.subtext && showTefNudge}
+	{#if $ctTrackExternalInvestmentsStore?.kv?.subtext && showTefNudge}
 		<aside
 			class="fixed bottom-20 -ml-2 flex w-full items-center bg-purple-glow p-3 align-middle sm:hidden"
 		>
+			<ClevertapNotificationViewed data={$ctTrackExternalInvestmentsStore} />
 			<div>
 				<WMSIcon name="import-external-funds" />
 			</div>
 			<p class="text-xs">
-				{$ctTrackExternalInvestmentsStore?.subtext}
+				{$ctTrackExternalInvestmentsStore?.kv?.subtext}
 			</p>
-			<Button variant="transparent" class="ml-auto text-xs !uppercase" onClick={navigateToTef}>
-				{$ctTrackExternalInvestmentsStore?.ctatext}
+			<Button
+				variant="transparent"
+				class="ml-auto text-xs !uppercase"
+				onClick={() => navigateToTef($ctTrackExternalInvestmentsStore)}
+			>
+				{$ctTrackExternalInvestmentsStore?.kv?.ctatext}
 			</Button>
 			<Button variant="transparent" onClick={hideTefNudge}>
 				<WMSIcon name="cross-circle" width={24} height={24} />
