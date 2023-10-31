@@ -47,12 +47,14 @@
 	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
 	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
 	import KycProgressPopup from '$components/Payment/KYCProgressPopup.svelte';
+	import TncModal from '$components/TnC/TncModal.svelte';
 
 	export let data: PageData;
 
 	const os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
 	$: profileData = $page?.data?.profile;
 	$: userData = $page?.data?.userDetails;
+	$: isMobile = $page?.data?.deviceType?.isMobile;
 
 	let xRequestId = '';
 	let paymentHandler = {
@@ -66,6 +68,7 @@
 	let bankPopupVisible = false;
 	let validateUPILoading = false;
 	let isKYCInProgress = false;
+	let showTncModal = false;
 
 	const error = {
 		visible: false,
@@ -413,6 +416,9 @@
 			replaceState: true
 		});
 	};
+	const toggleTncModal = () => {
+		showTncModal = !showTncModal;
+	};
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -462,6 +468,16 @@
 				{#await assignPreviousPaymentDetails(data.api.previousPaymentDetails, itemList)}
 					<div />
 				{:then}
+					{#if isMobile}
+						<article class="flex items-center justify-center bg-white px-4 pt-2">
+							<p class="text-center text-xs font-normal text-black-title">
+								By proceeding, you accept Angel One's
+								<button class="text-blue-primary md:cursor-pointer" on:click={toggleTncModal}>
+									Terms and Conditions
+								</button>
+							</p>
+						</article>
+					{/if}
 					<div class="flex flex-row items-center justify-between bg-white px-4 py-3">
 						{#if !firstTimeUser}
 							<div class="flex flex-1">
@@ -474,7 +490,17 @@
 								/>
 							</div>
 						{/if}
-						<div class="flex flex-1">
+						<div class="flex flex-col">
+							{#if !isMobile}
+								<article class="flex items-center justify-center bg-white px-4 py-2">
+									<p class="text-center text-xs font-normal text-black-title">
+										By proceeding, you accept Angel One's
+										<button class="text-blue-primary md:cursor-pointer" on:click={toggleTncModal}>
+											Terms and Conditions
+										</button>
+									</p>
+								</article>
+							{/if}
 							<Button
 								class="flex h-12 flex-1 rounded"
 								onClick={() => onPayment(paymentHandler.upiId)}
@@ -586,6 +612,10 @@
 
 		{#if isKYCInProgress}
 			<KycProgressPopup onClose={toggleKYCProgressPopup} onSubmit={toggleKYCProgressPopup} />
+		{/if}
+		{#if showTncModal}
+			<!-- T&C Modal -->
+			<TncModal showModal={showTncModal} on:closeModal={toggleTncModal} />
 		{/if}
 	{:catch}
 		<div class="flex h-full flex-col items-center self-center px-4 py-4">
