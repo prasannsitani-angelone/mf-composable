@@ -14,6 +14,7 @@
 	import { SEO } from 'svelte-components';
 	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
+	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
 
 	import RightArrowIcon from './RightArrowIcon.svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
@@ -93,6 +94,19 @@
 									: 'Order Timeline'}
 							</div>
 							<OrderTimeLine items={ordersData?.orderStatusItems || []} />
+							{#if ordersData?.data?.transactionType?.toUpperCase() === TRANSACTION_TYPE.REDEEM && (ordersData?.headerContent?.status === STATUS_ARR.SUCCESS || ordersData?.headerContent?.status === STATUS_ARR.PENDING)}
+								<div
+									class="mt-3 flex items-center rounded-md bg-purple-background px-3 py-2 text-xs text-black-title md:text-base"
+								>
+									<div>
+										<WMSIcon name="time-pending-purple" />
+									</div>
+									<div class="pl-2">
+										Funds are credited to your bank account <b>within 5 working days</b> of placing the
+										withdrawal order.
+									</div>
+								</div>
+							{/if}
 						</div>
 						{#if ordersData?.data?.transactionType?.toUpperCase() === TRANSACTION_TYPE.PURCHASE}
 							<ButtonMedium
