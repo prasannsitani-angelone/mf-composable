@@ -25,18 +25,11 @@ export const load = (async ({ fetch, params, url, parent }) => {
 
 	const decodedParams = decodeToObject(queryParam);
 	const { redirectedFrom, isExternal, clientCode } = decodedParams || {};
-	const { pathname, search } = url;
 	const schemeMetadata = fundName?.split('-isin-')[1]?.toUpperCase();
 	const [isin = '', schemeCode = ''] = schemeMetadata?.split('-SCHEMECODE-') || [];
 	let schemeData: SchemeDetails;
 	const parentData = await parent();
 	const showShare = shouldDisplayShare(parentData);
-
-	if (isExternal && !parentData?.tokenObj?.userToken?.NTAccessToken) {
-		const redirectUrl = `${base}/login?redirect=${encodeURIComponent(pathname + search)}`;
-		if (browser) return await goto(redirectUrl);
-		else throw redirect(302, redirectUrl);
-	}
 
 	if (isExternal && clientCode && clientCode !== parentData?.profile?.clientId) {
 		if (browser) {

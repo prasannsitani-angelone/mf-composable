@@ -72,16 +72,10 @@
 
 		mobileSchemeDetailsPageInvestButtonClickAnalytics(eventMetaData);
 
-		if (data?.isGuest) {
-			const redirectPath = `${base}/login?redirect=${$page.url.href}`;
+		const currentPath = window?.location?.pathname;
+		const redirectPath = `${currentPath}?orderpad=INVEST`;
 
-			goto(redirectPath);
-		} else {
-			const currentPath = window?.location?.pathname;
-			const redirectPath = `${currentPath}?orderpad=INVEST`;
-
-			goto(redirectPath);
-		}
+		goto(redirectPath);
 	};
 
 	orderpadParams = data?.layoutConfig?.decodedParams || {};

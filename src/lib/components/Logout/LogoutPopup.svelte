@@ -4,12 +4,9 @@
 	import Button from '$components/Button.svelte';
 	import { logout } from '$lib/utils/helpers/logout';
 	import { logoutAttemptStore } from '$lib/stores/LogoutAttemptStore';
-	import { goto } from '$app/navigation';
-	import { base } from '$app/paths';
 
 	const navigateToLoginPage = async () => {
-		await logout();
-		await goto(`${base}/login?redirect=${$page.url.href}`);
+		await logout($page.url.href, $page.url.origin);
 	};
 	const hideAttemptLogoutConfirmationPopup = () => {
 		logoutAttemptStore.hideLogoutConfirmationPopup();

@@ -103,10 +103,7 @@
 		}
 	});
 	const navigateToLoginPage = async () => {
-		await logout();
-		await goto(`${base}/login?redirect=${$page.url.href}`, {
-			replaceState: true
-		});
+		await logout($page.url.href, $page.url.origin);
 	};
 
 	/**

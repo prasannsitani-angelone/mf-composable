@@ -3,11 +3,11 @@ import type { LayoutData } from '../$types';
 import { browser } from '$app/environment';
 import { goto } from '$app/navigation';
 import logger from '$lib/utils/logger';
-import { base } from '$app/paths';
+import { getLogoutUrl } from '$lib/utils/helpers/logout';
 
 export const load = (async ({ url, parent }) => {
 	const parentData = await parent();
-	const { pathname, search } = url;
+	const { pathname } = url;
 	logger.debug({
 		type: 'Page Load Url',
 		params: {
@@ -19,14 +19,8 @@ export const load = (async ({ url, parent }) => {
 		}
 	});
 	if (!parentData?.tokenObj?.userToken?.NTAccessToken) {
-		if (pathname) {
-			const withRedirectParam = `${base}/login?redirect=${encodeURIComponent(pathname + search)}`;
-			if (browser) return await goto(withRedirectParam);
-			else throw redirect(302, withRedirectParam);
-		} else {
-			const withOutRedirectParam = `${base}/login`;
-			if (browser) return await goto(withOutRedirectParam);
-			else throw redirect(302, withOutRedirectParam);
-		}
+		const logoutUrl = getLogoutUrl(url.href, url.origin);
+		if (browser) return await goto(logoutUrl);
+		else throw redirect(302, logoutUrl);
 	}
 }) satisfies LayoutData;
