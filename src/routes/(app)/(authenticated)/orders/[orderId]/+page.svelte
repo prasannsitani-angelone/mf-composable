@@ -102,7 +102,7 @@
 										<WMSIcon name="time-pending-purple" />
 									</div>
 									<div class="pl-2">
-										Funds are credited to your bank account <span class="font-semibold"
+										Funds are credited to your bank account <span class="font-medium"
 											>within 5 working days</span
 										> of placing the withdrawal order.
 									</div>

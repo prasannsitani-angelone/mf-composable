@@ -111,7 +111,7 @@
 			FundName: sd?.schemeName,
 			isin: sd?.isin,
 			Amount: sd?.installmentAmount,
-			investmentType: 'SIP',
+			investmentType: isSIPOrder ? 'SIP' : 'OTI',
 			NextSIPPayment: getNextSIPDate(sd),
 			FirstSIPPayment: firstTimePayment,
 			AutoPayBank: emandateBankDetails?.bankName,
@@ -120,7 +120,9 @@
 			PaymentBank: od?.bankName,
 			Status: orderStatus,
 			Remarks: od?.remarks,
-			isIntegeratedFlow
+			integratedUpiFlow: isIntegeratedFlow,
+			OrderID: orderID,
+			SipId: sipID
 		});
 	};
 
