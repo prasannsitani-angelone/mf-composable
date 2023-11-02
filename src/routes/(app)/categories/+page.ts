@@ -8,7 +8,6 @@ import type { CategoryOptionsEntity } from '$lib/types/IDiscoverFunds';
 export const load = (async ({ fetch, url }) => {
 	const pageID = url.searchParams.get('id');
 	const getSearchOption = async () => {
-		console.log('getSearchOption called');
 		const url = `${PUBLIC_MF_CORE_BASE_URL_V2}/schemes?id=${pageID}`;
 		let schemes: ExploreFundsOptions[] = [];
 		let filterCategories: CategoryOptionsEntity[] = [];

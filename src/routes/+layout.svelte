@@ -11,7 +11,12 @@
 	import { base } from '$app/paths';
 	import Analytics from '$lib/utils/analytics';
 	import { appStore } from '$lib/stores/SparkStore';
-	import { appMount, webVitalsAnalytics } from '$lib/analytics/AppMounted';
+	import {
+		appBackground,
+		appForeground,
+		appMount,
+		webVitalsAnalytics
+	} from '$lib/analytics/AppMounted';
 	import logger from '$lib/utils/logger';
 	import { deviceStore } from '$lib/stores/DeviceStore';
 	import { PUBLIC_ANALYTICS_ENABLED, PUBLIC_ANALYTICS_URL } from '$env/static/public';
@@ -206,8 +211,11 @@
 	});
 	const onVisibilityChange = (e: Event) => {
 		if (e?.target?.visibilityState === 'hidden') {
+			appBackground();
 			Logger?.flush();
 			Analytics?.flush();
+		} else if (e?.target?.visibilityState === 'visible') {
+			appForeground();
 		}
 	};
 

@@ -11,14 +11,16 @@ export const AUTH_STATE_ENUM = {
 export interface TokenStore {
 	guestToken?: string;
 	userToken?: object;
-	sessionID?: string;
+	sparkSessionID?: string;
+	mfSessionID?: string;
 	state?: string;
 }
 
 const initalStore: TokenStore = {
 	guestToken: '',
 	userToken: {},
-	sessionID: '',
+	sparkSessionID: '',
+	mfSessionID: '',
 	state: AUTH_STATE_ENUM.NON_LOGGED_IN
 };
 function CreateStore() {
@@ -26,10 +28,12 @@ function CreateStore() {
 	let guestToken: string;
 	let userToken: object;
 	let state: string;
+	let store: TokenStore;
 	subscribe((v) => {
 		guestToken = v.guestToken || '';
 		userToken = v.userToken || '';
 		state = v.state || '';
+		store = v;
 	});
 	return {
 		subscribe,
@@ -44,6 +48,8 @@ function CreateStore() {
 		accessToken: () => userToken.NTAccessToken,
 		refreshToken: () => userToken.NTRefreshToken,
 		activeToken: () => userToken.NTAccessToken || guestToken,
+		sparkSessionID: () => store.sparkSessionID,
+		mfSessionID: () => store.mfSessionID,
 		state: () => state
 	};
 }

@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { browser } from '$app/environment';
 import sessionStorage from '$lib/utils/sessionStorage';
 import { decodeToObject } from '$lib/utils/helpers/params';
+import { tokenStore } from '$lib/stores/TokenStore';
 
 const isObjectWithNonEmptyKeys = (obj: Record<string, string | null>) => {
 	try {
@@ -26,8 +27,17 @@ const hydrateSessionData = (sparkHeaders: SparkStore) => {
 		guest: sparkHeaders?.guest,
 		closecta: sparkHeaders?.closecta,
 		deviceosversion: sparkHeaders?.deviceosversion,
-		paymentapps: sparkHeaders?.paymentapps
+		paymentapps: sparkHeaders?.paymentapps,
+		sessionId: sparkHeaders?.sessionId
 	};
+
+	const setSessionIds = () => {
+		const mfSessionId = sessionStorage.getItem('sessionId') || uuidv4();
+		sessionStorage.setItem('sessionId', mfSessionId);
+		tokenStore.updateStore({ sparkSessionID: data.sessionId, mfSessionID: mfSessionId });
+	};
+	setSessionIds();
+
 	if (isObjectWithNonEmptyKeys(data)) {
 		sessionStorage.setObject('sparkStore', data);
 		return data;

@@ -11,7 +11,8 @@ const sparkHeadersList: Array<keyof SparkStore> = [
 	'deviceid',
 	'closecta',
 	'deviceosversion',
-	'paymentapps'
+	'paymentapps',
+	'sessionId'
 ];
 
 const getSparkHeaders = (headers: Headers) => {
@@ -25,7 +26,8 @@ const getSparkHeaders = (headers: Headers) => {
 		deviceid: '',
 		closecta: '',
 		deviceosversion: '',
-		paymentapps: ''
+		paymentapps: '',
+		sessionId: ''
 	};
 
 	sparkHeadersList.forEach((list) => {

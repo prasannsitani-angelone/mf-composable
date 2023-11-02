@@ -1,6 +1,6 @@
 import BaseLogger from './baseLogger';
 import { format } from 'date-fns';
-// import { tokenStore } from '$lib/stores/TokenStore';
+import { tokenStore } from '$lib/stores/TokenStore';
 import { profileStore } from '$lib/stores/ProfileStore';
 import { appStore } from '$lib/stores/SparkStore';
 import { deviceStore } from '$lib/stores/DeviceStore';
@@ -38,7 +38,10 @@ class Analytics extends BaseLogger {
 			os_version: deviceStore.osVersion(),
 			pipe_topic: PUBLIC_ANALYTICS_TOPIC,
 			platform: appStore.platform(),
-			//   session_id: tokenStore.sessionID,
+			session_id: {
+				sparksessionid: tokenStore.sparkSessionID(),
+				mfsessionid: tokenStore.mfSessionID()
+			},
 			release_code: 'analytics2.0',
 			user_id: '',
 			source_metadata: {
