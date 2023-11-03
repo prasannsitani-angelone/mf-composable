@@ -46,6 +46,26 @@
 				hoverRadius: 10, // make responsive
 				hoverBorderWidth: 6 // make responsive
 			}
+		},
+		scales: {
+			y: {
+				type: 'linear',
+				display: 'auto',
+				position: 'left',
+				grid: {
+					display: true,
+					drawOnChartArea: true
+				},
+				border: {
+					display: false
+				},
+				min: 0,
+				max: 100,
+				ticks: {
+					stepSize: 50,
+					beginAtZero: false
+				}
+			}
 		}
 	};
 
@@ -71,10 +91,22 @@
 			datasets: [
 				{
 					label: 'NAV',
-					backgroundColor: '#1EC7B6',
+					backgroundColor: (context: { chart: { chartArea: any; ctx?: any } }) => {
+						if (!context.chart.chartArea) {
+							return;
+						}
+						const {
+							ctx,
+							chartArea: { top, bottom }
+						} = context.chart;
+						const bgGradient = ctx.createLinearGradient(0, top, 0, bottom);
+						bgGradient.addColorStop(0, 'rgba(30, 199, 182, 0.24)');
+						bgGradient.addColorStop(1, 'rgba(30, 199, 182, 0)');
+						return bgGradient;
+					},
 					borderColor: '#1EC7B6',
 					yAxisID: 'y',
-					fill: false,
+					fill: true,
 					data: lineChartData.navValue
 				}
 			]
@@ -90,6 +122,13 @@
 		const navDetails: Array<NavDetails> = await res.json();
 
 		const lineChartData: LineChartData = setChartData(navDetails);
+		// decrease the min by 2.5% and increase max by 2.5% as directed by product
+		let minVal = 0.975 * Math.min(...lineChartData.navValue);
+		let maxVal = 1.025 * Math.max(...lineChartData.navValue);
+		let stepSize = (minVal + maxVal) / 2;
+		lineChartOptions.scales.y.max = maxVal;
+		lineChartOptions.scales.y.min = minVal;
+		lineChartOptions.scales.y.ticks.stepSize = stepSize;
 
 		const currentMonthLable = tags.filter((tag) => tag.months === month);
 		const eventMetadata = { ChartTimeIntervalSelected: currentMonthLable[0].label };

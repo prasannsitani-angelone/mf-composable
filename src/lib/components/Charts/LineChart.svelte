@@ -13,7 +13,8 @@
 		Title,
 		Tooltip,
 		SubTitle,
-		CategoryScale
+		CategoryScale,
+		Filler
 	} from 'chart.js';
 	import merge from 'lodash.merge';
 
@@ -28,7 +29,8 @@
 		Title,
 		Tooltip,
 		SubTitle,
-		CategoryScale
+		CategoryScale,
+		Filler
 	);
 
 	export let chartId = 'line-chart';
