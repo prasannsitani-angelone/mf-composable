@@ -1,10 +1,10 @@
-import { PUBLIC_MANDATE_BASE_URL } from '$env/static/public';
+import { PUBLIC_PAYMENT_BASE_URL } from '$env/static/public';
 import { useFetch } from '$lib/utils/useFetch';
 
 export const fetchTransactionDataFunc = async (params) => {
 	try {
 		const { mandateID } = params || {};
-		const url = `${PUBLIC_MANDATE_BASE_URL}/mandate/${mandateID}`;
+		const url = `${PUBLIC_PAYMENT_BASE_URL}/mandate/${mandateID}`;
 		const response = await useFetch(url);
 		return response;
 	} catch (e) {
@@ -14,7 +14,7 @@ export const fetchTransactionDataFunc = async (params) => {
 
 export const callMandateAPI = async (body) => {
 	try {
-		const url = `${PUBLIC_MANDATE_BASE_URL}/mandate`;
+		const url = `${PUBLIC_PAYMENT_BASE_URL}/mandate`;
 		const response = await useFetch(url, {
 			method: 'POST',
 			body: JSON.stringify(body)
@@ -39,7 +39,7 @@ export const upiValidateFunc = async (params) => {
 			};
 		}
 		showLoading();
-		const url = `${PUBLIC_MANDATE_BASE_URL}/mandate/validate-vpa`;
+		const url = `${PUBLIC_PAYMENT_BASE_URL}/mandate/validate-vpa`;
 		const response = await useFetch(url, {
 			method: 'POST',
 			body: JSON.stringify({

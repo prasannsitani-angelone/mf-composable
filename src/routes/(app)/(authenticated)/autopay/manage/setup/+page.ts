@@ -1,6 +1,6 @@
 import type { PageLoad } from './$types';
 import { decodeToObject } from '$lib/utils/helpers/params';
-import { PUBLIC_MANDATE_BASE_URL } from '$env/static/public';
+import { PUBLIC_PAYMENT_BASE_URL } from '$env/static/public';
 import { useFetch } from '$lib/utils/useFetch';
 import { browser } from '$app/environment';
 import type { BankDetailsEntity } from '$lib/types/IUserProfile';
@@ -18,7 +18,7 @@ export const load = (async ({ url, parent, fetch }) => {
 		);
 		let res = {};
 		if (bankDetails) {
-			const url = `${PUBLIC_MANDATE_BASE_URL}/mandate/options?product=mf&ifsc=${bankDetails?.ifscCode}`;
+			const url = `${PUBLIC_PAYMENT_BASE_URL}/mandate/options?product=mf&ifsc=${bankDetails?.ifscCode}`;
 			res = await useFetch(url, {}, fetch);
 		}
 		return res;

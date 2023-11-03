@@ -112,7 +112,7 @@
 	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
 	import type { PaymentMethodsStatusTypes } from '$lib/types/IPayments';
 	import type { BankDetailsEntity } from '$lib/types/IUserProfile';
-	import { PUBLIC_MANDATE_BASE_URL } from '$env/static/public';
+	import { PUBLIC_PAYMENT_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import { getEmandateDataFunc } from '$components/Payment/api';
 	import { upiValidateFunc } from '$components/mandate/api';
@@ -1428,7 +1428,7 @@
 		);
 		let res = {};
 		if (bankDetails) {
-			const url = `${PUBLIC_MANDATE_BASE_URL}/mandate/options?product=mf&ifsc=${bankDetails?.ifscCode}`;
+			const url = `${PUBLIC_PAYMENT_BASE_URL}/mandate/options?product=mf&ifsc=${bankDetails?.ifscCode}`;
 			res = await useFetch(url, {}, fetch);
 		}
 		return res;

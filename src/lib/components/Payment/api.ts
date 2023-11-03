@@ -1,9 +1,5 @@
 import { base } from '$app/paths';
-import {
-	PUBLIC_MANDATE_BASE_URL,
-	PUBLIC_MF_CORE_BASE_URL,
-	PUBLIC_PAYMENT_BASE_URL
-} from '$env/static/public';
+import { PUBLIC_PAYMENT_BASE_URL, PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import getEmandateData from '$lib/api/emandate';
 import { stringToFloat } from '$lib/utils/helpers/numbers';
 import { useFetch } from '$lib/utils/useFetch';
@@ -130,7 +126,7 @@ export const fetchTransactionDataFunc = async (params) => {
 export const fetchMandateTransactionDataFunc = async (params) => {
 	try {
 		const { xRequestId, source } = params || {};
-		const url = `${PUBLIC_MANDATE_BASE_URL}/transaction?upstream_reference_number=${xRequestId}`;
+		const url = `${PUBLIC_PAYMENT_BASE_URL}/transaction?upstream_reference_number=${xRequestId}`;
 		const response = await useFetch(url, {
 			headers: {
 				'X-Request-Id': xRequestId,
