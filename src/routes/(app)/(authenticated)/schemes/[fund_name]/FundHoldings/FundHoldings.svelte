@@ -74,7 +74,8 @@
 				borderColor: '#F4F6FB',
 				offset: 0,
 				hoverOffset: 3,
-				borderJoinStyle: 'round'
+				borderJoinStyle: 'round',
+				labelUnit: '%'
 			}
 		]
 	};

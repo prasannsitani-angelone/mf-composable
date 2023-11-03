@@ -34,7 +34,7 @@
 							return titles;
 						},
 						label: (tooltip) => {
-							return `${tooltip.formattedValue}%`;
+							return `${tooltip.formattedValue}${tooltip?.dataset?.labelUnit || ''}`;
 						}
 					},
 					external: function (context) {

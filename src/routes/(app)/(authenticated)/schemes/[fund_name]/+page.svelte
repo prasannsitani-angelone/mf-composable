@@ -9,7 +9,7 @@
 	import SchemeInformation from './SchemeInformation/SchemeInformation.svelte';
 	import SimilarFunds from './SimilarFunds/SimilarFunds.svelte';
 	import OtherFundsByAMC from './OtherFundsByAMC/OtherFundsByAMC.svelte';
-	import ReturnEstimator from './ReturnEstimator/ReturnEstimator.svelte';
+	import ReturnEstimator from '$components/ReturnEstimator/ReturnEstimator.svelte';
 	import InvestmentPad from '../../../InvestmentPad/InvestmentPad.svelte';
 	import { orderpadParentPage } from '../../../InvestmentPad/constants';
 	import InvestmentDetailsFooter from '../../../(authenticated)/investments/[investment]/components/InvestmentDetailsFooter.svelte';
@@ -21,13 +21,18 @@
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import FundDetailsLoader from './FundDetailsLoader/FundDetailsLoader.svelte';
 	import OrderpadLoader from './FundDetailsLoader/OrderpadLoader.svelte';
-	import { mobileSchemeDetailsPageInvestButtonClickAnalytics } from './analytics';
+	import {
+		calculateReturnsAmount,
+		calculateReturnsduration,
+		mobileSchemeDetailsPageInvestButtonClickAnalytics
+	} from './analytics';
 	import NfoDetails from './NFODetails/NFODetails.svelte';
 	import { SEO } from 'svelte-components';
 	import { base } from '$app/paths';
 	import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
 	import InvestmentDetailsFooterLoader from '../../../(authenticated)/investments/[investment]/components/InvestmentDetailsFooterLoader.svelte';
 	import { hydratedStore } from '$lib/stores/AppHydratedStore';
+	import type { CalculatedValue } from '$lib/types/IStandaloneCalculator';
 
 	export let data: PageData;
 
@@ -93,6 +98,39 @@
 		queryParamsObj = getQueryParamsObj();
 		setQueryParamsData();
 	});
+
+	const calculateReturnsAmountAnalytics = (calculatedOutput: CalculatedValue) => {
+		if (!(calculatedOutput?.currentCalculatorMode && calculatedOutput?.investedAmount)) {
+			return;
+		}
+
+		const eventMetadata = {
+			InvestmentType: calculatedOutput?.currentCalculatorMode,
+			Amount: calculatedOutput.investedAmount
+		};
+
+		calculateReturnsAmount(eventMetadata);
+	};
+
+	const calculateReturnsdurationAnalytics = (calculatedOutput: CalculatedValue) => {
+		if (!(calculatedOutput?.currentCalculatorMode && calculatedOutput?.selectedYear)) {
+			return;
+		}
+
+		const eventMetadata = {
+			InvestmentType: calculatedOutput?.currentCalculatorMode,
+			Duration: calculatedOutput?.selectedYear
+		};
+		calculateReturnsduration(eventMetadata);
+	};
+
+	const handleReturnCalculatorAmountChange = (calculatedOutput: CalculatedValue) => {
+		calculateReturnsAmountAnalytics(calculatedOutput);
+	};
+
+	const handleReturnCalculatorYearChange = (calculatedOutput: CalculatedValue) => {
+		calculateReturnsdurationAnalytics(calculatedOutput);
+	};
 </script>
 
 <svelte:head>
@@ -122,8 +160,14 @@
 			<LockInPeriod schemeDetails={schemedata} {isNFO} />
 			{#if !isNFO}
 				<ReturnEstimator
-					returns3yr={schemedata?.returns3yr > 30 ? 30 : Math.round(schemedata?.returns3yr)}
+					returns3yr={Math.round(schemedata?.returns3yr)}
+					returns5yr={Math.round(schemedata?.returns5yr)}
 					categoryName={schemedata?.categoryName}
+					minSipAmount={schemedata?.minSipAmount}
+					minLumpsumAmount={schemedata?.minLumpsumAmount}
+					class="mt-2 md:mt-4"
+					on:onAmountChange={(e) => handleReturnCalculatorAmountChange(e.detail)}
+					on:onYearChange={(e) => handleReturnCalculatorYearChange(e.detail)}
 				/>
 			{/if}
 			<SchemeInformation schemeDetails={schemedata} {isNFO} />

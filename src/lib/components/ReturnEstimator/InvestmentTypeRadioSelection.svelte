@@ -1,0 +1,44 @@
+<script lang="ts">
+	import { createEventDispatcher } from 'svelte';
+	import { RadioButton } from 'svelte-components';
+
+	export let selectedInvestmentType: string;
+
+	const dispatch = createEventDispatcher();
+
+	const handleInvestmentTypeChange = (val: string) => {
+		if (val !== selectedInvestmentType) {
+			dispatch('investmentTypeChange', val);
+		}
+	};
+</script>
+
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<section class="flex items-center text-xs font-normal text-black-title">
+	<article
+		class="flex items-center md:cursor-pointer"
+		on:click={() => handleInvestmentTypeChange('SIP')}
+	>
+		<RadioButton
+			class={selectedInvestmentType !== 'SIP'
+				? 'border-[1.5px] !border-black-bolder !bg-white'
+				: ''}
+			selected={selectedInvestmentType === 'SIP'}
+		/>
+		<div class="ml-2.5 {selectedInvestmentType === 'SIP' ? 'font-medium' : ''}">SIP</div>
+	</article>
+
+	<article
+		class="ml-6 flex items-center md:cursor-pointer"
+		on:click={() => handleInvestmentTypeChange('OneTime')}
+	>
+		<RadioButton
+			class={selectedInvestmentType !== 'OneTime'
+				? 'border-[1.5px] !border-black-bolder !bg-white'
+				: ''}
+			selected={selectedInvestmentType === 'OneTime'}
+		/>
+		<div class="ml-2.5 {selectedInvestmentType === 'OneTime' ? 'font-medium' : ''}">One Time</div>
+	</article>
+</section>
