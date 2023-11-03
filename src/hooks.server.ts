@@ -159,7 +159,8 @@ const handler = (async ({ event, resolve }) => {
 			response.headers.set('Server-Timing', headers);
 		}
 		if (response.headers.get('Content-Type') === 'text/html') {
-			// response.headers.delete('link');
+			// Remove Preload link resource to increase FCP
+			response.headers.delete('link');
 			let linkHeader = response.headers.get('link') || '';
 			// Add preload link headers
 			linkHeader = addPreloadLinkHeaders(linkHeader, event.request.url);
