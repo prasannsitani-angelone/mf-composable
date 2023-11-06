@@ -7,7 +7,7 @@ import { getLogoutUrl } from '$lib/utils/helpers/logout';
 
 export const load = (async ({ url, parent }) => {
 	const parentData = await parent();
-	const { pathname } = url;
+	const { pathname, search } = url;
 	logger.debug({
 		type: 'Page Load Url',
 		params: {
@@ -19,7 +19,9 @@ export const load = (async ({ url, parent }) => {
 		}
 	});
 	if (!parentData?.tokenObj?.userToken?.NTAccessToken) {
-		const logoutUrl = getLogoutUrl(url.href, url.origin);
+		const origin = `${parentData.scheme}//${parentData.host}`;
+		const redirectUrl = `${origin}${encodeURIComponent(pathname + search)}`;
+		const logoutUrl = getLogoutUrl(redirectUrl, origin);
 		if (browser) return await goto(logoutUrl);
 		else throw redirect(302, logoutUrl);
 	}
