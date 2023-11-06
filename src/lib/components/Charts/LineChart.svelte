@@ -139,7 +139,7 @@
 						padding: 0,
 						font: {
 							size: 14,
-							family: 'Barlow',
+							family: 'Roboto',
 							weight: 400
 						}
 					}
@@ -161,7 +161,12 @@
 			},
 			plugins: {
 				legend: {
-					display: false
+					display: false,
+					labels: {
+						font: {
+							family: 'Roboto'
+						}
+					}
 				},
 				tooltip: {
 					enabled: false,

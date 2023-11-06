@@ -63,8 +63,16 @@
 				max: 100,
 				ticks: {
 					stepSize: 50,
-					beginAtZero: false
+					beginAtZero: false,
+					callback: function (value: number) {
+						return '₹' + value.toString();
+					}
 				}
+			}
+		},
+		layout: {
+			padding: {
+				left: 5
 			}
 		}
 	};
@@ -123,9 +131,14 @@
 
 		const lineChartData: LineChartData = setChartData(navDetails);
 		// decrease the min by 2.5% and increase max by 2.5% as directed by product
-		let minVal = 0.975 * Math.min(...lineChartData.navValue);
-		let maxVal = 1.025 * Math.max(...lineChartData.navValue);
-		let stepSize = (minVal + maxVal) / 2;
+		let minVal = Math.round(0.975 * Math.min(...lineChartData.navValue) * 10) / 10;
+		let maxVal = Math.round(1.025 * Math.max(...lineChartData.navValue) * 10) / 10;
+		let stepSize = Math.round(((minVal + maxVal) / 2) * 10) / 10;
+		if (maxVal - minVal > 10) {
+			maxVal = Math.round(maxVal);
+			minVal = Math.round(minVal);
+			stepSize = Math.round(stepSize);
+		}
 		lineChartOptions.scales.y.max = maxVal;
 		lineChartOptions.scales.y.min = minVal;
 		lineChartOptions.scales.y.ticks.stepSize = stepSize;
