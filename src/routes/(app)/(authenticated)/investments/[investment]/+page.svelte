@@ -13,7 +13,7 @@
 	import type { PageData } from './$types';
 	import type { FolioHoldingType, ChartData, OrdersData } from '$lib/types/IInvestments';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
-	import { getQueryParamsObj } from '$lib/utils/helpers/params';
+	import { decodeToObject, getQueryParamsObj } from '$lib/utils/helpers/params';
 	import isInvestmentAllowed from '$lib/utils/isInvestmentAllowed';
 	import InvestmentDetailsFooter from './components/InvestmentDetailsFooter.svelte';
 	import { orderpadParentPage } from '../../../InvestmentPad/constants';
@@ -38,6 +38,7 @@
 	import InvestmentDetailsFooterLoader from './components/InvestmentDetailsFooterLoader.svelte';
 	import { hydrate } from '$lib/utils/helpers/hydrated';
 	import { investMoreClickEvent } from '$lib/analytics/investments/investments';
+	import SwpDetails from './components/SwpDetails.svelte';
 
 	export let data: PageData;
 
@@ -61,6 +62,7 @@
 	let withdrawDisableText = '';
 	let isWithdrawDisableLockInCase = false;
 	let showStayInvestedModal = false;
+	let decodedParams = {};
 
 	async function setPageData(
 		data: Promise<{
@@ -201,6 +203,10 @@
 			showInvestmentPad = false;
 			showRedemptionPad = false;
 			orderPadActiveTab = 'MORE_OPTIONS';
+		} else if (queryParamsObj?.orderpad === 'SWP') {
+			showInvestmentPad = false;
+			showRedemptionPad = false;
+			orderPadActiveTab = 'SWP';
 		} else {
 			showRedemptionPad = false;
 			showInvestmentPad = false;
@@ -209,6 +215,12 @@
 
 	afterUpdate(() => {
 		queryParamsObj = getQueryParamsObj();
+
+		if (queryParamsObj) {
+			decodedParams = decodeToObject(queryParamsObj?.params || '');
+			queryParamsObj.orderpad = decodedParams?.orderpad;
+		}
+
 		setQueryParamsData();
 	});
 
@@ -396,6 +408,14 @@
 							!!withdrawDisableText?.length}
 						redemptionNotAllowedText={withdrawDisableText}
 						{isInvestmentNotAllowed}
+					/>
+				</article>
+			{:else if orderPadActiveTab === investmentDetailsFooterEvents?.SWP}
+				<article class="sticky -top-2 mt-[52px] h-fit rounded-lg bg-white shadow-csm">
+					<SwpDetails
+						schemeData={res.schemeData}
+						holdingDetails={holdingsData}
+						params={decodedParams}
 					/>
 				</article>
 			{:else if orderPadActiveTab === investmentDetailsFooterEvents?.MORE_OPTIONS}
