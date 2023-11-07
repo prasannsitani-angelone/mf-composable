@@ -490,7 +490,7 @@
 								/>
 							</div>
 						{/if}
-						<div class="flex flex-col">
+						<div class="flex flex-1 flex-col">
 							{#if !isMobile}
 								<article class="flex items-center justify-center bg-white px-4 py-2">
 									<p class="text-center text-xs font-normal text-black-title">
