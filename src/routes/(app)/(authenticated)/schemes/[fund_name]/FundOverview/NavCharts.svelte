@@ -65,7 +65,9 @@
 					stepSize: 50,
 					beginAtZero: false,
 					callback: function (value: number) {
-						return '₹' + value.toString();
+						if (lineChartOptions.scales.y.max - lineChartOptions.scales.y.min >= 10)
+							return '₹' + value.toFixed(0).toString();
+						else return '₹' + value.toFixed(1).toString();
 					}
 				}
 			}
@@ -134,7 +136,7 @@
 		let minVal = Math.round(0.975 * Math.min(...lineChartData.navValue) * 10) / 10;
 		let maxVal = Math.round(1.025 * Math.max(...lineChartData.navValue) * 10) / 10;
 		let stepSize = Math.round(((minVal + maxVal) / 2) * 10) / 10;
-		if (maxVal - minVal > 10) {
+		if (maxVal - minVal >= 10) {
 			maxVal = Math.round(maxVal);
 			minVal = Math.round(minVal);
 			stepSize = Math.round(stepSize);
