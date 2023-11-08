@@ -218,7 +218,9 @@
 
 		if (queryParamsObj) {
 			decodedParams = decodeToObject(queryParamsObj?.params || '');
-			queryParamsObj.orderpad = decodedParams?.orderpad;
+			if (decodedParams?.orderpad) {
+				queryParamsObj.orderpad = decodedParams?.orderpad;
+			}
 		}
 
 		setQueryParamsData();
