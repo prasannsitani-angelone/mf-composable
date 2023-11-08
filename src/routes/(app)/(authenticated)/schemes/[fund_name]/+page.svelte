@@ -22,9 +22,10 @@
 	import FundDetailsLoader from './FundDetailsLoader/FundDetailsLoader.svelte';
 	import OrderpadLoader from './FundDetailsLoader/OrderpadLoader.svelte';
 	import {
-		calculateReturnsAmount,
 		calculateReturnsduration,
-		mobileSchemeDetailsPageInvestButtonClickAnalytics
+		mobileSchemeDetailsPageInvestButtonClickAnalytics,
+		returnCalculatorImpressionAnalytics,
+		returnCalculatorResultAnalytics
 	} from './analytics';
 	import NfoDetails from './NFODetails/NFODetails.svelte';
 	import { SEO } from 'svelte-components';
@@ -99,19 +100,6 @@
 		setQueryParamsData();
 	});
 
-	const calculateReturnsAmountAnalytics = (calculatedOutput: CalculatedValue) => {
-		if (!(calculatedOutput?.currentCalculatorMode && calculatedOutput?.investedAmount)) {
-			return;
-		}
-
-		const eventMetadata = {
-			InvestmentType: calculatedOutput?.currentCalculatorMode,
-			Amount: calculatedOutput.investedAmount
-		};
-
-		calculateReturnsAmount(eventMetadata);
-	};
-
 	const calculateReturnsdurationAnalytics = (calculatedOutput: CalculatedValue) => {
 		if (!(calculatedOutput?.currentCalculatorMode && calculatedOutput?.selectedYear)) {
 			return;
@@ -124,12 +112,40 @@
 		calculateReturnsduration(eventMetadata);
 	};
 
-	const handleReturnCalculatorAmountChange = (calculatedOutput: CalculatedValue) => {
-		calculateReturnsAmountAnalytics(calculatedOutput);
-	};
-
 	const handleReturnCalculatorYearChange = (calculatedOutput: CalculatedValue) => {
 		calculateReturnsdurationAnalytics(calculatedOutput);
+	};
+
+	const returnCalculatorImpressionAnalyticsFunc = (calculatedOutput: CalculatedValue) => {
+		const eventMetadata = {
+			InvType: calculatedOutput?.currentCalculatorMode,
+			ScreenName: 'fund_detail',
+			amounttype: 'default',
+			amount: calculatedOutput?.investedAmount,
+			durationtype: 'default',
+			duration: calculatedOutput?.selectedYear,
+			returnabs: calculatedOutput?.selectedReturn,
+			finalvalue: calculatedOutput?.matuarityAmount,
+			gains: calculatedOutput?.capitalGain
+		};
+
+		returnCalculatorImpressionAnalytics(eventMetadata);
+	};
+
+	const returnCalculatorResultAnalyticsFunc = (calculatedOutput: CalculatedValue) => {
+		const eventMetadata = {
+			InvType: calculatedOutput?.currentCalculatorMode,
+			ScreenName: 'fund_detail',
+			amounttype: 'manual',
+			amount: calculatedOutput?.investedAmount,
+			durationtype: 'manual',
+			duration: calculatedOutput?.selectedYear,
+			returnabs: calculatedOutput?.selectedReturn,
+			finalvalue: calculatedOutput?.matuarityAmount,
+			gains: calculatedOutput?.capitalGain
+		};
+
+		returnCalculatorResultAnalytics(eventMetadata);
 	};
 </script>
 
@@ -166,8 +182,9 @@
 					minSipAmount={schemedata?.minSipAmount}
 					minLumpsumAmount={schemedata?.minLumpsumAmount}
 					class="mt-2 md:mt-4"
-					on:onAmountChange={(e) => handleReturnCalculatorAmountChange(e.detail)}
 					on:onYearChange={(e) => handleReturnCalculatorYearChange(e.detail)}
+					on:returnEstimatorInViewPort={(e) => returnCalculatorImpressionAnalyticsFunc(e?.detail)}
+					on:returnCalculatorResult={(e) => returnCalculatorResultAnalyticsFunc(e?.detail)}
 				/>
 			{/if}
 			<SchemeInformation schemeDetails={schemedata} {isNFO} />

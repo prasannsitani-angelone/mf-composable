@@ -66,18 +66,18 @@
 		}
 	}
 
-	const sipHealthDetailsPageImpressionAnalyticsFunc = () => {
+	const sipHealthDetailsPageImpressionAnalyticsFunc = (sipHealthDataObj: ISipHealth) => {
 		const eventMetaData = {
-			Score: sipHealthData?.score,
+			Score: sipHealthDataObj?.score,
 			Status:
-				sipHealthData?.score >= SIP_HEALTH_SCORE_LIMIT_GOOD
+				sipHealthDataObj?.score >= SIP_HEALTH_SCORE_LIMIT_GOOD
 					? 'Great'
-					: sipHealthData?.score >= SIP_HEALTH_SCORE_LIMIT_AVERAGE
+					: sipHealthDataObj?.score >= SIP_HEALTH_SCORE_LIMIT_AVERAGE
 					? 'Average'
 					: 'Bad',
-			Autopay: sipHealthData?.autoPayEnabled ? 'Enabled' : 'Pending',
-			SIPInstallmentPaidPercentage: sipHealthData?.pecrcentageOfInstalmentPaid,
-			InstalmentPaid: sipHealthData?.noOfSuccessfulInstalmnets
+			Autopay: sipHealthDataObj?.autoPayEnabled ? 'Enabled' : 'Pending',
+			SIPInstallmentPaidPercentage: sipHealthDataObj?.pecrcentageOfInstalmentPaid,
+			InstalmentPaid: sipHealthDataObj?.noOfSuccessfulInstalmnets
 		};
 
 		sipHealthDetailsPageImpressionAnalytics(eventMetaData);
@@ -86,9 +86,8 @@
 	const fetchSipHealthData = async () => {
 		data?.api?.sipHealthData?.then((res: ISipHealth) => {
 			sipHealthData = res;
+			sipHealthDetailsPageImpressionAnalyticsFunc(res);
 		});
-
-		sipHealthDetailsPageImpressionAnalyticsFunc();
 	};
 
 	onMount(() => {

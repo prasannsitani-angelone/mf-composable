@@ -21,9 +21,9 @@
 		on:click={() => handleInvestmentTypeChange('SIP')}
 	>
 		<RadioButton
-			class={selectedInvestmentType !== 'SIP'
-				? 'border-[1.5px] !border-black-bolder !bg-white'
-				: ''}
+			class="scale-125 !bg-white {selectedInvestmentType !== 'SIP'
+				? 'border-[1.5px] !border-black-bolder'
+				: ''}"
 			selected={selectedInvestmentType === 'SIP'}
 		/>
 		<div class="ml-2.5 {selectedInvestmentType === 'SIP' ? 'font-medium' : ''}">SIP</div>
@@ -34,9 +34,9 @@
 		on:click={() => handleInvestmentTypeChange('OneTime')}
 	>
 		<RadioButton
-			class={selectedInvestmentType !== 'OneTime'
-				? 'border-[1.5px] !border-black-bolder !bg-white'
-				: ''}
+			class="scale-125 !bg-white {selectedInvestmentType !== 'OneTime'
+				? 'border-[1.5px] !border-black-bolder'
+				: ''}"
 			selected={selectedInvestmentType === 'OneTime'}
 		/>
 		<div class="ml-2.5 {selectedInvestmentType === 'OneTime' ? 'font-medium' : ''}">One Time</div>

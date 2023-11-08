@@ -160,3 +160,31 @@ export const shareFundDetailClickAnalytics = (eventMetaData: {
 		event_metadata: eventMetaData
 	});
 };
+
+export const returnCalculatorImpressionAnalytics = (
+	eventMetaData: Record<string, string | number | undefined>
+) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-FundDetails',
+		event_type: 'impression',
+		event_sub_type: 'tab',
+		event_name: 'ReturnCalc_card',
+		event_property: null,
+		event_id: '301.0.1.2.6',
+		event_metadata: eventMetaData
+	});
+};
+
+export const returnCalculatorResultAnalytics = (
+	eventMetaData: Record<string, string | number | undefined>
+) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-FundDetails',
+		event_type: 'api',
+		event_sub_type: 'api',
+		event_name: 'ReturnCalc_api',
+		event_property: null,
+		event_id: '301.0.1.2.12',
+		event_metadata: eventMetaData
+	});
+};

@@ -5,6 +5,7 @@
 	import InvestmentTypeRadioSelection from './InvestmentTypeRadioSelection.svelte';
 	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import { createEventDispatcher } from 'svelte';
+	import { debounce } from '$lib/utils/helpers/debounce';
 
 	export let returns3yr = 0;
 	export let returns5yr = 0;
@@ -140,6 +141,14 @@
 
 		return Math.floor(totalProfit) || 0;
 	};
+
+	const amountSliderChange = debounce(() => {
+		dispatch('amountSliderChange');
+	}, 500);
+
+	const handleAmountSliderInput = () => {
+		amountSliderChange();
+	};
 </script>
 
 <article class="bgv mt-4 max-w-4xl rounded-lg bg-white pb-4 text-sm md:mt-8 {$$props.class || ''}">
@@ -161,6 +170,7 @@
 					max={maxAmountSlider}
 					step={amountSliderSteps}
 					on
+					on:input={handleAmountSliderInput}
 				>
 					<div
 						class="flex h-[22px] w-[22px] items-center justify-center rounded-full border border-blue-primary bg-white shadow-csm md:cursor-pointer"
@@ -169,7 +179,7 @@
 					</div>
 				</Slider>
 				<div
-					class="min-w-28 max-w-28 my-auto ml-3 w-28 rounded-md border border-blue-primary p-2.5 text-center text-sm font-semibold text-black-title"
+					class="min-w-28 max-w-28 my-auto ml-3 w-28 rounded-md border border-blue-primary p-2.5 text-center text-sm font-medium text-black-title"
 				>
 					<AmountText amount={amountReturnSlider[0]} />
 				</div>
@@ -186,7 +196,7 @@
 							onClick={() => {
 								updateDuration(durationButton?.value);
 							}}
-							class="!h-fit !min-h-fit !border-grey-line px-3 py-2 text-xs font-semibold !capitalize md:px-4 md:py-3 {duration ===
+							class="!h-fit !min-h-fit !border-grey-line px-3 py-2 text-xs font-medium !capitalize md:px-4 md:py-3 {duration ===
 							durationButton.value
 								? ''
 								: '!text-grey-body'} {index > 0 ? 'ml-2' : ''}"
@@ -208,7 +218,7 @@
 				</article>
 
 				<article class="md:ml-8">
-					<div class="text-base font-semibold text-black-title">
+					<div class="text-base font-medium text-black-title">
 						{returnsPercentage}% p.a.
 					</div>
 				</article>
