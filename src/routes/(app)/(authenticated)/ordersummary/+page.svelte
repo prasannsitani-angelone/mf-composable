@@ -111,9 +111,13 @@
 			FundName: sd?.schemeName,
 			isin: sd?.isin,
 			Amount: sd?.installmentAmount,
-			investmentType: isSIPOrder ? 'SIP' : 'OTI',
-			NextSIPPayment: getNextSIPDate(sd),
-			FirstSIPPayment: firstTimePayment,
+			investmentType: isSIPOrder
+				? orderData?.data?.data?.firstOrder === 'Y'
+					? 'SIP'
+					: 'SIP-installment'
+				: 'OTI',
+			NextSIPPayment: isSIPOrder ? getNextSIPDate(sd) : null,
+			FirstSIPPayment: isSIPOrder ? firstTimePayment : null,
 			AutoPayBank: emandateBankDetails?.bankName,
 			AutopayCtaExist: !sd?.accountNo,
 			PaymentMethod: od?.paymentMode,
