@@ -20,7 +20,7 @@ export const load = (async ({ url, parent }) => {
 	});
 	if (!parentData?.tokenObj?.userToken?.NTAccessToken) {
 		const origin = `${parentData.scheme}//${parentData.host}`;
-		const redirectUrl = `${origin}${encodeURIComponent(pathname + search)}`;
+		const redirectUrl = `${origin}${pathname}${search}`;
 		const logoutUrl = getLogoutUrl(redirectUrl, origin);
 		if (browser) return await goto(logoutUrl);
 		else throw redirect(302, logoutUrl);
