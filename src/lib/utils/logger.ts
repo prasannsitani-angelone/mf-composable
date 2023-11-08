@@ -1,5 +1,7 @@
 import BaseLogger from './baseLogger';
 import type { Config } from '$lib/types/IBaseLogger';
+import { browser } from '$app/environment';
+import memoryManagement from './memoryManagement';
 
 class Logger extends BaseLogger {
 	constructor() {
@@ -19,6 +21,12 @@ class Logger extends BaseLogger {
 
 	static getLog = (msgObj = {}, logLevel: string | undefined) => {
 		return {
+			memoryUsage: browser ? memoryManagement.getRelativeMemoryUsage() : 'SERVER',
+			memoryMetrics: browser
+				? memoryManagement.checkIfCrossedRelativeMemory()
+					? memoryManagement.getMemoryMetrics()
+					: null
+				: 'SERVER',
 			...msgObj,
 			timeStamp: Date.now(),
 			level: logLevel
