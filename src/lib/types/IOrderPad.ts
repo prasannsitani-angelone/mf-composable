@@ -22,4 +22,6 @@ export interface decodedParamsTypes {
 	paymentMandatory?: boolean;
 	mandateId?: string;
 	folioNumber?: string;
+	sipInstalmentId?: string;
+	isAdditionalFlag?: boolean;
 }

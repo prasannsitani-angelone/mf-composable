@@ -29,6 +29,7 @@
 	let showInactiveSipsCta = false;
 	let sipbookSummary: ISipBookSummary;
 	let sipBookData: ISipBookData;
+	let updatedSipList: ISip = sipBookData?.sips || [];
 	let normalSipsArray: ISip[] = [];
 	let paymentSipsArray: ISip[] = [];
 	let bankDetails = profileStore?.bankAccounts();
@@ -36,17 +37,31 @@
 	let nudgeData: INudge[];
 	let automatedSipsCount = 0;
 
-	$: sipBookData?.sips?.forEach((sip) => {
-		if (sip?.isSipPaymentNudge) {
-			paymentSipsArray.push(sip);
-		} else {
-			normalSipsArray.push(sip);
-		}
+	const resetSipData = () => {
+		normalSipsArray = [];
+		paymentSipsArray = [];
+		automatedSipsCount = 0;
+	};
 
-		if (sip?.mandateRefId?.length) {
-			automatedSipsCount++;
-		}
-	});
+	const setSipLists = (sipList: ISip[] = []) => {
+		resetSipData();
+
+		(sipList || sipBookData?.sips || [])?.forEach((sip) => {
+			if (sip?.isSipPaymentNudge) {
+				paymentSipsArray.push(sip);
+			} else {
+				normalSipsArray.push(sip);
+			}
+
+			if (sip?.mandateRefId?.length) {
+				automatedSipsCount++;
+			}
+		});
+
+		paymentSipsArray?.sort((a) => (a?.sipPaymentMonthNudge ? 1 : -1));
+	};
+
+	$: setSipLists();
 	$: paymentDueSips = paymentSipsArray;
 	$: normalSips = normalSipsArray;
 
@@ -64,7 +79,23 @@
 			.then((res) => res.data)
 			.then(({ nudges }) => {
 				nudgeData = nudges;
+				setSipCardNudges();
 			});
+	};
+
+	const setSipCardNudges = () => {
+		updatedSipList = sipBookData?.sips;
+		sipBookData?.sips?.forEach((sip, index) => {
+			nudgeData?.forEach((nudge) => {
+				if (nudge?.nudgesType === 'SIP_TWENTY_DAY_NUDGE' && sip?.sipId === nudge?.data?.sipId) {
+					updatedSipList[index].isSipPaymentNudge = true;
+					updatedSipList[index].sipPaymentMonthNudge = true;
+					updatedSipList[index].sipInstalmentId = nudge?.data?.orderID;
+				}
+			});
+		});
+
+		setSipLists(updatedSipList);
 	};
 
 	const handleInactiveSipsClick = () => {

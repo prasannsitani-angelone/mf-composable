@@ -185,6 +185,7 @@ export const lumpsumOrderPostFunction = async (params) => {
 			sipDueDate,
 			xRequestId,
 			source,
+			sipInstalmentId,
 			isAdditional
 		} = params || {};
 		const response = await useFetch(url, {
@@ -203,7 +204,8 @@ export const lumpsumOrderPostFunction = async (params) => {
 				transactionRefNumber,
 				sipId,
 				sipDueDate,
-				isAdditional: isAdditional
+				sipInstalmentId,
+				isAdditional
 			}),
 			headers: {
 				'X-Request-Id': xRequestId,

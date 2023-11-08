@@ -145,7 +145,9 @@
 		source,
 		paymentMandatory,
 		mandateId,
-		folioNumber
+		folioNumber,
+		sipInstalmentId,
+		isAdditionalFlag
 	} = params || {};
 
 	const os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
@@ -1263,10 +1265,12 @@
 			onSuccess: navigateToLumpsumCompletePage,
 			redirectedFrom,
 			fromInvestmentDetailsPage,
+			sipInstalmentId,
 			isAdditional:
 				redirectedFrom === 'INVESTMENT_DETAILS' ||
 				fromInvestmentDetailsPage ||
-				!!folioNumber?.length
+				!!folioNumber?.length ||
+				isAdditionalFlag
 		};
 
 		const commonSIPInput = {
@@ -1614,7 +1618,7 @@
 
 			<article class="rounded-lg bg-white text-black-title md:mx-3 md:mb-4 md:mt-2">
 				<!-- Tab Section (SIP | ONE TIME) -->
-				{#if isInvestTypeVisible()}
+				{#if isInvestTypeVisible() && !isAdditionalFlag}
 					<section class="bg-whites flex rounded-lg rounded-b-none text-black-title">
 						<button
 							class={`h-12 w-40 flex-1 cursor-default rounded-t md:cursor-pointer ${

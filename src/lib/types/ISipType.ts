@@ -55,6 +55,8 @@ export interface ISip {
 	isSipPaymentNudge: boolean;
 	installmentSkip: boolean;
 	skipSipDueDate: string;
+	sipInstalmentId?: string;
+	sipPaymentMonthNudge?: boolean;
 }
 
 export interface ISipOrderHistory {

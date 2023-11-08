@@ -21,7 +21,6 @@
 	let alertSleeveText = '';
 	let skipSipText = '';
 	let sip: ISip;
-	let bankLogo = '';
 	let isUpcomingSip = false;
 	let isCurrentDateEqualToT3Date = false;
 	let inactiveSip = false;
@@ -64,17 +63,28 @@
 				sip?.schemeCode
 			)}`;
 			const { format } = DateFns.DateFns;
-			const params = encodeObject({
-				investmentType: 'SIP',
-				investmentAmount: sip?.installmentAmount,
-				sipDate: new Date(sip?.sipPaymentDate)?.getDate(),
-				ftp: true,
-				skipOrderPad: true,
-				redirectedFrom: 'SIP_PAYMENTS',
-				sipId: sip?.sipId,
-				sipRegistrationNumber: sip?.sipRegistrationNo,
-				sipDueDate: format(new Date(sip?.sipPaymentDate), 'yyyy-MM-dd')
-			});
+
+			let params = null;
+			if (sip?.sipPaymentMonthNudge) {
+				params = encodeObject({
+					investmentType: 'LUMPSUM',
+					investmentAmount: sip?.installmentAmount,
+					sipInstalmentId: sip?.sipInstalmentId,
+					isAdditionalFlag: true
+				});
+			} else {
+				params = encodeObject({
+					investmentType: 'SIP',
+					investmentAmount: sip?.installmentAmount,
+					sipDate: new Date(sip?.sipPaymentDate)?.getDate(),
+					ftp: true,
+					skipOrderPad: true,
+					redirectedFrom: 'SIP_PAYMENTS',
+					sipId: sip?.sipId,
+					sipRegistrationNumber: sip?.sipRegistrationNo,
+					sipDueDate: format(new Date(sip?.sipPaymentDate), 'yyyy-MM-dd')
+				});
+			}
 			goto(`${base}/${path}?params=${params}&orderpad=INVEST`);
 		} else if (!isCta) {
 			goto(`${base}/sipbook/${sip?.sipId}`);
@@ -127,7 +137,7 @@
 	$: if (sip?.skipSipDueDate) {
 		setSkipPaymentText();
 	}
-	export { sip, sipCount, bankLogo, inactiveSip };
+	export { sip, sipCount, inactiveSip };
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
@@ -139,7 +149,7 @@
 	<!-- Header section -->
 	{#if sip?.isSipPaymentNudge && !sip?.installmentSkip}
 		<section
-			class="flex items-center justify-between rounded-t-lg border-l-4 border-yellow-primary bg-gradient-to-r from-white to-yellow-primary/10 px-3.5 py-2 font-normal text-black"
+			class="-mt-3 flex items-center justify-between rounded-t-lg border-l-4 border-yellow-primary bg-gradient-to-r from-white to-yellow-primary/10 px-3.5 py-2 font-normal text-black"
 		>
 			<article class="flex items-center">
 				<OctagonalYellowWarningIcon class="mr-3.5" />

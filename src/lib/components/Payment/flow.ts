@@ -938,6 +938,7 @@ export const upiLumpsumFlow = async (params) => {
 		sipDueDate, // for sip installments
 		sipRegistrationNumber, // for sip installments
 		redirectedFrom, // for redirection
+		sipInstalmentId,
 		isAdditional,
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
@@ -1001,6 +1002,7 @@ export const upiLumpsumFlow = async (params) => {
 			sipDueDate,
 			xRequestId,
 			source,
+			sipInstalmentId,
 			isAdditional
 		});
 		handleOrderPostResponse({
@@ -1944,6 +1946,7 @@ export const walletLumpsumFlow = async (params) => {
 		sipDueDate, // for sip installments
 		sipRegistrationNumber, // for sip installments
 		redirectedFrom, // for redirection
+		sipInstalmentId,
 		isAdditional,
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
@@ -1991,6 +1994,7 @@ export const walletLumpsumFlow = async (params) => {
 			sipDueDate,
 			xRequestId,
 			source,
+			sipInstalmentId,
 			isAdditional
 		});
 		handleOrderPostResponse({

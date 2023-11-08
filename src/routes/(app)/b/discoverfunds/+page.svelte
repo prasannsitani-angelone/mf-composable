@@ -51,8 +51,10 @@
 	$: deviceType = $page.data.deviceType;
 	$: isGuest = $page.data.isGuest;
 	let sipPaymentNudges: ISip[] = [];
+	let sipPaymentMonthNudges: IRetryPaymentNudge[] = [];
 	let retryPaymentNudges: IRetryPaymentNudge[] = [];
 	let formattedSipNudgeData: ISip;
+	let formattedSipPaymentMonthNudgeData: IRetryPaymentNudge;
 	let nudgesData: NudgeDataType;
 	let startFirstSipNudgeData: StartFirstSipNudgeType;
 	let start4SipsNudgeData: Start4SipsNudgeType;
@@ -124,6 +126,29 @@
 			}
 		}
 		return '';
+	};
+
+	const setSipPaymentMonthNudgeData = (nudgeData: NudgeDataType) => {
+		sipPaymentMonthNudges = [];
+		nudgeData?.nudges?.forEach((nudge: INudge) => {
+			if (nudge?.nudgesType === 'SIP_TWENTY_DAY_NUDGE') {
+				const data = nudge?.data || {};
+				sipPaymentMonthNudges.push({ ...data });
+			}
+		});
+		if (sipPaymentMonthNudges?.length) {
+			formattedSipPaymentMonthNudgeData = sipPaymentMonthNudges?.[0];
+			if (sipPaymentMonthNudges?.length > 1) {
+				let amountSum = 0;
+				sipPaymentMonthNudges?.forEach((order) => {
+					amountSum += order?.amount;
+				});
+				formattedSipPaymentMonthNudgeData.schemeName = `${
+					sipPaymentMonthNudges?.length || 0
+				} Pending SIP Payments`;
+				formattedSipPaymentMonthNudgeData.amount = amountSum;
+			}
+		}
 	};
 
 	const setRetryPaymentNudgesData = (nudgeData: NudgeDataType) => {
@@ -204,6 +229,7 @@
 		getNudgeData().then((nudgeData) => {
 			setNudgeData(nudgeData);
 			setSipNudgesData(nudgeData);
+			setSipPaymentMonthNudgeData(nudgeData);
 			setRetryPaymentNudgesData(nudgeData);
 			setOtherNudgeDataTypes();
 		});
@@ -239,10 +265,11 @@
 				sipNudges: { rowStart: 4, columnStart: 1 },
 				categories: { rowStart: 5, columnStart: 1 },
 				failedOrdersNudge: { rowStart: 6, columnStart: 1 },
-				curatedInvestmentCard: { rowStart: 7, columnStart: 1 },
-				quickEntryPoints: { rowStart: 8, columnStart: 1 },
-				promotionCard: { rowStart: 9, columnStart: 1 },
-				logout: { rowStart: 10, columnStart: 1 }
+				sipPaymentMonthNudge: { rowStart: 7, columnStart: 1 },
+				curatedInvestmentCard: { rowStart: 8, columnStart: 1 },
+				quickEntryPoints: { rowStart: 9, columnStart: 1 },
+				promotionCard: { rowStart: 10, columnStart: 1 },
+				logout: { rowStart: 11, columnStart: 1 }
 			};
 		} else {
 			placementMapping = {
@@ -250,8 +277,9 @@
 				trendingFunds: { rowStart: 2, columnStart: 1 },
 				categories: { rowStart: 3, columnStart: 1 },
 				failedOrdersNudge: { rowStart: 4, columnStart: 1 },
-				quickEntryPoints: { rowStart: 5, columnStart: 1 },
-				logout: { rowStart: 6, columnStart: 1 },
+				sipPaymentMonthNudge: { rowStart: 5, columnStart: 1 },
+				quickEntryPoints: { rowStart: 6, columnStart: 1 },
+				logout: { rowStart: 7, columnStart: 1 },
 				investments: { rowStart: 1, columnStart: 2 },
 				promotionCard: { rowStart: 3, columnStart: 2 },
 				sipNudges: { rowStart: 2, columnStart: 2 }
@@ -334,6 +362,22 @@
 			/>
 		{/if}
 	</div>
+
+	<!-- SIP payment all month nudge -->
+	{#if sipPaymentMonthNudges?.length}
+		<div
+			class="row-start-{placementMapping?.sipPaymentMonthNudge
+				?.rowStart} col-start-{placementMapping?.sipPaymentMonthNudge
+				?.columnStart} {placementMapping?.sipPaymentMonthNudge?.rowStart > 1 ? '!my-0' : '!-my-2'}"
+		>
+			<LazyComponent
+				sip={formattedSipPaymentMonthNudgeData}
+				sipCount={sipPaymentMonthNudges?.length}
+				when={sipPaymentMonthNudges?.length > 0}
+				component={async () => await import('../../discoverfunds/SipPaymentMonthNudge.svelte')}
+			/>
+		</div>
+	{/if}
 
 	<!-- 8. Start 4 SIPs (curated) Section -->
 	<div
