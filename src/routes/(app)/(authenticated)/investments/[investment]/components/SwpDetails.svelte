@@ -173,7 +173,7 @@
 		const res = await useFetch(url, {
 			method: 'POST',
 			headers: {
-				'X-Request-Id': uuid,
+				'X-Request-Id': params?.orderDetails?.requestID,
 				'X-SESSION-ID': uuid,
 				'X-device-type': 'WEB'
 			},

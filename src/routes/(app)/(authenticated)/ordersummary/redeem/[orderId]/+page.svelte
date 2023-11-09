@@ -13,6 +13,7 @@
 	import SummaryHeader from './SummaryHeader.svelte';
 	import SummaryDetails from './SummaryDetails.svelte';
 	import { withdrawOrderSummaryFooterCtaClickAnalytics } from '$lib/analytics/redemption/redemption';
+	import { INVESTMENT_TYPE } from '$lib/constants/transactionType';
 
 	let showExpectedNavDateModal = false;
 
@@ -45,6 +46,7 @@
 		/>
 
 		{#if ordersDetails}
+			{@const investmentType = ordersDetails?.ordersData?.investmentType}
 			<div class="pb-20">
 				<!-- Header -->
 				<SummaryHeader
@@ -58,13 +60,15 @@
 					statusItems={ordersDetails?.statusItems}
 					amountTitle={ordersDetails?.amountTitle}
 					displayAmountUnit={ordersDetails?.displayAmountUnit}
-					sectionTitle="Withdrawal Details"
+					sectionTitle={`${investmentType === INVESTMENT_TYPE.SWP ? 'SWP' : 'Withdrawal'} Details`}
 					on:infoIconClick={toggleShowExpectedNavDateModal}
 				/>
 
 				<!-- Order Timeline -->
 				<div class="mx-2 mt-2 rounded-lg bg-white p-4 shadow-csm md:mx-0 md:mt-4 md:p-6">
-					<div class="mb-5 text-lg font-normal text-black-title">Withdrawal Status</div>
+					<div class="mb-5 text-lg font-normal text-black-title">
+						{investmentType === INVESTMENT_TYPE.SWP ? 'SWP' : 'Withdrawal'} Status
+					</div>
 					<OrderTimeLine
 						items={ordersDetails?.orderStatusItems || []}
 						titleClass="!font-normal"

@@ -3,7 +3,8 @@ export const INVESTMENT_TYPE = {
 	SWITCH_OUT: 'SWITCH OUT',
 	SWITCH_IN: 'SWITCH IN',
 	SIP: 'SIP',
-	LUMPSUM: 'LUMPSUM'
+	LUMPSUM: 'LUMPSUM',
+	SWP: 'SWP'
 };
 
 export const REVERSE_INVESTMENT_TYPE: { [key: string]: string } = {
@@ -18,7 +19,8 @@ export const TRANSACTION_MAP: { [key: string]: string } = {
 	SIP: 'SIP',
 	XSIP: 'SIP',
 	LUMPSUM: 'One Time',
-	SWITCH: 'Switch'
+	SWITCH: 'Switch',
+	SWP: 'SWP'
 };
 
 export const TRANSACTION_TYPE = {

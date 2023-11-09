@@ -13,6 +13,7 @@ import STATUS_ARR from '$lib/constants/orderFlowStatuses';
 import type { StatusHistoryItem } from '../../type';
 import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 import { withdrawOrderSummaryScreenOpenAnalytics } from '$lib/analytics/redemption/redemption';
+import { INVESTMENT_TYPE } from '$lib/constants/transactionType';
 
 export const load = (async ({ fetch, params }) => {
 	let ordersData: IOrderDetails;
@@ -254,6 +255,11 @@ export const load = (async ({ fetch, params }) => {
 			headerContent.subHeading = 'Your withdrawal verification is successful';
 			headerContent.status = STATUS_ARR.SUCCESS;
 
+			if (investmentType === INVESTMENT_TYPE.SWP) {
+				headerContent.heading = 'SWP Order Placed Sucessfully';
+				headerContent.subHeading = 'Your SWP verification is successful';
+			}
+
 			const schemeUrl = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/${schemeCode}`;
 
 			const schemeResponse = await useFetch(schemeUrl, {}, fetch);
@@ -269,9 +275,9 @@ export const load = (async ({ fetch, params }) => {
 				}
 			} else if (transactionType === 'REDEEM') {
 				if (amount > 0) {
-					amountTitle = 'Withdrawal Amount';
+					amountTitle = investmentType === INVESTMENT_TYPE.SWP ? 'SWP Amount' : 'Withdrawal Amount';
 				} else if (quantity > 0) {
-					amountTitle = 'Withdrawal Units';
+					amountTitle = investmentType === INVESTMENT_TYPE.SWP ? 'SWP Units' : 'Withdrawal Units';
 					displayAmountUnit = quantity?.toFixed(3);
 				}
 			} else {
@@ -283,7 +289,10 @@ export const load = (async ({ fetch, params }) => {
 			}
 
 			const eventMetadata = {
-				Message: 'Withdraw Order Successfully Placed',
+				Message:
+					investmentType === INVESTMENT_TYPE.SWP
+						? 'SWP Order Successfully Placed'
+						: 'Withdraw Order Successfully Placed',
 				WithdrawalDetails: ordersData?.schemeName,
 				AmountWithdrawn: ordersData?.amount,
 				EstCompletionTime: format(new Date(ordersData?.ExpectedNavDate * 1000), 'dd MMM yyyy'),
