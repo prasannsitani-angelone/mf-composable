@@ -20,7 +20,7 @@
 		},
 		{
 			text: 'Explore Mutual Fund',
-			href: '/explorefunds/sip-with-100'
+			href: `/categories${data?.api?.url?.search || ''}`
 		}
 	];
 

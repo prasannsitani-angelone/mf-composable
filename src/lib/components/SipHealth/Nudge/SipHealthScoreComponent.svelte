@@ -47,9 +47,6 @@
 	};
 
 	const doughnutChartOptions = {
-		animation: {
-			duration: 500
-		},
 		plugins: {
 			tooltipLine: {},
 			tooltip: {

@@ -26,7 +26,7 @@
 			pgTxnId: sip?.pgTxnId,
 			investmentType: 'LUMPSUM',
 			investmentAmount: sip?.amount,
-			sipInstalmentId: sip?.orderID,
+			sipInstalmentId: (sip?.orderID || '')?.toString(),
 			isAdditionalFlag: true
 		});
 		goto(`${base}/${routerPath}?params=${params}&orderpad=INVEST`);

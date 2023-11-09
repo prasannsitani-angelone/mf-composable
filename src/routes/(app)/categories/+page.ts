@@ -26,7 +26,8 @@ export const load = (async ({ fetch, url }) => {
 
 	return {
 		api: {
-			searchOption: hydrate ? getSearchOption() : await getSearchOption()
+			searchOption: hydrate ? getSearchOption() : await getSearchOption(),
+			url
 		},
 		layoutConfig: {
 			title: 'Explore Mutual Funds',

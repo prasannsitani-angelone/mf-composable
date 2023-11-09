@@ -90,7 +90,7 @@
 				if (nudge?.nudgesType === 'SIP_TWENTY_DAY_NUDGE' && sip?.sipId === nudge?.data?.sipId) {
 					updatedSipList[index].isSipPaymentNudge = true;
 					updatedSipList[index].sipPaymentMonthNudge = true;
-					updatedSipList[index].sipInstalmentId = nudge?.data?.orderID;
+					updatedSipList[index].sipInstalmentId = (nudge?.data?.orderID || '')?.toString();
 				}
 			});
 		});
