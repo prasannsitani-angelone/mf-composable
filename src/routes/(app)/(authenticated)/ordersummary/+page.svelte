@@ -112,9 +112,9 @@
 			isin: sd?.isin,
 			Amount: sd?.installmentAmount,
 			investmentType: isSIPOrder
-				? orderData?.data?.data?.firstOrder === 'Y'
-					? 'SIP'
-					: 'SIP-installment'
+				? orderData?.data?.data?.firstOrder === 'N'
+					? 'SIP-installment'
+					: 'SIP'
 				: 'OTI',
 			NextSIPPayment: isSIPOrder ? getNextSIPDate(sd) : null,
 			FirstSIPPayment: isSIPOrder ? firstTimePayment : null,
