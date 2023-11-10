@@ -69,6 +69,7 @@
 				params = encodeObject({
 					investmentType: 'LUMPSUM',
 					investmentAmount: sip?.installmentAmount,
+					skipOrderPad: true,
 					sipInstalmentId: sip?.sipInstalmentId,
 					isAdditionalFlag: true
 				});
@@ -153,7 +154,11 @@
 		>
 			<article class="flex items-center">
 				<OctagonalYellowWarningIcon class="mr-3.5" />
-				<div class="text-xs">SIP Payment Due</div>
+				<div class="text-xs">
+					{sip?.sipPaymentMonthNudge
+						? 'Missed SIP date? Pay now to continue your SIP'
+						: 'SIP Payment Due'}
+				</div>
 			</article>
 			<article class="mr-3.5 text-[9px]" class:text-red-errorDark={isCurrentDateEqualToT3Date}>
 				{alertSleeveText}
@@ -208,9 +213,15 @@
 			<slot name="sipCardDetailsRightSection">
 				{#if sip?.isSipPaymentNudge}
 					<article class="flex-1 text-right">
-						<div class="text-[11px] font-normal text-red-errorDark">SIP Date</div>
+						<div class="text-[11px] font-normal text-red-errorDark">
+							{sip?.sipPaymentMonthNudge ? 'Pay SIP by' : 'SIP Date'}
+						</div>
 						<div class="text-base font-normal text-black-title">
-							{getDateTimeString(sip?.sipPaymentDate, 'DATE', true)}
+							{getDateTimeString(
+								sip?.sipPaymentMonthNudge ? sip?.orderDate * 1000 : sip?.sipPaymentDate,
+								'DATE',
+								true
+							)}
 						</div>
 					</article>
 				{:else}

@@ -91,6 +91,7 @@
 					updatedSipList[index].isSipPaymentNudge = true;
 					updatedSipList[index].sipPaymentMonthNudge = true;
 					updatedSipList[index].sipInstalmentId = (nudge?.data?.orderID || '')?.toString();
+					updatedSipList[index].orderDate = nudge?.data?.orderDate;
 				}
 			});
 		});

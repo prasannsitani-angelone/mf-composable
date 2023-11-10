@@ -57,6 +57,7 @@ export interface ISip {
 	skipSipDueDate: string;
 	sipInstalmentId?: string;
 	sipPaymentMonthNudge?: boolean;
+	orderDate?: number;
 }
 
 export interface ISipOrderHistory {

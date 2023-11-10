@@ -26,6 +26,7 @@
 			pgTxnId: sip?.pgTxnId,
 			investmentType: 'LUMPSUM',
 			investmentAmount: sip?.amount,
+			skipOrderPad: true,
 			sipInstalmentId: (sip?.orderID || '')?.toString(),
 			isAdditionalFlag: true
 		});
