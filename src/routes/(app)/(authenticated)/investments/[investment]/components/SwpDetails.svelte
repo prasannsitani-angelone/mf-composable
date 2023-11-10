@@ -54,6 +54,7 @@
 	let unit = params?.orderDetails?.unit;
 	let noOfInstallment = params?.orderDetails?.noOfInstallment;
 	let nextSwpDate = params?.orderDetails?.nextSwpDate;
+	let startDate = params?.orderDetails?.startDate;
 	let bankName = params?.bankDetails?.bankName;
 	let bankAccountNo = params?.bankDetails?.bankAccountNo;
 	let bankLogo = params?.bankDetails?.bankLogo;
@@ -307,7 +308,7 @@
 					name="calander-icon"
 					stroke="#2A394E"
 					class="mr-1 cursor-default md:cursor-pointer"
-				/>4th
+				/>{startDate}
 			</div>
 		</div>
 		{#if !is2FAClient}
@@ -444,7 +445,7 @@
 		title={error.heading}
 		text={error.subHeading}
 		class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
-		isModalOpen
+		isModalOpen={error.visible}
 		handleButtonClick={closeErrorPopup}
 		closeModal={closeErrorPopup}
 		buttonTitle="TRY AGAIN"
