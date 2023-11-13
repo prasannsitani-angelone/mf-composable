@@ -2,7 +2,6 @@
 	import type { PageData } from './$types';
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
 	import SearchOptionHeader from './SearchOptionHeader/SearchOptionHeader.svelte';
-	import { onMount } from 'svelte';
 	import { SEO } from 'svelte-components';
 	import SchemeCardExt from '$components/SchemeCardExt.svelte';
 	import type { ExploreFundsOptions } from '$lib/types/IExploreFunds';
@@ -41,10 +40,10 @@
 		});
 	};
 
-	onMount(() => {
+	function sendImpressionAnalyticEvent() {
 		const filter = currentFilter?.title;
 		sExploreMutualFunds({ filter });
-	});
+	}
 
 	async function getFilterAndSchemes(searchOption: Promise) {
 		const response = await searchOption;
@@ -58,7 +57,8 @@
 				detailedDescription: options.detailedDescription
 			};
 		});
-		currentFilter = filterCategories.find(({ id }) => id === pageID) || {};
+		currentFilter = allFilterOptions.find(({ id }) => id === pageID) || {};
+		sendImpressionAnalyticEvent();
 		return { filterOptions: allFilterOptions, schemes };
 	}
 </script>

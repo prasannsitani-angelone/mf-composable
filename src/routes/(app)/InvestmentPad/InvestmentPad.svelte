@@ -46,23 +46,23 @@
 		paymentModeScreenPayButtonClickAnalytics
 	} from './analytics/changePayment';
 	import {
-		paymentFailedScreenAnalytics,
-		paymentFailedRetrySameMethodCtaClickAnalytics,
-		upiInitiateScreenAnalytics,
-		paymentFailedUseDifferentMethodCtaClickAnalytics,
-		wrongBankPaymentFailedCautionModalImpressionAnalytics,
-		wrongBankPaymentFailedCautionModalCtaClickAnalytics,
-		onIntegeratedFlowPopupImpressionAnalytics,
-		onIntegeratedFlowPopupClickAnalytics,
 		onIntegeratedFlowFailureClickAnalytics,
-		onIntegeratedFlowFailureImpressionAnalytics
+		onIntegeratedFlowFailureImpressionAnalytics,
+		onIntegeratedFlowPopupClickAnalytics,
+		onIntegeratedFlowPopupImpressionAnalytics,
+		paymentFailedRetrySameMethodCtaClickAnalytics,
+		paymentFailedScreenAnalytics,
+		paymentFailedUseDifferentMethodCtaClickAnalytics,
+		upiInitiateScreenAnalytics,
+		wrongBankPaymentFailedCautionModalCtaClickAnalytics,
+		wrongBankPaymentFailedCautionModalImpressionAnalytics
 	} from './analytics/paymentFlow';
 	import {
+		calendarIconClickAnalytics,
 		changePaymentMethodButtonClickAnalytics,
 		changePaymentMethodScreenImpressionAnalytics,
 		investmentPadScreenOpenAnalytics,
 		investmentPadTabSwitchAnalytics,
-		calendarIconClickAnalytics,
 		lumspsumToSipSleeveAnalytics,
 		lumspsumToSipSleeveContinueOtiCtaClickAnalytics,
 		lumspsumToSipSleeveCreateSipCtaClickAnalytics,
@@ -74,15 +74,15 @@
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import LumpsumToSip from './OrderPadComponents/LumpsumToSip.svelte';
 	import {
-		noPaymentFlow,
 		netBankingLumpsumFlow,
 		netBankingSIPFlow,
-		upiSIPFlow,
-		upiLumpsumFlow,
-		walletSIPFlow,
-		walletLumpsumFlow,
+		noPaymentFlow,
 		upiIntegeratedFlow,
-		walletIntegeratedFlow
+		upiLumpsumFlow,
+		upiSIPFlow,
+		walletIntegeratedFlow,
+		walletLumpsumFlow,
+		walletSIPFlow
 	} from '$components/Payment/flow';
 	import {
 		closeNetBankingPaymentWindow,
@@ -122,6 +122,7 @@
 	import SelectedBankDetails from '$components/Payment/SelectedBankDetails.svelte';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import KycProgressPopup from '$components/Payment/KYCProgressPopup.svelte';
+	import { getValidSIPRegDate } from '$lib/api/sipdate';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -274,6 +275,8 @@
 
 	// deeplink validity
 	let oneLinkExpired = false;
+
+	let sipRegDate: Date;
 
 	const isSelectedInvestmentTypeAllowed = () => {
 		if (activeTab === 'SIP') {
@@ -576,7 +579,7 @@
 	const getSIPDate = () => {
 		return getCompleteSIPDateBasedonDD(
 			calendarDate,
-			new Date(),
+			firstSipPayment ? sipRegDate : new Date(),
 			firstSipPayment ? nextSipDateBufferDaysWithFtp : nextSipDateBufferDaysWithoutFtp
 		);
 	};
@@ -758,6 +761,10 @@
 		previousWrongBankFailedPayment = await checkPreviousWrongBankFailedPayment();
 	};
 
+	const getValidSIPStartDate = async () => {
+		sipRegDate = await getValidSIPRegDate();
+	};
+
 	onMount(async () => {
 		handleShowTabNotSupported();
 
@@ -783,6 +790,8 @@
 		versionStore.subscribe((value) => {
 			version = value.version;
 		});
+
+		getValidSIPStartDate();
 	});
 
 	onDestroy(() => {
@@ -823,7 +832,7 @@
 	const handleDateSelect = (value: unknown) => {
 		tempCalendarDate = value?.detail;
 
-		const now = new Date();
+		const now = firstSipPayment ? sipRegDate : new Date();
 		const month = getSIPMonthBasedOnDate(
 			tempCalendarDate,
 			now,
