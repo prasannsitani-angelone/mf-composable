@@ -11,6 +11,7 @@
 	import { goto } from '$app/navigation';
 	import { exitNudgeStore } from '$lib/stores/ExitNudgeStore';
 	import { crossButtonClickEvent } from '$components/Headers/analytics';
+	import { createEventDispatcher } from 'svelte';
 
 	export let title = '';
 	export let showSearchIcon = false;
@@ -24,6 +25,8 @@
 	export let titleClass = '';
 	export let onClickShareIcon: (() => void) | null = null;
 	export let onClickFaqsIcon: (() => void) | null = null;
+
+	const dispatch = createEventDispatcher();
 
 	function overrideCloseButtonClick() {
 		const shouldShow = exitNudgeStore.shouldShow();
@@ -53,6 +56,11 @@
 		}
 	};
 
+	const handleBackButtonClick = () => {
+		handleBackNavigation();
+		dispatch('backButtonClick');
+	};
+
 	const logoUrl = `${base}/images/mutual-fund-logo.webp`;
 </script>
 
@@ -64,7 +72,7 @@
 			<article class="flex items-center justify-start">
 				<slot name="icon">
 					{#if showBackIcon}
-						<LeftArrowIcon class="mr-4 cursor-pointer" onClick={handleBackNavigation} />
+						<LeftArrowIcon class="mr-4 cursor-pointer" onClick={handleBackButtonClick} />
 					{/if}
 					{#if showCloseIcon && (($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID && $appStore.closecta) || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS)}
 						<WMSIcon

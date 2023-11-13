@@ -10,7 +10,7 @@ export const load = (async ({ url, parent }) => {
 	const params = url.searchParams.get('params');
 	const decodedParams = decodeToObject(params || undefined);
 	const { clientDetails, orderDetails } = decodedParams;
-	const { isin, schemeCode } = orderDetails;
+	const { isin, schemeCode, schemePlan } = orderDetails;
 
 	const accountType = () => {
 		if (!clientDetails?.clientCode) {
@@ -26,7 +26,7 @@ export const load = (async ({ url, parent }) => {
 			{
 				// This is getting called before we are setting up STORES in OnMount in layout
 				headers: {
-					userType: parentData?.userDetails?.userType,
+					userType: schemePlan?.toUpperCase() === 'DIRECT' ? 'B2C' : 'B2B',
 					accountType: accountType()
 				}
 			},
@@ -66,8 +66,7 @@ export const load = (async ({ url, parent }) => {
 			allResponse: browser ? getPageData() : await getPageData()
 		},
 		layoutConfig: {
-			title: 'Confirm SWP',
-			showBackIcon: true,
+			showBackIcon: false,
 			layoutType: 'FULL_WIDTH'
 		},
 		decodedParams
