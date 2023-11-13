@@ -46,17 +46,19 @@
 	/>
 
 	{#if !isMandateLinked}
-		<OrdersAutoPayComponent
-			{sipID}
-			class="mx-2 mb-2 mt-2"
-			amount={totalAmount}
-			on:autoPayClick={() => navigateToEmandate(totalAmount, nextSipDueDate)}
-		/>
+		<div class="mx-2">
+			<OrdersAutoPayComponent
+				{sipID}
+				class="mb-2 mt-2"
+				amount={totalAmount}
+				on:autoPayClick={() => navigateToEmandate(totalAmount, nextSipDueDate)}
+			/>
+		</div>
 	{:else}
 		<div class="flex justify-center bg-white pb-4">
-			<ButtonMedium variant="transparent" class="w-max" onClick={navigateToOrders}
-				>GO TO ORDERS</ButtonMedium
-			>
+			<ButtonMedium variant="transparent" class="w-max" onClick={navigateToOrders}>
+				GO TO ORDERS
+			</ButtonMedium>
 		</div>
 	{/if}
 {/await}
