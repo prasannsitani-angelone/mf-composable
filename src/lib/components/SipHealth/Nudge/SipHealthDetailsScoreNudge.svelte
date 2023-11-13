@@ -27,6 +27,9 @@
 		}
 	}
 
+	$: isMobile = $page?.data?.deviceType?.isMobile;
+	$: isTablet = $page?.data?.deviceType?.isTablet;
+
 	const dispatch = createEventDispatcher();
 
 	const onLearnMoreClicked = () => {
@@ -43,12 +46,23 @@
 			<div class="mt-2 text-lg font-medium {scoreClass}">
 				SIP Health Score: {score}
 			</div>
+
+			<p class="mt-4 hidden text-xs font-normal leading-5 text-black-bolder md:block">
+				Your SIP health score provides insight in to your investing habits. Use this report to
+				understand your investing discipline, consistency, and overall portfolio growth
+			</p>
 		</div>
 
-		<SipHealthScoreComponent {score} class="!-m-2 !h-20 !w-20 drop-shadow-xl" />
+		<SipHealthScoreComponent
+			{score}
+			class="drop-shadow-xl md:-mt-6"
+			chartHeight={isMobile || isTablet ? 65 : 92}
+			chartWidth={isMobile || isTablet ? 65 : 92}
+			scoreNumberClass="md:text-[32px]"
+		/>
 	</article>
 
-	<p class="mt-2 text-xs font-normal leading-5 text-black-bolder">
+	<p class="mt-2 block text-xs font-normal leading-5 text-black-bolder md:hidden">
 		Your SIP health score provides insight in to your investing habits. Use this report to
 		understand your investing discipline, consistency, and overall portfolio growth
 	</p>

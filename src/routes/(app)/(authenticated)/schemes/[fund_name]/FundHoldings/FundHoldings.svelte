@@ -108,6 +108,8 @@
 		chartOptions={doughnutChartOptions}
 		tooltipLength={50}
 		chartClass="w-48 h-48 m-auto mt-2"
+		width={192}
+		height={192}
 	/>
 
 	<section class="mt-9 px-6">

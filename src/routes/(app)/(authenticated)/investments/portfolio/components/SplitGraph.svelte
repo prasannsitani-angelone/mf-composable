@@ -82,8 +82,8 @@
 		chartId={parentId}
 		chartClass="!h-64 m-auto !w-64"
 		{tooltipLength}
-		width={10}
-		height={10}
+		width={256}
+		height={256}
 		{chartOptions}
 	/>
 </div>

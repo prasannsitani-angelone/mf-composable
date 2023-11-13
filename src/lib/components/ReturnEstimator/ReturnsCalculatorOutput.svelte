@@ -148,17 +148,19 @@
 {#if outputDataProps}
 	<section class="items-center justify-center md:flex {$$props.class || ''}">
 		<article>
-			<div class="mx-auto h-40 w-40 md:mx-0">
+			<div class="mx-auto flex justify-center md:mx-0">
 				<DoughnutChart
 					chartPlugins={[plugin]}
 					data={doughnutData}
 					chartOptions={doughnutChartOptions}
 					tooltipLength={0}
 					chartClass="m-0 p-0 !p-0 flip-horizontal"
+					width={140}
+					height={140}
 				/>
 			</div>
 
-			<section class="flex items-center justify-center">
+			<section class="mt-3 flex items-center justify-center">
 				<article class="flex items-center">
 					<div class="h-2 w-2 rounded-full bg-blue-primary" />
 					<div class="ml-1 text-xs font-normal text-black-title">Invested</div>

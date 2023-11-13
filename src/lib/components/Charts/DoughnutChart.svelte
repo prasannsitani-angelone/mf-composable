@@ -17,8 +17,8 @@
 
 	$: options = merge(
 		{
-			responsive: true,
-			maintainAspectRatio: true,
+			responsive: false,
+			maintainAspectRatio: false,
 			plugins: {
 				legend: {
 					display: false
@@ -131,8 +131,8 @@
 			},
 			layout: {
 				padding: {
-					left: 10,
-					right: 10
+					left: 0,
+					right: 0
 				}
 			},
 			hover: {

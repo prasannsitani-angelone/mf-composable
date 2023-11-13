@@ -3,6 +3,10 @@
 	import { getColorSchemeForScore } from '$components/SipHealth/utils.js';
 
 	export let score: number;
+	export let scoreNumberClass = '';
+	export let chartWidth = 65;
+	export let chartHeight = 65;
+
 	$: selectedColor = getColorSchemeForScore(score);
 
 	let selectedColorClass = '';
@@ -63,16 +67,20 @@
 	};
 </script>
 
-<div class="relative h-24 w-24 {$$props.class}">
+<div class={`relative h-[${chartWidth}px] w-[${chartWidth}px] ${$$props.class}`}>
 	<DoughnutChart
 		chartPlugins={[plugin]}
 		data={doughnutData}
 		chartOptions={doughnutChartOptions}
 		tooltipLength={0}
-		chartClass="m-0 p-0 rotate-180"
+		chartClass="m-0 p-0 rotate-180 ml-0.5"
+		width={chartWidth}
+		height={chartHeight}
 	/>
 	<div
-		class={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-2xl font-medium text-${selectedColorClass}`}
+		class={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-2xl font-medium text-${selectedColorClass} ${
+			scoreNumberClass || ''
+		}`}
 	>
 		<p>{score}</p>
 	</div>

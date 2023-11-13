@@ -43,7 +43,7 @@
 				<SIPHealthCardBG class="absolute h-full w-full" />
 			</div>
 
-			<div class="mx-4 mr-2 flex flex-row items-center opacity-[.99] {cardStyle}">
+			<div class="flex flex-row items-center opacity-[.99] {cardStyle} px-3.5 py-3">
 				<div class="flex flex-1 flex-col">
 					<p class="text-base font-medium text-black-title">Your SIP Health</p>
 					<p class="mb-3 text-xs font-normal text-black-title">{getLabel(result?.score)}</p>
