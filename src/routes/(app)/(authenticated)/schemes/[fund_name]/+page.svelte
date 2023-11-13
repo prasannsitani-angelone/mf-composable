@@ -22,7 +22,6 @@
 	import FundDetailsLoader from './FundDetailsLoader/FundDetailsLoader.svelte';
 	import OrderpadLoader from './FundDetailsLoader/OrderpadLoader.svelte';
 	import {
-		calculateReturnsduration,
 		mobileSchemeDetailsPageInvestButtonClickAnalytics,
 		returnCalculatorImpressionAnalytics,
 		returnCalculatorResultAnalytics
@@ -100,29 +99,20 @@
 		setQueryParamsData();
 	});
 
-	const calculateReturnsdurationAnalytics = (calculatedOutput: CalculatedValue) => {
-		if (!(calculatedOutput?.currentCalculatorMode && calculatedOutput?.selectedYear)) {
-			return;
-		}
-
-		const eventMetadata = {
-			InvestmentType: calculatedOutput?.currentCalculatorMode,
-			Duration: calculatedOutput?.selectedYear
-		};
-		calculateReturnsduration(eventMetadata);
-	};
-
 	const handleReturnCalculatorYearChange = (calculatedOutput: CalculatedValue) => {
-		calculateReturnsdurationAnalytics(calculatedOutput);
+		returnCalculatorImpressionAnalyticsFunc(calculatedOutput, 'manual');
 	};
 
-	const returnCalculatorImpressionAnalyticsFunc = (calculatedOutput: CalculatedValue) => {
+	const returnCalculatorImpressionAnalyticsFunc = (
+		calculatedOutput: CalculatedValue,
+		changeType = 'default'
+	) => {
 		const eventMetadata = {
 			InvType: calculatedOutput?.currentCalculatorMode,
 			ScreenName: 'fund_detail',
-			amounttype: 'default',
+			amounttype: changeType,
 			amount: calculatedOutput?.investedAmount,
-			durationtype: 'default',
+			durationtype: changeType,
 			duration: calculatedOutput?.selectedYear,
 			returnabs: calculatedOutput?.selectedReturn,
 			finalvalue: calculatedOutput?.matuarityAmount,
@@ -176,8 +166,8 @@
 			<LockInPeriod schemeDetails={schemedata} {isNFO} />
 			{#if !isNFO}
 				<ReturnEstimator
-					returns3yr={Math.round(schemedata?.returns3yr)}
-					returns5yr={Math.round(schemedata?.returns5yr)}
+					returns3yr={schemedata?.returns3yr}
+					returns5yr={schemedata?.returns5yr}
 					categoryName={schemedata?.categoryName}
 					minSipAmount={schemedata?.minSipAmount}
 					minLumpsumAmount={schemedata?.minLumpsumAmount}

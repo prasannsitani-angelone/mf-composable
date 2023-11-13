@@ -219,7 +219,7 @@
 
 				<article class="md:ml-8">
 					<div class="text-base font-medium text-black-title">
-						{returnsPercentage}% p.a.
+						{returnsPercentage?.toFixed(2)}% p.a.
 					</div>
 				</article>
 			</section>
