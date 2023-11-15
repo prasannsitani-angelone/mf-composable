@@ -50,7 +50,7 @@
 		seoDescription={`${res?.schemeData?.schemeName} - SWP | Angel One`}
 	/>
 	{#if res?.holdingsData && Object.keys(res.holdingsData)?.length > 0}
-		<section class="mt-16 flex justify-center md:mt-4">
+		<section class="mx-0 mt-16 w-screen px-0 md:mt-4 md:flex md:w-full md:justify-center">
 			<SwpConfirmation
 				schemeData={res.schemeData}
 				holdingDetails={res.holdingsData}

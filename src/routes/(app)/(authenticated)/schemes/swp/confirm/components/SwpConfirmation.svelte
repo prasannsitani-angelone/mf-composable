@@ -239,7 +239,7 @@
 	getUtilsMetaData();
 </script>
 
-<section class="rounded-lg bg-white">
+<section class="bg-white md:rounded-lg">
 	<div class="border-b border-grey-line px-6 py-4">SWP Details</div>
 	<ResultItem data={schemeData}>
 		<svelte:fragment slot="schemeInfo">
@@ -349,8 +349,10 @@
 		</section>
 	</section>
 
-	<section class="border-t border-grey-line px-6 py-4">
-		<Button class="mb-4 w-full" onClick={handleConfirmAndPlaceSwp}>VERIFY ORDER</Button>
+	<section
+		class="fixed inset-0 top-auto bg-white py-2 shadow-csm md:static md:relative md:inset-auto md:border-t md:border-grey-line md:px-6 md:py-4 md:shadow-none"
+	>
+		<Button class="mb-2 w-full md:mb-4" onClick={handleConfirmAndPlaceSwp}>VERIFY ORDER</Button>
 		<p class="text-center text-sm font-normal text-grey-body">
 			By proceeding, you accept AngelOne's <button
 				class="font-medium text-blue-primary md:cursor-pointer"
@@ -359,6 +361,7 @@
 		</p>
 	</section>
 </section>
+<div class="h-24 md:hidden" />
 
 {#if showSWPAmountTooltip}
 	<!-- SWP Amount Tooltip Modal -->
