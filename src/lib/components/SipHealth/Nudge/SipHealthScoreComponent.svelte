@@ -73,7 +73,7 @@
 		data={doughnutData}
 		chartOptions={doughnutChartOptions}
 		tooltipLength={0}
-		chartClass="m-0 p-0 rotate-180 ml-0.5"
+		chartClass="m-0 p-0 ml-0.5"
 		width={chartWidth}
 		height={chartHeight}
 	/>
