@@ -93,6 +93,9 @@
 	};
 
 	const closeErrorPopup = () => {
+		showTpinVerificationModal = false;
+		showOtpVerificationModal = false;
+
 		error.visible = false;
 		error.heading = '';
 		error.subHeading = '';
@@ -445,7 +448,7 @@
 		title={error.heading}
 		text={error.subHeading}
 		class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
-		isModalOpen={error.visible}
+		isModalOpen
 		handleButtonClick={closeErrorPopup}
 		closeModal={closeErrorPopup}
 		buttonTitle="TRY AGAIN"

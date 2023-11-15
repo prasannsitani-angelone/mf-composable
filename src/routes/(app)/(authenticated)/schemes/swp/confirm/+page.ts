@@ -1,7 +1,10 @@
 import { browser } from '$app/environment';
+import { goto } from '$app/navigation';
+import { base } from '$app/paths';
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { decodeToObject } from '$lib/utils/helpers/params';
 import { useFetch } from '$lib/utils/useFetch';
+import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
 export const load = (async ({ url, parent }) => {
@@ -9,11 +12,19 @@ export const load = (async ({ url, parent }) => {
 
 	const params = url.searchParams.get('params');
 	const decodedParams = decodeToObject(params || undefined);
-	const { clientDetails, orderDetails } = decodedParams;
+	const { clientDetials, orderDetails } = decodedParams;
 	const { isin, schemeCode, schemePlan } = orderDetails;
 
+	if (clientDetials?.clientCode && clientDetials?.clientCode !== parentData?.profile?.clientId) {
+		if (browser) {
+			goto(`${base}/schemes/clientError`, { replaceState: true });
+		} else {
+			throw redirect(302, `${base}/schemes/clientError`);
+		}
+	}
+
 	const accountType = () => {
-		if (!clientDetails?.clientCode) {
+		if (!clientDetials?.clientCode) {
 			return 'D';
 		}
 		return parentData?.profile?.dpNumber ? 'D' : 'P';
