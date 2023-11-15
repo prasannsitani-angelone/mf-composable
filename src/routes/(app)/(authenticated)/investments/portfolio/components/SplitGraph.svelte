@@ -78,6 +78,7 @@
 
 <div id={parentId} class="relative rounded-lg px-3 py-2 lg:border">
 	<DoughnutChart
+		chartParentId={`${parentId}-doughnut-chart-parent`}
 		data={doughnutData}
 		chartId={parentId}
 		chartClass="!h-64 m-auto !w-64"

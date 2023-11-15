@@ -39,16 +39,25 @@
 					},
 					external: function (context) {
 						// Tooltip Element
-						let tooltipEl = document.getElementById(`${chartId}-tooltip`);
+						const tooltipName = `${chartId}-tooltip`;
+						let tooltipEl = document.getElementById(tooltipName);
 						const chartParent = document.getElementById(chartParentId);
 						// Create element on first render
 						if (!tooltipEl) {
 							tooltipEl = document.createElement('div');
-							tooltipEl.id = `${chartId}-tooltip`;
+							tooltipEl.id = tooltipName;
 							tooltipEl.style =
 								'border: 1px solid #E8EBF1; background: #FFFFFF; box-shadow: 0px 2px 8px rgba(138, 141, 153, 0.16); border-radius: 0.25rem; padding: 0.5rem 0.75rem; width: fit-content; display: flex; flex-direction: row; align-items: center';
 							tooltipEl.innerHTML = '';
 							chartParent.appendChild(tooltipEl);
+						}
+						// for exclusive use case when rendering multiple graohs in one div
+						if (chartParent && chartParent.childNodes) {
+							chartParent.childNodes.forEach((element) => {
+								if (element.id && element.id.includes('tooltip') && element.id !== tooltipName) {
+									chartParent.removeChild(element);
+								}
+							});
 						}
 						// Hide if no tooltip
 						const tooltipModel = context.tooltip;
