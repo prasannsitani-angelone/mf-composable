@@ -104,6 +104,7 @@
 		</section>
 	</header>
 	<DoughnutChart
+		chartId="fundHoldingsDoughnutChart"
 		data={doughnutData}
 		chartOptions={doughnutChartOptions}
 		tooltipLength={50}
