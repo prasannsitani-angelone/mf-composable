@@ -29,7 +29,6 @@
 	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import KycProgressPopup from '$components/Payment/KYCProgressPopup.svelte';
-	import { getValidSIPRegDate } from '$lib/api/sipdate';
 
 	export let data: import('./$types').PageData;
 
@@ -67,7 +66,6 @@
 
 	onMount(() => {
 		onMountAnalytics();
-		getValidSIPStartDate();
 	});
 
 	let paymentHandler = {
@@ -106,12 +104,7 @@
 	};
 
 	const getSIPDate = () => {
-		return getCompleteSIPDateBasedonDD(date, sipRegDate, 30);
-	};
-
-	let sipRegDate: Date;
-	const getValidSIPStartDate = async () => {
-		sipRegDate = await getValidSIPRegDate();
+		return getCompleteSIPDateBasedonDD(date, new Date(), 30);
 	};
 
 	const paymentFlow = async (params) => {

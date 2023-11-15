@@ -14,7 +14,6 @@
 
 	export let cartItem: CartEntity;
 	export let hasInputUpdated = false;
-	export let sipRegDate: Date;
 
 	let showCalendar = false;
 
@@ -58,7 +57,7 @@
 	const handleDateSelect = (value: unknown) => {
 		tempCalendarDate = value?.detail;
 
-		const now = sipRegDate || new Date();
+		const now = new Date();
 		const month = getSIPMonthBasedOnDate(
 			tempCalendarDate,
 			now,

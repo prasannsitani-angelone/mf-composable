@@ -122,7 +122,6 @@
 	import SelectedBankDetails from '$components/Payment/SelectedBankDetails.svelte';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import KycProgressPopup from '$components/Payment/KYCProgressPopup.svelte';
-	import { getValidSIPRegDate } from '$lib/api/sipdate';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -275,8 +274,6 @@
 
 	// deeplink validity
 	let oneLinkExpired = false;
-
-	let sipRegDate: Date;
 
 	const isSelectedInvestmentTypeAllowed = () => {
 		if (activeTab === 'SIP') {
@@ -579,7 +576,7 @@
 	const getSIPDate = () => {
 		return getCompleteSIPDateBasedonDD(
 			calendarDate,
-			firstSipPayment ? sipRegDate : new Date(),
+			new Date(),
 			firstSipPayment ? nextSipDateBufferDaysWithFtp : nextSipDateBufferDaysWithoutFtp
 		);
 	};
@@ -761,10 +758,6 @@
 		previousWrongBankFailedPayment = await checkPreviousWrongBankFailedPayment();
 	};
 
-	const getValidSIPStartDate = async () => {
-		sipRegDate = await getValidSIPRegDate();
-	};
-
 	onMount(async () => {
 		handleShowTabNotSupported();
 
@@ -790,8 +783,6 @@
 		versionStore.subscribe((value) => {
 			version = value.version;
 		});
-
-		getValidSIPStartDate();
 	});
 
 	onDestroy(() => {
@@ -832,7 +823,7 @@
 	const handleDateSelect = (value: unknown) => {
 		tempCalendarDate = value?.detail;
 
-		const now = firstSipPayment ? sipRegDate : new Date();
+		const now = new Date();
 		const month = getSIPMonthBasedOnDate(
 			tempCalendarDate,
 			now,

@@ -17,8 +17,6 @@
 	import { ProceedToCheckoutClickAnalytics } from '../analytics/cart';
 	import type { CartEntity } from '$lib/types/ICartStore';
 	import { createCartEventMetaDataAnalytics } from './utils';
-	import { onMount } from 'svelte';
-	import { getValidSIPRegDate } from '$lib/api/sipdate';
 
 	export let cartItems: CartEntity[];
 
@@ -118,7 +116,7 @@
 		bulkUpdateModalType = 'loading';
 		const emandateResponse = await getEmandateDataFunc({
 			amount: maxAmountForADayForSIP,
-			sipDate: getSIPDate(sipRegDate.getDate())
+			sipDate: getSIPDate(new Date().getDate())
 		});
 		const emandateId = getPrimaryAccountMandateData(emandateResponse?.data)?.mandateId || '';
 
@@ -157,16 +155,6 @@
 	}
 	$: upDateLocalStateOnCartUpdate(cartItems);
 	$: isMobile = $page?.data?.deviceType?.isMobile;
-
-	let sipRegDate: Date;
-
-	const getValidSIPStartDate = async () => {
-		sipRegDate = await getValidSIPRegDate();
-	};
-
-	onMount(() => {
-		getValidSIPStartDate();
-	});
 </script>
 
 <CartTableHeader {isSelectAllChecked} handleCheckboxChange={toggleSelectAll} />
@@ -188,7 +176,7 @@
 			</div>
 		</div>
 		{#each cartItems as item, index (index)}
-			<CartGridTableRows {sipRegDate} bind:cartItem={item} />
+			<CartGridTableRows bind:cartItem={item} />
 		{/each}
 	</div>
 </section>

@@ -11,7 +11,6 @@
 	import type { CartEntity } from '$lib/types/ICartStore';
 
 	export let cartItem: CartEntity;
-	export let sipRegDate: Date;
 
 	let hasMounted = false;
 
@@ -79,7 +78,7 @@
 		class="col-span-1 col-start-3 row-span-1 row-start-2 max-sm:mt-1 sm:col-start-4 sm:row-start-1"
 	>
 		{#if showSIPDateSelect}
-			<SipDatePicker {sipRegDate} bind:cartItem bind:hasInputUpdated />
+			<SipDatePicker bind:cartItem bind:hasInputUpdated />
 		{/if}
 	</div>
 	<div class="col-span-1 col-start-3 row-span-1 row-start-1 sm:col-start-5">
