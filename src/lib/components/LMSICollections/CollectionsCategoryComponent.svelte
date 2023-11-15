@@ -1,9 +1,14 @@
 <script lang="ts">
-	import type { DashboardCategoryEntity } from '$lib/types/IDiscoverFunds';
+	import type { CategoryOptionsEntity, DashboardCategoryEntity } from '$lib/types/IDiscoverFunds';
 	import { getCategoriesFundsNavigationPath } from '$lib/utils';
 	import { Link } from 'svelte-components';
+	import { exploreMFFilter } from '../../../routes/(app)/explorefunds/[slug]/analytics';
 
 	export let category: DashboardCategoryEntity;
+
+	const categoryOptionClickEvent = (option: CategoryOptionsEntity) => {
+		exploreMFFilter({ type: 'click', Category: option.name, label: category.name });
+	};
 </script>
 
 <section class="flex flex-wrap px-4 pb-3 sm:px-6 lg:items-center lg:justify-center">
@@ -14,6 +19,9 @@
 			<Link
 				to={getCategoriesFundsNavigationPath(option.id)}
 				class="flex h-full flex-col lg:h-auto lg:flex-row lg:items-center"
+				on:linkClicked={() => {
+					categoryOptionClickEvent(option);
+				}}
 			>
 				<div
 					class="my-auto flex h-9 w-9 self-center lg:h-14 lg:w-14 lg:items-center lg:justify-center"

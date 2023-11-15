@@ -2,17 +2,18 @@
 	import { BtnSize, BtnVariant } from 'svelte-components';
 	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import type { CategoryOptionsEntity } from '$lib/types/IDiscoverFunds.js';
-	import { topPicksCategoryImpressionEvent } from '$components/TopPicks/analytics';
+	import { exploreMFFilterTab } from '../../../routes/(app)/explorefunds/[slug]/analytics';
 
 	export let categories: CategoryOptionsEntity[];
 	export let selectedCategory: CategoryOptionsEntity;
+	export let mainCategory: string;
 
 	const activeLink = 'text-white ';
 	const inActiveLink = 'text-black-title ';
 
 	const handleCategoryClick = (category: CategoryOptionsEntity) => {
 		selectedCategory = category;
-		topPicksCategoryImpressionEvent({ Type: category.name });
+		exploreMFFilterTab({ type: 'tab', Category: selectedCategory.name, label: mainCategory });
 	};
 </script>
 

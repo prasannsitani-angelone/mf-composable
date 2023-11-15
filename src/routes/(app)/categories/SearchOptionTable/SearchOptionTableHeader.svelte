@@ -4,8 +4,8 @@
 
 	import Link from '$components/Link.svelte';
 	import { onMount } from 'svelte';
-	import { exploreMFFilter } from '../../explorefunds/[slug]/analytics';
 	import type { CategoryNavItem, CategoryDetailsModalData } from '../types';
+	import { sExploreMutualFunds } from '../../explorefunds/[slug]/analytics';
 
 	let categoryFilterOptions: CategoryNavItem[];
 	let pageID: string;
@@ -22,8 +22,7 @@
 		setTimeout(() => {
 			setScrollPosition();
 		}, 66);
-
-		exploreMFFilter(nav.title);
+		sExploreMutualFunds({ Category: nav.title, type: 'click' });
 	};
 
 	onMount(() => {

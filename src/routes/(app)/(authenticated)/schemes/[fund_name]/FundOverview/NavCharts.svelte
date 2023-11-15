@@ -64,6 +64,7 @@
 				ticks: {
 					stepSize: 50,
 					beginAtZero: false,
+					autoSkip: false,
 					callback: function (value: number) {
 						if (lineChartOptions.scales.y.max - lineChartOptions.scales.y.min >= 10)
 							return '₹' + value.toFixed(0).toString();

@@ -26,19 +26,17 @@
 		const order = scheme?.sortBy2;
 		const recommended = order > 0 && order < 3;
 		const filter = modalList?.name;
-
 		fundCardClick({
-			'Fund Name': `${scheme?.schemeName}(${scheme?.categoryName})`,
-			isin,
-			recommended,
-			filter,
-			order
+			type: 'null',
+			category: filter,
+			fundisin: isin,
+			fundrank: order
 		});
 	};
 
 	onMount(() => {
 		const filter = modalList?.name;
-		sExploreMutualFunds({ filter });
+		sExploreMutualFunds({ Category: filter, type: 'null' });
 	});
 
 	export { data };

@@ -1,58 +1,77 @@
 import Analytics from '$lib/utils/analytics';
 
-interface ITaxSavingInfo {
-	Info: string;
-}
 interface IFundCardClick {
-	'Fund Name': string;
-	isin: string;
-	filter: string;
-	recommended: boolean;
-	order: number;
+	type: string;
+	category: string;
+	fundisin: string;
+	fundrank: number;
+	label?: string;
 }
 
-export const sExploreMutualFunds = (eventMetaData: { filter: string }) => {
+export const sExploreMutualFunds = (eventMetaData: { type: string; Category: string }) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-ExploreMutualFunds',
 		event_type: 'impression',
 		event_sub_type: 'screen',
-		event_name: 's-ExploreMutualFunds',
+		event_name: 'ExploreMF',
 		event_property: null,
 		event_id: '308.0.0.2.0',
 		event_metadata: eventMetaData
 	});
 };
 
-export const exploreMFFilter = (eventMetaData: string) => {
+export const exploreMFFilter = (eventMetaData: {
+	type: string;
+	Category: string;
+	label: string;
+}) => {
 	Analytics.logAnalyticEvent({
-		screen_name: 's-ExploreMutualFunds',
+		screen_name: 's-Homepage',
 		event_type: 'click',
-		event_sub_type: 'card',
-		event_name: 'filter',
+		event_sub_type: 'click',
+		event_name: 'categoryselect',
 		event_property: null,
 		event_id: '308.0.0.2.1',
 		event_metadata: eventMetaData
 	});
 };
-export const taxSavingInfo = (eventMetaData: ITaxSavingInfo) => {
+
+export const exploreMFFilterTab = (eventMetaData: {
+	type: string;
+	Category: string;
+	label: string;
+}) => {
 	Analytics.logAnalyticEvent({
-		screen_name: 's-ExploreMutualFunds',
+		screen_name: 's-Homepage',
 		event_type: 'click',
-		event_sub_type: 'info',
-		event_name: 'MFinfo',
+		event_sub_type: 'click',
+		event_name: 'tabpill',
 		event_property: null,
-		event_id: '308.0.0.2.2',
+		event_id: '308.0.0.2.5',
 		event_metadata: eventMetaData
 	});
 };
+
 export const fundCardClick = (eventMetaData: IFundCardClick) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-ExploreMutualFunds',
 		event_type: 'click',
-		event_sub_type: 'card',
-		event_name: 'FundName',
+		event_sub_type: 'click',
+		event_name: 'CategoryFundSelect',
 		event_property: null,
 		event_id: '308.0.0.2.4',
+		event_metadata: eventMetaData
+	});
+};
+
+export const fundCardClickTab = (eventMetaData: IFundCardClick) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-Homepage',
+		event_type: 'click',
+		event_sub_type: 'tab',
+		event_name: 'TabFundSelect',
+		event_property: null,
+		event_id: '308.0.0.2.6',
 		event_metadata: eventMetaData
 	});
 };

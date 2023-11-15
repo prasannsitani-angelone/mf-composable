@@ -2,7 +2,7 @@
 	import type { DashboardCategoryEntity } from '$lib/types/IDiscoverFunds';
 	import TabSelectorButton from './TabSelectorButton.svelte';
 	import TabCategoryItemListComponent from './TabCategoryItemListComponent.svelte';
-	import { topPicksSubCategoryClickEvent } from '$components/TopPicks/analytics';
+	import { fundCardClickTab } from '../../../routes/(app)/explorefunds/[slug]/analytics';
 
 	export let category: DashboardCategoryEntity;
 
@@ -10,16 +10,17 @@
 
 	const categoryOptionClickEvent = (event, position) => {
 		const { subCategory } = event.detail;
-		topPicksSubCategoryClickEvent({
-			Type: selectedCategory.name,
-			FundName: subCategory.schemeName,
-			ISIN: subCategory?.isin,
-			Rank: position
+		fundCardClickTab({
+			type: 'tab',
+			category: selectedCategory.name,
+			label: category.name,
+			fundisin: subCategory?.isin,
+			fundrank: position
 		});
 	};
 </script>
 
-<TabSelectorButton bind:selectedCategory categories={category.data} />
+<TabSelectorButton bind:selectedCategory categories={category.data} mainCategory={category.name} />
 
 <section class="mx-2 flex flex-col flex-wrap p-3 sm:mx-1 sm:flex-row sm:px-4">
 	{#if selectedCategory}

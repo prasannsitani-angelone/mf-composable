@@ -29,20 +29,18 @@
 	const handleFundCardClick = (scheme: ExploreFundsOptions) => {
 		const { isin } = scheme;
 		const order = scheme?.sortBy2;
-		const recommended = order > 0 && order < 3;
 		const filter = currentFilter?.title;
 		fundCardClick({
-			'Fund Name': `${scheme?.schemeName}(${scheme?.categoryName})`,
-			isin,
-			recommended,
-			filter,
-			order
+			type: 'click',
+			category: filter,
+			fundisin: isin,
+			fundrank: order
 		});
 	};
 
 	function sendImpressionAnalyticEvent() {
 		const filter = currentFilter?.title;
-		sExploreMutualFunds({ filter });
+		sExploreMutualFunds({ Category: filter, type: 'click' });
 	}
 
 	async function getFilterAndSchemes(searchOption: Promise) {
