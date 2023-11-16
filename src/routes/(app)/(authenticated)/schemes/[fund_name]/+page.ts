@@ -16,15 +16,12 @@ import { shareFundDetailClickAnalytics } from './analytics';
 import { hydrate } from '$lib/utils/helpers/hydrated';
 
 export const load = (async ({ fetch, params, url, parent }) => {
-	const decodedQuery = decodeURIComponent(url.search);
-	const startSubstring = 'params=';
-	const startIdx = decodedQuery?.indexOf(startSubstring) + startSubstring?.length;
-	const queryParam = decodedQuery?.substring(startIdx);
+	const queryParam = url?.searchParams?.get('params') || '';
 	const orderpadParam = url?.searchParams?.get('orderpad');
 	const fundName = params['fund_name'];
 
 	const decodedParams = decodeToObject(queryParam);
-	const { redirectedFrom, isExternal, clientCode } = decodedParams || {};
+	const { redirectedFrom, isExternal, clientCode, isAdditionalFlag } = decodedParams || {};
 	const schemeMetadata = fundName?.split('-isin-')[1]?.toUpperCase();
 	const [isin = '', schemeCode = ''] = schemeMetadata?.split('-SCHEMECODE-') || [];
 	let schemeData: SchemeDetails;
@@ -46,7 +43,7 @@ export const load = (async ({ fetch, params, url, parent }) => {
 			{
 				headers: {
 					'X-LRU': 'true',
-					'X-Skip-Validation': redirectedFrom === 'SIP_PAYMENTS'
+					'X-Skip-Validation': redirectedFrom === 'SIP_PAYMENTS' || isAdditionalFlag || false
 				}
 			},
 			fetch
