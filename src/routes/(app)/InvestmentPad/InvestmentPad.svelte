@@ -599,10 +599,10 @@
 					? !firstSipPayment
 						? 'START SIP'
 						: firstTimeUser
-						? 'PROCEED'
+						? 'CONTINUE'
 						: 'PAY'
 					: firstTimeUser
-					? 'PROCEED'
+					? 'CONTINUE'
 					: 'PAY',
 			Amount: amount,
 			SipDate: activeTab === 'SIP' ? getFormattedSIPDate() : '',
@@ -902,10 +902,10 @@
 					? !firstSipPayment
 						? 'START SIP'
 						: firstTimeUser
-						? 'PROCEED'
+						? 'CONTINUE'
 						: `PAY`
 					: firstTimeUser
-					? 'PROCEED'
+					? 'CONTINUE'
 					: `PAY`
 		};
 		startSipButtonClickAnalytics(eventMetadata);
@@ -1814,10 +1814,10 @@
 										? !firstSipPayment
 											? 'START SIP'
 											: firstTimeUser
-											? 'PROCEED'
+											? 'CONTINUE'
 											: `PAY ₹${addCommasToAmountString(amount)}`
 										: firstTimeUser
-										? 'PROCEED'
+										? 'CONTINUE'
 										: `PAY ₹${addCommasToAmountString(amount)}`}
 								</Button>
 							</div>

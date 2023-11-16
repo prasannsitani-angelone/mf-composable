@@ -379,7 +379,7 @@
 									isSubmitClicked}
 								onClick={handleOtpVerificationProceedClick}
 							>
-								PROCEED
+								CONTINUE
 							</Button>
 						</article>
 					</section>

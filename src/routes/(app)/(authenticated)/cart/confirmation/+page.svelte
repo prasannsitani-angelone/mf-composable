@@ -507,7 +507,7 @@
 								disabled={loadingState.isLoading || validateUPILoading}
 							>
 								{firstTimeUser
-									? 'PROCEED'
+									? 'CONTINUE'
 									: `PAY ₹${addCommasToAmountString(itemList?.totalAmount?.toString())}`}
 							</Button>
 						</div>

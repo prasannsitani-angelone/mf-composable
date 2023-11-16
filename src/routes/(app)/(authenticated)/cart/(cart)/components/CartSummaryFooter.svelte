@@ -54,7 +54,7 @@
 				<Button
 					disabled={notAllowedToProceed(selectedFunds)}
 					class="w-full !font-normal disabled:bg-grey-line disabled:text-grey-disabled sm:max-w-fit sm:px-16 "
-					onClick={onProceedButtonClick}>PROCEED TO PLACE ORDER</Button
+					onClick={onProceedButtonClick}>CONTINUE TO PLACE ORDER</Button
 				>
 			{:else}
 				<div class="flex w-full justify-end">

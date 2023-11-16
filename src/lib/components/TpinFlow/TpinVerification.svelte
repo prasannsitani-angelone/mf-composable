@@ -30,7 +30,7 @@
 		{
 			text: 'E-DIS (Electronic-Delivery Instruction Slip) is a facility provided to users who wish to sell mutual fund units/shares but have not couriered a physical copy of the POA (Power of Attorney)'
 		},
-		{ text: 'Once you proceed, you will be redirected to the CDSL website' },
+		{ text: 'Once you continue, you will be redirected to the CDSL website' },
 		{
 			text: 'Please verify your TPIN on the CDSL website to give consent to sell your mutual fund units'
 		},
@@ -409,7 +409,7 @@
 				<slot name="bodySection">
 					<section class="px-4 py-3 text-base font-normal md:px-8 md:py-6">
 						<article class="rounded text-sm font-normal text-grey-body md:border md:p-4">
-							Once you proceed, you will be redirected to the <span
+							Once you continue, you will be redirected to the <span
 								class="font-normal text-black-title">CDSL</span
 							>
 							website. Please enter your <span class="font-normal text-black-title">TPIN</span> to verify
@@ -443,7 +443,7 @@
 								variant="contained"
 								onClick={handleProceedClick}
 							>
-								PROCEED
+								CONTINUE
 							</Button>
 						</article>
 					</section>
@@ -486,7 +486,7 @@
 					Your 6-digit CDSL PIN has been sent to the registered email address and mobile number {maskedMobileNumber}
 					<article class="mt-16 flex items-center justify-center">
 						<Button class="!w-48 rounded border border-blue-primary" onClick={regenerateProceed}>
-							PROCEED
+							CONTINUE
 						</Button>
 					</article>
 				</section>
@@ -553,8 +553,8 @@
 	{#if tpinVerificationSuccessful && showTpinVerifiedModal && !loadingState?.isLoading && !error?.visible}
 		<TpinVerified
 			heading="TPIN Verified"
-			subHeading="Your TPIN verification is successful. Please click on proceed to place order"
-			primaryButtonTitle="PROCEED"
+			subHeading="Your TPIN verification is successful. Please click on continue to place order"
+			primaryButtonTitle="CONTINUE"
 			secondaryButtonTitle={orderType === OrderType.SWITCH ? '' : 'GO BACK'}
 			on:primaryButtonClick={handleTpinVerifiedModalProceedCta}
 			on:secondaryButtonClick={closeTpinActionModal}

@@ -305,7 +305,7 @@
 							pendingFlow={successFlow}
 							upiValidationErrorFunc={upiValidationErrorFuncPS}
 							submitButtonText={paymentHandler?.firstTimeUser
-								? 'PROCEED'
+								? 'CONTINUE'
 								: `PAY ₹${addCommasToAmountString(amount)}`}
 						/>
 					</section>

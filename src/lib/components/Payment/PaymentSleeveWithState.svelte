@@ -34,7 +34,7 @@
 	export let paymentFlow: (param: object) => void;
 	export let upiValidationErrorFunc: (param: string) => void;
 
-	export let submitButtonText = 'Proceed';
+	export let submitButtonText = 'Continue';
 	export let isSubmitButtonDisabled = false;
 	export let isPaymentSleeveVisible = true;
 

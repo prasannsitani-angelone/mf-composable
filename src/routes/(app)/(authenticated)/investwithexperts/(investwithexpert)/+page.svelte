@@ -170,7 +170,7 @@
 
 <article class="mx-3 mt-4 block md:hidden">
 	<section class="fixed inset-0 top-auto bg-white px-4 py-5">
-		<ButtonMedium onClick={handleProceedButtonClick} class="w-full">PROCEED</ButtonMedium>
+		<ButtonMedium onClick={handleProceedButtonClick} class="w-full">CONTINUE</ButtonMedium>
 	</section>
 </article>
 
