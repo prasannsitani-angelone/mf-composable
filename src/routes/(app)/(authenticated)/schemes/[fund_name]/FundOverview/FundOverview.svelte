@@ -9,7 +9,6 @@
 	import FundRating from './FundRating.svelte';
 
 	import NavCharts from './NavCharts.svelte';
-	import RocketIcon from '$lib/images/icons/RocketIcon.svelte';
 	import { onMount } from 'svelte';
 	import { sFundDetails } from '../analytics';
 	import AddToCart from '$components/AddToCart.svelte';
@@ -30,21 +29,10 @@
 	];
 
 	let returnPeriod: keyof Tags;
-	let fundLaunchMonth: string = new Date(schemeDetails?.launchDate)?.toLocaleString('default', {
-		month: 'long'
-	});
-	let fundLaunchYear = new Date(schemeDetails?.launchDate).getFullYear();
-	let fundAge = calculateYearDiffrence(new Date(schemeDetails?.launchDate));
 
 	$: returnPeriod = selectedTag[0].returnPeriod;
 	$: oneDayReturnClass = 'text-green-buy ';
 	$: oneDayReturnSuffix = '';
-
-	function calculateYearDiffrence(date: Date) {
-		const diffMs = Date.now() - date;
-		const actualDate = new Date(diffMs); // miliseconds from epoch
-		return Math.abs(actualDate.getUTCFullYear() - 1970);
-	}
 
 	function oneDayReturn(scheme: SchemeDetails): string {
 		const { navValue, previousNavValue } = scheme || {};
@@ -151,16 +139,5 @@
 				</div>
 			</div>
 		</section>
-
-		<footer class="flex items-center justify-center border-t border-t-grey-line pb-4 pt-5">
-			<RocketIcon />
-			<span class="ml-5 text-xs font-normal text-black-title sm:text-sm">
-				Launched in {fundLaunchMonth}
-				{fundLaunchYear}
-				<span class="text-sm font-normal text-grey-body">
-					(Age - {fundAge} year{fundAge > 1 ? 's' : ''})</span
-				></span
-			>
-		</footer>
 	{/if}
 </section>

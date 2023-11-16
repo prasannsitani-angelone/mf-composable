@@ -1,10 +1,7 @@
 <script lang="ts">
 	import Link from '$components/Link.svelte';
-	import type { PageData } from '../../../../$types';
 	import NoSipImage from '$lib/images/icons/NoSipImage.svelte';
 	let showInactiveSipsCta: boolean;
-	let data: PageData;
-	export { showInactiveSipsCta, data };
 </script>
 
 <section

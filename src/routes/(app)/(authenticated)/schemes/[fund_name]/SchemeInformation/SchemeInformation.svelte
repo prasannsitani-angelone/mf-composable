@@ -2,10 +2,7 @@
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 
 	import BasicInformation from './BasicInformation.svelte';
-	import Rating from './Rating.svelte';
-	import RiskInvolved from './RiskInvolved.svelte';
 	import SchemeInformationHeader from './SchemeInformationHeader.svelte';
-	import TaxImplications from './TaxImplications.svelte';
 
 	let schemeDetails: SchemeDetails;
 	let isNFO = false;
@@ -19,13 +16,6 @@
 		<SchemeInformationHeader />
 	{/if}
 	<section class="origin-top transition duration-100">
-		{#if !isNFO}
-			<BasicInformation {schemeDetails} />
-		{/if}
-		<TaxImplications {schemeDetails} />
-		<RiskInvolved {schemeDetails} />
-		{#if !isNFO}
-			<Rating {schemeDetails} />
-		{/if}
+		<BasicInformation {schemeDetails} />
 	</section>
 </article>

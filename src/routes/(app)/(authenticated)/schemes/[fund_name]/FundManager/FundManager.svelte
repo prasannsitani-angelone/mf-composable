@@ -1,6 +1,4 @@
 <script lang="ts">
-	import UserIcon from '$lib/images/icons/UserIcon.svelte';
-
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 
 	let schemeDetails: SchemeDetails;
@@ -23,24 +21,21 @@
 </script>
 
 <article class="mt-4 max-w-4xl rounded-lg bg-white pb-4 text-sm shadow-csm">
-	<header class="mb-6 border border-b border-grey-line">
+	<header>
 		<section
-			class="flex cursor-pointer items-center justify-between p-4 text-lg hover:text-blue-800 md:px-6 md:py-5"
+			class="flex cursor-pointer items-center justify-between p-4 pb-2 pt-6 text-lg hover:text-blue-800 sm:px-6"
 		>
 			<section class="flex items-center">
-				<div class="flex h-12 w-12 items-center justify-center rounded-full bg-grey">
-					<UserIcon />
-				</div>
-				<h2 class="ml-3 flex items-center text-left font-normal text-black-title">
+				<h2 class="flex items-center text-left text-base font-medium text-black-title">
 					<span> Fund Manager</span>
 				</h2>
 			</section>
 		</section>
 	</header>
 	<section class="origin-top transition duration-100">
-		<article class="px-6">
+		<article class="px-4 sm:px-6">
 			{#each schemeDetails?.fundManagerInfo || [] as fundManager}
-				<section class="flex items-center rounded border border-grey-line px-4 py-3">
+				<section class="flex items-center rounded">
 					<div
 						class="mr-3 flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-csm"
 					>

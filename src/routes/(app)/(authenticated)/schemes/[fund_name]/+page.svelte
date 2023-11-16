@@ -28,7 +28,6 @@
 	} from './analytics';
 	import NfoDetails from './NFODetails/NFODetails.svelte';
 	import { SEO } from 'svelte-components';
-	import { base } from '$app/paths';
 	import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
 	import InvestmentDetailsFooterLoader from '../../../(authenticated)/investments/[investment]/components/InvestmentDetailsFooterLoader.svelte';
 	import { hydratedStore } from '$lib/stores/AppHydratedStore';
