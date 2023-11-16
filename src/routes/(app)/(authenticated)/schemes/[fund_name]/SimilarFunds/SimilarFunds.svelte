@@ -2,14 +2,13 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import Button from '$components/Button.svelte';
-	import ChipArqRating from '$components/ChipArqRating.svelte';
+	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import Table from '$components/Table/Table.svelte';
 	import TBody from '$components/Table/TBody.svelte';
 	import Td from '$components/Table/TD.svelte';
 	import Th from '$components/Table/TH.svelte';
 	import THead from '$components/Table/THead.svelte';
 	import Tr from '$components/Table/TR.svelte';
-	import SimilarFundsIcon from '$lib/images/icons/SimilarFundsIcon.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { returnYearTableChangeColumn, yearlyReturnMap, type TableColumnToggle } from '$lib/utils';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
@@ -51,36 +50,33 @@
 </script>
 
 <article class="mt-4 max-w-4xl rounded-lg bg-white text-sm shadow-csm">
-	<header class="border border-b border-grey-line">
+	<header>
 		<section
-			class="flex cursor-pointer items-center justify-between p-4 text-lg hover:text-blue-800 md:px-6 md:py-5"
+			class="flex cursor-pointer items-center justify-between px-4 pt-6 text-lg hover:text-blue-800"
 		>
 			<section class="flex items-center">
-				<div class="flex h-12 w-12 items-center justify-center rounded-full bg-grey">
-					<SimilarFundsIcon />
-					<!-- {JSON.stringify(similarFunds)} -->
-				</div>
-				<h2 class="ml-3 flex items-center text-left font-normal text-black-title">
+				<h2 class="flex items-center text-left font-normal text-black-title">
 					<span> Similar Funds</span>
 				</h2>
 			</section>
 		</section>
 	</header>
-	<section>
+	<section class="px-4 md:px-6">
 		<Table>
 			<THead slot="thead">
-				<Th class="text-star w-6/12  !normal-case  sm:w-2/3">Funds</Th>
-				<Th class="text-center opacity-0 sm:opacity-100">ARQ Rating</Th>
-				<Th class="cursor-pointer !pl-0 text-left sm:!pl-5 sm:text-center">
+				<Th class="w-9/12 !border-none  !pl-0  text-start !normal-case sm:w-2/3">Fund Name</Th>
+
+				<Th
+					class="flex  h-12 cursor-pointer justify-end border-b !border-none border-grey-line bg-white py-0 !pl-0 !pr-0 text-left font-normal text-grey-body sm:!pl-5 sm:text-center"
+				>
 					<Button
-						class="flex items-center bg-white !pl-0 align-middle !text-xs !font-normal !text-blue-primary hover:bg-white sm:pl-5"
+						class="flex justify-items-end bg-white !pl-0 !pr-0 align-middle !text-xs !font-normal !text-blue-primary hover:bg-white"
 						onClick={sortTable}
 					>
 						<span class="mr-1">{currentYearFilter.label}</span>
-						<div class="flex flex-row gap-[2px]">
-							<span class="table-icon v-table-left-icon" /><span
-								class="table-icon v-table-right-icon"
-							/>
+						<div class="flex flex-col gap-[2px]">
+							<div class="arrow-up" />
+							<div class="arrow-down" />
 						</div>
 					</Button>
 				</Th>
@@ -93,17 +89,20 @@
 							onTableRowSelect(funds);
 						}}
 					>
-						<Td class="!pr-0"
+						<Td class="!px-0"
 							><a
-								class="block w-full overflow-hidden text-ellipsis whitespace-pre-wrap"
+								class="flex w-full items-center overflow-hidden text-ellipsis whitespace-pre-wrap align-middle"
 								href={normalizeFundName(funds.schemeName, funds.isin, funds.schemeCode)}
-								>{funds.schemeName}</a
+							>
+								<SchemeLogo src={funds?.logoUrl} class="h-8 w-8" />
+								<span class="font-medium text-black-title">{funds.schemeName}</span>
+							</a></Td
+						>
+
+						<Td class="!pr-0 text-right"
+							><span class="font-medium text-black-title">{funds[currentYearFilter.field]}%</span
 							></Td
 						>
-						<Td class="border-none">
-							<ChipArqRating arqRating={funds.arqRating} />
-						</Td>
-						<Td class="text-center"><span>{funds[currentYearFilter.field]}%</span></Td>
 					</Tr>
 				{/each}
 			</TBody>
@@ -112,22 +111,20 @@
 </article>
 
 <style>
-	.table-icon {
-		display: inline-block;
-		vertical-align: middle;
+	.arrow-down {
 		width: 0;
 		height: 0;
-	}
+		border-left: 4px solid transparent;
+		border-right: 4px solid transparent;
 
-	.v-table-left-icon {
-		border-top: 4px solid transparent;
-		border-bottom: 4px solid transparent;
-		border-right: 4px solid #2a394e;
+		border-top: 4px solid #3f5bd9;
 	}
+	.arrow-up {
+		width: 0;
+		height: 0;
+		border-left: 4px solid transparent;
+		border-right: 4px solid transparent;
 
-	.v-table-right-icon {
-		border-top: 4px solid transparent;
-		border-bottom: 4px solid transparent;
-		border-left: 4px solid #2a394e;
+		border-bottom: 4px solid #3f5bd9;
 	}
 </style>

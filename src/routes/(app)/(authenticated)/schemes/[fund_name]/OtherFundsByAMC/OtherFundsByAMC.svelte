@@ -2,7 +2,6 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import Button from '$components/Button.svelte';
-	import ChipArqRating from '$components/ChipArqRating.svelte';
 	import ChipOverview from '$components/ChipOverview.svelte';
 	import Link from '$components/Link.svelte';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
@@ -12,8 +11,6 @@
 	import Th from '$components/Table/TH.svelte';
 	import THead from '$components/Table/THead.svelte';
 	import Tr from '$components/Table/TR.svelte';
-	import OtherFundsIcon from '$lib/images/icons/OtherFundsIcon.svelte';
-	import RightArrow from '$lib/images/icons/RightArrow.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { returnYearTableChangeColumn, yearlyReturnMap, type TableColumnToggle } from '$lib/utils';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
@@ -57,36 +54,32 @@
 <article class="mt-4 max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:pb-4">
 	<header class="">
 		<section
-			class="flex cursor-pointer items-center justify-between p-4 text-lg hover:text-blue-800 md:px-6 md:py-5"
+			class="flex cursor-pointer items-center justify-between p-4 !pb-0 text-lg hover:text-blue-800 md:px-6 md:py-5"
 		>
 			<section class="flex items-center">
-				<div class="flex h-12 w-12 items-center justify-center rounded-full bg-grey">
-					<OtherFundsIcon />
-				</div>
-				<h2 class="ml-3 flex items-center text-left font-normal text-black-title">
+				<h2 class="flex items-center text-left font-normal text-black-title">
 					<span>Other Funds by {sameAmcScheme?.amcName}</span>
 				</h2>
 			</section>
 		</section>
 	</header>
 	<section>
-		<div class="w-full overflow-x-auto bg-white md:px-6">
+		<div class="w-full overflow-x-auto bg-white px-4 md:px-6">
 			<Table>
 				<THead slot="thead">
-					<tr class="border-x border-t border-x-grey-line">
-						<Th class="text-star w-2/3  !normal-case sm:w-4/5">Funds</Th>
+					<tr>
+						<Th class="text-star w-9/12 !border-none !pl-0 !normal-case">Fund Name</Th>
 						<Th
-							class="flex cursor-pointer justify-end !pl-0 !pr-0 text-left sm:!pl-5 sm:!pr-5 sm:text-center"
+							class="flex cursor-pointer justify-end !border-none !pl-0 !pr-0 text-left sm:text-center"
 						>
 							<Button
-								class="flex items-center bg-white !pl-0 align-middle !text-xs !font-normal !text-blue-primary hover:bg-white sm:!pr-0 sm:pl-5"
+								class="flex items-center bg-white !pl-0 pr-0 align-middle !text-xs !font-normal !text-blue-primary hover:bg-white"
 								onClick={sortTable}
 							>
 								<span class="mr-1">{currentYearFilter.label}</span>
-								<div class="flex flex-row gap-[2px]">
-									<span class="table-icon v-table-left-icon" /><span
-										class="table-icon v-table-right-icon"
-									/>
+								<div class="flex flex-col gap-[2px]">
+									<div class="arrow-up" />
+									<div class="arrow-down" />
 								</div>
 							</Button>
 						</Th>
@@ -94,45 +87,35 @@
 				</THead>
 				<TBody slot="tbody">
 					{#each sameAmcScheme?.schemeInfo || [] as schemes}
-						<Tr
-							class="border-x border-b border-grey-line border-x-grey-line "
-							on:click={() => onTableRowSelect(schemes)}
-						>
-							<Td class="!pr-0">
+						<Tr on:click={() => onTableRowSelect(schemes)}>
+							<Td class="!px-0 ">
+								<ChipOverview
+									headingPrimary={schemes?.categoryName}
+									headingSecondary={schemes?.subcategoryName}
+								/>
 								<Link
 									to={`/schemes/${normalizeFundName(
 										schemes?.schemeName,
 										schemes?.isin,
 										schemes?.schemeCode
 									)}`}
-									class="flex items-start justify-between"
+									class="mt-2 flex items-start items-center justify-between align-middle"
 								>
-									<SchemeLogo src={schemes?.logoUrl} alt={schemes?.schemeName} />
+									<SchemeLogo src={schemes?.logoUrl} alt={schemes?.schemeName} class="h-8 w-8" />
 									<div class="m-0 mr-auto flex flex-col">
-										<ChipOverview
-											headingPrimary={schemes?.categoryName}
-											headingSecondary={schemes?.subcategoryName}
-										/>
 										<h3
-											class="block w-full whitespace-pre-wrap font-normal text-black-title sm:text-sm"
+											class="block w-full whitespace-pre-wrap font-medium text-black-title sm:text-sm"
 										>
 											{schemes?.schemeName}
 										</h3>
-										<div class="mt-1 flex">
-											<ChipArqRating arqRating={schemes?.arqRating} />
-											<div
-												class="ml-1 bg-grey px-1 group-hover:border group-hover:border-grey-line group-hover:bg-white"
-											>
-												<span class="text-xs text-grey-body">{schemes?.reInvestmentPlan}</span>
-											</div>
-										</div>
 									</div>
 								</Link>
 							</Td>
-							<Td class="!pl-0 !pr-2 sm:!pr-5"
+							<Td class="!p-0"
 								><div class="flex items-end justify-end">
-									<span>{schemes[currentYearFilter.field]} %</span>
-									<RightArrow />
+									<span class="font-medium text-black-title"
+										>{schemes[currentYearFilter.field]} %</span
+									>
 								</div>
 							</Td>
 						</Tr>
@@ -144,22 +127,20 @@
 </article>
 
 <style>
-	.table-icon {
-		display: inline-block;
-		vertical-align: middle;
+	.arrow-down {
 		width: 0;
 		height: 0;
-	}
+		border-left: 4px solid transparent;
+		border-right: 4px solid transparent;
 
-	.v-table-left-icon {
-		border-top: 4px solid transparent;
-		border-bottom: 4px solid transparent;
-		border-right: 4px solid #2a394e;
+		border-top: 4px solid #3f5bd9;
 	}
+	.arrow-up {
+		width: 0;
+		height: 0;
+		border-left: 4px solid transparent;
+		border-right: 4px solid transparent;
 
-	.v-table-right-icon {
-		border-top: 4px solid transparent;
-		border-bottom: 4px solid transparent;
-		border-left: 4px solid #2a394e;
+		border-bottom: 4px solid #3f5bd9;
 	}
 </style>
