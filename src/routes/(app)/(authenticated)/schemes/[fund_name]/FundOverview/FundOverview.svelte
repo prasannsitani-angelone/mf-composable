@@ -1,17 +1,13 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import ChipOverview from '$components/ChipOverview.svelte';
-	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { formatDate } from '$lib/utils';
 	import { tags } from '$lib/constants/tags';
 	import type { Tags } from '$lib/types/ITags';
-	import FundRating from './FundRating.svelte';
 
 	import NavCharts from './NavCharts.svelte';
 	import { onMount } from 'svelte';
 	import { sFundDetails } from '../analytics';
-	import AddToCart from '$components/AddToCart.svelte';
 	import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
 
 	let schemeDetails: SchemeDetails;
@@ -31,22 +27,7 @@
 	let returnPeriod: keyof Tags;
 
 	$: returnPeriod = selectedTag[0].returnPeriod;
-	$: oneDayReturnClass = 'text-green-buy ';
-	$: oneDayReturnSuffix = '';
 
-	function oneDayReturn(scheme: SchemeDetails): string {
-		const { navValue, previousNavValue } = scheme || {};
-		let oneDReturn = ((navValue - previousNavValue) / previousNavValue) * 100 || 0;
-		oneDReturn = isFinite(oneDReturn) ? oneDReturn : 0;
-		if (oneDReturn <= 0) {
-			oneDayReturnClass = 'text-red-sell';
-			oneDayReturnSuffix = '';
-		} else {
-			oneDayReturnClass = 'text-green-buy ';
-			oneDayReturnSuffix = '+';
-		}
-		return oneDReturn.toFixed(2);
-	}
 	const handleChartRangeChange = (event: { detail: { text: number } }) => {
 		const selectedMonth: number = event?.detail?.text;
 		selectedTag = tags.filter((val) => val.months === selectedMonth);
@@ -73,50 +54,45 @@
 			URL: getDeeplinkForUrl($page.url)
 		};
 		sFundDetails(eventMetadata);
+		console.log({ selectedTag });
 	});
 
 	let pagePathname: string;
 	$: pagePathname = $page.url?.pathname;
+	function getReturnText(tag: Tags) {
+		const map = {
+			'1M': 'in the last 1 month',
+			'3M': 'in the last 3 months',
+			'6M': 'in the last 6 months',
+			'1Y': 'in the last 1 year',
+			'3Y': 'for last 3 years',
+			'5Y': 'for last 5 years',
+			ALL: 'since the fund launched'
+		};
 
+		return map[tag.label] || '';
+	}
 	export { schemeDetails, isNFO };
 </script>
 
-<section class="rounded-lg bg-white p-4 shadow-csm sm:p-6 sm:pb-2">
+<section class="rounded-lg bg-white p-4 pb-1 pt-3 shadow-csm sm:p-6">
 	<header>
-		<ChipOverview
-			class="mb-2"
-			headingPrimary={schemeDetails?.categoryName}
-			headingSecondary={schemeDetails?.subcategoryName}
-			headingTertiary={schemeDetails?.reInvestmentPlan}
-		/>
-		<div class="mb-6 flex items-start justify-between sm:items-center lg:mt-6">
-			<SchemeLogo size="sm" src={schemeDetails?.logoUrl} alt={schemeDetails?.schemeName} />
-			<div class="m-0 mr-auto flex flex-col">
-				<h1 class="text-base font-normal text-black-title sm:text-lg">
-					{schemeDetails?.schemeName}
-				</h1>
-			</div>
-			<div class="relative {isNFO ? 'mb-auto' : ''}">
-				{#if !isNFO}
-					<FundRating rating={schemeDetails?.arqRating} class="ml-4 sm:hidden" />
-					<AddToCart scheme={schemeDetails} class="hidden sm:flex" entryPoint="FundDetailsPage" />
-				{:else}
-					<div>
-						<span class="text-sm font-normal uppercase text-grey-body">Nav</span>
-						<span>₹{schemeDetails?.navValue}</span>
-					</div>
-				{/if}
-			</div>
-		</div>
 		{#if !isNFO}
 			<div class="relative flex">
 				<div class="flex flex-grow basis-0 flex-col pb-3 pt-3">
-					<span class="text-base font-normal text-black-title sm:text-2xl"
-						>{schemeDetails[returnPeriod]?.toFixed(2)}%</span
-					>
-					<span class="flex gap-1 text-xs font-normal text-grey-body sm:text-sm"
-						>Fund {selectedTag[0].text} return</span
-					>
+					<span class="text-xs text-black-bolder">Returns</span>
+					<div class="flex items-end">
+						<span class="text-base font-medium text-green-amount sm:text-2xl"
+							>{schemeDetails[returnPeriod]?.toFixed(2)}%</span
+						>
+						<span class="ml-1 flex gap-1 pb-[2px] text-xs font-normal text-grey-body sm:text-sm">
+							{#if selectedTag[0].timeScale === 'year'}
+								<span class="font-medium text-black-title">annually</span>
+							{/if}
+
+							{getReturnText(selectedTag[0])}</span
+						>
+					</div>
 				</div>
 			</div>
 		{/if}
@@ -126,15 +102,15 @@
 			<NavCharts {schemeDetails} on:chartRangeChange={handleChartRangeChange} />
 			<div class="mt-9 flex justify-between">
 				<div class="flex flex-col">
-					<span class="mr-1 text-sm font-normal text-grey-body sm:text-sm"
-						>NAV on {formatDate(schemeDetails?.navDate)}</span
-					><span class="mr-1 text-lg text-black-title">₹{schemeDetails?.navValue?.toFixed(2)}</span>
+					<span class="mr-1 text-xs font-normal text-grey-body sm:text-sm"
+						>NAV <span class="text-[10px]">on {formatDate(schemeDetails?.navDate)}</span>
+					</span><span class="mr-1 text-sm text-black-title"
+						>₹{schemeDetails?.navValue?.toFixed(2)}</span
+					>
 				</div>
 				<div class="flex flex-col">
-					<span class="text-sm font-normal text-grey-body ${oneDayReturnClass}">
-						1D Returns
-					</span><span class={`${oneDayReturnClass}`}
-						>{oneDayReturnSuffix}{oneDayReturn(schemeDetails)}%</span
+					<span class="text-xs font-normal text-grey-body"> Minimum SIP Investment </span><span
+						class="text-sm text-black-title">₹{schemeDetails?.minSipAmount || '-'}</span
 					>
 				</div>
 			</div>

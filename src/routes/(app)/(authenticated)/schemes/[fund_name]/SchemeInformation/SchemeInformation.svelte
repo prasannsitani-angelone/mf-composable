@@ -12,10 +12,9 @@
 <article
 	class="mt-4 max-w-4xl rounded-lg border border-b border-grey-line bg-white text-sm shadow-csm"
 >
-	{#if !isNFO}
-		<SchemeInformationHeader />
-	{/if}
+	<SchemeInformationHeader />
+
 	<section class="origin-top transition duration-100">
-		<BasicInformation {schemeDetails} />
+		<BasicInformation {schemeDetails} {isNFO} />
 	</section>
 </article>

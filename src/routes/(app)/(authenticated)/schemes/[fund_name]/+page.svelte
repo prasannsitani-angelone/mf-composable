@@ -5,7 +5,6 @@
 	import FundHoldings from './FundHoldings/FundHoldings.svelte';
 	import FundManager from './FundManager/FundManager.svelte';
 	import FundOverview from './FundOverview/FundOverview.svelte';
-	import LockInPeriod from './LockInPeriod/LockInPeriod.svelte';
 	import SchemeInformation from './SchemeInformation/SchemeInformation.svelte';
 	import SimilarFunds from './SimilarFunds/SimilarFunds.svelte';
 	import OtherFundsByAMC from './OtherFundsByAMC/OtherFundsByAMC.svelte';
@@ -32,6 +31,8 @@
 	import InvestmentDetailsFooterLoader from '../../../(authenticated)/investments/[investment]/components/InvestmentDetailsFooterLoader.svelte';
 	import { hydratedStore } from '$lib/stores/AppHydratedStore';
 	import type { CalculatedValue } from '$lib/types/IStandaloneCalculator';
+	import RiskAndRating from './RiskAndRating/RiskAndRating.svelte';
+	import FundHeading from './FundHeading/FundHeading.svelte';
 
 	export let data: PageData;
 
@@ -158,11 +159,14 @@
 				items={getSchemeDetailsBreadCrumbs(schemedata)}
 				class="my-4 hidden items-center justify-start md:flex"
 			/>
-			<FundOverview schemeDetails={schemedata} {isNFO} />
+			<FundHeading schemeDetails={schemedata} />
+			{#if !isNFO}
+				<FundOverview schemeDetails={schemedata} {isNFO} />
+			{/if}
 			{#if isNFO}
 				<NfoDetails schemeDetails={schemedata} />
 			{/if}
-			<LockInPeriod schemeDetails={schemedata} {isNFO} />
+
 			{#if !isNFO}
 				<ReturnEstimator
 					returns3yr={schemedata?.returns3yr}
@@ -178,17 +182,20 @@
 			{/if}
 			<SchemeInformation schemeDetails={schemedata} {isNFO} />
 			<FundManager schemeDetails={schemedata} />
+			<RiskAndRating schemeDetails={schemedata} />
 			{#if !isNFO}
 				{#await data?.api?.holdingData then fundHoldingData}
 					{#if fundHoldingData?.length > 0}
-						<FundHoldings {fundHoldingData} aum={schemedata?.aum} />
+						<FundHoldings {fundHoldingData} />
 					{/if}
 				{/await}
-				{#await data?.api?.comparisons then comparisons}
-					<SimilarFunds similarFunds={comparisons?.otherScheme || []} />
-					<OtherFundsByAMC sameAmcScheme={comparisons?.sameAmcScheme} />
-				{/await}
 			{/if}
+			{#await data?.api?.comparisons then comparisons}
+				{#if !isNFO}
+					<SimilarFunds similarFunds={comparisons?.otherScheme || []} />
+				{/if}
+				<OtherFundsByAMC sameAmcScheme={comparisons?.sameAmcScheme} />
+			{/await}
 		</article>
 
 		{#if schemedata}

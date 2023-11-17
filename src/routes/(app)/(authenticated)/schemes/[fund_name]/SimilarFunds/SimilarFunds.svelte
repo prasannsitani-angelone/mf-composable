@@ -55,7 +55,7 @@
 			class="flex cursor-pointer items-center justify-between px-4 pt-6 text-lg hover:text-blue-800"
 		>
 			<section class="flex items-center">
-				<h2 class="flex items-center text-left font-normal text-black-title">
+				<h2 class="flex items-center text-left text-base font-medium text-black-title">
 					<span> Similar Funds</span>
 				</h2>
 			</section>

@@ -10,40 +10,36 @@
 	let holdings: TopHolding[];
 	let topHolding = false;
 
-	const holdinggText = topHolding ? 'Top Holding' : 'Name';
+	const holdinggText = topHolding ? 'Holding Name' : 'Name';
 	export { holdings, topHolding };
 </script>
 
-<Table class="border border-grey-line">
-	<THead slot="thead" class="border-t border-grey-line">
-		<Th class="w-3/5">
+<Table>
+	<THead slot="thead">
+		<Th class="w-3/5 !border-none !pl-0 text-xs normal-case">
 			{holdinggText}
 		</Th>
-		<Th class="flex justify-end text-right">Allocation</Th>
+		<Th class="flex justify-end !border-none !pr-0 text-right text-xs normal-case">Allocation</Th>
 	</THead>
 	<TBody slot="tbody">
 		{#each holdings as holding}
 			<Tr>
-				<Td>
+				<Td class="!pl-0">
 					{#if topHolding}
-						<div class="flex items-center">
-							<div
-								class="mr-2 h-[6px] w-[6px] rounded-full"
-								style={`background-color:${holding.colorCode}`}
-							/>
+						<div class="flex items-center text-sm font-medium text-black-title">
 							<div>
 								{holding.companyName}
 							</div>
 						</div>
 					{:else}
-						<div class="flex items-start">
+						<div class="flex items-start text-sm font-medium text-black-title">
 							<div>
 								{holding.companyName}
 							</div>
 						</div>
 					{/if}
 				</Td>
-				<Td class="mr-4 text-right text-sm font-medium !text-black-title"
+				<Td class="mr-4 !pr-0 text-right text-sm font-medium !text-black-title"
 					>{holding.percentageHold}%</Td
 				>
 			</Tr>

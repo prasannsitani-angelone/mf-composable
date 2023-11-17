@@ -36,29 +36,20 @@
 	export { schemeDetails };
 </script>
 
-<section class="border-b p-4">
-	<header class="mb-5 flex items-center">
-		<div class="flex h-12 w-12 items-center justify-center rounded-full bg-grey">
-			<RiskometerIcon />
-		</div>
-
-		<h3 class="ml-4 text-lg font-normal text-black-title">Risk Involved</h3>
-	</header>
-	<section
-		class="mt-5 flex flex-col items-center gap-12 rounded border-t border-grey-line p-6 pl-11 lg:flex-row lg:items-stretch lg:border lg:bg-grey"
-	>
-		<div class="h-32 w-64">
+<section class="p-4">
+	<section class="flex flex-col items-center justify-center">
+		<div class="flex h-32 w-64 items-center justify-center">
 			<Riskometer data={riskometerData} chartClass="!w-64 !h-32" />
 		</div>
-		<div
-			class="flex flex-col items-center justify-center rounded border-0 bg-white px-9 lg:border"
-			style="border-color: {borderColor};"
-		>
-			<div class="text-center text-sm font-normal text-grey-body">Your principal will be at</div>
+		<div class="mt-2 flex flex-col items-center justify-center rounded border-0 bg-white px-9">
+			<div class="text-center text-sm font-normal text-grey-body">
+				<span>Your investment will be at </span>
 
-			<h4 class="text-lg font-normal" style="color: {borderColor};">
-				{schemeDetails?.riskoMeterValue} risk
-			</h4>
+				<span class="text-sm font-normal" style="color: {borderColor};">
+					{schemeDetails?.riskoMeterValue}
+				</span>
+				<span>risk</span>
+			</div>
 		</div>
 	</section>
 </section>

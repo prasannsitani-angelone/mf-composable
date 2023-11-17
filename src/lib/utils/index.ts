@@ -242,3 +242,9 @@ export function shouldDisplayAngelBeeBanner(data: LayoutData) {
 	const accessToken = tokenStore.accessToken();
 	return accessToken && dpNumber && isAngelBeeUser;
 }
+
+export function calculateYearDiffrence(date: Date) {
+	const diffMs = Date.now() - date;
+	const actualDate = new Date(diffMs); // miliseconds from epoch
+	return Math.abs(actualDate.getUTCFullYear() - 1970);
+}

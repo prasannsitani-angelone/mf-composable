@@ -57,7 +57,7 @@
 			class="flex cursor-pointer items-center justify-between p-4 !pb-0 text-lg hover:text-blue-800 md:px-6 md:py-5"
 		>
 			<section class="flex items-center">
-				<h2 class="flex items-center text-left font-normal text-black-title">
+				<h2 class="flex items-center text-left text-base font-medium text-black-title">
 					<span>Other Funds by {sameAmcScheme?.amcName}</span>
 				</h2>
 			</section>

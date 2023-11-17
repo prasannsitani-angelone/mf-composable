@@ -2,7 +2,7 @@
 	import ExitLoadIcon from '$lib/images/icons/ExitLoadIcon.svelte';
 
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
-	import { Button, WMSIcon } from 'svelte-components';
+	import { Button } from 'svelte-components';
 	import BasicInfoChip from './BasicInfoChip.svelte';
 	import CakeIcon from '$lib/images/icons/CakeIcon.svelte';
 	import LockInIcon from '$lib/images/icons/LockInIcon.svelte';
@@ -10,14 +10,11 @@
 	import FundSizeIcon from '$lib/images/icons/FundSizeIcon.svelte';
 	import TaxImplecationIcon from '$lib/images/icons/TaxImplecationIcon.svelte';
 	import SchemeInformationModal from './SchemeInformationModal.svelte';
+	import { calculateYearDiffrence } from '$lib/utils';
 
 	let schemeDetails: SchemeDetails;
+	let isNFO = false;
 	let fundAge = calculateYearDiffrence(new Date(schemeDetails?.launchDate));
-	function calculateYearDiffrence(date: Date) {
-		const diffMs = Date.now() - date;
-		const actualDate = new Date(diffMs); // miliseconds from epoch
-		return Math.abs(actualDate.getUTCFullYear() - 1970);
-	}
 
 	$: isModalOpen = false;
 
@@ -26,19 +23,21 @@
 	};
 	let sipLockinPeriod =
 		schemeDetails?.sipLockinPeriodFlag === 'Y' ? `${schemeDetails?.sipLockinPeriod} years` : 'Nil';
-	export { schemeDetails };
+	export { schemeDetails, isNFO };
 </script>
 
 <section class="border-b px-4 md:px-6">
 	<section class="flex flex-col">
-		<section class="flex flex-row border-b py-4 text-xs sm:gap-16">
-			<BasicInfoChip title="Fund Age" value="{fundAge} year{fundAge > 1 ? 's' : ''}">
-				<CakeIcon slot="icon" />
-			</BasicInfoChip>
-			<BasicInfoChip title="Fund Size (AUM)" value="₹{schemeDetails?.aum} Cr.">
-				<FundSizeIcon slot="icon" />
-			</BasicInfoChip>
-		</section>
+		{#if !isNFO}
+			<section class="flex flex-row border-b py-4 text-xs sm:gap-16">
+				<BasicInfoChip title="Fund Age" value="{fundAge} year{fundAge > 1 ? 's' : ''}">
+					<CakeIcon slot="icon" />
+				</BasicInfoChip>
+				<BasicInfoChip title="Fund Size (AUM)" value="₹{schemeDetails?.aum} Cr.">
+					<FundSizeIcon slot="icon" />
+				</BasicInfoChip>
+			</section>
+		{/if}
 		<section class="flex flex-row border-b py-4 text-xs sm:gap-16">
 			<BasicInfoChip title="Lock-in Period" value={sipLockinPeriod}>
 				<LockInIcon slot="icon" />
@@ -66,7 +65,7 @@
 					<span class="mb-2 text-grey-body">Tax Implications</span>
 
 					<div class="text-xs">
-						{#each schemeDetails?.taxImplications as taxImplications}
+						{#each schemeDetails?.taxImplications || [] as taxImplications}
 							<div class="mb-1 flex flex-col">
 								<span class="text-grey-body">
 									{taxImplications?.header}

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	import { calculateYearDiffrence } from '$lib/utils';
 
 	let schemeDetails: SchemeDetails;
 
@@ -17,6 +18,8 @@
 
 		return `${month} ${year}`;
 	};
+
+	// let fundManagerAge = calculateYearDiffrence(new Date(fundManager?.startDate))
 	export { schemeDetails };
 </script>
 
@@ -35,25 +38,24 @@
 	<section class="origin-top transition duration-100">
 		<article class="px-4 sm:px-6">
 			{#each schemeDetails?.fundManagerInfo || [] as fundManager}
+				{@const fundManagerAge = calculateYearDiffrence(new Date(fundManager?.startDate))}
 				<section class="flex items-center rounded">
 					<div
-						class="mr-3 flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-csm"
+						class="mr-3 flex h-10 w-10 items-center justify-center rounded-full bg-blue-primary/[.12]"
 					>
-						<div
-							class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-primary/[.12]"
-						>
-							<span class="text-sm font-medium text-blue-primary">
-								{fundManagerInitials(fundManager?.name)}
-							</span>
-						</div>
+						<span class="text-sm font-medium text-blue-primary">
+							{fundManagerInitials(fundManager?.name)}
+						</span>
 					</div>
 					<div>
-						<h3 class="text-sm font-normal text-black-title sm:text-base">
+						<h3 class="text-sm font-medium text-black-title sm:text-base">
 							{fundManager?.name}
 						</h3>
 						<h4 class="text-xs font-normal text-grey-body sm:text-sm">
-							<span>Fund Manager since </span>
-							{getStartDate(fundManager?.startDate)}
+							{getStartDate(fundManager?.startDate)} - Present | {fundManagerAge} year{fundManagerAge >
+							1
+								? 's'
+								: ''}
 						</h4>
 					</div>
 				</section>

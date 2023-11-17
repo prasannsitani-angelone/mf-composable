@@ -6,20 +6,20 @@
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 
 	let schemeDetails: SchemeDetails;
-	let isNFO = false;
-	export { schemeDetails, isNFO };
+
+	export { schemeDetails };
 </script>
 
-<article class="mt-4 max-w-4xl rounded-lg bg-white pb-0 text-sm shadow-csm sm:pb-0">
+<article class="max-w-4xl rounded-lg bg-white pb-0 text-sm sm:w-full sm:pb-0">
 	<section class="origin-top transition duration-100">
-		<div class="flex flex-col px-3 py-4">
+		<div class="flex flex-col">
 			<div class="flex gap-2">
 				<div class="flex flex-row rounded-lg bg-grey py-3 pl-3 sm:grow sm:basis-0">
 					<div class="flex">
 						{#if schemeDetails?.isSipAllowed === 'Y'}
 							<PiggyBankIcon class="h-9 w-9" />
 							<div class="ml-2">
-								<div class="text-base font-normal text-black-title sm:text-2xl">
+								<div class="text-xs font-medium text-black-title">
 									<AmountText amount={schemeDetails?.minSipAmount} />
 								</div>
 								<div class="text-xs font-normal text-grey-body sm:text-sm">
@@ -41,7 +41,7 @@
 						{#if schemeDetails?.isLumpsumAllowed === 'Y'}
 							<MinLumpSumIcon class="h-9 w-9" />
 							<div class="ml-2">
-								<div class="text-base font-normal text-black-title sm:text-2xl">
+								<div class="text-xs font-medium text-black-title">
 									<AmountText amount={schemeDetails?.minLumpsumAmount} />
 								</div>
 								<div class="text-xs font-normal text-grey-body sm:text-sm">
@@ -59,21 +59,6 @@
 					</div>
 				</div>
 			</div>
-			{#if !isNFO}
-				<div
-					class="mt-3 flex items-center justify-center rounded border border-grey-line py-2 font-normal text-black-title"
-				>
-					<LockInIcon />
-					<span class="font-medium"> Lock-in:</span>
-					{#if schemeDetails?.sipLockinPeriodFlag === 'Y'}
-						<div>
-							Fund has {schemeDetails?.sipLockinPeriod}Y lock-in period
-						</div>
-					{:else}
-						Fund has no lock-in period
-					{/if}
-				</div>
-			{/if}
 		</div>
 	</section>
 </article>
