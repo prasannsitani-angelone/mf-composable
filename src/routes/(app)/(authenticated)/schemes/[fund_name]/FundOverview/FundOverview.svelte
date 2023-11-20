@@ -86,7 +86,7 @@
 							>{schemeDetails[returnPeriod]?.toFixed(2)}%</span
 						>
 						<span class="ml-1 flex gap-1 pb-[2px] text-xs font-normal text-grey-body sm:text-sm">
-							{#if selectedTag[0].timeScale === 'year'}
+							{#if selectedTag[0].timeScale === 'year' && selectedTag[0]?.label !== '1Y'}
 								<span class="font-medium text-black-title">annually</span>
 							{/if}
 
