@@ -61,7 +61,7 @@ export const load = async ({ fetch, depends }) => {
 		},
 		layoutConfig: {
 			layoutType: 'FULL_HEIGHT_WITHOUT_PADDING',
-			title: 'Confirm Order',
+			title: 'Complete Your Payment',
 			showBackIcon: true
 		}
 	};
