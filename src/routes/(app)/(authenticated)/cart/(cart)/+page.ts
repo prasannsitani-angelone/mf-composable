@@ -23,7 +23,7 @@ export const load = (async ({ fetch }) => {
 			cart: browser ? getCartData() : await getCartData()
 		},
 		layoutConfig: {
-			title: 'Cart',
+			title: 'Your Cart',
 			layoutType: 'DEFAULT',
 			layoutClass: 'pt-0 md:pt-2 relative',
 			titleClass: '!text-xl',
