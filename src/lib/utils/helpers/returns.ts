@@ -14,8 +14,8 @@ export const calculateSipReturns = (investedAmount: number, returnYears: number,
 	const totalProfit =
 		investedAmount *
 		(((Math.pow(1 + effectiveCAGR, totalMonths) - 1) / effectiveCAGR) * (1 + effectiveCAGR));
-	const capitalGain = Math.floor(totalProfit - investedAmount);
-	const gainLossPercentage = (capitalGain / investedAmount) * 100;
+	const capitalGain = Math.floor(totalProfit - totalInvestment);
+	const gainLossPercentage = (capitalGain / totalInvestment) * 100;
 	const matuarityAmount = Math.floor(totalProfit) || 0;
 
 	return { totalInvestment, totalProfit, capitalGain, gainLossPercentage, matuarityAmount };

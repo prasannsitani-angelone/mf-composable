@@ -156,3 +156,12 @@ export interface ISipHealthDetails {
 	footerType?: string;
 	titleTag?: string;
 }
+
+export interface IReturnsProjectedGraphDataTypes {
+	type: string;
+	amount: number;
+	returnPercentage: number;
+	xAxisTitle1: string;
+	xAxisTitle2?: string;
+	barHeight: number;
+}

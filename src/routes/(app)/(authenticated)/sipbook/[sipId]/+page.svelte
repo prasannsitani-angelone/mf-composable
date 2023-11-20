@@ -49,7 +49,7 @@
 	} from '$lib/analytics/sipbook/sipbook';
 	import AutopaySelectionPopup from '$components/AutopaySelectionPopup.svelte';
 	import type { ISip } from '$lib/types/ISipType';
-	import { SEO } from 'svelte-components';
+	import { Modal, SEO } from 'svelte-components';
 	import WmsIcon from '$components/WMSIcon.svelte';
 	import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 	import type { IInvestmentTypeSIP } from '$lib/types/ISipType';
@@ -58,8 +58,10 @@
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import PageTitle from '$components/PageTitle.svelte';
 	import { onMount } from 'svelte';
+	import CancelSip from '$components/Sip/CancelSip.svelte';
 
 	$: bankDetails = $profileStore?.bankDetails;
+	let showCancelSipModal = false;
 	let showCancelSipActionModal = false;
 	let showSuccessModal = false;
 	let showFailureModal = false;
@@ -76,8 +78,11 @@
 	let selectedMandate: MandateWithBankDetails;
 	let bankPopupVisible = false;
 	let autopayType: 'switch' | 'link' = 'switch';
+	let selectedSipCancelReasonText = '';
 
 	$: profileData = $page?.data?.profile;
+	$: isMobile = $page?.data?.deviceType?.isMobile;
+	$: isTablet = $page?.data?.deviceType?.isTablet;
 
 	const bankAccNumToLogoMap = () => {
 		const accNumToLogoMap = {};
@@ -189,6 +194,17 @@
 		bankPopupVisible = false;
 	};
 
+	const toggleShowCancelSipModal = () => {
+		showCancelSipModal = !showCancelSipModal;
+	};
+	const handleCancelSipEntryPointClick = () => {
+		if (isMobile || isTablet) {
+			goto(`${base}/sipbook/${data?.sipId}-cancel`);
+		} else {
+			toggleShowCancelSipModal();
+		}
+	};
+
 	const toggleShowCancelSipActionModal = () => {
 		showCancelSipActionModal = !showCancelSipActionModal;
 		if (showCancelSipActionModal) {
@@ -198,6 +214,12 @@
 					'Cancelling will stop ALL your upcoming investments in this SIP, Proceed to Cancel? (YES CANCEL)/(NO)'
 			});
 		}
+	};
+
+	const handleCancelSipClick = (reason = '') => {
+		selectedSipCancelReasonText = reason;
+		toggleShowCancelSipModal();
+		toggleShowCancelSipActionModal();
 	};
 
 	const toggleShowSuccessModal = () => {
@@ -246,7 +268,12 @@
 	const handleCancelSip = async () => {
 		disableConfirmCancelSip = true;
 		const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips/${data?.sipId}`;
-		const res = await useFetch(sipUrl, { method: 'DELETE' });
+		const res = await useFetch(sipUrl, {
+			method: 'DELETE',
+			headers: {
+				'x-cancel-reason': selectedSipCancelReasonText
+			}
+		});
 		toggleShowCancelSipActionModal();
 		if (res.ok && res?.data?.status?.toUpperCase() === STATUS_ARR?.SUCCESS) {
 			toggleShowSuccessModal();
@@ -530,7 +557,7 @@
 								? 'pointer-events-none !cursor-not-allowed !bg-white !text-grey-disabled'
 								: ''
 						}`}
-						onClick={toggleShowCancelSipActionModal}
+						onClick={handleCancelSipEntryPointClick}
 					>
 						CANCEL SIP
 					</Button>
@@ -579,7 +606,7 @@
 					title="SIP Cancelled"
 					text={`You have cancelled your SIP for ${sipData?.schemeName}`}
 					buttonTitle="DONE"
-					class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+					class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-10 sm:py-6 md:!w-96 md:rounded-lg"
 					buttonClass="mt-8 w-40 border border-blue-primary rounded !bg-white !text-blue-primary cursor-default md:cursor-pointer"
 					handleButtonClick={handleSuccessModalCta}
 				/>
@@ -591,7 +618,7 @@
 					title="Cancellation Error"
 					text="We could not cancel your SIP due to a tecnhical error. Please try again"
 					buttonTitle="RETRY"
-					class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+					class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-10 sm:py-6 md:!w-96 md:rounded-lg"
 					buttonClass="mt-8 w-40 border border-blue-primary rounded !bg-white !text-blue-primary cursor-default md:cursor-pointer"
 					handleButtonClick={handleFailureModalCta}
 				/>
@@ -638,6 +665,20 @@
 					buttonClass="mt-8 w-40 border border-blue-primary rounded !bg-white !text-blue-primary cursor-default md:cursor-pointer"
 					handleButtonClick={toggleSkipFailureModal}
 				/>
+
+				<!--SIP Cancel Reason Modal-->
+				<Modal closeModal={toggleShowCancelSipModal} isModalOpen={showCancelSipModal}>
+					<div class="overflow-auto rounded-lg bg-white p-8 md:!h-[737px] md:!w-[436px]">
+						<CancelSip
+							class="!m-0"
+							instalmentAmount={sipData?.installmentAmount}
+							categoryName={sipData?.category}
+							subCategoryName={sipData?.subCategory}
+							on:cancelSipClick={(e) => handleCancelSipClick(e?.detail)}
+							on:stayInvestedClick={toggleShowCancelSipModal}
+						/>
+					</div>
+				</Modal>
 			</article>
 		{:else}
 			<InvalidUrl />
