@@ -49,7 +49,7 @@
 
 	<footer class=" flex px-4 sm:px-6">
 		<div class="flex w-full items-center justify-center border-t">
-			<Button class="uppercase" variant="transparent" onClick={toggleSchemeIformationModal}>
+			<Button class="!uppercase" variant="transparent" onClick={toggleSchemeIformationModal}>
 				View All
 			</Button>
 		</div>

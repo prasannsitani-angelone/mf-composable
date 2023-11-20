@@ -59,13 +59,13 @@
 			</section>
 		</section>
 	</header>
-	<section class="px-4 md:px-6">
+	<section class="mt-3 px-4 md:px-6">
 		<Table>
 			<THead slot="thead">
-				<Th class="w-9/12 !border-none  !pl-0  text-start !normal-case sm:w-2/3">Fund Name</Th>
+				<Th class="h-3 w-9/12  !border-none  !pl-0 text-start !normal-case sm:w-2/3">Fund Name</Th>
 
 				<Th
-					class="flex  h-12 cursor-pointer justify-end border-b !border-none border-grey-line bg-white py-0 !pl-0 !pr-0 text-left font-normal text-grey-body sm:!pl-5 sm:text-center"
+					class="flex  h-3 cursor-pointer justify-end border-b !border-none border-grey-line bg-white py-0 !pl-0 !pr-0 text-left font-normal text-grey-body sm:!pl-5 sm:text-center"
 				>
 					<Button
 						class="flex justify-items-end bg-white !pl-0 !pr-0 align-middle !text-xs !font-normal !text-blue-primary hover:bg-white"

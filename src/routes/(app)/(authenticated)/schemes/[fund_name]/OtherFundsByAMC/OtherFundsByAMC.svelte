@@ -64,13 +64,13 @@
 		</section>
 	</header>
 	<section>
-		<div class="w-full overflow-x-auto bg-white px-4 md:px-6">
+		<div class="mt-3 w-full overflow-x-auto bg-white px-4 md:px-6">
 			<Table>
 				<THead slot="thead">
 					<tr>
-						<Th class="text-star w-9/12 !border-none !pl-0 !normal-case">Fund Name</Th>
+						<Th class="text-star h-3 w-9/12 !border-none !pl-0 !normal-case">Fund Name</Th>
 						<Th
-							class="flex cursor-pointer justify-end !border-none !pl-0 !pr-0 text-left sm:text-center"
+							class="flex h-3 cursor-pointer justify-end !border-none !pl-0 !pr-0 text-left sm:text-center"
 						>
 							<Button
 								class="flex items-center bg-white !pl-0 pr-0 align-middle !text-xs !font-normal !text-blue-primary hover:bg-white"
