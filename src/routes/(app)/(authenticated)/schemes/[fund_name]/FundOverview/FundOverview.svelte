@@ -109,11 +109,11 @@
 					>
 				</div>
 				<div class="flex flex-col">
-					{#if schemeDetails?.isSipAllowed}
+					{#if schemeDetails?.isSipAllowed === 'Y'}
 						<span class="text-xs font-normal text-grey-body"> Minimum SIP Investment </span><span
 							class="text-sm text-black-title">₹{schemeDetails?.minSipAmount || ''}</span
 						>
-					{:else if schemeDetails?.isLumpsumAllowed}
+					{:else if schemeDetails?.isLumpsumAllowed === 'Y'}
 						<span class="text-xs font-normal text-grey-body">
 							Minimum One Time Investment
 						</span><span class="text-sm text-black-title"
