@@ -180,7 +180,9 @@
 					on:returnCalculatorResult={(e) => returnCalculatorResultAnalyticsFunc(e?.detail)}
 				/>
 			{/if}
-			<SchemeInformation schemeDetails={schemedata} {isNFO} />
+			{#if !isNFO}
+				<SchemeInformation schemeDetails={schemedata} {isNFO} />
+			{/if}
 			<FundManager schemeDetails={schemedata} />
 			<RiskAndRating schemeDetails={schemedata} />
 			{#if !isNFO}

@@ -9,7 +9,7 @@
 </script>
 
 <article
-	class="-m-2 mb-2 max-w-4xl rounded-none bg-white pb-4 text-sm shadow-csm sm:mb-4 sm:rounded-lg"
+	class="-m-2 mb-2 max-w-4xl rounded-none bg-white pb-4 text-sm shadow-csm sm:m-0 sm:mb-4 sm:rounded-lg"
 >
 	<header class="">
 		<section class="flex cursor-pointer flex-col p-4 !pb-0 text-lg md:px-6 md:py-5">
@@ -17,7 +17,7 @@
 				headingPrimary={schemeDetails?.categoryName}
 				headingSecondary={schemeDetails?.subcategoryName}
 			/>
-			<div class="flex items-center">
+			<div class="flex items-center text-base">
 				<SchemeLogo src={schemeDetails?.logoUrl} />
 				<div>{schemeDetails?.schemeName}</div>
 			</div>

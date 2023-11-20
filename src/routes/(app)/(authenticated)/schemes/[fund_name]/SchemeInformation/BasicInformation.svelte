@@ -11,6 +11,7 @@
 	import TaxImplecationIcon from '$lib/images/icons/TaxImplecationIcon.svelte';
 	import SchemeInformationModal from './SchemeInformationModal.svelte';
 	import { calculateYearDiffrence } from '$lib/utils';
+	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 
 	let schemeDetails: SchemeDetails;
 	let isNFO = false;
@@ -33,7 +34,10 @@
 				<BasicInfoChip title="Fund Age" value="{fundAge} year{fundAge > 1 ? 's' : ''}">
 					<CakeIcon slot="icon" />
 				</BasicInfoChip>
-				<BasicInfoChip title="Fund Size (AUM)" value="₹{schemeDetails?.aum} Cr.">
+				<BasicInfoChip
+					title="Fund Size (AUM)"
+					value="₹{addCommasToAmountString(schemeDetails?.aum)} Cr."
+				>
 					<FundSizeIcon slot="icon" />
 				</BasicInfoChip>
 			</section>

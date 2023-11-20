@@ -35,9 +35,7 @@
 
 <article class="mt-4 max-w-4xl rounded-lg bg-white text-sm shadow-csm">
 	<header>
-		<section
-			class="flex cursor-pointer items-center justify-between p-4 pb-3 text-lg hover:text-blue-800 md:px-6 md:pt-6"
-		>
+		<section class="flex cursor-pointer items-center justify-between p-4 pb-3 pt-6 text-lg md:px-6">
 			<section class="flex items-center">
 				<h2 class="flex items-center text-left text-base font-medium text-black-title">
 					<span> Fund Holdings</span>

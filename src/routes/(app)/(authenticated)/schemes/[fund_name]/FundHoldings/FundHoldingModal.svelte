@@ -17,7 +17,7 @@
 			<span> Fund Holdings</span>
 			<WMSIcon
 				name="cross-circle"
-				class="ml-auto cursor-pointer"
+				class="ml-auto hidden cursor-pointer sm:block"
 				on:click={toggleSchemeIformationModal}
 			/>
 		</header>

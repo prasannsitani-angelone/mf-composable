@@ -51,9 +51,7 @@
 
 <article class="mt-4 max-w-4xl rounded-lg bg-white text-sm shadow-csm">
 	<header>
-		<section
-			class="flex cursor-pointer items-center justify-between px-4 pt-6 text-lg hover:text-blue-800"
-		>
+		<section class="flex cursor-pointer items-center justify-between px-4 pt-6 text-lg">
 			<section class="flex items-center">
 				<h2 class="flex items-center text-left text-base font-medium text-black-title">
 					<span> Similar Funds</span>
@@ -95,12 +93,13 @@
 								href={normalizeFundName(funds.schemeName, funds.isin, funds.schemeCode)}
 							>
 								<SchemeLogo src={funds?.logoUrl} class="h-8 w-8" />
-								<span class="font-medium text-black-title">{funds.schemeName}</span>
+								<span class="text-sm font-normal text-black-title">{funds.schemeName}</span>
 							</a></Td
 						>
 
 						<Td class="!pr-0 text-right"
-							><span class="font-medium text-black-title">{funds[currentYearFilter.field]}%</span
+							><span class="text-base font-normal text-black-title"
+								>{funds[currentYearFilter.field]}%</span
 							></Td
 						>
 					</Tr>

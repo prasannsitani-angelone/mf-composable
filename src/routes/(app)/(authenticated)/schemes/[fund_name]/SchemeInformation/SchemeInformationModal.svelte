@@ -11,13 +11,14 @@
 		class="h-[70vh] overflow-x-scroll rounded-t-2xl bg-white px-6 pb-8 pt-6 md:w-120 md:rounded-lg"
 	>
 		<header
-			class="mb-3 flex justify-center align-middle text-lg font-normal text-black-title md:text-xl"
+			class="mb-3 flex justify-start align-middle text-lg font-normal text-black-title sm:justify-center md:text-xl"
 		>
 			<span> Understanding Scheme Terms</span>
+
 			<Button
-				class="ml-auto flex h-max !w-3 justify-center
-               rounded-full border border-grey-disabled !bg-white
-                !pb-0 !pl-[10px] !pr-[10px] !pt-0 align-middle !text-black-title"
+				class="ml-auto  hidden h-max !w-3
+               justify-center rounded-full border border-grey-disabled
+                !bg-white !pb-0 !pl-[10px] !pr-[10px] !pt-0 align-middle !text-black-title sm:flex"
 				onClick={toggleSchemeIformationModal}
 			>
 				<span class="text-grey-body">X</span>

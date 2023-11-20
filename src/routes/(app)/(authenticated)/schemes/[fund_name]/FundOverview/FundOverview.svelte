@@ -100,7 +100,7 @@
 	{#if !isNFO}
 		<section class="mb-5">
 			<NavCharts {schemeDetails} on:chartRangeChange={handleChartRangeChange} />
-			<div class="mt-9 flex justify-between">
+			<div class="mt-9 flex justify-between sm:justify-evenly">
 				<div class="flex flex-col">
 					<span class="mr-1 text-xs font-normal text-grey-body sm:text-sm"
 						>NAV <span class="text-[10px]">on {formatDate(schemeDetails?.navDate)}</span>
@@ -109,9 +109,17 @@
 					>
 				</div>
 				<div class="flex flex-col">
-					<span class="text-xs font-normal text-grey-body"> Minimum SIP Investment </span><span
-						class="text-sm text-black-title">₹{schemeDetails?.minSipAmount || '-'}</span
-					>
+					{#if schemeDetails?.isSipAllowed}
+						<span class="text-xs font-normal text-grey-body"> Minimum SIP Investment </span><span
+							class="text-sm text-black-title">₹{schemeDetails?.minSipAmount || ''}</span
+						>
+					{:else if schemeDetails?.isLumpsumAllowed}
+						<span class="text-xs font-normal text-grey-body">
+							Minimum One Time Investment
+						</span><span class="text-sm text-black-title"
+							>₹{schemeDetails?.minLumpsumAmount || ''}</span
+						>
+					{/if}
 				</div>
 			</div>
 		</section>

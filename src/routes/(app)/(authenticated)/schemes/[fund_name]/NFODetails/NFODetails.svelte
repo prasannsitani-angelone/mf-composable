@@ -44,7 +44,7 @@
 					>
 				</div>
 				<div class="flex flex-col py-3 font-normal sm:grow sm:basis-1/2">
-					<div class="text-xs text-grey-body">Nav</div>
+					<div class="text-xs uppercase text-grey-body">Nav</div>
 					<span class="mt-1 text-black-title">₹{schemeDetails?.navValue}</span>
 				</div>
 

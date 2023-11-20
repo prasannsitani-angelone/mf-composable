@@ -54,7 +54,7 @@
 <article class="mt-4 max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:pb-4">
 	<header class="">
 		<section
-			class="flex cursor-pointer items-center justify-between p-4 !pb-0 text-lg hover:text-blue-800 md:px-6 md:py-5"
+			class="flex cursor-pointer items-center justify-between p-4 !pb-0 pt-6 text-lg md:px-6 md:py-5"
 		>
 			<section class="flex items-center">
 				<h2 class="flex items-center text-left text-base font-medium text-black-title">
@@ -104,7 +104,7 @@
 									<SchemeLogo src={schemes?.logoUrl} alt={schemes?.schemeName} class="h-8 w-8" />
 									<div class="m-0 mr-auto flex flex-col">
 										<h3
-											class="block w-full whitespace-pre-wrap font-medium text-black-title sm:text-sm"
+											class="block w-full whitespace-pre-wrap text-sm font-normal text-black-title sm:text-sm"
 										>
 											{schemes?.schemeName}
 										</h3>
@@ -113,7 +113,7 @@
 							</Td>
 							<Td class="!p-0"
 								><div class="flex items-end justify-end">
-									<span class="font-medium text-black-title"
+									<span class="text-base font-normal text-black-title"
 										>{schemes[currentYearFilter.field]} %</span
 									>
 								</div>
