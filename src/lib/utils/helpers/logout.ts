@@ -5,6 +5,7 @@ import { appStore } from '$lib/stores/SparkStore';
 import { deleteCompleteCache } from '../cache';
 import logger from '../logger';
 import { deleteCookie } from './cookie';
+import { isDevMode } from './dev';
 import { getUserCookieName, getUserCookieOptions } from './token';
 
 export const logout = async (redirectUrl: string, origin: string) => {
@@ -22,6 +23,7 @@ export const logout = async (redirectUrl: string, origin: string) => {
 
 export const getLogoutUrl = (redirectUrl: string, origin: string) => {
 	if (
+		!isDevMode() &&
 		PUBLIC_EXTERNAL_LOGIN_ACTIVE === 'true' &&
 		!appStore.isAngelBeeAndroidUser() &&
 		!appStore.isAngelBeeIosUser()

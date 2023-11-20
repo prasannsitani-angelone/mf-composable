@@ -32,7 +32,7 @@
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import TrendingFunds from '$components/TrendingFunds/TrendingFunds.svelte';
-	import ExternalFundsNfoCalculatorCard from '../../discoverfunds/ExternalFundsNfoCalculatorCard/ExternalFundsNfoCalculatorCard.svelte';
+	import QuickEntryPointsComponent from '../../discoverfunds/QuickEntryPoints/QuickEntryPointsComponent.svelte';
 	import FailedOrdersNudge from '../../discoverfunds/FailedOrdersNudge.svelte';
 	import StartNewInvestment from '../../discoverfunds/StartNewInvestment.svelte';
 	import { versionStore } from '$lib/stores/VersionStore';
@@ -396,7 +396,7 @@
 	</div>
 
 	<!-- 9. Quick Entry Points - External Funds, NFO, Calculator -->
-	<ExternalFundsNfoCalculatorCard
+	<QuickEntryPointsComponent
 		class="row-start-{placementMapping?.quickEntryPoints?.rowStart} col-start-{placementMapping
 			?.quickEntryPoints?.columnStart} {placementMapping?.quickEntryPoints?.rowStart > 1
 			? 'mt-2'

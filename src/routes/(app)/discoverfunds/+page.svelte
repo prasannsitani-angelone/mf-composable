@@ -39,7 +39,7 @@
 	} from '$components/Stories/utils';
 	import { exitNudgeStore } from '$lib/stores/ExitNudgeStore';
 	import { browser } from '$app/environment';
-	import ExternalFundsNfoCalculatorCard from './ExternalFundsNfoCalculatorCard/ExternalFundsNfoCalculatorCard.svelte';
+	import QuickEntryPointsComponent from './QuickEntryPoints/QuickEntryPointsComponent.svelte';
 	import CategoriesComponent from './CategoriesComponent.svelte';
 	import { askAngelEntryImpressionAnalytics } from '$lib/analytics/askangel/askangel';
 
@@ -397,7 +397,7 @@
 	</div>
 
 	<!-- 9. Quick Entry Points - External Funds, NFO, Calculator -->
-	<ExternalFundsNfoCalculatorCard
+	<QuickEntryPointsComponent
 		class="row-start-{placementMapping?.quickEntryPoints?.rowStart} col-start-{placementMapping
 			?.quickEntryPoints?.columnStart} {placementMapping?.quickEntryPoints?.rowStart > 1
 			? 'mt-2'
