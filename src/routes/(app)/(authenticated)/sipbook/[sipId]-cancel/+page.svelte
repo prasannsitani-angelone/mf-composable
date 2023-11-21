@@ -13,7 +13,8 @@
 		sipCancelledSuccessModalOpenAnalytics,
 		sipCancelledFailureModalOpenAnalytics,
 		sipCancelledSuccessModalDoneButtonClickAnalytics,
-		sipCancelFailureModalRetryButtonClickAnalytics
+		sipCancelFailureModalRetryButtonClickAnalytics,
+		sipCancelStayInvestedButtonClickAnalytics
 	} from '$lib/analytics/sipbook/sipbook';
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
 	import { onMount } from 'svelte';
@@ -42,7 +43,9 @@
 	const toggleShowCancelSipActionModal = () => {
 		showCancelSipActionModal = !showCancelSipActionModal;
 		if (showCancelSipActionModal) {
-			cancelSipButtonClickAnalytics();
+			cancelSipButtonClickAnalytics({
+				ReasonName: selectedSipCancelReasonText
+			});
 			sipCancelConfirmationModalOpenAnalytics({
 				value:
 					'Cancelling will stop ALL your upcoming investments in this SIP, Proceed to Cancel? (YES CANCEL)/(NO)'
@@ -57,6 +60,8 @@
 
 	const handleStayInvestedClick = () => {
 		history?.back();
+
+		sipCancelStayInvestedButtonClickAnalytics();
 	};
 
 	const toggleShowSuccessModal = () => {
@@ -133,7 +138,7 @@
 				confirmButtonTitle="YES, CANCEL"
 			/>
 
-			<!-- CANCEL MODAL SUCCESS FAILURE POPUPS -->
+			<!-- SIP Cancel Success Popup -->
 			<ResultPopup
 				closeModal={toggleShowSuccessModal}
 				isModalOpen={showSuccessModal}
@@ -146,6 +151,7 @@
 				handleButtonClick={handleSuccessModalCta}
 			/>
 
+			<!-- SIP Cancel Failure Popup -->
 			<ResultPopup
 				closeModal={toggleShowFailureModal}
 				isModalOpen={showFailureModal}

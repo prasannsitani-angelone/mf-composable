@@ -2,11 +2,15 @@
 	import { RadioButton } from 'svelte-components';
 	import InfoDoubleIcon from '$lib/images/icons/InfoDoubleIcon.svelte';
 	import { SIP_CANCEL_REASONS } from '$lib/constants/sip';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import { calculateSipReturns } from '$lib/utils/helpers/returns';
 	import CancelSipFooter from '$components/Sip/CancelSipFooter.svelte';
 	import CancelSipProjectedGraph from '$components/Sip/CancelSipProjectedGraph.svelte';
 	import type { IReturnsProjectedGraphDataTypes } from '$lib/types/ISipType';
+	import {
+		cancelSipScreenImpressionAnalytics,
+		sipCancelReasonRadioClickAnalytics
+	} from '$lib/analytics/sipbook/sipbook';
 
 	export let instalmentAmount: number;
 	export let categoryName: string;
@@ -20,7 +24,10 @@
 
 	const handleSelectedReasonChange = (val: number) => {
 		selectedReason = SIP_CANCEL_REASONS?.find((reason) => reason?.id === val)?.text || '';
-		dispatch('sipCancellationReasonChange', val);
+		dispatch('sipCancellationReasonChange', selectedReason);
+		sipCancelReasonRadioClickAnalytics({
+			ReasonName: selectedReason
+		});
 	};
 
 	const getDefaultCagr = () => {
@@ -87,6 +94,10 @@
 	const handleStayInvestedClick = () => {
 		dispatch('stayInvestedClick');
 	};
+
+	onMount(() => {
+		cancelSipScreenImpressionAnalytics();
+	});
 </script>
 
 <section class="-m-2 {$$props?.class || ''}">

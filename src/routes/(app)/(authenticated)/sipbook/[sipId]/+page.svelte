@@ -45,7 +45,9 @@
 		linkAutopayOnNudgeClickAnalytics,
 		autopayNudgeImpressionAnalytics,
 		switchAutopayClickAnalytics,
-		switchAutopaySuccessImpressionAnalytics
+		switchAutopaySuccessImpressionAnalytics,
+		sipCancelStayInvestedButtonClickAnalytics,
+		sipDetailsCancelSipOptionClickAnalytics
 	} from '$lib/analytics/sipbook/sipbook';
 	import AutopaySelectionPopup from '$components/AutopaySelectionPopup.svelte';
 	import type { ISip } from '$lib/types/ISipType';
@@ -194,8 +196,12 @@
 		bankPopupVisible = false;
 	};
 
-	const toggleShowCancelSipModal = () => {
+	const toggleShowCancelSipModal = (stayInvestedButtonClicked = false) => {
 		showCancelSipModal = !showCancelSipModal;
+
+		if (stayInvestedButtonClicked) {
+			sipCancelStayInvestedButtonClickAnalytics();
+		}
 	};
 	const handleCancelSipEntryPointClick = () => {
 		if (isMobile || isTablet) {
@@ -203,12 +209,16 @@
 		} else {
 			toggleShowCancelSipModal();
 		}
+
+		sipDetailsCancelSipOptionClickAnalytics();
 	};
 
 	const toggleShowCancelSipActionModal = () => {
 		showCancelSipActionModal = !showCancelSipActionModal;
 		if (showCancelSipActionModal) {
-			cancelSipButtonClickAnalytics();
+			cancelSipButtonClickAnalytics({
+				ReasonName: selectedSipCancelReasonText
+			});
 			sipCancelConfirmationModalOpenAnalytics({
 				value:
 					'Cancelling will stop ALL your upcoming investments in this SIP, Proceed to Cancel? (YES CANCEL)/(NO)'
@@ -675,7 +685,7 @@
 							categoryName={sipData?.category}
 							subCategoryName={sipData?.subCategory}
 							on:cancelSipClick={(e) => handleCancelSipClick(e?.detail)}
-							on:stayInvestedClick={toggleShowCancelSipModal}
+							on:stayInvestedClick={() => toggleShowCancelSipModal(true)}
 						/>
 					</div>
 				</Modal>

@@ -21,7 +21,7 @@ export const load = (async ({ fetch, params, url, parent }) => {
 	const fundName = params['fund_name'];
 
 	const decodedParams = decodeToObject(queryParam);
-	const { redirectedFrom, isExternal, clientCode, isAdditionalFlag } = decodedParams || {};
+	const { redirectedFrom, isExternal, clientCode } = decodedParams || {};
 	const schemeMetadata = fundName?.split('-isin-')[1]?.toUpperCase();
 	const [isin = '', schemeCode = ''] = schemeMetadata?.split('-SCHEMECODE-') || [];
 	let schemeData: SchemeDetails;
@@ -43,7 +43,7 @@ export const load = (async ({ fetch, params, url, parent }) => {
 			{
 				headers: {
 					'X-LRU': 'true',
-					'X-Skip-Validation': redirectedFrom === 'SIP_PAYMENTS' || isAdditionalFlag || false
+					'X-Skip-Validation': redirectedFrom === 'SIP_PAYMENTS' || false
 				}
 			},
 			fetch

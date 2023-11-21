@@ -39,12 +39,18 @@
 		<slot name="footer">
 			<section class="px-4 pb-6 pt-0 text-sm md:px-8">
 				<article class="flex items-center justify-end text-sm font-medium text-blue-primary">
-					<Button variant="transparent" size="sm" class="mr-2 p-2" onClick={closeModal}>NO</Button>
+					<Button
+						variant="transparent"
+						size="sm"
+						class="mr-2 p-2 disabled:bg-white"
+						disabled={confirmButtonDisable}
+						onClick={closeModal}>NO</Button
+					>
 
 					<Button
 						variant="transparent"
 						size="sm"
-						class="p-2"
+						class="p-2 disabled:bg-white"
 						disabled={confirmButtonDisable}
 						onClick={confirm}
 					>

@@ -11,7 +11,7 @@ export const inactiveSipsButtonClickAnalytics = () => {
 	});
 };
 
-export const sipbookDashboardScreenOpenAnalytics = (eventMetaData: any) => {
+export const sipbookDashboardScreenOpenAnalytics = (eventMetaData: Record<string, string>) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-sipbook',
 		event_type: 'impression',
@@ -23,7 +23,7 @@ export const sipbookDashboardScreenOpenAnalytics = (eventMetaData: any) => {
 	});
 };
 
-export const sipCardClickAnalytics = (eventMetaData: any) => {
+export const sipCardClickAnalytics = (eventMetaData: Record<string, string>) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-sipbook',
 		event_type: 'click',
@@ -35,7 +35,7 @@ export const sipCardClickAnalytics = (eventMetaData: any) => {
 	});
 };
 
-export const sipPaymentDueNudgeImpressionAnalytics = (eventMetaData: any) => {
+export const sipPaymentDueNudgeImpressionAnalytics = (eventMetaData: Record<string, string>) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-sipbook',
 		event_type: 'impression',
@@ -47,7 +47,7 @@ export const sipPaymentDueNudgeImpressionAnalytics = (eventMetaData: any) => {
 	});
 };
 
-export const ordersSipbookTabClickAnalytics = (eventMetaData: any) => {
+export const ordersSipbookTabClickAnalytics = (eventMetaData: Record<string, string>) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-Orders',
 		event_type: 'click',
@@ -59,18 +59,19 @@ export const ordersSipbookTabClickAnalytics = (eventMetaData: any) => {
 	});
 };
 
-export const cancelSipButtonClickAnalytics = () => {
+export const cancelSipButtonClickAnalytics = (eventMetaData: Record<string, string>) => {
 	Analytics.logAnalyticEvent({
-		screen_name: 's-sipdetails',
+		screen_name: 's-CancelSIP',
 		event_type: 'click',
 		event_sub_type: 'button',
 		event_name: 'CancelSIP',
 		event_property: null,
-		event_id: '309.0.0.1.9'
+		event_id: '309.0.0.1.9',
+		event_metadata: eventMetaData
 	});
 };
 
-export const sipCancelConfirmationModalOpenAnalytics = (eventMetaData: any) => {
+export const sipCancelConfirmationModalOpenAnalytics = (eventMetaData: Record<string, string>) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-sipdetails',
 		event_type: 'impression',
@@ -104,7 +105,7 @@ export const sipCancelledSuccessModalDoneButtonClickAnalytics = () => {
 	});
 };
 
-export const sipCancelledFailureModalOpenAnalytics = (eventMetaData: any) => {
+export const sipCancelledFailureModalOpenAnalytics = (eventMetaData: Record<string, string>) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-sipdetails',
 		event_type: 'impression',
@@ -127,7 +128,7 @@ export const sipCancelFailureModalRetryButtonClickAnalytics = () => {
 	});
 };
 
-export const sipInProgressNudgeImpressionAnalytics = (eventMetaData: any) => {
+export const sipInProgressNudgeImpressionAnalytics = (eventMetaData: Record<string, string>) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-sipdetails',
 		event_type: 'impression',
@@ -139,7 +140,7 @@ export const sipInProgressNudgeImpressionAnalytics = (eventMetaData: any) => {
 	});
 };
 
-export const sipCreatedDateImpressionAnalytics = (eventMetaData?: any) => {
+export const sipCreatedDateImpressionAnalytics = (eventMetaData?: Record<string, string>) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-sipdetails',
 		event_type: 'impression',
@@ -151,7 +152,7 @@ export const sipCreatedDateImpressionAnalytics = (eventMetaData?: any) => {
 	});
 };
 
-export const sipDetailsScreenOpenAnalytics = (eventMetaData: any) => {
+export const sipDetailsScreenOpenAnalytics = (eventMetaData: Record<string, string>) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-sipdetails',
 		event_type: 'impression',
@@ -163,7 +164,7 @@ export const sipDetailsScreenOpenAnalytics = (eventMetaData: any) => {
 	});
 };
 
-export const sipHistoryScreenOpenAnalytics = (eventMetaData: any) => {
+export const sipHistoryScreenOpenAnalytics = (eventMetaData: Record<string, string>) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-siphistory',
 		event_type: 'impression',
@@ -374,5 +375,50 @@ export const switchAutopaySuccessImpressionAnalytics = (eventMetaData) => {
 		event_property: null,
 		event_id: '309.0.0.1.60',
 		event_metadata: eventMetaData
+	});
+};
+
+export const sipDetailsCancelSipOptionClickAnalytics = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipdetails',
+		event_type: 'click',
+		event_sub_type: 'text',
+		event_name: 'CancelSIP',
+		event_property: null,
+		event_id: '309.0.0.1.71'
+	});
+};
+
+export const cancelSipScreenImpressionAnalytics = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipdetails',
+		event_type: 'impression',
+		event_sub_type: 'screen',
+		event_name: 'CancelSIP',
+		event_property: null,
+		event_id: '309.0.0.1.72'
+	});
+};
+
+export const sipCancelReasonRadioClickAnalytics = (eventMetaData: Record<string, string>) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-CancelSIP',
+		event_type: 'click',
+		event_sub_type: 'radiobutton',
+		event_name: 'cancelationreason',
+		event_property: null,
+		event_id: '309.0.0.1.73',
+		event_metadata: eventMetaData
+	});
+};
+
+export const sipCancelStayInvestedButtonClickAnalytics = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-CancelSIP',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'Stay invested',
+		event_property: null,
+		event_id: '309.0.0.1.74'
 	});
 };
