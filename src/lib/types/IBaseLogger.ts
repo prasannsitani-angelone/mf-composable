@@ -1,5 +1,6 @@
 /* eslint-disable */
 export interface LogMsgObj {
+	log_type?: string;
 	type: string;
 	params?: any;
 }

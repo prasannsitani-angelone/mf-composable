@@ -27,6 +27,7 @@ class Logger extends BaseLogger {
 					? memoryManagement.getMemoryMetrics()
 					: null
 				: 'SERVER',
+			log_type: 'application',
 			...msgObj,
 			timeStamp: Date.now(),
 			level: logLevel

@@ -9,6 +9,13 @@ import Logger from '$lib/utils/logger';
 import type { FetchType } from '$lib/types/Fetch';
 import { removeAuthHeaders } from './helpers/logging';
 
+const getLogType = (method = '') => {
+	if (method === 'POST' || method === 'PATCH' || method === 'DELETE') {
+		return 'transaction';
+	}
+	return 'application';
+};
+
 const defaultOptions = {
 	method: 'GET',
 	headers: {
@@ -99,11 +106,13 @@ export const useFetch = async (
 
 		if (res.ok) {
 			Logger.debug({
+				log_type: getLogType(opts.method),
 				type: 'Network Response Success',
 				params
 			});
 		} else if (res.status === 401) {
 			Logger.error({
+				log_type: getLogType(opts.method),
 				type: 'Token Expired',
 				params
 			});
@@ -114,6 +123,7 @@ export const useFetch = async (
 			}
 		} else {
 			Logger.error({
+				log_type: getLogType(opts.method),
 				type: 'Network Response Error',
 				params
 			});
@@ -121,6 +131,7 @@ export const useFetch = async (
 		return !isNonJsonFetch ? { ok: res.ok, status: res.status, data } : res;
 	} catch (e) {
 		Logger.error({
+			log_type: getLogType(opts.method),
 			type: 'Network Request Error',
 			params: {
 				url,
