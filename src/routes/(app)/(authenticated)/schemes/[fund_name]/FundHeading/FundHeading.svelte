@@ -1,11 +1,13 @@
 <script lang="ts">
+	import AddToCart from '$components/AddToCart.svelte';
 	import ChipOverview from '$components/ChipOverview.svelte';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 
+	let isNFO = false;
 	let schemeDetails: SchemeDetails;
 
-	export { schemeDetails };
+	export { schemeDetails, isNFO };
 </script>
 
 <article
@@ -20,6 +22,13 @@
 			<div class="ml-1 flex items-center text-base text-black-title sm:ml-0">
 				<SchemeLogo src={schemeDetails?.logoUrl} />
 				<div>{schemeDetails?.schemeName}</div>
+				{#if !isNFO}
+					<AddToCart
+						scheme={schemeDetails}
+						class="ml-auto hidden sm:flex"
+						entryPoint="FundDetailsPage"
+					/>
+				{/if}
 			</div>
 		</section>
 	</header>

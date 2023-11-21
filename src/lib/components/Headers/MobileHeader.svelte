@@ -107,7 +107,7 @@
 								{#if schemeData?.nfoScheme === 'N'}
 									<AddToCart
 										scheme={schemeData}
-										class="px-0"
+										class="h-fit min-h-fit px-0"
 										color="grey"
 										entryPoint="FundDetailsPage"
 									/>

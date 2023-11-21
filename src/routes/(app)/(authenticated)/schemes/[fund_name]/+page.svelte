@@ -159,7 +159,7 @@
 				items={getSchemeDetailsBreadCrumbs(schemedata)}
 				class="my-4 hidden items-center justify-start md:flex"
 			/>
-			<FundHeading schemeDetails={schemedata} />
+			<FundHeading schemeDetails={schemedata} {isNFO} />
 			{#if !isNFO}
 				<FundOverview schemeDetails={schemedata} {isNFO} />
 			{/if}
