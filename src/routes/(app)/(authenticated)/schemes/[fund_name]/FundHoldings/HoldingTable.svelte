@@ -16,10 +16,12 @@
 
 <Table>
 	<THead slot="thead">
-		<Th class="w-3/5 !border-none !pl-0 text-xs normal-case">
+		<Th class="h-3 w-3/5 !border-none !pl-0 text-xs normal-case">
 			{holdinggText}
 		</Th>
-		<Th class="flex justify-end !border-none !pr-0 text-right text-xs normal-case">Allocation</Th>
+		<Th class="flex h-3 justify-end !border-none !pr-0 text-right text-xs normal-case"
+			>Allocation</Th
+		>
 	</THead>
 	<TBody slot="tbody">
 		{#each holdings as holding}

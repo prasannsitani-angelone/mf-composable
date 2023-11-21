@@ -82,7 +82,7 @@
 				<div class="flex flex-grow basis-0 flex-col pb-3 pt-3">
 					<span class="text-xs text-black-bolder">Returns</span>
 					<div class="flex items-end">
-						<span class="text-base font-medium text-green-amount sm:text-2xl"
+						<span class="text-xl font-medium text-green-amount sm:text-2xl"
 							>{schemeDetails[returnPeriod]?.toFixed(2)}%</span
 						>
 						<span class="ml-1 flex gap-1 pb-[2px] text-xs font-normal text-grey-body sm:text-sm">

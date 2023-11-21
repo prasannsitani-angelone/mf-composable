@@ -12,9 +12,8 @@
 >
 	{#if rating}
 		<div class="text-xs font-medium">{rating}</div>
+		<StarIcon class="ml-[2px] h-2 w-2" />
 	{:else}
-		<div class="text-xs font-medium text-grey-disabled">N/A</div>
+		<div class="text-[9px] font-medium text-grey-disabled">N/A</div>
 	{/if}
-
-	<StarIcon class="ml-[2px] h-2 w-2" />
 </div>
