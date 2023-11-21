@@ -49,7 +49,7 @@
 		const date = new Date(navDate);
 		const day = date.getDate();
 		const month = date.toLocaleString('default', { month: 'short' });
-		const year = date.getFullYear()?.toString().substr(2, 2);
+		const year = date.getFullYear()?.toString();
 
 		return `${day} ${month} ${year}`;
 	};
@@ -207,7 +207,7 @@
 
 								if (body[0]?.includes(':')) {
 									const splitArray = body[0]?.split(':');
-									formattedText = `${splitArray[0]}: ${
+									formattedText = `${splitArray[0]}: ₹${
 										tooltipSymbol ? tooltipSymbol : ''
 									}${splitArray[1].trim()}`;
 								}
