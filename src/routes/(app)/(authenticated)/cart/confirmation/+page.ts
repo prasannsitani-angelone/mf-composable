@@ -1,8 +1,11 @@
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { hydrate } from '$lib/utils/helpers/hydrated';
+import { decodeToObject } from '$lib/utils/helpers/params';
 import { useFetch } from '$lib/utils/useFetch';
 
-export const load = async ({ fetch, depends }) => {
+export const load = async ({ fetch, depends, url }) => {
+	const params = url.searchParams.get('params');
+	const { requestId = '' } = decodeToObject(params || '');
 	depends('app:cart:confirmation');
 
 	const getItemList = async () => {
@@ -12,7 +15,15 @@ export const load = async ({ fetch, depends }) => {
 		try {
 			const response = await useFetch(
 				`${PUBLIC_MF_CORE_BASE_URL}/carts/items?status=READY_TO_CHECKOUT`,
-				{},
+				{
+					...(requestId
+						? {
+								headers: {
+									'X-Sb-Request-Id': requestId
+								}
+						  }
+						: {})
+				},
 				fetch
 			);
 			if (response.ok) {
