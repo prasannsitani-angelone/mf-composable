@@ -24,6 +24,10 @@
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import SipHealthNudge from '$components/SipHealth/Nudge/SipHealthNudge.svelte';
 	import { sipScoreViewDetailsCtaClickAnalytics } from '$lib/analytics/siphealth/siphealth';
+	import { ctNudgeStore } from '$lib/stores/CtNudgeStore';
+	import ClevertapNudgeComponent from '$components/clevertap/ClevertapNudgeComponent.svelte';
+	import Clevertap from '$lib/utils/Clevertap';
+	import { page } from '$app/stores';
 
 	const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips`;
 	let showInactiveSipsCta = false;
@@ -36,6 +40,8 @@
 	let data: PageData;
 	let nudgeData: INudge[];
 	let automatedSipsCount = 0;
+
+	$: isMobile = $page?.data?.deviceType?.isMobile;
 
 	const resetSipData = () => {
 		normalSipsArray = [];
@@ -103,8 +109,17 @@
 		inactiveSipsButtonClickAnalytics();
 	};
 
+	const initializeClevertapData = async () => {
+		const cleavertap = await Clevertap.initialized;
+		cleavertap.event.push('MF SIP Book', {
+			event_type: 'impression'
+		});
+	};
+
 	onMount(async () => {
 		await Promise.allSettled([getNudges(), getSipbookSummary()]);
+
+		await initializeClevertapData();
 	});
 
 	const sipPaymentDueNudgeImpressionAnalyticsFunc = () => {
@@ -159,12 +174,21 @@
 
 <section>
 	{#if sipBookData?.sips?.length}
-		<section class="grid grid-cols-[100%] sm:grid-cols-[70%_30%] sm:gap-x-5">
+		<section class="mb-24 grid grid-cols-[100%] sm:grid-cols-[70%_30%] sm:gap-x-5">
 			<!-- SIP Summary Section -->
 			<div class="col-start-1 row-start-1 h-min sm:col-start-2">
 				{#if sipBookData?.bookOverView}
 					<SipSummary bookSummary={sipBookData?.bookOverView} {automatedSipsCount} />
 				{/if}
+
+				{#if $ctNudgeStore?.kv?.topic === 'mf_sips_inpage1_type_d' || (['mf_sips_bottomsticky_type_b', 'mf_sips_bottomsticky_type_c', 'mf_sips_bottomsticky_type_d'].includes($ctNudgeStore?.kv?.topic) && !isMobile)}
+					<ClevertapNudgeComponent
+						class="mb-2 w-full items-center"
+						data={$ctNudgeStore}
+						on:onCTAClicked={(e) => goto(e.detail.url)}
+					/>
+				{/if}
+
 				<SipHealthNudge class="mb-2" on:viewReport={handleViewReportCtaClick} />
 			</div>
 
@@ -226,5 +250,13 @@
 		</section>
 	{:else}
 		<NoSipScreen {data} {showInactiveSipsCta} />
+	{/if}
+
+	{#if ['mf_sips_bottomsticky_type_b', 'mf_sips_bottomsticky_type_c', 'mf_sips_bottomsticky_type_d'].includes($ctNudgeStore?.kv?.topic) && isMobile}
+		<ClevertapNudgeComponent
+			class="fixed bottom-18 -ml-2 flex w-full items-center"
+			data={$ctNudgeStore}
+			on:onCTAClicked={(e) => goto(e.detail.url)}
+		/>
 	{/if}
 </section>

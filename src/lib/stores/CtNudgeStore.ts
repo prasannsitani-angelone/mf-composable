@@ -6,7 +6,10 @@ const initalStore: ClevertapEvent = {
 	kv: {
 		topic: '',
 		subtext: '',
-		ctatext: ''
+		ctatext: '',
+		title: '',
+		ctaurl: '',
+		secondarytext: ''
 	}
 };
 
@@ -21,4 +24,4 @@ function CreateStore() {
 	};
 }
 
-export const ctTrackExternalInvestmentsStore = CreateStore();
+export const ctNudgeStore = CreateStore();

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Riskometer from '$components/Charts/Riskometer.svelte';
-	import RiskometerIcon from '$lib/images/icons/RiskometerIcon.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 
 	let schemeDetails: SchemeDetails;

@@ -46,6 +46,10 @@
 	import { browser } from '$app/environment';
 	import CategoriesComponent from '../../discoverfunds/CategoriesComponent.svelte';
 	import { askAngelEntryImpressionAnalytics } from '$lib/analytics/askangel/askangel';
+	import { ctNudgeStore } from '$lib/stores/CtNudgeStore';
+	import { goto } from '$app/navigation';
+	import ClevertapNudgeComponent from '$components/clevertap/ClevertapNudgeComponent.svelte';
+	import Clevertap from '$lib/utils/Clevertap';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -241,7 +245,16 @@
 		if (data?.layoutConfig?.showAskAngelEntry) {
 			askAngelEntryImpressionAnalytics();
 		}
+
+		await initializeClevertapData();
 	});
+
+	const initializeClevertapData = async () => {
+		const cleavertap = await Clevertap.initialized;
+		cleavertap.event.push('MF Discover', {
+			event_type: 'impression'
+		});
+	};
 
 	onDestroy(() => {
 		if (browser) {
@@ -261,15 +274,16 @@
 			placementMapping = {
 				investments: { rowStart: 1, columnStart: 1 },
 				stories: { rowStart: 2, columnStart: 1 },
-				trendingFunds: { rowStart: 3, columnStart: 1 },
-				sipNudges: { rowStart: 4, columnStart: 1 },
-				categories: { rowStart: 5, columnStart: 1 },
-				failedOrdersNudge: { rowStart: 6, columnStart: 1 },
-				sipPaymentMonthNudge: { rowStart: 7, columnStart: 1 },
-				curatedInvestmentCard: { rowStart: 8, columnStart: 1 },
-				quickEntryPoints: { rowStart: 9, columnStart: 1 },
-				promotionCard: { rowStart: 10, columnStart: 1 },
-				logout: { rowStart: 11, columnStart: 1 }
+				ctNudge: { rowStart: 3, columnStart: 1 },
+				trendingFunds: { rowStart: 4, columnStart: 1 },
+				sipNudges: { rowStart: 5, columnStart: 1 },
+				categories: { rowStart: 6, columnStart: 1 },
+				failedOrdersNudge: { rowStart: 7, columnStart: 1 },
+				sipPaymentMonthNudge: { rowStart: 8, columnStart: 1 },
+				curatedInvestmentCard: { rowStart: 9, columnStart: 1 },
+				quickEntryPoints: { rowStart: 10, columnStart: 1 },
+				promotionCard: { rowStart: 11, columnStart: 1 },
+				logout: { rowStart: 12, columnStart: 1 }
 			};
 		} else {
 			placementMapping = {
@@ -281,8 +295,9 @@
 				quickEntryPoints: { rowStart: 6, columnStart: 1 },
 				logout: { rowStart: 7, columnStart: 1 },
 				investments: { rowStart: 1, columnStart: 2 },
-				promotionCard: { rowStart: 3, columnStart: 2 },
-				sipNudges: { rowStart: 2, columnStart: 2 }
+				ctNudge: { rowStart: 2, columnStart: 2 },
+				sipNudges: { rowStart: 3, columnStart: 2 },
+				promotionCard: { rowStart: 4, columnStart: 2 }
 			};
 		}
 	};
@@ -316,6 +331,17 @@
 			stories={storiesData?.stories}
 			version="B"
 		/>
+	{/if}
+
+	{#if $ctNudgeStore?.kv?.topic === 'mf_discover_inpage1_type_d'}
+		{#if !deviceType?.isBrowser}
+			<ClevertapNudgeComponent
+				class="row-start-{placementMapping?.ctNudge?.rowStart} col-start-{placementMapping?.ctNudge
+					?.columnStart} {placementMapping?.ctNudge?.rowStart > 1 ? '!mt-2' : ''}"
+				data={$ctNudgeStore}
+				on:onCTAClicked={(e) => goto(e.detail.url)}
+			/>
+		{/if}
 	{/if}
 
 	<!-- 4. Most Bought Section -->
@@ -444,6 +470,17 @@
 			<StartNewInvestment />
 		{/if}
 	</div>
+
+	{#if $ctNudgeStore?.kv?.topic === 'mf_discover_inpage1_type_d'}
+		{#if deviceType?.isBrowser}
+			<ClevertapNudgeComponent
+				class="row-start-{placementMapping?.ctNudge?.rowStart} mt-2 w-full"
+				data={$ctNudgeStore}
+				on:onCTAClicked={(e) => goto(e.detail.url)}
+			/>
+		{/if}
+	{/if}
+
 	{#if sipPaymentNudges?.length}
 		<section class="row-start-{placementMapping.sipNudges?.rowStart} col-start-1 mt-2">
 			{#each sipPaymentNudges as sip, index (sip?.sipId + index)}

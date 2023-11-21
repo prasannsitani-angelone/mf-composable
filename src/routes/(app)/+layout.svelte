@@ -33,7 +33,7 @@
 	import Clevertap from '$lib/utils/Clevertap';
 	import { useFetch } from '$lib/utils/useFetch';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
-	import { ctTrackExternalInvestmentsStore } from '$lib/stores/CtTrackExternalInvestment';
+	import { ctNudgeStore } from '$lib/stores/CtNudgeStore';
 	import AskAngelEntry from '$components/AskAngel/AskAngelEntry.svelte';
 
 	$: pageMetaData = $page?.data?.layoutConfig;
@@ -86,10 +86,7 @@
 		}
 		document.addEventListener('CT_web_native_display', function (event) {
 			const data = event.detail;
-			const ctKv = data.kv;
-			if (ctKv.topic === 'mf_trackext_invdash_type_a') {
-				ctTrackExternalInvestmentsStore.set(data);
-			}
+			ctNudgeStore.set(data);
 		});
 
 		handleBackHistoryForDeeplinks();

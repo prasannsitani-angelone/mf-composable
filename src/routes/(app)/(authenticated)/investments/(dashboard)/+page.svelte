@@ -20,7 +20,7 @@
 	import { SEO, WMSIcon } from 'svelte-components';
 	import { tabs } from '../constants';
 	import OptimisePortfolioCard from './components/OptimisePortfolioCard.svelte';
-	import { onDestroy, onMount, tick } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import type { IOPtimsiePortfolioData, InvestmentEntity } from '$lib/types/IInvestments';
@@ -34,13 +34,10 @@
 	import { regularToDirectFundsStore } from '$lib/stores/RegularToDirectFundStore';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import Button from '$components/Button.svelte';
-	import { ctTrackExternalInvestmentsStore } from '$lib/stores/CtTrackExternalInvestment';
+	import { ctNudgeStore } from '$lib/stores/CtNudgeStore';
 	import Clevertap from '$lib/utils/Clevertap';
+	import ClevertapNudgeComponent from '$components/clevertap/ClevertapNudgeComponent.svelte';
 	import type { ITab } from '$lib/types/ITab';
-	import { getCookie, setCookie } from '$lib/utils/helpers/cookie';
-	import { browser } from '$app/environment';
-	import ClevertapNotificationViewed from '$components/ClevertapNotificationViewed.svelte';
 
 	let isXIRRModalOpen = false;
 	let isOptimisePortfolioOpen = false;
@@ -51,7 +48,7 @@
 		logoUrl: ''
 	};
 	let holdings: Array<InvestmentEntity>;
-	let showTefNudge = true;
+
 	const showXirrModal = () => {
 		isXIRRModalOpen = true;
 	};
@@ -93,6 +90,13 @@
 		}
 	};
 
+	const initializeClevertapData = async () => {
+		cleavertap = await Clevertap.initialized;
+		cleavertap.event.push('MF Inv Dash Internal', {
+			event_type: 'impression'
+		});
+	};
+
 	onMount(async () => {
 		await tick();
 		const investmentSummary = data?.investementSummary;
@@ -112,13 +116,8 @@
 		};
 		investmentDashboardImpressionAnalytics(eventMetaData);
 		switchToDirectFundsImpression();
-		const mf_trackext_invdash_type_a = getCookie('mf_trackext_invdash_type_a');
-		showTefNudge = mf_trackext_invdash_type_a !== 'false';
 
-		cleavertap = await Clevertap.initialized;
-		cleavertap.event.push('MF Inv Dash Internal', {
-			event_type: 'impression'
-		});
+		await initializeClevertapData();
 
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/recommendation/sip`;
 		const res = await useFetch(url, {}, fetch);
@@ -136,17 +135,6 @@
 		}
 	});
 
-	onDestroy(() => {
-		if (browser) {
-			ctTrackExternalInvestmentsStore.set({
-				kv: {
-					topic: '',
-					subtext: '',
-					ctatext: ''
-				}
-			});
-		}
-	});
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 
 	let activeTab: string;
@@ -162,19 +150,9 @@
 		await goto(`${base}/investments/RegularToDirect`);
 	};
 
-	const navigateToTef = (data) => {
-		Clevertap.renderNotificationClicked(data);
+	const navigateToTef = () => {
 		const tefTab: ITab[] = tabs.filter((tab) => tab.name === 'All');
 		tefTab[0]?.onClick();
-	};
-
-	const hideTefNudge = () => {
-		showTefNudge = false;
-		setCookie('mf_trackext_invdash_type_a', 'false', {
-			maxAge: 2592000,
-			secure: true,
-			sameSite: 'Strict'
-		});
 	};
 </script>
 
@@ -188,7 +166,7 @@
 {#if activeTab === 'all'}
 	<ExternalInvestments {data} />
 {:else}
-	<section class="col-span-1 row-start-3 sm:col-span-1 sm:col-start-1 sm:row-start-2">
+	<section class="col-span-1 row-start-3 mb-32 sm:col-span-1 sm:col-start-1 sm:row-start-2">
 		{#await data.api.investment}
 			<InvestmentDashboardLoader />
 		{:then response}
@@ -277,6 +255,13 @@
 					onInfoClick={showXirrModal}
 					investmentSummary={data.investementSummary}
 				/>
+				{#if $ctNudgeStore?.kv?.topic === 'mf_invdash_inpage1_type_d' || (['mf_invdash_bottomsticky_type_b', 'mf_invdash_bottomsticky_type_c', 'mf_invdash_bottomsticky_type_d'].includes($ctNudgeStore?.kv?.topic) && !isMobile)}
+					<ClevertapNudgeComponent
+						class="mt-2 w-full items-center"
+						data={$ctNudgeStore}
+						on:onCTAClicked={(e) => goto(e.detail.url)}
+					/>
+				{/if}
 			</article>
 			{#if optimisePorfolioData?.schemeCode && optimisePorfolioData?.schemeName && optimisePorfolioData?.isin}
 				<article class="mt-2 hidden sm:block">
@@ -292,27 +277,19 @@
 		</section>
 	</section>
 
-	{#if $ctTrackExternalInvestmentsStore?.kv?.subtext && showTefNudge}
-		<aside
-			class="fixed bottom-20 -ml-2 flex w-full items-center bg-purple-glow p-3 align-middle sm:hidden"
-		>
-			<ClevertapNotificationViewed data={$ctTrackExternalInvestmentsStore} />
-			<div>
-				<WMSIcon name="import-external-funds" />
-			</div>
-			<p class="text-xs">
-				{$ctTrackExternalInvestmentsStore?.kv?.subtext}
-			</p>
-			<Button
-				variant="transparent"
-				class="ml-auto text-xs !uppercase"
-				onClick={() => navigateToTef($ctTrackExternalInvestmentsStore)}
-			>
-				{$ctTrackExternalInvestmentsStore?.kv?.ctatext}
-			</Button>
-			<Button variant="transparent" onClick={hideTefNudge}>
-				<WMSIcon name="cross-circle" width={24} height={24} />
-			</Button>
-		</aside>
+	{#if $ctNudgeStore?.kv?.topic === 'mf_trackext_invdash_type_a'}
+		<ClevertapNudgeComponent
+			class="fixed bottom-18 -ml-2 flex w-full items-center align-middle sm:hidden"
+			data={$ctNudgeStore}
+			on:onCTAClicked={navigateToTef}
+		/>
+	{/if}
+
+	{#if ['mf_invdash_bottomsticky_type_b', 'mf_invdash_bottomsticky_type_c', 'mf_invdash_bottomsticky_type_d'].includes($ctNudgeStore?.kv?.topic) && isMobile}
+		<ClevertapNudgeComponent
+			class="fixed bottom-18 -ml-2 flex w-full items-center align-middle"
+			data={$ctNudgeStore}
+			on:onCTAClicked={(e) => goto(e.detail.url)}
+		/>
 	{/if}
 {/if}
