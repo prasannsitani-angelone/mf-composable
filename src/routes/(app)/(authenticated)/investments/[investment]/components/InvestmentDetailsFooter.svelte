@@ -55,7 +55,7 @@
 				disabled={!investmentAllowed}
 				onClick={() => handleButtonsClick(investmentDetailsFooterEvents?.INVEST)}
 			>
-				{parentPage === orderpadParentPage?.INVESTMENT ? 'INVEST MORE' : 'INVEST'}
+				{parentPage === orderpadParentPage?.INVESTMENT ? 'INVEST MORE' : 'INVEST NOW'}
 			</Button>
 
 			{#if parentPage === orderpadParentPage?.INVESTMENT}

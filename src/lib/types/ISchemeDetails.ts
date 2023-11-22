@@ -59,14 +59,14 @@ export interface SchemeDetails {
 	amcInfoUrl: string;
 	sipMinInstallmentNo: number;
 	sipMaxInstallmentNo: number;
-	isSipAllowed: string;
+	isSipAllowed: 'Y' | 'N';
 	sipMultiplierAmount: number;
 	sipMaxAmount: number;
 	sipFrequency: string;
 	sipDate: string;
 	sipAllowedDays: string;
 	lumpsumMaxAmount: number;
-	isLumpsumAllowed: string;
+	isLumpsumAllowed: 'Y' | 'N';
 	lumpsumMultiplierAmount: number;
 	redeemMultiplierAmount: number;
 	minimumRedeemAmount: number;

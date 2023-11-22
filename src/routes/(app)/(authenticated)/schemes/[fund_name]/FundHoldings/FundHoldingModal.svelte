@@ -3,10 +3,22 @@
 	import { WMSIcon } from 'svelte-components';
 	import HoldingTable from './HoldingTable.svelte';
 	import type { TopHolding } from '../types';
+	import { onMount } from 'svelte';
+	import { fundHoldingsInfo } from '../analytics';
 	let holdings: TopHolding[];
 	let isModalOpen = false;
+	let isin: string;
+	let schemeName: string;
 	let toggleSchemeIformationModal: (() => void) | null = null;
-	export { isModalOpen, toggleSchemeIformationModal, holdings };
+
+	onMount(() => {
+		fundHoldingsInfo({
+			ISIN: isin,
+			FundName: schemeName
+		});
+	});
+
+	export { isModalOpen, toggleSchemeIformationModal, holdings, isin, schemeName };
 </script>
 
 <Modal {isModalOpen} on:backdropclicked={toggleSchemeIformationModal}>

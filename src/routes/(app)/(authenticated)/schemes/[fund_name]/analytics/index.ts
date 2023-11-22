@@ -9,16 +9,17 @@ interface IsFundDetails {
 	'Exit Load': string;
 	'Expense Ratio': number;
 }
-interface IMobileSchemeDetailsPageInvestButtonClickAnalytics {
-	Fundname: string;
-	AssetType: string;
-	SubAssetType: string;
-	FundType: string;
-	Rating: number;
-	NAV: number;
+export interface IMobileSchemeDetailsPageInvestButtonClickAnalytics {
+	ISIN: string;
+	FundName: string;
+	'3YReturn': number;
+	isOpenNFO: boolean;
+	schemeURL: string;
 }
 interface IChartTimeIntervalSelection {
 	ChartTimeIntervalSelected: string;
+	ISIN: string;
+	ScreenName: string;
 }
 interface IAllHoldings {
 	action: string;
@@ -27,17 +28,46 @@ interface ICalculateReturnsAmount {
 	InvestmentType: string;
 	Amount: number;
 }
-interface ISortbyReturnYear {
+export interface ISortbyReturnYear {
 	ReturnYear: string;
+	ISIN: string;
+	FundName: string;
+	section: 'OtherFundsByAMC' | 'Similar Funds';
 }
-interface IFundNameSelection {
-	Fundname: string;
-	FundType: string;
-	Rating: number;
-	ReturnYear: string;
-	ReturnsValue: string;
+export interface IFundNameSelection {
+	currentISIN: string;
+	currentFund3YReturn: number;
+	selectedISIN: string;
+	selectedFund3YReturn: number;
 }
 
+interface IFundDetailShare {
+	ISIN: string;
+	FundName: string;
+	'3YReturn': number;
+	isOpenNFO: boolean;
+	schemeURL: string;
+}
+
+interface ILearnSchemeTerms {
+	ISIN: string;
+	FundName: string;
+}
+
+interface ISchemeTermsInfo {
+	ISIN: string;
+	FundName: string;
+}
+
+interface IViewAllFundHoldings {
+	ISIN: string;
+	FundName: string;
+}
+
+interface IFundHoldingsInfo {
+	ISIN: string;
+	FundName: string;
+}
 export const sFundDetails = (eventMetaData: IsFundDetails) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-FundDetails',
@@ -85,6 +115,17 @@ export const calculateReturnsduration = (eventMetaData) => {
 	});
 };
 
+export const fundDetailShare = (eventMetaData: IFundDetailShare) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-FundDetails',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'FundDetailShare',
+		event_property: null,
+		event_id: '301.0.0.1.3',
+		event_metadata: eventMetaData
+	});
+};
 export const allHoldings = (eventMetaData: IAllHoldings) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-FundDetails',
@@ -100,22 +141,26 @@ export const sortbyReturnYear = (eventMetaData: ISortbyReturnYear) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-FundDetails',
 		event_type: 'click',
-		event_sub_type: 'sort',
-		event_name: 'sortbyReturnYear',
+		event_sub_type: 'button',
+		event_name: 'SortByReturns',
 		event_property: null,
-		event_id: '301.0.0.1.9',
+		event_id: '301.0.1.1.9',
 		event_metadata: eventMetaData
 	});
 };
 
-export const fundNameSelection = (eventMetaData: IFundNameSelection) => {
+export const fundNameSelection = (
+	eventMetaData: IFundNameSelection,
+	type: 'SimilarFundSelect' | 'SameAMCFundSelect',
+	event_id: '301.0.1.1.10' | '301.0.1.1.11'
+) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-FundDetails',
 		event_type: 'click',
 		event_sub_type: 'select',
-		event_name: 'FundNameSelection',
+		event_name: type,
 		event_property: null,
-		event_id: '301.0.0.1.10',
+		event_id,
 		event_metadata: eventMetaData
 	});
 };
@@ -137,26 +182,21 @@ export const mobileSchemeDetailsPageInvestButtonClickAnalytics = (
 		screen_name: 's-FundDetails',
 		event_type: 'click',
 		event_sub_type: 'button',
-		event_name: 'invest',
+		event_name: 'FundDetailInvest',
 		event_property: null,
-		event_id: '301.0.0.1.14',
+		event_id: '301.0.1.1.2',
 		event_metadata: eventMetaData
 	});
 };
 
-export const shareFundDetailClickAnalytics = (eventMetaData: {
-	Fundname: string;
-	FundType: string;
-	AssetType: string;
-	SubAssetType: string;
-}) => {
+export const shareFundDetailClickAnalytics = (eventMetaData: IFundDetailShare) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-FundDetails',
 		event_type: 'click',
 		event_sub_type: 'button',
-		event_name: 'Share',
+		event_name: 'FundDetailShare',
 		event_property: null,
-		event_id: '301.0.0.1.15',
+		event_id: '301.0.1.1.3',
 		event_metadata: eventMetaData
 	});
 };
@@ -185,6 +225,54 @@ export const returnCalculatorResultAnalytics = (
 		event_name: 'ReturnCalc_api',
 		event_property: null,
 		event_id: '301.0.1.2.12',
+		event_metadata: eventMetaData
+	});
+};
+
+export const learnSchemeTerms = (eventMetaData: ILearnSchemeTerms) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-FundDetails',
+		event_type: 'click',
+		event_sub_type: 'text',
+		event_name: 'LearnSchemeTerms',
+		event_property: null,
+		event_id: '301.0.1.1.5',
+		event_metadata: eventMetaData
+	});
+};
+
+export const schemeTermsInfo = (eventMetaData: ISchemeTermsInfo) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 'bs-LearnSchemeTerms',
+		event_type: 'click',
+		event_sub_type: 'text',
+		event_name: 'LearnSchemeTerms',
+		event_property: null,
+		event_id: '301.0.1.1.6',
+		event_metadata: eventMetaData
+	});
+};
+
+export const viewAllFundHoldings = (eventMetaData: IViewAllFundHoldings) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-FundDetails',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'ViewAllFundHoldings',
+		event_property: null,
+		event_id: '301.0.1.1.7',
+		event_metadata: eventMetaData
+	});
+};
+
+export const fundHoldingsInfo = (eventMetaData: IFundHoldingsInfo) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 'bs-FundHoldings',
+		event_type: 'impression',
+		event_sub_type: 'screen',
+		event_name: 'FundHoldingsInfo',
+		event_property: null,
+		event_id: '301.0.1.1.8',
 		event_metadata: eventMetaData
 	});
 };

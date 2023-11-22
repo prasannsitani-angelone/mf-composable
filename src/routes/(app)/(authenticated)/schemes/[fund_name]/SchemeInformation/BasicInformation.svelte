@@ -12,15 +12,22 @@
 	import SchemeInformationModal from './SchemeInformationModal.svelte';
 	import { calculateYearDiffrence } from '$lib/utils';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
+	import { learnSchemeTerms } from '../analytics';
 
 	let schemeDetails: SchemeDetails;
 	let isNFO = false;
 	let fundAge = calculateYearDiffrence(new Date(schemeDetails?.launchDate));
-
+	let { isin, schemeName } = schemeDetails;
 	$: isModalOpen = false;
 
 	const toggleSchemeIformationModal = () => {
 		isModalOpen = isModalOpen ? false : true;
+		if (isModalOpen) {
+			learnSchemeTerms({
+				ISIN: schemeDetails?.isin,
+				FundName: schemeDetails?.schemeName
+			});
+		}
 	};
 	let sipLockinPeriod =
 		schemeDetails?.sipLockinPeriodFlag === 'Y' ? `${schemeDetails?.sipLockinPeriod} years` : 'Nil';
@@ -84,9 +91,9 @@
 			</div>
 		</section>
 		<section class="flex justify-center align-middle">
-			<Button variant="transparent" on:click={toggleSchemeIformationModal}>LEARN ABOUT Terms</Button
+			<Button variant="transparent" on:click={toggleSchemeIformationModal}>LEARN ABOUT TERMS</Button
 			>
 		</section>
 	</section>
-	<SchemeInformationModal {isModalOpen} {toggleSchemeIformationModal} />
+	<SchemeInformationModal {isModalOpen} {toggleSchemeIformationModal} {isin} {schemeName} />
 </section>

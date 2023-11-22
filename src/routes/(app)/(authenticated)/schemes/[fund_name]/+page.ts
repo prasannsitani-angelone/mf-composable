@@ -14,6 +14,7 @@ import { shouldDisplayShare } from '$lib/utils';
 import { shareFundDetailClickAnalytics } from './analytics';
 
 import { hydrate } from '$lib/utils/helpers/hydrated';
+import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
 
 export const load = (async ({ fetch, params, url, parent }) => {
 	const queryParam = url?.searchParams?.get('params') || '';
@@ -63,11 +64,13 @@ export const load = (async ({ fetch, params, url, parent }) => {
 	};
 
 	const onClickShareIcon = async () => {
+		const { isin, schemeName, returns3yr, nfoScheme } = schemeData;
 		shareFundDetailClickAnalytics({
-			Fundname: schemeData?.schemeName,
-			FundType: schemeData?.reInvestmentPlan,
-			AssetType: schemeData?.categoryName,
-			SubAssetType: schemeData?.subcategoryName
+			ISIN: isin,
+			FundName: schemeName,
+			'3YReturn': returns3yr,
+			isOpenNFO: nfoScheme === 'Y',
+			schemeURL: getDeeplinkForUrl(url)
 		});
 		const message = {
 			text: `Hey, check out this fund - ${

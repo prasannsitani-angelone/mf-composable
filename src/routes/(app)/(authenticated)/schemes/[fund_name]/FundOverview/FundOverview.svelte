@@ -41,7 +41,12 @@
 			reInvestmentPlan,
 			subcategoryName,
 			exitLoadValue,
-			expenseRatio
+			expenseRatio,
+			isin,
+			returns3yr,
+			isSipAllowed,
+			isLumpsumAllowed,
+			nfoScheme
 		} = schemeDetails || {};
 		const eventMetadata = {
 			Fundname: schemeName,
@@ -51,10 +56,14 @@
 			Nav: navValue,
 			'Exit Load': exitLoadValue,
 			'Expense Ratio': expenseRatio,
-			URL: getDeeplinkForUrl($page.url)
+			URL: getDeeplinkForUrl($page.url),
+			ISIN: isin,
+			'3YReturn': returns3yr || 0,
+			isSIPAllowed: isSipAllowed === 'Y',
+			isOTIAllowed: isLumpsumAllowed === 'Y',
+			isOpenNFO: nfoScheme === 'Y'
 		};
 		sFundDetails(eventMetadata);
-		console.log({ selectedTag });
 	});
 
 	let pagePathname: string;

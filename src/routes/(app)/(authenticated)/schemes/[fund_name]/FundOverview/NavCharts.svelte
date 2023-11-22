@@ -147,7 +147,11 @@
 		lineChartOptions.scales.y.ticks.stepSize = stepSize;
 
 		const currentMonthLable = tags.filter((tag) => tag.months === month);
-		const eventMetadata = { ChartTimeIntervalSelected: currentMonthLable[0].label };
+		const eventMetadata = {
+			ChartTimeIntervalSelected: currentMonthLable[0].label,
+			ISIN: schemeDetails?.isin,
+			ScreenName: 'fund_details'
+		};
 		chartTimeIntervalSelection(eventMetadata);
 
 		fillChartData(lineChartData);

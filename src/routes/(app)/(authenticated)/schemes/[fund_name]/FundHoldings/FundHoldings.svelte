@@ -2,16 +2,25 @@
 	import Button from '$components/Button.svelte';
 
 	import type { SchemeHoldings } from '$lib/types/ISchemeDetails';
+	import { viewAllFundHoldings } from '../analytics';
 
 	import type { TopHolding } from '../types';
 	import FundHoldingModal from './FundHoldingModal.svelte';
 	import HoldingTable from './HoldingTable.svelte';
 
 	let fundHoldingData: Array<SchemeHoldings>;
-
+	let isin: string;
+	let schemeName: string;
 	$: isModalOpen = false;
 	const toggleSchemeIformationModal = () => {
 		isModalOpen = isModalOpen ? false : true;
+
+		if (isModalOpen) {
+			viewAllFundHoldings({
+				FundName: schemeName,
+				ISIN: isin
+			});
+		}
 	};
 
 	const setTableData = (holdings: SchemeHoldings[]) => {
@@ -30,7 +39,7 @@
 	};
 	const schemeTopHolding = setTableData(fundHoldingData);
 
-	export { fundHoldingData };
+	export { fundHoldingData, isin, schemeName };
 </script>
 
 <article class="mt-4 max-w-4xl rounded-lg bg-white text-sm shadow-csm">
@@ -55,4 +64,10 @@
 		</div>
 	</footer>
 </article>
-<FundHoldingModal holdings={fundHoldingData} {isModalOpen} {toggleSchemeIformationModal} />
+<FundHoldingModal
+	holdings={fundHoldingData}
+	{isModalOpen}
+	{toggleSchemeIformationModal}
+	{isin}
+	{schemeName}
+/>

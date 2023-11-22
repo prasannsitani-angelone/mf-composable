@@ -23,7 +23,8 @@
 	import {
 		mobileSchemeDetailsPageInvestButtonClickAnalytics,
 		returnCalculatorImpressionAnalytics,
-		returnCalculatorResultAnalytics
+		returnCalculatorResultAnalytics,
+		type IMobileSchemeDetailsPageInvestButtonClickAnalytics
 	} from './analytics';
 	import NfoDetails from './NFODetails/NFODetails.svelte';
 	import { SEO } from 'svelte-components';
@@ -65,14 +66,12 @@
 	const handleInvestMoreCtaClick = async () => {
 		const schemeData: SchemeDetails = await data?.api?.schemeData;
 
-		const eventMetaData = {
-			Fundname: schemeData?.schemeName,
-			AssetType: schemeData?.categoryName,
-			SubAssetType: schemeData?.subcategoryName,
-			FundType: schemeData?.reInvestmentPlan,
-			Rating: schemeData?.arqRating,
-			NAV: schemeData?.navValue,
-			URL: getDeeplinkForUrl($page.url)
+		const eventMetaData: IMobileSchemeDetailsPageInvestButtonClickAnalytics = {
+			ISIN: schemeData?.isin,
+			'3YReturn': schemeData?.returns3yr,
+			FundName: schemeData?.schemeName,
+			isOpenNFO: schemeData?.nfoScheme === 'Y',
+			schemeURL: getDeeplinkForUrl($page.url)
 		};
 
 		mobileSchemeDetailsPageInvestButtonClickAnalytics(eventMetaData);
@@ -188,15 +187,29 @@
 			{#if !isNFO}
 				{#await data?.api?.holdingData then fundHoldingData}
 					{#if fundHoldingData?.length > 0}
-						<FundHoldings {fundHoldingData} />
+						<FundHoldings
+							{fundHoldingData}
+							isin={schemedata?.isin}
+							schemeName={schemedata?.schemeName}
+						/>
 					{/if}
 				{/await}
 			{/if}
 			{#await data?.api?.comparisons then comparisons}
 				{#if !isNFO}
-					<SimilarFunds similarFunds={comparisons?.otherScheme || []} />
+					<SimilarFunds
+						similarFunds={comparisons?.otherScheme || []}
+						isin={schemedata?.isin}
+						schemeName={schemedata?.schemeName}
+						returns3yr={schemedata?.returns3yr}
+					/>
 				{/if}
-				<OtherFundsByAMC sameAmcScheme={comparisons?.sameAmcScheme} />
+				<OtherFundsByAMC
+					sameAmcScheme={comparisons?.sameAmcScheme}
+					isin={schemedata?.isin}
+					schemeName={schemedata?.schemeName}
+					returns3yr={schemedata?.returns3yr}
+				/>
 			{/await}
 		</article>
 

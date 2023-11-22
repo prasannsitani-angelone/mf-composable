@@ -14,7 +14,12 @@
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { returnYearTableChangeColumn, yearlyReturnMap, type TableColumnToggle } from '$lib/utils';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
-	import { fundNameSelection, sortbyReturnYear } from '../analytics';
+	import {
+		fundNameSelection,
+		sortbyReturnYear,
+		type ISortbyReturnYear,
+		type IFundNameSelection
+	} from '../analytics';
 
 	import type { SameAmcScheme } from '../types';
 
@@ -23,22 +28,29 @@
 		label: '3Y Return',
 		field: 'returns3yr'
 	};
+	let isin: string;
+	let schemeName: string;
+	let returns3yr: number;
 	const sortTable = () => {
 		currentYearFilter = returnYearTableChangeColumn(currentYearFilter.field, yearlyReturnMap);
-		const eventMetadata = { ReturnYear: currentYearFilter.label };
+		const eventMetadata: ISortbyReturnYear = {
+			ReturnYear: currentYearFilter.label,
+			ISIN: isin,
+			FundName: schemeName,
+			section: 'OtherFundsByAMC'
+		};
 		sortbyReturnYear(eventMetadata);
 	};
 
 	const onTableRowSelect = (schemes: SchemeDetails) => {
-		const eventMetadata = {
-			Fundname: schemes.schemeName,
-			FundType: schemes.categoryName,
-			Rating: schemes.arqRating,
-			ReturnYear: currentYearFilter?.label,
-			ReturnsValue: currentYearFilter?.field
+		const eventMetadata: IFundNameSelection = {
+			selectedISIN: schemes?.isin,
+			selectedFund3YReturn: schemes?.returns3yr,
+			currentISIN: isin,
+			currentFund3YReturn: returns3yr
 		};
 
-		fundNameSelection(eventMetadata);
+		fundNameSelection(eventMetadata, 'SameAMCFundSelect', '301.0.1.1.11');
 		goto(
 			`${base}/${normalizeFundName(
 				schemes?.schemeName,
@@ -48,7 +60,7 @@
 			)}`
 		);
 	};
-	export { sameAmcScheme };
+	export { sameAmcScheme, isin, schemeName, returns3yr };
 </script>
 
 <article class="mt-4 max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:pb-4">
@@ -114,7 +126,7 @@
 							<Td class="!p-0"
 								><div class="flex items-end justify-end">
 									<span class="text-base font-normal text-black-title"
-										>{schemes[currentYearFilter.field]} %</span
+										>{schemes[currentYearFilter.field]}%</span
 									>
 								</div>
 							</Td>
