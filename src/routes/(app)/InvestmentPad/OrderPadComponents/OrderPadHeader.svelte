@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import Button from '$components/Button.svelte';
-	import ThreeVerticalDotsIcon from '$lib/images/icons/ThreeVerticalDotsIcon.svelte';
 	import { investmentDetailsFooterEvents } from '../../(authenticated)/investments/[investment]/constants';
 	import { page } from '$app/stores';
+	import { WMSIcon } from 'svelte-components';
 
 	$: deviceType = $page?.data?.deviceType;
 	const dispatch = createEventDispatcher();
@@ -38,6 +38,6 @@
 		class="rounded border-none !bg-grey px-6"
 		onClick={() => onButtonClick(investmentDetailsFooterEvents?.MORE_OPTIONS)}
 	>
-		<ThreeVerticalDotsIcon />
+		<WMSIcon name="three-vertical-dots-icon" height={15} width={4} />
 	</Button>
 </article>

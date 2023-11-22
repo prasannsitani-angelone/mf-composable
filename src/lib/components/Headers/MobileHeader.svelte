@@ -12,6 +12,7 @@
 	import { exitNudgeStore } from '$lib/stores/ExitNudgeStore';
 	import { crossButtonClickEvent } from '$components/Headers/analytics';
 	import { createEventDispatcher } from 'svelte';
+	import Button from '$lib/components/Button.svelte';
 
 	export let title = '';
 	export let showSearchIcon = false;
@@ -23,7 +24,9 @@
 	export let showRightIcon = false;
 	export let faqParams = '';
 	export let titleClass = '';
+	export let showThreeDotsIcon = false;
 	export let onClickShareIcon: (() => void) | null = null;
+	export let onThreeDotsClick: (() => void) | null = null;
 	export let onClickFaqsIcon: (() => void) | null = null;
 
 	const dispatch = createEventDispatcher();
@@ -145,6 +148,15 @@
 									on:click={onClickFaqsIcon}
 								/>
 							</Link>
+						</article>
+					{/if}
+				</slot>
+				<slot>
+					{#if showThreeDotsIcon}
+						<article class="mr-1">
+							<Button class="border-none !bg-white px-6" onClick={onThreeDotsClick}>
+								<WMSIcon name="three-vertical-dots-icon" height={15} />
+							</Button>
 						</article>
 					{/if}
 				</slot>

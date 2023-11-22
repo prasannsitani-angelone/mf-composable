@@ -2,11 +2,11 @@
 	import Button from '$components/Button.svelte';
 	import CautionIcon from '$lib/images/icons/CautionIcon.svelte';
 	import LockedIcon from '$lib/images/icons/LockedIcon.svelte';
-	import ThreeVerticalDotsIcon from '$lib/images/icons/ThreeVerticalDotsIcon.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { investmentDetailsFooterEvents } from '../constants';
 	import { orderpadParentPage } from '../../../../InvestmentPad/constants';
 	import FooterErrorMessage from './FooterErrorMessage.svelte';
+	import { WMSIcon } from 'svelte-components';
 
 	const dispatch = createEventDispatcher();
 
@@ -64,7 +64,7 @@
 					variant="outlined"
 					onClick={() => handleButtonsClick(investmentDetailsFooterEvents?.MORE_OPTIONS)}
 				>
-					<ThreeVerticalDotsIcon />
+					<WMSIcon name="three-vertical-dots-icon" height={15} width={4} />
 				</Button>
 			{/if}
 		</section>

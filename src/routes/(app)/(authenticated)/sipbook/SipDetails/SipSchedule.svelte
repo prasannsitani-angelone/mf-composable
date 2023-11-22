@@ -7,7 +7,7 @@
 	export { amount, nextSipDateTs };
 </script>
 
-<section class={`rounded-lg bg-white px-4 py-5 shadow-csm ${$$props.class}`}>
+<section class={`rounded-t-lg bg-white px-4 pb-0 pt-5 shadow-csm ${$$props.class}`}>
 	<div class="font-normal text-black-title">SIP Schedule</div>
 
 	<article class="mt-3 rounded border p-4 font-normal">

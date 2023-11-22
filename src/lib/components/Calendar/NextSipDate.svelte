@@ -9,7 +9,9 @@
 <section class="flex items-center justify-start border-y bg-grey px-4 py-1 text-xs">
 	<CalendarIcon />
 	<p class="ml-3">
-		<span class="font-normal text-grey-body"> First SIP payment will be on </span>
+		<slot name="content">
+			<span class="font-normal text-grey-body">First SIP payment will be on</span>
+		</slot>
 		<span class="font-normal text-black-title">
 			{calendarDate}
 			{calendarMonth}

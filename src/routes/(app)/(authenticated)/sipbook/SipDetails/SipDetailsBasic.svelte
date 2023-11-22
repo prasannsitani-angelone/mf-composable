@@ -4,7 +4,6 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	let schemeName: string;
-	let schemePlan: string;
 	let logoUrl: string;
 	let isin: string;
 	let schemeCode: string;
@@ -13,14 +12,13 @@
 
 		goto(`${base}/${path}`);
 	};
-	export { schemeName, schemePlan, logoUrl, isin, schemeCode };
+	export { schemeName, logoUrl, isin, schemeCode };
 </script>
 
 <section class="rounded-lg bg-white shadow-csm">
 	<ResultItem
 		data={{
 			schemeName: schemeName,
-			categoryName: schemePlan?.toLowerCase(),
 			logoUrl: logoUrl
 		}}
 		categoryStyle="text-[10px] capitalize"

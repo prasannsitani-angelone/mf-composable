@@ -1,17 +1,16 @@
 <script lang="ts">
 	import AccordianCardComponent from '$components/Accordian/AccordianCardComponent.svelte';
 	import { getDateTimeString } from '$lib/utils/helpers/date';
-	import DownArrowLargeIcon from '$lib/images/icons/DownArrowLargeIcon.svelte';
 	import type { ISipOrderHistory } from '$lib/types/ISipType';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { base } from '$app/paths';
 	import SipTransactions from './SipTransactions.svelte';
-	import SipDate from './SipDate.svelte';
+	import WmsIcon from '$components/WMSIcon.svelte';
 	let sipId: number;
 	let sipOrderHistory: Array<ISipOrderHistory>;
 	let sipCreatedTs: number;
-	let disableCollapse = false;
+	let disableCollapse = true;
 	let hideFooter = false;
 	let maxTxnShowCount = 0;
 	let fullPageList = false;
@@ -28,8 +27,8 @@
 	let successfulTxns = 0;
 	let failedTxns = 0;
 	let skippedTxns = 0;
+	let editedTxns = 0;
 	let transactionItems: Array<txnItem> = [];
-	let sipHistoryExpanded = false;
 
 	const setTxnCounts = () => {
 		const transactionList: Array<txnItem> = [];
@@ -40,6 +39,8 @@
 				failedTxns++;
 			} else if (item?.orderStatus?.toUpperCase() === 'SKIP') {
 				skippedTxns++;
+			} else if (item?.orderStatus?.toUpperCase() === 'EDIT') {
+				editedTxns++;
 			}
 
 			const statusObj = {
@@ -48,6 +49,8 @@
 						? 'Success'
 						: item?.orderStatus?.toUpperCase() === 'SKIP'
 						? 'Skipped'
+						: item?.orderStatus?.toUpperCase() === 'EDIT'
+						? 'Edited'
 						: 'Failed'
 				}: ${getDateTimeString(item?.orderCompletionTs, 'DATE', true)}`,
 				subTitle: item?.Message,
@@ -56,6 +59,8 @@
 						? 'SUCCESS'
 						: item?.orderStatus?.toUpperCase() === 'SKIP'
 						? 'SKIP'
+						: item?.orderStatus?.toUpperCase() === 'EDIT'
+						? 'EDIT'
 						: 'FAILED'
 			};
 
@@ -67,12 +72,6 @@
 
 	const goToSipHistory = () => {
 		goto(`${base}/sipbook/${sipId}-history`);
-	};
-
-	const handleSipHistoryToggle = () => {
-		if (transactionItems?.length) {
-			sipHistoryExpanded = !sipHistoryExpanded;
-		}
 	};
 
 	onMount(() => {
@@ -96,7 +95,6 @@
 		titleFontSize="text-base"
 		{disableCollapse}
 		class="mt-2 rounded-lg bg-white text-sm font-normal text-black-title shadow-csm {$$props.class}"
-		on:cardToggled={handleSipHistoryToggle}
 	>
 		<svelte:fragment slot="accordionHeader">
 			<section class="p-4">
@@ -104,20 +102,16 @@
 					<article class="flex items-baseline justify-between">
 						<article class="flex items-baseline">
 							<div class="mr-2 text-base">SIP History</div>
-							{#if transactionItems?.length}
-								<div class="text-xs text-grey-body">
-									(Last {transactionItems?.length} months)
-								</div>
-							{/if}
 						</article>
-						{#if transactionItems?.length}
-							<DownArrowLargeIcon
-								class={`transition duration-200 ${sipHistoryExpanded ? 'rotate-180' : 'rotate-0'}`}
-							/>
-						{/if}
 					</article>
-					<div class="mb-5 text-xs font-normal text-grey-body">
-						SIP ID: {Math?.abs(sipId)}
+					<div class="mb-5 mt-2 flex items-center text-xs text-black-bolder">
+						<div class="">
+							SIP created on {getDateTimeString(sipCreatedTs, 'DATE', true)}
+						</div>
+						<div class="px-3"><WmsIcon class=" !h-1 !w-1" name="eclipse" /></div>
+						<div class="">
+							SIP ID: {Math?.abs(sipId)}
+						</div>
 					</div>
 				</slot>
 
@@ -139,7 +133,15 @@
 							</span>
 							<span class="mr-2 text-sm text-grey-body"> Skipped </span>
 						{/if}
-
+						{#if editedTxns > 0}
+							<span
+								class="mr-1 flex h-5 w-5 items-center justify-center rounded-full bg-purple-glow text-xs text-grey-body"
+								class:px-1.5={editedTxns > 9}
+							>
+								{editedTxns}
+							</span>
+							<span class="mr-2 text-sm text-grey-body"> Edited </span>
+						{/if}
 						<span
 							class="mr-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-sell bg-opacity-10 text-xs text-red-sell"
 							class:px-1.5={failedTxns}
@@ -149,8 +151,6 @@
 						<span class="text-sm text-grey-body"> Failed </span>
 					</div>
 				</article>
-
-				<SipDate {sipCreatedTs} />
 			</section>
 		</svelte:fragment>
 

@@ -3,6 +3,7 @@
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
 	import BigGreenTickIcon from '$lib/images/icons/BigGreenTickIcon.svelte';
 	import BigRedCrossIcon from '$lib/images/icons/BigRedCrossIcon.svelte';
+	import EditSipIcon from '$lib/images/icons/EditSipIcon.svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	interface txnItem {
 		title: string;
@@ -33,6 +34,8 @@
 							<BigRedCrossIcon />
 						{:else if item.status === STATUS_ARR.SKIPPED}
 							<WMSIcon name="skip" />
+						{:else if item.status === STATUS_ARR.EDITED}
+							<EditSipIcon />
 						{:else}
 							<div class="h-4 w-4 rounded-lg bg-grey" />
 						{/if}

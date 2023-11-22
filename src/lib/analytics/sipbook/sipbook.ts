@@ -236,13 +236,24 @@ export const skipSipModalButtonClickAnalytics = (eventMetaData: { value: string 
 
 export const skipSipSkippedSuccessModalOpenAnalytics = (eventMetaData: { value: string }) => {
 	Analytics.logAnalyticEvent({
-		screen_name: 's-sipdetails',
+		screen_name: 'bs-nextinstallement',
 		event_type: 'impression',
 		event_sub_type: 'popup',
 		event_name: 'sipskipped',
 		event_property: null,
 		event_id: '309.0.0.1.33',
 		event_metadata: eventMetaData
+	});
+};
+
+export const skipSipSuccessModalClickDone = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 'bs-nextinstallement',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'Done',
+		event_property: null,
+		event_id: '309.0.0.1.75'
 	});
 };
 

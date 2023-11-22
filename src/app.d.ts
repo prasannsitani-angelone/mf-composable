@@ -20,10 +20,12 @@ interface LayoutConfig {
 	showShareIcon: boolean;
 	showCartIcon: boolean;
 	showFaqIcon: boolean;
+	showThreeDotsIcon: boolean;
 	faqParams: string;
 	showAskAngelEntry: boolean;
 	hideMobileHeader: boolean;
 	onClickShareIcon: (() => void) | null;
+	onThreeDotsClick: (() => void) | null;
 	onClickFaqsIcon: (() => void) | null;
 	layoutType:
 		| 'TWO_COLUMN'

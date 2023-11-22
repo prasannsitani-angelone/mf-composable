@@ -34,8 +34,10 @@
 				showShareIcon={pageMetaData?.showShareIcon}
 				showCartIcon={pageMetaData?.showCartIcon}
 				showFaqIcon={pageMetaData?.showFaqIcon}
+				showThreeDotsIcon={pageMetaData?.showThreeDotsIcon}
 				faqParams={pageMetaData?.faqParams}
 				onClickShareIcon={pageMetaData?.onClickShareIcon}
+				onThreeDotsClick={pageMetaData?.onThreeDotsClick}
 				onClickFaqsIcon={pageMetaData?.onClickFaqsIcon}
 				class="bg-white {pageMetaData?.headerClass || ''}"
 			>

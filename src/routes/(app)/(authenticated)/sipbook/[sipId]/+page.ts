@@ -9,10 +9,13 @@ import type { ISip } from '$lib/types/ISipType';
 import { getDateTimeString } from '$lib/utils/helpers/date';
 import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
+import { sipBookStore } from '$lib/stores/SipBookStore';
 
 export const load = (async ({ fetch, params, depends }) => {
 	const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips/${params?.sipId}`;
 	let sipData: ISip;
+	const showThreeDotsIcon = true;
+	let showDropDown = false;
 	const getSipData = async () => {
 		const res = await useFetch(sipUrl + '?history=true', {}, fetch);
 		if (res.ok && res?.data?.data) {
@@ -51,11 +54,18 @@ export const load = (async ({ fetch, params, depends }) => {
 		}
 		return sipData;
 	};
+	const onThreeDotsClick = async () => {
+		showDropDown = !sipBookStore.showdropdown();
+		sipBookStore.updateStore({ showdropdown: showDropDown });
+	};
 	depends('skipsip');
 	return {
 		layoutConfig: {
 			title: 'SIP Details',
-			showBackIcon: true
+			showBackIcon: true,
+			showThreeDotsIcon,
+			onThreeDotsClick,
+			layoutType: 'TWO_COLUMN'
 		},
 		sipId: params?.sipId || '',
 		api: {
