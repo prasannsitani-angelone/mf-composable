@@ -261,7 +261,7 @@
 				/>
 				{#if $ctNudgeStore?.kv?.topic === 'mf_invdash_inpage1_type_d' || (['mf_invdash_bottomsticky_type_b', 'mf_invdash_bottomsticky_type_c', 'mf_invdash_bottomsticky_type_d'].includes($ctNudgeStore?.kv?.topic) && !isMobile)}
 					<ClevertapNudgeComponent
-						class="mt-2 w-full items-center"
+						class="mt-2 w-full items-center rounded-lg"
 						data={$ctNudgeStore}
 						on:onCTAClicked={(e) => goto(e.detail.url)}
 					/>

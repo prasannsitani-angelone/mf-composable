@@ -339,7 +339,7 @@
 		{#if !deviceType?.isBrowser}
 			<ClevertapNudgeComponent
 				class="row-start-{placementMapping?.ctNudge?.rowStart} col-start-{placementMapping?.ctNudge
-					?.columnStart} {placementMapping?.ctNudge?.rowStart > 1 ? '!mt-2' : ''}"
+					?.columnStart} {placementMapping?.ctNudge?.rowStart > 1 ? '!mt-2' : ''} rounded-lg"
 				data={$ctNudgeStore}
 				on:onCTAClicked={(e) => goto(e.detail.url)}
 			/>
@@ -493,7 +493,7 @@
 			{/if}
 			{#if $ctNudgeStore?.kv?.topic === 'mf_discover_inpage1_type_d'}
 				<ClevertapNudgeComponent
-					class="row-start-{placementMapping?.ctNudge?.rowStart} mt-2 w-full"
+					class="row-start-{placementMapping?.ctNudge?.rowStart} mt-2 w-full rounded-lg"
 					data={$ctNudgeStore}
 					on:onCTAClicked={(e) => goto(e.detail.url)}
 				/>

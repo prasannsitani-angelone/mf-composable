@@ -34,7 +34,7 @@
 
 {#if showCTNudge}
 	<aside
-		class="flex w-full flex-col p-3 {$$props.class}"
+		class="flex w-full flex-col px-3 pt-3 {$$props.class}"
 		style="background-color: {clevertapnudgetopic?.bgColor}"
 	>
 		<ClevertapNotificationViewed {data} />
@@ -49,10 +49,10 @@
 
 				<div class="flex flex-1 flex-col">
 					{#if data?.kv?.title}
-						<p class="w-full text-sm text-black-title">{data?.kv?.title}</p>
+						<p class="mb-1 w-full text-sm font-medium text-black-title">{data?.kv?.title}</p>
 					{/if}
 					{#if data?.kv?.subtext}
-						<p class="w-full text-xs text-black-bolder">{data?.kv?.subtext}</p>
+						<p class="w-full text-xs font-normal text-black-bolder">{data?.kv?.subtext}</p>
 					{/if}
 				</div>
 
@@ -68,12 +68,12 @@
 						</ButtonMedium>
 					{/if}
 
-					<WMSIcon name="cross" class="p-2" width={60} height={36} on:click={onCloseClicked} />
+					<WMSIcon name="cross" class="ml-2" width={24} height={24} on:click={onCloseClicked} />
 				{/if}
 			</div>
 
 			{#if clevertapnudgetopic?.secondaryCtas}
-				<div class="flex flex-row items-center">
+				<div class="mb-1 flex flex-row items-center">
 					<div class="flex-1" />
 
 					{#if data?.kv?.secondarytext}
@@ -98,6 +98,8 @@
 						</ButtonMedium>
 					{/if}
 				</div>
+			{:else}
+				<div class="h-3" />
 			{/if}
 		</div>
 	</aside>
