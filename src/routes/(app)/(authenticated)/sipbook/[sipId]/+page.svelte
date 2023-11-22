@@ -2,14 +2,12 @@
 	import { page } from '$app/stores';
 	import BankAutopayCard from '$components/mandate/components/BankAutopayCard.svelte';
 	import InvalidUrl from '$components/Error/InvalidUrl.svelte';
-	import NudgeComponent from '$components/Nudge/NudgeComponent.svelte';
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import { getBankLogoUrl } from '$lib/utils';
 	import SipDetailsBasic from '../SipDetails/SipDetailsBasic.svelte';
 	import SipHistory from '../SipDetails/SipHistory.svelte';
 	import SipSchedule from '../SipDetails/SipSchedule.svelte';
 	import type { PageData } from './$types';
-	import HexagonalYellowWarningIcon from '$lib/images/icons/HexagonalYellowWarningIcon.svelte';
 	import Button from '$components/Button.svelte';
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
@@ -49,7 +47,8 @@
 		switchAutopaySuccessImpressionAnalytics,
 		sipCancelStayInvestedButtonClickAnalytics,
 		sipDetailsCancelSipOptionClickAnalytics,
-		skipSipSuccessModalClickDone
+		skipSipSuccessModalClickDone,
+		clickOnEditSipAnalytics
 	} from '$lib/analytics/sipbook/sipbook';
 	import AutopaySelectionPopup from '$components/AutopaySelectionPopup.svelte';
 	import type { ISip } from '$lib/types/ISipType';
@@ -402,12 +401,15 @@
 		key === 'skipSip'
 			? toggleShowSkipModal()
 			: key === 'editSip'
-			? (showEditSipModal = true)
+			? editSipShowModal()
 			: handleCancelSipEntryPointClick();
 	};
 
 	const editSipShowModal = () => {
 		showEditSipModal = !showEditSipModal;
+		if (showEditSipModal) {
+			clickOnEditSipAnalytics();
+		}
 	};
 	const updateSipBookStore = () => {
 		showOptions = !$sipBookStore.showdropdown;
@@ -568,45 +570,6 @@
 						maxTxnShowCount={maxTransactionsCap}
 						class="!max-w-full"
 					/>
-
-					<section style={`bottom: ${bottomHeight}px`} class={`w-full`}>
-						{#if sipData?.isSipInprocess}
-							<NudgeComponent
-								nudgeText="Your SIP order is already in progress. Skip and cancel are not available."
-								nudgeClasses={`m-4 mb-2`}
-							>
-								<svelte:fragment slot="nudgeIcon">
-									<HexagonalYellowWarningIcon class="mr-3" />
-								</svelte:fragment>
-							</NudgeComponent>
-						{/if}
-
-						{#if sipData?.installmentSkip}
-							<NudgeComponent
-								nudgeText="You have already skipped your next SIP instalment."
-								nudgeClasses={`m-4 mb-2`}
-							>
-								<svelte:fragment slot="nudgeIcon">
-									<HexagonalYellowWarningIcon class="mr-3" />
-								</svelte:fragment>
-							</NudgeComponent>
-						{/if}
-
-						{#if sipData?.isSipPaymentNudge}
-							<NudgeComponent
-								nudgeText={`Please complete the payment for your current SIP instalment. Skip will be available after ${getDateTimeString(
-									sipData?.sipAmountPayTillDate,
-									'DATE',
-									true
-								)}.`}
-								nudgeClasses={`m-4 mb-2`}
-							>
-								<svelte:fragment slot="nudgeIcon">
-									<HexagonalYellowWarningIcon class="mr-3" />
-								</svelte:fragment>
-							</NudgeComponent>
-						{/if}
-					</section>
 
 					<!-- CANCEL MODAL -->
 					<ConfirmationPopup

@@ -27,6 +27,14 @@
 	import LoadingPopup from '$components/Payment/LoadingPopup.svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
+	import {
+		editSipDoneAnalytics,
+		editSipScreenImpressionAnalytics,
+		editSipUpdateClickAnalytics,
+		editSipConfirmImpressionAnalytics,
+		editSipConfirmClickAnalytics,
+		editSipConfirmScreenAnalytics
+	} from '$lib/analytics/sipbook/sipbook';
 
 	let editSipShowModal: () => void = () => undefined;
 	let nextSipDueDate: number;
@@ -73,6 +81,7 @@
 	$: onInputChange(amount);
 
 	const navigateToSipDetailsUrl = async () => {
+		editSipDoneAnalytics();
 		goto(`${base}/sipbook/${newSipId}`);
 		editSuccess = false;
 	};
@@ -109,6 +118,12 @@
 				disabled: (sipAllowedDaysArray || []).findIndex((d: string) => parseInt(d) === i) === -1
 			});
 		}
+		let sipDate = new Date(nextSipDueDate)?.getDate();
+		editSipScreenImpressionAnalytics({
+			fundName: schemeName,
+			amount: installmentAmount,
+			sipDate: `${new Date(sipDate)?.getDate()}${getDateSuperscript(sipDate)} of every month`
+		});
 	});
 
 	const resetAmountVal = () => {
@@ -218,8 +233,25 @@
 	};
 	const onToggleConfirmation = () => {
 		showConfirmationPopup = !showConfirmationPopup;
+		if (showConfirmationPopup) {
+			editSipUpdateClickAnalytics({
+				fundName: schemeName,
+				updatedAmount: stringToFloat(amount),
+				updatedSipDate: `${new Date(calendarDate)?.getDate()}${dateSuperscript} of every month`
+			});
+			editSipConfirmImpressionAnalytics({
+				fundName: schemeName,
+				updatedAmount: stringToFloat(amount),
+				amount: installmentAmount
+			});
+		}
 	};
 	const onFinalConfirm = async () => {
+		editSipConfirmClickAnalytics({
+			fundName: schemeName,
+			updatedAmount: stringToFloat(amount),
+			amount: installmentAmount
+		});
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/sips/${sipId}`;
 		isLoading = true;
 		const response = await useFetch(url, {
@@ -234,6 +266,12 @@
 		if (response.ok && response?.data?.status?.toUpperCase() === STATUS_ARR?.SUCCESS) {
 			editSuccess = true;
 			newSipId = response?.data?.data?.newSipId;
+			editSipConfirmScreenAnalytics({
+				fundName: schemeName,
+				updatedAmount: stringToFloat(amount),
+				amount: installmentAmount,
+				updatedSipDate: `${calendarDate}${dateSuperscript} of every month`
+			});
 		} else {
 			editFailure = true;
 		}

@@ -433,3 +433,106 @@ export const sipCancelStayInvestedButtonClickAnalytics = () => {
 		event_id: '309.0.0.1.74'
 	});
 };
+
+export const clickOnEditSipAnalytics = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipdetails',
+		event_type: 'click',
+		event_sub_type: 'text',
+		event_name: 'editsip',
+		event_property: null,
+		event_id: '309.0.0.1.76'
+	});
+};
+
+export const editSipScreenImpressionAnalytics = (eventMetaData: {
+	fundName: string;
+	sipDate: string;
+	amount: number;
+}) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipdetails',
+		event_type: 'impression',
+		event_sub_type: 'screen',
+		event_name: 'editsiporderpad',
+		event_property: null,
+		event_id: '309.0.0.1.77',
+		event_metadata: eventMetaData
+	});
+};
+
+export const editSipUpdateClickAnalytics = (eventMetaData: {
+	fundName: string;
+	updatedSipDate: string;
+	updatedAmount: number;
+}) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-editsip',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'update',
+		event_property: null,
+		event_id: '309.0.0.1.78',
+		event_metadata: eventMetaData
+	});
+};
+
+export const editSipConfirmImpressionAnalytics = (eventMetaData: {
+	fundName: string;
+	amount: number;
+	updatedAmount: number;
+}) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-editsip',
+		event_type: 'impression',
+		event_sub_type: 'popup',
+		event_name: 'ConfirmSIPchanges',
+		event_property: null,
+		event_id: '309.0.0.1.79',
+		event_metadata: eventMetaData
+	});
+};
+
+export const editSipConfirmClickAnalytics = (eventMetaData: {
+	fundName: string;
+	amount: number;
+	updatedAmount: number;
+}) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-editsip',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'confirm',
+		event_property: null,
+		event_id: '309.0.0.1.80',
+		event_metadata: eventMetaData
+	});
+};
+
+export const editSipConfirmScreenAnalytics = (eventMetaData: {
+	fundName: string;
+	amount: number;
+	updatedAmount: number;
+	updatedSipDate: string;
+}) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-editsip',
+		event_type: 'impression',
+		event_sub_type: 'popup',
+		event_name: 'SIP updated',
+		event_property: null,
+		event_id: '309.0.0.1.81',
+		event_metadata: eventMetaData
+	});
+};
+
+export const editSipDoneAnalytics = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-editsip',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'done',
+		event_property: null,
+		event_id: '309.0.0.1.82'
+	});
+};

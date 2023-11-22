@@ -33,7 +33,7 @@
 					variant="transparent"
 					class={`w-full !font-normal !text-black-key ${
 						isDisabled
-							? 'pointer-events-none !-ml-2 !cursor-not-allowed border-grey-disabled !bg-white !text-grey-disabled opacity-40'
+							? 'pointer-events-none !-ml-2 !cursor-not-allowed border-grey-disabled !bg-white !text-grey-disabled grayscale'
 							: ''
 					}`}
 					onClick={() => {
