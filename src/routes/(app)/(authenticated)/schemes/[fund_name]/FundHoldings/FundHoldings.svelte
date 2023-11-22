@@ -2,9 +2,9 @@
 	import Button from '$components/Button.svelte';
 
 	import type { SchemeHoldings } from '$lib/types/ISchemeDetails';
-	import { viewAllFundHoldings } from '../analytics';
+	import { viewAllFundHoldings } from '$components/Scheme/analytics';
 
-	import type { TopHolding } from '../types';
+	import type { TopHolding } from '$components/Scheme/types';
 	import FundHoldingModal from './FundHoldingModal.svelte';
 	import HoldingTable from './HoldingTable.svelte';
 

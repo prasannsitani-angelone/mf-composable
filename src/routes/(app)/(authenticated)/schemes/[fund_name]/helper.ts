@@ -1,5 +1,5 @@
 import type { SchemeHoldings } from '$lib/types/ISchemeDetails';
-import type { TopHoldingSummary } from './types';
+import type { TopHoldingSummary } from '$components/Scheme/types';
 
 export const generateGraphDataset = (holdings: SchemeHoldings[]) => {
 	const holdingDataset: TopHoldingSummary = {

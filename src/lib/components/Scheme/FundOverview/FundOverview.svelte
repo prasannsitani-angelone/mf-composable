@@ -81,10 +81,13 @@
 
 		return map[tag.label] || '';
 	}
-	export { schemeDetails, isNFO };
+
+	let innerStyle = '';
+
+	export { schemeDetails, isNFO, innerStyle };
 </script>
 
-<section class="rounded-lg bg-white p-4 pb-1 pt-3 shadow-csm sm:p-6">
+<section class="rounded-lg bg-white p-4 pb-1 pt-3 shadow-csm sm:p-6 {$$props.class}">
 	<header>
 		{#if !isNFO}
 			<div class="relative flex">
@@ -107,7 +110,7 @@
 		{/if}
 	</header>
 	{#if !isNFO}
-		<section class="mb-5">
+		<section class="mb-5 {innerStyle}">
 			<NavCharts {schemeDetails} on:chartRangeChange={handleChartRangeChange} />
 			<div class="mt-9 flex justify-between sm:justify-evenly">
 				<div class="flex flex-col">

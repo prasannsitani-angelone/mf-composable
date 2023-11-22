@@ -1,6 +1,5 @@
 <script lang="ts">
 	import AmountText from '$components/AmountText.svelte';
-	import LockInIcon from '$lib/images/icons/LockInIcon.svelte';
 	import MinLumpSumIcon from '$lib/images/icons/MinLumpSumIcon.svelte';
 	import PiggyBankIcon from '$lib/images/icons/PiggyBankIcon.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';

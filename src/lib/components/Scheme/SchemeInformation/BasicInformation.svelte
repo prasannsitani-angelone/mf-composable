@@ -20,6 +20,9 @@
 	let { isin, schemeName } = schemeDetails;
 	$: isModalOpen = false;
 
+	let showFooter = true;
+	let innerStyle = '';
+
 	const toggleSchemeIformationModal = () => {
 		isModalOpen = isModalOpen ? false : true;
 		if (isModalOpen) {
@@ -31,11 +34,11 @@
 	};
 	let sipLockinPeriod =
 		schemeDetails?.sipLockinPeriodFlag === 'Y' ? `${schemeDetails?.sipLockinPeriod} years` : 'Nil';
-	export { schemeDetails, isNFO };
+	export { schemeDetails, isNFO, showFooter, innerStyle };
 </script>
 
-<section class="border-b px-4 md:px-6">
-	<section class="flex flex-col">
+<section class="px-4 md:px-6">
+	<section class="flex flex-col {innerStyle}">
 		{#if !isNFO}
 			<section class="flex flex-row border-b py-4 text-xs sm:gap-16">
 				<BasicInfoChip title="Fund Age" value="{fundAge} year{fundAge > 1 ? 's' : ''}">
@@ -60,7 +63,9 @@
 				<ExpenseRationIcon slot="icon" />
 			</BasicInfoChip>
 		</section>
-		<section class="flex flex-col pt-4 text-xs sm:flex-row sm:gap-16 sm:border-b sm:pb-4">
+		<section
+			class="flex flex-col pt-4 text-xs sm:flex-row sm:gap-16 sm:border-b sm:pb-4 {innerStyle}"
+		>
 			<div class="flex flex-grow basis-0 items-start border-b pb-3 sm:border-none sm:pb-0">
 				<ExitLoadIcon />
 				<div class="ml-1 flex w-full flex-col sm:flex-col">
@@ -70,7 +75,7 @@
 					>
 				</div>
 			</div>
-			<div class="flex flex-grow basis-0 items-start border-b py-3 sm:border-none sm:py-0">
+			<div class="flex flex-grow basis-0 items-start py-3 sm:border-none sm:py-0">
 				<TaxImplecationIcon />
 				<div class="ml-1 flex w-full flex-col sm:flex-col">
 					<span class="mb-2 text-grey-body">Tax Implications</span>
@@ -90,10 +95,13 @@
 				</div>
 			</div>
 		</section>
-		<section class="flex justify-center align-middle">
-			<Button variant="transparent" on:click={toggleSchemeIformationModal}>LEARN ABOUT TERMS</Button
-			>
-		</section>
+		{#if showFooter}
+			<section class="flex justify-center border-t align-middle sm:border-none">
+				<Button variant="transparent" on:click={toggleSchemeIformationModal}>
+					LEARN ABOUT TERMS
+				</Button>
+			</section>
+		{/if}
 	</section>
 	<SchemeInformationModal {isModalOpen} {toggleSchemeIformationModal} {isin} {schemeName} />
 </section>

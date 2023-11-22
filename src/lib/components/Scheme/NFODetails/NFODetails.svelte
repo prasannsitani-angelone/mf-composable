@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { getDateTimeProperties } from '$lib/utils/helpers/date';
-	import LockInPeriod from '../LockInPeriod/LockInPeriod.svelte';
+	import LockInPeriod from '$components/Scheme/LockInPeriod/LockInPeriod.svelte';
 
 	let schemeDetails: SchemeDetails;
 	const nfoStartDate = getDateTimeProperties(schemeDetails?.nfoStartDate);
@@ -10,7 +10,7 @@
 	export { schemeDetails };
 </script>
 
-<article class="mt-4 max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:pb-4">
+<article class="mt-4 max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:pb-4 {$$props.class}">
 	<header class="">
 		<section
 			class="flex cursor-pointer items-center justify-between p-4 pb-3 text-lg md:px-6 md:pt-6"

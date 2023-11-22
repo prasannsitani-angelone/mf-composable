@@ -18,9 +18,9 @@
 		sortbyReturnYear,
 		type ISortbyReturnYear,
 		type IFundNameSelection
-	} from '../analytics';
+	} from '$components/Scheme/analytics';
 
-	import type { OtherSchemeEntityOrSchemeInfoEntity } from '../types';
+	import type { OtherSchemeEntityOrSchemeInfoEntity } from '$components/Scheme/types';
 
 	let similarFunds: OtherSchemeEntityOrSchemeInfoEntity[];
 	let currentYearFilter: TableColumnToggle = {

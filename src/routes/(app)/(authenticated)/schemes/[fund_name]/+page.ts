@@ -3,7 +3,7 @@ import { PUBLIC_MF_ANDROID_APN, PUBLIC_MF_CORE_BASE_URL } from '$env/static/publ
 import type { PageLoad } from './$types';
 import type { SchemeDetails, SchemeHoldings } from '$lib/types/ISchemeDetails';
 import { browser } from '$app/environment';
-import type { FundComparisons } from './types';
+import type { FundComparisons } from '$components/Scheme/types';
 import { useFetch } from '$lib/utils/useFetch';
 import { redirect } from '@sveltejs/kit';
 import { base } from '$app/paths';
@@ -11,7 +11,7 @@ import { goto } from '$app/navigation';
 import { decodeToObject } from '$lib/utils/helpers/params';
 import { shareMessage } from '$lib/utils/share';
 import { shouldDisplayShare } from '$lib/utils';
-import { shareFundDetailClickAnalytics } from './analytics';
+import { shareFundDetailClickAnalytics } from '$components/Scheme/analytics';
 
 import { hydrate } from '$lib/utils/helpers/hydrated';
 import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';

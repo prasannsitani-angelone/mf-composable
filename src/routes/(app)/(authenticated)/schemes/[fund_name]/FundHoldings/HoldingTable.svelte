@@ -5,7 +5,7 @@
 	import THead from '$components/Table/THead.svelte';
 	import Tr from '$components/Table/TR.svelte';
 	import Table from '$components/Table/Table.svelte';
-	import type { TopHolding } from '../types';
+	import type { TopHolding } from '$components/Scheme/types';
 
 	let holdings: TopHolding[];
 	let topHolding = false;

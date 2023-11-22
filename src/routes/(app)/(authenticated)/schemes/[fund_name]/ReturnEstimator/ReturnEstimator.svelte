@@ -3,7 +3,7 @@
 	import ReturnsCalculatorOutput from '$components/Calculator/ReturnsCalculatorOutput.svelte';
 	import ReturnEstimatorIcon from '$lib/images/icons/ReturnEstimatorIcon.svelte';
 	import type { CalculatedValue } from '$lib/types/IStandaloneCalculator';
-	import { calculateReturnsAmount, calculateReturnsduration } from '../analytics';
+	import { calculateReturnsAmount, calculateReturnsduration } from '$components/Scheme/analytics';
 
 	let calculatedOutput: CalculatedValue = {};
 	export let returns3yr: number;

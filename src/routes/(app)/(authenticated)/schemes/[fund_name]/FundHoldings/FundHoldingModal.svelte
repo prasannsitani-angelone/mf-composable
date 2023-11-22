@@ -2,9 +2,9 @@
 	import Modal from '$components/Modal.svelte';
 	import { WMSIcon } from 'svelte-components';
 	import HoldingTable from './HoldingTable.svelte';
-	import type { TopHolding } from '../types';
+	import type { TopHolding } from '$components/Scheme/types';
 	import { onMount } from 'svelte';
-	import { fundHoldingsInfo } from '../analytics';
+	import { fundHoldingsInfo } from '$components/Scheme/analytics';
 	let holdings: TopHolding[];
 	let isModalOpen = false;
 	let isin: string;

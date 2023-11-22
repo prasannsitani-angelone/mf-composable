@@ -1,0 +1,11 @@
+<script lang="ts">
+	import FundOverview from '$components/Scheme/FundOverview/FundOverview.svelte';
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails.js';
+	export let schemeDetails: SchemeDetails;
+</script>
+
+<FundOverview
+	{schemeDetails}
+	class="mx-2 mt-4 h-[580px] {$$props.class}"
+	innerStyle="flex flex-col gap-2"
+/>

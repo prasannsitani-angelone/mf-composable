@@ -19,9 +19,9 @@
 		sortbyReturnYear,
 		type ISortbyReturnYear,
 		type IFundNameSelection
-	} from '../analytics';
+	} from '$components/Scheme/analytics';
 
-	import type { SameAmcScheme } from '../types';
+	import type { SameAmcScheme } from '$components/Scheme/types';
 
 	let sameAmcScheme: SameAmcScheme;
 	let currentYearFilter: TableColumnToggle = {

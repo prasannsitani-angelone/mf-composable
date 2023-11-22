@@ -1,4 +1,4 @@
-import type { Tags } from './types';
+import type { Tags } from '$components/Scheme/types';
 
 export const SCHEME_DETAILS_KEY = 'FundDetailsKey';
 

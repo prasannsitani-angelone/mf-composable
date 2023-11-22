@@ -7,7 +7,7 @@
 	export { schemeDetails };
 </script>
 
-<article class="mt-4 max-w-4xl rounded-lg bg-white text-sm shadow-csm">
+<article class="mt-4 max-w-4xl rounded-lg bg-white text-sm shadow-csm {$$props.class}">
 	<header>
 		<section class="flex cursor-pointer items-center justify-between p-4 pb-3 pt-6 text-lg md:px-6">
 			<section class="flex items-center">
@@ -30,4 +30,6 @@
 			</section>
 		</section>
 	</section>
+
+	<slot name="footer" />
 </article>

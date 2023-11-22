@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ScissorsIcon from '$lib/images/icons/ScissorsIcon.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
-	import WMSIcon from '$lib/components/WMSIcon.svelte';
+	import WMSIcon from '$components/WMSIcon.svelte';
 
 	let schemeDetails: SchemeDetails;
 	const taxImplications = schemeDetails.taxImplications || [];

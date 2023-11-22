@@ -20,6 +20,7 @@
 	import {
 		getCompleteSIPDateBasedonDD,
 		getDateSuperscript,
+		getDateTimeProperties,
 		getSIPMonthBasedOnDate,
 		getSIPYearBasedOnDate
 	} from '$lib/utils/helpers/date';
@@ -122,12 +123,27 @@
 	import SelectedBankDetails from '$components/Payment/SelectedBankDetails.svelte';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import KycProgressPopup from '$components/Payment/KYCProgressPopup.svelte';
+	import CueCardCarouselComponent from '$components/CueCardCarouselComponent.svelte';
+	import FundOverviewCueCard from '$components/Scheme/cuecards/FundOverviewCueCard.svelte';
+	import ReturnEstimatorCueCard from '$components/Scheme/cuecards/ReturnEstimatorCueCard.svelte';
+	import SchemeInformationCueCard from '$components/Scheme/cuecards/SchemeInformationCueCard.svelte';
+	import RiskAndRatingCueCard from '$components/Scheme/cuecards/RiskAndRatingCueCard.svelte';
+	import NFODetailsCueCard from '$components/Scheme/cuecards/NFODetailsCueCard.svelte';
+	import {
+		closeCueCardClickEvent,
+		fundOverviewCueCardImpressionEvent,
+		nfoCueCardImpressionEvent,
+		riskAndRatingCueCardImpressionEvent,
+		schemeInfoCueCardDetailsClickEvent,
+		schemeInfoCueCardImpressionEvent
+	} from '$components/Scheme/cuecards/analytics';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
 	export let fromInvestmentDetailsPage: boolean;
 	export let params: decodedParamsTypes = {};
 	export let investmentNotAllowedText = '';
+	export let isNFO = false;
 
 	const {
 		investmentType,
@@ -274,6 +290,8 @@
 
 	// deeplink validity
 	let oneLinkExpired = false;
+
+	let currentVisibleCueCardIndex = 0;
 
 	const isSelectedInvestmentTypeAllowed = () => {
 		if (activeTab === 'SIP') {
@@ -783,7 +801,163 @@
 		versionStore.subscribe((value) => {
 			version = value.version;
 		});
+
+		fundDetailsCarouselItems = getFundDetailsCarouselItems();
 	});
+
+	function getNFODetailsCueCard() {
+		return {
+			component: NFODetailsCueCard,
+			props: {
+				schemeDetails: schemeData
+			},
+			analyticsFunction: () => {
+				const nfoEndDate = getDateTimeProperties(schemeData?.nfoEndDate);
+				const closeDate = `${nfoEndDate.date} ${nfoEndDate.month} ${nfoEndDate.year}`;
+				const isLast = currentVisibleCueCardIndex === fundDetailsCarouselItems.length - 1;
+
+				nfoCueCardImpressionEvent({
+					ISIN: schemeData.isin,
+					CloseDate: closeDate,
+					isOpenNFO: true,
+					cardrank: currentVisibleCueCardIndex + 1,
+					islastcard: isLast
+				});
+			}
+		};
+	}
+
+	function getFundOverviewCueCard() {
+		return {
+			component: FundOverviewCueCard,
+			props: { schemeDetails: schemeData },
+			analyticsFunction: () => {
+				const isLast = currentVisibleCueCardIndex === fundDetailsCarouselItems.length - 1;
+				const deeplink = `${base}/schemes/${normalizeFundName(
+					schemeData?.schemeName,
+					schemeData?.isin,
+					schemeData?.schemeCode
+				)}`;
+
+				fundOverviewCueCardImpressionEvent({
+					ISIN: schemeData.isin,
+					'3YReturn': schemeData.returns3yr,
+					isOpenNFO: isNFO,
+					schemeURL: deeplink,
+					cardrank: currentVisibleCueCardIndex + 1,
+					islastcard: isLast
+				});
+			}
+		};
+	}
+
+	function getReturnEstimatorCueCard() {
+		return {
+			component: ReturnEstimatorCueCard,
+			props: {
+				returns3yr: schemeData?.returns3yr,
+				returns5yr: schemeData?.returns5yr,
+				categoryName: schemeData?.categoryName,
+				minSipAmount: schemeData?.minSipAmount,
+				minLumpsumAmount: schemeData?.minLumpsumAmount
+			},
+			analyticsFunction: () => {
+				//no-op
+			}
+		};
+	}
+
+	function getSchemeInformationCueCard() {
+		return {
+			component: SchemeInformationCueCard,
+			props: {
+				schemeDetails: schemeData,
+				isNFO: isNFO,
+				class: isNFO ? '!h-[500px]' : ''
+			},
+			analyticsFunction: () => {
+				const isLast = currentVisibleCueCardIndex === fundDetailsCarouselItems.length - 1;
+				const exitLoad = schemeData?.exitLoadFlag === 'Y' ? schemeData?.exitLoadValue : 'Nil';
+				schemeInfoCueCardImpressionEvent({
+					ISIN: schemeData.isin,
+					AUM: schemeData.aum,
+					ExitLoad: exitLoad,
+					isOpenNFO: isNFO,
+					cardrank: currentVisibleCueCardIndex + 1,
+					islastcard: isLast
+				});
+			}
+		};
+	}
+
+	function getRiskAndRatingCueCard() {
+		return {
+			component: RiskAndRatingCueCard,
+			props: {
+				schemeDetails: schemeData,
+				class: isNFO ? '!h-[500px]' : '',
+				schemeDetailsClicked: () => {
+					const isLast = currentVisibleCueCardIndex === fundDetailsCarouselItems.length - 1;
+					schemeInfoCueCardDetailsClickEvent({
+						ISIN: schemeData.isin,
+						CardName: 'RatingRisk',
+						isOpenNFO: isNFO,
+						cardrank: currentVisibleCueCardIndex + 1,
+						islastcard: isLast
+					});
+				}
+			},
+			analyticsFunction: () => {
+				const isLast = currentVisibleCueCardIndex === fundDetailsCarouselItems.length - 1;
+				riskAndRatingCueCardImpressionEvent({
+					ISIN: schemeData.isin,
+					Risk: schemeData.riskoMeterValue,
+					Ratings: {
+						ARQRating: schemeData.arqRating,
+						VRRating: schemeData.valueResearchRating,
+						MorningStartRating: schemeData.morningstarRating,
+						CrisilRating: schemeData.crisilRating
+					},
+					isOpenNFO: isNFO,
+					cardrank: currentVisibleCueCardIndex + 1,
+					islastcard: isLast
+				});
+			}
+		};
+	}
+
+	const getFundDetailsCarouselItems = () => {
+		let carouselItems = [];
+		if (isNFO) {
+			carouselItems.push(getNFODetailsCueCard());
+		} else {
+			carouselItems.push(getFundOverviewCueCard());
+		}
+		if (!isNFO) {
+			carouselItems.push(getReturnEstimatorCueCard());
+		}
+		carouselItems.push(getSchemeInformationCueCard());
+		carouselItems.push(getRiskAndRatingCueCard());
+		return carouselItems;
+	};
+
+	const handleCueCardLoad = (e) => {
+		if (showFundDetailCarousel) {
+			currentVisibleCueCardIndex = e?.detail?.index || 0;
+			fundDetailsCarouselItems[currentVisibleCueCardIndex].analyticsFunction();
+		}
+	};
+
+	const handleCueCardClose = () => {
+		const isLast = currentVisibleCueCardIndex === fundDetailsCarouselItems.length - 1;
+		closeCueCardClickEvent({
+			ISIN: schemeData.isin,
+			'3YReturn': schemeData.returns3yr,
+			isOpenNFO: isNFO,
+			cardrank: currentVisibleCueCardIndex + 1,
+			islastcard: isLast
+		});
+	};
 
 	onDestroy(() => {
 		if (isMobile || isTablet) {
@@ -859,12 +1033,16 @@
 
 		orderpadFundCardClickAnalytics(eventMetaData);
 
-		const schemeDetailsPath = `${base}/schemes/${normalizeFundName(
-			schemeData?.schemeName,
-			schemeData?.isin,
-			schemeData?.schemeCode
-		)}`;
-		await goto(schemeDetailsPath);
+		if (version === 'B') {
+			showFundDetailCarousel = true;
+		} else {
+			const schemeDetailsPath = `${base}/schemes/${normalizeFundName(
+				schemeData?.schemeName,
+				schemeData?.isin,
+				schemeData?.schemeCode
+			)}`;
+			await goto(schemeDetailsPath);
+		}
 	};
 
 	//  ---------- payment flow code ---------------
@@ -1117,6 +1295,9 @@
 			replaceState: true
 		});
 	};
+
+	let showFundDetailCarousel = false;
+	let fundDetailsCarouselItems = [];
 
 	const defaultValueToPaymentHandler = () => {
 		paymentHandler.paymentMode = '';
@@ -2091,6 +2272,13 @@
 {#if isKYCInProgress}
 	<KycProgressPopup onClose={toggleKYCProgressPopup} onSubmit={toggleKYCProgressPopup} />
 {/if}
+
+<CueCardCarouselComponent
+	bind:isModalOpen={showFundDetailCarousel}
+	carouselItems={fundDetailsCarouselItems}
+	on:cueCardLoad={handleCueCardLoad}
+	on:cueCardClose={handleCueCardClose}
+/>
 
 <style>
 	.trucateTo2Line {

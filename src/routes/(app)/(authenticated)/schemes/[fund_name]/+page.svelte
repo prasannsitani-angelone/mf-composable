@@ -4,8 +4,8 @@
 	import type { PageData } from './$types';
 	import FundHoldings from './FundHoldings/FundHoldings.svelte';
 	import FundManager from './FundManager/FundManager.svelte';
-	import FundOverview from './FundOverview/FundOverview.svelte';
-	import SchemeInformation from './SchemeInformation/SchemeInformation.svelte';
+	import FundOverview from '$components/Scheme/FundOverview/FundOverview.svelte';
+	import SchemeInformation from '$components/Scheme/SchemeInformation/SchemeInformation.svelte';
 	import SimilarFunds from './SimilarFunds/SimilarFunds.svelte';
 	import OtherFundsByAMC from './OtherFundsByAMC/OtherFundsByAMC.svelte';
 	import ReturnEstimator from '$components/ReturnEstimator/ReturnEstimator.svelte';
@@ -25,14 +25,14 @@
 		returnCalculatorImpressionAnalytics,
 		returnCalculatorResultAnalytics,
 		type IMobileSchemeDetailsPageInvestButtonClickAnalytics
-	} from './analytics';
-	import NfoDetails from './NFODetails/NFODetails.svelte';
+	} from '$components/Scheme/analytics';
+	import NfoDetails from '$components/Scheme/NFODetails/NFODetails.svelte';
 	import { SEO } from 'svelte-components';
 	import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
 	import InvestmentDetailsFooterLoader from '../../../(authenticated)/investments/[investment]/components/InvestmentDetailsFooterLoader.svelte';
 	import { hydratedStore } from '$lib/stores/AppHydratedStore';
 	import type { CalculatedValue } from '$lib/types/IStandaloneCalculator';
-	import RiskAndRating from './RiskAndRating/RiskAndRating.svelte';
+	import RiskAndRating from '$components/Scheme/RiskAndRating/RiskAndRating.svelte';
 	import FundHeading from './FundHeading/FundHeading.svelte';
 
 	export let data: PageData;
@@ -231,6 +231,7 @@
 			<div />
 		{:then previousPaymentDetails}
 			<InvestmentPad
+				{isNFO}
 				class="block md:hidden"
 				schemeData={schemedata}
 				{previousPaymentDetails}
@@ -246,6 +247,7 @@
 			<div />
 		{:then previousPaymentDetails}
 			<InvestmentPad
+				{isNFO}
 				class="sticky -top-2 mt-[52px] hidden md:block"
 				schemeData={schemedata}
 				{previousPaymentDetails}
