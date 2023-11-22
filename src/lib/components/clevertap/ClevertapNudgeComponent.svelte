@@ -42,7 +42,7 @@
 		<div class="flex w-full flex-col">
 			<div class="flex flex-row items-center">
 				{#if icon}
-					<div class="mr-2 self-start">
+					<div class="mr-2 {data?.kv?.title ? `self-start` : 'self-center'}">
 						<svelte:component this={icon} />
 					</div>
 				{/if}

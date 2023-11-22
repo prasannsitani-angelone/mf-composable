@@ -86,6 +86,10 @@
 		}
 		document.addEventListener('CT_web_native_display', function (event) {
 			const data = event.detail;
+			Logger.info({
+				type: 'CT_web_native_display',
+				params: data
+			});
 			ctNudgeStore.set(data);
 		});
 

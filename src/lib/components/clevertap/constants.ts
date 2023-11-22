@@ -18,7 +18,7 @@ const ctNudgeTypeA: CTNudgeType = {
 	icon: ImportExternalFunds
 };
 
-const ctNudgeCTInfoIcon1: CTNudgeType = {
+const ctNudgeTypeB: CTNudgeType = {
 	type: 'b',
 	bgColor: '#FEEED4',
 	secondaryCtas: true,
@@ -41,12 +41,12 @@ const ctNudgeTypeD: CTNudgeType = {
 
 export const CLEVERTAP_NUDGE_TOPICS: Record<string, CTNudgeType> = {
 	mf_trackext_invdash_type_a: ctNudgeTypeA,
-	mf_invdash_bottomsticky_type_b: ctNudgeCTInfoIcon1,
+	mf_invdash_bottomsticky_type_b: ctNudgeTypeB,
 	mf_invdash_bottomsticky_type_c: ctNudgeTypeC,
 	mf_invdash_bottomsticky_type_d: ctNudgeTypeD,
 	mf_invdash_inpage1_type_d: ctNudgeTypeD,
 	mf_discover_inpage1_type_d: ctNudgeTypeD,
-	mf_sips_bottomsticky_type_b: ctNudgeCTInfoIcon1,
+	mf_sips_bottomsticky_type_b: ctNudgeTypeB,
 	mf_sips_bottomsticky_type_c: ctNudgeTypeC,
 	mf_sips_bottomsticky_type_d: ctNudgeTypeD,
 	mf_sips_inpage1_type_d: ctNudgeTypeD
