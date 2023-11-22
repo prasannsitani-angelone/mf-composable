@@ -116,7 +116,7 @@
 									<SchemeLogo src={schemes?.logoUrl} alt={schemes?.schemeName} class="h-8 w-8" />
 									<div class="m-0 mr-auto flex flex-col">
 										<h3
-											class="block w-full whitespace-pre-wrap text-sm font-normal text-black-title sm:text-sm"
+											class="line-clamp-2 block w-full whitespace-pre-wrap text-sm font-normal text-black-title sm:text-sm"
 										>
 											{schemes?.schemeName}
 										</h3>

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
-	import { formatDate } from '$lib/utils';
 	import { tags } from '$lib/constants/tags';
 	import type { Tags } from '$lib/types/ITags';
 
@@ -9,6 +8,7 @@
 	import { onMount } from 'svelte';
 	import { sFundDetails } from '../analytics';
 	import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
+	import { getDateTimeString } from '$lib/utils/helpers/date';
 
 	let schemeDetails: SchemeDetails;
 	let selectedTag: Tags[];
@@ -112,10 +112,10 @@
 	{#if !isNFO}
 		<section class="mb-5 {innerStyle}">
 			<NavCharts {schemeDetails} on:chartRangeChange={handleChartRangeChange} />
-			<div class="mt-9 flex justify-between sm:justify-evenly">
+			<div class="mt-9 flex justify-between sm:justify-center sm:gap-28">
 				<div class="flex flex-col">
 					<span class="mr-1 text-xs font-normal text-grey-body sm:text-sm"
-						>NAV <span class="text-[10px]">on {formatDate(schemeDetails?.navDate)}</span>
+						>NAV <span class="text-[10px]">on {getDateTimeString(schemeDetails?.navDate)}</span>
 					</span><span class="mr-1 text-sm text-black-title"
 						>₹{schemeDetails?.navValue?.toFixed(2)}</span
 					>

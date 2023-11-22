@@ -15,7 +15,7 @@
 		nfoTableToggleList,
 		returnYearTableChangeColumn
 	} from '$lib/utils';
-	import { getDateTimeProperties } from '$lib/utils/helpers/date';
+	import { getDateTimeString } from '$lib/utils/helpers/date';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 
 	let searchOption: NFOList[];
@@ -77,19 +77,19 @@
 				</Td>
 
 				{#if $page?.data?.deviceType?.isBrowser}
-					{@const nfoStartDate = getDateTimeProperties(scheme?.nfoStartDate)}
-					{@const nfoEndDate = getDateTimeProperties(scheme?.nfoEndDate)}
+					{@const nfoStartDate = getDateTimeString(scheme?.nfoStartDate)}
+					{@const nfoEndDate = getDateTimeString(scheme?.nfoEndDate)}
 					<Td class="relative text-center">
 						<div class="absolute bottom-0 right-0 top-0 flex items-center justify-center sm:w-full">
 							<div class="flex items-center">
-								<span>{`${nfoStartDate.date} ${nfoStartDate.month} ${nfoStartDate.year}`}</span>
+								<span>{`${nfoStartDate}`}</span>
 							</div>
 						</div>
 					</Td>
 					<Td class="relative text-center">
 						<div class="absolute bottom-0 right-0 top-0 flex items-center justify-center sm:w-full">
 							<div class="flex items-center">
-								<span>{`${nfoEndDate.date} ${nfoEndDate.month} ${nfoEndDate.year}`}</span>
+								<span>{`${nfoEndDate}`}</span>
 							</div>
 						</div>
 					</Td>
@@ -112,9 +112,9 @@
 						<div class="absolute bottom-0 right-4 top-0 flex">
 							<div class="flex items-center">
 								{#if currentYearFilter.field.includes('Date')}
-									{@const nfoDate = getDateTimeProperties(scheme[currentYearFilter.field])}
+									{@const nfoDate = getDateTimeString(scheme[currentYearFilter.field])}
 
-									<span>{`${nfoDate.date} ${nfoDate.month} ${nfoDate.year}`}</span>
+									<span>{`${nfoDate}`}</span>
 								{:else}
 									<span
 										>{`${currentYearFilter.prefix}${scheme[currentYearFilter.field]}${

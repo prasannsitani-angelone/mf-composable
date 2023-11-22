@@ -106,7 +106,9 @@
 								href={normalizeFundName(funds.schemeName, funds.isin, funds.schemeCode)}
 							>
 								<SchemeLogo src={funds?.logoUrl} class="h-8 w-8" />
-								<span class="text-sm font-normal text-black-title">{funds.schemeName}</span>
+								<span class="line-clamp-2 text-sm font-normal text-black-title"
+									>{funds.schemeName}</span
+								>
 							</a></Td
 						>
 

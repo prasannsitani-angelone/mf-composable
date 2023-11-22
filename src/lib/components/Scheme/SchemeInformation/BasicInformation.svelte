@@ -40,7 +40,7 @@
 <section class="px-4 md:px-6">
 	<section class="flex flex-col {innerStyle}">
 		{#if !isNFO}
-			<section class="flex flex-row border-b py-4 text-xs sm:gap-16">
+			<section class="flex flex-row border-b pb-4 text-xs sm:gap-16">
 				<BasicInfoChip title="Fund Age" value="{fundAge} year{fundAge > 1 ? 's' : ''}">
 					<CakeIcon slot="icon" />
 				</BasicInfoChip>

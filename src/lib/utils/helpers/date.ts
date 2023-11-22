@@ -56,7 +56,7 @@ export const getDateTimeProperties = (date: number) => {
 export const getDateTimeString = (
 	dateTs: number,
 	dateTimeType = 'DATE',
-	shortMonthName = false,
+	shortMonthName = true,
 	dateSuperScript = false
 ) => {
 	const dateTimeObj = getDateTimeProperties(dateTs);

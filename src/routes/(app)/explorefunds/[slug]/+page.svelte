@@ -24,7 +24,6 @@
 	const handleFundCardClick = (scheme: ExploreFundsOptions) => {
 		const { isin } = scheme;
 		const order = scheme?.sortBy2;
-		const recommended = order > 0 && order < 3;
 		const filter = modalList?.name;
 		fundCardClick({
 			type: 'null',
