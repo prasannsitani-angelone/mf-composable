@@ -26,7 +26,7 @@
 			<div class="text-sm font-normal text-black-title">{schemeName}</div>
 		</div>
 		<div
-			class="col-start-1 row-start-2 ml-8 w-max rounded bg-grey p-1 text-xs font-normal text-black-title sm:col-start-2 sm:row-start-1 sm:ml-0 sm:rounded-none sm:bg-transparent sm:p-0"
+			class="col-start-1 row-start-2 ml-12 w-max rounded bg-grey p-1 text-xs font-normal text-black-title sm:col-start-2 sm:row-start-1 sm:ml-0 sm:rounded-none sm:bg-transparent sm:p-0"
 		>
 			{isSip ? 'SIP' : 'ONE TIME'}
 		</div>
