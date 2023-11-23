@@ -123,10 +123,12 @@
 		</section>
 		<SipHealthNudge class="mt-2 w-full sm:mt-4" cardStyle="sm:px-3" />
 		<section>
-			<AssetAnalysis
-				summary={response.summaryData.summary}
-				distributions={response.distributionData.distributions}
-			/>
+			{#if response.distributionData.distributions?.length}
+				<AssetAnalysis
+					summary={response.summaryData.summary}
+					distributions={response.distributionData.distributions}
+				/>
+			{/if}
 		</section>
 	{:else}
 		<section>
