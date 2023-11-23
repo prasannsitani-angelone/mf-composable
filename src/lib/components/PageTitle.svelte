@@ -29,7 +29,7 @@
 	</div>
 
 	{#if source === 'sipBook'}
-		<Button class="border-none !bg-white px-6" onClick={() => onThreeDotsClick()}>
+		<Button class="border-none !bg-white px-3" onClick={() => onThreeDotsClick()}>
 			<WMSIcon name="three-vertical-dots-icon" height={15} />
 		</Button>
 	{/if}

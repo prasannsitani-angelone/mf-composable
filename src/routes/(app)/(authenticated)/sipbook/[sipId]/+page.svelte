@@ -64,6 +64,7 @@
 	import CancelSip from '$components/Sip/CancelSip.svelte';
 	import EditSip from './EditSip.svelte';
 	import { sipBookStore } from '$lib/stores/SipBookStore';
+	import clickOutside from '$lib/utils/useClickOutside';
 
 	$: bankDetails = $profileStore?.bankDetails;
 	let showCancelSipModal = false;
@@ -448,7 +449,11 @@
 					/>
 				</Modal>
 				{#if $sipBookStore.showdropdown && !isMobile && !isTablet}
-					<div class="relative flex flex-col rounded-lg border-grey-line bg-white shadow-csm">
+					<div
+						class="relative flex flex-col rounded-lg border-grey-line bg-white shadow-csm"
+						use:clickOutside
+						on:outclick={updateSipBookStore}
+					>
 						<DropDownOptions
 							isSipInprocess={sipData?.isSipInprocess}
 							installmentSkip={sipData?.installmentSkip}

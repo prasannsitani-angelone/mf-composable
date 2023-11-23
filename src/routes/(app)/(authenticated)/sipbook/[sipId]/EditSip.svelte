@@ -80,9 +80,9 @@
 	$: amountVal = amount?.length ? `₹${addCommasToAmountString(amount)}` : '';
 	$: onInputChange(amount);
 
-	const navigateToSipDetailsUrl = async () => {
+	const navigateToSipDashboardUrl = async () => {
 		editSipDoneAnalytics();
-		goto(`${base}/sipbook/${newSipId}`);
+		goto(`${base}/sipbook/dashboard`);
 		editSuccess = false;
 	};
 	const getSchemeData = async (isin: string, schemeCode: string): Promise<SchemeDetails> => {
@@ -446,8 +446,7 @@
 				<div class="flex justify-between p-4">
 					<div class="text-black-bolder">Updated SIP Date</div>
 					<div class="font-medium text-black-key">
-						{calendarDate}{dateSuperscript}
-						{getSIPDate().toLocaleString('default', { month: 'short' })}
+						{calendarDate}{dateSuperscript} of every month
 					</div>
 				</div>
 				<div class="flex justify-between px-4 pb-4">
@@ -460,14 +459,14 @@
 			</div>
 		</Modal>
 		<ResultPopup
-			closeModal={navigateToSipDetailsUrl}
+			closeModal={navigateToSipDashboardUrl}
 			isModalOpen={editSuccess}
 			popupType={STATUS_ARR.SUCCESS}
 			buttonTitle="DONE"
 			class="w-full rounded-b-none rounded-t-2xl p-4 pb-9 sm:px-8 sm:py-8 md:rounded-lg"
 			buttonClass="mt-8 w-full rounded !bg-blue-primary !text-white cursor-default md:cursor-pointer"
 			handleButtonClick={() => {
-				navigateToSipDetailsUrl();
+				navigateToSipDashboardUrl();
 			}}
 		>
 			<svelte:fragment slot="popupBody">
@@ -487,7 +486,8 @@
 						<div class="flex justify-between p-2">
 							<div class="text-black-bolder">Next SIP Payment</div>
 							<div class="font-medium text-black-key">
-								{calendarDate}{dateSuperscript} of every month
+								{calendarDate}<span class="align-super text-2xs">{dateSuperscript}</span>
+								{getSIPDate().toLocaleString('default', { month: 'short' })}
 							</div>
 						</div>
 					</div>

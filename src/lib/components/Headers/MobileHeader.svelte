@@ -153,8 +153,8 @@
 				</slot>
 				<slot>
 					{#if showThreeDotsIcon}
-						<article class="mr-1">
-							<Button class="border-none !bg-white px-6" onClick={onThreeDotsClick}>
+						<article>
+							<Button class="border-none !bg-white px-3" onClick={onThreeDotsClick}>
 								<WMSIcon name="three-vertical-dots-icon" height={15} />
 							</Button>
 						</article>
