@@ -27,11 +27,11 @@
 		{#if sipType === 'SIP' || (sipType === 'XSIP' && option.key === 'cancelSip')}
 			{@const isDisabled =
 				isSipInprocess || (option.key === 'skipSip' && (installmentSkip || isSipPaymentNudge))}
-			<div class="flex self-start px-4 py-2">
+			<div class="flex w-full self-start px-4 py-2">
 				<Button
 					size={isDisabled ? 'lg' : 'md'}
 					variant="transparent"
-					class={`w-full !font-normal !text-black-key ${
+					class={`w-full !justify-start !font-normal !text-black-key ${
 						isDisabled
 							? 'pointer-events-none !-ml-2 !cursor-not-allowed border-grey-disabled !bg-white !text-grey-disabled grayscale'
 							: ''
