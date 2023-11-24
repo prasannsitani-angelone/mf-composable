@@ -422,12 +422,13 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
 	class="text-title-black hidden flex-row items-center pb-6 pt-3 text-lg font-normal active:opacity-80 sm:flex"
 	on:click={goBack}
 >
 	<WMSIcon name="left-arrow" height={16} width={16} class="mr-4" />
-	Confirm Order
+	Complete Your Payment
 </div>
 
 <article class="flex h-full flex-col sm:h-max">
