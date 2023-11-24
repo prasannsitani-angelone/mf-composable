@@ -125,7 +125,6 @@
 	import KycProgressPopup from '$components/Payment/KYCProgressPopup.svelte';
 	import CueCardCarouselComponent from '$components/CueCardCarouselComponent.svelte';
 	import FundOverviewCueCard from '$components/Scheme/cuecards/FundOverviewCueCard.svelte';
-	import ReturnEstimatorCueCard from '$components/Scheme/cuecards/ReturnEstimatorCueCard.svelte';
 	import SchemeInformationCueCard from '$components/Scheme/cuecards/SchemeInformationCueCard.svelte';
 	import RiskAndRatingCueCard from '$components/Scheme/cuecards/RiskAndRatingCueCard.svelte';
 	import NFODetailsCueCard from '$components/Scheme/cuecards/NFODetailsCueCard.svelte';
@@ -851,22 +850,6 @@
 		};
 	}
 
-	function getReturnEstimatorCueCard() {
-		return {
-			component: ReturnEstimatorCueCard,
-			props: {
-				returns3yr: schemeData?.returns3yr,
-				returns5yr: schemeData?.returns5yr,
-				categoryName: schemeData?.categoryName,
-				minSipAmount: schemeData?.minSipAmount,
-				minLumpsumAmount: schemeData?.minLumpsumAmount
-			},
-			analyticsFunction: () => {
-				//no-op
-			}
-		};
-	}
-
 	function getSchemeInformationCueCard() {
 		return {
 			component: SchemeInformationCueCard,
@@ -932,9 +915,6 @@
 			carouselItems.push(getNFODetailsCueCard());
 		} else {
 			carouselItems.push(getFundOverviewCueCard());
-		}
-		if (!isNFO) {
-			carouselItems.push(getReturnEstimatorCueCard());
 		}
 		carouselItems.push(getSchemeInformationCueCard());
 		carouselItems.push(getRiskAndRatingCueCard());
