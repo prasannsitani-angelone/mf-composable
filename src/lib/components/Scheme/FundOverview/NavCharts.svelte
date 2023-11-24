@@ -124,7 +124,7 @@
 		};
 	};
 
-	const selectNavDuration = async (month = 36) => {
+	const selectNavDuration = async (month = 36, sendAnalytics = true) => {
 		const navUrl = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${schemeDetails.isin}/nav?months=${month}`;
 		const res = await fetch(navUrl, {
 			headers: MFCommonHeader()
@@ -152,7 +152,9 @@
 			ISIN: schemeDetails?.isin,
 			ScreenName: 'fund_details'
 		};
-		chartTimeIntervalSelection(eventMetadata);
+		if (sendAnalytics) {
+			chartTimeIntervalSelection(eventMetadata);
+		}
 
 		fillChartData(lineChartData);
 		selectedMonth = month;
@@ -161,7 +163,7 @@
 
 	onMount(async () => {
 		await tick();
-		selectNavDuration(selectedMonth);
+		selectNavDuration(selectedMonth, false);
 	});
 
 	export { schemeDetails };

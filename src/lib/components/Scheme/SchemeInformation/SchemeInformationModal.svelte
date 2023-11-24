@@ -1,19 +1,18 @@
 <script lang="ts">
 	import Button from '$components/Button.svelte';
 	import Modal from '$components/Modal.svelte';
-	import { onMount } from 'svelte';
+
 	import { schemeTermsInfo } from '../analytics';
 	let isModalOpen = false;
 	let toggleSchemeIformationModal: (() => void) | null = null;
 	let isin: string;
 	let schemeName: string;
-
-	onMount(() => {
+	$: if (isModalOpen) {
 		schemeTermsInfo({
 			FundName: schemeName,
 			ISIN: isin
 		});
-	});
+	}
 
 	export { isModalOpen, toggleSchemeIformationModal, isin, schemeName };
 </script>

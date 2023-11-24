@@ -75,7 +75,7 @@ export const sFundDetails = (eventMetaData: IsFundDetails) => {
 		event_sub_type: 'screen',
 		event_name: 's-FundDetails',
 		event_property: null,
-		event_id: '301.0.0.1.0',
+		event_id: '301.0.1.1.1',
 		event_metadata: eventMetaData
 	});
 };
@@ -87,7 +87,7 @@ export const chartTimeIntervalSelection = (eventMetaData: IChartTimeIntervalSele
 		event_sub_type: 'icon',
 		event_name: 'ChartTimeIntervalSelection',
 		event_property: null,
-		event_id: '301.0.0.1.1',
+		event_id: '301.0.1.1.4',
 		event_metadata: eventMetaData
 	});
 };

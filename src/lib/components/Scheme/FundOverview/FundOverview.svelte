@@ -110,7 +110,7 @@
 		{/if}
 	</header>
 	{#if !isNFO}
-		<section class="mb-5 {innerStyle}">
+		<section class={innerStyle}>
 			<NavCharts {schemeDetails} on:chartRangeChange={handleChartRangeChange} />
 			<div class="mt-9 flex justify-between sm:justify-center sm:gap-28">
 				<div class="flex flex-col">
