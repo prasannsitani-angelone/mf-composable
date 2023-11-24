@@ -19,11 +19,7 @@
 </script>
 
 <section class={`flex flex-col bg-white ${$$props.class}`}>
-	<section
-		class="mb-2"
-		class:overflow-auto={dynamicHeight}
-		class:dynamicHeightClass={dynamicHeight}
-	>
+	<section class:overflow-auto={dynamicHeight} class:dynamicHeightClass={dynamicHeight}>
 		{#each items?.slice(0, maxTxnShowCount || items?.length) as item, index (index)}
 			<div class="flex-1 px-3">
 				<div class="flex w-full flex-row">

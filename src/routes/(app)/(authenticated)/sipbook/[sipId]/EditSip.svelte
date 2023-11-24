@@ -477,17 +477,18 @@
 						<div class="mr-3 text-left text-sm font-normal text-black-title">{schemeName}</div>
 					</div>
 					<div class="flex flex-col bg-blue-background p-2 text-sm">
-						<div class="flex justify-between px-2 pt-2">
+						<div class="flex items-center justify-between px-2 pt-2">
 							<div class="text-black-bolder">Instalment Amount</div>
-							<div class="font-medium text-black-key">
+							<div class="text-base font-medium text-black-key">
 								{amountVal}
 							</div>
 						</div>
-						<div class="flex justify-between p-2">
+						<div class="flex items-center justify-between p-2">
 							<div class="text-black-bolder">Next SIP Payment</div>
-							<div class="font-medium text-black-key">
-								{calendarDate}<span class="align-super text-2xs">{dateSuperscript}</span>
+							<div class="text-base font-medium text-black-key">
+								{getSIPDate().getDate()}
 								{getSIPDate().toLocaleString('default', { month: 'short' })}
+								{getSIPDate().getFullYear()}
 							</div>
 						</div>
 					</div>

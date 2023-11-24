@@ -158,7 +158,7 @@
 			{#if transactionItems?.length}
 				<section class="border-t">
 					<SipTransactions
-						class="mt-2 rounded-lg py-2.5"
+						class="mt-2 rounded-lg pb-0.5 pt-2.5"
 						items={transactionItems}
 						{hideFooter}
 						maxTxnShowCount={maxTxnShowCount || transactionItems?.length}
