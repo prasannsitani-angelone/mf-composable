@@ -10,8 +10,8 @@
 </script>
 
 <Link {to} {preloadData} disableRedirect={comingSoon} on:linkClicked={onLinkClicked}>
-	<div class="flex flex-col rounded-lg bg-white pt-1.5">
-		<div class="px-4">
+	<div class="flex flex-col rounded-lg bg-white pt-2">
+		<div class="pl-4 pr-2">
 			<div class="flex flex-row justify-between">
 				<slot name="icon" />
 				{#if comingSoon}
