@@ -33,13 +33,7 @@
 			<WMSIcon name="announcement-white" />
 		</div>
 		<div slot="bottomLayer">
-			<svg
-				width="100%"
-				height="fit-content"
-				viewBox="0 0 300 40"
-				fill="none"
-				xmlns="http://www.w3.org/2000/svg"
-			>
+			<svg width="100%" viewBox="0 0 300 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path
 					opacity="0.4"
 					fill-rule="evenodd"
@@ -67,13 +61,7 @@
 			<WMSIcon name="external-funds" />
 		</div>
 		<div slot="bottomLayer">
-			<svg
-				width="100%"
-				height="fit-content"
-				viewBox="0 0 300 40"
-				fill="none"
-				xmlns="http://www.w3.org/2000/svg"
-			>
+			<svg width="100%" viewBox="0 0 300 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path
 					fill-rule="evenodd"
 					clip-rule="evenodd"
@@ -95,13 +83,7 @@
 			<WMSIcon name="folder-star" />
 		</div>
 		<div slot="bottomLayer">
-			<svg
-				width="100%"
-				height="fit-content"
-				viewBox="0 0 300 40"
-				fill="none"
-				xmlns="http://www.w3.org/2000/svg"
-			>
+			<svg width="100%" viewBox="0 0 300 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path
 					fill-rule="evenodd"
 					clip-rule="evenodd"
@@ -127,13 +109,7 @@
 			<WMSIcon name="calculator" />
 		</div>
 		<div slot="bottomLayer">
-			<svg
-				width="100%"
-				height="fit-content"
-				viewBox="0 0 300 40"
-				fill="none"
-				xmlns="http://www.w3.org/2000/svg"
-			>
+			<svg width="100%" viewBox="0 0 300 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path
 					opacity="0.4"
 					fill-rule="evenodd"

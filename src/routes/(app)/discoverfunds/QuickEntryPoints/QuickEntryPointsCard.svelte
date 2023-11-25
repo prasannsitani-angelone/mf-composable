@@ -2,7 +2,6 @@
 	import Link from '$components/Link.svelte';
 
 	export let title = '';
-	export let src = '';
 	export let to = '';
 	export let comingSoon = false;
 	export let preloadData = 'hover';
@@ -26,8 +25,6 @@
 				{title}
 			</div>
 		</div>
-		<slot name="bottomLayer">
-			<img loading="lazy" {src} width="100%" alt="Bottom Layer" />
-		</slot>
+		<slot name="bottomLayer" />
 	</div>
 </Link>
