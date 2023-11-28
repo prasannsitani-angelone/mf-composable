@@ -143,7 +143,7 @@ export const setStoriesData = (getCtaUrlCallback: (vidId: number) => string) => 
 			},
 			{
 				storyId: 3,
-				title: 'Best of SBI',
+				title: 'Best of ICICI',
 				videos: [
 					{
 						videoId: 3,
