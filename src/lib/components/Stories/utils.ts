@@ -17,13 +17,13 @@ export const videoCtaList: Array<videoCtaUrls> = [
 		videoId: 3,
 		ctaList: {
 			B2C_D:
-				'/schemes/sbi-large-and-midcap-fund-direct-plan-growth-isin-inf200k01uj5-schemecode-sbd017g-gr',
+				'/schemes/icici-prudential-value-discovery-fund-direct-plan-growth-isin-inf109k012k1-schemecode-8176-gr',
 			B2C_P:
-				'/schemes/sbi-large-and-midcap-fund-direct-plan-growth-isin-inf200k01uj5-schemecode-sbd017g-gr',
+				'/schemes/icici-prudential-value-discovery-fund-direct-plan-growth-isin-inf109k012k1-schemecode-8176-gr',
 			B2B_D:
-				'/schemes/sbi-large-and-midcap-fund-regular-plan-growth-isin-inf200k01305-schemecode-017g',
+				'/schemes/icici-prudential-value-discovery-fund-growth-isin-inf109k01af8-schemecode-dfg',
 			B2B_P:
-				'/schemes/sbi-large-and-midcap-fund-regular-plan-growth-isin-inf200k01305-schemecode-017g',
+				'/schemes/icici-prudential-value-discovery-fund-growth-isin-inf109k01af8-schemecode-dfg',
 			genericUrl: ''
 		}
 	},
@@ -51,11 +51,11 @@ export const storiesDataObjectWithoutUrls: StoriesData = {
 			videos: [
 				{
 					videoId: 1,
-					videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video1c4.mp4'
+					videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video1c5.mp4'
 				}
 			],
-			imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail1c1.webp',
-			smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail1c2.webp',
+			imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail1c2.jpg',
+			smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail1c3.jpg',
 			ctaType: '',
 			ctaText: 'START SIP NOW',
 			ctaUrl: ''
@@ -77,15 +77,15 @@ export const storiesDataObjectWithoutUrls: StoriesData = {
 		},
 		{
 			storyId: 3,
-			title: 'Best of SBI',
+			title: 'Best of ICICI',
 			videos: [
 				{
 					videoId: 3,
-					videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video3c4.mp4'
+					videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video3c5.mp4'
 				}
 			],
-			imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail3c1.webp',
-			smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail3c2.webp',
+			imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail3c2.jpg',
+			smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail3c3.jpg',
 			ctaType: '',
 			ctaText: 'START SIP NOW',
 			ctaUrl: ''
