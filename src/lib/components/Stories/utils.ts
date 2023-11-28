@@ -117,11 +117,11 @@ export const setStoriesData = (getCtaUrlCallback: (vidId: number) => string) => 
 				videos: [
 					{
 						videoId: 1,
-						videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video1c4.mp4'
+						videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video1c5.mp4'
 					}
 				],
-				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail1c1.webp',
-				smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail1c2.webp',
+				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail1c2.jpg',
+				smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail1c3.jpg',
 				ctaType: '',
 				ctaText: 'START SIP NOW',
 				ctaUrl: getCtaUrlCallback(1)
@@ -147,11 +147,11 @@ export const setStoriesData = (getCtaUrlCallback: (vidId: number) => string) => 
 				videos: [
 					{
 						videoId: 3,
-						videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video3c4.mp4'
+						videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video3c5.mp4'
 					}
 				],
-				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail3c1.webp',
-				smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail3c2.webp',
+				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail3c2.jpg',
+				smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail3c3.jpg',
 				ctaType: '',
 				ctaText: 'START SIP NOW',
 				ctaUrl: getCtaUrlCallback(3)
