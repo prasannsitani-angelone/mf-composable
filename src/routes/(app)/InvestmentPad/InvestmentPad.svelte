@@ -855,8 +855,7 @@
 			component: SchemeInformationCueCard,
 			props: {
 				schemeDetails: schemeData,
-				isNFO: isNFO,
-				class: isNFO ? '!h-[500px]' : ''
+				isNFO: isNFO
 			},
 			analyticsFunction: () => {
 				const isLast = currentVisibleCueCardIndex === fundDetailsCarouselItems.length - 1;
@@ -878,7 +877,6 @@
 			component: RiskAndRatingCueCard,
 			props: {
 				schemeDetails: schemeData,
-				class: isNFO ? '!h-[500px]' : '',
 				schemeDetailsClicked: () => {
 					const isLast = currentVisibleCueCardIndex === fundDetailsCarouselItems.length - 1;
 					schemeInfoCueCardDetailsClickEvent({
