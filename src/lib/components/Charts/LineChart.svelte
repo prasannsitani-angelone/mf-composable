@@ -207,7 +207,7 @@
 
 								if (body[0]?.includes(':')) {
 									const splitArray = body[0]?.split(':');
-									formattedText = `${splitArray[0]}: ₹${
+									formattedText = `${splitArray[0]}: ${
 										tooltipSymbol ? tooltipSymbol : ''
 									}${splitArray[1].trim()}`;
 								}

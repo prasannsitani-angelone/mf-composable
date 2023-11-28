@@ -169,7 +169,12 @@
 	export { schemeDetails };
 </script>
 
-<LineChart data={lineData} chartOptions={lineChartOptions} chartClass="w-full h-64 relative" />
+<LineChart
+	data={lineData}
+	chartOptions={lineChartOptions}
+	chartClass="w-full h-64 relative"
+	tooltipSymbol="₹"
+/>
 <article class="mt-6 flex justify-center">
 	<section class="flex w-auto flex-row gap-2 bg-white sm:gap-4">
 		{#each tags as tag}
