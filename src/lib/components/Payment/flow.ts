@@ -1401,6 +1401,7 @@ export const upiIntegeratedFlow = async (params) => {
 		});
 
 		// initiating integerated flow
+		const currentDate = new Date();
 		showLoading('Initiating UPI Payment');
 		const mandateResponse = await callMandateAPI({
 			client_full_name: fullName,
@@ -1417,8 +1418,8 @@ export const upiIntegeratedFlow = async (params) => {
 			product: 'mf',
 			amount: 15000,
 			request_source: PUBLIC_MANDATE_SOURCE,
-			start_date: sipDate?.getTime() || '',
-			end_date: getSipEndDate(sipDate),
+			start_date: currentDate.getTime(),
+			end_date: getSipEndDate(currentDate),
 			upfront_payment: {
 				amount: amount,
 				upstream_reference_number: xRequestId
@@ -2540,6 +2541,7 @@ export const walletIntegeratedFlow = async (params) => {
 
 		// initiating integerated flow
 		showLoading(`Redirecting to ${paymentModeName}`);
+		const currentDate = new Date();
 		const mandateResponse = await callMandateAPI({
 			client_full_name: fullName,
 			client_mobile_number: mobile,
@@ -2555,8 +2557,8 @@ export const walletIntegeratedFlow = async (params) => {
 			product: 'mf',
 			amount: 15000,
 			request_source: PUBLIC_MANDATE_SOURCE,
-			start_date: sipDate?.getTime() || '',
-			end_date: getSipEndDate(sipDate),
+			start_date: currentDate.getTime(),
+			end_date: getSipEndDate(currentDate),
 			upfront_payment: {
 				amount: amount,
 				upstream_reference_number: xRequestId
