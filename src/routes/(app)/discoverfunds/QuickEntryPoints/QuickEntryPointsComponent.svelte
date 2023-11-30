@@ -75,7 +75,7 @@
 			</svg>
 		</div>
 	</QuickEntryPointsCard>
-	<QuickEntryPointsCard title="Buy a Portfolio" comingSoon={true}>
+	<QuickEntryPointsCard title="Buy a Portfolio" to="/buyPortfolio">
 		<div
 			slot="icon"
 			class="mt-1 flex h-9 w-9 items-center justify-center rounded-full bg-yellow-primary"
