@@ -299,3 +299,15 @@ export interface IOPtimsiePortfolioData {
 	schemeName: string;
 	logoUrl: string;
 }
+
+export interface ITaxation {
+	stcgInvPercentage: number;
+	stcgInvAmount: number;
+	stcgInvUnits: number;
+	ltcgInvPercentage: number;
+	ltcgInvAmount: number;
+	ltcgInvUnits: number;
+	totalElssInvestedFy: number;
+	maxElssInvestAllowed: number;
+	elssInvestmentCap: number;
+}

@@ -17,6 +17,7 @@
 	import { portfolioAnalysisScreenOpenAnalytics, graphYearSelectAnalytics } from '../analytics';
 	import { SEO } from 'svelte-components';
 	import SipHealthNudge from '$components/SipHealth/Nudge/SipHealthNudge.svelte';
+	import TaxAnalysis from './components/TaxAnalysis.svelte';
 
 	const graphYearSelectAnalyticsFunc = (selectedTag) => {
 		let formattedSelectedTag = '';
@@ -107,6 +108,7 @@
 	seoTitle="Mutual Fund Investment Portfolio Analysis | Angel One"
 	seoDescription="'Get your mutual fund investment portfolio analysis including portfolio detailed structure and investment returns, etc.'"
 />
+
 {#await allResponse}
 	<InvestmentPortfolioLoader />
 {:then response}
@@ -122,6 +124,11 @@
 			/>
 		</section>
 		<SipHealthNudge class="mt-2 w-full sm:mt-4" cardStyle="sm:px-3" />
+		{#await data?.api?.taxation}
+			<div />
+		{:then res}
+			<TaxAnalysis taxationData={res} />
+		{/await}
 		<section>
 			{#if response.distributionData.distributions?.length}
 				<AssetAnalysis

@@ -1,4 +1,11 @@
-<svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<script>
+	let width = 17;
+	let height = 17;
+
+	export { width, height };
+</script>
+
+<svg {width} {height} viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
 	<g clip-path="url(#clip0_1558_9712)">
 		<path d="M3.21436 8.79724H13.0648V14.8491H3.21436V8.79724Z" fill="#D1D8F6" />
 		<path
