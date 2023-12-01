@@ -67,6 +67,7 @@
 >
 	<!-- Accordion Card Title -->
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<header on:click={toggleAccordionCardContent}>
 		<slot name="accordionHeader">
 			<section

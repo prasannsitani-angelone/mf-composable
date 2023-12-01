@@ -10,7 +10,7 @@
 	<header class="relative flex-shrink-0 bg-white">
 		<Header />
 	</header>
-	<main class="scroll-lock w-full flex-grow self-center overflow-auto">
+	<main class="scroll-lock w-full flex-grow self-center overflow-auto" id="main-container">
 		<section class="m-auto flex h-full flex-wrap justify-center">
 			<section class="mx-4 h-full w-full">
 				<slot />

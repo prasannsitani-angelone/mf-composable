@@ -166,7 +166,6 @@ export const load = (async ({ fetch, params, parent }) => {
 				quantity,
 				isin,
 				schemeCode,
-				settlementType,
 				isNfoClosed,
 				createdBy
 			} = res.data.data;

@@ -64,7 +64,7 @@
 
 <article
 	id="returnEstimator"
-	class="bgv mt-4 max-w-4xl rounded-lg bg-white px-4 py-6 text-sm shadow-csm md:px-6 {$$props?.class}"
+	class="mt-4 max-w-4xl rounded-lg bg-white px-4 py-6 text-sm shadow-csm md:px-6 {$$props?.class}"
 >
 	<section class="origin-top">
 		<div class="text-base font-medium text-black-title">Calculate Your Returns</div>

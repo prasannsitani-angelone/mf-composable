@@ -22,7 +22,7 @@
 </script>
 
 <article
-	class="item grid grid-cols-2 justify-between sm:grid-cols-4 sm:grid-rows-2 {$$props.class} gap-x-2 gap-y-2"
+	class="item grid grid-cols-2 justify-between sm:grid-cols-4 sm:grid-rows-1 {$$props.class} gap-x-2 gap-y-2"
 >
 	<QuickEntryPointsCard
 		title="NFO"

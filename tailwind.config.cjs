@@ -68,7 +68,8 @@ module.exports = {
 					light: '#f5f6fa',
 					medium: '#919294',
 					dashed: '#ADBBD7',
-					separator: '#D9D9D9'
+					separator: '#D9D9D9',
+					secondary: '#ACB2BD'
 				},
 				green: {
 					buy: '#1EC7B6',

@@ -151,7 +151,7 @@
 	};
 </script>
 
-<article class="bgv mt-4 max-w-4xl rounded-lg bg-white pb-4 text-sm md:mt-8 {$$props.class || ''}">
+<article class="mt-4 max-w-4xl rounded-lg bg-white pb-4 text-sm md:mt-8 {$$props.class || ''}">
 	<section class="origin-top">
 		<InvestmentTypeRadioSelection
 			selectedInvestmentType={currentCalculatorMode}

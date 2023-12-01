@@ -1,9 +1,5 @@
 <script lang="ts">
 	export let owner: 'angel' | 'user';
-
-	const handleChoiceClick = (e) => {
-		console.log(e?.target?.textContent);
-	};
 </script>
 
 <section

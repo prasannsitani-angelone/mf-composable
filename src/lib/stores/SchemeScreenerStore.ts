@@ -1,0 +1,364 @@
+import { getFiltersData } from '$lib/api/filters';
+import { writable } from 'svelte/store';
+
+const initalStore = {
+	data: {
+		quickFilters: [],
+		filters: [],
+		filtersCount: 0,
+		queryPath: ''
+	},
+	error: {},
+	isLoading: false
+};
+
+// restructuring data
+function restructureFiltersData(data, previousPath = [], type = '') {
+	let totalCount = 0;
+	data.forEach((item) => {
+		if (type === 'range') {
+			item.minSelectedVal = item.min;
+			item.maxSelectedVal = item.max;
+		} else {
+			item.selected = false;
+		}
+		item.paths = [...previousPath, item.label];
+		if (item.options) {
+			item.count = 0;
+			const count = restructureFiltersData(item.options, item.paths, item.type);
+			item.totalNodes = count;
+			totalCount += count;
+		} else {
+			totalCount += 1;
+		}
+	});
+	return totalCount;
+}
+
+function restructureQuickFiltersData(data) {
+	data.forEach((item) => {
+		item.selected = false;
+	});
+}
+
+function restructureData(data) {
+	if (data?.filters) {
+		restructureFiltersData(data.filters);
+	}
+	if (data?.quickFilters) {
+		restructureQuickFiltersData(data.quickFilters);
+	}
+	data.filtersCount = 0;
+	data.queryPath = '';
+}
+
+// filters updation
+function updateAllFiltersUnderThisFilter(filters, value: boolean) {
+	let totalCount = 0;
+	filters.forEach((filter) => {
+		if (filter.options) {
+			const count = updateAllFiltersUnderThisFilter(filter.options, value);
+			totalCount += count;
+			filter.selected = value;
+			filter.count = count;
+		} else if (filter.selected !== value) {
+			filter.selected = value;
+			totalCount += value ? 1 : -1;
+		}
+	});
+	return totalCount;
+}
+
+function multiFilterUpdateLogic(paths, filters, index: number, value: boolean) {
+	for (let i = 0; i < filters.length; i++) {
+		const filter = filters[i];
+		if (filter.label === paths[index]) {
+			if (index + 1 < paths.length) {
+				const count = multiFilterUpdateLogic(paths, filter.options, index + 1, value);
+				filter.count += count;
+				filter.selected = filter.totalNodes === filter.count ? true : false;
+				return count;
+			} else if (filter.options) {
+				const count = updateAllFiltersUnderThisFilter(filter.options, value);
+				filter.selected = value;
+				filter.count += count;
+				return count;
+			} else if (filter.selected !== value) {
+				filter.selected = value;
+				return value ? 1 : -1;
+			} else {
+				return 0;
+			}
+		}
+	}
+}
+
+function rangeFilterUpdateLogic(paths, filters, index: number, min: number, max: number) {
+	for (let i = 0; i < filters.length; i++) {
+		const filter = filters[i];
+		if (filter.label === paths[index]) {
+			if (index + 1 < paths.length) {
+				rangeFilterUpdateLogic(paths, filter.options, index + 1, min, max);
+			} else {
+				filter.minSelectedVal = min;
+				filter.maxSelectedVal = max;
+			}
+			return;
+		}
+	}
+}
+
+function generateQuery(filters, category: string, type: string) {
+	let completeQuery = '';
+	let putEndCommaString = false;
+	filters.forEach((filter) => {
+		if (filter.options) {
+			const query = generateQuery(filter.options, filter.q, filter.type);
+			if (completeQuery && query) {
+				completeQuery = `${completeQuery}&${query}`;
+			} else if (query) {
+				completeQuery = query;
+			}
+		} else if (type === 'multi' && filter.selected) {
+			putEndCommaString = true;
+			if (!completeQuery) {
+				completeQuery = `${category}=${filter.label}`;
+			} else {
+				completeQuery = `${completeQuery},${filter.label}`;
+			}
+		} else if (
+			type === 'range' &&
+			(filter.minSelectedVal !== filter.min || filter.maxSelectedVal !== filter.max)
+		) {
+			putEndCommaString = true;
+			if (!completeQuery) {
+				completeQuery = `${category}=${filter.minSelectedVal}_${filter.maxSelectedVal}`;
+			} else {
+				completeQuery = `${completeQuery},${filter.minSelectedVal}_${filter.maxSelectedVal}`;
+			}
+		}
+	});
+	return putEndCommaString ? `${completeQuery}` : completeQuery;
+}
+
+function getCategoryMap(value: string) {
+	try {
+		const valArray = value.split(',');
+		const resultMap = [];
+		valArray.forEach((item) => [resultMap.push(item.trim())]);
+		return resultMap;
+	} catch (e) {
+		return [];
+	}
+}
+
+function getQueryMap(query: string) {
+	if (!query) {
+		return [];
+	}
+	try {
+		const queryArr = decodeURIComponent(query).replace('?', '').split('&');
+		const resultMap = [];
+		queryArr.forEach((item: string) => {
+			const itemArr = item.split('=');
+			const key = itemArr[0];
+			let value = itemArr[1];
+			value = value.replaceAll('"', '');
+			resultMap.push({
+				key: key.trim(),
+				value
+			});
+		});
+		return resultMap;
+	} catch (e) {
+		return [];
+	}
+}
+
+function updateFilterFromCategory(item, filters): number {
+	for (let i = 0; i < filters.length; i++) {
+		const filter = filters[i];
+		if (item.key === filter.q && filter.options) {
+			const type = filter.type;
+			let totalCountAtSelectedCategory = 0;
+			for (let j = 0; j < filter.options.length; j++) {
+				const option = filter.options[j];
+				const categories = getCategoryMap(item.value);
+				for (let k = 0; k < categories.length; k++) {
+					const category = categories[k];
+					if (category === option.label && type === 'multi') {
+						if (option.options) {
+							const count = updateAllFiltersUnderThisFilter(option.options, true);
+							option.count += count;
+							option.selected = true;
+							totalCountAtSelectedCategory += count;
+						} else if (!option.selected) {
+							option.selected = true;
+							totalCountAtSelectedCategory += 1;
+						}
+					} else if (type === 'range') {
+						const [min, max] = category.split('_');
+						option.minSelectedVal = min;
+						option.maxSelectedVal = max;
+					}
+				}
+			}
+			filter.count += totalCountAtSelectedCategory;
+			filter.selected = filter.count === filter.totalNodes ? true : false;
+			return totalCountAtSelectedCategory;
+		} else if (filter.options) {
+			const count = updateFilterFromCategory(item, filter.options);
+			if (count > 0) {
+				filter.count += count;
+				filter.selected = filter.count === filter.totalNodes ? true : false;
+				return count;
+			}
+		}
+	}
+	return 0;
+}
+
+function updateFiltersFromQuery(query: string, data) {
+	if (!query) {
+		return;
+	}
+	const queryMap = getQueryMap(query);
+	let totalCount = 0;
+	queryMap.forEach((item) => {
+		totalCount += updateFilterFromCategory(item, data.filters);
+	});
+	data.filtersCount = totalCount;
+}
+
+// quickFilter
+function updateQuickFilters(items, filters, type = '') {
+	let totalCount = 0;
+	filters.forEach((filter) => {
+		items.forEach((item) => {
+			if (filter.label === item.label) {
+				if (item.values) {
+					const count = updateQuickFilters(item.values, filter.options, filter.type);
+					if (filter.type === 'multi') {
+						filter.count += count;
+						filter.selected = filter.totalNodes === filter.count ? true : false;
+					}
+					totalCount += filter.count;
+				} else if (type === 'range') {
+					filter.minSelectedVal = item.min;
+					filter.maxSelectedVal = item.max;
+				} else {
+					filter.selected = true;
+					totalCount += 1;
+				}
+			}
+		});
+	});
+	return totalCount;
+}
+
+function CreateStore() {
+	const { subscribe, update } = writable(initalStore);
+	let state = initalStore;
+	subscribe((v) => {
+		state = {
+			...v
+		};
+	});
+	const updateStore = (newStore) => {
+		return update((prevStore) => {
+			return { ...prevStore, ...newStore };
+		});
+	};
+	return {
+		subscribe,
+		populateFiltersData: function (data, queryPath: string) {
+			restructureData(data);
+			updateFiltersFromQuery(queryPath, data);
+			updateStore({
+				isLoading: false,
+				data
+			});
+		},
+		getFiltersResponse: async function (queryPath = '') {
+			if (state.data?.quickFilters?.length > 0) {
+				if (queryPath) {
+					this.populateFiltersData(state.data, queryPath);
+				}
+				return;
+			}
+			updateStore({
+				isLoading: true
+			});
+			const response = await getFiltersData();
+			if (response.ok) {
+				this.populateFiltersData(response?.data?.data, queryPath);
+			} else {
+				updateStore({
+					isLoading: false,
+					data: response?.data
+				});
+			}
+		},
+		getQuickFilters: function () {
+			return JSON.parse(JSON.stringify(state.data?.quickFilters)) || [];
+		},
+		getFilters: function () {
+			return JSON.parse(JSON.stringify(state.data?.filters)) || [];
+		},
+		getFiltersCount: function () {
+			return state.data?.filtersCount;
+		},
+		getData: function () {
+			return JSON.parse(JSON.stringify(state.data));
+		},
+		getQueryPath: function () {
+			return state.data?.queryPath;
+		},
+		// using as utils for page local state
+		updatetMultiFilter: function (data, item, value: boolean) {
+			const newData = JSON.parse(JSON.stringify(data));
+			restructureQuickFiltersData(newData.quickFilters);
+			const count = multiFilterUpdateLogic(item.paths, newData.filters, 0, value);
+			newData.filtersCount += count;
+			return newData;
+		},
+		// using as utils for page local state
+		updateRangeFilter: function (data, item, min: number, max: number) {
+			const newData = JSON.parse(JSON.stringify(data));
+			restructureQuickFiltersData(newData.quickFilters);
+			rangeFilterUpdateLogic(item.paths, newData.filters, 0, min, max);
+			return newData;
+		},
+		// using this as completly replacing store's data
+		applyFilters: function (data) {
+			const newData = JSON.parse(JSON.stringify(data));
+			newData.queryPath = generateQuery(newData.filters, '', '');
+			updateStore({
+				data: newData
+			});
+		},
+		selectQuickFilter: function (name: string) {
+			restructureData(state.data);
+			let selectedQuickFilterValues = [];
+			state.data.quickFilters.forEach((item) => {
+				if (item.label === name) {
+					item.selected = true;
+					selectedQuickFilterValues = item.values;
+				}
+			});
+			state.data.filtersCount = updateQuickFilters(selectedQuickFilterValues, state.data.filters);
+			state.data.queryPath = generateQuery(state.data.filters, '', '');
+			updateStore({
+				data: state.data
+			});
+		},
+		resetStore: function () {
+			restructureData(state.data);
+			updateStore({
+				data: state.data
+			});
+		}
+	};
+}
+
+export const schemeScreenerStore = CreateStore();

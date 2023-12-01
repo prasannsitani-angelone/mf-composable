@@ -32,7 +32,7 @@
 	}
 </script>
 
-<article class="bgv mt-4 max-w-4xl rounded-lg bg-white pb-4 text-sm shadow-csm">
+<article class="mt-4 max-w-4xl rounded-lg bg-white pb-4 text-sm shadow-csm">
 	<header class="border border-b border-grey-line">
 		<section
 			class="flex cursor-pointer items-center justify-between p-4 text-lg hover:text-blue-800 md:px-6 md:py-5"

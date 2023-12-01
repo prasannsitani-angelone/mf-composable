@@ -101,7 +101,7 @@
 	};
 </script>
 
-<article class="bgv mt-4 max-w-4xl rounded-lg bg-white pb-4 text-sm {$$props.class || ''}">
+<article class="mt-4 max-w-4xl rounded-lg bg-white pb-4 text-sm {$$props.class || ''}">
 	<section class="origin-top">
 		<div class="flex h-10 gap-4">
 			<Button

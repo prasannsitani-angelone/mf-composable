@@ -3,9 +3,6 @@
 
 	export let bankAccountDetails: BankDetailsEntity;
 	export let text = '';
-
-	console.log(bankAccountDetails);
-
 	const { accNO, bankLogo, bankName } = bankAccountDetails || {};
 </script>
 

@@ -153,7 +153,9 @@
 	<header class="z-[70] flex-shrink-0 bg-white">
 		<Header on:handleSearchFocus={handleSearchFocus} />
 	</header>
-
+	<!-- <TwoColumnRightLarge {searchFocused}>
+		<slot />
+	</TwoColumnRightLarge> -->
 	{#if $appPage.data?.layoutConfig?.layoutType === 'TWO_COLUMN'}
 		<TwoColumn {searchFocused}>
 			<slot />
@@ -175,7 +177,7 @@
 			<slot />
 		</FullWidth>
 	{:else}
-		<Default {searchFocused}>
+		<Default {searchFocused} layoutType={$appPage.data?.layoutConfig?.layoutType}>
 			<slot />
 		</Default>
 	{/if}
