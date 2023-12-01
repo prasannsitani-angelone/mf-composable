@@ -12,6 +12,17 @@ const initalStore = {
 	isLoading: false
 };
 
+const initialFilter = [
+	{
+		label: 'Scheme Type',
+		values: [
+			{
+				label: 'Growth'
+			}
+		]
+	}
+];
+
 // restructuring data
 function restructureFiltersData(data, previousPath = [], type = '') {
 	let totalCount = 0;
@@ -273,19 +284,29 @@ function CreateStore() {
 		subscribe,
 		populateFiltersData: function (data, queryPath: string) {
 			restructureData(data);
-			updateFiltersFromQuery(queryPath, data);
+			// need to apply query to filters
+			if (queryPath) {
+				updateFiltersFromQuery(queryPath, data);
+			} else {
+				// initial filters in case query params didn't come
+				data.filtersCount = updateQuickFilters(initialFilter, data.filters);
+				data.queryPath = generateQuery(data.filters, '', '');
+			}
 			updateStore({
 				isLoading: false,
 				data
 			});
 		},
 		getFiltersResponse: async function (queryPath = '') {
+			// if data present then don't fetch it
 			if (state.data?.quickFilters?.length > 0) {
+				// if it comes with queryPath then need to apply query string to filters
 				if (queryPath) {
 					this.populateFiltersData(state.data, queryPath);
 				}
 				return;
 			}
+			// in case data not present
 			updateStore({
 				isLoading: true
 			});

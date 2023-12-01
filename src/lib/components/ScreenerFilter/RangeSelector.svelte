@@ -1,13 +1,17 @@
 <script lang="ts">
 	import type { FilterOption } from '$lib/types/ScreenerFilters';
 	import Slider from '@bulatdashiev/svelte-slider';
-	import { createEventDispatcher } from 'svelte';
+	import { afterUpdate, createEventDispatcher } from 'svelte';
 
 	export let filter: FilterOption;
 
 	const dispatch = createEventDispatcher();
 
 	let rangeSelection = [filter?.minSelectedVal, filter?.maxSelectedVal];
+
+	afterUpdate(() => {
+		rangeSelection = [filter?.minSelectedVal, filter?.maxSelectedVal];
+	});
 
 	const onRangeSelection = () => {
 		const filterObj = filter;

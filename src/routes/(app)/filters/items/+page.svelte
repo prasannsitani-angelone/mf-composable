@@ -4,6 +4,7 @@
 	import FilterOptions from '$components/ScreenerFilter/FilterOptions.svelte';
 	import { schemeScreenerStore } from '$lib/stores/SchemeScreenerStore';
 	import type { FilterData } from '$lib/types/ScreenerFilters';
+	import { debounce } from '$lib/utils/helpers/debounce';
 	import { onMount } from 'svelte';
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
@@ -26,7 +27,7 @@
 		schemeScreenerStore.applyFilters(filterData);
 	};
 
-	const handleRangeChange = (rangeFilterData) => {
+	const handleRangeChange = debounce((rangeFilterData) => {
 		filterData = schemeScreenerStore?.updateRangeFilter(
 			filterData,
 			rangeFilterData,
@@ -34,7 +35,7 @@
 			rangeFilterData?.maxSelectedVal
 		);
 		schemeScreenerStore.applyFilters(filterData);
-	};
+	}, 300);
 
 	const handleResetFiltersClick = () => {
 		schemeScreenerStore.resetStore();
