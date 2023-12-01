@@ -11,6 +11,8 @@
 	import { base } from '$app/paths';
 	import InfiniteScroll from '$components/InfiniteScroll.svelte';
 	import { page as pageData } from '$app/stores';
+	import NoFilterResult from '$lib/images/NoFilterResult.svg';
+
 	let loading = true;
 	let page = 0;
 	let screenedSchemes: ScreenedSchemes[] = [];
@@ -25,14 +27,15 @@
 	const fetchScreenedData = async () => {
 		const queryPath = `limit=25&offset=${page}&${$schemeScreenerStore?.data?.queryPath}`;
 		newBatch = await getScreenerSearch(null, queryPath);
+		screenedSchemes = [...screenedSchemes, ...newBatch];
 		loading = false;
 	};
 
-	const initializeData = () => {
+	const initializeData = async () => {
 		loading = true;
 		screenedSchemes = [];
 		page = 0;
-		fetchScreenedData();
+		await fetchScreenedData();
 	};
 
 	$: if ($schemeScreenerStore?.data?.queryPath) {
@@ -45,10 +48,10 @@
 		const urlSearchParam = $pageData?.url?.search;
 
 		schemeScreenerStore.getFiltersResponse(urlSearchParam);
-		initializeData();
+		await initializeData();
 	});
 
-	$: screenedSchemes = [...screenedSchemes, ...newBatch];
+	$: screenedSchemes = [];
 </script>
 
 <article class="mt-1">
@@ -58,7 +61,7 @@
 	</section>
 	{#if loading}
 		<TableSkeleton />
-	{:else}
+	{:else if screenedSchemes.length}
 		<section class="rounded bg-white px-4 py-3">
 			<ScreenerTable {screenedSchemes} class="pb-14" />
 			<InfiniteScroll
@@ -69,6 +72,13 @@
 					fetchScreenedData();
 				}}
 			/>
+		</section>
+	{:else}
+		<section class="flex w-full flex-col items-center justify-center rounded bg-white py-3">
+			<img src={NoFilterResult} width="60" height="60" loading="lazy" alt="No scheme found" />
+			<div class="mt-3 w-64 text-center text-xs text-black-bolder">
+				No mutual funds found for selected filters. Please change filters or use quick filters
+			</div>
 		</section>
 	{/if}
 	<section
