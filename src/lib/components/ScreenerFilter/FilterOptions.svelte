@@ -17,15 +17,6 @@
 	$: modifiedSelectedFilter = selectedFilter;
 
 	let filterSearchQuery = '';
-	let accordianExpanded = '';
-
-	const handleCardToggle = (val: string) => {
-		if (accordianExpanded !== val) {
-			accordianExpanded = val;
-		} else {
-			accordianExpanded = '';
-		}
-	};
 
 	const handleOptionClick = (filter: FilterOption, e: Event) => {
 		dispatch('optionChange', filter);
@@ -86,16 +77,16 @@
 		</section>
 	{/if}
 
-	{#each modifiedSelectedFilter as filter, index (filter?.label)}
+	{#each modifiedSelectedFilter as filter (filter?.label)}
 		{#if filterType === 'multi'}
 			<article class="mb-3 ml-1">
 				<AccordianCardComponent
 					data={{ title: '' }}
 					titleFontSize="text-base"
 					class="rounded-lg bg-white text-sm font-normal text-black-title !shadow-none"
-					on:cardToggled={() => handleCardToggle(filter?.label)}
+					headerClass="!p-0 !md:px-0 !md:py-0"
 				>
-					<svelte:fragment slot="accordionHeader">
+					<svelte:fragment slot="accordionTitle">
 						<article class="flex items-center">
 							<Checkbox
 								on:click={(e) => handleOptionClick(filter, e)}
@@ -122,17 +113,6 @@
 										>
 									{/if}
 								</div>
-
-								<div
-									class:rotate-180={accordianExpanded === filter?.label}
-									class:rotate-0={accordianExpanded !== filter?.label}
-								>
-									{#if filter?.options?.length}
-										<div class="px-3">
-											<WMSIcon class="h-2.5 w-2.5" name="arrow-expand" stroke={'#181F29A0'} />
-										</div>
-									{/if}
-								</div>
 							</div>
 						</article>
 					</svelte:fragment>
@@ -149,6 +129,16 @@
 							/>
 						{/if}
 					</svelte:fragment>
+
+					<svelte:fragment slot="arrowIcon">
+						<div>
+							{#if filter?.options?.length}
+								<div class="px-3">
+									<WMSIcon class="h-2.5 w-2.5" name="arrow-expand" stroke={'#181F29A0'} />
+								</div>
+							{/if}
+						</div>
+					</svelte:fragment>
 				</AccordianCardComponent>
 			</article>
 		{:else if filterType === 'range'}
@@ -160,9 +150,9 @@
 				data={{ title: '' }}
 				titleFontSize="text-base"
 				class="!mt-0 rounded-none border-b border-grey-line bg-white px-5 py-3 text-sm font-medium text-black-title !shadow-none"
-				on:cardToggled={() => handleCardToggle(filter?.label)}
+				headerClass="!p-0 !md:px-0 !md:py-0"
 			>
-				<svelte:fragment slot="accordionHeader">
+				<svelte:fragment slot="accordionTitle">
 					<article class="flex items-center">
 						<div class="flex flex-1 items-center justify-between">
 							<!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -183,17 +173,6 @@
 									>
 								{/if}
 							</div>
-
-							<div
-								class:rotate-180={accordianExpanded === filter?.label}
-								class:rotate-0={accordianExpanded !== filter?.label}
-							>
-								{#if filter?.options?.length}
-									<div class="px-3">
-										<WMSIcon class="h-2.5 w-2.5" name="arrow-expand" stroke={'#181F29A0'} />
-									</div>
-								{/if}
-							</div>
 						</div>
 					</article>
 				</svelte:fragment>
@@ -209,6 +188,16 @@
 							on:rangeChange={(e) => handleRangeChange(e?.detail)}
 						/>
 					{/if}
+				</svelte:fragment>
+
+				<svelte:fragment slot="arrowIcon">
+					<div>
+						{#if filter?.options?.length}
+							<div class="px-3">
+								<WMSIcon class="h-2.5 w-2.5" name="arrow-expand" stroke={'#181F29A0'} />
+							</div>
+						{/if}
+					</div>
 				</svelte:fragment>
 			</AccordianCardComponent>
 		{/if}

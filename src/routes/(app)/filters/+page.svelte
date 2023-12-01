@@ -39,12 +39,11 @@
 
 	const handleResetFiltersClick = () => {
 		schemeScreenerStore?.resetStore();
-		schemeScreenerStore.getFiltersResponse();
 	};
 
 	onMount(async () => {
 		if (!isMobile && !isTablet) {
-			goto(`${base}/exploremutualfunds`);
+			goto(`${base}/filters/items`, { replaceState: true });
 		}
 
 		setTimeout(() => {

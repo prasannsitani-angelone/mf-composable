@@ -75,32 +75,41 @@
 					hoverTextColor || 'hover:text-blue-800'
 				} ${titleFontSize || 'text-lg'} ${headerClass}`}
 			>
-				<section class="flex items-center">
-					<slot name="titleIcon" />
-					<h2 class={`ml-3 flex items-center text-left font-normal text-black-title ${titleStyle}`}>
-						<span> {data.title}</span>
-						<slot name="titleUserAction" />
-					</h2>
-				</section>
+				<slot name="accordionTitle">
+					<section class="flex items-center">
+						<slot name="titleIcon" />
+						<h2
+							class={`ml-3 flex items-center text-left font-normal text-black-title ${titleStyle}`}
+						>
+							<span> {data.title}</span>
+							<slot name="titleUserAction" />
+						</h2>
+					</section>
+				</slot>
 				{#if !disableCollapse}
-					<svg
-						width="16"
-						height="16"
-						xmlns="http://www.w3.org/2000/svg"
-						class={`h-5 w-5 transition duration-200 ${
-							showBody ? textColor || 'text-blue-800' : ''
-						} ${hoverTextColor || 'hover:text-blue-800'}`}
+					<div
 						class:rotate-180={showBody}
 						class:rotate-0={!showBody}
 						class:text-gray-400={!showBody}
-						fill="currentColor"
 					>
-						<path
-							fill-rule="evenodd"
-							d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-							clip-rule="evenodd"
-						/>
-					</svg>
+						<slot name="arrowIcon">
+							<svg
+								width="16"
+								height="16"
+								xmlns="http://www.w3.org/2000/svg"
+								class={`h-5 w-5 transition duration-200 ${
+									showBody ? textColor || 'text-blue-800' : ''
+								} ${hoverTextColor || 'hover:text-blue-800'}`}
+								fill="currentColor"
+							>
+								<path
+									fill-rule="evenodd"
+									d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+									clip-rule="evenodd"
+								/>
+							</svg>
+						</slot>
+					</div>
 				{/if}
 			</section>
 		</slot>
