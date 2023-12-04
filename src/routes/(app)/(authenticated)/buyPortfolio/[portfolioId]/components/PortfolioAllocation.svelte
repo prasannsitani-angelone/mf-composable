@@ -19,7 +19,14 @@
 <section>
 	<div class="pb-3">Portfolio Allocation</div>
 	{#if showWeightage}
-		<LinearChart chartInput={linearChartInput} />
+		<LinearChart chartInput={linearChartInput}>
+			<svelte:fragment slot="weightage" let:inputVar>
+				<div class="flex items-center justify-center pt-2 text-center text-sm">
+					<WMSIcon name="eclipse" width={8} height={8} stroke={inputVar.color} />
+					<div class="pl-2">{inputVar.weightage}%</div>
+				</div>
+			</svelte:fragment>
+		</LinearChart>
 	{:else}
 		<div class="pb-3 text-xs text-black-bolder">No. of SIPs - 4</div>
 	{/if}
