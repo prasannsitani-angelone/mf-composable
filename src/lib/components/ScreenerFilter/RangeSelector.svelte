@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { FilterOption } from '$lib/types/ScreenerFilters';
 	import Slider from '@bulatdashiev/svelte-slider';
-	import { afterUpdate, createEventDispatcher } from 'svelte';
+	import { createEventDispatcher } from 'svelte';
 
 	export let filter: FilterOption;
 
@@ -9,21 +9,27 @@
 
 	let rangeSelection = [filter?.minSelectedVal, filter?.maxSelectedVal];
 
-	afterUpdate(() => {
+	const updateRangeSelection = () => {
 		if (
 			rangeSelection[0] !== filter?.minSelectedVal ||
 			rangeSelection[1] !== filter?.maxSelectedVal
 		) {
 			rangeSelection = [filter?.minSelectedVal, filter?.maxSelectedVal];
 		}
-	});
+	};
+
+	$: filter, updateRangeSelection();
 
 	const onRangeSelection = () => {
-		const filterObj = filter;
-		filterObj.minSelectedVal = rangeSelection[0];
-		filterObj.maxSelectedVal = rangeSelection[1];
-
-		dispatch('rangeChange', filterObj);
+		if (
+			rangeSelection[0] !== filter?.minSelectedVal ||
+			rangeSelection[1] !== filter?.maxSelectedVal
+		) {
+			const filterObj = filter;
+			filterObj.minSelectedVal = rangeSelection[0];
+			filterObj.maxSelectedVal = rangeSelection[1];
+			dispatch('rangeChange', filterObj);
+		}
 	};
 
 	$: rangeSelection, onRangeSelection();

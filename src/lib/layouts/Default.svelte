@@ -5,9 +5,15 @@
 	let layoutType = 'DEFAULT';
 	export let searchFocused = false;
 	let gridClass = '';
-	if (layoutType === 'TWO_COLUMN_RIGHT_LARGE_TEMP') {
-		gridClass = 'lg:grid lg:grid-cols-[34%_66%] lg:gap-5';
-	}
+
+	const updateGridClass = () => {
+		if (layoutType === 'TWO_COLUMN_RIGHT_LARGE_TEMP') {
+			gridClass = 'lg:grid lg:grid-cols-[34%_66%] lg:gap-5';
+		}
+	};
+
+	$: layoutType, updateGridClass();
+
 	export { layoutType };
 </script>
 
