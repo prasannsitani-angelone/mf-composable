@@ -21,6 +21,7 @@
 		getCompleteSIPDateBasedonDD,
 		getDateSuperscript,
 		getDateTimeProperties,
+		getRandomDate,
 		getSIPMonthBasedOnDate,
 		getSIPYearBasedOnDate
 	} from '$lib/utils/helpers/date';
@@ -143,6 +144,8 @@
 	export let params: decodedParamsTypes = {};
 	export let investmentNotAllowedText = '';
 	export let isNFO = false;
+	export let minDefaultDate = 1;
+	export let maxDefaultDate = 5;
 
 	const {
 		investmentType,
@@ -386,7 +389,7 @@
 		}
 
 		if (areAllDaysAllowed) {
-			calendarDate = 4;
+			calendarDate = getRandomDate(minDefaultDate, maxDefaultDate);
 		} else if (sipAllowedDaysArray?.length) {
 			calendarDate = parseInt(sipAllowedDaysArray[0]);
 		} else {
@@ -394,8 +397,6 @@
 		}
 		dateSuperscript = getDateSuperscript(calendarDate);
 	};
-
-	setDefaultSipDate();
 
 	const setNextSipDate = () => {
 		const now = new Date();
@@ -788,6 +789,9 @@
 		window.addEventListener('message', listenerFunc);
 
 		await getPreviousWrongBankFailedPayment();
+
+		setDefaultSipDate();
+		prefillParamsData();
 
 		await tick();
 		checkIfOrderIsValidFromDeeplink();

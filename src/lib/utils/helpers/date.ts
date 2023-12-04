@@ -314,3 +314,29 @@ export const getFrequentTimePeriodList = () => {
 	});
 	return frequentTimePeriodList;
 };
+
+/**
+ * getRandomDefaultDate: Get random date based on limit provided.
+ *
+ * Note: Limits are inclusive here.
+ *
+ * @param {number} minDate
+ * @param {number} maxDate
+ * @returns {number}
+ */
+export const getRandomDate = (minDate = 1, maxDate = 5) => {
+	if (
+		typeof minDate !== 'number' ||
+		typeof maxDate !== 'number' ||
+		isNaN(minDate) ||
+		isNaN(maxDate)
+	) {
+		// if invalid inputs provided, reset to default values
+		minDate = 1;
+		maxDate = 5;
+	}
+
+	minDate = Math.ceil(minDate);
+	maxDate = Math.floor(maxDate);
+	return Math.floor(Math.random() * (maxDate - minDate + 1) + minDate);
+};

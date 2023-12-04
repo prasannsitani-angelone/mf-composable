@@ -7,6 +7,7 @@
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import {
 		getDateSuperscript,
+		getRandomDate,
 		getSIPMonthBasedOnDate,
 		getSIPYearBasedOnDate
 	} from '$lib/utils/helpers/date';
@@ -14,6 +15,8 @@
 
 	export let schemeData: SchemeDetails;
 	export let nextSipDateBufferDays = 30;
+	export let minDefaultDate = 1;
+	export let maxDefaultDate = 5;
 
 	const dispatch = createEventDispatcher();
 
@@ -52,7 +55,7 @@
 		}
 
 		if (areAllDaysAllowed) {
-			calendarDate = 4;
+			calendarDate = getRandomDate(minDefaultDate, maxDefaultDate);
 		} else if (sipAllowedDaysArray?.length) {
 			calendarDate = parseInt(sipAllowedDaysArray[0]);
 		} else {
@@ -60,8 +63,6 @@
 		}
 		dateSuperscript = getDateSuperscript(calendarDate);
 	};
-
-	setDefaultSipDate();
 
 	const setNextSipDate = () => {
 		const now = new Date();
@@ -73,8 +74,6 @@
 
 		dispatch('dateChange', { calendarDate, calendarMonth, calendarYear });
 	};
-
-	setNextSipDate();
 
 	const toggleCalendar = () => {
 		showCalendar = !showCalendar;
@@ -106,11 +105,15 @@
 	};
 
 	onMount(() => {
+		setDefaultSipDate();
+		setNextSipDate();
+
 		dispatch('dateChange', { calendarDate, calendarMonth, calendarYear });
 	});
 </script>
 
 <article class="flex w-5/12 flex-col items-start p-2" data-testid="calendarDateSelection">
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<section
 		class="flex items-center justify-between rounded border border-gray-200 md:cursor-pointer"
 		on:click={toggleCalendar}

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { base } from '$app/paths';
 	import InfoModal from '$components/InfoModal.svelte';
-	import { getDateSuperscript } from '$lib/utils/helpers/date';
+	import { getDateSuperscript, getRandomDate } from '$lib/utils/helpers/date';
 	import type { dateArrayTypes } from '$lib/types/Calendar/ICalendar';
 	import CalendarSmallIcon from '$lib/images/icons/CalendarSmallIcon.svelte';
 	import { goto } from '$app/navigation';
@@ -28,9 +28,12 @@
 	const minSipAmount = 1000;
 	const maxSipAmount = 15000;
 	const quickInputs = [1500, 2000, 5000];
+	const minDefaultDate = 1;
+	const maxDefaultDate = 5;
 
-	const defaultSipStartSate = 4;
-	let sipStartDate = defaultSipStartSate;
+	let defaultSipStartSate = 4;
+
+	$: sipStartDate = defaultSipStartSate;
 
 	let showCalendarLearnMoreModal = false;
 	let showCalendar = false;
@@ -100,6 +103,7 @@
 	};
 
 	onMount(() => {
+		defaultSipStartSate = getRandomDate(minDefaultDate, maxDefaultDate);
 		investWithExpertScreenImpressionEvent();
 	});
 </script>
