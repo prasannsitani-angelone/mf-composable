@@ -15,6 +15,7 @@
 
 	let loading = true;
 	let page = 0;
+	let limit = 25;
 	let screenedSchemes: ScreenedSchemes[] = [];
 	let newBatch: ScreenedSchemes[] = [];
 	let scrollElement: HTMLElement | null = null;
@@ -25,9 +26,13 @@
 	};
 
 	const fetchScreenedData = async () => {
-		const queryPath = `limit=25&offset=${page}&${$schemeScreenerStore?.data?.queryPath}`;
+		const queryPath = `limit=${limit}&offset=${page * limit}&${
+			$schemeScreenerStore?.data?.queryPath
+		}`;
+
 		newBatch = await getScreenerSearch(null, queryPath);
 		screenedSchemes = [...screenedSchemes, ...newBatch];
+
 		loading = false;
 	};
 
@@ -38,7 +43,7 @@
 		await fetchScreenedData();
 	};
 
-	$: if ($schemeScreenerStore?.data?.queryPath) {
+	$: if ($schemeScreenerStore?.data?.queryPath || $schemeScreenerStore?.data?.queryPath === '') {
 		initializeData();
 	}
 
@@ -46,15 +51,13 @@
 		await tick();
 		scrollElement = document.getElementById('main-container');
 		const urlSearchParam = $pageData?.url?.search;
-
 		schemeScreenerStore.getFiltersResponse(urlSearchParam);
-		await initializeData();
 	});
 
 	$: screenedSchemes = [];
 </script>
 
-<article class="mt-1">
+<article class="mt-1 pb-14">
 	<section class="flex flex-col overflow-hidden bg-grey px-1">
 		<p class="mb-2 text-xs text-black-bolder">Select Quick Filters</p>
 		<QuickFilter />
@@ -63,9 +66,10 @@
 		<TableSkeleton />
 	{:else if screenedSchemes.length}
 		<section class="rounded bg-white px-4 py-3">
-			<ScreenerTable {screenedSchemes} class="pb-14" />
+			<ScreenerTable {screenedSchemes} />
 			<InfiniteScroll
 				threshold={400}
+				hasMore={newBatch.length > 0}
 				elementScroll={scrollElement}
 				on:loadMore={() => {
 					page++;

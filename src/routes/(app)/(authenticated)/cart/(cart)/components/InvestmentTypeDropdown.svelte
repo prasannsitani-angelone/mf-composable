@@ -40,7 +40,6 @@
 			: options[0];
 	}
 	function toggleDropdown() {
-		// debugger;
 		isDDOptionsVisible = !isDDOptionsVisible;
 	}
 	function setPreselectedAmount() {

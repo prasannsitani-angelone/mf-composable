@@ -35,10 +35,7 @@
 	};
 
 	onDestroy(() => {
-		console.log('Inside onDestroy');
 		if (component || elementScroll) {
-			console.log('Inside onDestroy condition');
-
 			const element = elementScroll ? elementScroll : component.parentNode;
 
 			element.removeEventListener('scroll', onScroll);
