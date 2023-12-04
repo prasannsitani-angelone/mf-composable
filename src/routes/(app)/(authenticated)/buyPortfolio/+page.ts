@@ -23,7 +23,7 @@ export const load = (async ({ fetch }) => {
 		layoutConfig: {
 			title: 'Select a Portfolio',
 			showBackIcon: true,
-			layoutType: 'DEFAULT',
+			layoutType: 'TWO_COLUMN',
 			showBottomNavigation: false
 		}
 	};

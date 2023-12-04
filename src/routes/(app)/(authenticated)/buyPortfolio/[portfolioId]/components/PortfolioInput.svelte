@@ -1,0 +1,151 @@
+<script lang="ts">
+	import PortfolioAllocation from './PortfolioAllocation.svelte';
+	import type { PortfolioPack } from '$lib/types/IBuyPortfolio';
+	import SchemeLogo from '$components/SchemeLogo.svelte';
+	import LeftArrowIcon from '$lib/images/icons/LeftArrowIcon.svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
+	import AmountSection from '$components/AmountInputOrderpad/AmountSection.svelte';
+	import CalendarSmallIcon from '$lib/images/icons/CalendarSmallIcon.svelte';
+	import CalendarComponent from '$components/Calendar/CalendarComponent.svelte';
+	import Modal from '$components/Modal.svelte';
+	import type { dateArrayTypes } from '$lib/types/Calendar/ICalendar';
+	import { getDateSuperscript } from '$lib/utils/helpers/date';
+
+	export let portfolioPack: PortfolioPack;
+	export let amount = 500;
+
+	const dispatch = createEventDispatcher();
+	const quickInputs = [1500, 2000, 5000];
+	let showAmount = true;
+	let maxAmounts: number[] = [];
+	let sipMaxAmount = 0;
+	let showCalendar = false;
+	let sipStartDate = 4;
+	let dateArray: Array<dateArrayTypes> = [{ value: 1, disabled: false }];
+	$: {
+		dateArray.pop();
+		for (let i = 1; i <= 28; i++) {
+			dateArray.push({
+				value: i,
+				disabled: false
+			});
+		}
+	}
+	onMount(() => {
+		portfolioPack.schemes.forEach((x) => {
+			maxAmounts.push(x.sipMaxAmount);
+		});
+		sipMaxAmount = Math.min(...maxAmounts);
+	});
+
+	const handleBackButtonClick = () => {
+		dispatch('backButtonClicked');
+	};
+	const handlePlusClick = () => {
+		if (amount >= sipMaxAmount) {
+			amount = sipMaxAmount;
+			return;
+		}
+		amount += 100;
+	};
+	const handleMinusClick = () => {
+		if (amount <= portfolioPack.minSipAmount) {
+			amount = portfolioPack.minSipAmount;
+			return;
+		}
+		amount -= 100;
+	};
+	const handleQuickInputClick = (pillAmount: number) => {
+		amount = pillAmount;
+	};
+	const toggleCalendar = () => {
+		showCalendar = !showCalendar;
+	};
+	const handleDateChange = (value: unknown) => {
+		sipStartDate = value?.detail;
+		toggleCalendar();
+	};
+</script>
+
+<section class="h-screen w-full bg-grey md:h-[800px] md:w-[500px]">
+	<div class="mb-2 flex items-center bg-white px-4 pb-3 pt-4 text-lg font-medium">
+		<LeftArrowIcon class="mr-4 cursor-pointer" onClick={handleBackButtonClick} />
+		Start SIP
+	</div>
+	<div class="mx-2 mb-2 flex items-center justify-between rounded-lg bg-white px-4 py-3">
+		<div class="flex items-center">
+			<SchemeLogo src={portfolioPack.packLogoUrl} />
+			<div class="text-xs">
+				<p class="text-sm font-medium">{portfolioPack.packName}</p>
+			</div>
+		</div>
+		<div class="flex flex-col items-end">
+			<p class="text-[11px] text-black-bolder">Returns p.a</p>
+			<div class="flex flex-row items-center">
+				<p class="text-base font-medium">{portfolioPack.threeYrReturnAvgPer.toFixed(2)}%</p>
+			</div>
+		</div>
+	</div>
+	<div class="mx-2 mb-2 flex flex-col rounded-lg bg-white px-4 py-3">
+		<AmountSection
+			{amount}
+			quickInputsLabel="Popular"
+			{quickInputs}
+			class="w-full"
+			on:plusClick={handlePlusClick}
+			on:minusClick={handleMinusClick}
+			on:quickInputClick={(e) => handleQuickInputClick(e?.detail)}
+		/>
+		<section class="flex flex-row items-center justify-between pb-2">
+			<section class="flex flex-col">
+				<div class="text-sm font-normal text-black-key">Monthly SIP Date</div>
+			</section>
+			<section
+				on:keydown={() => {
+					//
+				}}
+				role="button"
+				tabindex="0"
+				aria-pressed="false"
+				class="flex flex-row items-center"
+				on:click={toggleCalendar}
+			>
+				<div class="text-xs font-normal text-black-title">
+					{`${sipStartDate}${getDateSuperscript(sipStartDate)}`}
+				</div>
+				<section class="p-2">
+					<CalendarSmallIcon height={16} width={16} />
+				</section>
+			</section>
+		</section>
+		<hr />
+	</div>
+	<div class="mx-2 mb-2 rounded-lg bg-white p-4">
+		<PortfolioAllocation {portfolioPack} {showAmount} />
+	</div>
+	<div class="mx-2 rounded-lg">
+		<section class="fixed inset-0 top-auto rounded-lg bg-white px-4 py-5 md:relative">
+			By Proceeding
+		</section>
+	</div>
+</section>
+
+{#if showCalendar}
+	<Modal isModalOpen={showCalendar} on:backdropclicked={toggleCalendar}>
+		<CalendarComponent
+			classes={{
+				title: 'uppercase mr-auto'
+			}}
+			visible={showCalendar}
+			title={'Select SIP Instalment Date'}
+			heading={'CONFIRM'}
+			showClose={false}
+			showSubmit={true}
+			{dateArray}
+			defaultValue={sipStartDate}
+			on:submit={handleDateChange}
+			on:close={toggleCalendar}
+			class="z-60 sm:w-120"
+		/>
+	</Modal>
+{/if}

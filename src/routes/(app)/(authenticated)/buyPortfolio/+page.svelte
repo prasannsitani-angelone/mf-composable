@@ -4,18 +4,25 @@
 	import SkeletonLoader from './components/SkeletonLoader.svelte';
 	import Intro from './components/Intro.svelte';
 	import PortfolioList from './components/PortfolioList.svelte';
+	import PageTitle from '$components/PageTitle.svelte';
 
 	export let data: PageData;
 </script>
 
 <SEO seoTitle="Select a Portfolio | Angelone" seoDescription="List of portfolio" />
 <article>
+	<header class="hidden sm:block">
+		<PageTitle title="Select a Portfolio" class="mb-0 sm:mb-4 sm:flex" />
+	</header>
 	<section class="ml-[calc(50%-50vw)] w-screen sm:ml-0 sm:w-full">
 		{#await data.api.portfolioOptions}
 			<SkeletonLoader />
 		{:then portfolioOptions}
-			<Intro />
+			<div class="md:hidden"><Intro /></div>
 			<PortfolioList portfolioData={portfolioOptions} />
 		{/await}
 	</section>
+</article>
+<article class="mt-12">
+	<div class="hidden md:block"><Intro /></div>
 </article>

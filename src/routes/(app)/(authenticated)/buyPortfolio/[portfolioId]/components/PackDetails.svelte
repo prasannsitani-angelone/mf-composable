@@ -1,13 +1,41 @@
 <script lang="ts">
+	import Button from '$components/Button.svelte';
+	import Modal from '$components/Modal.svelte';
 	import type { PortfolioPack } from '$lib/types/IBuyPortfolio';
 	import BasicDetails from '../../components/BasicDetails.svelte';
+	import PortfolioAllocation from './PortfolioAllocation.svelte';
+	import PortfolioInput from './PortfolioInput.svelte';
+	import ProjectedReturns from './ProjectedReturns.svelte';
 
 	export let portfolioPack: PortfolioPack;
+
 	let showChevron = false;
+	let showWeightage = true;
+	let showInputPopup = false;
+
+	const toggleInput = () => {
+		showInputPopup = !showInputPopup;
+	};
 </script>
 
-<section>
-	<div class="mx-2 flex items-center justify-between rounded-lg bg-white px-4 py-3">
+<section class="max-sm:h-[calc(100vh-150px)] max-sm:overflow-auto">
+	<div class="mx-2 mb-2 flex items-center justify-between rounded-lg bg-white px-4 py-3">
 		<BasicDetails {portfolioPack} {showChevron} />
 	</div>
+	<div class="mx-2 mb-2 rounded-lg bg-white p-4">
+		<PortfolioAllocation {portfolioPack} {showWeightage} />
+	</div>
+	<div class="mx-2 mb-2 rounded-lg bg-white p-4">
+		<ProjectedReturns />
+	</div>
+	{#if !showInputPopup}
+		<div class="mx-2 rounded-lg">
+			<section class="fixed inset-0 top-auto rounded-lg bg-white px-4 py-5 md:relative">
+				<Button onClick={toggleInput} class="w-full">PROCEED TO INVEST</Button>
+			</section>
+		</div>
+	{/if}
+	<Modal isModalOpen={showInputPopup} on:backdropclicked={toggleInput}>
+		<PortfolioInput {portfolioPack} on:backButtonClicked={toggleInput} />
+	</Modal>
 </section>

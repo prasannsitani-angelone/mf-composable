@@ -19,7 +19,7 @@
 			<!-- svelte-ignore a11y-no-static-element-interactions -->
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<div
-				class="flex items-center justify-between"
+				class="flex w-full items-center"
 				on:click={() => {
 					gotoPortfolioPackDetails(portfolioPack.packId);
 				}}

@@ -3,7 +3,7 @@
 </script>
 
 <section
-	class="mx-2 justify-center rounded-lg border border-grey-line bg-gradient-to-b from-[#F0F2FC] to-[#E7EBFA] p-4"
+	class="mx-2 mt-2 justify-center rounded-lg border border-grey-line bg-gradient-to-b from-[#F0F2FC] to-[#E7EBFA] p-4"
 >
 	<article class="flex items-center justify-between">
 		<div class="justify-between text-black-key">

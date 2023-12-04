@@ -4,6 +4,7 @@
 	import SkeletonLoader from '../components/SkeletonLoader.svelte';
 	import PackDetails from './components/PackDetails.svelte';
 	import ErrorView from '$components/ErrorView.svelte';
+	import PageTitle from '$components/PageTitle.svelte';
 
 	export let data: PageData;
 
@@ -14,6 +15,9 @@
 
 <SEO seoTitle="Select a Portfolio | Angelone" seoDescription="List of portfolio" />
 <article>
+	<header class="hidden sm:block">
+		<PageTitle title="Portfolio Details" class="mb-0 sm:mb-4 sm:flex" />
+	</header>
 	<section class="ml-[calc(50%-50vw)] w-screen sm:ml-0 sm:w-full">
 		{#await data.api.portfolioOption}
 			<SkeletonLoader />

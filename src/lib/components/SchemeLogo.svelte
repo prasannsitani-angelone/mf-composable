@@ -1,7 +1,8 @@
 <script lang="ts">
 	enum IconSize {
 		sm = 'h-12 w-12',
-		xs = 'h-9 w-9'
+		xs = 'h-9 w-9',
+		xs2 = 'h-7 w-7'
 	}
 	let src: string;
 	let alt = '';

@@ -8,15 +8,17 @@
 	export let showChevron = false;
 </script>
 
-<section>
-	<div class="flex items-center">
-		<SchemeLogo src={portfolioPack.packLogoUrl} />
-		<div class="text-xs">
-			<p class="text-sm font-medium">{portfolioPack.packName}</p>
-			<p class="pt-1 text-[11px] text-black-bolder">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce mattis, lectus in ultricies
-				pharetra.
-			</p>
+<section class="w-full">
+	<div class="flex items-center justify-between">
+		<div class="flex">
+			<SchemeLogo src={portfolioPack.packLogoUrl} />
+			<div class="text-xs">
+				<p class="text-sm font-medium">{portfolioPack.packName}</p>
+				<p class="pt-1 text-[11px] text-black-bolder">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce mattis, lectus in ultricies
+					pharetra.
+				</p>
+			</div>
 		</div>
 		{#if showChevron}
 			<div class="pl-8">
@@ -24,7 +26,9 @@
 			</div>
 		{/if}
 	</div>
-	<div class="mt-3 flex flex-row divide-x divide-[#C7CDEB] rounded bg-[#F1F3FC] px-4 py-2">
+	<div
+		class="mt-3 flex w-full flex-row justify-between divide-x divide-[#C7CDEB] rounded bg-[#F1F3FC] px-4 py-2"
+	>
 		<div class="flex w-6/12 flex-col items-start">
 			<p class="text-[11px] text-black-bolder">Min. SIP Amount</p>
 			<p class="text-base font-medium">

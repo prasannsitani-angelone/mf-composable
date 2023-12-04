@@ -34,7 +34,7 @@ export const load = (async ({ fetch, params }) => {
 		layoutConfig: {
 			title: 'Portfolio Details',
 			showBackIcon: true,
-			layoutType: 'DEFAULT',
+			layoutType: 'TWO_COLUMN',
 			showBottomNavigation: false
 		}
 	};
