@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AmountText from '$components/AmountText.svelte';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import TBody from '$components/Table/TBody.svelte';
 	import Td from '$components/Table/TD.svelte';
@@ -40,8 +41,10 @@
 
 				<Td class="!pr-0 text-right">
 					<div class="flex flex-col">
-						<span class="text-sm font-medium text-black-key">₹{funds?.currentValue}</span>
-						<span class="text-xs text-black-bolder">{funds?.units}units</span>
+						<span class="text-sm font-medium text-black-key"
+							><AmountText amount={funds?.currentValue?.toFixed(2) || 0} /></span
+						>
+						<span class="text-xs text-black-bolder">{funds?.units} units</span>
 					</div>
 				</Td>
 			</Tr>

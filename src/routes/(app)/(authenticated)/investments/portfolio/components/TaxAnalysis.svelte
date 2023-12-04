@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
+	import AmountText from '$components/AmountText.svelte';
 	import LinearChart from '$components/Charts/LinearChart.svelte';
 	import TaxImplecationIcon from '$lib/images/icons/TaxImplecationIcon.svelte';
 	import type { LinearChartInput } from '$lib/types/IChart';
@@ -135,7 +136,9 @@
 								{taxationData[investmentType.investmentPercentage]?.toFixed(2) || 0}%
 							</p>
 							<p class="mt-1 text-xs text-black-bolder">
-								₹{taxationData[investmentType.investedAmount]?.toFixed(2)}
+								<AmountText amount={taxationData[investmentType.investedAmount]?.toFixed(2)} />
+
+								<!-- ₹{?.toFixed(2)} -->
 							</p>
 						</div>
 						<div class="flex items-center justify-center">
@@ -150,19 +153,23 @@
 	<section class="flex flex-col p-4">
 		<h4 class="mb-3 text-sm font-medium text-black-key">Tax Exemption under 80C</h4>
 		<p class="mb-4 text-xs text-black-bolder">
-			You can invest ₹{taxationData.maxElssInvestAllowed} more in ELSS funds till March ‘{getCurrentFiscalYear()
-				.end} to avail tax benefits for financial year ‘{getCurrentFiscalYear().start} to ‘{getCurrentFiscalYear()
-				.end}
+			You can invest <AmountText amount={taxationData?.maxElssInvestAllowed?.toFixed(2)} /> more in ELSS
+			funds till March ‘{getCurrentFiscalYear().end} to avail tax benefits for financial year ‘{getCurrentFiscalYear()
+				.start} to ‘{getCurrentFiscalYear().end}
 		</p>
 
 		<div class="flex">
 			<div class="flex flex-col">
 				<p class="text-xs text-black-bolder">Invested</p>
-				<p class="text-sm font-medium text-black-key">₹{taxationData.totalElssInvestedFy}</p>
+				<p class="text-sm font-medium text-black-key">
+					<AmountText amount={taxationData?.totalElssInvestedFy?.toFixed(2)} />
+				</p>
 			</div>
 			<div class="ml-auto flex flex-col">
 				<p class="text-right text-xs text-black-bolder">Limit</p>
-				<p class="text-sm font-medium text-black-key">₹{taxationData.elssInvestmentCap}</p>
+				<p class="text-sm font-medium text-black-key">
+					<AmountText amount={taxationData?.elssInvestmentCap?.toFixed(2)} />
+				</p>
 			</div>
 		</div>
 		<div class="mt-3">
