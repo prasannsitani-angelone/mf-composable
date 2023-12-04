@@ -1,19 +1,110 @@
 <script lang="ts">
 	import LinearChart from '$components/Charts/LinearChart.svelte';
+	import CueCardCarouselComponent from '$components/CueCardCarouselComponent.svelte';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import type { PortfolioPack } from '$lib/types/IBuyPortfolio';
 	import type { LinearChartInput } from '$lib/types/IChart';
+	import { onMount } from 'svelte';
 	import { WMSIcon } from 'svelte-components';
+	import FundOverviewCueCard from '$components/Scheme/cuecards/FundOverviewCueCard.svelte';
+	import SchemeInformationCueCard from '$components/Scheme/cuecards/SchemeInformationCueCard.svelte';
+	import RiskAndRatingCueCard from '$components/Scheme/cuecards/RiskAndRatingCueCard.svelte';
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+	import { useFetch } from '$lib/utils/useFetch';
+	import { base } from '$app/paths';
+	import { goto } from '$app/navigation';
+	import { redirect } from '@sveltejs/kit';
+	import { browser } from '$app/environment';
 
 	export let portfolioPack: PortfolioPack;
 	export let showWeightage = false;
 	export let showAmount = false;
 	export let amount = 0;
+
+	let showFundDetailCarousel = false;
 	let colors = ['#B99AE6', '#FACE80', '#E3A0A4', '#80E0EA'];
 	let linearChartInput: LinearChartInput[] = [];
+	let fundDetailsCarouselItems = [];
+	let currentVisibleCueCardIndex = 0;
+	let schemeData: SchemeDetails;
+	$: schemeDetails = schemeData;
+
 	portfolioPack.schemes.forEach((x, i) => {
 		linearChartInput.push({ name: x.isin, color: colors[i], weightage: x.wieightPercentage });
 	});
+
+	const getSchemeData = async (isin: string, schemeCode: string) => {
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/${schemeCode}`;
+		const res = await useFetch(
+			url,
+			{
+				headers: {
+					'X-LRU': 'true',
+					'X-Skip-Validation': false
+				}
+			},
+			fetch
+		);
+
+		if (res.ok) {
+			schemeData = res.data;
+		} else {
+			if (browser) {
+				goto(`${base}/schemes/error`, { replaceState: true });
+			} else {
+				throw redirect(302, `${base}/schemes/error`);
+			}
+		}
+
+		return schemeData;
+	};
+
+	const goToFundDetailsPage = async (isin: string, schemeCode: string) => {
+		schemeData = await getSchemeData(isin, schemeCode);
+		fundDetailsCarouselItems = getFundDetailsCarouselItems();
+		showFundDetailCarousel = true;
+	};
+	const handleCueCardLoad = (e) => {
+		if (showFundDetailCarousel) {
+			currentVisibleCueCardIndex = e?.detail?.index || 0;
+		}
+	};
+
+	onMount(async () => {
+		fundDetailsCarouselItems = getFundDetailsCarouselItems();
+	});
+
+	const getFundDetailsCarouselItems = () => {
+		let carouselItems = [];
+		carouselItems.push(getFundOverviewCueCard());
+		carouselItems.push(getSchemeInformationCueCard());
+		carouselItems.push(getRiskAndRatingCueCard());
+		return carouselItems;
+	};
+	function getSchemeInformationCueCard() {
+		return {
+			component: SchemeInformationCueCard,
+			props: {
+				schemeDetails: schemeDetails,
+				isNFO: false
+			}
+		};
+	}
+	function getRiskAndRatingCueCard() {
+		return {
+			component: RiskAndRatingCueCard,
+			props: {
+				schemeDetails: schemeDetails
+			}
+		};
+	}
+	function getFundOverviewCueCard() {
+		return {
+			component: FundOverviewCueCard,
+			props: { schemeDetails: schemeDetails }
+		};
+	}
 </script>
 
 <section>
@@ -35,7 +126,14 @@
 		<p>{showWeightage ? 'Weightage (%)' : 'Amount'}</p>
 	</div>
 	{#each portfolioPack.schemes as scheme}
-		<div class="mt-2 flex items-start justify-between py-2 text-black-key">
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<!-- svelte-ignore a11y-no-static-element-interactions -->
+		<div
+			class="mt-2 flex items-start justify-between py-2 text-black-key"
+			on:click={() => {
+				goToFundDetailsPage(scheme.isin, scheme.schemeCode);
+			}}
+		>
 			<div class="flex">
 				<SchemeLogo size="xs2" src={scheme.logoUrl} alt={scheme.schemeName} />
 				<div class="flex flex-col self-center text-xs font-normal">
@@ -55,10 +153,11 @@
 			</div>
 		</div>
 	{/each}
-	<!-- <CueCardCarouselComponent
-        bind:isModalOpen={showFundDetailCarousel}
-        carouselItems={fundDetailsCarouselItems}
-        on:cueCardLoad={handleCueCardLoad}
-        on:cueCardClose={handleCueCardClose}
-    /> -->
+	{#if schemeData}
+		<CueCardCarouselComponent
+			bind:isModalOpen={showFundDetailCarousel}
+			carouselItems={fundDetailsCarouselItems}
+			on:cueCardLoad={handleCueCardLoad}
+		/>
+	{/if}
 </section>
