@@ -10,7 +10,12 @@
 	let rangeSelection = [filter?.minSelectedVal, filter?.maxSelectedVal];
 
 	afterUpdate(() => {
-		rangeSelection = [filter?.minSelectedVal, filter?.maxSelectedVal];
+		if (
+			rangeSelection[0] !== filter?.minSelectedVal ||
+			rangeSelection[1] !== filter?.maxSelectedVal
+		) {
+			rangeSelection = [filter?.minSelectedVal, filter?.maxSelectedVal];
+		}
 	});
 
 	const onRangeSelection = () => {

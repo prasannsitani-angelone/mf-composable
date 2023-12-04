@@ -39,6 +39,7 @@
 
 	const handleResetFiltersClick = () => {
 		schemeScreenerStore.resetStore();
+		schemeScreenerStore.getFiltersResponse();
 	};
 </script>
 
