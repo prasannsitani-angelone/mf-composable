@@ -311,3 +311,13 @@ export interface ITaxation {
 	maxElssInvestAllowed: number;
 	elssInvestmentCap: number;
 }
+
+export interface ITaxationDetails {
+	units?: number;
+	investedAmount?: number;
+	currentValue?: number;
+	taxType: 'STCG' | 'LTCG';
+	holdingType: 'EQUITY' | 'NON_EQUITY';
+	schemeName?: string;
+	logoUrl?: string;
+}

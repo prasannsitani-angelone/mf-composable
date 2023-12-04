@@ -3,7 +3,7 @@
 
 	import { schemeScreenerStore } from '$lib/stores/SchemeScreenerStore';
 
-	$: quickFilter = $schemeScreenerStore.data.quickFilters;
+	$: quickFilter = $schemeScreenerStore?.data?.quickFilters;
 
 	let onQuickFilterSelect = () => {
 		return;
@@ -21,7 +21,7 @@
 
 <div class="scrollbar-hide mb-4 flex w-screen overflow-x-auto">
 	<div class="scrollbar-hide flex w-full gap-2 overflow-x-scroll pr-10 pt-0 md:px-0">
-		{#each quickFilter as filter}
+		{#each quickFilter || [] as filter}
 			<QuickFilterChip
 				selected={filter.selected}
 				on:click={() => {

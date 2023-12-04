@@ -3,46 +3,6 @@
 	import { Button } from 'svelte-components';
 	import type { ComponentType } from 'svelte';
 
-	const BUTTONS = new Map([
-		[
-			'contained',
-			new Map([
-				['primary', 'bg-blue-primary hover:bg-blue-primary text-white'],
-				['secondary', 'bg-cyan-500 hover:bg-cyan-500 text-white'],
-				['success', 'bg-green-buy hover:bg-green-buy text-white'],
-				['white', 'bg-white hover:bg-white text-black-title disabled:bg-opacity-50']
-			])
-		],
-		[
-			'outlined',
-			new Map([
-				[
-					'primary',
-					'bg-white hover:bg-white !border border-blue-primary hover:border-blue-primary text-blue-primary'
-				],
-				[
-					'secondary',
-					'bg-white hover:bg-white !border border-cyan-500 hover:border-cyan-500 text-cyan-500'
-				],
-				[
-					'success',
-					'bg-white hover:bg-white !border border-green-buy hover:border-green-buy text-green-buy'
-				],
-				['white', 'bg-white hover:bg-white text-black-title disabled:bg-opacity-50']
-			])
-		],
-		[
-			'transparent',
-			new Map([
-				['primary', 'bg-transparent hover:bg-transparent text-sm text-blue-primary'],
-				['secondary', 'bg-transparent hover:bg-transparent text-sm text-cyan-500'],
-				['success', 'bg-transparent hover:bg-transparent text-sm text-green-buy'],
-				['white', 'bg-transparent hover:bg-transparent text-sm text-black-title'],
-				['error', 'bg-transparent hover:bg-transparent text-sm text-red-errorDark']
-			])
-		]
-	]);
-
 	enum BtnVariant {
 		Contained = 'contained',
 		Outlined = 'outlined',

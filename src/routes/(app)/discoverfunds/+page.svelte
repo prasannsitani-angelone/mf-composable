@@ -274,7 +274,7 @@
 
 		if ($page.data.deviceType?.isMobile || $page.data.deviceType?.isTablet) {
 			placementMapping = {
-				stories: { rowStart: 2, columnStart: 1 },
+				stories: { rowStart: 1, columnStart: 1 },
 				investments: { rowStart: 2, columnStart: 1 },
 				startFirstSip: { rowStart: 3, columnStart: 1 },
 				ctNudge: { rowStart: 4, columnStart: 1 },

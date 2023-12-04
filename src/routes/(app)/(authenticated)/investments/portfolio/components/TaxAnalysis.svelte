@@ -1,5 +1,9 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
+	import LinearChart from '$components/Charts/LinearChart.svelte';
 	import TaxImplecationIcon from '$lib/images/icons/TaxImplecationIcon.svelte';
+	import type { LinearChartInput } from '$lib/types/IChart';
 	import type { ITaxation } from '$lib/types/IInvestments';
 	import { WMSIcon } from 'svelte-components';
 
@@ -7,20 +11,23 @@
 		label: string;
 		investmentPercentage: string;
 		investedAmount: string;
-		fillColor: '#B99AE6' | '#FACE80';
+		fillColor: '#019C81' | '#FACE80';
+		taxType: 'STCG' | 'LTCG';
 	}
 	const investmentTypes: IInvestmentTypes[] = [
 		{
 			label: 'Short term investment',
 			investmentPercentage: 'stcgInvPercentage',
 			investedAmount: 'stcgInvAmount',
-			fillColor: '#B99AE6'
+			fillColor: '#FACE80',
+			taxType: 'STCG'
 		},
 		{
 			label: 'Long term investment',
 			investmentPercentage: 'ltcgInvPercentage',
 			investedAmount: 'ltcgInvAmount',
-			fillColor: '#FACE80'
+			fillColor: '#019C81',
+			taxType: 'LTCG'
 		}
 	];
 	function getCurrentFiscalYear() {
@@ -56,6 +63,34 @@
 		elssInvestmentCap: 0
 	};
 
+	$: taxGainGraph = <LinearChartInput[]>(<unknown>[
+		{
+			name: 'STCG',
+			color: '#FACE80',
+			weightage: taxationData?.stcgInvPercentage?.toFixed(2)
+		},
+		{
+			name: 'LTCG',
+			color: '#019C81',
+			weightage: taxationData?.ltcgInvPercentage?.toFixed(2)
+		}
+	]);
+
+	$: elssInvestmetnGraph = <LinearChartInput[]>[
+		{
+			name: 'Invested',
+			color: '#008F75',
+			weightage: (taxationData?.totalElssInvestedFy / taxationData?.elssInvestmentCap) * 100
+		},
+		{
+			name: 'Remaining',
+			color: '#E0F2EE',
+			weightage: (taxationData?.maxElssInvestAllowed / taxationData?.elssInvestmentCap) * 100
+		}
+	];
+	const navigateToDetailedAnalysis = async (taxType: string) => {
+		await goto(`${base}/investments/ltcg-stcg-gains?taxType=${taxType}&holdingType=EQUITY`);
+	};
 	export { taxationData };
 </script>
 
@@ -73,13 +108,21 @@
 		<h4 class="mb-3 text-sm font-medium text-black-key">Tax Capital Gains</h4>
 		<p class="text-xs text-black-bolder">Fund split by holding period</p>
 		<!-- For Graph -->
-		<div class="" />
+		<div class="mt-3">
+			<LinearChart chartInput={taxGainGraph} />
+		</div>
 		<div class="mt-4">
 			{#each investmentTypes as investmentType}
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<div
 					class={`flex items-start py-3 ${
 						investmentType.label === 'Short term investment' ? 'border-b border-grey-line' : ''
 					}`}
+					on:click={() => {
+						navigateToDetailedAnalysis(investmentType?.taxType);
+					}}
+					role="button"
+					tabindex="0"
 				>
 					<div class="flex items-center">
 						<div class="h-4 w-4 rounded-md" style={`background:${investmentType.fillColor}`} />
@@ -95,7 +138,9 @@
 								₹{taxationData[investmentType.investedAmount]?.toFixed(2)}
 							</p>
 						</div>
-						<div><WMSIcon name="right-arrow" width={16} height={16} /></div>
+						<div class="flex items-center justify-center">
+							<WMSIcon name="right-arrow" width={16} height={16} />
+						</div>
 					</div>
 				</div>
 			{/each}
@@ -119,6 +164,9 @@
 				<p class="text-right text-xs text-black-bolder">Limit</p>
 				<p class="text-sm font-medium text-black-key">₹{taxationData.elssInvestmentCap}</p>
 			</div>
+		</div>
+		<div class="mt-3">
+			<LinearChart chartInput={elssInvestmetnGraph} />
 		</div>
 	</section>
 </article>
