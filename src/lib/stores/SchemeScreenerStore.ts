@@ -133,9 +133,9 @@ function generateQuery(filters, category: string, type: string) {
 		} else if (type === 'multi' && filter.selected) {
 			putEndCommaString = true;
 			if (!completeQuery) {
-				completeQuery = `${category}=${filter.label}`;
+				completeQuery = `${category}=${filter.id}`;
 			} else {
-				completeQuery = `${completeQuery},${filter.label}`;
+				completeQuery = `${completeQuery},${filter.id}`;
 			}
 		} else if (
 			type === 'range' &&
@@ -197,7 +197,7 @@ function updateFilterFromCategory(item, filters): number {
 				const categories = getCategoryMap(item.value);
 				for (let k = 0; k < categories.length; k++) {
 					const category = categories[k];
-					if (category === option.label && type === 'multi') {
+					if (category === option.id && type === 'multi') {
 						if (option.options) {
 							const count = updateAllFiltersUnderThisFilter(option.options, true);
 							option.count += count;
