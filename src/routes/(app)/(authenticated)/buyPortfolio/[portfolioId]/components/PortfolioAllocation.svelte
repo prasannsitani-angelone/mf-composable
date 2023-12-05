@@ -119,7 +119,7 @@
 			</svelte:fragment>
 		</LinearChart>
 	{:else}
-		<div class="pb-3 text-xs text-black-bolder">No. of SIPs - 4</div>
+		<div class="pb-3 text-xs text-black-bolder">No. of SIPs - {portfolioPack.schemes.length}</div>
 	{/if}
 	<div class="flex justify-between border-b pb-2 text-[11px] text-grey-body">
 		<p>Fund</p>

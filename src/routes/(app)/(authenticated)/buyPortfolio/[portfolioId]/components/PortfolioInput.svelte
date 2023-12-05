@@ -10,6 +10,7 @@
 	import Modal from '$components/Modal.svelte';
 	import type { dateArrayTypes } from '$lib/types/Calendar/ICalendar';
 	import { getDateSuperscript } from '$lib/utils/helpers/date';
+	import PaymentFlow from './PaymentFlow.svelte';
 
 	export let portfolioPack: PortfolioPack;
 	export let amount = 500;
@@ -121,11 +122,11 @@
 		<hr />
 	</div>
 	<div class="mx-2 mb-2 rounded-lg bg-white p-4">
-		<PortfolioAllocation {portfolioPack} {showAmount} />
+		<PortfolioAllocation {portfolioPack} {showAmount} {amount} />
 	</div>
 	<div class="mx-2 rounded-lg">
-		<section class="fixed inset-0 top-auto rounded-lg bg-white px-4 py-5 md:relative">
-			By Proceeding
+		<section class="fixed inset-0 top-auto rounded-lg bg-white p-2 md:relative">
+			<PaymentFlow {portfolioPack} {amount} date={sipStartDate} />
 		</section>
 	</div>
 </section>
