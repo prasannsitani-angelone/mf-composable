@@ -15,18 +15,20 @@
 	import { toastStore } from '$lib/stores/ToastStore';
 	import { createEventDispatcher } from 'svelte';
 	import { base } from '$app/paths';
+	import { goto } from '$app/navigation';
+	import { getLogoutUrl } from '$lib/utils/helpers/logout';
 
 	const baseUrl = PUBLIC_MF_CORE_BASE_URL;
 	const cartsUrl = '/carts/items';
 
 	export let scheme: ExploreFundsOptions | WeeklyTopSchemesEntity;
-	export let showForAllUsers = false;
+	export let showForAllUsers = true;
 	export let color: 'blue' | 'grey' = 'blue';
 	export let entryPoint = '';
 
 	let dispatch = createEventDispatcher();
 
-	let diasbaled = false; // To prevent user for clicking on the cart icon if a cart addition request is already in progress
+	let disabled = false; // To prevent user for clicking on the cart icon if a cart addition request is already in progress
 
 	/**
 	 * Request Addition to the cart
@@ -103,7 +105,7 @@
 			// If Item does not exist in cart, update cart directly
 			await requestAddToCart();
 		}
-		diasbaled = false;
+		disabled = false;
 	};
 
 	/**
@@ -156,6 +158,23 @@
 			: '';
 
 	$: showCartIcon = $page.data?.isGuest ? (showForAllUsers ? true : false) : true;
+
+	const handleCartIconClick = async (e: Event) => {
+		e.stopPropagation();
+
+		if (disabled) return;
+
+		if ($page.data?.isGuest) {
+			await goto(getLogoutUrl($page.url.href, $page.url.origin), {
+				replaceState: true
+			});
+			return;
+		}
+
+		disabled = true;
+		await initiateAddToCart();
+		dispatch('onCartClick');
+	};
 </script>
 
 {#if showCartIcon}
@@ -163,13 +182,7 @@
 		variant="transparent"
 		class={$$props.class}
 		ariaLabel="AddToCart"
-		onClick={async (e) => {
-			e.stopPropagation();
-			if (diasbaled) return;
-			diasbaled = true;
-			await initiateAddToCart();
-			dispatch('onCartClick');
-		}}
+		onClick={handleCartIconClick}
 	>
 		<img src={buttonImgUrl} width="24" height="24" loading="lazy" alt="Add Scheme to Cart" />
 	</Button>
