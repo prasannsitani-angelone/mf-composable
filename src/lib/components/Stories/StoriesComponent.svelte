@@ -8,7 +8,7 @@
 	import { deviceStore } from '$lib/stores/DeviceStore';
 	import type { Story, Video, videoQuery } from '$lib/types/IStories';
 	import { getQueryParamsObj } from '$lib/utils/helpers/params';
-	import { afterUpdate, onDestroy } from 'svelte';
+	import { afterUpdate, onDestroy, onMount } from 'svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import {
 		startSipClickAnalytics,
@@ -17,6 +17,8 @@
 		storyImpressionAnalytics,
 		clickOnStoryAnalytics
 	} from '$lib/analytics/stories/stories';
+	import VideoPlayer from './VideoPlayer.svelte';
+	import logger from '$lib/utils/logger';
 
 	export let stories: Array<Story>;
 	export let version: string;
@@ -34,7 +36,7 @@
 	let isSwipeNotEnough = false;
 	let queryParamsObj: videoQuery;
 	let playVideoInterval;
-
+	let hls;
 	// $: if (showVideoSection && queryParamsObj?.storyPlayer !== 'true') {
 	// 	setTimeout(() => {
 	// 		crossButtonClicked(false);
@@ -297,6 +299,45 @@
 
 		storyImpressionAnalytics(eventMetadata);
 	};
+
+	onMount(() => {
+		/* eslint-disable */
+		if (window?.Hls?.isSupported()) {
+			console.log('hello hls.js!');
+
+			hls = new Hls({
+				startFragPrefetch: true
+			});
+
+			hls.on(Hls.Events.ERROR, function (event, data) {
+				if (data.fatal) {
+					switch (data.type) {
+						case Hls.ErrorTypes.MEDIA_ERROR:
+							logger.error({
+								type: 'Fatal error running Video stream MEDIA_ERROR',
+								params: "'fatal media error encountered, try to recover'"
+							});
+							hls.recoverMediaError();
+							break;
+						case Hls.ErrorTypes.NETWORK_ERROR:
+							logger.error({
+								type: 'Fatal error running Video stream NETWORK_ERROR',
+								params: "'fatal media error encountered, try to recover'"
+							});
+							break;
+						default:
+							logger.error({
+								type: 'Fatal error running Video stream DEFAULT',
+								params: "'fatal media error encountered, try to recover'"
+							});
+							hls.destroy();
+							break;
+					}
+				}
+			});
+		}
+		/* eslint-enable */
+	});
 </script>
 
 <section
@@ -331,21 +372,14 @@
 				<div class="top-0 flex h-full w-screen flex-col bg-black shadow-csm md:h-5/6 md:w-[360px]">
 					<div class="relative h-5/6 w-full">
 						{#if showVideoPlayer}
-							<video
-								id="videoPlayer"
-								height="auto"
-								autoplay
-								playsinline
-								controlslist="nodownload"
+							<!-- svelte-ignore a11y-media-has-caption -->
+							<VideoPlayer
+								{hls}
 								muted={mutedPlayback}
-								class="h-full w-full object-cover"
-								poster={selectedStory?.imageThumbnailUrl}
 								on:ended={setNextVideo}
+								{selectedVideo}
 								on:click={setNextVideo}
-							>
-								<source src={selectedVideo?.videoUrl} type="video/mp4" />
-								Video not supported in your device
-							</video>
+							/>
 						{/if}
 
 						<img

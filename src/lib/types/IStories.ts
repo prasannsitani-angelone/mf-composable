@@ -1,6 +1,7 @@
 export interface Video {
 	videoId: number;
 	videoUrl: string;
+	videoFallbackUrl: string;
 }
 
 export interface Story {

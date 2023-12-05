@@ -23,7 +23,7 @@
 		await tick();
 
 		screenedSchemes = await getScreenerSearch();
-		screenedSchemes = screenedSchemes.splice(0, 5);
+		screenedSchemes = screenedSchemes?.splice(0, 5) || [];
 	});
 </script>
 

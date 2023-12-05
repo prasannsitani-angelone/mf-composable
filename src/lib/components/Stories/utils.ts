@@ -51,7 +51,8 @@ export const storiesDataObjectWithoutUrls: StoriesData = {
 			videos: [
 				{
 					videoId: 1,
-					videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video1c5.mp4'
+					videoUrl: '/videos/video1c5/playlist.m3u8',
+					videoFallbackUrl: 'https://cdn.angelone.in/mutualfunds/videos/video1c5.mp4'
 				}
 			],
 			imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail1c2.jpg',
@@ -66,7 +67,8 @@ export const storiesDataObjectWithoutUrls: StoriesData = {
 			videos: [
 				{
 					videoId: 2,
-					videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video2c4.mp4'
+					videoUrl: '/videos/video2c4/playlist.m3u8',
+					videoFallbackUrl: 'https://cdn.angelone.in/mutualfunds/videos/video2c4.mp4'
 				}
 			],
 			imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail2c1.webp',
@@ -81,7 +83,8 @@ export const storiesDataObjectWithoutUrls: StoriesData = {
 			videos: [
 				{
 					videoId: 3,
-					videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video3c5.mp4'
+					videoUrl: '/videos/video3c5/playlist.m3u8',
+					videoFallbackUrl: 'https://cdn.angelone.in/mutualfunds/videos/video3c5.mp4'
 				}
 			],
 			imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail3c2.jpg',
@@ -96,7 +99,8 @@ export const storiesDataObjectWithoutUrls: StoriesData = {
 			videos: [
 				{
 					videoId: 4,
-					videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video4c4.mp4'
+					videoUrl: '/videos/video4c4/playlist.m3u8',
+					videoFallbackUrl: 'https://cdn.angelone.in/mutualfunds/videos/video3c5.mp4'
 				}
 			],
 			imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail4c1.webp',
@@ -117,7 +121,8 @@ export const setStoriesData = (getCtaUrlCallback: (vidId: number) => string) => 
 				videos: [
 					{
 						videoId: 1,
-						videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video1c5.mp4'
+						videoUrl: '/videos/video1c5/playlist.m3u8',
+						videoFallbackUrl: 'https://cdn.angelone.in/mutualfunds/videos/video1c5.mp4'
 					}
 				],
 				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail1c2.jpg',
@@ -132,7 +137,8 @@ export const setStoriesData = (getCtaUrlCallback: (vidId: number) => string) => 
 				videos: [
 					{
 						videoId: 2,
-						videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video2c4.mp4'
+						videoUrl: '/videos/video2c4/playlist.m3u8',
+						videoFallbackUrl: 'https://cdn.angelone.in/mutualfunds/videos/video2c4.mp4'
 					}
 				],
 				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail2c1.webp',
@@ -147,7 +153,8 @@ export const setStoriesData = (getCtaUrlCallback: (vidId: number) => string) => 
 				videos: [
 					{
 						videoId: 3,
-						videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video3c5.mp4'
+						videoUrl: '/videos/video3c5/playlist.m3u8',
+						videoFallbackUrl: 'https://cdn.angelone.in/mutualfunds/videos/video3c5.mp4'
 					}
 				],
 				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail3c2.jpg',
@@ -162,7 +169,8 @@ export const setStoriesData = (getCtaUrlCallback: (vidId: number) => string) => 
 				videos: [
 					{
 						videoId: 4,
-						videoUrl: 'https://cdn.angelone.in/mutualfunds/videos/video4c4.mp4'
+						videoUrl: '/videos/video4c4/playlist.m3u8',
+						videoFallbackUrl: 'https://cdn.angelone.in/mutualfunds/videos/video4c4.mp4'
 					}
 				],
 				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail4c1.webp',
