@@ -63,7 +63,7 @@
 		"lodash.merge": "4.6.2",
 		"servertime": "3.1.1",
 		"svelte-chartjs": "3.1.2",
-		"svelte-components": "0.212.0",
+		"svelte-components": "0.218.0",
 		"svelte-device-detector": "0.2.2",
 		"svelte-intersection-observer": "0.10.0",
 		"svelte-video-player": "1.2.5",

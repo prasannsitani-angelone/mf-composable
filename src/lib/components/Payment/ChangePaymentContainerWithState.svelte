@@ -246,7 +246,7 @@
 
 <Modal isModalOpen={true}>
 	<div
-		class="flex h-full w-full flex-col bg-white shadow-csm sm:h-max sm:max-h-[640px] sm:w-max sm:min-w-[490px]"
+		class="flex h-full w-full flex-col bg-white shadow-csm sm:h-max sm:max-h-[640px] sm:w-max sm:min-w-[490px] {$$props.class}"
 	>
 		<PaymentMethodHeader onBackClick={hidePaymentMethodScreen} isPartOfModal />
 		<slot name="schemeTile" />

@@ -30,8 +30,11 @@
 				<div class="text-xs font-medium">Key Benefits:</div>
 				<div class="text-[11px]">
 					{#each portfolioPack.benefits as benefit}
-						<div class="pt-3">
-							{benefit.description}
+						<div class="flex pt-3">
+							<div>
+								<WMSIcon name="star-bullet-point" height={14} width={14} />
+							</div>
+							<span class="pl-2">{benefit.description}</span>
 						</div>
 					{/each}
 				</div>

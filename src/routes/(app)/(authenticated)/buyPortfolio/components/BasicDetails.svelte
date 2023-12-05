@@ -10,7 +10,7 @@
 
 <section class="w-full">
 	<div class="flex items-center justify-between">
-		<div class="flex">
+		<div class="flex items-center">
 			<SchemeLogo src={portfolioPack.packLogoUrl} />
 			<div class="text-xs">
 				<p class="text-sm font-medium">{portfolioPack.packName}</p>
@@ -27,7 +27,7 @@
 		{/if}
 	</div>
 	<div
-		class="mt-3 flex w-full flex-row justify-between divide-x divide-[#C7CDEB] rounded bg-[#F1F3FC] px-4 py-2"
+		class="mt-3 flex w-full flex-row justify-between divide-x divide-[#C7CDEB] rounded bg-[#F1F3FC] px-4 py-2 text-black-key"
 	>
 		<div class="flex w-6/12 flex-col items-start">
 			<p class="text-[11px] text-black-bolder">Min. SIP Amount</p>

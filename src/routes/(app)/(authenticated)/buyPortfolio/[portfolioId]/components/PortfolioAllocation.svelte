@@ -23,7 +23,7 @@
 	export let amount = 0;
 
 	let showFundDetailCarousel = false;
-	let colors = ['#B99AE6', '#FACE80', '#E3A0A4', '#80E0EA'];
+	let colors = ['#B99AE6', '#FACE80', '#E3A0A4', '#80E0EA', '#7D8FE6', '#82CFBF'];
 	let linearChartInput: LinearChartInput[] = [];
 	let fundDetailsCarouselItems = [];
 	let currentVisibleCueCardIndex = 0;
@@ -108,7 +108,7 @@
 </script>
 
 <section>
-	<div class="pb-3">Portfolio Allocation</div>
+	<div class="pb-3 font-medium text-black-key">Portfolio Allocation</div>
 	{#if showWeightage}
 		<LinearChart chartInput={linearChartInput}>
 			<svelte:fragment slot="weightage" let:inputVar>
@@ -125,7 +125,7 @@
 		<p>Fund</p>
 		<p>{showWeightage ? 'Weightage (%)' : 'Amount'}</p>
 	</div>
-	{#each portfolioPack.schemes as scheme}
+	{#each portfolioPack.schemes as scheme, i}
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div
@@ -144,7 +144,8 @@
 			<div class="flex items-start text-sm font-medium">
 				{#if showWeightage}
 					<div class="flex items-center pl-8">
-						{scheme.wieightPercentage}
+						<WMSIcon name="eclipse" width={8} height={8} stroke={colors[i]} />
+						<span class="pl-2">{scheme.wieightPercentage}</span>
 						<WMSIcon class="pl-2" name="right-arrow" stroke="#3F5BD9" />
 					</div>
 				{:else if showAmount}

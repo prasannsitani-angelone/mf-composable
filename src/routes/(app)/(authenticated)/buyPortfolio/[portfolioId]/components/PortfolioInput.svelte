@@ -11,6 +11,7 @@
 	import type { dateArrayTypes } from '$lib/types/Calendar/ICalendar';
 	import { getDateSuperscript } from '$lib/utils/helpers/date';
 	import PaymentFlow from './PaymentFlow.svelte';
+	import OrderpadReturns from '../../../../InvestmentPad/OrderPadComponents/OrderpadReturns.svelte';
 
 	export let portfolioPack: PortfolioPack;
 	export let amount = 500;
@@ -68,7 +69,7 @@
 	};
 </script>
 
-<section class="h-screen w-full bg-grey md:h-[800px] md:w-[500px]">
+<section class="h-screen w-full bg-grey md:h-[840px] md:w-[500px]">
 	<div class="mb-2 flex items-center bg-white px-4 pb-3 pt-4 text-lg font-medium">
 		<LeftArrowIcon class="mr-4 cursor-pointer" onClick={handleBackButtonClick} />
 		Start SIP
@@ -97,7 +98,7 @@
 			on:minusClick={handleMinusClick}
 			on:quickInputClick={(e) => handleQuickInputClick(e?.detail)}
 		/>
-		<section class="flex flex-row items-center justify-between pb-2">
+		<section class="flex flex-row items-center justify-between">
 			<section class="flex flex-col">
 				<div class="text-sm font-normal text-black-key">Monthly SIP Date</div>
 			</section>
@@ -119,7 +120,17 @@
 				</section>
 			</section>
 		</section>
-		<hr />
+		<section>
+			<OrderpadReturns
+				investedAmount={Number(amount)}
+				threeYearReturns={portfolioPack.threeYrReturnAvgPer}
+				class="mt-4 !border-b-0 border-t !px-0 pb-0 pt-3"
+				amountClass="text-xl"
+				textClass="flex flex-row items-center"
+			>
+				<span slot="supporting-text" class="ml-1">Expected value in 3 years</span>
+			</OrderpadReturns>
+		</section>
 	</div>
 	<div class="mx-2 mb-2 rounded-lg bg-white p-4">
 		<PortfolioAllocation {portfolioPack} {showAmount} {amount} />

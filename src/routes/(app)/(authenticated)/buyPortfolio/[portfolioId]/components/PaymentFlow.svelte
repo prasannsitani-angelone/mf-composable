@@ -252,6 +252,7 @@
 			pendingFlow={successFlow}
 			{defaultInputPaymentError}
 			clearInputPaymentError={clearInputPaymentErrorPC}
+			class="h-screen w-full md:h-[840px] md:w-[400px]"
 		>
 			<div slot="schemeTile" class="flex flex-col">
 				<div class="flex w-full flex-col bg-white px-3 py-4">
