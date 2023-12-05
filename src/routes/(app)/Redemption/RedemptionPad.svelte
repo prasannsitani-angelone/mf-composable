@@ -63,6 +63,7 @@
 	let redeemMultiplierAmount = holdingDetails?.redeemMultiplier;
 	let blockedAmount = selectedFolio?.blockedAmount;
 	let redemableUnits = selectedFolio?.redemableUnits;
+	let unitBlockedReasons = holdingDetails?.unitBlockedReason;
 	let utilsMetaData: UtilsMetaData;
 	let queryParamsObj = <OrderPadTypes>{};
 
@@ -318,13 +319,6 @@
 		);
 	};
 
-	const withdrawalAmountReasons = [
-		'Withdrawal or switch is in progress',
-		'Units are in process of being credited to your demat account',
-		'Investment is in lock in period',
-		'Units have been pledged'
-	];
-
 	const withdrawProceedCtaAnalytics = () => {
 		const eventMetadata = {
 			FundName: holdingDetails?.schemeName,
@@ -531,6 +525,7 @@
 
 				<!-- amount input -->
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
+				<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 				<article
 					class="mb-2 flex flex-col items-center rounded border border-gray-200 p-3 {isRedeemableAmountLessThanWithdrawableAmount
 						? 'cursor-not-allowed'
@@ -591,6 +586,7 @@
 					</article>
 				{/if}
 
+				<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 				<article
 					class="flex w-fit items-center justify-start pt-1 text-xs font-normal text-grey-body {isRedeemableAmountLessThanWithdrawableAmount
 						? 'cursor-not-allowed'
@@ -784,7 +780,7 @@
 							>
 							is blocked. This could be due to the following reasons (one or more):
 
-							{#each withdrawalAmountReasons as reason}
+							{#each unitBlockedReasons as reason}
 								<section class="flex items-start">
 									<DotIcon class="mx-2 mt-1.5 w-1" />
 									<div>{reason}</div>

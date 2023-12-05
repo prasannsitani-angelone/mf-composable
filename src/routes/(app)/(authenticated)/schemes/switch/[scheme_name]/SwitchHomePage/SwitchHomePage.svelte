@@ -38,6 +38,10 @@
 	import { page } from '$app/stores';
 	import { createEventDispatcher, tick } from 'svelte';
 	import SwitchConfirmation from '../../confirm/SwitchConfirmation/SwitchConfirmation.svelte';
+	import BigDotIcon from '$lib/images/icons/BigDotIcon.svelte';
+
+	export let folioHolding: FolioHoldingType;
+	export let switchInSchemeData: SwitchInSchemeType;
 
 	$: redemableAmount = selectedFolio?.redemableAmount;
 	$: amountVal = amount?.length ? `₹${addCommasToAmountString(amount)}` : '';
@@ -57,6 +61,7 @@
 	// let folioList: Array<FolioObject>;
 	let selectedFolio: FolioObject;
 	let switchFullAmount = false;
+	let unitBlockedReasons = folioHolding?.unitBlockedReason;
 
 	let errorMessage = '';
 	let fullAmountSelected = false;
@@ -339,9 +344,6 @@
 		}
 	};
 
-	export let folioHolding: FolioHoldingType;
-	export let switchInSchemeData: SwitchInSchemeType;
-
 	async function populateSwitchInData() {
 		await tick();
 		if (switchInSchemeData?.ok) {
@@ -521,6 +523,7 @@
 								</p>
 							</article>
 						{/if}
+						<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 						<article
 							class="flex w-fit items-center justify-start pt-1 text-xs font-normal text-grey-body {isRedeemableAmountLessThanWithdrawableAmount ||
 							dpError
@@ -717,14 +720,13 @@
 						<span class="px-2">
 							Switch of <b>{selectedFolio?.blockedunits?.toFixed(3)} units</b> is blocked. This
 							could be due to the following reasons (one or more):
-							<span class="pt-3">
-								<ul style="list-style-type:disc" class="px-5">
-									<li>Switch or withdrawal is in progress</li>
-									<li>Units are in process of being credited to your demat account</li>
-									<li>Investment is in lock-in period</li>
-									<li>Units have been pledged</li>
-								</ul>
-							</span>
+
+							{#each unitBlockedReasons as reason}
+								<section class="flex items-start">
+									<BigDotIcon class="mx-2 mt-1.5 w-1" />
+									<div>{reason}</div>
+								</section>
+							{/each}
 						</span>
 					</article>
 				</section>

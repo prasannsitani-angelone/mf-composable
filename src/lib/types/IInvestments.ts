@@ -209,6 +209,10 @@ export interface FolioHoldingType {
 	externalFundImportStatus: string;
 	externalImportFailed: boolean;
 	lastSuccessfullImportTs: number;
+	pledgeUnits: number;
+	lockInUnits: number;
+	safeKeepUnits: number;
+	unitBlockedReason: Array<string>;
 }
 
 export interface SwitchInSchemeType {
