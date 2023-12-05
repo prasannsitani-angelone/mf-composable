@@ -15,6 +15,7 @@ import { shareFundDetailClickAnalytics } from '$components/Scheme/analytics';
 
 import { hydrate } from '$lib/utils/helpers/hydrated';
 import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
+import { getDateTimeString } from '$lib/utils/helpers/date';
 
 export const load = (async ({ fetch, params, url, parent }) => {
 	const queryParam = url?.searchParams?.get('params') || '';
@@ -72,14 +73,29 @@ export const load = (async ({ fetch, params, url, parent }) => {
 			isOpenNFO: nfoScheme === 'Y',
 			schemeURL: getDeeplinkForUrl(url)
 		});
+		const nfoCloseDate = nfoScheme === 'Y' ? getDateTimeString(schemeData?.nfoEndDate) : '';
+		const nfoText = `this NFO - ${schemeData?.schemeName}. The last day to invest in this NFO is ${nfoCloseDate}. Learn more on Angel One -`;
+		const lessThanZeroReturn = `the ${schemeData?.schemeName} mutual fund on Angel One -`;
+		const grThanZeroReturn = `this mutual fund - ${
+			schemeData?.schemeName
+		}. It has given ${schemeData?.returns3yr?.toFixed(
+			2
+		)}% returns annually in the last 3 years. Learn more on Angel One -`;
+		const no3yrReturn = `this mutual fund - ${
+			schemeData?.schemeName
+		}. It has given ${schemeData?.inceptionReturn.toFixed(
+			2
+		)}% returns since its launch. Learn more on Angel One -`;
 		const message = {
-			text: `Hey, check out this fund - ${
-				schemeData?.schemeName
-			}. It has given ${schemeData?.returns3yr?.toFixed(
-				2
-			)}% returns in the last 3 years. Learn more about this fund on Angel One - https://angeloneapp.page.link/?link=${
-				url?.href
-			}&apn=${PUBLIC_MF_ANDROID_APN}`
+			text: `Hey, check out ${
+				nfoScheme === 'Y'
+					? nfoText
+					: returns3yr === 0
+					? no3yrReturn
+					: returns3yr < 0
+					? lessThanZeroReturn
+					: grThanZeroReturn
+			} https://angeloneapp.page.link/?link=${url?.href}&apn=${PUBLIC_MF_ANDROID_APN}`
 		};
 		shareMessage(message);
 	};
