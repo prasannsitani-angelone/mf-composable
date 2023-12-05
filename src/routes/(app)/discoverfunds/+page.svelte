@@ -47,7 +47,7 @@
 	import ClevertapNudgeComponent from '$components/clevertap/ClevertapNudgeComponent.svelte';
 	import Clevertap from '$lib/utils/Clevertap';
 	import { schemeScreenerStore } from '$lib/stores/SchemeScreenerStore';
-	import Screener from '../../../lib/components/Screener/ScreenerHome.svelte';
+	import Screener from '$lib/components/Screener/ScreenerHome.svelte';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -246,10 +246,9 @@
 		if (data?.layoutConfig?.showAskAngelEntry) {
 			askAngelEntryImpressionAnalytics();
 		}
-
-		await initializeClevertapData();
 		schemeScreenerStore?.resetStore();
 		schemeScreenerStore.getFiltersResponse();
+		await initializeClevertapData();
 	});
 
 	const initializeClevertapData = async () => {

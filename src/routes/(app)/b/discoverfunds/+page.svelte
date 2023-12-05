@@ -50,6 +50,8 @@
 	import { goto } from '$app/navigation';
 	import ClevertapNudgeComponent from '$components/clevertap/ClevertapNudgeComponent.svelte';
 	import Clevertap from '$lib/utils/Clevertap';
+	import Screener from '$lib/components/Screener/ScreenerHome.svelte';
+	import { schemeScreenerStore } from '$lib/stores/SchemeScreenerStore';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -245,7 +247,8 @@
 		if (data?.layoutConfig?.showAskAngelEntry) {
 			askAngelEntryImpressionAnalytics();
 		}
-
+		schemeScreenerStore?.resetStore();
+		schemeScreenerStore.getFiltersResponse();
 		await initializeClevertapData();
 	});
 
@@ -283,6 +286,7 @@
 				curatedInvestmentCard: { rowStart: 9, columnStart: 1 },
 				quickEntryPoints: { rowStart: 10, columnStart: 1 },
 				promotionCard: { rowStart: 11, columnStart: 1 },
+				screener: { rowStart: 11, columnStart: 1 },
 				logout: { rowStart: 12, columnStart: 1 }
 			};
 		} else {
@@ -293,7 +297,9 @@
 				failedOrdersNudge: { rowStart: 4, columnStart: 1 },
 				sipPaymentMonthNudge: { rowStart: 5, columnStart: 1 },
 				quickEntryPoints: { rowStart: 6, columnStart: 1 },
+
 				logout: { rowStart: 7, columnStart: 1 },
+				screener: { rowStart: 8, columnStart: 1 },
 				investments: { rowStart: 1, columnStart: 2 },
 				ctNudge: { rowStart: 2, columnStart: 2 },
 				sipNudges: { rowStart: 3, columnStart: 2 },
@@ -442,6 +448,12 @@
 			imageClass="h-32 md:h-42 lg:h-32 w-full object-cover"
 		/>
 	{/if}
+
+	<Screener
+		class="row-start-{placementMapping?.screener?.rowStart} col-start-{placementMapping?.screener
+			?.columnStart} 
+	: ''}"
+	/>
 
 	<!-- 11. Logout -->
 	{#if !($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) && !isGuest}
