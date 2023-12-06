@@ -222,7 +222,11 @@ export const skipSipConfirmationModalOpenAnalytics = () => {
 	});
 };
 
-export const skipSipModalButtonClickAnalytics = (eventMetaData: { value: string }) => {
+export const skipSipModalButtonClickAnalytics = (eventMetaData: {
+	value: string;
+	fundName: string;
+	amount: number;
+}) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 'bs-nextinstallement',
 		event_type: 'click',
@@ -234,7 +238,11 @@ export const skipSipModalButtonClickAnalytics = (eventMetaData: { value: string 
 	});
 };
 
-export const skipSipSkippedSuccessModalOpenAnalytics = (eventMetaData: { value: string }) => {
+export const skipSipSkippedSuccessModalOpenAnalytics = (eventMetaData: {
+	value: string;
+	fundName: string;
+	amount: number;
+}) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 'bs-nextinstallement',
 		event_type: 'impression',

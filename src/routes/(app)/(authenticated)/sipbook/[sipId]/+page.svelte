@@ -256,7 +256,9 @@
 					getDateTimeProperties(sipData?.nextSipDueDate).year
 				} will be skipped. Next SIP order is scheduled for ${getNextMonthDate(
 					sipData?.nextSipDueDate
-				)}`
+				)}`,
+				fundName: sipData?.schemeName,
+				amount: sipData?.installmentAmount
 			});
 		}
 	};
@@ -313,7 +315,9 @@
 		});
 		toggleShowSkipModal();
 		skipSipModalButtonClickAnalytics({
-			value: 'Yes, Skip'
+			value: 'Yes, Skip',
+			fundName: sipData?.schemeName,
+			amount: sipData?.installmentAmount
 		});
 		if (res.ok && res?.data?.status?.toUpperCase() === STATUS_ARR?.SUCCESS) {
 			toggleSkipSuccessModal(sipData);
@@ -591,7 +595,9 @@
 						closeModal={() => {
 							toggleShowSkipModal();
 							skipSipModalButtonClickAnalytics({
-								value: 'No'
+								value: 'No',
+								fundName: sipData?.schemeName,
+								amount: sipData?.installmentAmount
 							});
 						}}
 						isModalOpen={showSkipModal}
