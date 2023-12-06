@@ -18,15 +18,15 @@
 	const investmentTypes: IInvestmentTypes[] = [
 		{
 			label: 'Short term investment',
-			investmentPercentage: 'stcgInvPercentage',
-			investedAmount: 'stcgInvAmount',
+			investmentPercentage: 'stcgCurPercentage',
+			investedAmount: 'stcgCurAmount',
 			fillColor: '#FACE80',
 			taxType: 'STCG'
 		},
 		{
 			label: 'Long term investment',
-			investmentPercentage: 'ltcgInvPercentage',
-			investedAmount: 'ltcgInvAmount',
+			investmentPercentage: 'ltcgCurPercentage',
+			investedAmount: 'ltcgCurAmount',
 			fillColor: '#019C81',
 			taxType: 'LTCG'
 		}
@@ -53,11 +53,11 @@
 	}
 
 	let taxationData: ITaxation = {
-		stcgInvPercentage: 0,
-		stcgInvAmount: 0,
+		stcgCurPercentage: 0,
+		stcgCurAmount: 0,
 		stcgInvUnits: 0,
-		ltcgInvPercentage: 0,
-		ltcgInvAmount: 0,
+		ltcgCurAmount: 0,
+		ltcgCurPercentage: 0,
 		ltcgInvUnits: 0,
 		totalElssInvestedFy: 0,
 		maxElssInvestAllowed: 0,
@@ -68,12 +68,12 @@
 		{
 			name: 'STCG',
 			color: '#FACE80',
-			weightage: taxationData?.stcgInvPercentage?.toFixed(2)
+			weightage: taxationData?.stcgCurPercentage?.toFixed(2)
 		},
 		{
 			name: 'LTCG',
 			color: '#019C81',
-			weightage: taxationData?.ltcgInvPercentage?.toFixed(2)
+			weightage: taxationData?.ltcgCurPercentage?.toFixed(2)
 		}
 	]);
 
@@ -152,10 +152,19 @@
 
 	<section class="flex flex-col p-4">
 		<h4 class="mb-3 text-sm font-medium text-black-key">Tax Exemption under 80C</h4>
+
 		<p class="mb-4 text-xs text-black-bolder">
-			You can invest <AmountText amount={taxationData?.maxElssInvestAllowed?.toFixed(2)} /> more in ELSS
-			funds till March ‘{getCurrentFiscalYear().end} to avail tax benefits for financial year ‘{getCurrentFiscalYear()
-				.start} to ‘{getCurrentFiscalYear().end}
+			{#if taxationData?.maxElssInvestAllowed === 0}
+				You have already invested <AmountText
+					amount={taxationData?.elssInvestmentCap?.toFixed(2)}
+				/> in ELSS funds and availed
+			{:else}
+				You can invest <AmountText amount={taxationData?.maxElssInvestAllowed?.toFixed(2)} /> more in
+				ELSS funds till March ‘{getCurrentFiscalYear().end} to avail
+			{/if}
+
+			tax benefits for financial year ‘{getCurrentFiscalYear().start} to ‘{getCurrentFiscalYear()
+				.end}
 		</p>
 
 		<div class="flex">

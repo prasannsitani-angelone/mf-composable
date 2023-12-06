@@ -305,11 +305,11 @@ export interface IOPtimsiePortfolioData {
 }
 
 export interface ITaxation {
-	stcgInvPercentage: number;
-	stcgInvAmount: number;
+	stcgCurPercentage: number;
+	stcgCurAmount: number;
 	stcgInvUnits: number;
-	ltcgInvPercentage: number;
-	ltcgInvAmount: number;
+	ltcgCurPercentage: number;
+	ltcgCurAmount: number;
 	ltcgInvUnits: number;
 	totalElssInvestedFy: number;
 	maxElssInvestAllowed: number;
