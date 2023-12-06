@@ -48,7 +48,8 @@
 		sipCancelStayInvestedButtonClickAnalytics,
 		sipDetailsCancelSipOptionClickAnalytics,
 		skipSipSuccessModalClickDone,
-		clickOnEditSipAnalytics
+		clickOnEditSipAnalytics,
+		clickOnThreeDots
 	} from '$lib/analytics/sipbook/sipbook';
 	import AutopaySelectionPopup from '$components/AutopaySelectionPopup.svelte';
 	import type { ISip } from '$lib/types/ISipType';
@@ -418,6 +419,9 @@
 	};
 	const updateSipBookStore = () => {
 		showOptions = !$sipBookStore.showdropdown;
+		if (showOptions) {
+			clickOnThreeDots();
+		}
 		sipBookStore.updateStore({ showdropdown: showOptions });
 	};
 </script>

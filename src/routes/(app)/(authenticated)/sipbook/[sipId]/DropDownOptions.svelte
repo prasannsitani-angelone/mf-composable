@@ -2,8 +2,9 @@
 	import { page } from '$app/stores';
 	import { SIP_OPTIONS } from '$lib/constants/sipBook';
 	import Button from '$components/Button.svelte';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import { WMSIcon } from 'svelte-components';
+	import { threeDotsPopup } from '$lib/analytics/sipbook/sipbook';
 	$: isMobile = $page.data.deviceType.isMobile;
 
 	let isSipInprocess: boolean;
@@ -16,6 +17,20 @@
 		dispatch('onButtonClick', { key });
 	};
 	export { isSipInprocess, installmentSkip, isSipPaymentNudge, sipType };
+
+	onMount(() => {
+		let activeFields = '';
+		if (!isSipInprocess) {
+			activeFields = activeFields + 'cancelSIP';
+			if (sipType === 'SIP') {
+				activeFields = activeFields + ' ,editSIP';
+				if (!(installmentSkip || isSipPaymentNudge)) {
+					activeFields = activeFields + ' ,skipSIP';
+				}
+			}
+		}
+		threeDotsPopup({ activeFields: activeFields });
+	});
 </script>
 
 <div

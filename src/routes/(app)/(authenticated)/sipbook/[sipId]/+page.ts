@@ -1,6 +1,7 @@
 import { browser } from '$app/environment';
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import {
+	clickOnThreeDots,
 	sipCreatedDateImpressionAnalytics,
 	sipDetailsScreenOpenAnalytics,
 	sipInProgressNudgeImpressionAnalytics
@@ -57,6 +58,9 @@ export const load = (async ({ fetch, params, depends }) => {
 	const onThreeDotsClick = async () => {
 		showDropDown = !sipBookStore.showdropdown();
 		sipBookStore.updateStore({ showdropdown: showDropDown });
+		if (sipBookStore.showdropdown()) {
+			clickOnThreeDots();
+		}
 	};
 	depends('skipsip');
 	return {

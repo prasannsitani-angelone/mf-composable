@@ -397,6 +397,29 @@ export const switchAutopaySuccessImpressionAnalytics = (eventMetaData) => {
 	});
 };
 
+export const clickOnThreeDots = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipdetails',
+		event_type: 'click',
+		event_sub_type: 'text',
+		event_name: '3dot',
+		event_property: null,
+		event_id: '309.0.0.1.69'
+	});
+};
+
+export const threeDotsPopup = (eventMetaData: { activeFields: string }) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipdetails',
+		event_type: 'impression',
+		event_sub_type: 'popup',
+		event_name: '3dot',
+		event_property: null,
+		event_id: '309.0.0.1.70',
+		event_metadata: eventMetaData
+	});
+};
+
 export const sipDetailsCancelSipOptionClickAnalytics = () => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-sipdetails',
