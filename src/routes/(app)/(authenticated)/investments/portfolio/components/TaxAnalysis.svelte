@@ -3,7 +3,7 @@
 	import { base } from '$app/paths';
 	import AmountText from '$components/AmountText.svelte';
 	import LinearChart from '$components/Charts/LinearChart.svelte';
-	import TaxImplecationIcon from '$lib/images/icons/TaxImplecationIcon.svelte';
+	import TaxationIcon from '$lib/images/icons/TaxationIcon.svelte';
 	import type { LinearChartInput } from '$lib/types/IChart';
 	import type { ITaxation } from '$lib/types/IInvestments';
 	import { WMSIcon } from 'svelte-components';
@@ -98,7 +98,7 @@
 <article class="rounded bg-white">
 	<header class="flex border-b border-grey-line p-4">
 		<div class="mr-2 flex h-9 w-9 items-center justify-center rounded-full bg-blue-background">
-			<TaxImplecationIcon width={20} height={21} />
+			<TaxationIcon />
 		</div>
 		<div class="flex flex-col">
 			<h2 class="text-base text-black-key">Tax Analysis</h2>
