@@ -11,12 +11,13 @@
 	let installmentSkip: boolean;
 	let isSipPaymentNudge: boolean;
 	let sipType: string;
+	let packId: string;
 	const dispatch = createEventDispatcher();
 
 	const onOptionSelect = (key: string) => {
 		dispatch('onButtonClick', { key });
 	};
-	export { isSipInprocess, installmentSkip, isSipPaymentNudge, sipType };
+	export { isSipInprocess, installmentSkip, isSipPaymentNudge, sipType, packId };
 
 	onMount(() => {
 		let activeFields = '';
@@ -81,4 +82,15 @@
 			</div>
 		{/if}
 	{/each}
+	{#if packId}
+		<div class="mx-6 mb-2 flex rounded-lg bg-[#FEEED4] p-4 text-black-key">
+			<div>
+				<WMSIcon name="info-doughnut" fill="#FACE80" />
+			</div>
+			<div class="pl-2 text-xs text-black-key">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce mattis, lectus in ultricies
+				pharetra.
+			</div>
+		</div>
+	{/if}
 </div>

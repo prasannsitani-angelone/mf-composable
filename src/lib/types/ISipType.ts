@@ -58,6 +58,7 @@ export interface ISip {
 	sipInstalmentId?: string;
 	sipPaymentMonthNudge?: boolean;
 	orderDate?: number;
+	packId?: string;
 }
 
 export interface ISipOrderHistory {

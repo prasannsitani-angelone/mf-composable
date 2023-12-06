@@ -12,6 +12,7 @@
 	import { getDateSuperscript } from '$lib/utils/helpers/date';
 	import PaymentFlow from './PaymentFlow.svelte';
 	import OrderpadReturns from '../../../../InvestmentPad/OrderPadComponents/OrderpadReturns.svelte';
+	import TncModal from '$components/TnC/TncModal.svelte';
 
 	export let portfolioPack: PortfolioPack;
 	export let amount = 500;
@@ -23,6 +24,7 @@
 	let sipMaxAmount = 0;
 	let showCalendar = false;
 	let sipStartDate = 4;
+	let showTncModal = false;
 	let dateArray: Array<dateArrayTypes> = [{ value: 1, disabled: false }];
 	$: {
 		dateArray.pop();
@@ -67,9 +69,12 @@
 		sipStartDate = value?.detail;
 		toggleCalendar();
 	};
+	const toggleTncModal = () => {
+		showTncModal = !showTncModal;
+	};
 </script>
 
-<section class="h-screen w-full bg-grey md:h-[840px] md:w-[500px]">
+<section class="h-screen w-full bg-grey max-sm:overflow-auto md:h-[860px] md:w-[500px]">
 	<div class="mb-2 flex items-center bg-white px-4 pb-3 pt-4 text-lg font-medium">
 		<LeftArrowIcon class="mr-4 cursor-pointer" onClick={handleBackButtonClick} />
 		Start SIP
@@ -137,6 +142,14 @@
 	</div>
 	<div class="mx-2 rounded-lg">
 		<section class="fixed inset-0 top-auto rounded-lg bg-white p-2 md:relative">
+			<article class="flex items-center justify-center bg-white px-4 pt-2">
+				<p class="text-center text-xs font-normal text-black-title">
+					By proceeding, you accept Angel One's
+					<button class="text-blue-primary md:cursor-pointer" on:click={toggleTncModal}>
+						Terms and Conditions
+					</button>
+				</p>
+			</article>
 			<PaymentFlow {portfolioPack} {amount} date={sipStartDate} />
 		</section>
 	</div>
@@ -160,4 +173,8 @@
 			class="z-60 sm:w-120"
 		/>
 	</Modal>
+{/if}
+
+{#if showTncModal}
+	<TncModal showModal={showTncModal} on:closeModal={toggleTncModal} />
 {/if}

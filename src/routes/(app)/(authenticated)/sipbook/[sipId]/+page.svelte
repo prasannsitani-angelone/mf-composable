@@ -453,6 +453,7 @@
 						installmentSkip={sipData?.installmentSkip}
 						isSipPaymentNudge={sipData?.isSipPaymentNudge}
 						sipType={sipData?.sipType}
+						packId={sipData?.packId}
 						on:onButtonClick={onOptionSelect}
 					/>
 				</Modal>
@@ -467,6 +468,7 @@
 							installmentSkip={sipData?.installmentSkip}
 							isSipPaymentNudge={sipData?.isSipPaymentNudge}
 							sipType={sipData?.sipType}
+							packId={sipData?.packId}
 							on:onButtonClick={onOptionSelect}
 						/>
 					</div>
