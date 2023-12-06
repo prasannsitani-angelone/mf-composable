@@ -169,6 +169,19 @@
 	<!-- Upper section -->
 	<section class:pt-2={sipCount > 1} class="mb-2">
 		<!-- Scheme Details section -->
+		{#if sip?.packId}
+			<section class="mx-3 mb-2">
+				<div
+					class="flex h-5 max-w-fit rounded-sm bg-purple-background px-2 py-0.5 text-[10px] text-blue-primary"
+				>
+					<div>
+						<WMSIcon name="closed-folder" height={15} width={15} />
+					</div>
+					<span class="pl-1">{sip?.packId}</span>
+				</div>
+			</section>
+		{/if}
+
 		<section class="mx-3">
 			<ResultItem
 				categoryContainerStyle="flex-1 flex"

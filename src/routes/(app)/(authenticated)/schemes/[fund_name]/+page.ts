@@ -90,9 +90,9 @@ export const load = (async ({ fetch, params, url, parent }) => {
 			text: `Hey, check out ${
 				nfoScheme === 'Y'
 					? nfoText
-					: returns3yr === 0
+					: returns3yr === 0 && schemeData?.inceptionReturn > 0
 					? no3yrReturn
-					: returns3yr < 0
+					: returns3yr <= 0
 					? lessThanZeroReturn
 					: grThanZeroReturn
 			} https://angeloneapp.page.link/?link=${url?.href}&apn=${PUBLIC_MF_ANDROID_APN}`

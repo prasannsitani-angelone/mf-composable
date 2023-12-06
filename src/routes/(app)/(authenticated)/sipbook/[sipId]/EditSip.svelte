@@ -122,7 +122,7 @@
 		editSipScreenImpressionAnalytics({
 			fundName: schemeName,
 			amount: installmentAmount,
-			sipDate: `${new Date(sipDate)?.getDate()}${getDateSuperscript(sipDate)} of every month`
+			sipDate: `${sipDate}${getDateSuperscript(sipDate)} of every month`
 		});
 	});
 
@@ -237,7 +237,7 @@
 			editSipUpdateClickAnalytics({
 				fundName: schemeName,
 				updatedAmount: stringToFloat(amount),
-				updatedSipDate: `${new Date(calendarDate)?.getDate()}${dateSuperscript} of every month`
+				updatedSipDate: `${calendarDate}${dateSuperscript} of every month`
 			});
 			editSipConfirmImpressionAnalytics({
 				fundName: schemeName,
@@ -270,7 +270,10 @@
 				fundName: schemeName,
 				updatedAmount: stringToFloat(amount),
 				amount: installmentAmount,
-				updatedSipDate: `${calendarDate}${dateSuperscript} of every month`
+				updatedSipDate: `${calendarDate}${dateSuperscript} ${getSIPDate().toLocaleString(
+					'default',
+					{ month: 'short' }
+				)}}`
 			});
 		} else {
 			editFailure = true;

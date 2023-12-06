@@ -5,8 +5,17 @@
 	import Intro from './components/Intro.svelte';
 	import PortfolioList from './components/PortfolioList.svelte';
 	import PageTitle from '$components/PageTitle.svelte';
+	import { onMount } from 'svelte';
 
 	export let data: PageData;
+
+	const scrollToTop = () => {
+		document?.getElementsByTagName?.('main')?.[0]?.scrollTo(0, 0);
+	};
+
+	onMount(() => {
+		scrollToTop();
+	});
 </script>
 
 <SEO seoTitle="Select a Portfolio | Angelone" seoDescription="List of portfolio" />
