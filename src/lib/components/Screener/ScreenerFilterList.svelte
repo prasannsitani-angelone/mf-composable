@@ -12,6 +12,7 @@
 	import InfiniteScroll from '$components/InfiniteScroll.svelte';
 	import { page as pageData } from '$app/stores';
 	import NoFilterResult from '$lib/images/NoFilterResult.svg';
+	import { bottomFilterClick } from '$lib/analytics/filters/filters';
 
 	let loading = true;
 	let page = 0;
@@ -22,6 +23,7 @@
 	$: appliedFilterCount = $schemeScreenerStore?.data?.filtersCount;
 
 	const navigateToFilters = async () => {
+		bottomFilterClick();
 		await goto(`${base}/filters`, { replaceState: true });
 	};
 
@@ -60,13 +62,13 @@
 <article class="mt-1 pb-14">
 	<section class="flex flex-col overflow-hidden bg-grey px-1">
 		<p class="mb-2 text-xs text-black-bolder">Select Quick Filters</p>
-		<QuickFilter />
+		<QuickFilter pageSource="s_Eexploremutualfunds" />
 	</section>
 	{#if loading}
 		<TableSkeleton />
 	{:else if screenedSchemes.length}
 		<section class="rounded bg-white px-4 py-3">
-			<ScreenerTable {screenedSchemes} />
+			<ScreenerTable {screenedSchemes} pageSource="s_Eexploremutualfunds" />
 			<InfiniteScroll
 				threshold={400}
 				hasMore={newBatch.length > 0}

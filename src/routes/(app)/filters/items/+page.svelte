@@ -2,10 +2,11 @@
 	import { page } from '$app/stores';
 	import ScreenerFilterList from '$components/Screener/ScreenerFilterList.svelte';
 	import FilterOptions from '$components/ScreenerFilter/FilterOptions.svelte';
+	import { exploreMFImpression, type IExploreMF } from '$lib/analytics/filters/filters';
 	import { schemeScreenerStore } from '$lib/stores/SchemeScreenerStore';
 	import type { FilterData } from '$lib/types/ScreenerFilters';
 	import { debounce } from '$lib/utils/helpers/debounce';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 	$: isTablet = $page?.data?.deviceType?.isTablet;
@@ -15,7 +16,15 @@
 	$: filterData = $schemeScreenerStore?.data;
 
 	onMount(async () => {
+		await tick();
+		const exploreMFMetaData: IExploreMF = {
+			quickfilter: '',
+			topFilter: 'N',
+			viewmorefund: 'N'
+		};
+
 		await schemeScreenerStore.getFiltersResponse();
+		exploreMFImpression(exploreMFMetaData);
 	});
 
 	const handleOptionChange = (clickedFilterData) => {

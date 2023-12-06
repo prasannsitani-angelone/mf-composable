@@ -8,23 +8,29 @@
 	import THead from '$components/Table/THead.svelte';
 	import Tr from '$components/Table/TR.svelte';
 	import Table from '$components/Table/Table.svelte';
+	import {
+		fundSelectClick,
+		type IFundSelect,
+		type ScreenerSource
+	} from '$lib/analytics/filters/filters';
 	import type { ScreenedSchemes } from '$lib/types/Screener';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 
 	let screenedSchemes: ScreenedSchemes[];
-
-	const onTableRowSelect = (schemes: ScreenedSchemes) => {
-		goto(
-			`${base}/${normalizeFundName(
-				schemes?.schemeName,
-				schemes?.isin,
-				schemes?.schemeCode,
-				'schemes'
-			)}`
-		);
+	let pageSource: ScreenerSource;
+	const onTableRowSelect = async (schemes: ScreenedSchemes, index: number) => {
+		const { schemeName, isin, schemeCode } = schemes;
+		const fundSelectMetaData: IFundSelect = {
+			fundName: schemeName,
+			isin,
+			source: pageSource,
+			fundRank: index
+		};
+		fundSelectClick(fundSelectMetaData);
+		await goto(`${base}/${normalizeFundName(schemeName, isin, schemeCode, 'schemes')}`);
 	};
 
-	export { screenedSchemes };
+	export { screenedSchemes, pageSource };
 </script>
 
 <Table class={$$props.class}>
@@ -38,11 +44,11 @@
 		</Th>
 	</THead>
 	<TBody slot="tbody">
-		{#each screenedSchemes || [] as funds}
+		{#each screenedSchemes || [] as funds, index}
 			<Tr
 				class="border-b border-grey-line"
 				on:click={() => {
-					onTableRowSelect(funds);
+					onTableRowSelect(funds, index);
 				}}
 			>
 				<Td class="!px-0"

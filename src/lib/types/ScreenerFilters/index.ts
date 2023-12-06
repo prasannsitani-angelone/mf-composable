@@ -10,6 +10,7 @@ export interface FilterOption {
 	max?: number;
 	count?: number;
 	search?: boolean;
+	paths?: string[];
 }
 
 export interface FilterData {

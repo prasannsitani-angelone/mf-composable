@@ -8,14 +8,21 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import QuickFilter from './QuickFilter.svelte';
+	import { topfilterClick, viewallfundsClick } from '$lib/analytics/filters/filters';
 
 	let screenedSchemes: ScreenedSchemes[];
 
 	const navigateToFilters = async () => {
+		topfilterClick({ source: 'Homepage' });
 		await goto(`${base}/filters`);
 	};
 
-	const navigateToFilteredItems = async () => {
+	const navigateToFilteredItems = async (source?: 'Homepage' | 's_Eexploremutualfunds') => {
+		if (source) {
+			viewallfundsClick({
+				source
+			});
+		}
 		await goto(`${base}/filters/items`);
 	};
 
@@ -38,10 +45,10 @@
 		<div slot="content" class="overflow-hidden">
 			<section class="flex flex-col">
 				<p class="mb-2 text-xs text-black-bolder">Select Quick Filters</p>
-				<QuickFilter onQuickFilterSelect={navigateToFilteredItems} />
+				<QuickFilter onQuickFilterSelect={navigateToFilteredItems} pageSource="Homepage" />
 			</section>
 			<section>
-				<ScreenerTable {screenedSchemes} />
+				<ScreenerTable {screenedSchemes} pageSource="Homepage" />
 			</section>
 			<section class="my-3 flex flex-col items-center justify-center">
 				<p class="text-[10px] text-black-bolder">8,000+ funds are available on Angel One</p>
@@ -49,7 +56,9 @@
 					variant="transparent"
 					class="!text-xs !uppercase"
 					size="xs"
-					on:click={navigateToFilteredItems}>View All Funds</Button
+					on:click={() => {
+						navigateToFilteredItems('Homepage');
+					}}>View All Funds</Button
 				>
 			</section>
 		</div>

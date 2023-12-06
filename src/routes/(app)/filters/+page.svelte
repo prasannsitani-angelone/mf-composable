@@ -7,6 +7,12 @@
 	import type { FilterData, FilterOption } from '$lib/types/ScreenerFilters';
 	import { onMount } from 'svelte';
 	import FilterOptions from '$components/ScreenerFilter/FilterOptions.svelte';
+	import {
+		applyFiltersClickAnalytics,
+		resetFiltersClickAnalytics,
+		screenersFiltersPageImpression
+	} from '$lib/analytics/filters/filters';
+	import { getSelectedFilterData } from '$lib/utils/helpers/screenersFilters';
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 	$: isTablet = $page?.data?.deviceType?.isTablet;
@@ -34,16 +40,20 @@
 
 	const handleApplyFiltersClick = () => {
 		schemeScreenerStore?.applyFilters(filterData);
+		applyFiltersClickAnalytics(getSelectedFilterData(filterData?.filters));
 		redirectToSchemeResults();
 	};
 
 	const handleResetFiltersClick = () => {
 		schemeScreenerStore?.resetStore();
+		resetFiltersClickAnalytics(getSelectedFilterData(filterData?.filters));
 	};
 
 	onMount(async () => {
 		if (!isMobile && !isTablet) {
 			goto(`${base}/filters/items`, { replaceState: true });
+		} else {
+			screenersFiltersPageImpression();
 		}
 
 		setTimeout(() => {
@@ -83,7 +93,7 @@
 	$: currentFilterDataFromStore, updateFiltersDataFromStore();
 </script>
 
-<section class="-m-2 bg-white">
+<section class="-m-2 bg-white" data-testid="schemeFilters">
 	<div class="border-b px-3 py-4 text-xs font-normal text-black-key">
 		Selected: {appliedFilterCount}
 	</div>
