@@ -52,6 +52,8 @@
 	import Clevertap from '$lib/utils/Clevertap';
 	import Screener from '$lib/components/Screener/ScreenerHome.svelte';
 	import { schemeScreenerStore } from '$lib/stores/SchemeScreenerStore';
+	import TutorialNudge from '$components/Tutorial/nudge/TutorialNudge.svelte';
+	import type { UserEducationNudgeType } from '$lib/types/INudge';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -64,6 +66,7 @@
 	let nudgesData: NudgeDataType;
 	let startFirstSipNudgeData: StartFirstSipNudgeType;
 	let start4SipsNudgeData: Start4SipsNudgeType;
+	let userEducationNudge: UserEducationNudgeType;
 
 	let formattedRetryPaymentNudgeData: IRetryPaymentNudge;
 
@@ -197,6 +200,8 @@
 				exitNudgeStore.hasNudgeData(true);
 			} else if (item?.nudgesType === 'START_FOUR_SIPS') {
 				start4SipsNudgeData = item;
+			} else if (item?.nudgesType === 'USER_EDUCATION_ENGAGEMENT') {
+				userEducationNudge = item;
 			}
 		});
 	};
@@ -285,9 +290,10 @@
 				sipPaymentMonthNudge: { rowStart: 8, columnStart: 1 },
 				curatedInvestmentCard: { rowStart: 9, columnStart: 1 },
 				quickEntryPoints: { rowStart: 10, columnStart: 1 },
-				promotionCard: { rowStart: 11, columnStart: 1 },
-				screener: { rowStart: 11, columnStart: 1 },
-				logout: { rowStart: 12, columnStart: 1 }
+				tutorials: { rowStart: 11, columnStart: 1 },
+				screener: { rowStart: 12, columnStart: 1 },
+				promotionCard: { rowStart: 13, columnStart: 1 },
+				logout: { rowStart: 14, columnStart: 1 }
 			};
 		} else {
 			placementMapping = {
@@ -297,9 +303,9 @@
 				failedOrdersNudge: { rowStart: 4, columnStart: 1 },
 				sipPaymentMonthNudge: { rowStart: 5, columnStart: 1 },
 				quickEntryPoints: { rowStart: 6, columnStart: 1 },
-
 				logout: { rowStart: 7, columnStart: 1 },
-				screener: { rowStart: 8, columnStart: 1 },
+				tutorials: { rowStart: 8, columnStart: 1 },
+				screener: { rowStart: 9, columnStart: 1 },
 				investments: { rowStart: 1, columnStart: 2 },
 				ctNudge: { rowStart: 2, columnStart: 2 },
 				sipNudges: { rowStart: 3, columnStart: 2 },
@@ -336,6 +342,15 @@
 				?.columnStart} !mb-0 {placementMapping?.stories?.rowStart > 1 ? 'mt-2' : ''}"
 			stories={storiesData?.stories}
 			version="B"
+		/>
+	{/if}
+
+	{#if userEducationNudge && deviceType?.isMobile}
+		<TutorialNudge
+			title={userEducationNudge.heading}
+			subTitle={userEducationNudge.description}
+			class="h-fit row-start-{placementMapping?.tutorials?.rowStart} col-start-{placementMapping
+				?.tutorials?.columnStart} !mb-0 {placementMapping?.tutorials?.rowStart > 1 ? 'mt-2' : ''}"
 		/>
 	{/if}
 
@@ -451,7 +466,7 @@
 
 	<Screener
 		class="row-start-{placementMapping?.screener?.rowStart} col-start-{placementMapping?.screener
-			?.columnStart} 
+			?.columnStart}
 	: ''}"
 	/>
 

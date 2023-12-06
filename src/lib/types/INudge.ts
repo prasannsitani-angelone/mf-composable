@@ -66,3 +66,16 @@ export type Start4SipsNudgeType = {
 	id: string;
 	amount: number;
 };
+
+export type UserEducationNudgeType = {
+	type: string;
+	heading: string;
+	description: string;
+	nudgesType: string;
+	data: {
+		isSips: boolean;
+		isAutoPay: boolean;
+	};
+	id: string;
+	amount: number;
+};
