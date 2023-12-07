@@ -38,7 +38,7 @@
 	import { page } from '$app/stores';
 	import { createEventDispatcher, tick } from 'svelte';
 	import SwitchConfirmation from '../../confirm/SwitchConfirmation/SwitchConfirmation.svelte';
-	import BigDotIcon from '$lib/images/icons/BigDotIcon.svelte';
+	import DotIcon from '$lib/images/icons/DotIcon.svelte';
 
 	export let folioHolding: FolioHoldingType;
 	export let switchInSchemeData: SwitchInSchemeType;
@@ -719,11 +719,11 @@
 						<WMSIcon name="not-circle" height={25} width={25} class="mr-2" />
 						<span class="px-2">
 							Switch of <b>{selectedFolio?.blockedunits?.toFixed(3)} units</b> is blocked. This
-							could be due to the following reasons (one or more):
+							could be due to the following reasons:
 
 							{#each unitBlockedReasons as reason}
 								<section class="flex items-start">
-									<BigDotIcon class="mx-2 mt-1.5 w-1" />
+									<DotIcon class="mx-2 mt-1.5 w-1" />
 									<div>{reason}</div>
 								</section>
 							{/each}

@@ -778,7 +778,7 @@
 							Withdrawal of <span class="font-normal text-black-title"
 								>{selectedFolio?.blockedunits?.toFixed(3)} units</span
 							>
-							is blocked. This could be due to the following reasons (one or more):
+							is blocked. This could be due to the following reasons:
 
 							{#each unitBlockedReasons as reason}
 								<section class="flex items-start">
