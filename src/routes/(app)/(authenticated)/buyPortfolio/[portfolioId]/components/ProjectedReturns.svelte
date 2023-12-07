@@ -11,7 +11,7 @@
 
 <section>
 	<div class="text-base font-medium">
-		Projected value for your Portfolio in 5 years at 12% returns annually
+		Projected value for your Portfolio in 5 years at {threeYearReturns.toFixed(2)}% returns annually
 	</div>
 	<div
 		class="relative left-32 top-8 flex w-48 flex-col justify-end text-left text-xs text-[#008F75] sm:left-72"
