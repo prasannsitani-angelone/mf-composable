@@ -1,8 +1,37 @@
+<script lang="ts">
+	import AmountText from '$components/AmountText.svelte';
+	import ProjectedReturnsGraph from '$lib/images/ProjectedReturnsGraph.svg';
+	import { calculateSipReturns } from '$lib/utils/helpers/returns';
+
+	export let threeYearReturns: number;
+
+	const finalVal =
+		Math.round(calculateSipReturns(1000, 3, threeYearReturns)?.matuarityAmount * 100) / 100;
+</script>
+
 <section>
-	<div class="pb-6 text-base font-medium">
+	<div class="text-base font-medium">
 		Projected value for your Portfolio in 5 years at 12% returns annually
 	</div>
-	<!-- <div class="items-center">
-		<img src={BuyPortfolioGraph} loading="lazy" alt="Add Scheme to Cart" class="self-center" />
-	</div> -->
+	<div
+		class="relative left-32 top-8 flex w-48 flex-col justify-end text-left text-xs text-[#008F75] sm:left-72"
+	>
+		<p>Projected Value <span class="pl-2 text-lg">- - - - - - - -</span></p>
+		<p class="font-medium"><AmountText amount={finalVal} /></p>
+	</div>
+	<div class="flex items-center justify-center">
+		<img
+			src={ProjectedReturnsGraph}
+			width="270px"
+			loading="lazy"
+			alt="Add Scheme to Cart"
+			class=""
+		/>
+	</div>
+	<div
+		class="ml-6 flex w-80 justify-between place-self-center pt-2 text-xs text-black-bolder sm:ml-40"
+	>
+		<div>SIP of ₹1,000</div>
+		<div>After 5 years</div>
+	</div>
 </section>

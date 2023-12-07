@@ -21,7 +21,7 @@
 	};
 </script>
 
-<section class="max-sm:h-[calc(100vh-150px)] max-sm:overflow-auto">
+<section class="overflow-auto max-sm:h-[calc(100vh-150px)] max-sm:overflow-auto">
 	<div class="mx-2 mb-2 flex items-center justify-between rounded-lg bg-white px-4 py-3">
 		<BasicDetails {portfolioPack} {showChevron} />
 	</div>
@@ -29,7 +29,7 @@
 		<PortfolioAllocation {portfolioPack} {showWeightage} />
 	</div>
 	<div class="mx-2 mb-2 rounded-lg bg-white p-4">
-		<ProjectedReturns />
+		<ProjectedReturns threeYearReturns={portfolioPack.threeYrReturnAvgPer} />
 	</div>
 	{#if !showInputPopup}
 		<div class="mx-2 rounded-lg">
