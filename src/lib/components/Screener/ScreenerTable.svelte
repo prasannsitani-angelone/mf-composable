@@ -70,7 +70,7 @@
 
 				<Td class="!pr-0 text-right"
 					><span class="text-base font-medium text-black-title"
-						>{funds?.returns3yr?.toFixed(2)}%</span
+						>{funds?.returns3yr > 0 ? `${funds?.returns3yr?.toFixed(2)}%` : '-'}</span
 					></Td
 				>
 			</Tr>
