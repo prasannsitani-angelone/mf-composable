@@ -9,9 +9,10 @@
 	import { base } from '$app/paths';
 	import QuickFilter from './QuickFilter.svelte';
 	import { topfilterClick, viewallfundsClick } from '$lib/analytics/filters/filters';
+	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
 
 	let screenedSchemes: ScreenedSchemes[];
-
+	let loading = true;
 	const navigateToFilters = async () => {
 		topfilterClick({ source: 'Homepage' });
 		await goto(`${base}/filters`);
@@ -31,6 +32,7 @@
 
 		screenedSchemes = await getScreenerSearch();
 		screenedSchemes = screenedSchemes?.splice(0, 5) || [];
+		loading = false;
 	});
 </script>
 
@@ -48,7 +50,11 @@
 				<QuickFilter onQuickFilterSelect={navigateToFilteredItems} pageSource="Homepage" />
 			</section>
 			<section>
-				<ScreenerTable {screenedSchemes} pageSource="Homepage" />
+				{#if loading}
+					<TableSkeleton rowLength={5} columnLength={2} />
+				{:else}
+					<ScreenerTable {screenedSchemes} pageSource="Homepage" />
+				{/if}
 			</section>
 			<section class="my-3 flex flex-col items-center justify-center">
 				<p class="text-[10px] text-black-bolder">8,000+ funds are available on Angel One</p>

@@ -65,7 +65,7 @@
 		<QuickFilter pageSource="s_Eexploremutualfunds" />
 	</section>
 	{#if loading}
-		<TableSkeleton />
+		<TableSkeleton rowLength={5} columnLength={2} />
 	{:else if screenedSchemes.length}
 		<section class="rounded bg-white px-4 py-3">
 			<ScreenerTable {screenedSchemes} pageSource="s_Eexploremutualfunds" />

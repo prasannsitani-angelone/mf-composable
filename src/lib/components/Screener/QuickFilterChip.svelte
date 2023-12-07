@@ -1,7 +1,27 @@
-<script>
-	let selected = true;
+<script lang="ts">
+	import { onMount, tick } from 'svelte';
 
-	export { selected };
+	let selected = true;
+	let id: string;
+	const setScrollPosition = () => {
+		const currentLink = document.getElementById(id);
+		currentLink?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+	};
+	onMount(async () => {
+		await tick();
+		if (selected) {
+			if (typeof window.requestIdleCallback === 'function') {
+				requestIdleCallback(() => {
+					setScrollPosition();
+				});
+			} else {
+				setTimeout(() => {
+					setScrollPosition();
+				}, 66);
+			}
+		}
+	});
+	export { selected, id };
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -11,6 +31,7 @@
 		selected ? 'border-blue-primary' : 'border-grey-secondary'
 	}`}
 	on:click
+	{id}
 >
 	<div class={`text-sm  ${selected ? 'text-blue-primary' : 'text-black-bolder'}`}>
 		<slot />
