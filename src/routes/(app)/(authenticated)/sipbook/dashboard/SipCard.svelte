@@ -175,7 +175,7 @@
 					class="flex h-5 max-w-fit rounded-sm bg-purple-background px-2 py-0.5 text-[10px] text-blue-primary"
 				>
 					<div>
-						<WMSIcon name="closed-folder" height={15} width={15} />
+						<WMSIcon name="open-folder-icon" height={15} width={15} />
 					</div>
 					<span class="pl-1">{sip?.packId}</span>
 				</div>

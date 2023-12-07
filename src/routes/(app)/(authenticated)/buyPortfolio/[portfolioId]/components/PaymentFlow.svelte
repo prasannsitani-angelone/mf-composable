@@ -177,12 +177,12 @@
 		}
 	};
 
-	const navigateToSipBook = async () => {
-		await goto(`${base}/sipbook/dashboard`);
+	const navigateToOrders = async () => {
+		await goto(`${base}/orders/orderspage`, { replaceState: true });
 	};
 
 	const successFlow = () => {
-		navigateToSipBook();
+		navigateToOrders();
 	};
 
 	const upiValidationErrorFuncPS = (error) => {
@@ -290,8 +290,8 @@
 		<div class="mb-4 text-center text-base font-normal text-black-title">
 			We are facing some issue at our end. Please try again or contact field support
 		</div>
-		<Button variant="transparent" class="mt-6 w-max self-center" onClick={navigateToSipBook}>
-			GO TO SIPBOOK
+		<Button variant="transparent" class="mt-6 w-max self-center" onClick={navigateToOrders}>
+			GO TO ORDERS
 		</Button>
 	</div>
 {/await}
