@@ -3,13 +3,14 @@
 
 	let selected = true;
 	let id: string;
+	let enableScroll = false;
 	const setScrollPosition = () => {
 		const currentLink = document.getElementById(id);
 		currentLink?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
 	};
 	onMount(async () => {
 		await tick();
-		if (selected) {
+		if (selected && enableScroll) {
 			if (typeof window.requestIdleCallback === 'function') {
 				requestIdleCallback(() => {
 					setScrollPosition();
@@ -21,7 +22,7 @@
 			}
 		}
 	});
-	export { selected, id };
+	export { selected, id, enableScroll };
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->

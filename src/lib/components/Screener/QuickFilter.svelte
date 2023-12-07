@@ -37,6 +37,7 @@
 	<div class="scrollbar-hide flex w-full gap-2 overflow-x-scroll pt-0 md:px-0">
 		{#each quickFilter || [] as filter, index}
 			<QuickFilterChip
+				enableScroll={pageSource === 's_Eexploremutualfunds'}
 				selected={filter.selected}
 				id={`${getQuickFilterId(filter.id)}`}
 				on:click={() => {
