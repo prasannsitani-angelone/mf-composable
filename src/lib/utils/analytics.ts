@@ -5,6 +5,7 @@ import { appStore } from '$lib/stores/SparkStore';
 import { deviceStore } from '$lib/stores/DeviceStore';
 import { PUBLIC_ANALYTICS_TOPIC, PUBLIC_ENV_NAME } from '$env/static/public';
 import { urlStore } from '$lib/stores/UrlStore';
+import { versionStore } from '$lib/stores/VersionStore';
 
 class Analytics extends BaseLogger {
 	constructor() {
@@ -27,7 +28,6 @@ class Analytics extends BaseLogger {
 			api_timestamp: date.getTime(),
 			api_timestamp_unix: format(date, 'yyyy-MM-dd hh:mm:ss.SSS'),
 			app_id: appStore.deviceid(),
-			app_version_id: 'mf',
 			build_release: PUBLIC_ENV_NAME,
 			client_id: profileStore?.clientId() || 'guest',
 			client_ip: '',
@@ -47,7 +47,8 @@ class Analytics extends BaseLogger {
 				platformVariant: appStore.platformvariant(),
 				platformVersion: appStore.platformversion()
 			},
-			urlSource: urlStore?.urlSource(),
+			source_url: urlStore?.urlSource(),
+			app_version_id: `mf_${versionStore?.getVersion()}`,
 			eventList: logs
 		};
 	};
