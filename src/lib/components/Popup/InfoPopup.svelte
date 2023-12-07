@@ -10,7 +10,7 @@
 
 <Modal {isModalOpen} {closeModal}>
 	<div
-		class="animate-bottomTransition flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white shadow-csm md:w-120 md:animate-none md:rounded-lg"
+		class="flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white shadow-csm md:w-120 md:rounded-lg"
 	>
 		<slot name="popupHeader">
 			<div class="flex items-center justify-between px-4 pb-3 pt-6 md:px-8 md:py-6">

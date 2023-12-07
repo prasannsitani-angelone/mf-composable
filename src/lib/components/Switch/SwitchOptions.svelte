@@ -85,7 +85,7 @@
 
 <div
 	class={isMobile
-		? 'animate-bottomTransition flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white shadow-csm md:w-120 md:animate-none md:rounded-lg'
+		? 'flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white shadow-csm md:w-120 md:rounded-lg'
 		: 'flex-col items-center border-b border-grey-line md:py-3'}
 >
 	{#if !isMobile && !activePage}

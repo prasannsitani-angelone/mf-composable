@@ -498,7 +498,7 @@
 	<article class="z-60 justify-start {!showCdslModal && 'hidden'}">
 		<Modal isModalOpen={true} on:backdropclicked={cdslModalCrossButtonClicked}>
 			<section
-				class="animate-bottomTransition flex h-full w-screen flex-col rounded-b-none bg-white shadow-csm md:h-96 md:w-5/6 md:animate-none md:rounded-lg"
+				class="flex h-full w-screen flex-col rounded-b-none bg-white shadow-csm md:h-96 md:w-5/6 md:rounded-lg"
 			>
 				<slot name="heading">
 					<div class="flex items-center justify-between px-4 py-3 md:px-8 md:py-6">

@@ -17,7 +17,7 @@
 	export { isModalOpen, toggleSchemeIformationModal, isin, schemeName };
 </script>
 
-<Modal {isModalOpen} on:backdropclicked={toggleSchemeIformationModal}>
+<Modal {isModalOpen} animation={true} on:backdropclicked={toggleSchemeIformationModal}>
 	<article
 		class="h-[70vh] overflow-x-scroll rounded-t-2xl bg-white px-6 pb-8 pt-6 md:w-120 md:rounded-lg"
 	>

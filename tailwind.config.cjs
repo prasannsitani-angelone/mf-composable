@@ -152,6 +152,32 @@ module.exports = {
 				10: '10',
 				11: '11',
 				12: '12'
+			},
+			keyframes: {
+				slideInFromBottom: {
+					'0%': {
+						position: 'relative',
+						top: '100%'
+					},
+					'100%': {
+						position: 'relative',
+						top: '0'
+					}
+				},
+				slideOutFromTop: {
+					'0%': {
+						position: 'relative',
+						top: '0'
+					},
+					'100%': {
+						position: 'relative',
+						top: '100%'
+					}
+				}
+			},
+			animation: {
+				slideUp: '0.5s slideInFromBottom',
+				slideDown: '0.5s slideOutFromTop'
 			}
 		}
 	},

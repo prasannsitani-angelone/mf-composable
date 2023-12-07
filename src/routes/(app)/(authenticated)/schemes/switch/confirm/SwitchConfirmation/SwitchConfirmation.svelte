@@ -431,7 +431,7 @@
 {#if interAmcFlag && showInterAmcPopup}
 	<Modal isModalOpen={showInterAmcPopup} closeModal={toggleInterAMCPopup}>
 		<div
-			class="animate-bottomTransition flex w-screen flex-col items-center rounded-b-none rounded-t-2xl bg-white px-4 py-4 shadow-csm sm:!w-[875px] md:animate-none md:rounded-lg"
+			class="flex w-screen flex-col items-center rounded-b-none rounded-t-2xl bg-white px-4 py-4 shadow-csm sm:!w-[875px] md:rounded-lg"
 		>
 			<InterAmcSwitchCue />
 			<div class="w-full pt-4 sm:w-[375px]">

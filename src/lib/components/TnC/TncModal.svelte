@@ -7,14 +7,23 @@
 	const dispatch = createEventDispatcher();
 
 	export let showModal = false;
+	let isModalClosed = false;
+
+	const closingModal = () => {
+		dispatch('closeModal');
+		isModalClosed = false;
+	};
 
 	const closeClicked = () => {
-		dispatch('closeModal');
+		isModalClosed = true;
+		setTimeout(() => {
+			closingModal();
+		}, 500);
 	};
 </script>
 
 <article>
-	<Modal isModalOpen={showModal} on:backdropclicked={closeClicked}>
+	<Modal isModalOpen={showModal} on:backdropclicked={closingModal} {isModalClosed} animation={true}>
 		<section
 			class="flex h-full w-screen flex-col rounded-b-none bg-white text-black-title shadow-csm md:h-96 md:w-5/6 md:animate-none md:rounded-lg"
 		>

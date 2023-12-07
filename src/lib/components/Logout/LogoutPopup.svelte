@@ -20,7 +20,7 @@
 
 <Modal closeModal={hideAttemptLogoutConfirmationPopup} isModalOpen>
 	<div
-		class="animate-bottomTransition flex w-full flex-col items-center justify-between overflow-y-auto rounded-b-none rounded-t-2xl bg-white shadow-clg sm:w-120 sm:animate-none sm:rounded-lg md:rounded-lg"
+		class="flex w-full flex-col items-center justify-between overflow-y-auto rounded-b-none rounded-t-2xl bg-white shadow-clg sm:w-120 sm:rounded-lg md:rounded-lg"
 	>
 		<div class="w-full">
 			<div

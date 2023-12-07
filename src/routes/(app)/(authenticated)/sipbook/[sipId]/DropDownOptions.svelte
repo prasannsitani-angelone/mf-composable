@@ -36,7 +36,7 @@
 
 <div
 	class={isMobile
-		? 'animate-bottomTransition flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white py-2 shadow-csm md:animate-none md:rounded-lg'
+		? 'flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white py-2 shadow-csm md:rounded-lg'
 		: 'z-1 absolute -top-5 right-0 flex w-[42%] flex-col rounded-md border-b bg-white shadow-csm'}
 >
 	{#each SIP_OPTIONS as option}

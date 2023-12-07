@@ -736,7 +736,7 @@
 		<!-- Switch Cue -->
 		<Modal isModalOpen={showSwitchCue} closeModal={toggleSwitchCue}>
 			<div
-				class="animate-bottomTransition flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white p-4 shadow-csm md:w-120 md:animate-none md:rounded-lg"
+				class="flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white p-4 shadow-csm md:w-120 md:rounded-lg"
 			>
 				<SwitchCue />
 				<div class="pt-4">

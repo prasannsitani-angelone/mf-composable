@@ -19,7 +19,7 @@
 	<Modal isModalOpen={showModal} on:backdropclicked={crossButtonClicked}>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
-			class="animate-bottomTransition flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white shadow-csm sm:w-120 sm:animate-none sm:rounded-lg"
+			class="flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white shadow-csm sm:w-120 sm:rounded-lg"
 		>
 			<slot name="heading">
 				<div class="flex items-center justify-between px-4 pb-3 pt-6 md:px-8 md:py-6">

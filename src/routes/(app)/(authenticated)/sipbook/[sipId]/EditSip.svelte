@@ -437,7 +437,7 @@
 		</article>
 		<Modal isModalOpen={showConfirmationPopup} closeModal={onToggleConfirmation} class="bg-white">
 			<div
-				class="animate-bottomTransition flex w-full flex-col overflow-y-auto rounded-b-none rounded-t-2xl bg-white pt-2 text-sm shadow-clg sm:w-120 sm:animate-none sm:rounded-lg md:rounded-lg md:p-4"
+				class="flex w-full flex-col overflow-y-auto rounded-b-none rounded-t-2xl bg-white pt-2 text-sm shadow-clg sm:w-120 sm:rounded-lg md:rounded-lg md:p-4"
 			>
 				<p class="px-4 pb-4 pt-4 text-base font-medium text-black-key">Confirm SIP Changes</p>
 				<div class="flex justify-between px-4 pb-2 pt-4">
