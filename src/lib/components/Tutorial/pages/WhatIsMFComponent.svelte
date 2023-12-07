@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import Icon1 from '$components/Tutorial/icons/Icon1.svelte';
 
 	let options = [
@@ -8,7 +9,7 @@
 
 	let youtubeLink = 'https://www.youtube.com/embed/25pXb6WDlF4';
 
-	$: height = window.innerHeight;
+	$: height = browser ? window?.innerHeight : 0;
 </script>
 
 <div class="bg-[#a4afed] px-8 py-5 {$$props.class}" style="height: {height}px">

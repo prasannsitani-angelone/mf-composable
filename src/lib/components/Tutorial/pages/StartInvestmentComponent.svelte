@@ -4,8 +4,9 @@
 	import Icon7 from '$components/Tutorial/icons/Icon7.svelte';
 	import Icon8 from '$components/Tutorial/icons/Icon8.svelte';
 	import Link from '$components/Link.svelte';
+	import { browser } from '$app/environment';
 
-	$: height = window.innerHeight;
+	$: height = browser ? window?.innerHeight : 0;
 </script>
 
 <div class="flex flex-col bg-[#E4EDFB] px-8 py-5 {$$props.class}" style="height: {height}px">

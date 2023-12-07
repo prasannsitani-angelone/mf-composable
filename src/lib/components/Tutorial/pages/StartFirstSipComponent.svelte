@@ -85,7 +85,7 @@
 		schemeDetails = await getSchemeDetails();
 	});
 
-	$: height = window.innerHeight;
+	$: height = browser ? window?.innerHeight : 0;
 </script>
 
 <div

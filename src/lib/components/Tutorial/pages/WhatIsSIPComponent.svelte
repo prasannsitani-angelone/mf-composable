@@ -5,6 +5,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import { debounce } from '$lib/utils/helpers/debounce';
 	import Graph from '$components/Tutorial/icons/Graph.svelte';
+	import { browser } from '$app/environment';
 
 	let options = [
 		'A Systematic Investment Plan (SIP) is an approach for long term investing',
@@ -51,7 +52,10 @@
 		}, 500);
 	};
 
-	$: height = window.innerHeight;
+	const cancelPropagation = (e) => {
+		e?.stopPropagation();
+	};
+	$: height = browser ? window?.innerHeight : 800;
 </script>
 
 <div class="bg-[#80E0EA] px-8 py-5 {$$props.class}" style="height: {height}px">
@@ -76,6 +80,8 @@
 			max={maxAmountSlider}
 			step={amountSliderSteps}
 			on:input={handleAmountSliderInput}
+			on:touchstart={cancelPropagation}
+			on:touchmove={cancelPropagation}
 		>
 			<div
 				class="flex h-[22px] w-[22px] items-center justify-center rounded-full border border-blue-primary bg-white shadow-csm md:cursor-pointer"

@@ -3,6 +3,7 @@
 	import Icon4 from '$components/Tutorial/icons/Icon4.svelte';
 	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
+	import { browser } from '$app/environment';
 
 	let options = [
 		'Autopay helps you automate your SIP payments',
@@ -40,7 +41,7 @@
 		await goto(path);
 	};
 
-	$: height = window.innerHeight;
+	$: height = browser ? window?.innerHeight : 0;
 </script>
 
 <div
