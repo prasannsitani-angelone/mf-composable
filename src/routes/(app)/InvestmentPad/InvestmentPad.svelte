@@ -224,6 +224,7 @@
 	let previousWrongBankFailedPayment = false;
 
 	let integeratedFlow = {
+		isIntegeratedFlow: false,
 		visible: false,
 		integeratedFlowFunc: () => undefined,
 		normalFlowFunc: () => undefined
@@ -1156,6 +1157,7 @@
 	};
 
 	const displayIntegeratedFlowError = ({ heading = 'Error', errorSubHeading = '' }) => {
+		integeratedFlow.visible = false;
 		integeratedFlowError.visible = true;
 		integeratedFlowError.heading = heading;
 		integeratedFlowError.subHeading = errorSubHeading;
@@ -1509,6 +1511,7 @@
 			};
 
 			const integeratedFlowFunc = () => {
+				integeratedFlow.isIntegeratedFlow = true;
 				upiIntegeratedFlow({
 					...commonSIPInput,
 					inputId,
@@ -1621,7 +1624,17 @@
 		return upiValidationResponse;
 	};
 
-	const isWalletIntegeratedFlow = async () => {
+	const isAppEligibleForIntegeratedFlow = () => {
+		if (
+			paymentHandler.paymentMode === 'GOOGLEPAY' ||
+			(paymentHandler.paymentMode === 'PHONEPE' && os?.toLowerCase() === 'android')
+		) {
+			return true;
+		}
+		return false;
+	};
+
+	const isIntegeratedFlowFunc = async () => {
 		let isIntegeratedFlow = false;
 		let normalFlow = true;
 		if (version === 'B' && !mandateId && !integeratedFlowError.occured) {
@@ -1668,6 +1681,18 @@
 		};
 	};
 
+	const isWalletIntegeratedFlow = async () => {
+		if (!isAppEligibleForIntegeratedFlow()) {
+			return {
+				normalFlow: true,
+				isIntegeratedFlow: false,
+				mandateId: ''
+			};
+		}
+		const response = await isIntegeratedFlowFunc();
+		return response;
+	};
+
 	const isUPIIntegeratedFlow = async (inputId = '') => {
 		const upiValidationResponse = await validateVPA(inputId);
 		if (upiValidationResponse.ok && !upiValidationResponse.data?.data?.valid) {
@@ -1696,7 +1721,7 @@
 			};
 		}
 
-		const response = await isWalletIntegeratedFlow();
+		const response = await isIntegeratedFlowFunc();
 		return response;
 	};
 
@@ -2143,7 +2168,7 @@
 
 {#if upiState.flow === 2}
 	<UpiTransactionPopup
-		{amount}
+		amount={integeratedFlow.isIntegeratedFlow ? '15000' : amount}
 		timer={upiState.timer}
 		onClose={onUPITransactionPopupClose}
 		accNO={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO}
