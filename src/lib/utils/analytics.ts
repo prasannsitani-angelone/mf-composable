@@ -48,7 +48,7 @@ class Analytics extends BaseLogger {
 				platformVersion: appStore.platformversion()
 			},
 			source_url: urlStore?.urlSource(),
-			app_version_id: `mf_${versionStore?.getVersion()}`,
+			app_version_id: `mf_${versionStore?.getVersion() || 'A'}`,
 			eventList: logs
 		};
 	};

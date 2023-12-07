@@ -1494,6 +1494,8 @@ export const upiIntegeratedFlow = async (params) => {
 				stopLoading();
 				displayPendingPopup({
 					isIntegeratedFlow: true,
+					orderId: orderPostResponse?.data?.data?.orderId,
+					sipId: orderPostResponse?.data?.data?.sipId,
 					heading: 'SIP Setup Pending',
 					errorSubHeading:
 						mandateStatusResponse?.data?.data?.response_description ||
@@ -2631,6 +2633,8 @@ export const walletIntegeratedFlow = async (params) => {
 				stopLoading();
 				displayPendingPopup({
 					isIntegeratedFlow: true,
+					orderId: orderPostResponse?.data?.data?.orderId,
+					sipId: orderPostResponse?.data?.data?.sipId,
 					heading: 'Autopay Setup Pending',
 					errorSubHeading:
 						mandateStatusResponse?.data?.data?.response_description ||

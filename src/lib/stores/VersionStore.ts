@@ -5,12 +5,12 @@ interface VERSION {
 }
 
 const initalStore: VERSION = {
-	version: 'A'
+	version: ''
 };
 
 function CreateStore() {
 	const { subscribe, set } = writable(initalStore);
-	let version = 'A';
+	let version = '';
 	subscribe((v) => {
 		version = v.version || '';
 	});
