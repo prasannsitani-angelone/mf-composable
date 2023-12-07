@@ -7,10 +7,10 @@
 >
 	<article class="flex items-center justify-between">
 		<div class="justify-between pr-8 text-black-key">
-			<div class="flex flex-col text-sm font-medium">What is Portfolio Builder?</div>
+			<div class="flex flex-col text-sm font-medium">What is a Goal Based Portfolio?</div>
 			<div class="pt-2 text-xs">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce mattis, lectus in ultricies
-				pharetra.
+				Invest in a set of mutual funds based on a particular goal or idea with goal based
+				portfolios
 			</div>
 		</div>
 		<div class="">

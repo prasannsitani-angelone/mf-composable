@@ -8,10 +8,13 @@
 	import ProjectedReturns from './ProjectedReturns.svelte';
 
 	export let portfolioPack: PortfolioPack;
+	export let amount: number;
+	export let date: number;
+	export let showInputPopup = false;
+	export let requestId = '';
 
 	let showChevron = false;
 	let showWeightage = true;
-	let showInputPopup = false;
 
 	const toggleInput = () => {
 		showInputPopup = !showInputPopup;
@@ -36,6 +39,12 @@
 		</div>
 	{/if}
 	<Modal isModalOpen={showInputPopup} on:backdropclicked={toggleInput}>
-		<PortfolioInput {portfolioPack} on:backButtonClicked={toggleInput} />
+		<PortfolioInput
+			{portfolioPack}
+			{amount}
+			sipStartDate={date}
+			{requestId}
+			on:backButtonClicked={toggleInput}
+		/>
 	</Modal>
 </section>

@@ -16,6 +16,8 @@
 
 	export let portfolioPack: PortfolioPack;
 	export let amount = 500;
+	export let sipStartDate = 4;
+	export let requestId = '';
 
 	const dispatch = createEventDispatcher();
 	const quickInputs = [1500, 2000, 5000];
@@ -23,7 +25,7 @@
 	let maxAmounts: number[] = [];
 	let sipMaxAmount = 0;
 	let showCalendar = false;
-	let sipStartDate = 4;
+
 	let showTncModal = false;
 	let dateArray: Array<dateArrayTypes> = [{ value: 1, disabled: false }];
 	$: {
@@ -137,7 +139,7 @@
 			</OrderpadReturns>
 		</section>
 	</div>
-	<div class="mx-2 mb-2 rounded-lg bg-white p-4">
+	<div class="mx-2 mb-2 rounded-lg bg-white p-4 max-sm:mb-36">
 		<PortfolioAllocation {portfolioPack} {showAmount} {amount} />
 	</div>
 	<div class="mx-2 rounded-lg">
@@ -150,7 +152,7 @@
 					</button>
 				</p>
 			</article>
-			<PaymentFlow {portfolioPack} {amount} date={sipStartDate} />
+			<PaymentFlow {portfolioPack} {amount} date={sipStartDate} {requestId} />
 		</section>
 	</div>
 </section>

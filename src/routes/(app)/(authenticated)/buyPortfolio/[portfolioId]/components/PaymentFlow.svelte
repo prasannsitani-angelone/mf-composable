@@ -36,7 +36,7 @@
 
 	let defaultInputPaymentError = '';
 	let isKYCInProgress = false;
-	let requestId = uuidv4();
+	export let requestId = uuidv4();
 
 	let previousPaymentDetails = {
 		selectedAccount: 0,

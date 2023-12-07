@@ -88,8 +88,8 @@
 				<WMSIcon name="info-doughnut" fill="#FACE80" />
 			</div>
 			<div class="pl-2 text-xs text-black-key">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce mattis, lectus in ultricies
-				pharetra.
+				This SIP is part of a goal based portfolio. Editing this SIP might impact your portfolio
+				performance
 			</div>
 		</div>
 	{/if}

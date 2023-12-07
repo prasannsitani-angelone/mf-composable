@@ -5,8 +5,18 @@
 	import PackDetails from './components/PackDetails.svelte';
 	import ErrorView from '$components/ErrorView.svelte';
 	import PageTitle from '$components/PageTitle.svelte';
+	import { decodeToObject } from '$lib/utils/helpers/params';
+	import { page } from '$app/stores';
 
 	export let data: PageData;
+
+	const params = $page.url.searchParams.get('params');
+	const {
+		amount = 500,
+		date = 4,
+		requestId = '',
+		showInputPopup = false
+	} = decodeToObject(params || '');
 
 	const handleErrorNavigation = () => {
 		history?.back();
@@ -23,7 +33,7 @@
 			<SkeletonLoader />
 		{:then portfolioOption}
 			{#if portfolioOption.packId !== ''}
-				<PackDetails portfolioPack={portfolioOption} />
+				<PackDetails portfolioPack={portfolioOption} {amount} {date} {showInputPopup} {requestId} />
 			{:else}
 				<ErrorView
 					heading="Something went wrong!"
