@@ -7,5 +7,5 @@
 </script>
 
 <span class={$$props.class}>
-	₹{addCommasToAmountString(amount)}
+	₹{addCommasToAmountString(amount || 0)}
 </span>

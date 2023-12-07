@@ -9,6 +9,7 @@
 	import InvestmentTab from '../(dashboard)/components/InvestmentTab.svelte';
 	import type { PageData } from './$types';
 	import TaxationTable from './TaxationTable.svelte';
+	import BigDotIcon from '$lib/images/icons/BigDotIcon.svelte';
 	export let data: PageData;
 
 	const navigateToEquite = async () => {
@@ -16,7 +17,7 @@
 			replaceState: true
 		});
 	};
-	$: activeTab = data?.holdingType === 'NON_EQUITY' ? 'Non Equity' : 'Equity';
+	$: activeTab = data?.holdingType === 'NON_EQUITY' ? 'Non-Equity' : 'Equity';
 	const navigateToNonEquity = async () => {
 		await goto(
 			`${base}/investments/ltcg-stcg-gains?taxType=${data?.taxType}&holdingType=NON_EQUITY`,
@@ -30,7 +31,7 @@
 			onClick: navigateToEquite
 		},
 		{
-			name: 'Non Equity',
+			name: 'Non-Equity',
 			onClick: navigateToNonEquity
 		}
 	];
@@ -41,31 +42,66 @@
 		<PageTitle title={data?.title} class="mb-0 sm:mb-4 sm:flex" />
 	</header>
 	{#if data?.taxType === 'STCG'}
-		<p
+		<div
 			class="sticky -top-2 z-100 -mt-2 ml-[calc(50%-50vw)] w-screen border-b border-grey-line bg-white px-4 py-3 text-xs text-black-key sm:relative sm:top-0 sm:ml-0 sm:w-full sm:rounded-lg sm:py-6"
 		>
-			Short Term Capital Gain for <span class="font-medium">Equity</span> (less than 1Y) and
-			<span class="font-medium">Non Equity</span> (less than 3Y) funds are taxed differently on redeeming.
-		</p>
+			<p class="flex">
+				<span class="mr-2 mt-1">
+					<BigDotIcon />
+				</span>
+				<span>
+					Short Term Capital Gain for Equity (less than 1Y) and Non-Equity (less than 3Y) funds are
+					taxed differently on withdrawal.
+				</span>
+			</p>
+			<p class="mt-[2px] flex">
+				<span class="mr-2 mt-1">
+					<BigDotIcon />
+				</span>
+				<span>
+					STCG tax will be applicable if you withdraw these investments today. Stay invested to
+					convert these to long term investments.
+				</span>
+			</p>
+		</div>
 	{:else}
-		<p
+		<div
 			class="sticky -top-2 z-100 -mt-2 ml-[calc(50%-50vw)] w-screen border-b border-grey-line bg-white px-4 py-3 text-xs text-black-key sm:relative sm:top-0 sm:ml-0 sm:w-full sm:rounded-lg sm:py-6"
 		>
-			Long Term Capital Gain for <span class="font-medium">Equity</span> (more than 1Y) and
-			<span class="font-medium">Non Equity</span> (more than 3Y) funds are taxed differently on redeeming.
-		</p>
+			<p class="flex">
+				<span class="mr-2 mt-1">
+					<BigDotIcon />
+				</span>
+				<span>
+					Long Term Capital Gain for Equity (more than 1Y) and Non-Equity (more than 3Y) funds are
+					taxed differently on withdrawal.
+				</span>
+			</p>
+			<p class="mt-[2px] flex">
+				<span class="mr-2 mt-1">
+					<BigDotIcon />
+				</span>
+				<span> LTCG tax will be applicable if you withdraw these investments today. </span>
+			</p>
+		</div>
 	{/if}
 	<InvestmentTab {tabs} {activeTab} class="mt-2 !px-0 max-sm:ml-0" />
 	{#await data?.api?.getTaxationDetails}
 		<TableSkeleton />
 	{:then taxationDetails}
-		{#if taxationDetails.length}
+		{#if taxationDetails?.length}
 			<TaxationTable {taxationDetails} class="bg-white px-4 pt-3" />
 		{:else}
 			<section class="flex w-full flex-col items-center justify-center rounded bg-white pb-6 pt-8">
 				<img src={NoFilterResult} width="60" height="60" loading="lazy" alt="No scheme found" />
 				<div class="mt-3 w-64 text-center text-base text-black-bolder">
-					No results found for selected filters.
+					{#if data?.taxType === 'STCG'}
+						You do not have any short term {activeTab} investments
+					{:else}
+						You do not have any long term
+						{activeTab} investments yet. Your short term investments will appear here if you stay invested
+						long enough
+					{/if}
 				</div>
 			</section>
 		{/if}
