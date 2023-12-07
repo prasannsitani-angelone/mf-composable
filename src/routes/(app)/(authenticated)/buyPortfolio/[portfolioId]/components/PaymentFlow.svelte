@@ -24,6 +24,7 @@
 	import { onMount } from 'svelte';
 	import type { PortfolioPack } from '$lib/types/IBuyPortfolio';
 	import { v4 as uuidv4 } from 'uuid';
+	import { encodeObject } from '$lib/utils/helpers/params';
 
 	export let portfolioPack: PortfolioPack;
 	export let amount = 0;
@@ -177,12 +178,17 @@
 		}
 	};
 
-	const navigateToOrders = async () => {
-		await goto(`${base}/orders/orderspage`, { replaceState: true });
+	const navigateToOrders = async (bulkId) => {
+		const params = encodeObject({
+			bulkId
+		});
+		await goto(`${base}/investwithexperts/ordersummary?params=${params}`, {
+			replaceState: true
+		});
 	};
 
-	const successFlow = () => {
-		navigateToOrders();
+	const successFlow = (params) => {
+		navigateToOrders(params?.bulkRequestId);
 	};
 
 	const upiValidationErrorFuncPS = (error) => {

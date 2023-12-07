@@ -13,10 +13,9 @@
 		<div class="flex items-center">
 			<SchemeLogo src={portfolioPack.packLogoUrl} />
 			<div class="text-xs">
-				<p class="text-sm font-medium">{portfolioPack.packName}</p>
-				<p class="pt-1 text-[11px] text-black-bolder">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce mattis, lectus in ultricies
-					pharetra.
+				<p class="text-base font-medium">{portfolioPack.packName}</p>
+				<p class="pt-1 text-xs text-black-bolder">
+					{portfolioPack.description}
 				</p>
 			</div>
 		</div>
@@ -30,13 +29,13 @@
 		class="mt-3 flex w-full flex-row justify-between divide-x divide-[#C7CDEB] rounded bg-[#F1F3FC] px-4 py-2 text-black-key"
 	>
 		<div class="flex w-6/12 flex-col items-start">
-			<p class="text-[11px] text-black-bolder">Min. SIP Amount</p>
+			<p class="text-xs text-black-bolder">Min. SIP Amount</p>
 			<p class="text-base font-medium">
 				<AmountText amount={portfolioPack.minSipAmount || 0} />
 			</p>
 		</div>
 		<div class="flex w-6/12 flex-col items-end">
-			<p class="text-[11px] text-black-bolder">Returns</p>
+			<p class="text-xs text-black-bolder">Returns</p>
 			<div class="flex flex-row items-center">
 				<p class="text-base font-medium">{portfolioPack.threeYrReturnAvgPer.toFixed(2)}% p.a</p>
 			</div>

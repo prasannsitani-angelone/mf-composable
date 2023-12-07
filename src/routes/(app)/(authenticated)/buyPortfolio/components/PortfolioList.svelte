@@ -28,7 +28,7 @@
 			</div>
 			<div class="mt-3 flex flex-col text-black-bolder">
 				<div class="text-xs font-medium">Key Benefits:</div>
-				<div class="text-[11px]">
+				<div class="text-xs">
 					{#each portfolioPack.benefits as benefit}
 						<div class="flex pt-3">
 							<div>

@@ -7,8 +7,8 @@
 >
 	<article class="flex items-center justify-between">
 		<div class="justify-between pr-8 text-black-key">
-			<div class="flex flex-col text-sm font-medium">What is a Goal Based Portfolio?</div>
-			<div class="pt-2 text-xs">
+			<div class="flex flex-col text-base font-medium">What is a Goal Based Portfolio?</div>
+			<div class="pt-2 text-sm">
 				Invest in a set of mutual funds based on a particular goal or idea with goal based
 				portfolios
 			</div>
