@@ -163,7 +163,14 @@
 			withdrawDisableText =
 				'Withdrawal is disabled as exchange has disabled withdrawal for this scheme';
 		} else if (!totalRedeemableUnits) {
-			if (totalBlockedUnits && !totalPledgedUnits && !totalUnitsUnderProcess) {
+			if (
+				totalBlockedUnits &&
+				!holdingsData?.lockInUnits &&
+				!holdingsData?.safeKeepUnits &&
+				!holdingsData?.pledgeUnits
+			) {
+				withdrawDisableText = '';
+			} else if (totalBlockedUnits && !totalPledgedUnits && !totalUnitsUnderProcess) {
 				withdrawDisableText =
 					'Withdraw is disabled temporarily as withdrawal units are in process of being credited to your account or are in lock-in';
 				// isWithdrawDisableLockInCase = true;
