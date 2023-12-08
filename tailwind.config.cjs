@@ -23,6 +23,10 @@ module.exports = {
 		'row-start-10',
 		'row-start-11',
 		'row-start-12',
+		'row-start-13',
+		'row-start-14',
+		'row-start-15',
+		'row-start-16',
 		'col-start-1',
 		'col-start-2',
 		'col-start-3',
@@ -144,7 +148,11 @@ module.exports = {
 				9: '9',
 				10: '10',
 				11: '11',
-				12: '12'
+				12: '12',
+				13: '13',
+				14: '14',
+				15: '15',
+				16: '16'
 			},
 			gridColumnStart: {
 				8: '8',
