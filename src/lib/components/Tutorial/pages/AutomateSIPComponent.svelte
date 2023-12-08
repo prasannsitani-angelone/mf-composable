@@ -1,9 +1,9 @@
 <script lang="ts">
 	import WMSIcon from '$components/WMSIcon.svelte';
-	import Icon4 from '$components/Tutorial/icons/Icon4.svelte';
+	import Icon4 from '$components/Tutorial/icons/AutomateSipBgIcon.svelte';
 	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
-	import { browser } from '$app/environment';
+	import { HEIGHT_OFFSET } from '$components/Tutorial/pages/const';
 
 	let options = [
 		'Autopay helps you automate your SIP payments',
@@ -40,19 +40,20 @@
 		console.log(path);
 		await goto(path);
 	};
-
-	$: height = browser ? window?.innerHeight : 0;
+	let clientHeight = 0;
 </script>
 
 <div
-	style="height: {height}px"
+	bind:clientHeight
 	on:touchstart={setStartTouchPoints}
 	on:touchend={setEndTouchPoints}
-	class="flex flex-col bg-[#FACE80] px-8 py-5 {$$props.class}"
+	class="flex h-screen flex-col bg-[#FACE80] px-8 py-5 {$$props.class}"
 >
 	<section class="flex-1">
 		<p class="mb-10 mt-10 text-2xl font-medium text-black-key">Automating SIP Payments</p>
-		<Icon4 class="mx-auto mb-10" />
+		{#if clientHeight > HEIGHT_OFFSET}
+			<Icon4 class="mx-auto mb-10" />
+		{/if}
 
 		<ul class="mb-10 ml-3">
 			{#each options as option}

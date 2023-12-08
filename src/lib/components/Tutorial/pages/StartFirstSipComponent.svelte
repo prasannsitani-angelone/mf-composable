@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Icon3 from '$components/Tutorial/icons/Icon3.svelte';
+	import Icon3 from '$components/Tutorial/icons/StartFirstBgIcon.svelte';
 	import WMSIcon from '$components/WMSIcon.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import GreenUpArrowTrendingFund from '$lib/images/GreenUpArrowTrendingFund.svg';
@@ -15,6 +15,7 @@
 	import { browser } from '$app/environment';
 	import { redirect } from '@sveltejs/kit';
 	import { onMount } from 'svelte';
+	import { HEIGHT_OFFSET } from '$components/Tutorial/pages/const';
 
 	let options = [
 		'With Angel One, you can start your first SIP in just a few steps!',
@@ -84,19 +85,20 @@
 	onMount(async () => {
 		schemeDetails = await getSchemeDetails();
 	});
-
-	$: height = browser ? window?.innerHeight : 0;
+	let clientHeight = 0;
 </script>
 
 <div
-	style="height: {height}px"
+	bind:clientHeight
 	on:touchstart={setStartTouchPoints}
 	on:touchend={setEndTouchPoints}
-	class="flex flex-col bg-[#B99AE6] px-8 py-5 {$$props.class}"
+	class="flex h-screen flex-col bg-[#B99AE6] px-8 py-5 {$$props.class}"
 >
 	<section class="flex-1">
 		<p class="mb-10 mt-10 text-2xl font-medium text-black-key">Starting Your First SIP</p>
-		<Icon3 class="mx-auto mb-10" />
+		{#if clientHeight > HEIGHT_OFFSET}
+			<Icon3 class="mx-auto mb-10" />
+		{/if}
 
 		<ul class="mb-10 ml-3">
 			{#each options as option}

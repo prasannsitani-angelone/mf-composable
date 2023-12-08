@@ -48,21 +48,23 @@
 			height={18}
 			class="self-center"
 			name="cross-close"
-			stroke="white"
+			stroke={currentIndex < carouselItems.length - 1 ? `white` : `black`}
 			on:click={close}
 		/>
 		<div class="flex flex-row justify-center gap-2">
 			{#each carouselItems as _, index}
 				{@const isSelected = currentIndex < index}
 				<div
-					class="h-1 w-10 self-center rounded bg-white {isSelected
-						? 'opacity-[0.5]'
-						: 'opacity-[1]'}"
+					class="h-1 w-10 self-center rounded
+					{currentIndex < carouselItems.length - 1 ? `bg-white` : `bg-blue-primary`}
+					{isSelected ? 'opacity-[0.5]' : 'opacity-[1]'}"
 				/>
 			{/each}
 		</div>
 
-		<p class="text-white">{currentIndex + 1}/{carouselItems.length}</p>
+		<p class={currentIndex < carouselItems.length - 1 ? `text-white` : `text-black`}>
+			{currentIndex + 1}/{carouselItems.length}
+		</p>
 	</div>
 
 	<CarouselNative

@@ -1,20 +1,22 @@
 <script lang="ts">
-	import Icon5 from '$components/Tutorial/icons/Icon5.svelte';
+	import Icon5 from '$components/Tutorial/icons/AllDoneBgIcon.svelte';
 	import Icon6 from '$components/Tutorial/icons/Icon6.svelte';
 	import Icon7 from '$components/Tutorial/icons/Icon7.svelte';
 	import Icon8 from '$components/Tutorial/icons/Icon8.svelte';
 	import Link from '$components/Link.svelte';
-	import { browser } from '$app/environment';
+	import { HEIGHT_OFFSET } from '$components/Tutorial/pages/const';
 
-	$: height = browser ? window?.innerHeight : 0;
+	let clientHeight = 0;
 </script>
 
-<div class="flex flex-col bg-[#E4EDFB] px-8 py-5 {$$props.class}" style="height: {height}px">
+<div bind:clientHeight class="flex h-screen flex-col bg-[#E4EDFB] px-8 py-5 {$$props.class}">
 	<p class="mb-5 mt-10 text-2xl font-medium text-black-key">All Done!</p>
 	<p class="mb-10 text-2xl font-medium text-blue-primary">
 		You are now ready to start your investment journey
 	</p>
-	<Icon5 class="mx-auto mb-10" />
+	{#if clientHeight > HEIGHT_OFFSET}
+		<Icon5 class="mx-auto mb-10" />
+	{/if}
 
 	<p class="mx-auto mb-5 w-fit text-sm font-medium text-black-title">
 		Proceed to build your wealth?

@@ -1,11 +1,11 @@
 <script lang="ts">
-	import Icon2 from '$components/Tutorial/icons/Icon2.svelte';
+	import Icon2 from '$components/Tutorial/icons/WhaiIsSipBgIcon.svelte';
 	import Slider from '@bulatdashiev/svelte-slider';
 	import AmountText from '$components/AmountText.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { debounce } from '$lib/utils/helpers/debounce';
 	import Graph from '$components/Tutorial/icons/Graph.svelte';
-	import { browser } from '$app/environment';
+	import { HEIGHT_OFFSET } from '$components/Tutorial/pages/const';
 
 	let options = [
 		'A Systematic Investment Plan (SIP) is an approach for long term investing',
@@ -52,13 +52,14 @@
 		}, 500);
 	};
 
-	$: height = browser ? window?.innerHeight : 800;
+	let clientHeight = 0;
 </script>
 
-<div class="bg-[#80E0EA] px-8 py-5 {$$props.class}" style="height: {height}px">
+<div bind:clientHeight class="h-screen bg-[#80E0EA] px-8 py-5 {$$props.class}">
 	<p class="mb-5 mt-10 text-2xl font-medium text-black-key">What is an SIP?</p>
-	<Icon2 class="mx-auto mb-5" />
-
+	{#if clientHeight > HEIGHT_OFFSET}
+		<Icon2 class="mx-auto mb-5" />
+	{/if}
 	<ul class="mb-10 ml-3">
 		{#each options as option}
 			<li class="mb-2 list-disc text-sm font-normal leading-6 text-black-key">
@@ -78,10 +79,12 @@
 			step={amountSliderSteps}
 			on:input={handleAmountSliderInput}
 		>
-			<div
-				class="flex h-[22px] w-[22px] items-center justify-center rounded-full border border-blue-primary bg-white shadow-csm md:cursor-pointer"
-			>
-				<div class="h-3 w-3 rounded-full bg-blue-primary" />
+			<div class="p-6">
+				<div
+					class="flex h-[22px] w-[22px] items-center justify-center rounded-full border border-blue-primary bg-white shadow-csm md:cursor-pointer"
+				>
+					<div class="h-3 w-3 rounded-full bg-blue-primary" />
+				</div>
 			</div>
 		</Slider>
 		<div
