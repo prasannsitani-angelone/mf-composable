@@ -116,6 +116,11 @@
 	};
 
 	const handleTouchStart = (e: Event, isMouseEvent = false) => {
+		// Add id='disable-swipe' to container, swipe will be disabled in the whole container
+		const disableSwipContainer = document.getElementById('disable-swipe');
+
+		if (disableSwipContainer?.contains(e.target)) return;
+
 		const touchDown = isMouseEvent ? e?.clientX : e?.touches[0]?.clientX;
 		touchPosition = touchDown;
 	};

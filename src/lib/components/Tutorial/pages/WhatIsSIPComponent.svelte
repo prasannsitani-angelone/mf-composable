@@ -52,9 +52,6 @@
 		}, 500);
 	};
 
-	const cancelPropagation = (e) => {
-		e?.stopPropagation();
-	};
 	$: height = browser ? window?.innerHeight : 800;
 </script>
 
@@ -72,7 +69,7 @@
 
 	<p class="mb-2 text-lg font-medium text-black-key">Calculate SIP Returns</p>
 
-	<div class="slider flex items-center">
+	<div class="slider flex items-center" id="disable-swipe">
 		<Slider
 			bind:value={amountReturnSlider}
 			class="h-[60px]"
@@ -80,8 +77,6 @@
 			max={maxAmountSlider}
 			step={amountSliderSteps}
 			on:input={handleAmountSliderInput}
-			on:touchstart={cancelPropagation}
-			on:touchmove={cancelPropagation}
 		>
 			<div
 				class="flex h-[22px] w-[22px] items-center justify-center rounded-full border border-blue-primary bg-white shadow-csm md:cursor-pointer"
