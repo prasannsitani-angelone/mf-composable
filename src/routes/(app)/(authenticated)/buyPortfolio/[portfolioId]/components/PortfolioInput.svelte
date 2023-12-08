@@ -85,11 +85,11 @@
 		<div class="flex items-center">
 			<SchemeLogo src={portfolioPack.packLogoUrl} />
 			<div class="text-xs">
-				<p class="text-sm font-medium">{portfolioPack.packName}</p>
+				<p class="text-base font-medium">{portfolioPack.packName}</p>
 			</div>
 		</div>
 		<div class="flex flex-col items-end">
-			<p class="text-[11px] text-black-bolder">Returns p.a</p>
+			<p class="text-xs text-black-bolder">Returns p.a</p>
 			<div class="flex flex-row items-center">
 				<p class="text-base font-medium">{portfolioPack.threeYrReturnAvgPer.toFixed(2)}%</p>
 			</div>

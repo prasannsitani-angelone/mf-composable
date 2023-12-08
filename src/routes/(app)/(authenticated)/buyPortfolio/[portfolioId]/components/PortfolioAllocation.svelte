@@ -16,6 +16,7 @@
 	import { goto } from '$app/navigation';
 	import { redirect } from '@sveltejs/kit';
 	import { browser } from '$app/environment';
+	import { schemeInfoCueCardDetailsClickEvent } from '$components/Scheme/cuecards/analytics';
 
 	export let portfolioPack: PortfolioPack;
 	export let showWeightage = false;
@@ -95,7 +96,17 @@
 		return {
 			component: RiskAndRatingCueCard,
 			props: {
-				schemeDetails: schemeDetails
+				schemeDetails: schemeDetails,
+				schemeDetailsClicked: () => {
+					const isLast = currentVisibleCueCardIndex === fundDetailsCarouselItems.length - 1;
+					schemeInfoCueCardDetailsClickEvent({
+						ISIN: schemeData.isin,
+						CardName: 'RatingRisk',
+						isOpenNFO: false,
+						cardrank: currentVisibleCueCardIndex + 1,
+						islastcard: isLast
+					});
+				}
 			}
 		};
 	}
@@ -121,7 +132,7 @@
 	{:else}
 		<div class="pb-3 text-xs text-black-bolder">No. of SIPs - {portfolioPack.schemes.length}</div>
 	{/if}
-	<div class="flex justify-between border-b pb-2 text-[11px] text-grey-body">
+	<div class="flex justify-between border-b pb-2 text-xs text-grey-body">
 		<p>Fund</p>
 		<p>{showWeightage ? 'Weightage (%)' : 'Amount'}</p>
 	</div>
@@ -136,7 +147,7 @@
 		>
 			<div class="flex">
 				<SchemeLogo size="xs2" src={scheme.logoUrl} alt={scheme.schemeName} />
-				<div class="flex flex-col self-center text-xs font-normal">
+				<div class="flex flex-col self-center text-sm font-normal">
 					<p>{scheme.schemeName}</p>
 					<p class="text-grey-body">3Y Returns: {scheme.returns3yr}%</p>
 				</div>
@@ -149,7 +160,7 @@
 						<WMSIcon class="pl-2" name="right-arrow" stroke="#3F5BD9" />
 					</div>
 				{:else if showAmount}
-					{(scheme.wieightPercentage * amount) / 100}
+					₹{(scheme.wieightPercentage * amount) / 100}
 				{/if}
 			</div>
 		</div>

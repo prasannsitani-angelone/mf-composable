@@ -7,6 +7,7 @@
 	import PageTitle from '$components/PageTitle.svelte';
 	import { decodeToObject } from '$lib/utils/helpers/params';
 	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
 
 	export let data: PageData;
 
@@ -21,6 +22,13 @@
 	const handleErrorNavigation = () => {
 		history?.back();
 	};
+	const scrollToTop = () => {
+		document?.getElementsByTagName?.('main')?.[0]?.scrollTo(0, 0);
+	};
+
+	onMount(() => {
+		scrollToTop();
+	});
 </script>
 
 <SEO seoTitle="Select a Portfolio | Angelone" seoDescription="List of portfolio" />
