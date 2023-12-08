@@ -50,8 +50,8 @@
 					<BigDotIcon />
 				</span>
 				<span>
-					Short Term Capital Gain for Equity (less than 1Y) and Non-Equity (less than 3Y) funds are
-					taxed differently on withdrawal.
+					Short Term Capital Gain for <span class="font-medium">Equity</span> (less than 1Y) and
+					<span class="font-medium">Non-Equity</span> (less than 3Y) funds are taxed differently on withdrawal.
 				</span>
 			</p>
 			<p class="mt-[2px] flex">
@@ -73,8 +73,8 @@
 					<BigDotIcon />
 				</span>
 				<span>
-					Long Term Capital Gain for Equity (more than 1Y) and Non-Equity (more than 3Y) funds are
-					taxed differently on withdrawal.
+					Long Term Capital Gain for <span class="font-medium">Equity</span> (more than 1Y) and
+					<span class="font-medium">Non-Equity</span> (more than 3Y) funds are taxed differently on withdrawal.
 				</span>
 			</p>
 			<p class="mt-[2px] flex">
@@ -93,7 +93,7 @@
 			<TaxationTable {taxationDetails} class="bg-white px-4 pt-3" />
 		{:else}
 			<section class="flex w-full flex-col items-center justify-center rounded bg-white pb-6 pt-8">
-				<img src={NoFilterResult} width="60" height="60" loading="lazy" alt="No scheme found" />
+				<img src={NoFilterResult} width="110" height="110" loading="lazy" alt="No scheme found" />
 				<div class="mt-3 w-64 text-center text-base text-black-bolder">
 					{#if data?.taxType === 'STCG'}
 						You do not have any short term {activeTab} investments
