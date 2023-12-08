@@ -714,9 +714,11 @@
 					</article>
 
 					<article
-						class="font-small flex items-center justify-between rounded bg-grey px-4 py-4 text-sm text-grey-body"
+						class="font-small flex items-center justify-start rounded bg-grey px-4 py-4 text-sm text-grey-body"
 					>
-						<WMSIcon name="not-circle" height={25} width={25} class="mr-2" />
+						<span class="mr-2">
+							<WMSIcon name="not-allowed-icon" height={25} width={25} />
+						</span>
 						<span class="px-2">
 							Switch of <b>{selectedFolio?.blockedunits?.toFixed(3)} units</b> is blocked. This
 							could be due to the following reasons:
