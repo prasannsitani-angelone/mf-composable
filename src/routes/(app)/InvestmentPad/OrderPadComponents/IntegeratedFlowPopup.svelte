@@ -18,7 +18,7 @@
 	};
 </script>
 
-<Modal isModalOpen>
+<Modal isModalOpen on:backdropclicked={onClose}>
 	<div
 		class="flex w-full flex-col items-center overflow-y-auto rounded-none rounded-t-2xl bg-white p-4 pt-8 shadow-clg sm:w-120 sm:rounded-lg"
 	>

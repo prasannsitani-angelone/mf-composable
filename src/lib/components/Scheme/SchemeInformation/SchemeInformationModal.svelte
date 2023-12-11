@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Button from '$components/Button.svelte';
-	import Modal from '$components/Modal.svelte';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 
 	import { schemeTermsInfo } from '../analytics';
 	let isModalOpen = false;
@@ -17,7 +17,7 @@
 	export { isModalOpen, toggleSchemeIformationModal, isin, schemeName };
 </script>
 
-<Modal {isModalOpen} animation={true} on:backdropclicked={toggleSchemeIformationModal}>
+<ModalWithAnimation {isModalOpen} on:backdropclicked={toggleSchemeIformationModal}>
 	<article
 		class="h-[70vh] overflow-x-scroll rounded-t-2xl bg-white px-6 pb-8 pt-6 md:w-120 md:rounded-lg"
 	>
@@ -85,4 +85,4 @@
 			</div>
 		</section>
 	</article>
-</Modal>
+</ModalWithAnimation>

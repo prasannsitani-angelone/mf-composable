@@ -1,8 +1,8 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
-	import Modal from '$components/Modal.svelte';
 	import TncComponent from './TncComponent.svelte';
 	import CrossInCircleIcon from '$lib/images/icons/CrossInCircleIcon.svelte';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 
 	const dispatch = createEventDispatcher();
 
@@ -23,7 +23,7 @@
 </script>
 
 <article>
-	<Modal isModalOpen={showModal} on:backdropclicked={closingModal} {isModalClosed} animation={true}>
+	<ModalWithAnimation isModalOpen={showModal} on:backdropclicked={closingModal} {isModalClosed}>
 		<section
 			class="flex h-full w-screen flex-col rounded-b-none bg-white text-black-title shadow-csm md:h-96 md:w-5/6 md:animate-none md:rounded-lg"
 		>
@@ -50,5 +50,5 @@
 				</section>
 			</slot>
 		</section>
-	</Modal>
+	</ModalWithAnimation>
 </article>
