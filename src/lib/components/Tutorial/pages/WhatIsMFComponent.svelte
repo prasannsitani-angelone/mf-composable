@@ -1,13 +1,13 @@
 <script lang="ts">
 	import Icon1 from '$components/Tutorial/icons/WhatIsMFBbIcon.svelte';
 	import { HEIGHT_OFFSET } from '$components/Tutorial/pages/const';
+	import { appStore } from '$lib/stores/SparkStore';
 
 	let options = [
 		'Mutual funds are one of the safest and most effective way for most investors to grow their wealth',
 		'With mutual funds, expert money managers research the market and invest your money'
 	];
 
-	let youtubeLink = `https://www.youtube.com/embed/25pXb6WDlF4?enablejsapi=1&version=3&playerapiid=ytplayer`;
 	let clientHeight = 0;
 
 	const pauseVideo = () => {
@@ -27,6 +27,20 @@
 	export const onSelected = () => {
 		// no-op
 	};
+
+	const getYoutubeUrl = () => {
+		let url =
+			'https://www.youtube.com/embed/25pXb6WDlF4?enablejsapi=1&version=3&playerapiid=ytplayer';
+		if (
+			(appStore.isSparkAndroidUser() || appStore.isAngelBeeAndroidUser()) &&
+			appStore.isWebView()
+		) {
+			url += '&fs=0';
+		}
+		return url;
+	};
+
+	let youtubeLink = getYoutubeUrl();
 </script>
 
 <div bind:clientHeight class="h-screen bg-[#a4afed] px-8 py-5 {$$props.class}">
