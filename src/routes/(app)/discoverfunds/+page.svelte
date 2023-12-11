@@ -251,7 +251,7 @@
 		if (data?.layoutConfig?.showAskAngelEntry) {
 			askAngelEntryImpressionAnalytics();
 		}
-		schemeScreenerStore?.resetStore();
+		schemeScreenerStore?.reinitializeStore();
 		schemeScreenerStore.getFiltersResponse();
 		await initializeClevertapData();
 	});

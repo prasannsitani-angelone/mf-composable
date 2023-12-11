@@ -378,6 +378,14 @@ function CreateStore() {
 			updateStore({
 				data: state.data
 			});
+		},
+		reinitializeStore: function () {
+			restructureData(state.data);
+			state.data.filtersCount = updateQuickFilters(initialFilter, state.data.filters);
+			state.data.queryPath = generateQuery(state.data.filters, '', '');
+			updateStore({
+				data: state.data
+			});
 		}
 	};
 }
