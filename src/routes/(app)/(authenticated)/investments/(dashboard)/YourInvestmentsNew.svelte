@@ -208,7 +208,7 @@
 										<article class=" text-black-title lg:text-right">- -</article>
 									{:else}
 										<article
-											class="flex flex-col flex-wrap items-center justify-end text-black-title lg:text-right"
+											class="flex flex-wrap items-center justify-end text-black-title sm:flex-col lg:text-right"
 										>
 											{#if activeFilter === 'absolute'}
 												<span

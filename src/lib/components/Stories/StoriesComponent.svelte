@@ -303,8 +303,6 @@
 	onMount(() => {
 		/* eslint-disable */
 		if (window?.Hls?.isSupported()) {
-			console.log('hello hls.js!');
-
 			hls = new Hls({
 				startFragPrefetch: true
 			});
@@ -378,6 +376,7 @@
 								muted={mutedPlayback}
 								on:ended={setNextVideo}
 								{selectedVideo}
+								{selectedStory}
 								on:click={setNextVideo}
 							/>
 						{/if}

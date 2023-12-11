@@ -9,18 +9,23 @@
 	export let hls;
 	export let muted: boolean;
 	let videoElm;
+
 	onMount(() => {
 		videoElm = document.getElementById('video');
+		/* eslint-disable */
 		if (window?.Hls?.isSupported()) {
 			hls?.loadSource(`${base}${selectedVideo?.videoUrl}`);
 			hls?.attachMedia(videoElm);
 			videoElm?.play();
+
+			/* eslint-enable */
 		} else {
 			try {
 				var source = document.createElement('source');
 
 				source.src = selectedVideo?.videoFallbackUrl;
 				source.type = 'video/mp4';
+
 				videoElm?.appendChild(source);
 				videoElm?.play();
 			} catch (e) {
@@ -42,8 +47,8 @@
 
 <video
 	id="video"
-	class="h-full w-full justify-center object-cover"
 	poster={selectedStory?.imageThumbnailUrl}
+	class="h-full w-full justify-center object-cover"
 	autoplay
 	playsinline
 	height="auto"
