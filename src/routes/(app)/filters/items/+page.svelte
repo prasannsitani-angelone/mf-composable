@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import ScreenerFilterList from '$components/Screener/ScreenerFilterList.svelte';
 	import FilterOptions from '$components/ScreenerFilter/FilterOptions.svelte';
-	import { exploreMFImpression, type IExploreMF } from '$lib/analytics/filters/filters';
+	import { exploreMFImpression } from '$lib/analytics/filters/filters';
 	import { schemeScreenerStore } from '$lib/stores/SchemeScreenerStore';
 	import type { FilterData } from '$lib/types/ScreenerFilters';
 	import { debounce } from '$lib/utils/helpers/debounce';
@@ -17,14 +17,9 @@
 
 	onMount(async () => {
 		await tick();
-		const exploreMFMetaData: IExploreMF = {
-			quickfilter: '',
-			topFilter: 'N',
-			viewmorefund: 'N'
-		};
 
 		await schemeScreenerStore.getFiltersResponse();
-		exploreMFImpression(exploreMFMetaData);
+		exploreMFImpression();
 	});
 
 	const handleOptionChange = (clickedFilterData) => {

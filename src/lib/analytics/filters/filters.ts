@@ -29,15 +29,14 @@ export interface IFundSelect {
 	source: ScreenerSource;
 }
 
-export const exploreMFImpression = (eventMetaData: IExploreMF) => {
+export const exploreMFImpression = () => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's_ExploreMutualFunds_Filter',
 		event_type: 'impression',
 		event_sub_type: 'screen',
 		event_name: 'ExploreMF',
 		event_property: null,
-		event_id: '308.0.0.8.0',
-		event_metadata: eventMetaData
+		event_id: '308.0.0.8.0'
 	});
 };
 

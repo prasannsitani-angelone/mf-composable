@@ -24,8 +24,9 @@
 			fundName: schemeName,
 			isin,
 			source: pageSource,
-			fundRank: index
+			fundRank: index + 1
 		};
+
 		fundSelectClick(fundSelectMetaData);
 		await goto(`${base}/${normalizeFundName(schemeName, isin, schemeCode, 'schemes')}`);
 	};
