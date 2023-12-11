@@ -7,8 +7,26 @@
 		'With mutual funds, expert money managers research the market and invest your money'
 	];
 
-	let youtubeLink = 'https://www.youtube.com/embed/25pXb6WDlF4';
+	let youtubeLink = `https://www.youtube.com/embed/25pXb6WDlF4?enablejsapi=1&version=3&playerapiid=ytplayer`;
 	let clientHeight = 0;
+
+	const pauseVideo = () => {
+		var youtubeVideo = document.querySelector('.youtube-video');
+		if (youtubeVideo && youtubeVideo.contentWindow) {
+			youtubeVideo.contentWindow.postMessage(
+				'{"event":"command","func":"pauseVideo","args":""}',
+				'*'
+			);
+		}
+	};
+
+	export const onRemoved = () => {
+		pauseVideo();
+	};
+
+	export const onSelected = () => {
+		// no-op
+	};
 </script>
 
 <div bind:clientHeight class="h-screen bg-[#a4afed] px-8 py-5 {$$props.class}">
@@ -31,7 +49,7 @@
 	<iframe
 		allowfullscreen={true}
 		title="What are Mutual Funds?"
-		class="mb-5 h-48 w-full rounded-lg"
+		class="youtube-video mb-5 h-48 w-full rounded-lg"
 		src={youtubeLink}
 	/>
 

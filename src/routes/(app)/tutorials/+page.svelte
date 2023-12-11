@@ -27,17 +27,27 @@
 	});
 
 	const carouselItems = [
-		{ component: WhatIsMFComponent },
-		{ component: WhatIsSIPComponent },
-		{ component: StartFirstSipComponent },
-		{ component: AutomateSIPComponent },
-		{ component: StartInvestmentComponent }
+		{ component: WhatIsMFComponent, reference: {} },
+		{ component: WhatIsSIPComponent, reference: {} },
+		{ component: StartFirstSipComponent, reference: {} },
+		{ component: AutomateSIPComponent, reference: {} },
+		{ component: StartInvestmentComponent, reference: {} }
 	];
 
 	let currentIndex = 0;
 
 	const close = () => {
 		history.back();
+	};
+
+	const handlePageChange = (index) => {
+		const previousIndex = currentIndex;
+		const previousComponent = carouselItems[previousIndex].reference;
+		previousComponent?.onRemoved?.();
+
+		currentIndex = index.detail.index;
+		const currentComponent = carouselItems[currentIndex].reference;
+		currentComponent?.onSelected?.();
 	};
 </script>
 
@@ -70,15 +80,13 @@
 	<CarouselNative
 		class="absolute top-0"
 		indicatorClass="hidden h-0 w-0"
-		on:onIndexChange={(index) => {
-			currentIndex = index.detail.index;
-		}}
+		on:onIndexChange={handlePageChange}
 	>
 		<div slot="activeIndicator" class="hidden h-0 w-0" />
 		<div slot="inActiveIndicator" class="hidden h-0 w-0" />
-		{#each carouselItems as { component, props }, index}
+		{#each carouselItems as { component }, index}
 			<CarouselItem {index} class="">
-				<svelte:component this={component} {...props} />
+				<svelte:component this={component} bind:this={carouselItems[index].reference} />
 			</CarouselItem>
 		{/each}
 	</CarouselNative>
