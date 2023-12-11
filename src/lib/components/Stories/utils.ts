@@ -4,7 +4,7 @@ export const videoCtaList: Array<videoCtaUrls> = [
 	{
 		videoId: 1,
 		ctaList: {
-			genericUrl: '/explorefunds/sip-with-100?id=101'
+			genericUrl: '/categories?id=106'
 		}
 	},
 	{

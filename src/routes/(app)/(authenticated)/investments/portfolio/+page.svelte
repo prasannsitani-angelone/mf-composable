@@ -123,7 +123,7 @@
 				on:portfolioChartTagChange={updateLineChart}
 			/>
 		</section>
-		<SipHealthNudge class="mt-2 w-full sm:mt-4" cardStyle="sm:px-3" />
+		<SipHealthNudge class="mb-2 mt-2 w-full sm:mt-4" cardStyle="sm:px-3" />
 		{#await data?.api?.taxation}
 			<div />
 		{:then res}
