@@ -137,7 +137,6 @@
 		schemeInfoCueCardDetailsClickEvent,
 		schemeInfoCueCardImpressionEvent
 	} from '$components/Scheme/cuecards/analytics';
-	import { fly } from 'svelte/transition';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -1740,7 +1739,7 @@
 		integeratedFlow.visible = false;
 	};
 
-	const animate = (node, args) => (args.cond ? fly(node, args) : {});
+	// const animate = (node, args) => (args.cond ? fly(node, args) : {});
 
 	// -------- **** ----------
 </script>
@@ -1835,10 +1834,7 @@
 				{/if}
 
 				{#if activeTab === 'SIP'}
-					<article
-						in:animate={{ x: '-100%', duration: 500, cond: isMobile }}
-						class="flex flex-col p-3"
-					>
+					<article class="flex flex-col p-3">
 						<!-- Amount input -->
 						<article class="flex flex-col items-center rounded border border-grey-line py-2.5">
 							<!-- svelte-ignore a11y-label-has-associated-control -->
@@ -1932,10 +1928,7 @@
 						{/if}
 					</article>
 				{:else}
-					<article
-						in:animate={{ x: '100%', duration: 500, cond: isMobile }}
-						class="flex flex-col p-3"
-					>
+					<article class="flex flex-col p-3">
 						<!-- Amount input -->
 						<article class="flex flex-col items-center rounded border border-grey-line py-2.5">
 							<!-- svelte-ignore a11y-label-has-associated-control -->

@@ -2,28 +2,23 @@
 	import { createEventDispatcher } from 'svelte';
 	import TncComponent from './TncComponent.svelte';
 	import CrossInCircleIcon from '$lib/images/icons/CrossInCircleIcon.svelte';
-	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
+	import Modal from '$components/Modal.svelte';
 
 	const dispatch = createEventDispatcher();
 
 	export let showModal = false;
-	let isModalClosed = false;
 
 	const closingModal = () => {
 		dispatch('closeModal');
-		isModalClosed = false;
 	};
 
 	const closeClicked = () => {
-		isModalClosed = true;
-		setTimeout(() => {
-			closingModal();
-		}, 500);
+		closingModal();
 	};
 </script>
 
 <article>
-	<ModalWithAnimation isModalOpen={showModal} on:backdropclicked={closingModal} {isModalClosed}>
+	<Modal isModalOpen={showModal} on:backdropclicked={closingModal}>
 		<section
 			class="flex h-full w-screen flex-col rounded-b-none bg-white text-black-title shadow-csm md:h-96 md:w-5/6 md:animate-none md:rounded-lg"
 		>
@@ -50,5 +45,5 @@
 				</section>
 			</slot>
 		</section>
-	</ModalWithAnimation>
+	</Modal>
 </article>
