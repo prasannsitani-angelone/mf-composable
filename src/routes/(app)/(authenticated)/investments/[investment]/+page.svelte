@@ -167,7 +167,8 @@
 				totalBlockedUnits &&
 				!holdingsData?.lockInUnits &&
 				!holdingsData?.safeKeepUnits &&
-				!holdingsData?.pledgeUnits
+				!holdingsData?.pledgeUnits &&
+				!totalUnitsUnderProcess
 			) {
 				withdrawDisableText = '';
 			} else if (totalBlockedUnits && !totalPledgedUnits && !totalUnitsUnderProcess) {
