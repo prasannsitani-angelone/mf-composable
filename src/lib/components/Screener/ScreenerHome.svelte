@@ -29,9 +29,9 @@
 
 	onMount(async () => {
 		await tick();
+		const queryPath = `limit=5&schemeType=Growth`;
+		screenedSchemes = await getScreenerSearch(null, queryPath);
 
-		screenedSchemes = await getScreenerSearch();
-		screenedSchemes = screenedSchemes?.splice(0, 5) || [];
 		loading = false;
 	});
 </script>
