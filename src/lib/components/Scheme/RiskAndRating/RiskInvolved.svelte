@@ -35,7 +35,7 @@
 	export { schemeDetails };
 </script>
 
-<section class="p-4">
+<section class="p-4 pb-0">
 	<section class="flex flex-col items-center justify-center">
 		<div class="flex h-32 w-64 items-center justify-center">
 			<Riskometer data={riskometerData} chartClass="!w-64 !h-32" />

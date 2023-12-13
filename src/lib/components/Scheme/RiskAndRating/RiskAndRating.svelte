@@ -17,7 +17,7 @@
 			</section>
 		</section>
 	</header>
-	<section class="flex flex-col gap-8 px-4 sm:flex-row sm:px-6">
+	<section class="flex flex-col px-4 sm:flex-row sm:px-6">
 		<RiskInvolved {schemeDetails} />
 		<section class="flex flex-grow basis-0 flex-col">
 			<section class="mb-3 mt-7 flex flex-grow basis-0 flex-row gap-8 sm:m-0 sm:flex-col sm:gap-0">

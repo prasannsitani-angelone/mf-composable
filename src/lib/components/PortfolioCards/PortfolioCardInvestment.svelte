@@ -148,7 +148,7 @@
 							class="ml-1 font-normal {investmentSummary?.returnsValue &&
 							investmentSummary.returnsValue >= 0
 								? 'text-green-buy'
-								: 'text-red-sell'}"
+								: 'text-red-banner'}"
 						>
 							({investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
 								? '-'
@@ -197,7 +197,7 @@
 								class="ml-1 font-normal {investmentSummary?.previousDayReturns &&
 								investmentSummary.previousDayReturns >= 0
 									? 'text-green-buy'
-									: 'text-red-sell'}"
+									: 'text-red-banner'}"
 							>
 								({investmentSummary?.previousDayReturns && investmentSummary.previousDayReturns < 0
 									? '-'

@@ -228,8 +228,8 @@
 													data-testid={'returnsPercentage-' + schemes?.isin + index}
 													class="scheme-percentage-returns ml-1 font-normal sm:text-sm sm:font-medium {schemes?.returnsAbsolutePer <
 													0
-														? 'text-red-sell'
-														: 'text-green-buy'}"
+														? 'text-red-card'
+														: 'text-green-card'}"
 												>
 													({schemes?.returnsAbsolutePer > 0
 														? ''
@@ -242,9 +242,9 @@
 													data-testid={'xirr-' + schemes?.isin + index}
 													class="scheme-xirr-returns ml-1 font-normal sm:text-sm sm:font-medium {schemes?.xirrPer <
 													0
-														? 'text-red-sell'
+														? 'text-red-card'
 														: schemes?.xirrPer > 0
-														? 'text-green-buy'
+														? 'text-green-card'
 														: ''}"
 												>
 													{schemes?.xirrPer > 0 ? '' : ''}{schemes?.xirrPer

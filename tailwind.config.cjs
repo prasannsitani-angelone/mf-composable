@@ -82,14 +82,17 @@ module.exports = {
 					lite: '#E4F6F5',
 					amount: '#008F75',
 					teal: '#007560',
-					pale: '#F4FCFB'
+					pale: '#F4FCFB',
+					card: '#008F75'
 				},
 				red: {
 					sell: '#F65E5A',
 					error: '#FEECEB',
 					tint: '#FDD8D7',
 					errorDark: '#D64D4D',
-					light: '#FAEAEA'
+					light: '#FAEAEA',
+					banner: '#E3A0A4',
+					card: '#D64D4D'
 				},
 				white: {
 					DEFAULT: '#FFFFFF'
