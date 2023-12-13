@@ -130,6 +130,21 @@ export const netBankingCartFlow = async (params) => {
 	} = params || {};
 	try {
 		onStart();
+		showLoading('Creating your order');
+		const orderPostResponse = await cartPostFunction({
+			accNO,
+			bankName,
+			cartItemIds,
+			paymentMode,
+			xRequestId,
+			source
+		});
+		handleOrderPostResponse({
+			orderPostResponse,
+			resetState: () => intializeNetBankingState(netBankingState),
+			stopLoading,
+			displayError
+		});
 		netBankingState.paymentWindow = window.open(
 			`${window.location.origin}${base}/intermediateLoading`,
 			'PAYMENT_WINDOW'
@@ -149,22 +164,6 @@ export const netBankingCartFlow = async (params) => {
 			stopLoading,
 			displayError,
 			netBankingState
-		});
-		showLoading('Creating your order');
-		const orderPostResponse = await cartPostFunction({
-			accNO,
-			bankName,
-			cartItemIds,
-			paymentMode,
-			transactionRefNumber: netBankingResponse.data?.data?.transaction_id,
-			xRequestId,
-			source
-		});
-		handleOrderPostResponse({
-			orderPostResponse,
-			resetState: () => intializeNetBankingState(netBankingState),
-			stopLoading,
-			displayError
 		});
 		if (isNetBakingPaymentWindowClosed(netBankingState)) {
 			intializeNetBankingState(netBankingState);
@@ -280,6 +279,30 @@ export const netBankingLumpsumFlow = async (params) => {
 		onSuccess = () => undefined
 	} = params || {};
 	try {
+		showLoading('Creating your order');
+		const orderPostResponse = await lumpsumOrderPostFunction({
+			amount,
+			accNO,
+			bankName,
+			dpNumber,
+			email,
+			subBroker,
+			mobile,
+			poaStatus,
+			schemeCode,
+			redirectedFrom,
+			xRequestId,
+			source,
+			isAdditional
+		});
+		handleOrderPostResponse({
+			orderPostResponse,
+			previousOrderId,
+			previousPGTxnId,
+			resetState: () => intializeNetBankingState(netBankingState),
+			stopLoading,
+			displayError
+		});
 		netBankingState.paymentWindow = window.open(
 			`${window.location.origin}${base}/intermediateLoading`,
 			'PAYMENT_WINDOW'
@@ -299,31 +322,6 @@ export const netBankingLumpsumFlow = async (params) => {
 			stopLoading,
 			displayError,
 			netBankingState
-		});
-		showLoading('Creating your order');
-		const orderPostResponse = await lumpsumOrderPostFunction({
-			amount,
-			accNO,
-			bankName,
-			dpNumber,
-			email,
-			subBroker,
-			mobile,
-			poaStatus,
-			schemeCode,
-			redirectedFrom,
-			transactionRefNumber: netBankingResponse.data?.data?.transaction_id,
-			xRequestId,
-			source,
-			isAdditional
-		});
-		handleOrderPostResponse({
-			orderPostResponse,
-			previousOrderId,
-			previousPGTxnId,
-			resetState: () => intializeNetBankingState(netBankingState),
-			stopLoading,
-			displayError
 		});
 		if (isNetBakingPaymentWindowClosed(netBankingState)) {
 			intializeNetBankingState(netBankingState);
@@ -436,10 +434,6 @@ export const netBankingSIPFlow = async (params) => {
 	} = params || {};
 	let { sipType = 'SIP' } = params || {};
 	try {
-		netBankingState.paymentWindow = window.open(
-			`${window.location.origin}${base}/intermediateLoading`,
-			'PAYMENT_WINDOW'
-		);
 		let autoMandate;
 		if (!mandateId) {
 			showLoading('Getting Mandate Data');
@@ -457,6 +451,32 @@ export const netBankingSIPFlow = async (params) => {
 			autoMandate = getPrimaryAccountMandateData(emandateResponse?.data);
 			sipType = autoMandate?.mandateType;
 		}
+		showLoading('Creating your order');
+		const orderPostResponse = await sipOrderPostFunction({
+			amount,
+			dpNumber,
+			schemeCode,
+			sipType,
+			emandateId: mandateId || autoMandate?.mandateId || '',
+			sipFrequency,
+			sipMaxInstallmentNo,
+			firstSipPayment: true,
+			sipDate,
+			xRequestId,
+			source
+		});
+		handleOrderPostResponse({
+			orderPostResponse,
+			previousOrderId,
+			previousPGTxnId,
+			resetState: () => intializeNetBankingState(netBankingState),
+			stopLoading,
+			displayError
+		});
+		netBankingState.paymentWindow = window.open(
+			`${window.location.origin}${base}/intermediateLoading`,
+			'PAYMENT_WINDOW'
+		);
 		showLoading('Redirecting to your Bank');
 		const netBankingResponse = await initiateNetBankingPaymentFunc({
 			amount,
@@ -472,29 +492,6 @@ export const netBankingSIPFlow = async (params) => {
 			stopLoading,
 			displayError,
 			netBankingState
-		});
-		showLoading('Creating your order');
-		const orderPostResponse = await sipOrderPostFunction({
-			amount,
-			dpNumber,
-			schemeCode,
-			sipType,
-			emandateId: mandateId || autoMandate?.mandateId || '',
-			transactionRefNumber: netBankingResponse.data?.data?.transaction_id,
-			sipFrequency,
-			sipMaxInstallmentNo,
-			firstSipPayment: true,
-			sipDate,
-			xRequestId,
-			source
-		});
-		handleOrderPostResponse({
-			orderPostResponse,
-			previousOrderId,
-			previousPGTxnId,
-			resetState: () => intializeNetBankingState(netBankingState),
-			stopLoading,
-			displayError
 		});
 		if (isNetBakingPaymentWindowClosed(netBankingState)) {
 			intializeNetBankingState(netBankingState);
@@ -607,10 +604,6 @@ export const netBankingBulkSIPFlow = async (params) => {
 		onSuccess = () => undefined
 	} = params || {};
 	try {
-		netBankingState.paymentWindow = window.open(
-			`${window.location.origin}${base}/intermediateLoading`,
-			'PAYMENT_WINDOW'
-		);
 		showLoading('Getting Mandate Data');
 		const emandateResponse = await getEmandateDataFunc({
 			amount,
@@ -623,6 +616,27 @@ export const netBankingBulkSIPFlow = async (params) => {
 			displayError,
 			resetState: () => intializeNetBankingState(netBankingState)
 		});
+		showLoading('Creating your order');
+		const orderPostResponse = await sipBulkPostFunction({
+			dpNumber,
+			emandateId: getPrimaryAccountMandateData(emandateResponse?.data)?.mandateId || '',
+			orders,
+			packId,
+			xRequestId,
+			source
+		});
+		handleOrderPostResponse({
+			orderPostResponse,
+			previousOrderId,
+			previousPGTxnId,
+			resetState: () => intializeNetBankingState(netBankingState),
+			stopLoading,
+			displayError
+		});
+		netBankingState.paymentWindow = window.open(
+			`${window.location.origin}${base}/intermediateLoading`,
+			'PAYMENT_WINDOW'
+		);
 		showLoading('Redirecting to your Bank');
 		const netBankingResponse = await initiateNetBankingPaymentFunc({
 			amount,
@@ -638,24 +652,6 @@ export const netBankingBulkSIPFlow = async (params) => {
 			stopLoading,
 			displayError,
 			netBankingState
-		});
-		showLoading('Creating your order');
-		const orderPostResponse = await sipBulkPostFunction({
-			dpNumber,
-			emandateId: getPrimaryAccountMandateData(emandateResponse?.data)?.mandateId || '',
-			orders,
-			packId,
-			transactionRefNumber: netBankingResponse.data?.data?.transaction_id,
-			xRequestId,
-			source
-		});
-		handleOrderPostResponse({
-			orderPostResponse,
-			previousOrderId,
-			previousPGTxnId,
-			resetState: () => intializeNetBankingState(netBankingState),
-			stopLoading,
-			displayError
 		});
 		if (isNetBakingPaymentWindowClosed(netBankingState)) {
 			intializeNetBankingState(netBankingState);
@@ -780,6 +776,21 @@ export const upiCartFlow = async (params) => {
 			onUPIValidationFailure
 		});
 		onStart();
+		showLoading('Creating your order');
+		const orderPostResponse = await cartPostFunction({
+			accNO,
+			bankName,
+			cartItemIds,
+			paymentMode,
+			xRequestId,
+			source
+		});
+		handleOrderPostResponse({
+			orderPostResponse,
+			resetState: () => initializeUPIState(upiState),
+			stopLoading,
+			displayError
+		});
 		showLoading('Initiating UPI Payment');
 		const upiResponse = await initiateUPIPayment({
 			amount,
@@ -793,22 +804,6 @@ export const upiCartFlow = async (params) => {
 		});
 		handleUPIResponse({
 			upiResponse,
-			stopLoading,
-			displayError
-		});
-		showLoading('Creating your order');
-		const orderPostResponse = await cartPostFunction({
-			accNO,
-			bankName,
-			cartItemIds,
-			paymentMode,
-			transactionRefNumber: upiResponse.data?.data?.transaction_id,
-			xRequestId,
-			source
-		});
-		handleOrderPostResponse({
-			orderPostResponse,
-			resetState: () => initializeUPIState(upiState),
 			stopLoading,
 			displayError
 		});
@@ -967,6 +962,33 @@ export const upiLumpsumFlow = async (params) => {
 			upiValidationResponse,
 			onUPIValidationFailure
 		});
+		showLoading('Creating your order');
+		const orderPostResponse = await lumpsumOrderPostFunction({
+			amount,
+			accNO,
+			bankName,
+			dpNumber,
+			email,
+			subBroker,
+			mobile,
+			poaStatus,
+			schemeCode,
+			redirectedFrom,
+			sipId,
+			sipDueDate,
+			xRequestId,
+			source,
+			sipInstalmentId,
+			isAdditional
+		});
+		handleOrderPostResponse({
+			orderPostResponse,
+			previousOrderId,
+			previousPGTxnId,
+			resetState: () => initializeUPIState(upiState),
+			stopLoading,
+			displayError
+		});
 		showLoading('Initiating UPI Payment');
 		const upiResponse = await initiateUPIPayment({
 			amount,
@@ -982,34 +1004,6 @@ export const upiLumpsumFlow = async (params) => {
 		});
 		handleUPIResponse({
 			upiResponse,
-			stopLoading,
-			displayError
-		});
-		showLoading('Creating your order');
-		const orderPostResponse = await lumpsumOrderPostFunction({
-			amount,
-			accNO,
-			bankName,
-			dpNumber,
-			email,
-			subBroker,
-			mobile,
-			poaStatus,
-			schemeCode,
-			redirectedFrom,
-			transactionRefNumber: upiResponse.data?.data?.transaction_id,
-			sipId,
-			sipDueDate,
-			xRequestId,
-			source,
-			sipInstalmentId,
-			isAdditional
-		});
-		handleOrderPostResponse({
-			orderPostResponse,
-			previousOrderId,
-			previousPGTxnId,
-			resetState: () => initializeUPIState(upiState),
 			stopLoading,
 			displayError
 		});
@@ -1188,22 +1182,6 @@ export const upiSIPFlow = async (params) => {
 			sipType = autoMandate?.mandateType;
 		}
 
-		showLoading('Initiating UPI Payment');
-		const upiResponse = await initiateUPIPayment({
-			amount,
-			accNO,
-			bankName,
-			ifscCode,
-			fullName,
-			upiId: inputId,
-			xRequestId,
-			source
-		});
-		handleUPIResponse({
-			upiResponse,
-			stopLoading,
-			displayError
-		});
 		showLoading('Creating your order');
 		const orderPostResponse = await sipOrderPostFunction({
 			amount,
@@ -1211,7 +1189,6 @@ export const upiSIPFlow = async (params) => {
 			schemeCode,
 			sipType,
 			emandateId: mandateId || autoMandate?.mandateId || '',
-			transactionRefNumber: upiResponse.data?.data?.transaction_id,
 			sipFrequency,
 			sipMaxInstallmentNo,
 			firstSipPayment: true,
@@ -1227,6 +1204,22 @@ export const upiSIPFlow = async (params) => {
 			resetState: () => {
 				initializeUPIState(upiState);
 			},
+			stopLoading,
+			displayError
+		});
+		showLoading('Initiating UPI Payment');
+		const upiResponse = await initiateUPIPayment({
+			amount,
+			accNO,
+			bankName,
+			ifscCode,
+			fullName,
+			upiId: inputId,
+			xRequestId,
+			source
+		});
+		handleUPIResponse({
+			upiResponse,
 			stopLoading,
 			displayError
 		});
@@ -1627,6 +1620,25 @@ export const upiBulkSIPFlow = async (params) => {
 				initializeUPIState(upiState);
 			}
 		});
+		showLoading('Creating your order');
+		const orderPostResponse = await sipBulkPostFunction({
+			dpNumber,
+			emandateId: getPrimaryAccountMandateData(emandateResponse?.data)?.mandateId || '',
+			orders,
+			packId,
+			xRequestId,
+			source
+		});
+		handleOrderPostResponse({
+			orderPostResponse,
+			previousOrderId,
+			previousPGTxnId,
+			resetState: () => {
+				initializeUPIState(upiState);
+			},
+			stopLoading,
+			displayError
+		});
 		showLoading('Initiating UPI Payment');
 		const upiResponse = await initiateUPIPayment({
 			amount,
@@ -1640,26 +1652,6 @@ export const upiBulkSIPFlow = async (params) => {
 		});
 		handleUPIResponse({
 			upiResponse,
-			stopLoading,
-			displayError
-		});
-		showLoading('Creating your order');
-		const orderPostResponse = await sipBulkPostFunction({
-			dpNumber,
-			emandateId: getPrimaryAccountMandateData(emandateResponse?.data)?.mandateId || '',
-			orders,
-			packId,
-			transactionRefNumber: upiResponse.data?.data?.transaction_id,
-			xRequestId,
-			source
-		});
-		handleOrderPostResponse({
-			orderPostResponse,
-			previousOrderId,
-			previousPGTxnId,
-			resetState: () => {
-				initializeUPIState(upiState);
-			},
 			stopLoading,
 			displayError
 		});
@@ -1791,6 +1783,21 @@ export const walletCartFlow = async (params) => {
 	} = params || {};
 	try {
 		onStart();
+		showLoading('Creating your order');
+		const orderPostResponse = await cartPostFunction({
+			accNO,
+			bankName,
+			cartItemIds,
+			paymentMode,
+			xRequestId,
+			source
+		});
+		handleOrderPostResponse({
+			orderPostResponse,
+			resetState: () => initializeGPayState(gpayPaymentState),
+			stopLoading,
+			displayError
+		});
 		showLoading(`Redirecting to ${paymentModeName}`);
 		const walletResponse = await initiateWalletPayment({
 			amount,
@@ -1804,22 +1811,6 @@ export const walletCartFlow = async (params) => {
 		});
 		handleUPIResponse({
 			upiResponse: walletResponse,
-			stopLoading,
-			displayError
-		});
-		showLoading('Creating your order');
-		const orderPostResponse = await cartPostFunction({
-			accNO,
-			bankName,
-			cartItemIds,
-			paymentMode,
-			transactionRefNumber: walletResponse.data?.data?.transaction_id,
-			xRequestId,
-			source
-		});
-		handleOrderPostResponse({
-			orderPostResponse,
-			resetState: () => initializeGPayState(gpayPaymentState),
 			stopLoading,
 			displayError
 		});
@@ -1962,6 +1953,33 @@ export const walletLumpsumFlow = async (params) => {
 		onSuccess = () => undefined
 	} = params || {};
 	try {
+		showLoading('Creating your order');
+		const orderPostResponse = await lumpsumOrderPostFunction({
+			amount,
+			accNO,
+			bankName,
+			dpNumber,
+			email,
+			subBroker,
+			mobile,
+			poaStatus,
+			schemeCode,
+			redirectedFrom,
+			sipId,
+			sipDueDate,
+			xRequestId,
+			source,
+			sipInstalmentId,
+			isAdditional
+		});
+		handleOrderPostResponse({
+			orderPostResponse,
+			previousOrderId,
+			previousPGTxnId,
+			resetState: () => initializeGPayState(gpayPaymentState),
+			stopLoading,
+			displayError
+		});
 		showLoading(`Redirecting to ${paymentModeName}`);
 		const walletResponse = await initiateWalletPayment({
 			amount,
@@ -1977,34 +1995,6 @@ export const walletLumpsumFlow = async (params) => {
 		});
 		handleUPIResponse({
 			upiResponse: walletResponse,
-			stopLoading,
-			displayError
-		});
-		showLoading('Creating your order');
-		const orderPostResponse = await lumpsumOrderPostFunction({
-			amount,
-			accNO,
-			bankName,
-			dpNumber,
-			email,
-			subBroker,
-			mobile,
-			poaStatus,
-			schemeCode,
-			redirectedFrom,
-			transactionRefNumber: walletResponse.data?.data?.transaction_id,
-			sipId,
-			sipDueDate,
-			xRequestId,
-			source,
-			sipInstalmentId,
-			isAdditional
-		});
-		handleOrderPostResponse({
-			orderPostResponse,
-			previousOrderId,
-			previousPGTxnId,
-			resetState: () => initializeGPayState(gpayPaymentState),
 			stopLoading,
 			displayError
 		});
@@ -2158,22 +2148,6 @@ export const walletSIPFlow = async (params) => {
 			autoMandate = getPrimaryAccountMandateData(emandateResponse?.data);
 			sipType = autoMandate?.mandateType;
 		}
-		showLoading(`Redirecting to ${paymentModeName}`);
-		const walletResponse = await initiateWalletPayment({
-			amount,
-			accNO,
-			bankName,
-			ifscCode,
-			fullName,
-			xRequestId,
-			source,
-			apiName: paymentModeAPIName
-		});
-		handleUPIResponse({
-			upiResponse: walletResponse,
-			stopLoading,
-			displayError
-		});
 		showLoading('Creating your order');
 		const orderPostResponse = await sipOrderPostFunction({
 			amount,
@@ -2181,7 +2155,6 @@ export const walletSIPFlow = async (params) => {
 			schemeCode,
 			sipType,
 			emandateId: mandateId || autoMandate?.mandateId || '',
-			transactionRefNumber: walletResponse.data?.data?.transaction_id,
 			sipFrequency,
 			sipMaxInstallmentNo,
 			firstSipPayment: true,
@@ -2195,6 +2168,22 @@ export const walletSIPFlow = async (params) => {
 			previousOrderId,
 			previousPGTxnId,
 			resetState: () => initializeGPayState(gpayPaymentState),
+			stopLoading,
+			displayError
+		});
+		showLoading(`Redirecting to ${paymentModeName}`);
+		const walletResponse = await initiateWalletPayment({
+			amount,
+			accNO,
+			bankName,
+			ifscCode,
+			fullName,
+			xRequestId,
+			source,
+			apiName: paymentModeAPIName
+		});
+		handleUPIResponse({
+			upiResponse: walletResponse,
 			stopLoading,
 			displayError
 		});
@@ -2342,6 +2331,23 @@ export const walletBulkSIPFlow = async (params) => {
 			displayError,
 			resetState: () => initializeGPayState(gpayPaymentState)
 		});
+		showLoading('Creating your order');
+		const orderPostResponse = await sipBulkPostFunction({
+			dpNumber,
+			emandateId: getPrimaryAccountMandateData(emandateResponse?.data)?.mandateId || '',
+			orders,
+			packId,
+			xRequestId,
+			source
+		});
+		handleOrderPostResponse({
+			orderPostResponse,
+			previousOrderId,
+			previousPGTxnId,
+			resetState: () => initializeGPayState(gpayPaymentState),
+			stopLoading,
+			displayError
+		});
 		showLoading(`Redirecting to ${paymentModeName}`);
 		const walletResponse = await initiateWalletPayment({
 			amount,
@@ -2355,24 +2361,6 @@ export const walletBulkSIPFlow = async (params) => {
 		});
 		handleUPIResponse({
 			upiResponse: walletResponse,
-			stopLoading,
-			displayError
-		});
-		showLoading('Creating your order');
-		const orderPostResponse = await sipBulkPostFunction({
-			dpNumber,
-			emandateId: getPrimaryAccountMandateData(emandateResponse?.data)?.mandateId || '',
-			orders,
-			packId,
-			transactionRefNumber: walletResponse.data?.data?.transaction_id,
-			xRequestId,
-			source
-		});
-		handleOrderPostResponse({
-			orderPostResponse,
-			previousOrderId,
-			previousPGTxnId,
-			resetState: () => initializeGPayState(gpayPaymentState),
 			stopLoading,
 			displayError
 		});

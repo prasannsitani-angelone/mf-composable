@@ -62,7 +62,8 @@ export const sipOrderPatchFunc = async (params) => {
 				paymentReferenceNumber: reference_number,
 				paymentRemarks: response_description,
 				paymentStatus: status,
-				pgTxnId: transaction_id
+				pgTxnId: transaction_id,
+				orderPgRefId: xRequestId
 			}),
 			headers: {
 				'X-Request-Id': xRequestId,
@@ -94,7 +95,8 @@ export const lumpsumOrderPatchFunc = async (params) => {
 				paymentRemarks: response_description,
 				paymentStatus: status,
 				pgTxnId: transaction_id,
-				purchaseType: 'LUMPSUM'
+				purchaseType: 'LUMPSUM',
+				orderPgRefId: xRequestId
 			}),
 			headers: {
 				'X-Request-Id': xRequestId,
@@ -153,7 +155,8 @@ export const initiateNetBankingPaymentFunc = async (params) => {
 				client_name: fullName,
 				product: 'mf',
 				request_source: 'mf-web',
-				redirect_url: `${window.location.origin}${base}/paymentCallback`
+				redirect_url: `${window.location.origin}${base}/paymentCallback`,
+				upstream_reference_number: xRequestId
 			}),
 			headers: {
 				'X-Request-Id': xRequestId,
@@ -205,7 +208,8 @@ export const lumpsumOrderPostFunction = async (params) => {
 				sipId,
 				sipDueDate,
 				sipInstalmentId,
-				isAdditional
+				isAdditional,
+				orderPgRefId: xRequestId
 			}),
 			headers: {
 				'X-Request-Id': xRequestId,
@@ -253,7 +257,8 @@ export const sipOrderPostFunction = async (params) => {
 				folioNumber: '',
 				transactionRefNumber,
 				veryFirstSip: isFirstSip ? true : false,
-				integratedFlow: integratedFlow || false
+				integratedFlow: integratedFlow || false,
+				orderPgRefId: xRequestId
 			}),
 			headers: {
 				'X-Request-Id': xRequestId,
@@ -334,7 +339,8 @@ export const initiateUPIPayment = async (params) => {
 				request_source: 'mf-web',
 				request_type: 'COLLECT',
 				mf_order_reference_number: sipRegistrationNumber,
-				mf_order_type: redirectedFrom === 'SIP_PAYMENTS' ? 'sip' : undefined
+				mf_order_type: redirectedFrom === 'SIP_PAYMENTS' ? 'sip' : undefined,
+				upstream_reference_number: xRequestId
 			}),
 			headers: {
 				'X-Request-Id': xRequestId,
@@ -395,7 +401,8 @@ export const initiateWalletPayment = async (params) => {
 				request_type: 'INTENT',
 				app_name: apiName?.toLowerCase(),
 				mf_order_reference_number: sipRegistrationNumber,
-				mf_order_type: redirectedFrom === 'SIP_PAYMENTS' ? 'sip' : undefined
+				mf_order_type: redirectedFrom === 'SIP_PAYMENTS' ? 'sip' : undefined,
+				upstream_reference_number: xRequestId
 			}),
 			headers: {
 				'X-Request-Id': xRequestId,
@@ -421,7 +428,8 @@ export const cartPostFunction = async (params) => {
 				cartItemIds,
 				paymentMode,
 				pgTxnId: transactionRefNumber,
-				paymentStatus: 'pending'
+				paymentStatus: 'pending',
+				orderPgRefId: xRequestId
 			}),
 			headers: {
 				'X-Request-Id': xRequestId,
@@ -454,7 +462,8 @@ export const cartPatchFunction = async (params) => {
 				bankName,
 				paymentStatus: status,
 				paymentRefNumber: reference_number,
-				pgTxnId: transaction_id
+				pgTxnId: transaction_id,
+				orderPgRefId: xRequestId
 			}),
 			headers: {
 				'X-Request-Id': xRequestId,
@@ -481,7 +490,8 @@ export const sipBulkPostFunction = async (params) => {
 				orders,
 				packId,
 				transactionRefNumber,
-				type: 'SIP'
+				type: 'SIP',
+				orderPgRefId: xRequestId
 			}),
 			headers: {
 				'X-Request-Id': xRequestId,
@@ -512,7 +522,8 @@ export const sipBulkPatchFunc = async (params) => {
 				paymentReferenceNumber: reference_number,
 				paymentRemarks: response_description,
 				paymentStatus: status,
-				pgTxnId: transaction_id
+				pgTxnId: transaction_id,
+				orderPgRefId: xRequestId
 			}),
 			headers: {
 				'X-Request-Id': xRequestId,
