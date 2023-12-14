@@ -142,7 +142,7 @@
 							</p>
 						</div>
 						<div class="flex items-center justify-center">
-							<WMSIcon name="right-arrow" width={16} height={16} />
+							<WMSIcon name="right-arrow" width={17} height={17} stroke="#425061" />
 						</div>
 					</div>
 				</div>
