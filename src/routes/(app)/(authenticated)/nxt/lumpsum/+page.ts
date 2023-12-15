@@ -52,7 +52,8 @@ export const load = (async ({ url, fetch, parent }) => {
 	};
 	return {
 		layoutConfig: {
-			layoutType: 'FULL_WIDTH'
+			layoutType: 'FULL_WIDTH',
+			layoutBodyClass: 'h-full !max-w-full'
 		},
 		clientDetails,
 		orderDetails,

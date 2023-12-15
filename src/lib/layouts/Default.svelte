@@ -1,15 +1,46 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import Overlay from '$components/Overlay.svelte';
+
 	$: pageMetaData = $page?.data?.layoutConfig;
 	let layoutType = 'DEFAULT';
 	export let searchFocused = false;
-	let gridClass = '';
+
+	let contentClass = '';
+	let layoutClass = '';
+
+	const commonStyle = 'w-full lg:pt-3 xl:w-4/5';
+
+	const gridClassMap = {
+		TWO_COLUMN_RIGHT_LARGE_TEMP: {
+			contentClass: `${commonStyle} lg:grid lg:grid-cols-[34%_66%] lg:gap-5`,
+			layoutClass: 'px-2 py-2 lg:pb-20'
+		},
+		TWO_COLUMN: {
+			contentClass: `${commonStyle} grid w-full grid-cols-[100%] lg:grid-cols-[66%_34%] lg:gap-5 lg:gap-y-1 lg:pt-3 xl:w-4/5`,
+			layoutClass: 'px-2 py-2 lg:pb-20'
+		},
+		TWO_COLUMN_REVERSE: {
+			contentClass: `${commonStyle} grid w-full grid-cols-[100%] !gap-y-0 sm:grid-cols-[66%_34%] sm:gap-2 lg:gap-5 lg:pt-3 xl:w-4/5`,
+			layoutClass: 'px-2 py-2 lg:pb-20'
+		},
+		TWO_COLUMN_RIGHT_LARGE: {
+			contentClass: `${commonStyle}`,
+			layoutClass: 'px-2 py-2 lg:pb-20'
+		},
+		FULL_HEIGHT_WITHOUT_PADDING: {
+			contentClass: `${commonStyle} h-full`,
+			layoutClass: ''
+		},
+		FULL_WIDTH: {
+			contentClass: 'mx-4 h-full w-full',
+			layoutClass: 'self-center'
+		}
+	};
 
 	const updateGridClass = () => {
-		if (layoutType === 'TWO_COLUMN_RIGHT_LARGE_TEMP') {
-			gridClass = 'lg:grid lg:grid-cols-[34%_66%] lg:gap-5';
-		}
+		contentClass = gridClassMap[layoutType]?.contentClass || commonStyle;
+		layoutClass = gridClassMap[layoutType]?.layoutClass || '';
 	};
 
 	$: layoutType, updateGridClass();
@@ -18,14 +49,14 @@
 </script>
 
 <main
-	class="scroll-lock w-full flex-grow overflow-auto px-2 py-2 lg:pb-20 {pageMetaData?.layoutClass}"
+	class="scroll-lock w-full flex-grow overflow-auto {layoutClass} {pageMetaData?.layoutClass}"
 	id="main-container"
 >
 	{#if searchFocused}
 		<Overlay containerClass="!z-60" />
 	{/if}
 	<section class="m-auto flex max-w-8xl flex-wrap justify-center {pageMetaData?.layoutBodyClass}">
-		<section class={`w-full lg:pt-3 xl:w-4/5 ${gridClass}`}>
+		<section class={contentClass}>
 			<slot />
 		</section>
 	</section>

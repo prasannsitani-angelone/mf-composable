@@ -7,10 +7,6 @@
 	import { onMount, tick } from 'svelte';
 	import Logger from '$lib/utils/logger';
 	import Default from '$lib/layouts/Default.svelte';
-	import TwoColumn from '$lib/layouts/TwoColumn.svelte';
-	import TwoColumnReverse from '$lib/layouts/TwoColumnReverse.svelte';
-	import TwoColumnRightLarge from '$lib/layouts/TwoColumnRightLarge.svelte';
-	import FullHeightWithoutPadding from '$lib/layouts/FullHeightWithoutPadding.svelte';
 	import LoadingIndicator from '$components/LoadingIndicator.svelte';
 	import { externalNavigation } from '$lib/stores/ExtrenalNavigationStore';
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
@@ -28,7 +24,6 @@
 	import { BOTTOM_NAVBARS } from '$lib/constants/navItems';
 	import Header from '$components/Headers/Header.svelte';
 	import { versionStore } from '$lib/stores/VersionStore';
-	import FullWidth from '$lib/layouts/FullWidth.svelte';
 	import { bannerStore } from '$lib/stores/BannerStore';
 	import Clevertap from '$lib/utils/Clevertap';
 	import { useFetch } from '$lib/utils/useFetch';
@@ -156,31 +151,9 @@
 	<!-- <TwoColumnRightLarge {searchFocused}>
 		<slot />
 	</TwoColumnRightLarge> -->
-	{#if $appPage.data?.layoutConfig?.layoutType === 'TWO_COLUMN'}
-		<TwoColumn {searchFocused}>
-			<slot />
-		</TwoColumn>
-	{:else if $appPage.data?.layoutConfig?.layoutType === 'TWO_COLUMN_REVERSE'}
-		<TwoColumnReverse {searchFocused}>
-			<slot />
-		</TwoColumnReverse>
-	{:else if $appPage.data?.layoutConfig?.layoutType === 'TWO_COLUMN_RIGHT_LARGE'}
-		<TwoColumnRightLarge {searchFocused}>
-			<slot />
-		</TwoColumnRightLarge>
-	{:else if $appPage.data?.layoutConfig?.layoutType === 'FULL_HEIGHT_WITHOUT_PADDING'}
-		<FullHeightWithoutPadding>
-			<slot />
-		</FullHeightWithoutPadding>
-	{:else if $appPage.data?.layoutConfig?.layoutType === 'FULL_WIDTH'}
-		<FullWidth>
-			<slot />
-		</FullWidth>
-	{:else}
-		<Default {searchFocused} layoutType={$appPage.data?.layoutConfig?.layoutType}>
-			<slot />
-		</Default>
-	{/if}
+	<Default {searchFocused} layoutType={$appPage.data?.layoutConfig?.layoutType}>
+		<slot />
+	</Default>
 	{#if pageMetaData?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN}
 		<AskAngelEntry />
 	{/if}

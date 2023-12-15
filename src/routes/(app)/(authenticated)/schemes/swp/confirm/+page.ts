@@ -78,7 +78,8 @@ export const load = (async ({ url, parent }) => {
 		},
 		layoutConfig: {
 			showBackIcon: false,
-			layoutType: 'FULL_WIDTH'
+			layoutType: 'FULL_WIDTH',
+			layoutBodyClass: 'h-full !max-w-full'
 		},
 		decodedParams
 	};

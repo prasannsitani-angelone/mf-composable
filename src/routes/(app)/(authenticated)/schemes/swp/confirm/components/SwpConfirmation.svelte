@@ -353,7 +353,7 @@
 	</section>
 
 	<section
-		class="fixed inset-0 top-auto bg-white py-2 shadow-csm md:static md:relative md:inset-auto md:border-t md:border-grey-line md:px-6 md:py-4 md:shadow-none"
+		class="fixed inset-0 top-auto bg-white px-4 py-2 shadow-csm md:static md:relative md:inset-auto md:border-t md:border-grey-line md:px-6 md:py-4 md:shadow-none"
 	>
 		<Button class="mb-2 w-full md:mb-4" onClick={handleConfirmAndPlaceSwp}>VERIFY ORDER</Button>
 		<p class="text-center text-sm font-normal text-grey-body">
