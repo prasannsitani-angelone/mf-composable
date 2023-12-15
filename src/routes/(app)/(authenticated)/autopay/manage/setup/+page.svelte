@@ -23,6 +23,7 @@
 	import { useFetch } from '$lib/utils/useFetch';
 	import { WMSIcon } from 'svelte-components';
 	import ButtonMedium from '$components/ButtonMedium.svelte';
+	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
 
 	export let data;
 	let selectedAccount: number;
@@ -228,7 +229,9 @@
 					{onSuccessPopupClick}
 					{mode}
 					{updateMode}
-					{allowedPaymentMethods}
+					allowedPaymentMethods={$paymentAppStore.allPaymentApps.filter((value) =>
+						allowedPaymentMethods.includes(value)
+					)}
 					onAccChange={onAccountChange}
 					{os}
 				/>
