@@ -41,7 +41,7 @@
 
 				<Td class="!pr-0 text-right">
 					<div class="flex flex-col">
-						<span class="text-sm font-semibold text-black-key"
+						<span class="text-sm font-medium text-black-key lg:font-semibold"
 							><AmountText amount={funds?.currentValue?.toFixed(2) || 0} /></span
 						>
 						<span class="text-xs text-black-bolder">{funds?.units} units</span>
