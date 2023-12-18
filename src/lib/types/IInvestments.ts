@@ -112,7 +112,6 @@ export interface FolioSummaryTypes {
 	isin: string;
 	logoUrl: string;
 	minimumRedeemAmount: number;
-	nextSipDate: number;
 	redemableAmount: number;
 	redemptionAllowed: boolean;
 	returnsAbsolutePer: number;

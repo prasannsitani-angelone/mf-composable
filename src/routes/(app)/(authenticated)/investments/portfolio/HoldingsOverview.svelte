@@ -6,7 +6,6 @@
 	import HighlightsLineChart from './HighlightsLineChart.svelte';
 	import Card from '$components/Card.svelte';
 	import { getDateTimeString } from '$lib/utils/helpers/date';
-	import CalendarTickIcon from '$lib/images/icons/CalendarTickIcon.svelte';
 	import type { FolioSummaryTypes } from '$lib/types/IInvestments';
 	import type { ChartDataType } from '$lib/types/IPortfolioDetails';
 
@@ -68,23 +67,6 @@
 					</article>
 				{/if}
 			</section>
-			<!-- Visible only for SIPs enabled cases -->
-			<!-- This section is not visible on portfolio details page as the data doesnot have "sipEnabled" kry. -->
-			{#if folioSummary?.sipEnabled && !isExternal}
-				<section
-					class="flex items-end justify-center rounded bg-grey py-2.5 text-sm font-normal text-black-title lg:mx-0 lg:bg-inherit lg:py-5"
-				>
-					<CalendarTickIcon class="mr-3" />
-					<div>
-						<span class="mr-1 text-grey-body"> Next SIP date: </span>
-						<span>
-							{getDateTimeString(folioSummary?.nextSipDate, 'DATE', true)}
-						</span>
-					</div>
-				</section>
-			{:else}
-				<span />
-			{/if}
 		</div>
 		{#if isExternal}
 			<section
