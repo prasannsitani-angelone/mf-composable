@@ -35,6 +35,7 @@ export interface OtherSchemeEntityOrSchemeInfoEntity {
 	stpFlag: string;
 	switchFlag: string;
 	amcCode: number;
+	noOfClientInvested: number;
 }
 export interface SameAmcScheme {
 	amcName: string;

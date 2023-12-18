@@ -34,6 +34,7 @@
 	import type { CalculatedValue } from '$lib/types/IStandaloneCalculator';
 	import RiskAndRating from '$components/Scheme/RiskAndRating/RiskAndRating.svelte';
 	import FundHeading from './FundHeading/FundHeading.svelte';
+	import FundComparisonEntry from './FundComparison/FundComparisonEntry.svelte';
 
 	export let data: PageData;
 
@@ -182,6 +183,13 @@
 			{#if !isNFO}
 				<SchemeInformation schemeDetails={schemedata} {isNFO} />
 			{/if}
+			{#await data?.api?.comparisons then comparisons}
+				<FundComparisonEntry
+					firstSchemeDetails={schemedata}
+					similarFunds={comparisons?.otherScheme || []}
+				/>
+			{/await}
+
 			<FundManager schemeDetails={schemedata} />
 			<RiskAndRating schemeDetails={schemedata} />
 			{#if !isNFO}
