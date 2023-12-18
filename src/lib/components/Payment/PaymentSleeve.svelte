@@ -7,6 +7,14 @@
 	export let bankAccount = '';
 	export let upiId = '';
 	export let onPaymentMethodChange = (): void => undefined;
+
+	const truncate = (str: string, size: number) =>
+		str.length > size ? `${str.slice(0, size)}...` : str;
+
+	const truncateUPIId = () => {
+		const [prefix, suffix] = upiId.split('@');
+		return `${truncate(prefix, 9)}@${truncate(suffix, 6)}`;
+	};
 </script>
 
 <div class="flex w-full flex-row items-center {$$props.class}">
@@ -21,10 +29,10 @@
 		on:click={onPaymentMethodChange}
 	>
 		<div class="flex flex-row items-center text-xs font-normal text-black-title">
-			<span class="break-all">
+			<span>
 				{selectedMode === 'UPI'
 					? upiId?.length
-						? upiId
+						? truncateUPIId()
 						: 'Your UPI Id'
 					: PAYMENT_MODE[selectedMode]?.name}
 			</span>
@@ -37,7 +45,7 @@
 			/>
 		</div>
 		<div class="text-[10px] font-normal text-black-title">
-			{bankName}
+			{truncate(bankName, 20)}
 		</div>
 		<div class="flex flex-row items-center text-[10px] font-normal text-black-title">
 			<div class="mr-1 h-1 w-1 rounded-full bg-black-title" />
