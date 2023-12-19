@@ -18,6 +18,7 @@
 	import FundSearch from './components/FundSearch.svelte';
 	import Table from './components/Table.svelte';
 	import TableWithAccordian from './components/TableWithAccordian.svelte';
+	import ValueComponent from './components/ValueComponent.svelte';
 
 	export let data: PageData;
 
@@ -47,41 +48,17 @@
 		},
 		{
 			label: 'NAV',
-			backgroundColor: (context: { chart: { chartArea; ctx } }) => {
-				if (!context.chart.chartArea) {
-					return;
-				}
-				const {
-					ctx,
-					chartArea: { top, bottom }
-				} = context.chart;
-				const bgGradient = ctx.createLinearGradient(0, top, 0, bottom);
-				bgGradient.addColorStop(0, 'rgba(30, 199, 182, 0.24)');
-				bgGradient.addColorStop(1, 'rgba(30, 199, 182, 0)');
-				return bgGradient;
-			},
 			borderColor: '#F9BA4D',
 			yAxisID: 'y',
-			fill: true
+			fill: true,
+			backgroundColor: 'transparent'
 		},
 		{
 			label: 'NAV',
-			backgroundColor: (context: { chart: { chartArea; ctx } }) => {
-				if (!context.chart.chartArea) {
-					return;
-				}
-				const {
-					ctx,
-					chartArea: { top, bottom }
-				} = context.chart;
-				const bgGradient = ctx.createLinearGradient(0, top, 0, bottom);
-				bgGradient.addColorStop(0, 'rgba(30, 199, 182, 0.24)');
-				bgGradient.addColorStop(1, 'rgba(30, 199, 182, 0)');
-				return bgGradient;
-			},
-			borderColor: 'red',
+			borderColor: '#581DBE',
 			yAxisID: 'y',
-			fill: true
+			fill: true,
+			backgroundColor: 'transparent'
 		}
 	];
 
@@ -288,7 +265,7 @@
 		// initilaising everything
 		initialiseData();
 
-		response.forEach((element) => {
+		response.forEach((element, index) => {
 			schemeDetailsList.push(element.schemeData);
 			//meta data
 			meta[0].push(
@@ -306,17 +283,22 @@
 			);
 
 			// chart meta data
-			chartMetaData[0].push(
-				element.schemeData?.returns3yr
-					? `₹${addCommasToAmountString(
-							calculateLumpsumReturns(
-								1000,
-								3,
-								element.schemeData?.returns3yr
-							).matuarityAmount.toFixed(2)
-					  )}`
-					: ''
-			);
+			chartMetaData[0].push({
+				component: ValueComponent,
+				type: 'component',
+				props: {
+					dotColor: chartDatasetConfig[index]?.borderColor,
+					text: element.schemeData?.returns3yr
+						? `₹${addCommasToAmountString(
+								calculateLumpsumReturns(
+									1000,
+									3,
+									element.schemeData?.returns3yr
+								).matuarityAmount.toFixed(2)
+						  )}`
+						: ''
+				}
+			});
 			chartMetaData[1].push(
 				element.schemeData?.returns3yr ? `${element.schemeData?.returns3yr?.toFixed(2)}%` : ''
 			);
