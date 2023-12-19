@@ -249,6 +249,13 @@
 			</Link>
 		</section>
 	{:else}
+		{#if $ctNudgeStore?.kv?.topic === 'mf_sips_inpage1_type_d' || (['mf_sips_bottomsticky_type_b', 'mf_sips_bottomsticky_type_c', 'mf_sips_bottomsticky_type_d'].includes($ctNudgeStore?.kv?.topic) && !isMobile)}
+			<ClevertapNudgeComponent
+				class="mb-4 w-full items-center rounded-lg"
+				data={$ctNudgeStore}
+				on:onCTAClicked={(e) => goto(e.detail.url)}
+			/>
+		{/if}
 		<NoSipScreen {data} {showInactiveSipsCta} />
 	{/if}
 
