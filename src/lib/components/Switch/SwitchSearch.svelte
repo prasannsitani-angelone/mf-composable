@@ -50,7 +50,7 @@
 			initialSearchText="ALL"
 			parentResultClass="lg:!w-full"
 			searchInputClass="lg:!w-full"
-			filter="amccode:{amccode},switchflag:Y,purchaseallowed:Y,NOT isin: {isin}"
+			filter="amccode:{amccode},switchflag:Y,purchaseallowed:Y,divedendgrowthflag:GROWTH,NOT isin: {isin}&recommendation=true"
 			searchMode="switch"
 		>
 			<svelte:fragment slot="resultsData" let:resultsData>
