@@ -2,11 +2,12 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import AmountText from '$components/AmountText.svelte';
+	import Button from '$components/Button.svelte';
 	import LinearChart from '$components/Charts/LinearChart.svelte';
 	import TaxationIcon from '$lib/images/icons/TaxationIcon.svelte';
 	import type { LinearChartInput } from '$lib/types/IChart';
 	import type { ITaxation } from '$lib/types/IInvestments';
-	import { WMSIcon } from 'svelte-components';
+	import { BtnVariant, WMSIcon } from 'svelte-components';
 
 	interface IInvestmentTypes {
 		label: string;
@@ -33,20 +34,18 @@
 	];
 	function getCurrentFiscalYear() {
 		const today = new Date();
-
 		const curMonth = today.getMonth();
 		const currentYear = today.getFullYear().toString();
 		const fiscalYr = { start: '', end: '' };
+
 		if (curMonth > 3) {
 			const nextYr1 = (today.getFullYear() + 1).toString();
-			fiscalYr.start = `${currentYear.charAt(2)}${currentYear.charAt(3)}`;
-			fiscalYr.end = `${nextYr1.charAt(2)}${nextYr1.charAt(3)}`;
+			fiscalYr.start = currentYear;
+			fiscalYr.end = nextYr1;
 		} else {
 			const nextYr2 = currentYear;
-			fiscalYr.start = `${(today.getFullYear() - 1).toString().charAt(2)}${(today.getFullYear() - 1)
-				.toString()
-				.charAt(3)}`;
-			fiscalYr.end = `${nextYr2.charAt(2) + nextYr2.charAt(3)}`;
+			fiscalYr.start = (today.getFullYear() - 1).toString();
+			fiscalYr.end = nextYr2;
 		}
 
 		return fiscalYr;
@@ -92,6 +91,10 @@
 	const navigateToDetailedAnalysis = async (taxType: string) => {
 		await goto(`${base}/investments/ltcg-stcg-gains?taxType=${taxType}&holdingType=EQUITY`);
 	};
+	const gotoExploreMore = async () => {
+		await goto(`${base}/filters/items?subCategory=ELSS`);
+	};
+
 	export { taxationData };
 </script>
 
@@ -150,39 +153,46 @@
 		</div>
 	</section>
 
-	<section class="flex flex-col p-4">
-		<h4 class="mb-3 text-sm font-medium text-black-key">Tax Exemption under 80C</h4>
+	{#if taxationData?.totalElssInvestedFy < taxationData?.elssInvestmentCap}
+		<section class="flex flex-col p-4">
+			<h4 class="mb-3 text-sm font-medium text-black-key">Save Taxes with ELSS Funds</h4>
 
-		<p class="mb-4 text-xs text-black-bolder">
-			{#if taxationData?.maxElssInvestAllowed === 0}
-				You have already invested <AmountText
-					amount={taxationData?.elssInvestmentCap?.toFixed(2)}
-				/> in ELSS funds and availed
-			{:else}
-				You can invest <AmountText amount={taxationData?.maxElssInvestAllowed?.toFixed(2)} /> more in
-				ELSS funds till March ‘{getCurrentFiscalYear().end} to avail
-			{/if}
+			<p class="mb-4 text-xs text-black-bolder">
+				Invest up to
+				<AmountText amount={taxationData?.maxElssInvestAllowed?.toFixed()} />
+				more in ELSS funds till March {getCurrentFiscalYear().end}
+				to reduce your taxable income by <strong>₹1.5 Lakh </strong> under
+				<strong>section 80C</strong> of the Income Tax Act of India
+			</p>
 
-			tax benefits for financial year ‘{getCurrentFiscalYear().start} to ‘{getCurrentFiscalYear()
-				.end}
-		</p>
-
-		<div class="flex">
-			<div class="flex flex-col">
-				<p class="text-xs text-black-bolder">Invested</p>
-				<p class="text-sm font-medium text-black-key">
-					<AmountText amount={taxationData?.totalElssInvestedFy?.toFixed(2)} />
-				</p>
+			<div class="flex">
+				<div class="flex flex-col">
+					<p class="text-xs text-black-bolder">Invested</p>
+					<p class="text-sm font-medium text-black-key">
+						<AmountText amount={taxationData?.totalElssInvestedFy?.toFixed()} />
+					</p>
+				</div>
+				<div class="ml-auto flex flex-col">
+					<p class="text-right text-xs text-black-bolder">Limit</p>
+					<p class="text-sm font-medium text-black-key">
+						<AmountText amount={taxationData?.elssInvestmentCap?.toFixed()} />
+					</p>
+				</div>
 			</div>
-			<div class="ml-auto flex flex-col">
-				<p class="text-right text-xs text-black-bolder">Limit</p>
-				<p class="text-sm font-medium text-black-key">
-					<AmountText amount={taxationData?.elssInvestmentCap?.toFixed(2)} />
-				</p>
+			<div class="mt-3">
+				<LinearChart chartInput={elssInvestmetnGraph} />
 			</div>
-		</div>
-		<div class="mt-3">
-			<LinearChart chartInput={elssInvestmetnGraph} />
-		</div>
-	</section>
+			<div class="flex items-center justify-between md:my-2">
+				<h4 class="text-sm font-medium text-black-key">Explore Tax Saving Funds</h4>
+				<Button
+					variant={BtnVariant.Contained}
+					size="sm"
+					class="px-2 py-0 text-xs font-medium"
+					onClick={gotoExploreMore}
+				>
+					EXPLORE NOW
+				</Button>
+			</div>
+		</section>
+	{/if}
 </article>

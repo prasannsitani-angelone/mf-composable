@@ -216,7 +216,9 @@ function updateFilterFromCategory(item, filters): number {
 			}
 			filter.count += totalCountAtSelectedCategory;
 			filter.selected = filter.count === filter.totalNodes ? true : false;
-			return totalCountAtSelectedCategory;
+			if (totalCountAtSelectedCategory) {
+				return totalCountAtSelectedCategory;
+			}
 		} else if (filter.options) {
 			const count = updateFilterFromCategory(item, filter.options);
 			if (count > 0) {
@@ -287,6 +289,7 @@ function CreateStore() {
 			// need to apply query to filters
 			if (queryPath) {
 				updateFiltersFromQuery(queryPath, data);
+				data.queryPath = generateQuery(data.filters, '', '');
 			} else {
 				// initial filters in case query params didn't come
 				data.filtersCount = updateQuickFilters(initialFilter, data.filters);
