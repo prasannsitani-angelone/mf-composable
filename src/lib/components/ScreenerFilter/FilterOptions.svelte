@@ -35,9 +35,11 @@
 	};
 
 	const onFilterQueryInputChange = () => {
-		modifiedSelectedFilter = selectedFilter?.filter((item) =>
-			item?.label?.toLowerCase()?.includes(filterSearchQuery?.toLowerCase())
-		);
+		if (showSearch) {
+			modifiedSelectedFilter = selectedFilter?.filter((item) =>
+				item?.label?.toLowerCase()?.includes(filterSearchQuery?.toLowerCase())
+			);
+		}
 	};
 
 	const updateSearchResults = () => {
