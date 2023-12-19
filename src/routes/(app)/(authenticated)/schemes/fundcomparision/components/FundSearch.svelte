@@ -60,7 +60,11 @@
 		>
 			<header class="z-[70] flex-shrink-0 bg-white shadow-clg">
 				<section class="flex items-center justify-start bg-white px-3 py-4 text-center shadow-csm">
-					<h1 class="text-lg font-medium text-black-key">Add Fund to Compare</h1>
+					{#if firstFund}
+						<h1 class="text-lg font-medium text-black-key">Add Fund</h1>
+					{:else}
+						<h1 class="text-lg font-medium text-black-key">Add Fund to Compare</h1>
+					{/if}
 				</section>
 			</header>
 			<div class="origin-top rounded-t-md bg-white px-4 transition duration-100">

@@ -53,15 +53,15 @@
 				<WMSIcon
 					name="trash-icon-custom"
 					stroke="#D64D4D"
-					width={24}
-					height={24}
-					class="ml-auto justify-self-end md:cursor-pointer"
+					width={18}
+					height={18}
+					class="ml-auto mt-1 justify-self-end md:cursor-pointer"
 					on:click={onRemoveFundClick}
 				/>
 			{/if}
 		</div>
 		<p
-			class="my-3 w-full truncate text-xs font-medium text-black-key md:text-sm"
+			class="my-3 flex w-full flex-1 truncate text-xs font-medium text-black-key md:text-sm"
 			id="title-truncate"
 		>
 			{schemeDetails?.schemeName}

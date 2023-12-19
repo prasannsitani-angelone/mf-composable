@@ -430,7 +430,7 @@
 				</div>
 			{/each}
 		</div>
-		<div>
+		<div class="mt-4 md:mt-0">
 			<Table data={meta} />
 		</div>
 		<TableWithAccordian data={chartMetaData} title="If ₹1,000 invested 3 years ago">
@@ -449,6 +449,7 @@
 {#if showSearch}
 	<FundSearch
 		isin={schemesSelected >= 1 ? schemeDetailsList?.[schemesSelected - 1]?.isin : 'INF200KA1DB2'}
+		firstFund={schemesSelected === 0}
 		bind:showModal={showSearch}
 		on:close={toggleSearch}
 		on:schemeSelect={(e) => addFund(e.detail?.schemeCode, e.detail?.isin)}
