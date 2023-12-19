@@ -8,6 +8,11 @@
 	import type { LinearChartInput } from '$lib/types/IChart';
 	import type { ITaxation } from '$lib/types/IInvestments';
 	import { BtnVariant, WMSIcon } from 'svelte-components';
+	import {
+		longTermInvestmentClickAnalytics,
+		shortTermInvestmentClickAnalytics
+	} from '../../analytics';
+	import { encodeObject } from '$lib/utils/helpers/params';
 
 	interface IInvestmentTypes {
 		label: string;
@@ -89,7 +94,33 @@
 		}
 	];
 	const navigateToDetailedAnalysis = async (taxType: string) => {
-		await goto(`${base}/investments/ltcg-stcg-gains?taxType=${taxType}&holdingType=EQUITY`);
+		let investmentPercent;
+		let investedAmt;
+		if (taxType === 'STCG') {
+			investmentPercent = taxationData[investmentTypes[0].investmentPercentage]?.toFixed(2) || 0;
+			investedAmt = taxationData[investmentTypes[0].investedAmount]?.toFixed(2);
+
+			shortTermInvestmentClickAnalytics({
+				shortterminvestment: `${investmentPercent}%`,
+				Currentvalue: investedAmt
+			});
+		} else if (taxType === 'LTCG') {
+			investmentPercent = taxationData[investmentTypes[1]?.investmentPercentage]?.toFixed(2) || 0;
+			investedAmt = taxationData[investmentTypes[1]?.investedAmount]?.toFixed(2);
+
+			longTermInvestmentClickAnalytics({
+				longterminvestment: `${investmentPercent}%`,
+				Currentvalue: investedAmt
+			});
+		}
+
+		const params = encodeObject({
+			investmentPercent,
+			investedAmt
+		});
+		await goto(
+			`${base}/investments/ltcg-stcg-gains?taxType=${taxType}&holdingType=EQUITY&params=${params}`
+		);
 	};
 	const gotoExploreMore = async () => {
 		await goto(`${base}/filters/items?subCategory=ELSS`);

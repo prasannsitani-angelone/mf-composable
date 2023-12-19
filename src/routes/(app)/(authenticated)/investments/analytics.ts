@@ -581,3 +581,75 @@ export const switchToDirectFundClickAnalytics = (eventMetaData) => {
 		event_metadata: eventMetaData
 	});
 };
+
+export const shortTermInvestmentClickAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-portfolioanalysis',
+		event_type: 'click',
+		event_sub_type: 'Card',
+		event_name: 'Shortterminvestments',
+		event_property: null,
+		event_id: '306.0.0.13.32',
+		event_metadata: eventMetaData
+	});
+};
+
+export const longTermInvestmentClickAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-portfolioanalysis',
+		event_type: 'click',
+		event_sub_type: 'card',
+		event_name: 'longterminvestments',
+		event_property: null,
+		event_id: '306.0.0.13.33',
+		event_metadata: eventMetaData
+	});
+};
+
+export const shortTermInvestmentImpressionAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-shortterminvestment',
+		event_type: 'impression',
+		event_sub_type: 'screen',
+		event_name: 'Shortterminvestments',
+		event_property: null,
+		event_id: '306.0.0.13.34',
+		event_metadata: eventMetaData
+	});
+};
+
+export const shortTermTabClickAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-shortterminvestment',
+		event_type: 'click',
+		event_sub_type: 'tab',
+		event_name: 'OptionClick',
+		event_property: null,
+		event_id: '306.0.0.13.35',
+		event_metadata: eventMetaData
+	});
+};
+
+export const longTermInvestmentImpressionAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-longterminvestment',
+		event_type: 'impression',
+		event_sub_type: 'screen',
+		event_name: 'longterminvestment',
+		event_property: null,
+		event_id: '306.0.0.13.36',
+		event_metadata: eventMetaData
+	});
+};
+
+export const longTermTabClickAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-longterminvestment',
+		event_type: 'click',
+		event_sub_type: 'tab',
+		event_name: 'OptionClick',
+		event_property: null,
+		event_id: '306.0.0.13.37',
+		event_metadata: eventMetaData
+	});
+};

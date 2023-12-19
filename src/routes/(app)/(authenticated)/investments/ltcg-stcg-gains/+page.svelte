@@ -5,24 +5,54 @@
 	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
 	import type { ITab } from '$lib/types/ITab';
 	import NoFilterResult from '$lib/images/NoFilterResult.svg';
-
 	import InvestmentTab from '../(dashboard)/components/InvestmentTab.svelte';
 	import type { PageData } from './$types';
 	import TaxationTable from './TaxationTable.svelte';
 	import BigDotIcon from '$lib/images/icons/BigDotIcon.svelte';
+	import {
+		longTermInvestmentImpressionAnalytics,
+		longTermTabClickAnalytics,
+		shortTermInvestmentImpressionAnalytics,
+		shortTermTabClickAnalytics
+	} from '../analytics';
+	import { page } from '$app/stores';
+	import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
+	import type { ITaxationDetails } from '$lib/types/IInvestments';
+	import { browser } from '$app/environment';
+
 	export let data: PageData;
 
+	const { investmentPercent = 0, investedAmt = 0 } = decodeToObject(
+		$page.url.searchParams.get('params') || ''
+	);
+
+	const encodedParams = encodeObject({
+		investmentPercent,
+		investedAmt
+	});
+
 	const navigateToEquite = async () => {
-		await goto(`${base}/investments/ltcg-stcg-gains?taxType=${data?.taxType}&holdingType=EQUITY`, {
-			replaceState: true
-		});
+		await goto(
+			`${base}/investments/ltcg-stcg-gains?taxType=${data?.taxType}&holdingType=EQUITY&params=${encodedParams}`,
+			{ replaceState: true }
+		);
+		if (data?.taxType === 'STCG') {
+			shortTermTabClickAnalytics({ CategoryOption: 'Equity' });
+		} else if (data?.taxType === 'LTCG') {
+			longTermTabClickAnalytics({ CategoryOption: 'Equity' });
+		}
 	};
 	$: activeTab = data?.holdingType === 'NON_EQUITY' ? 'Non-Equity' : 'Equity';
 	const navigateToNonEquity = async () => {
 		await goto(
-			`${base}/investments/ltcg-stcg-gains?taxType=${data?.taxType}&holdingType=NON_EQUITY`,
+			`${base}/investments/ltcg-stcg-gains?taxType=${data?.taxType}&holdingType=NON_EQUITY&params=${encodedParams}`,
 			{ replaceState: true }
 		);
+		if (data?.taxType === 'STCG') {
+			shortTermTabClickAnalytics({ CategoryOption: 'Non-Equity' });
+		} else if (data?.taxType === 'LTCG') {
+			longTermTabClickAnalytics({ CategoryOption: 'Non-Equity' });
+		}
 	};
 
 	const tabs: ITab[] = [
@@ -35,6 +65,37 @@
 			onClick: navigateToNonEquity
 		}
 	];
+
+	$: analyticsEventPromise = browser
+		? data?.api?.getTaxationDetails?.then((taxationDetails: ITaxationDetails[]) => {
+				const eventMetaData = taxationDetails
+					.map((taxationDetails: ITaxationDetails, index) => {
+						const obj = {};
+						obj[`FundName${index + 1}`] = taxationDetails.schemeName;
+						obj[`Amount${index + 1}`] = taxationDetails.investedAmount;
+						return obj;
+					})
+					.reduce((accumulator, currentValue) => {
+						return { ...accumulator, ...currentValue };
+					}, {});
+
+				if (data?.taxType === 'STCG') {
+					shortTermInvestmentImpressionAnalytics({
+						shortterminvestment: `${investmentPercent}%`,
+						Currentvalue: investedAmt,
+						CategoryOption: activeTab,
+						...eventMetaData
+					});
+				} else if (data?.taxType === 'LTCG') {
+					longTermInvestmentImpressionAnalytics({
+						longterminvestment: `${investmentPercent}%`,
+						Currentvalue: investedAmt,
+						CategoryOption: activeTab,
+						...eventMetaData
+					});
+				}
+		  })
+		: {};
 </script>
 
 <article class="flex flex-col items-center justify-center sm:items-start">

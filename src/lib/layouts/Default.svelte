@@ -40,7 +40,7 @@
 
 	const updateGridClass = () => {
 		contentClass = gridClassMap[layoutType]?.contentClass || commonStyle;
-		layoutClass = gridClassMap[layoutType]?.layoutClass || '';
+		layoutClass = gridClassMap[layoutType]?.layoutClass || 'px-2 py-2';
 	};
 
 	$: layoutType, updateGridClass();

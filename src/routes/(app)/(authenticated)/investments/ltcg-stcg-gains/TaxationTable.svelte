@@ -19,9 +19,9 @@
 		<Th class="h-3 w-8/12  !border-none  !pl-0 text-start !normal-case sm:w-2/3">Funds</Th>
 
 		<Th
-			class="flex  h-3 cursor-pointer justify-end !border-none bg-white py-0 !pl-0 !pr-0 text-left font-normal  sm:!pl-5 sm:text-center"
+			class="flex h-3 justify-end !border-none bg-white py-0 !pl-0 !pr-0 text-left font-normal  sm:!pl-5 sm:text-center"
 		>
-			<p class="normal-case !text-blue-primary">Current Amount</p>
+			<p class="normal-case">Current Amount</p>
 		</Th>
 	</THead>
 	<TBody slot="tbody">
