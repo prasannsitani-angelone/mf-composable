@@ -25,7 +25,7 @@
 			layoutClass: 'px-2 py-2 lg:pb-20'
 		},
 		TWO_COLUMN_RIGHT_LARGE: {
-			contentClass: `${commonStyle}`,
+			contentClass: `${commonStyle} lg:grid lg:grid-cols-[34%_66%] lg:gap-5`,
 			layoutClass: 'px-2 py-2 lg:pb-20'
 		},
 		FULL_HEIGHT_WITHOUT_PADDING: {
