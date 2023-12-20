@@ -17,8 +17,8 @@
 
 	onMount(async () => {
 		await tick();
-
-		await schemeScreenerStore.getFiltersResponse();
+		const urlSearchParam = $page?.url?.search;
+		await schemeScreenerStore.getFiltersResponse(urlSearchParam);
 		exploreMFImpression();
 	});
 

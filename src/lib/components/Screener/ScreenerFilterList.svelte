@@ -10,7 +10,6 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import InfiniteScroll from '$components/InfiniteScroll.svelte';
-	import { page as pageData } from '$app/stores';
 	import NoFilterResult from '$lib/images/NoFilterResult.svg';
 	import { bottomFilterClick } from '$lib/analytics/filters/filters';
 
@@ -52,8 +51,6 @@
 	onMount(async () => {
 		await tick();
 		scrollElement = document.getElementById('main-container');
-		const urlSearchParam = $pageData?.url?.search;
-		schemeScreenerStore.getFiltersResponse(urlSearchParam);
 	});
 
 	$: screenedSchemes = [];

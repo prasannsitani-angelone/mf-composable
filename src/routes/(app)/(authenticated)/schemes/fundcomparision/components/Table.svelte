@@ -9,7 +9,7 @@
 			<tr class="flex w-full flex-row odd:bg-white even:bg-grey">
 				{#each row as column, cindex (`${rindex}-${cindex}`)}
 					<td
-						class="flex flex-1 border-r border-grey-line p-3 font-normal first:font-medium last:border-0"
+						class="flex flex-[5] border-r border-grey-line p-3 font-normal first:flex-[4] first:font-medium last:border-0 sm:first:flex-[5]"
 					>
 						{#if column?.type === 'component'}
 							<svelte:component this={column.component} {...column.props} />

@@ -172,12 +172,16 @@
 		let minNavVal = Number.MAX_VALUE,
 			maxNavVal = 0;
 
+		let maxNavsLength = 0,
+			maxNavsIndex = 0;
+
 		mutipleNavs.forEach((navs, navIndex) => {
 			lineChartData.navs.push([]);
+			if (maxNavsLength < navs?.length) {
+				maxNavsLength = navs?.length;
+				maxNavsIndex = navIndex;
+			}
 			navs?.forEach((nav) => {
-				if (navIndex === 0) {
-					lineChartData.time.push(nav.navDate);
-				}
 				if (minNavVal > nav.navValue) {
 					minNavVal = nav.navValue;
 				}
@@ -186,6 +190,10 @@
 				}
 				lineChartData.navs[navIndex].push(nav.navValue);
 			});
+		});
+
+		mutipleNavs?.[maxNavsIndex]?.forEach((nav) => {
+			lineChartData.time.push(nav.navDate);
 		});
 
 		const datasets = lineChartData.navs.map((nav, index) => {
@@ -227,7 +235,7 @@
 
 	const initialiseData = () => {
 		selectedTag = 4;
-		pastReturns = [['1 Year'], ['3 Year'], ['5 Year'], ['All Time']];
+		pastReturns = [['1 Year'], ['3 Years'], ['5 Years'], ['All Time']];
 		fundBasics = [
 			['NAV'],
 			['Expense Ratio'],
@@ -283,22 +291,24 @@
 			);
 
 			// chart meta data
-			chartMetaData[0].push({
-				component: ValueComponent,
-				type: 'component',
-				props: {
-					dotColor: chartDatasetConfig[index]?.borderColor,
-					text: element.schemeData?.returns3yr
-						? `₹${addCommasToAmountString(
-								calculateLumpsumReturns(
-									1000,
-									3,
-									element.schemeData?.returns3yr
-								).matuarityAmount.toFixed(2)
-						  )}`
-						: ''
-				}
-			});
+			chartMetaData[0].push(
+				element.schemeData?.returns3yr
+					? {
+							component: ValueComponent,
+							type: 'component',
+							props: {
+								dotColor: chartDatasetConfig[index]?.borderColor,
+								text: `₹${addCommasToAmountString(
+									calculateLumpsumReturns(
+										1000,
+										3,
+										element.schemeData?.returns3yr
+									).matuarityAmount.toFixed(2)
+								)}`
+							}
+					  }
+					: ''
+			);
 			chartMetaData[1].push(
 				element.schemeData?.returns3yr ? `${element.schemeData?.returns3yr?.toFixed(2)}%` : ''
 			);
@@ -416,9 +426,9 @@
 {:then}
 	<div class="flex flex-col gap-2 sm:gap-6">
 		<div class="sticky -top-2 z-60 -mb-6 flex border-b border-grey-line bg-white">
-			<div class=" flex flex-1 p-2 md:p-4" />
+			<div class=" flex flex-[4] p-2 sm:flex-[5] md:p-4" />
 			{#each schemeDetailsList as schemeDetails, idx (idx)}
-				<div class="flex flex-1 items-center justify-center border-l border-grey-line p-2 md:p-4">
+				<div class="flex flex-[5] items-center justify-center border-l border-grey-line p-2 md:p-4">
 					<FundOverviewTile
 						{schemeDetails}
 						showCompact={true}
