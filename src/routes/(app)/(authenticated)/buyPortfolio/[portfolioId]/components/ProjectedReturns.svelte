@@ -6,7 +6,7 @@
 	export let threeYearReturns: number;
 
 	const finalVal =
-		Math.round(calculateSipReturns(1000, 3, threeYearReturns)?.matuarityAmount * 100) / 100;
+		Math.round(calculateSipReturns(1000, 5, threeYearReturns)?.matuarityAmount * 100) / 100;
 </script>
 
 <section>

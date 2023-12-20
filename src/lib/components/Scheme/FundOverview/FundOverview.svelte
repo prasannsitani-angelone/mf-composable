@@ -13,6 +13,7 @@
 	let schemeDetails: SchemeDetails;
 	let selectedTag: Tags[];
 	let isNFO = false;
+	let onMountEvent = true;
 	$: selectedTag = [
 		{
 			label: '3Y',
@@ -63,7 +64,9 @@
 			isOTIAllowed: isLumpsumAllowed === 'Y',
 			isOpenNFO: nfoScheme === 'Y'
 		};
-		sFundDetails(eventMetadata);
+		if (onMountEvent) {
+			sFundDetails(eventMetadata);
+		}
 	});
 
 	let pagePathname: string;
@@ -84,7 +87,7 @@
 
 	let innerStyle = '';
 
-	export { schemeDetails, isNFO, innerStyle };
+	export { schemeDetails, isNFO, innerStyle, onMountEvent };
 </script>
 
 <section class="rounded-lg bg-white p-4 pb-1 pt-3 shadow-csm sm:p-6 {$$props.class}">

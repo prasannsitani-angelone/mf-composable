@@ -9,7 +9,7 @@
 <SchemeInformation
 	{isNFO}
 	{schemeDetails}
-	class="mx-2 h-[500px] {$$props.class}"
+	class="mx-2 h-[500px] max-w-full {$$props.class}"
 	showFooter={false}
 	innerStyle="flex flex-col gap-1"
 />

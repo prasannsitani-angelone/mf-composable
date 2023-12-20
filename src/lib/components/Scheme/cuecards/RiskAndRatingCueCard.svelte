@@ -22,7 +22,7 @@
 	};
 </script>
 
-<RiskAndRating {schemeDetails} class="mx-2 flex h-[500px] flex-col {$$props.class}">
+<RiskAndRating {schemeDetails} class="mx-2 flex h-[500px] max-w-full flex-col {$$props.class}">
 	<div slot="footer" class="flex flex-1 flex-col">
 		<div class="h-max flex-1" />
 		<div class="mx-4 mt-auto border-t py-1 text-center">

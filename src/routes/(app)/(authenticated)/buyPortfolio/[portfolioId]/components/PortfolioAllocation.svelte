@@ -149,7 +149,7 @@
 				<SchemeLogo size="xs2" src={scheme.logoUrl} alt={scheme.schemeName} />
 				<div class="flex flex-col self-center text-sm font-normal">
 					<p>{scheme.schemeName}</p>
-					<p class="text-grey-body">3Y Returns: {scheme.returns3yr}%</p>
+					<p class="text-grey-body">3Y Returns: {scheme?.returns3yr?.toFixed(2)}%</p>
 				</div>
 			</div>
 			<div class="flex items-start text-sm font-medium">
