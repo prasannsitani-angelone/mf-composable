@@ -3,7 +3,7 @@
 	import RadioButton from '$components/RadioButton.svelte';
 	import UpiHandlerDropDown from '$components/UPIHandlerDropDown.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
-	import { afterUpdate } from 'svelte';
+	import { afterUpdate, onDestroy } from 'svelte';
 	import { PAYMENT_MODE_STATUS } from './constants';
 	import type { PaymentMethodsStatusTypes } from '$lib/types/IPayments';
 
@@ -25,7 +25,14 @@
 
 	export let onSelect: (identifier: string, subIdentifier: string) => void = () => undefined;
 	export let onSubmit: (text: string, subIdentifier: string) => void = () => undefined;
+	export let resetInputError = (): void => undefined;
 	export let changeBank = (): void => undefined;
+
+	onDestroy(() => {
+		if (showInput) {
+			resetInputError();
+		}
+	});
 
 	const onChangeBankClick = () => {
 		changeBank();
@@ -34,6 +41,7 @@
 	let inputText = defaultInputVal || '';
 
 	const onInputChange = (data: string) => {
+		resetInputError();
 		inputText = data;
 	};
 

@@ -5,7 +5,6 @@
 	import { stringToFloat } from '$lib/utils/helpers/numbers';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
-	import type { MandateWithBankDetails } from '$lib/types/IEmandate';
 
 	export let selectedMode = '';
 	export let paymentModes: Array<string> = [];
@@ -17,7 +16,7 @@
 	export let defaultInputVal = '';
 	export let isLoading = false;
 	export let isSchemeDisabled = false;
-	export let autopayOptions: MandateWithBankDetails[] = [];
+	export let paymentOptionsHeading = '';
 
 	export let onSelect: () => void = () => undefined;
 	export let onSubmit = (): void => undefined;
@@ -49,7 +48,7 @@
 
 <div class="flex flex-col overflow-y-scroll bg-white px-4 py-3 {$$props.class}">
 	<div class="mb-3 text-sm font-normal text-black-title">
-		Pay With{autopayOptions?.length ? ' Other Payment Methods' : ''}
+		Pay With{paymentOptionsHeading}
 	</div>
 	<div class="divide-y divide-grey-line rounded-lg border border-grey-line">
 		{#each paymentModes as paymentModeKey (paymentModeKey)}

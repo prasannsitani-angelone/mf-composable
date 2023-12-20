@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Modal from '$components/Modal.svelte';
-	import type { MandateWithBankDetails } from '$lib/types/IEmandate';
 	import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 	import { PAYMENT_MODE } from './constants';
 	import PaymentMethod from './PaymentMethod.svelte';
@@ -15,7 +14,7 @@
 	export let defaultInputVal = '';
 	export let isLoading = false;
 	export let isSchemeDisabled = false;
-	export let autopayOptions: MandateWithBankDetails[] = [];
+	export let paymentOptionsHeading = '';
 
 	export let onBackClick = (): void => undefined;
 	export let onSelect = (): void => undefined;
@@ -49,7 +48,7 @@
 				onChangeBankClick={onChangeBank}
 				{isLoading}
 				{isSchemeDisabled}
-				{autopayOptions}
+				{paymentOptionsHeading}
 				class="sm:px-8 sm:py-8"
 			/>
 		</div>
@@ -74,6 +73,7 @@
 			onChangeBankClick={onChangeBank}
 			{isLoading}
 			{isSchemeDisabled}
+			{paymentOptionsHeading}
 		/>
 	</section>
 {/if}
