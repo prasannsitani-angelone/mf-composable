@@ -3,7 +3,7 @@
 	import RadioButton from '$components/RadioButton.svelte';
 	import UpiHandlerDropDown from '$components/UPIHandlerDropDown.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
-	import { afterUpdate, onDestroy } from 'svelte';
+	import { afterUpdate } from 'svelte';
 	import { PAYMENT_MODE_STATUS } from './constants';
 	import type { PaymentMethodsStatusTypes } from '$lib/types/IPayments';
 
@@ -21,17 +21,11 @@
 	export let isSchemeDisabled = false;
 	export let paymentModesStatus: PaymentMethodsStatusTypes;
 	export let submitButtonText = '';
+	export let subIdentifier = '';
 
-	export let onSelect: (identifier: string) => void = () => undefined;
-	export let onSubmit: (text: string) => void = () => undefined;
-	export let resetInputError = (): void => undefined;
+	export let onSelect: (identifier: string, subIdentifier: string) => void = () => undefined;
+	export let onSubmit: (text: string, subIdentifier: string) => void = () => undefined;
 	export let changeBank = (): void => undefined;
-
-	onDestroy(() => {
-		if (showInput) {
-			resetInputError();
-		}
-	});
 
 	const onChangeBankClick = () => {
 		changeBank();
@@ -40,7 +34,6 @@
 	let inputText = defaultInputVal || '';
 
 	const onInputChange = (data: string) => {
-		resetInputError();
 		inputText = data;
 	};
 
@@ -73,7 +66,7 @@
 >
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
-	<div class="flex flex-row items-center py-4" on:click={() => onSelect(identifier)}>
+	<div class="flex flex-row items-center py-4" on:click={() => onSelect(identifier, subIdentifier)}>
 		<RadioButton {selected} clazz="mr-2" />
 		<div
 			class="mr-3 flex h-8 w-[46px] items-center justify-center rounded-sm border border-grey-line bg-white"
@@ -91,7 +84,7 @@
 		{#if paymentModeStatus !== PAYMENT_MODE_STATUS?.enabled}
 			<section
 				class="-mt-2 mb-3 ml-6 text-[11px] font-normal text-red-errorDark"
-				on:click={() => onSelect(identifier)}
+				on:click={() => onSelect(identifier, subIdentifier)}
 			>
 				{#if paymentModeStatus === PAYMENT_MODE_STATUS?.low_success_rate}
 					<div>
@@ -106,7 +99,7 @@
 		{/if}
 	</slot>
 
-	{#if selected}
+	{#if selected && identifier !== 'AUTOPAY'}
 		<div class="ml-6 flex flex-col pb-4 {$$props.innerClass}">
 			{#if showInput}
 				<UpiHandlerDropDown {inputText} {onInputChange} {inputError} />
@@ -143,7 +136,7 @@
 					isLoading ||
 					isSchemeDisabled ||
 					paymentModeStatus === PAYMENT_MODE_STATUS?.disabled}
-				onClick={() => onSubmit(inputText)}
+				onClick={() => onSubmit(inputText, subIdentifier)}
 			>
 				{submitButtonText
 					? submitButtonText

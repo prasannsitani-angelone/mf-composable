@@ -79,6 +79,7 @@
 		netBankingLumpsumFlow,
 		netBankingSIPFlow,
 		noPaymentFlow,
+		sipAutopayFlow,
 		upiIntegeratedFlow,
 		upiLumpsumFlow,
 		upiSIPFlow,
@@ -137,6 +138,9 @@
 		schemeInfoCueCardDetailsClickEvent,
 		schemeInfoCueCardImpressionEvent
 	} from '$components/Scheme/cuecards/analytics';
+	import type { MandateWithBankDetails } from '$lib/types/IEmandate';
+	import AutopayMethod from '$components/Payment/AutopayMethod.svelte';
+	import InfoPopup from '$components/Popup/InfoPopup.svelte';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -202,6 +206,10 @@
 	let showLumpsumToSipModal = false;
 	let showBeforePaymentAckModal = false;
 	let beforePaymentAckDone = false;
+	let mandateData: MandateWithBankDetails[] = [];
+	let selectedAutopay: MandateWithBankDetails;
+	let subIdentifier: string;
+	let showAutopayPopup = false;
 
 	const nextSipDateBufferDaysWithFtp = 30;
 	const nextSipDateBufferDaysWithoutFtp = 10;
@@ -776,6 +784,21 @@
 	const getPreviousWrongBankFailedPayment = async () => {
 		previousWrongBankFailedPayment = await checkPreviousWrongBankFailedPayment();
 	};
+	const bankAccNumToLogoMap = () => {
+		const accNumToLogoMap = {};
+		const bankList = profileData.bankDetails;
+
+		(bankList || []).forEach((bank: BankDetailsEntity) => {
+			accNumToLogoMap[bank.accNO] = bank.bankLogo;
+		});
+
+		return accNumToLogoMap;
+	};
+
+	const getAllMandates = (madateMap: { [propKey: string]: MandateWithBankDetails }) => {
+		const all = (Object.values(madateMap) || []).flat();
+		return all;
+	};
 
 	onMount(async () => {
 		handleShowTabNotSupported();
@@ -807,6 +830,16 @@
 		});
 
 		fundDetailsCarouselItems = getFundDetailsCarouselItems();
+		let mandateResponse = await getEmandateDataFunc({ amount: 0, sipDate: getSIPDate() });
+		const accNumToLogoMap = bankAccNumToLogoMap();
+		mandateData = getAllMandates(mandateResponse?.data);
+		mandateData = mandateData.map((mandate) => {
+			const updatedMandate = {
+				...mandate,
+				bankLogo: accNumToLogoMap[mandate.accountNo]
+			};
+			return updatedMandate;
+		});
 	});
 
 	function getNFODetailsCueCard() {
@@ -1079,9 +1112,15 @@
 		xRequestId = uuidv4();
 	};
 
-	const onPaymentModeSelect = (paymentMode: string) => {
+	const onPaymentModeSelect = (paymentMode: string, subId: string) => {
 		paymentHandler.paymentMode = paymentMode;
 		firstTimeUser = false;
+		if (paymentMode === 'AUTOPAY') {
+			selectedAutopay = mandateData.filter((x) => x.mandateId === subId)[0];
+			subIdentifier = subId;
+		} else {
+			subIdentifier = '';
+		}
 
 		const eventMetaData = {
 			mode: paymentHandler?.paymentMode
@@ -1546,6 +1585,8 @@
 				onUPIValidationFailure: upiValidationErrorHandler,
 				updateUPITimer
 			});
+		} else if (activeTab === 'SIP' && paymentHandler.paymentMode === 'AUTOPAY') {
+			showAutopayPopup = true;
 		} else if (activeTab === 'SIP' && redirectedFrom !== 'SIP_PAYMENTS') {
 			submitButtonSIPClickAnalyticsFunc();
 			const response = await isWalletIntegeratedFlow();
@@ -1585,6 +1626,28 @@
 				gpayPaymentState
 			});
 		}
+	};
+
+	const autoPayflow = () => {
+		firstSipPayment = false;
+		sipAutopayFlow({
+			amount,
+			dpNumber: profileData?.dpNumber,
+			schemeCode: schemeData?.schemeCode,
+			sipFrequency: schemeData?.sipFrequency,
+			sipMaxInstallmentNo: schemeData?.sipMaxInstallmentNo,
+			sipDate: getSIPDate(),
+			xRequestId,
+			source,
+			previousOrderId,
+			previousPGTxnId,
+			stopLoading,
+			displayError,
+			showLoading,
+			onSuccess: navigateToSipCompletePage,
+			isFtpWithMandate: true,
+			emandateId: selectedAutopay.mandateId
+		});
 	};
 
 	// -------- **** ----------
@@ -1739,6 +1802,10 @@
 		integeratedFlow.visible = false;
 	};
 
+	const toggleShowAutopayPopup = () => {
+		showAutopayPopup = !showAutopayPopup;
+	};
+
 	// const animate = (node, args) => (args.cond ? fly(node, args) : {});
 
 	// -------- **** ----------
@@ -1867,6 +1934,7 @@
 						<article class="mt-3 flex w-full flex-row items-center justify-between">
 							<!-- svelte-ignore a11y-label-has-associated-control -->
 							<label class="text-xs font-normal text-black-title">Monthly SIP Date</label>
+							<!-- svelte-ignore a11y-no-static-element-interactions -->
 							<section
 								class="flex items-center md:cursor-pointer {isSelectedInvestmentTypeAllowed()
 									? 'md:cursor-pointer'
@@ -1887,6 +1955,7 @@
 
 						<!-- Checkbox for SIP payment now -->
 						{#if !paymentMandatory}
+							<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 							<article
 								class={`mt-4 flex w-fit items-center justify-start text-xs font-normal text-grey-body ${
 									isSelectedInvestmentTypeAllowed() ? 'md:cursor-pointer' : 'md:cursor-not-allowed'
@@ -2012,8 +2081,12 @@
 									<PaymentSleeve
 										selectedMode={paymentHandler?.paymentMode}
 										onPaymentMethodChange={showPaymentMethodScreen}
-										bankName={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName}
-										bankAccount={profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO}
+										bankName={paymentHandler.paymentMode === 'AUTOPAY'
+											? selectedAutopay.bankName
+											: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName}
+										bankAccount={paymentHandler.paymentMode === 'AUTOPAY'
+											? selectedAutopay.accountNo
+											: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO}
 										upiId={paymentHandler.upiId}
 									/>
 								</div>
@@ -2038,7 +2111,7 @@
 									onClick={() => handleInvestClick(paymentHandler.upiId)}
 								>
 									{activeTab === 'SIP'
-										? !firstSipPayment
+										? !firstSipPayment || paymentHandler?.paymentMode === 'AUTOPAY'
 											? 'START SIP'
 											: firstTimeUser
 											? 'CONTINUE'
@@ -2124,6 +2197,7 @@
 		isLoading={loadingState.isLoading || validateUPILoading}
 		isSchemeDisabled={!isSelectedInvestmentTypeAllowed()}
 		asModal={isMobile ? true : false}
+		autopayOptions={mandateData}
 	>
 		<div slot="schemeTile" class="m-4 mb-0 rounded-lg border border-grey-line bg-white p-3">
 			<div class="mb-2 flex flex-row items-center rounded-full text-xs font-normal text-grey-body">
@@ -2146,6 +2220,23 @@
 					₹{addCommasToAmountString(amount)}
 				</div>
 			</div>
+		</div>
+		<div slot="autopayMethods">
+			{#if mandateData?.length && activeTab === 'SIP'}
+				<AutopayMethod
+					selectedMode={'AUTOPAY'}
+					onSelect={onPaymentModeSelect}
+					onSubmit={handleInvestClick}
+					{amount}
+					{subIdentifier}
+					bankAccounts={profileData?.bankDetails}
+					selectedAccount={paymentHandler?.selectedAccount}
+					{redirectedFrom}
+					isLoading={loadingState.isLoading || validateUPILoading}
+					autopayOptions={mandateData}
+					class="sm:px-4 sm:py-4"
+				/>
+			{/if}
 		</div>
 	</ChangePaymentContainer>
 {/if}
@@ -2325,6 +2416,44 @@
 	on:cueCardLoad={handleCueCardLoad}
 	on:cueCardClose={handleCueCardClose}
 />
+
+<InfoPopup
+	isModalOpen={showAutopayPopup}
+	heading="Confirm: Paying With Autopay"
+	closeModal={toggleShowAutopayPopup}
+>
+	<svelte:fragment slot="crossIconSlot">
+		<WMSIcon class="md:cursor-pointer" name="cross-circle" on:click={toggleShowAutopayPopup} />
+	</svelte:fragment>
+	<svelte:fragment slot="popupBody">
+		<div class="flex flex-col px-4 text-xs text-black-key">
+			<div class="flex py-2">
+				<WMSIcon name="clock" width={24} height={24} />
+				<span class="pl-2"
+					>SIP amount will be debited from your Autopay bank account ({selectedAutopay?.bankName} xxxx{selectedAutopay?.accountNo?.substring(
+						selectedAutopay.accountNo.length - 4
+					)}) within 3 working days</span
+				>
+			</div>
+			<div class="flex py-2">
+				<WMSIcon name="rupee-circle-blue" width={24} height={24} />
+				<span class="ml-1"
+					>Please maintain required balance in your bank account. NAV will be based on realisation
+					of funds by AMC</span
+				>
+			</div>
+		</div>
+		<div class="p-4">
+			<Button
+				class="w-full"
+				onClick={() => {
+					toggleShowAutopayPopup();
+					autoPayflow();
+				}}>CONFIRM AND START SIP</Button
+			>
+		</div>
+	</svelte:fragment>
+</InfoPopup>
 
 <style>
 	.trucateTo2Line {

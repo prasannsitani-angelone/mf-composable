@@ -3,6 +3,7 @@ import WorldIcon from './icons/GlobeIcon.svelte';
 import UPIIcon from './icons/UPIIcon.svelte';
 import GPayIcon from './icons/GPayIcon.svelte';
 import PaytmIcon from './icons/PaytmIcon.svelte';
+import AutopayIcon from './icons/AutopayIcon.svelte';
 
 import { selectPaymentModeAnalytics } from './analytics/changePayment';
 
@@ -69,6 +70,16 @@ export const PAYMENT_MODE = {
 		analytics: selectPaymentModeAnalytics,
 		enabled: (amount: number, os: string, redirectedFrom: string) => {
 			return redirectedFrom !== 'SIP_PAYMENTS' && amount >= NET_BANKING_MIN_LIMIT;
+		},
+		showInput: false
+	},
+	AUTOPAY: {
+		logo: AutopayIcon,
+		sleeveIcon: AutopayIcon,
+		name: 'Pay via Autopay',
+		analytics: selectPaymentModeAnalytics,
+		enabled: () => {
+			return true;
 		},
 		showInput: false
 	}

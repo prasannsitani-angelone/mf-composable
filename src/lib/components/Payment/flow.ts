@@ -2704,3 +2704,57 @@ export const walletIntegeratedFlow = async (params) => {
 		stopLoading();
 	}
 };
+
+export const sipAutopayFlow = async (params) => {
+	const {
+		amount,
+		dpNumber,
+		schemeCode,
+		sipFrequency,
+		sipMaxInstallmentNo,
+		sipDate,
+		xRequestId,
+		sipType = 'SIP',
+		source = '',
+		isFtpWithMandate = false,
+		emandateId = '',
+		previousOrderId,
+		previousPGTxnId,
+		stopLoading = () => undefined,
+		displayError = () => undefined,
+		showLoading = () => undefined,
+		onSuccess = () => undefined
+	} = params || {};
+	try {
+		showLoading('Creating your order');
+		const orderPostResponse = await sipOrderPostFunction({
+			amount,
+			dpNumber,
+			schemeCode,
+			sipType,
+			emandateId: emandateId,
+			transactionRefNumber: '',
+			sipFrequency,
+			sipMaxInstallmentNo,
+			firstSipPayment: false,
+			sipDate,
+			xRequestId,
+			source,
+			isFtpWithMandate
+		});
+		handleOrderPostResponse({
+			orderPostResponse,
+			previousOrderId,
+			previousPGTxnId,
+			resetState: () => undefined,
+			stopLoading,
+			displayError
+		});
+		onSuccess({
+			orderId: orderPostResponse.data?.data?.orderId,
+			sipId: orderPostResponse.data?.data?.sipId
+		});
+	} catch (e) {
+		stopLoading();
+	}
+};

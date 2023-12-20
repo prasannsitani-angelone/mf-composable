@@ -239,7 +239,8 @@ export const sipOrderPostFunction = async (params) => {
 			xRequestId,
 			source,
 			isFirstSip,
-			integratedFlow
+			integratedFlow,
+			isFtpWithMandate
 		} = params || {};
 
 		const response = await useFetch(url, {
@@ -258,7 +259,8 @@ export const sipOrderPostFunction = async (params) => {
 				transactionRefNumber,
 				veryFirstSip: isFirstSip ? true : false,
 				integratedFlow: integratedFlow || false,
-				orderPgRefId: xRequestId
+				orderPgRefId: xRequestId,
+				isFtpWithMandate: isFtpWithMandate
 			}),
 			headers: {
 				'X-Request-Id': xRequestId,

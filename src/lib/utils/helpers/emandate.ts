@@ -34,3 +34,12 @@ export const getPrimaryAccountMandateData = (emandateMap: Record<string, Array<I
 	const primaryEmandateAccNo = primaryEmandateAccountNumber(emandateMap);
 	return primaryEmandateAccNo ? getMandateDataByAccNO(primaryEmandateAccNo, emandateMap) : null;
 };
+
+export const getAllMandateDataByAccNO = (emandateMap: Record<string, Array<IEmandate>>) => {
+	const primaryEmandateAccNo = primaryEmandateAccountNumber(emandateMap);
+	return emandateMap &&
+		emandateMap[primaryEmandateAccNo] &&
+		emandateMap[primaryEmandateAccNo].length > 0
+		? emandateMap[primaryEmandateAccNo]
+		: null;
+};
