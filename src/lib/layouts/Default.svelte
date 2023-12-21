@@ -31,7 +31,7 @@
 		},
 		FULL_HEIGHT_WITHOUT_PADDING: {
 			contentClass: `${commonStyle} h-full`,
-			layoutClass: ''
+			layoutClass: 'p-0'
 		},
 		FULL_WIDTH: {
 			contentClass: 'mx-4 h-full w-full',
