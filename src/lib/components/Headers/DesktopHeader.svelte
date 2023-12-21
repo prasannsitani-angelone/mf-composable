@@ -147,7 +147,11 @@
 			<div class="mr-4 hidden cursor-pointer uppercase md:block {ordersTabClass}">ORDERS</div>
 		</Link>
 		<div class="w-full md:w-2/5">
-			<svelte:component this={SearchDynamicComponent} on:searchFocus={handleSearchFocusEvent} />
+			<svelte:component
+				this={SearchDynamicComponent}
+				filter="divedendgrowthflag:GROWTH&recommendation=true"
+				on:searchFocus={handleSearchFocusEvent}
+			/>
 			<!-- <SearchComponent  /> -->
 		</div>
 		<Link
