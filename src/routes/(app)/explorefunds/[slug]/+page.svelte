@@ -66,6 +66,7 @@
 								class="mb-2 w-full rounded-lg bg-white p-3 md:mb-4 md:mr-4 md:w-[336px]"
 								{schemes}
 								on:onCardClick={() => handleFundCardClick(schemes)}
+								enableVariant={true}
 							/>
 						{/each}
 					</section>
