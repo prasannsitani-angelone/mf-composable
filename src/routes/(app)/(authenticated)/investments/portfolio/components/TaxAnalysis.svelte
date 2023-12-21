@@ -165,14 +165,12 @@
 					</div>
 
 					<div class="ml-auto flex">
-						<div class="mr-3 flex flex-col">
+						<div class="mr-3 flex flex-col items-end">
 							<p class="text-sm font-medium text-black-key">
 								{taxationData[investmentType.investmentPercentage]?.toFixed(2) || 0}%
 							</p>
 							<p class="mt-1 text-xs text-black-bolder">
 								<AmountText amount={taxationData[investmentType.investedAmount]?.toFixed(2)} />
-
-								<!-- ₹{?.toFixed(2)} -->
 							</p>
 						</div>
 						<div class="flex items-center justify-center">
