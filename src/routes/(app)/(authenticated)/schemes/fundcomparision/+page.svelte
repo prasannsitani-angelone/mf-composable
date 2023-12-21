@@ -28,7 +28,7 @@
 	};
 	const chartDatasetConfig = [
 		{
-			label: 'NAV',
+			label: 'Amount',
 			backgroundColor: (context: { chart: { chartArea; ctx } }) => {
 				if (!context.chart.chartArea) {
 					return;
@@ -47,14 +47,14 @@
 			fill: true
 		},
 		{
-			label: 'NAV',
+			label: 'Amount',
 			borderColor: '#F9BA4D',
 			yAxisID: 'y',
 			fill: true,
 			backgroundColor: 'transparent'
 		},
 		{
-			label: 'NAV',
+			label: 'Amount',
 			borderColor: '#581DBE',
 			yAxisID: 'y',
 			fill: true,
@@ -156,7 +156,7 @@
 
 	// chart helpers
 	const getChartData = async (isin: string, months: number) => {
-		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/nav?months=${months}&simulate=false&initialFund=100`;
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/nav?months=${months}&simulate=true&initialFund=1000`;
 		const res = await useFetch(url, {});
 		if (res.ok) {
 			return res.data || [];
@@ -169,8 +169,8 @@
 			navs: []
 		};
 
-		let minNavVal = Number.MAX_VALUE,
-			maxNavVal = 0;
+		let minAmount = Number.MAX_VALUE,
+			maxAmount = 0;
 
 		let maxNavsLength = 0,
 			maxNavsIndex = 0;
@@ -182,18 +182,18 @@
 				maxNavsIndex = navIndex;
 			}
 			navs?.forEach((nav) => {
-				if (minNavVal > nav.navValue) {
-					minNavVal = nav.navValue;
+				if (minAmount > nav.amount) {
+					minAmount = nav.amount;
 				}
-				if (maxNavVal < nav.navValue) {
-					maxNavVal = nav.navValue;
+				if (maxAmount < nav.amount) {
+					maxAmount = nav.amount;
 				}
-				lineChartData.navs[navIndex].push(nav.navValue);
+				lineChartData.navs[navIndex].push(nav.amount);
 			});
 		});
 
 		mutipleNavs?.[maxNavsIndex]?.forEach((nav) => {
-			lineChartData.time.push(nav.navDate);
+			lineChartData.time.push(nav.date);
 		});
 
 		const datasets = lineChartData.navs.map((nav, index) => {
@@ -204,16 +204,16 @@
 		});
 
 		// decrease the min by 2.5% and increase max by 2.5% as directed by product for scales
-		minNavVal = Math.round(0.975 * minNavVal * 10) / 10;
-		maxNavVal = Math.round(1.025 * maxNavVal * 10) / 10;
-		let stepSize = Math.round(((minNavVal + maxNavVal) / 2) * 10) / 10;
-		if (maxNavVal - minNavVal >= 10) {
-			maxNavVal = Math.round(maxNavVal);
-			minNavVal = Math.round(minNavVal);
+		minAmount = Math.round(0.975 * minAmount * 10) / 10;
+		maxAmount = Math.round(1.025 * maxAmount * 10) / 10;
+		let stepSize = Math.round(((minAmount + maxAmount) / 2) * 10) / 10;
+		if (maxAmount - minAmount >= 10) {
+			maxAmount = Math.round(maxAmount);
+			minAmount = Math.round(minAmount);
 			stepSize = Math.round(stepSize);
 		}
-		lineChartOptions.scales.y.max = maxNavVal;
-		lineChartOptions.scales.y.min = minNavVal;
+		lineChartOptions.scales.y.max = maxAmount;
+		lineChartOptions.scales.y.min = minAmount;
 		lineChartOptions.scales.y.ticks.stepSize = stepSize;
 
 		lineData = {

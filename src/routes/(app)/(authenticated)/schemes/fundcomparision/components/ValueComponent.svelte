@@ -4,6 +4,6 @@
 </script>
 
 <div class="flex flex-row items-center">
-	<span class="mr-3 h-2 w-2 rounded-full" style:background-color={dotColor} />
+	<span class="mr-1 h-2 w-2 rounded-full sm:mr-3" style:background-color={dotColor} />
 	<span class="text-xs text-black-key sm:text-sm">{text}</span>
 </div>

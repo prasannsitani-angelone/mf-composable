@@ -30,7 +30,7 @@ export const load = (async ({ fetch, url }) => {
 	};
 
 	const getGraphData = async (isin: string) => {
-		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/nav?months=36&simulate=false&initialFund=100`;
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/nav?months=36&simulate=true&initialFund=1000`;
 		return await useFetch(url, {}, fetch);
 	};
 
