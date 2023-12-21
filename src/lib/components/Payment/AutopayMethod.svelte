@@ -4,7 +4,7 @@
 	import { stringToFloat } from '$lib/utils/helpers/numbers';
 	import { page } from '$app/stores';
 	import type { MandateWithBankDetails } from '$lib/types/IEmandate';
-	import { PAYMENT_MODE } from './constants';
+	import { profileStore } from '$lib/stores/ProfileStore';
 
 	export let selectedMode = '';
 	export let subIdentifier = '';
@@ -30,6 +30,7 @@
 	<div class="mb-3 text-sm font-normal text-black-title">Pay With Autopay</div>
 	<div class="divide-y divide-grey-line rounded-lg border border-grey-line">
 		{#each autopayOptions as option (option)}
+			{@const logoIcon = profileStore.getBankDetailsByAccountNumber(option.accountNo)?.bankLogo}
 			{#if amountInNumber <= option.availableAmount}
 				<PaymentTile
 					selected={selectedMode === 'AUTOPAY' && option.mandateId === subIdentifier}
@@ -42,11 +43,8 @@
 					{paymentModesStatus}
 					class="first:rounded-t-lg last:rounded-b-lg"
 				>
-					<div
-						slot="icon"
-						class="flex h-8 w-11 items-center justify-center rounded-sm border border-grey-line"
-					>
-						<svelte:component this={PAYMENT_MODE['AUTOPAY']?.logo} />
+					<div slot="icon" class="flex h-8 w-11 items-center justify-center rounded-sm">
+						<img src={logoIcon} class="h-4 w-4" alt="bank logo" />
 					</div>
 					<div slot="content" class="mt-2 flex flex-col text-2xs font-normal text-grey-body">
 						<div class="flex">

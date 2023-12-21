@@ -221,6 +221,13 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			];
 			headerContent.status = STATUS_ARR.SUCCESS;
 			headerContent.subHeaderClass = 'bg-green-buy/10';
+		} else if (sipData?.ok && sipData?.data?.data?.isFtpWithMandate) {
+			headerContent.subHeadingArr = [
+				{
+					text: 'SIP amount will be debited from your Autopay bank account within 3 working days',
+					class: '!text-black-title font-normal'
+				}
+			];
 		}
 		schemeData = schemeDetails;
 		return {

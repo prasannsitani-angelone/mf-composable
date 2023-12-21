@@ -170,6 +170,7 @@
 							bankLogo={orderSummaryData.emandateBankDetails?.bankLogo}
 							bankName={orderSummaryData.emandateBankDetails?.bankName}
 							accNo={orderSummaryData.emandateBankDetails?.accNO}
+							isFtpWithMandate={orderSummaryData.sipData?.data?.data?.isFtpWithMandate}
 							clazz="mt-2"
 						/>
 						{#if firstTimePayment}

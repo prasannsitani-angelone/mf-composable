@@ -1343,6 +1343,11 @@
 			parseInt(amount) < minimumNetBankingAmountLimit
 		) {
 			paymentHandler.paymentMode = 'UPI';
+		} else if (
+			paymentHandler?.paymentMode === 'AUTOPAY' &&
+			parseInt(amount) > selectedAutopay?.availableAmount
+		) {
+			paymentHandler.paymentMode = 'NET_BANKING';
 		}
 	};
 
@@ -1629,7 +1634,6 @@
 	};
 
 	const autoPayflow = () => {
-		firstSipPayment = false;
 		sipAutopayFlow({
 			amount,
 			dpNumber: profileData?.dpNumber,
@@ -2223,7 +2227,7 @@
 				</div>
 			</div>
 		</div>
-		<div slot="autopayMethods">
+		<div slot="autopayMethods" class="w-full">
 			{#if mandateData?.length && activeTab === 'SIP'}
 				<AutopayMethod
 					selectedMode={'AUTOPAY'}
@@ -2430,16 +2434,20 @@
 	<svelte:fragment slot="popupBody">
 		<div class="flex flex-col px-4 text-xs text-black-key">
 			<div class="flex py-2">
-				<WMSIcon name="clock" width={24} height={24} />
-				<span class="pl-2"
+				<div class="rounded-3xl bg-grey p-1">
+					<WMSIcon name="clock-bold" width={24} height={24} stroke="#3F5BD9" />
+				</div>
+				<span class="ml-2"
 					>SIP amount will be debited from your Autopay bank account ({selectedAutopay?.bankName} xxxx{selectedAutopay?.accountNo?.substring(
 						selectedAutopay.accountNo.length - 4
 					)}) within 3 working days</span
 				>
 			</div>
 			<div class="flex py-2">
-				<WMSIcon name="rupee-circle-blue" width={24} height={24} />
-				<span class="ml-1"
+				<div class="rounded-3xl bg-grey p-1">
+					<WMSIcon name="rupee-circle-blue" width={22} height={24} />
+				</div>
+				<span class="ml-2"
 					>Please maintain required balance in your bank account. NAV will be based on realisation
 					of funds by AMC</span
 				>

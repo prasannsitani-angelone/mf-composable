@@ -1,8 +1,10 @@
 <script lang="ts">
+	import { WMSIcon } from 'svelte-components';
 	export let bankLogo = '';
 	export let bankName = '';
 	export let accNo = '';
 	export let clazz = '';
+	export let isFtpWithMandate = false;
 </script>
 
 <div
@@ -30,4 +32,17 @@
 			{accNo?.substring(accNo.length - 4)}
 		</div>
 	</div>
+	<hr />
+	{#if isFtpWithMandate}
+		<div class="mt-2 flex flex-col border-t border-dashed">
+			<div class="flex items-center pt-2 text-xs text-black-key">
+				<WMSIcon name="info-in-circle-dark" height={16} width={16} />
+				<span class="ml-2">Important</span>
+			</div>
+			<div class="py-2 text-xs text-black-bolder">
+				Please maintain required balance in your bank account. NAV will be based on realisation of
+				funds by AMC
+			</div>
+		</div>
+	{/if}
 </div>

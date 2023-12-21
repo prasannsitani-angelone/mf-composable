@@ -2736,7 +2736,7 @@ export const sipAutopayFlow = async (params) => {
 			transactionRefNumber: '',
 			sipFrequency,
 			sipMaxInstallmentNo,
-			firstSipPayment: false,
+			firstSipPayment: true,
 			sipDate,
 			xRequestId,
 			source,
