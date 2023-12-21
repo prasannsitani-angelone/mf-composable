@@ -2723,7 +2723,9 @@ export const sipAutopayFlow = async (params) => {
 		stopLoading = () => undefined,
 		displayError = () => undefined,
 		showLoading = () => undefined,
-		onSuccess = () => undefined
+		onSuccess = () => undefined,
+		bankName = '',
+		bankAccountNo = ''
 	} = params || {};
 	try {
 		showLoading('Creating your order');
@@ -2740,7 +2742,9 @@ export const sipAutopayFlow = async (params) => {
 			sipDate,
 			xRequestId,
 			source,
-			isFtpWithMandate
+			isFtpWithMandate,
+			bankAccountNo,
+			bankName
 		});
 		handleOrderPostResponse({
 			orderPostResponse,

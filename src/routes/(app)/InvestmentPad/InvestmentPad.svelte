@@ -840,6 +840,7 @@
 			};
 			return updatedMandate;
 		});
+		assignPreviousPaymentDetails();
 	});
 
 	function getNFODetailsCueCard() {
@@ -1366,7 +1367,18 @@
 			paymentHandler.upiId = data?.upiId;
 			paymentHandler.selectedAccount = index;
 			const paymentMode = data?.paymentMode;
+
+			if (mandateData?.length) {
+				mandateData.forEach((mandate) => {
+					if (mandate.availableAmount > parseInt(amount)) {
+						paymentHandler.paymentMode = 'AUTOPAY';
+						subIdentifier = mandate.mandateId;
+						selectedAutopay = mandate;
+					}
+				});
+			}
 			if (
+				paymentHandler.paymentMode !== 'AUTOPAY' &&
 				(paymentMode === 'GOOGLEPAY' || paymentMode === 'PHONEPE' || paymentMode === 'PAYTM') &&
 				os !== 'Android' &&
 				os !== 'iOS'
@@ -1376,7 +1388,7 @@
 				paymentHandler.paymentMode = 'GOOGLEPAY';
 			} else if (redirectedFrom === 'SIP_PAYMENTS') {
 				paymentHandler.paymentMode = 'UPI';
-			} else {
+			} else if (paymentHandler.paymentMode !== 'AUTOPAY') {
 				paymentHandler.paymentMode = paymentMode;
 			}
 
@@ -1398,7 +1410,6 @@
 			defaultValueToPaymentHandler();
 		}
 	};
-	assignPreviousPaymentDetails();
 
 	$: updatePaymentMode(amount);
 	// -------- **** ----------
@@ -1650,7 +1661,9 @@
 			showLoading,
 			onSuccess: navigateToSipCompletePage,
 			isFtpWithMandate: true,
-			emandateId: selectedAutopay.mandateId
+			emandateId: selectedAutopay.mandateId,
+			bankName: selectedAutopay.bankName,
+			bankAccountNo: selectedAutopay.accountNo
 		});
 	};
 
@@ -2202,8 +2215,8 @@
 		isSchemeDisabled={!isSelectedInvestmentTypeAllowed()}
 		asModal={isMobile ? true : false}
 		paymentOptionsHeading={mandateData?.length && activeTab === 'SIP'
-			? ' Other Payment Methods'
-			: ''}
+			? 'Pay With Other Payment Methods'
+			: 'Pay With'}
 	>
 		<div slot="schemeTile" class="m-4 mb-0 rounded-lg border border-grey-line bg-white p-3">
 			<div class="mb-2 flex flex-row items-center rounded-full text-xs font-normal text-grey-body">

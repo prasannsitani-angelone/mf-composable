@@ -9,7 +9,7 @@
 	export let onPaymentMethodChange = (): void => undefined;
 
 	const truncate = (str: string, size: number) =>
-		str.length > size ? `${str.slice(0, size)}...` : str;
+		str?.length > size ? `${str.slice(0, size)}...` : str;
 
 	const truncateUPIId = () => {
 		const [prefix, suffix] = upiId.split('@');
