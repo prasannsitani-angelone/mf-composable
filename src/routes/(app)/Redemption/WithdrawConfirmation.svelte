@@ -43,6 +43,8 @@
 		verifyWithOtpProceedButtonAnalytics,
 		withdrawInfoAnalytics
 	} from '$lib/analytics/redemption/redemption';
+	import { page } from '$app/stores';
+	import { decodeToObject } from '$lib/utils/helpers/params';
 
 	export let holdingDetails: FolioHoldingType;
 	export let bankAccounts: Array<BankDetailsEntity>;
@@ -58,6 +60,9 @@
 	const closeConfirmationScreen = () => {
 		dispatch('closeWithdrawalConfirmationScreen');
 	};
+
+	const params = $page.url.searchParams.get('params') || '';
+	const { requestId = '', isExternal = false } = decodeToObject(params || '');
 
 	let showBankDropdown = false;
 	let selectedBankAccount = bankAccounts[selectedAccount];
@@ -142,7 +147,7 @@
 		const res = await useFetch(url, {
 			method: 'POST',
 			headers: {
-				'X-Request-Id': uuid,
+				'X-Request-Id': isExternal && requestId ? requestId : uuid,
 				'X-SESSION-ID': uuid,
 				'X-device-type': 'WEB'
 			},
