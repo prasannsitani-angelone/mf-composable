@@ -701,7 +701,7 @@
 			handleAmountInputFocus();
 			resetLumpsumToSipData();
 		}
-
+		assignPreviousPaymentDetails();
 		investmentPadTabSwitchAnalyticsFunc();
 	};
 
@@ -1367,8 +1367,7 @@
 			paymentHandler.upiId = data?.upiId;
 			paymentHandler.selectedAccount = index;
 			const paymentMode = data?.paymentMode;
-
-			if (mandateData?.length) {
+			if (mandateData?.length && activeTab === 'SIP') {
 				mandateData.forEach((mandate) => {
 					if (mandate.availableAmount > parseInt(amount)) {
 						paymentHandler.paymentMode = 'AUTOPAY';
@@ -1376,6 +1375,8 @@
 						selectedAutopay = mandate;
 					}
 				});
+			} else if (activeTab === 'ONETIME') {
+				paymentHandler.paymentMode = '';
 			}
 			if (
 				paymentHandler.paymentMode !== 'AUTOPAY' &&
