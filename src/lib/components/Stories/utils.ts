@@ -49,9 +49,9 @@ export const videoCtaList: Array<videoCtaUrls> = [
 			B2C_P:
 				'/schemes/motilal-oswal-midcap-fund-direct-plan-growth-isin-inf247l01445-schemecode-mofmgd-gr',
 			B2B_D:
-				'/schemes/motilal-oswal-midcap-fund-direct-plan-growth-isin-inf247l01445-schemecode-mofmgd-gr',
+				'/schemes/motilal-oswal-midcap-fund-regular-plan-growth-isin-inf247l01411-schemecode-fmgp-gr',
 			B2B_P:
-				'/schemes/motilal-oswal-midcap-fund-direct-plan-growth-isin-inf247l01445-schemecode-mofmgd-gr',
+				'/schemes/motilal-oswal-midcap-fund-regular-plan-growth-isin-inf247l01411-schemecode-fmgp-gr',
 			genericUrl: ''
 		}
 	}
