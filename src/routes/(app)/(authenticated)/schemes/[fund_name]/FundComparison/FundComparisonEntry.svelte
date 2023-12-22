@@ -8,6 +8,7 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { encodeObject } from '$lib/utils/helpers/params';
+	import { viewDetailedComparisonClickEvent } from '../../fundcomparision/analytics';
 
 	let firstSchemeDetails: SchemeDetails | OtherSchemeEntityOrSchemeInfoEntity;
 	let similarFunds: OtherSchemeEntityOrSchemeInfoEntity[];
@@ -26,6 +27,33 @@
 			]
 		};
 		goto(`${base}/schemes/fundcomparision?params=${encodeObject(params)}`);
+	};
+	const handleFundComparisonClick = () => {
+		const eventMetaData = {
+			comparefundscardvisible: 'Y',
+			comparefundcardfunds: {
+				fundName1: firstSchemeDetails?.schemeName,
+				fundName2: similarFunds?.[0]?.schemeName
+			},
+			comparefundcardfundsISIN: {
+				isin1: firstSchemeDetails?.isin,
+				isin2: similarFunds?.[0]?.isin
+			},
+			comparefundcardfunds3YReturn: {
+				return3Year1: firstSchemeDetails?.returns3yr,
+				return3Year2: similarFunds?.[0]?.returns3yr
+			},
+			comparefundcardfundsMinSIPAmount: {
+				minSIPAmount1: firstSchemeDetails?.minSipAmount,
+				minSIPAmount2: similarFunds?.[0]?.minSipAmount
+			},
+			comparefundcardfundsNoofInvestors: {
+				fund1Investors: firstSchemeDetails?.noOfClientInvested,
+				fund2Investors: similarFunds?.[0]?.noOfClientInvested
+			}
+		};
+		viewDetailedComparisonClickEvent(eventMetaData);
+		gotoFundComparison();
 	};
 	export { firstSchemeDetails, similarFunds };
 </script>
@@ -51,7 +79,7 @@
 			variant={BtnVariant.Transparent}
 			size="sm"
 			class="px-0 py-0 text-xs"
-			onClick={gotoFundComparison}
+			onClick={handleFundComparisonClick}
 		>
 			SEE FULL COMPARISON
 			<WMSIcon name="arrow-collapse" height={10} width={10} class="ml-1 rotate-90" />

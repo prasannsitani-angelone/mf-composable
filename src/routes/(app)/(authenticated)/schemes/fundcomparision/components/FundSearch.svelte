@@ -7,13 +7,19 @@
 	} from '$components/Scheme/types';
 	import SchemeCard from '$components/SchemeCard.svelte';
 	import SearchComponent from '$components/Search/SearchComponent.svelte';
-	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+	import { PUBLIC_MF_CORE_BASE_URL, PUBLIC_MF_CORE_BASE_URL_V2 } from '$env/static/public';
 	import LeftArrowIcon from '$lib/images/icons/LeftArrowIcon.svelte';
 	import SearchIcon from '$lib/images/icons/SearchIcon.svelte';
 	import type { WeeklyTopSchemesEntity } from '$lib/types/IDiscoverFunds';
 	import { useFetch } from '$lib/utils/useFetch';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { WMSIcon } from 'svelte-components';
+	import {
+		addFundsScreenImpressionEvent,
+		addFundsSearchImpressionEvent,
+		searchedFundnameSelectClickEvent,
+		suggestedFundnameClickEvent
+	} from '../analytics';
 
 	const dispatch = createEventDispatcher();
 
@@ -21,8 +27,8 @@
 	let showAddFunds = true;
 	let showSearch = false;
 	let firstFund = false;
-	let isin = 'INF200KA1DB2'; //update default value
-	let comparisons: OtherSchemeEntityOrSchemeInfoEntity[] = [];
+	let isin = '';
+	let suggestedSchemes: OtherSchemeEntityOrSchemeInfoEntity[] = [];
 
 	const toggleModal = () => {
 		dispatch('close');
@@ -30,11 +36,35 @@
 	const toggleAddFunds = () => {
 		showAddFunds = !showAddFunds;
 		showSearch = !showSearch;
+		if (showSearch) {
+			addFundsSearchImpressionEvent();
+		}
 	};
 
-	const schemeSelected = (scheme: WeeklyTopSchemesEntity) => {
+	const schemeSelected = (scheme: WeeklyTopSchemesEntity | OtherSchemeEntityOrSchemeInfoEntity) => {
 		dispatch('schemeSelect', { schemeCode: scheme?.schemeCode, isin: scheme?.isin });
 		toggleModal();
+	};
+
+	const handleSchemeSelected = (
+		scheme: WeeklyTopSchemesEntity | OtherSchemeEntityOrSchemeInfoEntity,
+		index: number
+	) => {
+		if (showAddFunds) {
+			const eventMetaData = {
+				suggestedFund: scheme?.schemeName,
+				suggestedFundRank: index + 1
+			};
+			suggestedFundnameClickEvent(eventMetaData);
+		} else if (showSearch) {
+			const eventMetaData = {
+				searchSelectFundname: scheme?.schemeName,
+				searchSelectFundnameIsin: scheme?.isin,
+				searchSelectFundRank: index + 1
+			};
+			searchedFundnameSelectClickEvent(eventMetaData);
+		}
+		schemeSelected(scheme);
 	};
 
 	const getFundComparisonsData = async () => {
@@ -42,11 +72,22 @@
 		const res = await useFetch(url, {}, fetch);
 		const holdingData: FundComparisons = res.data;
 
-		comparisons = holdingData?.otherScheme;
+		suggestedSchemes = holdingData?.otherScheme;
+	};
+	const getWeeklyTopSchemes = async () => {
+		const url = `${PUBLIC_MF_CORE_BASE_URL_V2}/schemes/dashboard?options=true`;
+		const res = await useFetch(url, {}, fetch);
+
+		suggestedSchemes = res?.data?.weeklyTopSchemes;
 	};
 
 	onMount(() => {
-		getFundComparisonsData();
+		if (isin) {
+			getFundComparisonsData();
+		} else {
+			getWeeklyTopSchemes();
+		}
+		addFundsScreenImpressionEvent();
 	});
 
 	export { showModal, firstFund, isin };
@@ -85,12 +126,12 @@
 				{/if}
 
 				<div>
-					{#each comparisons as scheme, idx (idx)}
+					{#each suggestedSchemes as scheme, idx (idx)}
 						<!-- svelte-ignore a11y-click-events-have-key-events -->
 						<!-- svelte-ignore a11y-no-static-element-interactions -->
 						<div
 							on:click|preventDefault={() => {
-								schemeSelected(scheme);
+								handleSchemeSelected(scheme, idx);
 							}}
 						>
 							<SchemeCard schemes={scheme} titleClass="lg:flex-wrap" class="my-4 w-full pr-2">
@@ -138,11 +179,11 @@
 							<div class="text-primary">3Y Returns</div>
 						</section>
 						<section class="absolute left-0 h-screen w-screen overflow-x-hidden md:w-full md:pb-20">
-							{#each resultsData || [] as scheme}
+							{#each resultsData || [] as scheme, idx (idx)}
 								<article
 									class="!m-3 flex cursor-pointer justify-between gap-2 !border-b border-grey-line p-0 pb-4 lg:!m-2 lg:!border-grey-line lg:p-2"
 									on:click|preventDefault={() => {
-										schemeSelected(scheme);
+										handleSchemeSelected(scheme, idx);
 									}}
 								>
 									<SchemeCard schemes={scheme} titleClass="lg:flex-wrap" class="w-9/12 pr-2">

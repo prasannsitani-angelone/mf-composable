@@ -23,7 +23,7 @@
 	};
 
 	const onAddFundClick = () => {
-		dispatch('addFund', { schemeCode: schemeDetails?.schemeCode, isin: schemeDetails?.isin });
+		dispatch('addFund');
 	};
 	const onInvestClick = () => {
 		dispatch('invest', { schemeDetails });
@@ -91,7 +91,7 @@
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<secton
-			class="flex h-full min-h-[144px] w-full flex-col items-center justify-center gap-2 md:cursor-pointer"
+			class="flex h-full min-h-[138px] w-full flex-col items-center justify-center gap-2 md:cursor-pointer"
 			on:click={onAddFundClick}
 		>
 			<WMSIcon name="add-outline" height={20} width={20} />

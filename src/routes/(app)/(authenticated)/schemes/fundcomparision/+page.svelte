@@ -19,6 +19,11 @@
 	import Table from './components/Table.svelte';
 	import TableWithAccordian from './components/TableWithAccordian.svelte';
 	import ValueComponent from './components/ValueComponent.svelte';
+	import {
+		addFundButtonClickEvent,
+		compareFundDeleteClickEvent,
+		comparefundInvestSelectClickEvent
+	} from './analytics';
 
 	export let data: PageData;
 
@@ -144,6 +149,14 @@
 		});
 	};
 
+	const handleAddFundClick = (index: number) => {
+		const eventMetaData = {
+			rank: index + 1
+		};
+		addFundButtonClickEvent(eventMetaData);
+		toggleSearch();
+	};
+
 	const deleteFund = (index: number) => {
 		data.comparisionArr.splice(index, 1);
 		const params = {
@@ -152,6 +165,27 @@
 		goto(`fundcomparision?params=${encodeObject(params)}`, {
 			replaceState: true
 		});
+	};
+
+	const handleDeleteFund = (index: number, schemeDetails: SchemeDetails) => {
+		const eventMetaData = {
+			fundnameDeleted: schemeDetails?.schemeName,
+			fundnameDeletedIsin: schemeDetails?.isin,
+			fundDeleted3YReturn: schemeDetails?.returns3yr,
+			fundDeletedMinSipAmount: schemeDetails?.minSipAmount,
+			rank: index + 1
+		};
+		compareFundDeleteClickEvent(eventMetaData);
+		deleteFund(index);
+	};
+
+	const handleInvestClick = (index: number, schemeDetails: SchemeDetails) => {
+		const eventMetaData = {
+			fundname: schemeDetails?.schemeName,
+			investMFIsin: schemeDetails?.isin,
+			investButtonRank: index + 1
+		};
+		comparefundInvestSelectClickEvent(eventMetaData);
 	};
 
 	// chart helpers
@@ -434,8 +468,9 @@
 						showCompact={true}
 						isRemovable={true}
 						showCTA={true}
-						on:addFund={toggleSearch}
-						on:removeFund={() => deleteFund(idx)}
+						on:addFund={() => handleAddFundClick(idx)}
+						on:removeFund={() => handleDeleteFund(idx, schemeDetails)}
+						on:invest={() => handleInvestClick(idx, schemeDetails)}
 					/>
 				</div>
 			{/each}
@@ -458,7 +493,7 @@
 
 {#if showSearch}
 	<FundSearch
-		isin={schemesSelected >= 1 ? schemeDetailsList?.[schemesSelected - 1]?.isin : 'INF200KA1DB2'}
+		isin={schemesSelected >= 1 ? schemeDetailsList?.[schemesSelected - 1]?.isin : ''}
 		firstFund={schemesSelected === 0}
 		bind:showModal={showSearch}
 		on:close={toggleSearch}
