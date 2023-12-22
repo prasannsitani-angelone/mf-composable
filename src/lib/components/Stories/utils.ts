@@ -40,6 +40,20 @@ export const videoCtaList: Array<videoCtaUrls> = [
 				'/schemes/hdfc-balanced-advantage-fund-growth-plan-isin-inf179k01830-schemecode-gfg-hdfc',
 			genericUrl: ''
 		}
+	},
+	{
+		videoId: 5,
+		ctaList: {
+			B2C_D:
+				'/schemes/motilal-oswal-midcap-fund-direct-plan-growth-isin-inf247l01445-schemecode-mofmgd-gr',
+			B2C_P:
+				'/schemes/motilal-oswal-midcap-fund-direct-plan-growth-isin-inf247l01445-schemecode-mofmgd-gr',
+			B2B_D:
+				'/schemes/motilal-oswal-midcap-fund-direct-plan-growth-isin-inf247l01445-schemecode-mofmgd-gr',
+			B2B_P:
+				'/schemes/motilal-oswal-midcap-fund-direct-plan-growth-isin-inf247l01445-schemecode-mofmgd-gr',
+			genericUrl: ''
+		}
 	}
 ];
 
@@ -67,12 +81,12 @@ export const storiesDataObjectWithoutUrls: StoriesData = {
 			videos: [
 				{
 					videoId: 2,
-					videoUrl: '/videos/video2c4/playlist.m3u8',
-					videoFallbackUrl: 'https://cdn.angelone.in/mutualfunds/videos/video2c4.mp4'
+					videoUrl: '/videos/video2c5/playlist.m3u8',
+					videoFallbackUrl: 'https://cdn.angelone.in/mutualfunds/videos/video2c5.mp4'
 				}
 			],
-			imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail2c1.webp',
-			smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail2c2.webp',
+			imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail2c2.png',
+			smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail2c3.png',
 			ctaType: '',
 			ctaText: 'START SIP NOW',
 			ctaUrl: ''
@@ -100,11 +114,27 @@ export const storiesDataObjectWithoutUrls: StoriesData = {
 				{
 					videoId: 4,
 					videoUrl: '/videos/video4c4/playlist.m3u8',
-					videoFallbackUrl: 'https://cdn.angelone.in/mutualfunds/videos/video3c5.mp4'
+					videoFallbackUrl: 'https://cdn.angelone.in/mutualfunds/videos/video4c4.mp4'
 				}
 			],
 			imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail4c1.webp',
 			smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail4c2.webp',
+			ctaType: '',
+			ctaText: 'START SIP NOW',
+			ctaUrl: ''
+		},
+		{
+			storyId: 5,
+			title: 'Trending Mid Cap!',
+			videos: [
+				{
+					videoId: 5,
+					videoUrl: '/videos/video5c1/playlist.m3u8',
+					videoFallbackUrl: 'https://cdn.angelone.in/mutualfunds/videos/video5c1.mp4'
+				}
+			],
+			imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail5c1.png',
+			smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail5c1.png',
 			ctaType: '',
 			ctaText: 'START SIP NOW',
 			ctaUrl: ''
@@ -137,12 +167,12 @@ export const setStoriesData = (getCtaUrlCallback: (vidId: number) => string) => 
 				videos: [
 					{
 						videoId: 2,
-						videoUrl: '/videos/video2c4/playlist.m3u8',
-						videoFallbackUrl: 'https://cdn.angelone.in/mutualfunds/videos/video2c4.mp4'
+						videoUrl: '/videos/video2c5/playlist.m3u8',
+						videoFallbackUrl: 'https://cdn.angelone.in/mutualfunds/videos/video2c5.mp4'
 					}
 				],
-				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail2c1.webp',
-				smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail2c2.webp',
+				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail2c2.png',
+				smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail2c3.png',
 				ctaType: '',
 				ctaText: 'START SIP NOW',
 				ctaUrl: getCtaUrlCallback(2)
@@ -178,6 +208,22 @@ export const setStoriesData = (getCtaUrlCallback: (vidId: number) => string) => 
 				ctaType: '',
 				ctaText: 'START SIP NOW',
 				ctaUrl: getCtaUrlCallback(4)
+			},
+			{
+				storyId: 5,
+				title: 'Trending Mid Cap!',
+				videos: [
+					{
+						videoId: 5,
+						videoUrl: '/videos/video5c1/playlist.m3u8',
+						videoFallbackUrl: 'https://cdn.angelone.in/mutualfunds/videos/video5c1.mp4'
+					}
+				],
+				imageThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/thumbnails/thumbnail5c1.png',
+				smallThumbnailUrl: 'https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail5c1.png',
+				ctaType: '',
+				ctaText: 'START SIP NOW',
+				ctaUrl: getCtaUrlCallback(5)
 			}
 		]
 	};
