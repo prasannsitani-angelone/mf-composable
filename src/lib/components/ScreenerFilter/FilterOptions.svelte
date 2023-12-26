@@ -101,7 +101,7 @@
 								<!-- svelte-ignore a11y-no-static-element-interactions -->
 								<div
 									on:click={(e) => handleOptionTextClick(filter, e)}
-									class="p-2 px-1 text-xs font-normal text-black-bolder md:cursor-pointer {filter
+									class="p-2 px-1 text-xs font-normal text-black-key md:cursor-pointer {filter
 										?.options?.length
 										? ''
 										: 'ml-2'}"

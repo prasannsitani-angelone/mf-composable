@@ -60,7 +60,7 @@
 				<p class="text-[10px] text-black-bolder">8,000+ funds are available on Angel One</p>
 				<Button
 					variant="transparent"
-					class="!text-xs !uppercase"
+					class="!text-sm !uppercase"
 					size="xs"
 					on:click={() => {
 						navigateToFilteredItems('Homepage');
