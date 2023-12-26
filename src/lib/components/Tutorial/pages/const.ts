@@ -1,2 +1,2 @@
 // height in pixels
-export const HEIGHT_OFFSET = 840;
+export const HEIGHT_OFFSET = 799;

@@ -52,7 +52,7 @@
 </script>
 
 <div class="relative h-full">
-	<div class="absolute left-0 right-0 top-0 z-100 my-auto flex flex-row justify-center gap-5 p-5">
+	<div class="absolute left-0 right-0 top-0 z-100 my-auto flex flex-row gap-5 p-5">
 		<WMSIcon
 			width={18}
 			height={18}
@@ -61,11 +61,11 @@
 			stroke={currentIndex < carouselItems.length - 1 ? `white` : `black`}
 			on:click={close}
 		/>
-		<div class="flex flex-row justify-center gap-2">
+		<div class="flex flex-1 flex-row gap-3">
 			{#each carouselItems as _, index}
 				{@const isSelected = currentIndex < index}
 				<div
-					class="h-1 w-10 self-center rounded
+					class="h-1 flex-1 self-center rounded
 					{currentIndex < carouselItems.length - 1 ? `bg-white` : `bg-blue-primary`}
 					{isSelected ? 'opacity-[0.5]' : 'opacity-[1]'}"
 				/>

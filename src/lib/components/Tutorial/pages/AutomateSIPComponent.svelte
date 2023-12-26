@@ -47,15 +47,15 @@
 	bind:clientHeight
 	on:touchstart={setStartTouchPoints}
 	on:touchend={setEndTouchPoints}
-	class="flex h-screen flex-col bg-[#FACE80] px-8 py-5 {$$props.class}"
+	class="flex h-screen flex-col bg-[#FACE80] p-5 {$$props.class}"
 >
 	<section class="flex-1">
-		<p class="mb-10 mt-10 text-2xl font-medium text-black-key">Automating SIP Payments</p>
+		<p class="mb-3 mt-10 text-2xl font-medium text-black-key">Automating SIP Payments</p>
 		{#if clientHeight > HEIGHT_OFFSET}
-			<Icon4 class="mx-auto mb-10" />
+			<Icon4 class="mx-auto mb-3" />
 		{/if}
 
-		<ul class="mb-10 ml-3">
+		<ul class="ml-3">
 			{#each options as option}
 				<li class="mb-2 list-disc text-sm font-normal leading-6 text-black-key">
 					{option}

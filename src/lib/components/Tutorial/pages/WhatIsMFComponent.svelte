@@ -43,12 +43,12 @@
 	let youtubeLink = getYoutubeUrl();
 </script>
 
-<div bind:clientHeight class="h-screen bg-[#a4afed] px-8 py-5 {$$props.class}">
-	<p class="mb-5 mt-10 text-2xl font-medium text-black-key">What are Mutual Funds?</p>
+<div bind:clientHeight class="h-screen bg-[#a4afed] p-5 {$$props.class}">
+	<p class="mb-3 mt-10 text-2xl font-medium text-black-key">What are Mutual Funds?</p>
 	{#if clientHeight > HEIGHT_OFFSET}
-		<Icon1 class="mx-auto mb-5" />
+		<Icon1 class="mx-auto mb-3" />
 	{/if}
-	<ul class="mb-10 ml-3">
+	<ul class="mb-4 ml-3">
 		{#each options as option}
 			<li class="mb-2 list-disc text-sm font-normal leading-6 text-black-key">
 				{option}
@@ -56,14 +56,14 @@
 		{/each}
 	</ul>
 
-	<p class="mb-5 text-sm font-normal text-black-key">
+	<p class="mb-3 text-sm font-normal text-black-key">
 		Watch this <span class="font-medium">2-minute video</span> to learn more
 	</p>
 
 	<iframe
 		allowfullscreen={true}
 		title="What are Mutual Funds?"
-		class="youtube-video mb-5 h-48 w-full rounded-lg"
+		class="youtube-video mb-3 h-48 w-full rounded-lg"
 		src={youtubeLink}
 	/>
 

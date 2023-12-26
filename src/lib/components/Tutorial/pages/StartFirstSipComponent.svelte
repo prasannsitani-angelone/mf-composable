@@ -92,15 +92,15 @@
 	bind:clientHeight
 	on:touchstart={setStartTouchPoints}
 	on:touchend={setEndTouchPoints}
-	class="flex h-screen flex-col bg-[#B99AE6] px-8 py-5 {$$props.class}"
+	class="flex h-screen flex-col bg-[#B99AE6] p-5 {$$props.class}"
 >
 	<section class="flex-1">
-		<p class="mb-10 mt-10 text-2xl font-medium text-black-key">Starting Your First SIP</p>
+		<p class="mb-3 mt-10 text-2xl font-medium text-black-key">Starting Your First SIP</p>
 		{#if clientHeight > HEIGHT_OFFSET}
-			<Icon3 class="mx-auto mb-10" />
+			<Icon3 class="mx-auto mb-3" />
 		{/if}
 
-		<ul class="mb-10 ml-3">
+		<ul class="mb-4 ml-3">
 			{#each options as option}
 				<li class="mb-2 list-disc text-sm font-normal leading-6 text-black-key">
 					{option}
@@ -108,10 +108,10 @@
 			{/each}
 		</ul>
 
-		<p class="mb-5 text-lg font-medium text-black-key">Top Pick for First Investment</p>
+		<p class="mb-4 text-lg font-medium text-black-key">Top Pick for First Investment</p>
 
 		<div class="flex flex-col">
-			<div class="relative mt-3 w-full overflow-hidden rounded-t-lg bg-white">
+			<div class="relative w-full overflow-hidden rounded-t-lg bg-white">
 				<div class=" flex flex-row p-3 opacity-[.99]">
 					<div class="mr-2 flex flex-1 flex-row items-center">
 						<SchemeLogo

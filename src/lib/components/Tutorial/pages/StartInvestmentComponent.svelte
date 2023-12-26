@@ -9,20 +9,20 @@
 	let clientHeight = 0;
 </script>
 
-<div bind:clientHeight class="flex h-screen flex-col bg-[#E4EDFB] px-8 py-5 {$$props.class}">
-	<p class="mb-5 mt-10 text-2xl font-medium text-black-key">All Done!</p>
-	<p class="mb-10 text-2xl font-medium text-blue-primary">
+<div bind:clientHeight class="flex h-screen flex-col bg-[#E4EDFB] p-5 {$$props.class}">
+	<p class="mb-3 mt-10 text-2xl font-medium text-black-key">All Done!</p>
+	<p class="mb-6 text-2xl font-medium text-blue-primary">
 		You are now ready to start your investment journey
 	</p>
 	{#if clientHeight > HEIGHT_OFFSET}
-		<Icon5 class="mx-auto mb-10" />
+		<Icon5 class="mx-auto mb-6" />
 	{/if}
 
-	<p class="mx-auto mb-5 w-fit text-sm font-medium text-black-title">
+	<p class="mx-auto mb-6 w-fit text-sm font-medium text-black-title">
 		Proceed to build your wealth?
 	</p>
 
-	<div class="mb-5 flex flex-row gap-3">
+	<div class="mb-3 flex flex-row gap-3">
 		<Link
 			to={'/categories?id=105'}
 			class="flex flex-1 flex-col justify-center rounded-lg border-2 border-[#D1D8F6] bg-white p-3 pr-10"

@@ -55,12 +55,12 @@
 	let clientHeight = 0;
 </script>
 
-<div bind:clientHeight class="h-screen bg-[#80E0EA] px-8 py-5 {$$props.class}">
-	<p class="mb-5 mt-10 text-2xl font-medium text-black-key">What is an SIP?</p>
+<div bind:clientHeight class="h-screen bg-[#80E0EA] p-5 {$$props.class}">
+	<p class="mb-3 mt-10 text-2xl font-medium text-black-key">What is an SIP?</p>
 	{#if clientHeight > HEIGHT_OFFSET}
-		<Icon2 class="mx-auto mb-5" />
+		<Icon2 class="mx-auto mb-3" />
 	{/if}
-	<ul class="mb-10 ml-3">
+	<ul class="mb-4 ml-3">
 		{#each options as option}
 			<li class="mb-2 list-disc text-sm font-normal leading-6 text-black-key">
 				{option}
@@ -68,7 +68,7 @@
 		{/each}
 	</ul>
 
-	<p class="mb-2 text-lg font-medium text-black-key">Calculate SIP Returns</p>
+	<p class="mb-3 text-lg font-medium text-black-key">Calculate SIP Returns</p>
 
 	<div class="slider flex items-center" id="disable-swipe">
 		<Slider
@@ -105,7 +105,7 @@
 		</p>
 		<Graph class="-mt-10" />
 	</div>
-	<div class="mb-5 flex flex-row justify-between text-xs font-normal text-black-title">
+	<div class="mb-4 flex flex-row justify-between text-xs font-normal text-black-title">
 		<p>Today</p>
 		<p>After 10 years</p>
 	</div>
