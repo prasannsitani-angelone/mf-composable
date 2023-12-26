@@ -9,7 +9,8 @@ const initalStore = {
 		queryPath: ''
 	},
 	error: {},
-	isLoading: false
+	isLoading: false,
+	initialise: false
 };
 
 const initialFilter = [
@@ -297,12 +298,13 @@ function CreateStore() {
 			}
 			updateStore({
 				isLoading: false,
+				initialise: true,
 				data
 			});
 		},
 		getFiltersResponse: async function (queryPath = '') {
 			// if data present then don't fetch it
-			if (state.data?.quickFilters?.length > 0) {
+			if (state.initialise) {
 				// if it comes with queryPath then need to apply query string to filters
 				if (queryPath) {
 					this.populateFiltersData(state.data, queryPath);
@@ -319,7 +321,7 @@ function CreateStore() {
 			} else {
 				updateStore({
 					isLoading: false,
-					data: response?.data
+					error: response?.data
 				});
 			}
 		},

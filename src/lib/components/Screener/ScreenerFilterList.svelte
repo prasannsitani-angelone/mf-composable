@@ -38,10 +38,12 @@
 	};
 
 	const initializeData = async () => {
-		loading = true;
-		screenedSchemes = [];
-		page = 0;
-		await fetchScreenedData();
+		if ($schemeScreenerStore?.initialise) {
+			loading = true;
+			screenedSchemes = [];
+			page = 0;
+			await fetchScreenedData();
+		}
 	};
 
 	$: if ($schemeScreenerStore?.data?.queryPath || $schemeScreenerStore?.data?.queryPath === '') {
