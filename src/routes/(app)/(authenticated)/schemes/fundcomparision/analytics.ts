@@ -104,3 +104,89 @@ export const comparefundInvestSelectClickEvent = (eventMetaData: {
 		event_metadata: eventMetaData
 	});
 };
+
+export const compareFundImpressionEvent = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-comparefunds',
+		event_type: 'impresssion',
+		event_sub_type: 'screen',
+		event_name: 'CompareFundsScreen',
+		event_property: null,
+		event_id: '325.0.0.1.0',
+		event_metadata: eventMetaData
+	});
+};
+export const compareFundChartMetaDataToggleEvent = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-comparefunds',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'If1000InvestedArrow',
+		event_property: null,
+		event_id: '325.0.0.1.11',
+		event_metadata: eventMetaData
+	});
+};
+export const compareFundChartIntervalSelectionEvent = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-comparefunds',
+		event_type: 'click',
+		event_sub_type: 'select',
+		event_name: 'ComparefundChartTimeIntervalSelection',
+		event_property: null,
+		event_id: '325.0.0.1.12',
+		event_metadata: eventMetaData
+	});
+};
+export const compareFundPastReturnsToggleEvent = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-comparefunds',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'PastReturnsArrow',
+		event_property: null,
+		event_id: '325.0.0.1.13',
+		event_metadata: eventMetaData
+	});
+};
+export const compareFundFundBasicsToggleEvent = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-comparefunds',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'FundBasicsArrow',
+		event_property: null,
+		event_id: '325.0.0.1.14'
+	});
+};
+export const compareFundRatingsToggleEvent = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-comparefunds',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'RatingsArrow',
+		event_property: null,
+		event_id: '325.0.0.1.15',
+		event_metadata: eventMetaData
+	});
+};
+export const compareFundSectorsToggleEvent = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-comparefunds',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'Top5SectorsArrow',
+		event_property: null,
+		event_id: '325.0.0.1.16'
+	});
+};
+export const compareFundHoldingsToggleEvent = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-comparefunds',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'Top5HoldingsArrow',
+		event_property: null,
+		event_id: '325.0.0.1.17'
+	});
+};

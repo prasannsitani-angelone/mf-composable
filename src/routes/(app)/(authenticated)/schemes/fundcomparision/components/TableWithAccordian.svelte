@@ -1,9 +1,10 @@
-<script>
+<script lang="ts">
 	import AccordianCardComponent from '$components/Accordian/AccordianCardComponent.svelte';
 	import Table from './Table.svelte';
 
 	export let data = [[]];
 	export let title = '';
+	export let cardToggled = (): void => undefined;
 </script>
 
 <div class="bg-white">
@@ -14,6 +15,7 @@
 		headerClass="!p-4"
 		class="!mt-0 !max-w-none !rounded-none"
 		disableCollapse={false}
+		on:cardToggled={cardToggled}
 	>
 		<svelte:fragment slot="accordionBody">
 			<Table {data}>

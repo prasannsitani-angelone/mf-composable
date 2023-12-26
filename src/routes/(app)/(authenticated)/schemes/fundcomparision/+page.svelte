@@ -8,7 +8,6 @@
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { calculateYearDiffrence } from '$lib/utils';
 	import { encodeObject } from '$lib/utils/helpers/params';
-	import { calculateLumpsumReturns } from '$lib/utils/helpers/returns';
 	import { useFetch } from '$lib/utils/useFetch';
 	import { addCommasToAmountString } from 'svelte-components';
 	import FundOverviewTile from '../[fund_name]/FundComparison/FundOverviewTile.svelte';
@@ -21,9 +20,18 @@
 	import ValueComponent from './components/ValueComponent.svelte';
 	import {
 		addFundButtonClickEvent,
+		compareFundChartIntervalSelectionEvent,
+		compareFundChartMetaDataToggleEvent,
 		compareFundDeleteClickEvent,
+		compareFundFundBasicsToggleEvent,
+		compareFundHoldingsToggleEvent,
+		compareFundImpressionEvent,
+		compareFundPastReturnsToggleEvent,
+		compareFundRatingsToggleEvent,
+		compareFundSectorsToggleEvent,
 		comparefundInvestSelectClickEvent
 	} from './analytics';
+	import { browser } from '$app/environment';
 
 	export let data: PageData;
 
@@ -188,6 +196,25 @@
 		comparefundInvestSelectClickEvent(eventMetaData);
 	};
 
+	const compareFundImpressionAnalytics = () => {
+		const data = {
+			comparefundcardfunds: [],
+			comparefundcardfundsISIN: [],
+			comparefundcardfunds3YReturn: [],
+			comparefundcardfundsMinSIPAmount: [],
+			comparefundcardfundsNoofInvestors: [],
+			numberOfFunds: schemeDetailsList?.length
+		};
+		schemeDetailsList.forEach((scheme) => {
+			data.comparefundcardfunds.push(scheme?.schemeName);
+			data.comparefundcardfundsISIN.push(scheme?.isin);
+			data.comparefundcardfunds3YReturn.push(scheme?.returns3yr);
+			data.comparefundcardfundsMinSIPAmount.push(scheme?.minSipAmount);
+			data.comparefundcardfundsNoofInvestors.push(scheme?.noOfClientInvested);
+		});
+		compareFundImpressionEvent(data);
+	};
+
 	// chart helpers
 	const getChartData = async (isin: string, months: number) => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/nav?months=${months}&simulate=true&initialFund=1000`;
@@ -265,6 +292,7 @@
 		const response = await Promise.all(promiseArray);
 		chartNavData = response;
 		fillChartData(chartNavData);
+		chartMonthTagSelectionAnalytics();
 	};
 
 	const initialiseData = () => {
@@ -326,19 +354,13 @@
 
 			// chart meta data
 			chartMetaData[0].push(
-				element.schemeData?.returns3yr
+				element?.chartsData?.[index]?.amount
 					? {
 							component: ValueComponent,
 							type: 'component',
 							props: {
 								dotColor: chartDatasetConfig[index]?.borderColor,
-								text: `₹${addCommasToAmountString(
-									calculateLumpsumReturns(
-										1000,
-										3,
-										element.schemeData?.returns3yr
-									).matuarityAmount.toFixed(2)
-								)}`
+								text: `₹${addCommasToAmountString(element?.chartsData?.[index]?.amount)}`
 							}
 					  }
 					: ''
@@ -452,6 +474,76 @@
 			}
 		});
 		fillChartData(chartNavData);
+		if (browser) {
+			compareFundImpressionAnalytics();
+		}
+	};
+
+	const chartMonthTagSelectionAnalytics = () => {
+		const data = {
+			comparefundcardfunds: [],
+			comparefundcardfundsISIN: [],
+			ChartTimeIntervalSelected: tags?.[selectedTag]?.label,
+			CurrentValue: [],
+			Returns: []
+		};
+		schemeDetailsList.forEach((scheme, index) => {
+			data.comparefundcardfunds.push(scheme?.schemeName);
+			data.comparefundcardfundsISIN.push(scheme?.isin);
+			data.CurrentValue.push(lineData.datasets?.[index]?.data?.[0]);
+			data.Returns.push(chartMetaData?.[1]?.[index + 1]);
+		});
+		compareFundChartIntervalSelectionEvent(data);
+	};
+	const chartMetaDataToggled = () => {
+		const data = {
+			comparefundcardfunds: [],
+			comparefundcardfundsISIN: [],
+			comparefundcardfunds3YReturn: []
+		};
+		schemeDetailsList.forEach((scheme) => {
+			data.comparefundcardfunds.push(scheme?.schemeName);
+			data.comparefundcardfundsISIN.push(scheme?.isin);
+			data.comparefundcardfunds3YReturn.push(scheme?.returns3yr);
+		});
+		compareFundChartMetaDataToggleEvent(data);
+	};
+	const pastReturnsToggled = () => {
+		const data = {
+			OneYearReturn: [],
+			ThreeYearsReturns: [],
+			FiveYearReturns: [],
+			AlltimeReturns: []
+		};
+		schemeDetailsList.forEach((scheme) => {
+			data.OneYearReturn.push(scheme?.returns1yr);
+			data.ThreeYearsReturns.push(scheme?.returns3yr);
+			data.FiveYearReturns.push(scheme?.returns5yr);
+			data.AlltimeReturns.push(scheme?.returns5yr);
+		});
+		compareFundPastReturnsToggleEvent(data);
+	};
+	const fundBasicsToggled = () => {
+		compareFundFundBasicsToggleEvent();
+	};
+	const ratingsToggled = async () => {
+		const data = {
+			AngelOneRatings: [],
+			Morningstar: [],
+			crisil: []
+		};
+		schemeDetailsList?.forEach((scheme) => {
+			data.AngelOneRatings.push(scheme?.arqRating);
+			data.Morningstar.push(scheme?.morningstarRating);
+			data.crisil.push(scheme?.crisilRating);
+		});
+		compareFundRatingsToggleEvent(data);
+	};
+	const sectorsToggled = () => {
+		compareFundSectorsToggleEvent();
+	};
+	const holdingsToggled = () => {
+		compareFundHoldingsToggleEvent();
 	};
 </script>
 
@@ -478,16 +570,20 @@
 		<div class="mt-4 md:mt-0">
 			<Table data={meta} />
 		</div>
-		<TableWithAccordian data={chartMetaData} title="If ₹1,000 invested 3 years ago">
+		<TableWithAccordian
+			data={chartMetaData}
+			title="If ₹1,000 invested 3 years ago"
+			cardToggled={chartMetaDataToggled}
+		>
 			<svelte:fragment slot="footer">
 				<Chart {lineData} {lineChartOptions} {tags} {onTagClick} {selectedTag} />
 			</svelte:fragment>
 		</TableWithAccordian>
-		<TableWithAccordian data={pastReturns} title="Past Returns" />
-		<TableWithAccordian data={fundBasics} title="Fund Basics" />
-		<TableWithAccordian data={ratings} title="Ratings" />
-		<TableWithAccordian data={sectors} title="Top 5 Sectors" />
-		<TableWithAccordian data={holdings} title="Top 5 holdings" />
+		<TableWithAccordian data={pastReturns} title="Past Returns" cardToggled={pastReturnsToggled} />
+		<TableWithAccordian data={fundBasics} title="Fund Basics" cardToggled={fundBasicsToggled} />
+		<TableWithAccordian data={ratings} title="Ratings" cardToggled={ratingsToggled} />
+		<TableWithAccordian data={sectors} title="Top 5 Sectors" cardToggled={sectorsToggled} />
+		<TableWithAccordian data={holdings} title="Top 5 holdings" cardToggled={holdingsToggled} />
 	</div>
 {/await}
 
