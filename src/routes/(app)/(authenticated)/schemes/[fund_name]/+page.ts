@@ -15,7 +15,10 @@ import { shareFundDetailClickAnalytics } from '$components/Scheme/analytics';
 
 import { hydrate } from '$lib/utils/helpers/hydrated';
 import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
-import { getDateTimeString } from '$lib/utils/helpers/date';
+import { getCompleteSIPDateBasedonDD } from '$lib/utils/helpers/date';
+import { getEmandateDataFunc } from '$components/Payment/api';
+import type { BankDetailsEntity } from '$lib/types/IUserProfile';
+import type { MandateWithBankDetails } from '$lib/types/IEmandate';
 
 export const load = (async ({ fetch, params, url, parent }) => {
 	const queryParam = url?.searchParams?.get('params') || '';
@@ -29,6 +32,7 @@ export const load = (async ({ fetch, params, url, parent }) => {
 	let schemeData: SchemeDetails;
 	const parentData = await parent();
 	const showShare = shouldDisplayShare(parentData);
+	const profileData = parentData.profile;
 
 	if (isExternal && clientCode && clientCode !== parentData?.profile?.clientId) {
 		if (browser) {
@@ -125,6 +129,51 @@ export const load = (async ({ fetch, params, url, parent }) => {
 		}
 	};
 
+	const bankAccNumToLogoMap = () => {
+		const accNumToLogoMap = {};
+		const bankList = profileData.bankDetails;
+
+		(bankList || []).forEach((bank: BankDetailsEntity) => {
+			accNumToLogoMap[bank.accNO] = bank.bankLogo;
+		});
+
+		return accNumToLogoMap;
+	};
+
+	const getAllMandates = (madateMap: { [propKey: string]: MandateWithBankDetails }) => {
+		const all = (Object.values(madateMap) || []).flat();
+		return all;
+	};
+
+	const getMandateData = async () => {
+		const mandateResponse = await getEmandateDataFunc({
+			amount: 0,
+			sipDate: getCompleteSIPDateBasedonDD(4, new Date(), 30)
+		});
+		const accNumToLogoMap = bankAccNumToLogoMap();
+		let mandateData = getAllMandates(mandateResponse?.data);
+		mandateData = mandateData.map((mandate) => {
+			const updatedMandate = {
+				...mandate,
+				bankLogo: accNumToLogoMap[mandate.accountNo]
+			};
+			return updatedMandate;
+		});
+		return mandateData;
+	};
+
+	const getDataforInvestment = async () => {
+		try {
+			const res = await Promise.all([getPreviousPaymentDetails(), getMandateData()]);
+			return {
+				previousPaymentDetails: res[0],
+				mandateData: res[1]
+			};
+		} catch (e) {
+			console.log('the errorrrrrr -- ', e);
+		}
+	};
+
 	return {
 		layoutConfig: {
 			title: 'Fund Details',
@@ -140,9 +189,7 @@ export const load = (async ({ fetch, params, url, parent }) => {
 			schemeData: hydrate ? getSchemeData() : await getSchemeData(),
 			holdingData: hydrate ? getFundHoldings() : await getFundHoldings(),
 			comparisons: hydrate ? getFundComparisonsData() : await getFundComparisonsData(),
-			previousPaymentDetails: hydrate
-				? getPreviousPaymentDetails()
-				: await getPreviousPaymentDetails()
+			dataForInvestment: hydrate ? getDataforInvestment() : await getDataforInvestment()
 		},
 		showInvestmentPad: orderpadParam === 'INVEST'
 	};

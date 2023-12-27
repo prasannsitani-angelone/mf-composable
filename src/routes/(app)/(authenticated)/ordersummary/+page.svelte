@@ -158,7 +158,7 @@
 						schemeCardItems={orderSummaryData.schemeCardItems}
 						clazz="mt-2 shadow-csm"
 					/>
-					{#if firstTimePayment && orderSummaryData?.paymentStatus && orderSummaryData?.paymentStatus !== 'pending'}
+					{#if orderSummaryData.sipData?.data?.data?.isFtpWithMandate || (firstTimePayment && orderSummaryData?.paymentStatus && orderSummaryData?.paymentStatus !== 'pending')}
 						<OrderStatusCard
 							statusHistoryItems={orderSummaryData?.statusHistoryItems}
 							heading={orderSummaryData?.statusCardHeading}

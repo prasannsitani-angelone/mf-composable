@@ -39,6 +39,7 @@
 	import { hydrate } from '$lib/utils/helpers/hydrated';
 	import { investMoreClickEvent } from '$lib/analytics/investments/investments';
 	import SwpDetails from './components/SwpDetails.svelte';
+	import type { MandateWithBankDetails } from '$lib/types/IEmandate';
 
 	export let data: PageData;
 
@@ -70,6 +71,7 @@
 			chartData: ChartData;
 			ordersData: OrdersData;
 			schemeData: SchemeDetails;
+			mandateData: MandateWithBankDetails[];
 		}>
 	) {
 		const result = await data;
@@ -364,6 +366,7 @@
 						<InvestmentPad
 							class="block md:hidden"
 							schemeData={res.schemeData}
+							mandateData={res.mandateData}
 							fromInvestmentDetailsPage
 							{previousPaymentDetails}
 						/>
@@ -391,6 +394,7 @@
 						class="sticky -top-2 mt-[52px] hidden md:block"
 						schemeData={res.schemeData}
 						fromInvestmentDetailsPage
+						mandateData={res.mandateData}
 						investmentNotAllowedText={investDisableText}
 						{previousPaymentDetails}
 					>

@@ -26,7 +26,7 @@
 		] || {};
 </script>
 
-<div class="flex flex-col bg-white px-4 py-3 {$$props.class}">
+<div class="flex flex-col overflow-y-scroll bg-white px-4 py-3 {$$props.class}">
 	<div class="mb-3 text-sm font-normal text-black-title">Pay With Autopay</div>
 	<div class="divide-y divide-grey-line rounded-lg border border-grey-line">
 		{#each autopayOptions as option (option)}
@@ -41,6 +41,7 @@
 					{amount}
 					{isLoading}
 					{paymentModesStatus}
+					showExtraInfo={false}
 					class="first:rounded-t-lg last:rounded-b-lg"
 				>
 					<div slot="icon" class="flex h-8 w-11 items-center justify-center rounded-sm">
@@ -62,7 +63,7 @@
 								{option.accountNo?.substring(option.accountNo.length - 4)}
 							</div>
 						</div>
-						<div class="text-[11px]">
+						<div class="w-56 truncate text-left text-[11px]">
 							<span class="uppercase">{option.authenticationMode} AUTOPAY</span> | Autopay ID: {option.mandateId}
 						</div>
 					</div>

@@ -22,6 +22,7 @@
 	export let paymentModesStatus: PaymentMethodsStatusTypes;
 	export let submitButtonText = '';
 	export let subIdentifier = '';
+	export let showExtraInfo = true;
 
 	export let onSelect: (identifier: string, subIdentifier: string) => void = () => undefined;
 	export let onSubmit: (text: string, subIdentifier: string) => void = () => undefined;
@@ -107,7 +108,7 @@
 		{/if}
 	</slot>
 
-	{#if selected && identifier !== 'AUTOPAY'}
+	{#if selected && showExtraInfo}
 		<div class="ml-6 flex flex-col pb-4 {$$props.innerClass}">
 			{#if showInput}
 				<UpiHandlerDropDown {inputText} {onInputChange} {inputError} />

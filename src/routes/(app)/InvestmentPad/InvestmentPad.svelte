@@ -150,6 +150,7 @@
 	export let isNFO = false;
 	export let minDefaultDate = 1;
 	export let maxDefaultDate = 5;
+	export let mandateData: MandateWithBankDetails[] = [];
 
 	const {
 		investmentType,
@@ -206,7 +207,6 @@
 	let showLumpsumToSipModal = false;
 	let showBeforePaymentAckModal = false;
 	let beforePaymentAckDone = false;
-	let mandateData: MandateWithBankDetails[] = [];
 	let selectedAutopay: MandateWithBankDetails;
 	let subIdentifier: string;
 	let showAutopayPopup = false;
@@ -574,7 +574,14 @@
 
 	const changePaymentMethodScreenImpressionAnalyticsFunc = () => {
 		const eligiblePaymentMethods: string[] = [];
-		const allowedPaymentmethods = ['PHONEPE', 'GOOGLEPAY', 'PAYTM', 'UPI', 'NET_BANKING'];
+		const allowedPaymentmethods = [
+			'PHONEPE',
+			'GOOGLEPAY',
+			'PAYTM',
+			'UPI',
+			'NET_BANKING',
+			'AUTOPAY'
+		];
 
 		allowedPaymentmethods?.forEach((method) => {
 			if (PAYMENT_MODE[method]?.enabled(Number(amount), os, redirectedFrom)) {
@@ -784,21 +791,6 @@
 	const getPreviousWrongBankFailedPayment = async () => {
 		previousWrongBankFailedPayment = await checkPreviousWrongBankFailedPayment();
 	};
-	const bankAccNumToLogoMap = () => {
-		const accNumToLogoMap = {};
-		const bankList = profileData.bankDetails;
-
-		(bankList || []).forEach((bank: BankDetailsEntity) => {
-			accNumToLogoMap[bank.accNO] = bank.bankLogo;
-		});
-
-		return accNumToLogoMap;
-	};
-
-	const getAllMandates = (madateMap: { [propKey: string]: MandateWithBankDetails }) => {
-		const all = (Object.values(madateMap) || []).flat();
-		return all;
-	};
 
 	onMount(async () => {
 		handleShowTabNotSupported();
@@ -820,27 +812,18 @@
 		await tick();
 		checkIfOrderIsValidFromDeeplink();
 
-		paymentAppStore.subscribe(() => {
-			paymentHandler.paymentMode =
-				paymentAppStore.checkIfPaymentAppInstalledElseGetFallback(paymentHandler.paymentMode) || '';
-		});
+		if (paymentHandler.paymentMode !== 'AUTOPAY') {
+			paymentAppStore.subscribe(() => {
+				paymentHandler.paymentMode =
+					paymentAppStore.checkIfPaymentAppInstalledElseGetFallback(paymentHandler.paymentMode) ||
+					'';
+			});
+		}
 
 		versionStore.subscribe((value) => {
 			version = value.version;
 		});
-
 		fundDetailsCarouselItems = getFundDetailsCarouselItems();
-		let mandateResponse = await getEmandateDataFunc({ amount: 0, sipDate: getSIPDate() });
-		const accNumToLogoMap = bankAccNumToLogoMap();
-		mandateData = getAllMandates(mandateResponse?.data);
-		mandateData = mandateData.map((mandate) => {
-			const updatedMandate = {
-				...mandate,
-				bankLogo: accNumToLogoMap[mandate.accountNo]
-			};
-			return updatedMandate;
-		});
-		assignPreviousPaymentDetails();
 	});
 
 	function getNFODetailsCueCard() {
@@ -1411,6 +1394,7 @@
 			defaultValueToPaymentHandler();
 		}
 	};
+	assignPreviousPaymentDetails();
 
 	$: updatePaymentMode(amount);
 	// -------- **** ----------
@@ -2439,7 +2423,7 @@
 
 <InfoPopup
 	isModalOpen={showAutopayPopup}
-	heading="Confirm: Paying With Autopay"
+	heading="Paying With Autopay"
 	closeModal={toggleShowAutopayPopup}
 >
 	<svelte:fragment slot="crossIconSlot">
@@ -2447,7 +2431,7 @@
 	</svelte:fragment>
 	<svelte:fragment slot="popupBody">
 		<div class="flex flex-col px-4 text-xs text-black-key">
-			<div class="flex py-2">
+			<div class="flex items-center py-2">
 				<div class="rounded-3xl bg-grey p-1">
 					<WMSIcon name="clock-bold" width={24} height={24} stroke="#3F5BD9" />
 				</div>
@@ -2457,7 +2441,7 @@
 					)}) within 3 working days</span
 				>
 			</div>
-			<div class="flex py-2">
+			<div class="flex items-center py-2">
 				<div class="rounded-3xl bg-grey p-1">
 					<WMSIcon name="rupee-circle-blue" width={22} height={24} />
 				</div>

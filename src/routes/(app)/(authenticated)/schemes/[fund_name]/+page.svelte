@@ -235,14 +235,15 @@
 			{/if}
 		{/if}
 	{:else}
-		{#await data?.api?.previousPaymentDetails}
+		{#await data?.api?.dataForInvestment}
 			<div />
-		{:then previousPaymentDetails}
+		{:then dataForInvestment}
 			<InvestmentPad
 				{isNFO}
 				class="block md:hidden"
 				schemeData={schemedata}
-				{previousPaymentDetails}
+				previousPaymentDetails={dataForInvestment?.previousPaymentDetails}
+				mandateData={dataForInvestment?.mandateData}
 				params={orderpadParams}
 				fromInvestmentDetailsPage={false}
 			/>
@@ -251,14 +252,15 @@
 
 	<!-- Right Side -->
 	{#if !isMobile && !isTablet}
-		{#await data?.api?.previousPaymentDetails}
+		{#await data?.api?.dataForInvestment}
 			<div />
-		{:then previousPaymentDetails}
+		{:then dataForInvestment}
 			<InvestmentPad
 				{isNFO}
 				class="sticky -top-2 mt-[52px] hidden md:block"
 				schemeData={schemedata}
-				{previousPaymentDetails}
+				previousPaymentDetails={dataForInvestment?.previousPaymentDetails}
+				mandateData={dataForInvestment?.mandateData}
 				params={orderpadParams}
 				fromInvestmentDetailsPage={false}
 			/>

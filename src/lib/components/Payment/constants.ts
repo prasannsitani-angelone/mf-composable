@@ -76,7 +76,7 @@ export const PAYMENT_MODE = {
 	AUTOPAY: {
 		logo: AutopayIcon,
 		sleeveIcon: AutopayIcon,
-		name: 'Pay via Autopay',
+		name: 'Autopay',
 		analytics: selectPaymentModeAnalytics,
 		enabled: () => {
 			return true;
