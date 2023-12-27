@@ -202,7 +202,8 @@
 							const bodyLines = tooltipModel.body.map(getBody);
 							let innerHtml = '';
 
-							bodyLines.forEach((body) => {
+							const body = bodyLines?.[0];
+							if (body) {
 								let formattedText = '';
 
 								if (body[0]?.includes(':')) {
@@ -221,12 +222,14 @@
 								const line =
 									'<span style="border-left: 1px solid #6A7582; margin-left: 0.5rem;" />';
 								innerHtml += line;
-							});
-							titleLines.forEach((title) => {
+							}
+
+							const title = titleLines?.[0];
+							if (title) {
 								const style =
 									'color: #6A7582; font-size: 1rem; font-weight: 400; font-family: Roboto; margin-left: 0.5rem;';
 								innerHtml += `<span style="${style}">${formatDate(title)}</span>`;
-							});
+							}
 							innerHtml += '</div>';
 							tooltipEl.innerHTML = innerHtml;
 						}
