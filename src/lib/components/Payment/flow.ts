@@ -130,6 +130,10 @@ export const netBankingCartFlow = async (params) => {
 	} = params || {};
 	try {
 		onStart();
+		netBankingState.paymentWindow = window.open(
+			`${window.location.origin}${base}/intermediateLoading`,
+			'PAYMENT_WINDOW'
+		);
 		showLoading('Creating your order');
 		const orderPostResponse = await cartPostFunction({
 			accNO,
@@ -145,10 +149,6 @@ export const netBankingCartFlow = async (params) => {
 			stopLoading,
 			displayError
 		});
-		netBankingState.paymentWindow = window.open(
-			`${window.location.origin}${base}/intermediateLoading`,
-			'PAYMENT_WINDOW'
-		);
 		showLoading('Redirecting to your Bank');
 		const netBankingResponse = await initiateNetBankingPaymentFunc({
 			amount,
@@ -279,6 +279,10 @@ export const netBankingLumpsumFlow = async (params) => {
 		onSuccess = () => undefined
 	} = params || {};
 	try {
+		netBankingState.paymentWindow = window.open(
+			`${window.location.origin}${base}/intermediateLoading`,
+			'PAYMENT_WINDOW'
+		);
 		showLoading('Creating your order');
 		const orderPostResponse = await lumpsumOrderPostFunction({
 			amount,
@@ -303,10 +307,6 @@ export const netBankingLumpsumFlow = async (params) => {
 			stopLoading,
 			displayError
 		});
-		netBankingState.paymentWindow = window.open(
-			`${window.location.origin}${base}/intermediateLoading`,
-			'PAYMENT_WINDOW'
-		);
 		showLoading('Redirecting to your Bank');
 		const netBankingResponse = await initiateNetBankingPaymentFunc({
 			amount,
@@ -434,6 +434,10 @@ export const netBankingSIPFlow = async (params) => {
 	} = params || {};
 	let { sipType = 'SIP' } = params || {};
 	try {
+		netBankingState.paymentWindow = window.open(
+			`${window.location.origin}${base}/intermediateLoading`,
+			'PAYMENT_WINDOW'
+		);
 		let autoMandate;
 		if (!mandateId) {
 			showLoading('Getting Mandate Data');
@@ -473,10 +477,6 @@ export const netBankingSIPFlow = async (params) => {
 			stopLoading,
 			displayError
 		});
-		netBankingState.paymentWindow = window.open(
-			`${window.location.origin}${base}/intermediateLoading`,
-			'PAYMENT_WINDOW'
-		);
 		showLoading('Redirecting to your Bank');
 		const netBankingResponse = await initiateNetBankingPaymentFunc({
 			amount,
@@ -604,6 +604,10 @@ export const netBankingBulkSIPFlow = async (params) => {
 		onSuccess = () => undefined
 	} = params || {};
 	try {
+		netBankingState.paymentWindow = window.open(
+			`${window.location.origin}${base}/intermediateLoading`,
+			'PAYMENT_WINDOW'
+		);
 		showLoading('Getting Mandate Data');
 		const emandateResponse = await getEmandateDataFunc({
 			amount,
@@ -633,10 +637,6 @@ export const netBankingBulkSIPFlow = async (params) => {
 			stopLoading,
 			displayError
 		});
-		netBankingState.paymentWindow = window.open(
-			`${window.location.origin}${base}/intermediateLoading`,
-			'PAYMENT_WINDOW'
-		);
 		showLoading('Redirecting to your Bank');
 		const netBankingResponse = await initiateNetBankingPaymentFunc({
 			amount,
