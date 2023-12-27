@@ -69,6 +69,8 @@
 		lumspsumToSipSleeveContinueOtiCtaClickAnalytics,
 		lumspsumToSipSleeveCreateSipCtaClickAnalytics,
 		orderpadFundCardClickAnalytics,
+		sipWithAutopayConfirmClickAnalytics,
+		sipWithAutopayConfirmImpressionAnalytics,
 		startSipButtonClickAnalytics,
 		tncButtonClickAnalytics
 	} from './analytics/orderpad';
@@ -595,7 +597,10 @@
 			InvestmentType: activeTab,
 			SipDate: activeTab === 'SIP' ? getFormattedSIPDate() : '',
 			Amount: amount,
-			DefaultPaymentMethod: paymentHandler?.paymentMode,
+			DefaultPaymentMethod:
+				paymentHandler?.paymentMode === 'AUTOPAY'
+					? `Autopay with ${selectedAutopay?.authenticationMode}`
+					: paymentHandler?.paymentMode,
 			DefaultBank: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
 			ChangeBankAvailable: profileData?.bankDetails?.length > 1,
 			AllPaymentMethods: allowedPaymentmethods
@@ -640,7 +645,10 @@
 					: 'PAY',
 			Amount: amount,
 			SipDate: activeTab === 'SIP' ? getFormattedSIPDate() : '',
-			PaymentMethod: paymentHandler?.paymentMode,
+			PaymentMethod:
+				paymentHandler?.paymentMode === 'AUTOPAY'
+					? `Autopay with ${selectedAutopay?.authenticationMode}`
+					: paymentHandler?.paymentMode,
 			Bank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName,
 			URL: getDeeplinkForUrl(schemeDetailsUrl)
 		});
@@ -1067,7 +1075,10 @@
 			Fundname: schemeData?.schemeName,
 			Amount: amount,
 			InvestmentType: activeTab,
-			PaymentMethod: paymentHandler?.paymentMode,
+			PaymentMethod:
+				paymentHandler?.paymentMode === 'AUTOPAY'
+					? `Autopay with ${selectedAutopay?.authenticationMode}`
+					: paymentHandler?.paymentMode,
 			Bank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName,
 			SipDate: getFormattedSIPDate(),
 			FirstSipPayment: firstSipPayment ? 'Y' : 'N',
@@ -1075,6 +1086,7 @@
 			isinvesttypevisible: isInvestTypeVisible() ? 'Y' : 'N',
 			ismakefirstpmtvisible: paymentMandatory ? 'N' : 'Y',
 			numberofuservisible: schemeData?.noOfClientInvested ? 'Y' : 'N',
+			PaywithAutopay: paymentHandler?.paymentMode === 'AUTOPAY' ? 'Y' : 'N',
 			CTA:
 				activeTab === 'SIP'
 					? !firstSipPayment
@@ -1107,9 +1119,12 @@
 		}
 
 		const eventMetaData = {
-			mode: paymentHandler?.paymentMode
+			mode:
+				paymentHandler?.paymentMode === 'AUTOPAY'
+					? `Autopay with ${selectedAutopay?.authenticationMode}`
+					: paymentHandler?.paymentMode,
+			AutopayID: paymentHandler?.paymentMode === 'AUTOPAY' ? selectedAutopay.mandateId : ''
 		};
-
 		PAYMENT_MODE[paymentMode].analytics(eventMetaData);
 	};
 
@@ -1424,7 +1439,10 @@
 				SIPDate: activeTab === 'SIP' ? getFormattedSIPDate() : '',
 				firstSIPpayment: activeTab === 'SIP' ? firstSipPayment : '',
 				InvestmentType: activeTab === 'SIP' ? 'SIP' : 'OTI',
-				PaymentMethod: paymentHandler?.paymentMode,
+				PaymentMethod:
+					paymentHandler?.paymentMode === 'AUTOPAY'
+						? `Autopay with ${selectedAutopay?.authenticationMode}`
+						: paymentHandler?.paymentMode,
 				Bank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName
 			});
 		}
@@ -1587,7 +1605,8 @@
 				updateUPITimer
 			});
 		} else if (activeTab === 'SIP' && paymentHandler.paymentMode === 'AUTOPAY') {
-			showAutopayPopup = true;
+			submitButtonSIPClickAnalyticsFunc();
+			toggleShowAutopayPopup();
 		} else if (activeTab === 'SIP' && redirectedFrom !== 'SIP_PAYMENTS') {
 			submitButtonSIPClickAnalyticsFunc();
 			const response = await isWalletIntegeratedFlow();
@@ -1630,6 +1649,15 @@
 	};
 
 	const autoPayflow = () => {
+		const eventMetaData = {
+			Fundname: schemeData?.schemeName,
+			Amount: amount,
+			InvestmentType: activeTab === 'SIP' ? 'SIP' : 'OTI',
+			AutopayID: selectedAutopay?.mandateId,
+			AutopayBank: selectedAutopay?.bankName,
+			AutopayType: selectedAutopay?.authenticationMode
+		};
+		sipWithAutopayConfirmClickAnalytics(eventMetaData);
 		sipAutopayFlow({
 			amount,
 			dpNumber: profileData?.dpNumber,
@@ -1806,6 +1834,17 @@
 
 	const toggleShowAutopayPopup = () => {
 		showAutopayPopup = !showAutopayPopup;
+		if (showAutopayPopup) {
+			const eventMetaData = {
+				Fundname: schemeData?.schemeName,
+				Amount: amount,
+				InvestmentType: activeTab === 'SIP' ? 'SIP' : 'OTI',
+				AutopayID: selectedAutopay?.mandateId,
+				AutopayBank: selectedAutopay?.bankName,
+				AutopayType: selectedAutopay?.authenticationMode
+			};
+			sipWithAutopayConfirmImpressionAnalytics(eventMetaData);
+		}
 	};
 
 	// const animate = (node, args) => (args.cond ? fly(node, args) : {});
@@ -2225,7 +2264,7 @@
 				</div>
 			</div>
 		</div>
-		<div slot="autopayMethods" class="w-full">
+		<div slot="autopayMethods" class="my-2 max-h-[35%] w-full overflow-y-scroll">
 			{#if mandateData?.length && activeTab === 'SIP'}
 				<AutopayMethod
 					selectedMode={'AUTOPAY'}

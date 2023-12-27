@@ -126,7 +126,8 @@
 			Remarks: od?.remarks,
 			integratedUpiFlow: isIntegeratedFlow,
 			OrderID: orderID,
-			SipId: sipID
+			SipId: sipID,
+			PaywithAutopay: sd?.isFtpWithMandate ? 'Yes' : 'No'
 		});
 	};
 

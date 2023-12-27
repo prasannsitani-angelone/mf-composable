@@ -134,3 +134,31 @@ export const orderpadFundCardClickAnalytics = (
 		event_metadata: eventMetaData
 	});
 };
+
+export const sipWithAutopayConfirmImpressionAnalytics = (
+	eventMetaData: Record<string, string | boolean> | null
+) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-orderpad',
+		event_type: 'impression',
+		event_sub_type: 'pop-up',
+		event_name: 'PayingwithAutopay',
+		event_property: null,
+		event_id: '310.0.0.2.13',
+		event_metadata: eventMetaData
+	});
+};
+
+export const sipWithAutopayConfirmClickAnalytics = (
+	eventMetaData: Record<string, string | boolean> | null
+) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-orderpad',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'Confirm',
+		event_property: null,
+		event_id: '310.0.0.2.14',
+		event_metadata: eventMetaData
+	});
+};
