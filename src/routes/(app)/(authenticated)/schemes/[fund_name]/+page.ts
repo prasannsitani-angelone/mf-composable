@@ -15,7 +15,7 @@ import { shareFundDetailClickAnalytics } from '$components/Scheme/analytics';
 
 import { hydrate } from '$lib/utils/helpers/hydrated';
 import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
-import { getCompleteSIPDateBasedonDD } from '$lib/utils/helpers/date';
+import { getCompleteSIPDateBasedonDD, getDateTimeString } from '$lib/utils/helpers/date';
 import { getEmandateDataFunc } from '$components/Payment/api';
 import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 import type { MandateWithBankDetails } from '$lib/types/IEmandate';
