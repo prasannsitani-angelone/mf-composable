@@ -6,6 +6,7 @@ import { getCompleteSIPDateBasedonDD } from '$lib/utils/helpers/date';
 import { getEmandateDataFunc } from '$components/Payment/api';
 import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 import type { MandateWithBankDetails } from '$lib/types/IEmandate';
+import { versionStore } from '$lib/stores/VersionStore';
 
 export const load = (async ({ fetch, parent, params }) => {
 	const parentData = await parent();
@@ -93,7 +94,7 @@ export const load = (async ({ fetch, parent, params }) => {
 				ordersData:
 					res[2].ok && res[2].data?.status === 'success' ? res[2].data?.transactions || [] : [],
 				schemeData: res[3].ok ? res[3].data || {} : {},
-				mandateData: res[4]
+				mandateData: versionStore.getVersion() === 'B' ? res[4] : []
 			};
 		} catch (e) {
 			console.log('the errorrrrrr -- ', e);

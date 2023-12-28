@@ -19,6 +19,7 @@ import { getCompleteSIPDateBasedonDD } from '$lib/utils/helpers/date';
 import { getEmandateDataFunc } from '$components/Payment/api';
 import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 import type { MandateWithBankDetails } from '$lib/types/IEmandate';
+import { versionStore } from '$lib/stores/VersionStore';
 
 export const load = (async ({ fetch, params, url, parent }) => {
 	const queryParam = url?.searchParams?.get('params') || '';
@@ -167,7 +168,7 @@ export const load = (async ({ fetch, params, url, parent }) => {
 			const res = await Promise.all([getPreviousPaymentDetails(), getMandateData()]);
 			return {
 				previousPaymentDetails: res[0],
-				mandateData: res[1]
+				mandateData: versionStore.getVersion() === 'B' ? res[1] : []
 			};
 		} catch (e) {
 			console.log('the errorrrrrr -- ', e);
