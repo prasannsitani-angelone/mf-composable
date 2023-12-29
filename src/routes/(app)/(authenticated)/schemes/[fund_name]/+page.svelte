@@ -182,13 +182,13 @@
 			{/if}
 			{#if !isNFO}
 				<SchemeInformation schemeDetails={schemedata} {isNFO} />
+				{#await data?.api?.comparisons then comparisons}
+					<FundComparisonEntry
+						firstSchemeDetails={schemedata}
+						similarFunds={comparisons?.otherScheme || []}
+					/>
+				{/await}
 			{/if}
-			{#await data?.api?.comparisons then comparisons}
-				<FundComparisonEntry
-					firstSchemeDetails={schemedata}
-					similarFunds={comparisons?.otherScheme || []}
-				/>
-			{/await}
 
 			<FundManager schemeDetails={schemedata} />
 			<RiskAndRating schemeDetails={schemedata} />
