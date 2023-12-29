@@ -63,7 +63,7 @@
 								{option.accountNo?.substring(option.accountNo.length - 4)}
 							</div>
 						</div>
-						<div class="w-56 truncate text-left text-[11px]">
+						<div class="w-48 truncate text-left text-[11px]">
 							<span class="uppercase">{option.authenticationMode} AUTOPAY</span> | Autopay ID: {option.mandateId}
 						</div>
 					</div>

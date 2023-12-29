@@ -5,7 +5,6 @@ import type { PageLoad } from './$types';
 import { getCompleteSIPDateBasedonDD } from '$lib/utils/helpers/date';
 import { getEmandateDataFunc } from '$components/Payment/api';
 import type { MandateWithBankDetails } from '$lib/types/IEmandate';
-import { versionStore } from '$lib/stores/VersionStore';
 
 export const load = (async ({ fetch, params }) => {
 	const fundName = params['investment'];
@@ -72,7 +71,7 @@ export const load = (async ({ fetch, params }) => {
 				ordersData:
 					res[2].ok && res[2].data?.status === 'success' ? res[2].data?.transactions || [] : [],
 				schemeData: res[3].ok ? res[3].data || {} : {},
-				mandateData: versionStore.getVersion() === 'B' ? res[4] : []
+				mandateData: res[4]
 			};
 		} catch (e) {
 			console.log('the errorrrrrr -- ', e);
