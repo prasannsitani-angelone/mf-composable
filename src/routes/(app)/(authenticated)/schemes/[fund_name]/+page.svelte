@@ -35,6 +35,7 @@
 	import RiskAndRating from '$components/Scheme/RiskAndRating/RiskAndRating.svelte';
 	import FundHeading from './FundHeading/FundHeading.svelte';
 	import FundComparisonEntry from './FundComparison/FundComparisonEntry.svelte';
+	import { versionStore } from '$lib/stores/VersionStore';
 
 	export let data: PageData;
 
@@ -243,7 +244,7 @@
 				class="block md:hidden"
 				schemeData={schemedata}
 				previousPaymentDetails={dataForInvestment?.previousPaymentDetails}
-				mandateData={dataForInvestment?.mandateData}
+				mandateData={versionStore.getVersion() === 'B' ? dataForInvestment?.mandateData : []}
 				params={orderpadParams}
 				fromInvestmentDetailsPage={false}
 			/>
@@ -260,7 +261,7 @@
 				class="sticky -top-2 mt-[52px] hidden md:block"
 				schemeData={schemedata}
 				previousPaymentDetails={dataForInvestment?.previousPaymentDetails}
-				mandateData={dataForInvestment?.mandateData}
+				mandateData={versionStore.getVersion() === 'B' ? dataForInvestment?.mandateData : []}
 				params={orderpadParams}
 				fromInvestmentDetailsPage={false}
 			/>

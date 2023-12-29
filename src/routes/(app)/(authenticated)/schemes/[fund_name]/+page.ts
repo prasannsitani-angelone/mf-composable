@@ -17,7 +17,6 @@ import { hydrate } from '$lib/utils/helpers/hydrated';
 import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
 import { getCompleteSIPDateBasedonDD, getDateTimeString } from '$lib/utils/helpers/date';
 import { getEmandateDataFunc } from '$components/Payment/api';
-import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 import type { MandateWithBankDetails } from '$lib/types/IEmandate';
 import { versionStore } from '$lib/stores/VersionStore';
 
@@ -33,7 +32,6 @@ export const load = (async ({ fetch, params, url, parent }) => {
 	let schemeData: SchemeDetails;
 	const parentData = await parent();
 	const showShare = shouldDisplayShare(parentData);
-	const profileData = parentData.profile;
 
 	if (isExternal && clientCode && clientCode !== parentData?.profile?.clientId) {
 		if (browser) {
@@ -130,17 +128,6 @@ export const load = (async ({ fetch, params, url, parent }) => {
 		}
 	};
 
-	const bankAccNumToLogoMap = () => {
-		const accNumToLogoMap = {};
-		const bankList = profileData.bankDetails;
-
-		(bankList || []).forEach((bank: BankDetailsEntity) => {
-			accNumToLogoMap[bank.accNO] = bank.bankLogo;
-		});
-
-		return accNumToLogoMap;
-	};
-
 	const getAllMandates = (madateMap: { [propKey: string]: MandateWithBankDetails }) => {
 		const all = (Object.values(madateMap) || []).flat();
 		return all;
@@ -151,15 +138,7 @@ export const load = (async ({ fetch, params, url, parent }) => {
 			amount: 0,
 			sipDate: getCompleteSIPDateBasedonDD(4, new Date(), 30)
 		});
-		const accNumToLogoMap = bankAccNumToLogoMap();
-		let mandateData = getAllMandates(mandateResponse?.data);
-		mandateData = mandateData.map((mandate) => {
-			const updatedMandate = {
-				...mandate,
-				bankLogo: accNumToLogoMap[mandate.accountNo]
-			};
-			return updatedMandate;
-		});
+		const mandateData = getAllMandates(mandateResponse?.data);
 		return mandateData;
 	};
 

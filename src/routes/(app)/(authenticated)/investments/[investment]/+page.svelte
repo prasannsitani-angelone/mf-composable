@@ -40,6 +40,7 @@
 	import { investMoreClickEvent } from '$lib/analytics/investments/investments';
 	import SwpDetails from './components/SwpDetails.svelte';
 	import type { MandateWithBankDetails } from '$lib/types/IEmandate';
+	import { versionStore } from '$lib/stores/VersionStore';
 
 	export let data: PageData;
 
@@ -366,7 +367,7 @@
 						<InvestmentPad
 							class="block md:hidden"
 							schemeData={res.schemeData}
-							mandateData={res.mandateData}
+							mandateData={versionStore.getVersion() === 'B' ? res?.mandateData : []}
 							fromInvestmentDetailsPage
 							{previousPaymentDetails}
 						/>
@@ -394,7 +395,7 @@
 						class="sticky -top-2 mt-[52px] hidden md:block"
 						schemeData={res.schemeData}
 						fromInvestmentDetailsPage
-						mandateData={res.mandateData}
+						mandateData={versionStore.getVersion() === 'B' ? res?.mandateData : []}
 						investmentNotAllowedText={investDisableText}
 						{previousPaymentDetails}
 					>

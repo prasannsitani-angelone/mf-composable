@@ -120,7 +120,7 @@
 			FirstSIPPayment: isSIPOrder ? firstTimePayment : null,
 			AutoPayBank: emandateBankDetails?.bankName,
 			AutopayCtaExist: !sd?.accountNo,
-			PaymentMethod: od?.paymentMode,
+			PaymentMethod: sd?.isFtpWithMandate ? 'autopay' : od?.paymentMode,
 			PaymentBank: od?.bankName,
 			Status: orderStatus,
 			Remarks: od?.remarks,

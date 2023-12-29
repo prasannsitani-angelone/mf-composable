@@ -4,13 +4,10 @@ import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
 import { getCompleteSIPDateBasedonDD } from '$lib/utils/helpers/date';
 import { getEmandateDataFunc } from '$components/Payment/api';
-import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 import type { MandateWithBankDetails } from '$lib/types/IEmandate';
 import { versionStore } from '$lib/stores/VersionStore';
 
-export const load = (async ({ fetch, parent, params }) => {
-	const parentData = await parent();
-	const profileData = parentData.profile;
+export const load = (async ({ fetch, params }) => {
 	const fundName = params['investment'];
 	const schemeMetadata = fundName?.split('-isin-')[1]?.toUpperCase();
 
@@ -46,17 +43,6 @@ export const load = (async ({ fetch, parent, params }) => {
 		}
 	};
 
-	const bankAccNumToLogoMap = () => {
-		const accNumToLogoMap = {};
-		const bankList = profileData.bankDetails;
-
-		(bankList || []).forEach((bank: BankDetailsEntity) => {
-			accNumToLogoMap[bank.accNO] = bank.bankLogo;
-		});
-
-		return accNumToLogoMap;
-	};
-
 	const getAllMandates = (madateMap: { [propKey: string]: MandateWithBankDetails }) => {
 		const all = (Object.values(madateMap) || []).flat();
 		return all;
@@ -67,15 +53,7 @@ export const load = (async ({ fetch, parent, params }) => {
 			amount: 0,
 			sipDate: getCompleteSIPDateBasedonDD(4, new Date(), 30)
 		});
-		const accNumToLogoMap = bankAccNumToLogoMap();
-		let mandateData = getAllMandates(mandateResponse?.data);
-		mandateData = mandateData.map((mandate) => {
-			const updatedMandate = {
-				...mandate,
-				bankLogo: accNumToLogoMap[mandate.accountNo]
-			};
-			return updatedMandate;
-		});
+		const mandateData = getAllMandates(mandateResponse?.data);
 		return mandateData;
 	};
 
