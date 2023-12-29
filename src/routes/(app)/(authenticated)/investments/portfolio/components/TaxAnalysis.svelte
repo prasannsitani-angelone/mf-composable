@@ -13,6 +13,7 @@
 		shortTermInvestmentClickAnalytics
 	} from '../../analytics';
 	import { encodeObject } from '$lib/utils/helpers/params';
+	import { schemeScreenerStore } from '$lib/stores/SchemeScreenerStore';
 
 	interface IInvestmentTypes {
 		label: string;
@@ -125,6 +126,7 @@
 		);
 	};
 	const gotoExploreMore = async () => {
+		schemeScreenerStore?.reinitializeStore();
 		await goto(`${base}/filters/items?subCategory=ELSS`);
 	};
 
