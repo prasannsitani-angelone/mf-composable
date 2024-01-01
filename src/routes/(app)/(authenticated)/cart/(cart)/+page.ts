@@ -12,10 +12,12 @@ export const load = (async ({ fetch }) => {
 			return {
 				...cartItems
 			};
-		} else {
+		} else if (res?.status < 500) {
 			return {
 				data: []
 			};
+		} else {
+			return new Error('Something Went Wrong');
 		}
 	};
 	return {

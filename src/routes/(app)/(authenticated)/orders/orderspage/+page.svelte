@@ -5,6 +5,7 @@
 	import OrderDashboardLoader from './OrdersDashboard/OrderDashboardLoader.svelte';
 	import DateFns from '$lib/utils/asyncDateFns';
 	import { SEO } from 'svelte-components';
+	import SomethingWentWrong from '$components/Error/SomethingWentWrong.svelte';
 	export let data: PageData;
 
 	onMount(async () => {
@@ -19,11 +20,16 @@
 {#await data?.api?.getOrdersData}
 	<OrderDashboardLoader />
 {:then ordersData}
-	<Dashboard
-		ordersSummary={ordersData?.ordersSummary}
-		inProgressOrders={ordersData?.inProgressOrders}
-		failedOrders={ordersData?.failedOrders}
-		compeletedOrders={ordersData?.completedOrders}
-		{data}
-	/>
+	{#if ordersData instanceof Error}
+		<div />
+		<SomethingWentWrong />
+	{:else}
+		<Dashboard
+			ordersSummary={ordersData?.ordersSummary}
+			inProgressOrders={ordersData?.inProgressOrders}
+			failedOrders={ordersData?.failedOrders}
+			compeletedOrders={ordersData?.completedOrders}
+			{data}
+		/>
+	{/if}
 {/await}

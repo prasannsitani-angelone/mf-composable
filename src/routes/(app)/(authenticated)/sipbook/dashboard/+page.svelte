@@ -4,6 +4,7 @@
 	import type { PageData } from './$types';
 	import { SEO } from 'svelte-components';
 	import { onMount } from 'svelte';
+	import SomethingWentWrong from '$components/Error/SomethingWentWrong.svelte';
 	export let data: PageData;
 
 	const scrollToTop = () => {
@@ -24,7 +25,11 @@
 		{#await data?.api?.getSipBookData}
 			<SipDashboardLoader />
 		{:then sipBookData}
-			<SipDashboard {sipBookData} {data} />
+			{#if sipBookData instanceof Error}
+				<SomethingWentWrong />
+			{:else}
+				<SipDashboard {sipBookData} {data} />
+			{/if}
 		{/await}
 	</section>
 </article>

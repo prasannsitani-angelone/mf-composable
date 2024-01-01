@@ -39,6 +39,7 @@
 	import ClevertapNudgeComponent from '$components/clevertap/ClevertapNudgeComponent.svelte';
 	import type { ITab } from '$lib/types/ITab';
 	import { debounce } from '$lib/utils/helpers/debounce';
+	import SomethingWentWrongSmall from '$components/Error/SomethingWentWrongSmall.svelte';
 
 	let isXIRRModalOpen = false;
 	let isOptimisePortfolioOpen = false;
@@ -174,7 +175,9 @@
 		{#await data.api.investment}
 			<InvestmentDashboardLoader />
 		{:then response}
-			{#if response && response.status === 'success' && Array.isArray(response.data.holdings) && response.data.holdings.length > 0}
+			{#if response instanceof Error}
+				<SomethingWentWrongSmall class="!mt-0 shadow-none md:mt-2" />
+			{:else if response && response.status === 'success' && Array.isArray(response.data.holdings) && response.data.holdings.length > 0}
 				<!-- Show Users investment if exist -->
 				<YourInvestmentsNew
 					investmentSummary={data.investementSummary}

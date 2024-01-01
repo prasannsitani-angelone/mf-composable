@@ -7,6 +7,7 @@
 	import type { ToastItem } from '$lib/types/IToast';
 
 	let toastQueue: ToastItem[];
+	let statusToast: ToastItem;
 	$: toastQueue = [];
 
 	export let delay = 4000;
@@ -23,6 +24,10 @@
 		}
 	}
 
+	const manageStatusToast = (newStatusToast: ToastItem) => {
+		statusToast = newStatusToast;
+	};
+
 	function stopToastShow() {
 		toastStore.reset();
 		toastQueue = [];
@@ -38,9 +43,22 @@
 	}
 
 	$: beginToastShow($toastStore.toastQueue);
+	$: manageStatusToast($toastStore?.statusToast);
 </script>
 
 <section id="appToaster">
+	{#if statusToast}
+		<div
+			in:fly={{ y: 100, duration: 1000 }}
+			out:fade
+			class="fixed bottom-0 left-0 right-0 mx-2 mb-20 flex w-fit max-w-[100vw] items-center justify-around rounded bg-red-light px-3 py-2 text-sm font-normal text-black-key sm:p-4 md:mx-auto {statusToast?.class ||
+				''}"
+		>
+			<WMSIcon name="red-exclamation" width={36} height={36} />
+			<div class="ml-2 sm:pr-10">{statusToast?.message}</div>
+		</div>
+	{/if}
+
 	{#each toastQueue as toast, index (index)}
 		<div
 			in:fly={{ y: 100, duration: 1000 }}

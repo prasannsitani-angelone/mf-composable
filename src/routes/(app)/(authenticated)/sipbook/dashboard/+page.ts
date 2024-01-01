@@ -15,8 +15,11 @@ export const load = (async ({ fetch, depends }) => {
 		if (res.ok) {
 			sipBookData = res?.data?.data || [];
 			return sipBookData;
+		} else if (res?.status < 500) {
+			return [];
+		} else {
+			return new Error('Something Went Wrong');
 		}
-		return [];
 	};
 	depends('app:sipbook');
 

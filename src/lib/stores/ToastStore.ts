@@ -3,10 +3,12 @@ import type { ToastItem } from '$lib/types/IToast';
 
 interface IToastStore {
 	toastQueue: ToastItem[] | [];
+	statusToast?: ToastItem | null;
 }
 
 const initalStore: IToastStore = {
-	toastQueue: []
+	toastQueue: [],
+	statusToast: null
 };
 
 function CreateStore() {
@@ -21,6 +23,14 @@ function CreateStore() {
 				return {
 					...prev,
 					toastQueue: [...prev.toastQueue, item]
+				};
+			});
+		},
+		updateStatusToast: (item: ToastItem | null) => {
+			return update((prev: IToastStore) => {
+				return {
+					...prev,
+					statusToast: item
 				};
 			});
 		},

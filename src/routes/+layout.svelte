@@ -29,6 +29,7 @@
 	import LazyComponent from '$components/LazyComponent.svelte';
 	import { hydratedStore } from '$lib/stores/AppHydratedStore';
 	import { urlStore } from '$lib/stores/UrlStore';
+	import { toastStore } from '$lib/stores/ToastStore';
 	export let data;
 	interface WebVitals {
 		type: string;
@@ -98,6 +99,27 @@
 				params: [...webVitals, connectionDetails]
 			});
 		}
+	};
+
+	const updateStatusToast = () => {
+		toastStore.updateStatusToast({
+			type: 'STATUS',
+			message: 'You are not connected to the internet. Please check your connection and retry'
+		});
+
+		setTimeout(() => {
+			toastStore.updateStatusToast(null);
+		}, 4000);
+	};
+
+	const handleInternetStatus = () => {
+		window.addEventListener('offline', () => {
+			updateStatusToast();
+		});
+
+		window.addEventListener('online', () => {
+			toastStore.updateStatusToast(null);
+		});
 	};
 
 	onMount(async () => {
@@ -213,6 +235,8 @@
 		ttfbObserver.observe({ type: 'navigation', buffered: true });
 
 		browserDetails = isBrowserSupported();
+
+		handleInternetStatus();
 	});
 	const onVisibilityChange = (e: Event) => {
 		if (e?.target?.visibilityState === 'hidden') {

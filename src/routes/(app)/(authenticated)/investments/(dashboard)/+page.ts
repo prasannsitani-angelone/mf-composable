@@ -21,8 +21,10 @@ export const load = (async ({ fetch, url }) => {
 			return {
 				...investmentData
 			};
-		} else {
+		} else if (res?.status < 500) {
 			return {};
+		} else {
+			return new Error('Something Went Wrong');
 		}
 	};
 

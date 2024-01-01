@@ -50,7 +50,7 @@
 				? { ...scheme, cartItemId: addedItemCartId }
 				: { ...scheme };
 			cartStore.updateCartItems(dataForStoreUpdate);
-			// Show Suceess Toast on successful addition
+			// Show Success Toast on successful addition
 			toastStore.updateToastQueue({
 				type: 'SUCCESS',
 				message: 'Mutual Fund added to cart',
@@ -61,11 +61,18 @@
 				}
 			});
 		} else {
-			// Show Error Toast on successful addition
-			toastStore.updateToastQueue({
-				type: 'ERROR',
-				message: 'Mutual Fund could not be added to cart due to technical error'
-			});
+			// Show Error Status Toast on Failure
+			if (navigator?.onLine) {
+				toastStore.updateStatusToast({
+					type: 'STATUS',
+					message: 'Something went wrong. Please try again in some time'
+				});
+			} else {
+				toastStore.updateStatusToast({
+					type: 'STATUS',
+					message: 'You are not connected to the internet. Please check your connection and retry'
+				});
+			}
 		}
 	};
 

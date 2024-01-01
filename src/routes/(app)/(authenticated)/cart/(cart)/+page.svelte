@@ -11,6 +11,7 @@
 	import { createCartEventMetaDataAnalytics } from './utils';
 
 	import type { PageData } from './$types';
+	import SomethingWentWrong from '$components/Error/SomethingWentWrong.svelte';
 
 	function updateCartStore(cartItems: CartEntity[]) {
 		cartStore.updateStore(cartItems);
@@ -34,7 +35,9 @@
 		{#await data.api.cart}
 			<TableSkeleton />
 		{:then cart}
-			{#if cart.data && Array.isArray(cart.data) && cart.data.length > 0}
+			{#if cart instanceof Error}
+				<SomethingWentWrong />
+			{:else if cart.data && Array.isArray(cart.data) && cart.data.length > 0}
 				<CartGridTable cartItems={cart.data || []} />
 			{:else}
 				<EmptyCartScreen />

@@ -3,6 +3,7 @@ import { SvelteKitPWA } from '@vite-pwa/sveltekit';
 
 import type { UserConfig } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
+
 const config: UserConfig = {
 	plugins: [
 		sveltekit(),

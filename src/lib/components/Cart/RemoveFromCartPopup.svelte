@@ -37,10 +37,17 @@
 			});
 			invalidate('app:cartdata');
 		} else {
-			toastStore.updateToastQueue({
-				type: 'ERROR',
-				message: 'Mutual Fund could not be removed from cart due to technical error'
-			});
+			if (navigator?.onLine) {
+				toastStore.updateStatusToast({
+					type: 'STATUS',
+					message: 'Something went wrong. Please try again in some time'
+				});
+			} else {
+				toastStore.updateStatusToast({
+					type: 'STATUS',
+					message: 'You are not connected to the internet. Please check your connection and retry'
+				});
+			}
 		}
 	};
 	onMount(() => {

@@ -57,13 +57,16 @@ export const load = (async ({ fetch }) => {
 				completedOrders,
 				ordersSummary
 			};
+		} else if (ordersResponse?.status < 500) {
+			return {
+				inProgressOrders: [],
+				failedOrders: [],
+				completedOrders: [],
+				ordersSummary
+			};
+		} else {
+			return new Error('Something Went Wrong');
 		}
-		return {
-			inProgressOrders: [],
-			failedOrders: [],
-			completedOrders: [],
-			ordersSummary
-		};
 	};
 
 	const faqParams = encodeObject({
