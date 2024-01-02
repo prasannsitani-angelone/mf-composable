@@ -66,6 +66,7 @@
 	import EditSip from './EditSip.svelte';
 	import { sipBookStore } from '$lib/stores/SipBookStore';
 	import clickOutside from '$lib/utils/useClickOutside';
+	import { decodeToObject } from '$lib/utils/helpers/params';
 
 	$: bankDetails = $profileStore?.bankDetails;
 	let showCancelSipModal = false;
@@ -92,6 +93,9 @@
 	$: profileData = $page?.data?.profile;
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 	$: isTablet = $page?.data?.deviceType?.isTablet;
+
+	const params = $page.url.searchParams.get('params') || '';
+	const { isExternal = false, showEditSip = false } = decodeToObject(params || '');
 
 	const bankAccNumToLogoMap = () => {
 		const accNumToLogoMap = {};
@@ -390,6 +394,9 @@
 	};
 
 	onMount(() => {
+		if (isExternal) {
+			showEditSipModal = showEditSip;
+		}
 		scrollToTop();
 		sipBookStore.updateStore({ showdropdown: false });
 	});

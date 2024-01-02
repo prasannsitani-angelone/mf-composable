@@ -1,5 +1,6 @@
 <script lang="ts">
 	import SchemeLogo from '$components/SchemeLogo.svelte';
+	import { v4 as uuidv4 } from 'uuid';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import CalendarSmallIcon from '$lib/images/icons/CalendarSmallIcon.svelte';
 	import LeftArrowIcon from '$lib/images/icons/LeftArrowIcon.svelte';
@@ -35,6 +36,8 @@
 		editSipConfirmClickAnalytics,
 		editSipConfirmScreenAnalytics
 	} from '$lib/analytics/sipbook/sipbook';
+	import { page } from '$app/stores';
+	import { decodeToObject } from '$lib/utils/helpers/params';
 
 	let editSipShowModal: () => void = () => undefined;
 	let nextSipDueDate: number;
@@ -80,6 +83,15 @@
 	$: amountVal = amount?.length ? `₹${addCommasToAmountString(amount)}` : '';
 	$: onInputChange(amount);
 
+	const params = $page.url.searchParams.get('params') || '';
+	const {
+		isExternal = false,
+		sipAmount = '',
+		sipStartDate = '',
+		requestId = ''
+	} = decodeToObject(params || '');
+
+	const uuid = uuidv4();
 	const navigateToSipDashboardUrl = async () => {
 		editSipDoneAnalytics();
 		goto(`${base}/sipbook/dashboard`);
@@ -103,6 +115,12 @@
 		return schemeData;
 	};
 	onMount(async () => {
+		if (isExternal) {
+			amount = sipAmount;
+			calendarDate = new Date(sipStartDate)?.getDate();
+			calendarMonth = new Date(sipStartDate)?.toLocaleString('default', { month: 'short' });
+			calendarYear = new Date(sipStartDate)?.getFullYear();
+		}
 		await getSchemeData(isin, schemeCode);
 		if (isMobile || isTablet) {
 			handleAmountInputFocus();
@@ -256,6 +274,9 @@
 		isLoading = true;
 		const response = await useFetch(url, {
 			method: 'PATCH',
+			headers: {
+				'X-Request-Id': isExternal && requestId ? requestId : uuid
+			},
 			body: JSON.stringify({
 				amount: stringToFloat(amount),
 				action: 'MODIFY_SIP',
