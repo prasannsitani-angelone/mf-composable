@@ -5,6 +5,8 @@ import type { PageLoad } from './$types';
 import type { ISipBookData } from '$lib/types/ISipType';
 import { encodeObject } from '$lib/utils/helpers/params';
 import { faqsIconClick } from '$lib/analytics/faqs/faqs';
+import { getEmandateDataFunc } from '$components/Payment/api';
+import type { MandateWithBankDetails } from '$lib/types/IEmandate';
 
 export const load = (async ({ fetch, depends }) => {
 	let sipBookData: ISipBookData | null = null;
@@ -34,6 +36,18 @@ export const load = (async ({ fetch, depends }) => {
 		});
 	};
 
+	const getMandateData = async (params) => {
+		const { amount, sipDate } = params || {};
+		let mandateList: MandateWithBankDetails[] = [];
+		const emandateResponse = await getEmandateDataFunc({ amount, sipDate });
+		const getAllMandates = (madateMap: { [propKey: string]: MandateWithBankDetails }) => {
+			const all = (Object.values(madateMap) || []).flat();
+			return all;
+		};
+		mandateList = getAllMandates(emandateResponse?.data);
+		return mandateList;
+	};
+
 	return {
 		layoutConfig: {
 			title: 'SIPs',
@@ -46,7 +60,9 @@ export const load = (async ({ fetch, depends }) => {
 		},
 		sipBookData: sipBookData,
 		api: {
-			getSipBookData: browser ? getSipBookData() : await getSipBookData()
+			getSipBookData: browser ? getSipBookData() : await getSipBookData(),
+			getMandates: async (params) =>
+				browser ? getMandateData(params) : await getMandateData(params)
 		}
 	};
 }) satisfies PageLoad;

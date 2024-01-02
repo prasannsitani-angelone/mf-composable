@@ -11,16 +11,17 @@
 	const autoPayClick = () => {
 		dispatch('autoPayClick', { amount });
 	};
+
+	export let heading = 'Automate all future instalments';
+	export let description = 'Automating SIP is easier than ever.\nSet it up in just 2 clicks.';
 </script>
 
 <article
 	class="mb-3 mt-1 flex flex-row items-center rounded-lg bg-white p-4 py-6 shadow-csm {$$props.class}"
 >
 	<div class="flex flex-1 flex-col">
-		<p class="mb-2 text-sm font-medium text-black-title">Automate all future instalments</p>
-		<p class="mb-4 text-xs text-black-title">
-			Automating SIP is easier than ever.<br />Set it up in just 2 clicks.
-		</p>
+		<p class="mb-2 text-sm font-medium text-black-title">{heading}</p>
+		<p class="mb-4 whitespace-pre-line text-xs text-black-title">{description}</p>
 
 		<ButtonMedium size={BtnSize.SM} onClick={autoPayClick} class="w-fit text-xs">
 			{#if amount <= UPI_MANDATE_MAX_AMOUNT}

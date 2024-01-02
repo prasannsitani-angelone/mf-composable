@@ -18,7 +18,7 @@
 	import { getDateTimeString } from '$lib/utils/helpers/date';
 	import { format } from 'date-fns';
 	import type { INudge } from '$lib/types/INudge';
-	import { goto } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
 	import { base } from '$app/paths';
 	import SipBookAutoPayNudge from '$components/AutopaySetupTile/SipBookAutoPayNudge.svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
@@ -28,6 +28,11 @@
 	import ClevertapNudgeComponent from '$components/clevertap/ClevertapNudgeComponent.svelte';
 	import Clevertap from '$lib/utils/Clevertap';
 	import { page } from '$app/stores';
+	import DiscoverFundsNudge from '$components/Nudge/DiscoverFundsNudge.svelte';
+	import AutopaySelectionPopup from '$components/AutopaySelectionPopup.svelte';
+	import type { MandateWithBankDetails } from '$lib/types/IEmandate';
+	import { toastStore } from '$lib/stores/ToastStore';
+	import WmsIcon from '$components/WMSIcon.svelte';
 
 	const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips`;
 	let showInactiveSipsCta = false;
@@ -170,6 +175,74 @@
 	const handleViewReportCtaClick = () => {
 		sipScoreViewDetailsCtaClickAnalytics();
 	};
+
+	let mandateList: MandateWithBankDetails[] = [];
+	let selectedMandate: MandateWithBankDetails;
+	let bankPopupVisible = false;
+	let selectedSip: ISip;
+	let showAutopaySelectionLoader = false;
+
+	const createMandateWithBankList = async () => {
+		let mandateList: MandateWithBankDetails[] = [];
+
+		mandateList = await data?.api?.getMandates({
+			amount: selectedSip?.installmentAmount,
+			sipDate: new Date(selectedSip.nextSipDueDate)
+		});
+
+		selectedMandate = mandateList.find((mandate) => {
+			return selectedSip.mandateRefId === mandate.mandateId;
+		});
+
+		return mandateList;
+	};
+
+	const showAutopaySelectionPopup = async (sip: ISip) => {
+		selectedSip = sip;
+		mandateList = await createMandateWithBankList();
+		bankPopupVisible = true;
+	};
+
+	const hideAutopaySelectionPopup = () => {
+		bankPopupVisible = false;
+	};
+
+	const orderPurchasePatchFunc = async (sipData: ISip, selected: MandateWithBankDetails) => {
+		const emandateId = selected?.mandateId;
+		const mandateAmount = selected?.amount;
+
+		showAutopaySelectionLoader = true;
+		try {
+			const url = `${PUBLIC_MF_CORE_BASE_URL}/sips/bulk`;
+			const res = await useFetch(url, {
+				method: 'PATCH',
+				body: JSON.stringify({
+					emandateId,
+					mandateAmount
+				})
+			});
+			showAutopaySelectionLoader = false;
+			hideAutopaySelectionPopup();
+			if (res.data?.status === 'success') {
+				toastStore.updateToastQueue({
+					type: 'SUCCESS',
+					message: `Autopay Linked.`,
+					class: '!justify-start'
+				});
+				await invalidate(`app:sipbook`);
+			} else {
+				toastStore.updateToastQueue({
+					type: 'SUCCESS',
+					message: `Unable to link autopay. Try again after sometime.`,
+					class: '!justify-start'
+				});
+			}
+		} catch (e) {
+			return;
+		} finally {
+			showAutopaySelectionLoader = false;
+		}
+	};
 </script>
 
 <section>
@@ -203,10 +276,18 @@
 							{#each nudgeData || [] as nudge, idx (idx)}
 								{#if nudge?.nudgesType === 'mandate'}
 									<SipBookAutoPayNudge
+										heading={nudge.heading}
+										description={nudge.description}
 										amount={nudge.amount}
 										on:autoPayClick={() => {
 											navigateToEMandate(nudge.amount);
 										}}
+									/>
+								{:else if nudge?.nudgesType === 'link_mandate'}
+									<DiscoverFundsNudge
+										{nudge}
+										onAction={() => showAutopaySelectionPopup(sip)}
+										class="mb-2 sm:mt-4"
 									/>
 								{/if}
 							{/each}
@@ -223,10 +304,19 @@
 							{#each nudgeData || [] as nudge, idx (idx)}
 								{#if nudge?.nudgesType === 'mandate'}
 									<SipBookAutoPayNudge
+										heading={nudge.heading}
+										description={nudge.description}
 										amount={nudge.amount}
 										on:autoPayClick={() => {
 											navigateToEMandate(nudge.amount);
 										}}
+									/>
+								{:else if nudge?.nudgesType === 'link_mandate'}
+									{'normalSips'}
+									<DiscoverFundsNudge
+										{nudge}
+										onAction={() => showAutopaySelectionPopup(sip)}
+										class="mb-2 sm:mt-4"
 									/>
 								{/if}
 							{/each}
@@ -267,3 +357,23 @@
 		/>
 	{/if}
 </section>
+
+{#if bankPopupVisible}
+	<AutopaySelectionPopup
+		{mandateList}
+		{selectedMandate}
+		onMandateChange={async (choosenMandate) => {
+			await orderPurchasePatchFunc(selectedSip, choosenMandate);
+		}}
+		onClose={hideAutopaySelectionPopup}
+		class=" relative"
+	>
+		<svelte:fragment slot="loader">
+			{#if showAutopaySelectionLoader}
+				<div class="absolute inset-0 flex items-center justify-center">
+					<WmsIcon class=" !h-24 !w-24" name="loading-indicator" />
+				</div>
+			{/if}
+		</svelte:fragment>
+	</AutopaySelectionPopup>
+{/if}

@@ -39,7 +39,7 @@
 			<div class="text-lg font-normal text-black-title">
 				{nudge?.heading || ''}
 			</div>
-			<div class="text-sm text-grey-body">
+			<div class="whitespace-pre-line text-sm text-grey-body">
 				{nudge?.description || ''}
 			</div>
 		</div>
