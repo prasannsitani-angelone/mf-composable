@@ -126,8 +126,8 @@
 		);
 	};
 	const gotoExploreMore = async () => {
-		schemeScreenerStore?.reinitializeStore();
-		await goto(`${base}/filters/items?subCategory=ELSS`);
+		schemeScreenerStore?.getFiltersResponse('subCategory=ELSS');
+		await goto(`${base}/filters/items`);
 	};
 
 	export { taxationData };

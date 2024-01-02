@@ -29,12 +29,14 @@ const getEmandateData = async (
 	sipDate: Date,
 	amount: number,
 	source?: string,
+	mandateType?: string,
+	mandateFor?: string,
 	status = 'success'
 ) => {
 	const date = `${sipDate.getFullYear()}-${sipDate.toLocaleString('default', {
 		month: '2-digit'
 	})}-${sipDate.toLocaleString('default', { day: '2-digit' })}`;
-	const url = `${PUBLIC_MF_CORE_BASE_URL}/mandates?startDate=${date}&status=${status}`;
+	const url = `${PUBLIC_MF_CORE_BASE_URL}/mandates?startDate=${date}&status=${status}&mandateType=${mandateType}&mandateFor=${mandateFor}`;
 	try {
 		const response = await useFetch(url);
 		const returnResponse = {
