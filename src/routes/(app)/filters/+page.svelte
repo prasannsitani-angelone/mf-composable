@@ -32,7 +32,7 @@
 		selectedParentFilterName = filterData?.filters[selectedParentFilterIndex]?.label || '';
 	};
 
-	$: appliedFilterCount = filterData?.filtersCount;
+	$: appliedFilterCount = filterData?.partiallySelectedTopLevelNodes;
 
 	const redirectToSchemeResults = () => {
 		goto(`${base}/filters/items`, { replaceState: true });
@@ -70,7 +70,7 @@
 
 	const updateFiltersDataFromStore = () => {
 		filterData = schemeScreenerStore?.getData();
-		appliedFilterCount = filterData?.filtersCount;
+		appliedFilterCount = filterData?.partiallySelectedTopLevelNodes;
 	};
 
 	const handleOptionChange = (clickedFilterData) => {
@@ -86,7 +86,9 @@
 			filterData,
 			rangeFilterData,
 			rangeFilterData?.minSelectedVal,
-			rangeFilterData?.maxSelectedVal
+			rangeFilterData?.maxSelectedVal,
+			rangeFilterData?.mapItemIndex,
+			rangeFilterData?.mapType
 		);
 	};
 
@@ -115,9 +117,7 @@
 							{filter?.label}
 						</span>
 						{#if filter?.count}
-							<span class="ml-1 rounded bg-purple-background px-1 text-xs font-medium"
-								>{filter?.count || ''}</span
-							>
+							<div class="ml-0.5 inline-flex h-1.5 w-1.5 rounded-full bg-blue-primary" />
 						{/if}
 					</div>
 				</div>

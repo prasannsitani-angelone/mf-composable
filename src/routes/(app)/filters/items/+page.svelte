@@ -36,7 +36,9 @@
 			filterData,
 			rangeFilterData,
 			rangeFilterData?.minSelectedVal,
-			rangeFilterData?.maxSelectedVal
+			rangeFilterData?.maxSelectedVal,
+			rangeFilterData?.mapItemIndex,
+			rangeFilterData?.mapType
 		);
 		schemeScreenerStore.applyFilters(filterData);
 	}, 300);

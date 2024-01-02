@@ -6,6 +6,7 @@ const initalStore = {
 		quickFilters: [],
 		filters: [],
 		filtersCount: 0,
+		partiallySelectedTopLevelNodes: 0,
 		queryPath: ''
 	},
 	error: {},
@@ -31,9 +32,9 @@ function restructureFiltersData(data, previousPath = [], type = '') {
 		if (type === 'range') {
 			item.minSelectedVal = item.min;
 			item.maxSelectedVal = item.max;
-		} else {
-			item.selected = false;
+			resetMapFiltersUnderRangeSelector(item);
 		}
+		item.selected = false;
 		item.paths = [...previousPath, item.label];
 		if (item.options) {
 			item.count = 0;
@@ -62,6 +63,7 @@ function restructureData(data) {
 	}
 	data.filtersCount = 0;
 	data.queryPath = '';
+	data.partiallySelectedTopLevelNodes = 0;
 }
 
 // filters updation
@@ -105,17 +107,68 @@ function multiFilterUpdateLogic(paths, filters, index: number, value: boolean) {
 	}
 }
 
-function rangeFilterUpdateLogic(paths, filters, index: number, min: number, max: number) {
+function resetMapFiltersUnderRangeSelector(filter) {
+	const mapItemsArr = filter?.mapItems;
+	mapItemsArr?.forEach((mapItems) => {
+		mapItems?.items?.forEach((item) => {
+			item.selected = false;
+		});
+	});
+}
+
+function selectMapFiltersUnderRangeSelector(filter, mapItemIndex: number, mapType: string) {
+	if (mapItemIndex >= 0 && mapType) {
+		for (let i = 0; i < filter?.mapItems?.length; i++) {
+			const mapItems = filter?.mapItems?.[i];
+			if (mapItems.type === mapType) {
+				mapItems.items[mapItemIndex].selected = true;
+			}
+		}
+	}
+}
+
+function rangeFilterUpdateLogic(
+	paths,
+	filters,
+	index: number,
+	min: number,
+	max: number,
+	mapItemIndex?: number,
+	mapType?: string
+) {
 	for (let i = 0; i < filters.length; i++) {
 		const filter = filters[i];
 		if (filter.label === paths[index]) {
 			if (index + 1 < paths.length) {
-				rangeFilterUpdateLogic(paths, filter.options, index + 1, min, max);
+				const count = rangeFilterUpdateLogic(
+					paths,
+					filter.options,
+					index + 1,
+					min,
+					max,
+					mapItemIndex,
+					mapType
+				);
+				filter.count += count;
+				filter.selected = filter.totalNodes === filter.count ? true : false;
+				return count;
 			} else {
+				resetMapFiltersUnderRangeSelector(filter);
+				selectMapFiltersUnderRangeSelector(filter, mapItemIndex, mapType);
 				filter.minSelectedVal = min;
 				filter.maxSelectedVal = max;
+				if (!filter.selected && (filter.max !== max || filter.min !== min)) {
+					filter.selected = true;
+					filter.count = 1;
+					return 1;
+				} else if (filter.selected && filter.max === max && filter.min === min) {
+					filter.selected = false;
+					filter.count = 0;
+					return -1;
+				} else {
+					return 0;
+				}
 			}
-			return;
 		}
 	}
 }
@@ -244,6 +297,14 @@ function updateFiltersFromQuery(query: string, data) {
 	data.filtersCount = totalCount;
 }
 
+function getCountOfTopLevelNodesPartiallySelected(filters): number {
+	let count = 0;
+	filters.forEach((filter) => {
+		count += filter.count > 0 ? 1 : 0;
+	});
+	return count;
+}
+
 // quickFilter
 function updateQuickFilters(items, filters, type = '') {
 	let totalCount = 0;
@@ -291,10 +352,16 @@ function CreateStore() {
 			if (queryPath) {
 				updateFiltersFromQuery(queryPath, data);
 				data.queryPath = generateQuery(data.filters, '', '');
+				data.partiallySelectedTopLevelNodes = getCountOfTopLevelNodesPartiallySelected(
+					data.filters
+				);
 			} else {
 				// initial filters in case query params didn't come
 				data.filtersCount = updateQuickFilters(initialFilter, data.filters);
 				data.queryPath = generateQuery(data.filters, '', '');
+				data.partiallySelectedTopLevelNodes = getCountOfTopLevelNodesPartiallySelected(
+					data.filters
+				);
 			}
 			updateStore({
 				isLoading: false,
@@ -334,6 +401,9 @@ function CreateStore() {
 		getFiltersCount: function () {
 			return state.data?.filtersCount;
 		},
+		getPartiallySelectedTopLevelNodes: function () {
+			return state.data?.partiallySelectedTopLevelNodes;
+		},
 		getData: function () {
 			return JSON.parse(JSON.stringify(state.data));
 		},
@@ -346,13 +416,35 @@ function CreateStore() {
 			restructureQuickFiltersData(newData.quickFilters);
 			const count = multiFilterUpdateLogic(item.paths, newData.filters, 0, value);
 			newData.filtersCount += count;
+			newData.partiallySelectedTopLevelNodes = getCountOfTopLevelNodesPartiallySelected(
+				newData.filters
+			);
 			return newData;
 		},
 		// using as utils for page local state
-		updateRangeFilter: function (data, item, min: number, max: number) {
+		updateRangeFilter: function (
+			data,
+			item,
+			min: number,
+			max: number,
+			mapItemIndex?: number,
+			mapType?: string
+		) {
 			const newData = JSON.parse(JSON.stringify(data));
 			restructureQuickFiltersData(newData.quickFilters);
-			rangeFilterUpdateLogic(item.paths, newData.filters, 0, min, max);
+			const count = rangeFilterUpdateLogic(
+				item.paths,
+				newData.filters,
+				0,
+				min,
+				max,
+				mapItemIndex,
+				mapType
+			);
+			newData.filtersCount += count;
+			newData.partiallySelectedTopLevelNodes = getCountOfTopLevelNodesPartiallySelected(
+				newData.filters
+			);
 			return newData;
 		},
 		// using this as completly replacing store's data
@@ -374,6 +466,9 @@ function CreateStore() {
 			});
 			state.data.filtersCount = updateQuickFilters(selectedQuickFilterValues, state.data.filters);
 			state.data.queryPath = generateQuery(state.data.filters, '', '');
+			state.data.partiallySelectedTopLevelNodes = getCountOfTopLevelNodesPartiallySelected(
+				state.data.filters
+			);
 			updateStore({
 				data: state.data
 			});
@@ -388,6 +483,9 @@ function CreateStore() {
 			restructureData(state.data);
 			state.data.filtersCount = updateQuickFilters(initialFilter, state.data.filters);
 			state.data.queryPath = generateQuery(state.data.filters, '', '');
+			state.data.partiallySelectedTopLevelNodes = getCountOfTopLevelNodesPartiallySelected(
+				state.data.filters
+			);
 			updateStore({
 				data: state.data
 			});

@@ -1,3 +1,14 @@
+export interface MapItem {
+	label: string;
+	max: number;
+	min: number;
+}
+
+export interface MapItems {
+	items: MapItem[];
+	type: string;
+}
+
 export interface FilterOption {
 	label: string;
 	options?: FilterOption[];
@@ -11,6 +22,9 @@ export interface FilterOption {
 	count?: number;
 	search?: boolean;
 	paths?: string[];
+	mapItems?: MapItems[];
+	mapItemIndex?: number;
+	mapType?: string;
 }
 
 export interface FilterData {
@@ -18,4 +32,5 @@ export interface FilterData {
 	filters: FilterOption[];
 	filtersCount?: number;
 	queryPath?: string;
+	partiallySelectedTopLevelNodes?: number;
 }

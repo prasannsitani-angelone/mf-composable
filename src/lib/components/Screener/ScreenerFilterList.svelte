@@ -55,6 +55,10 @@
 		scrollElement = document.getElementById('main-container');
 	});
 
+	const resetStore = () => {
+		schemeScreenerStore.resetStore();
+	};
+
 	$: screenedSchemes = [];
 </script>
 
@@ -84,6 +88,7 @@
 			<div class="mt-3 w-64 text-center text-xs text-black-bolder">
 				No mutual funds found for selected filters. Please change filters or use quick filters
 			</div>
+			<Button class="!min-h-8 mt-5 !h-9" on:click={resetStore}>Reset Filters</Button>
 		</section>
 	{/if}
 	<section

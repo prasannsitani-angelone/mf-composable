@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Button from '$components/Button.svelte';
 	import type { FilterOption } from '$lib/types/ScreenerFilters';
 	import Slider from '@bulatdashiev/svelte-slider';
 	import { createEventDispatcher } from 'svelte';
@@ -32,6 +33,15 @@
 		}
 	};
 
+	const onMappedItemClick = (mapItem, index) => {
+		const filterObj = { ...filter };
+		filterObj.minSelectedVal = mapItem.min;
+		filterObj.maxSelectedVal = mapItem.max;
+		filterObj.mapItemIndex = index;
+		filterObj.mapType = 'buttons';
+		dispatch('rangeChange', filterObj);
+	};
+
 	$: rangeSelection, onRangeSelection();
 </script>
 
@@ -49,6 +59,17 @@
 			</div>
 		</Slider>
 	</div>
+	{#if filter?.mapItems && filter.mapItems.length > 0 && filter.mapItems[0].type === 'buttons'}
+		<div class="mt-5 flex flex-wrap gap-2">
+			{#each filter.mapItems[0].items as mapItem, index (index)}
+				<Button
+					variant={mapItem.selected ? 'contained' : 'outlined'}
+					class="!min-h-6 !h-6 !px-2"
+					onClick={() => onMappedItemClick(mapItem, index)}>{mapItem.label}</Button
+				>
+			{/each}
+		</div>
+	{/if}
 </article>
 
 <style>
