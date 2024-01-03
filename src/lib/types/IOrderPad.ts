@@ -24,4 +24,5 @@ export interface decodedParamsTypes {
 	folioNumber?: string;
 	sipInstalmentId?: string;
 	isAdditionalFlag?: boolean;
+	hideAutopayMethod?: boolean;
 }

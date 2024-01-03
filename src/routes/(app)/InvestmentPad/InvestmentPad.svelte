@@ -172,7 +172,8 @@
 		mandateId,
 		folioNumber,
 		sipInstalmentId,
-		isAdditionalFlag
+		isAdditionalFlag,
+		hideAutopayMethod
 	} = params || {};
 
 	const os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
@@ -2265,7 +2266,7 @@
 			</div>
 		</div>
 		<div slot="autopayMethods" class="my-2 max-h-[35%] w-full overflow-y-scroll">
-			{#if mandateData?.length && activeTab === 'SIP'}
+			{#if mandateData?.length && activeTab === 'SIP' && !hideAutopayMethod}
 				<AutopayMethod
 					selectedMode={'AUTOPAY'}
 					onSelect={onPaymentModeSelect}
