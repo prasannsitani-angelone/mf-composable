@@ -209,7 +209,7 @@
 
 	const orderPurchasePatchFunc = async (sipData: ISip, selected: MandateWithBankDetails) => {
 		const emandateId = selected?.mandateId;
-		const mandateAmount = selected?.amount;
+		const mandateAmount = selected?.availableAmount;
 
 		showAutopaySelectionLoader = true;
 		try {
