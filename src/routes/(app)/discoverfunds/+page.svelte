@@ -27,7 +27,7 @@
 	import { logoutAttemptStore } from '$lib/stores/LogoutAttemptStore';
 	import StoriesComponent from '$components/Stories/StoriesComponent.svelte';
 	import Button from '$components/Button.svelte';
-	import { SEO } from 'svelte-components';
+	import { SEO, WMSIcon } from 'svelte-components';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 	import { onDestroy, onMount, tick } from 'svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
@@ -50,6 +50,8 @@
 	import { schemeScreenerStore } from '$lib/stores/SchemeScreenerStore';
 	import Screener from '$lib/components/Screener/ScreenerHome.svelte';
 	import TutorialNudge from '$components/Tutorial/nudge/TutorialNudge.svelte';
+	import type { INotificationSummary } from '$lib/types/INotifications';
+	import { base } from '$app/paths';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -67,6 +69,7 @@
 	let elementOnce: HTMLElement;
 	let intersectOnce: boolean;
 	let showExitNudge = false;
+	let notifData: INotificationSummary;
 
 	const getNudgeData = async () => {
 		let nudgesData: NudgeDataType = {
@@ -83,6 +86,23 @@
 			return nudgesData;
 		}
 		return nudgesData;
+	};
+	const getAllNotificationsData = async () => {
+		notifData = {
+			summary: [],
+			totalCount: 0
+		};
+
+		if (!$page.data.isGuest) {
+			const url = `${PUBLIC_MF_CORE_BASE_URL}/notifications?summary=true`;
+			const res = await useFetch(url, {}, fetch);
+			if (res.ok) {
+				notifData = res?.data?.data;
+				return notifData;
+			}
+			return notifData;
+		}
+		return notifData;
 	};
 	const setSipNudgesData = (nudgeData: NudgeDataType) => {
 		sipPaymentNudges = [];
@@ -243,7 +263,9 @@
 			setRetryPaymentNudgesData(nudgeData);
 			setOtherNudgeDataTypes();
 		});
-
+		getAllNotificationsData().then((data) => {
+			notifData = data;
+		});
 		exitNudgeStore.subscribe((store) => {
 			showExitNudge = store.showExitNudge;
 		});
@@ -333,6 +355,31 @@
 		/>
 	{/if}
 
+	{#if notifData?.totalCount > 0}
+		<div class="mx-1 mb-2 mt-4 rounded-md bg-yellow-background p-2 shadow-lg">
+			<div class="flex items-center justify-between">
+				<div class="flex items-center">
+					<WMSIcon name="exclamation-circle-solid" />
+					<div class="px-4 text-black-key">
+						<p class="text-sm font-medium">Action Required</p>
+						<p class="text-xs">
+							{notifData?.summary?.length > 1
+								? `${notifData?.totalCount} items require your attention`
+								: notifData?.summary[0].type === 'instalment_failed_sips'
+								? `${notifData?.summary[0].count} sip payments missed`
+								: notifData?.summary[0].type === 'payment_failed_orders'
+								? `${notifData?.summary[0].count} failed orders recently`
+								: `${notifData?.summary[0].count} sip payments are due`}
+						</p>
+					</div>
+				</div>
+				<div>
+					<Button size="sm" onClick={() => goto(`${base}/pendingActions`)}>ACT NOW</Button>
+				</div>
+			</div>
+		</div>
+	{/if}
+
 	{#if userEducationNudge && deviceType?.isMobile}
 		<TutorialNudge
 			title={userEducationNudge.heading}
@@ -385,49 +432,6 @@
 	>
 		<CategoriesComponent categories={data?.searchDashboardData?.categories} />
 	</article>
-
-	<!-- 6. Sip Nudges -->
-	<LazyComponent
-		sip={formattedSipNudgeData}
-		sipCount={sipPaymentNudges?.length}
-		class="row-start-{placementMapping?.sipNudges?.rowStart} col-start-{placementMapping?.sipNudges
-			?.columnStart} !mb-0 sm:hidden {placementMapping?.sipNudges?.rowStart > 1 ? '!mt-2' : ''}"
-		when={deviceType?.isMobile && sipPaymentNudges?.length}
-		component={async () => await import('../(authenticated)/sipbook/dashboard/SipCard.svelte')}
-	/>
-
-	<!-- 7. Other Nudges - Retry Payment Nudge & Others -->
-	{#if retryPaymentNudges?.length}
-		<div
-			class="row-start-{placementMapping?.failedOrdersNudge?.rowStart} col-start-{placementMapping
-				?.failedOrdersNudge?.columnStart} {placementMapping?.failedOrdersNudge?.rowStart > 1
-				? '!my-0'
-				: '!-my-2'}"
-		>
-			<LazyComponent
-				order={formattedRetryPaymentNudgeData}
-				orderCount={retryPaymentNudges?.length}
-				when={retryPaymentNudges?.length > 0}
-				component={async () => await import('./FailedOrdersNudge.svelte')}
-			/>
-		</div>
-	{/if}
-
-	<!-- SIP payment all month nudge -->
-	{#if sipPaymentMonthNudges?.length}
-		<div
-			class="row-start-{placementMapping?.sipPaymentMonthNudge
-				?.rowStart} col-start-{placementMapping?.sipPaymentMonthNudge
-				?.columnStart} {placementMapping?.sipPaymentMonthNudge?.rowStart > 1 ? '!my-0' : '!-my-2'}"
-		>
-			<LazyComponent
-				sip={formattedSipPaymentMonthNudgeData}
-				sipCount={sipPaymentMonthNudges?.length}
-				when={sipPaymentMonthNudges?.length > 0}
-				component={async () => await import('./SipPaymentMonthNudge.svelte')}
-			/>
-		</div>
-	{/if}
 
 	<!-- 8. Start 4 SIPs (curated) Section -->
 	<div
