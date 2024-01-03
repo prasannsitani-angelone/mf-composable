@@ -36,7 +36,7 @@
 			<TableSkeleton />
 		{:then cart}
 			{#if cart instanceof Error}
-				<SomethingWentWrong />
+				<SomethingWentWrong class="mx-0 mt-2" />
 			{:else if cart.data && Array.isArray(cart.data) && cart.data.length > 0}
 				<CartGridTable cartItems={cart.data || []} />
 			{:else}

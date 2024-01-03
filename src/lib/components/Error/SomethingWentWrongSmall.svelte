@@ -1,9 +1,34 @@
 <script lang="ts">
+	import { toastStore } from '$lib/stores/ToastStore';
+	import { onMount } from 'svelte';
 	import { BtnVariant, Button, WMSIcon } from 'svelte-components';
 
 	const handleRetryClick = () => {
 		window?.location?.reload();
 	};
+
+	let statusTimeout;
+
+	const updateStatusToast = () => {
+		if (statusTimeout) {
+			clearTimeout(statusTimeout);
+		}
+
+		toastStore?.updateStatusToast({
+			type: 'STATUS',
+			message: 'You are not connected to the internet. Please check your connection and retry'
+		});
+
+		statusTimeout = setTimeout(() => {
+			toastStore?.updateStatusToast(null);
+		}, 4000);
+	};
+
+	onMount(() => {
+		if (!navigator?.onLine) {
+			updateStatusToast();
+		}
+	});
 </script>
 
 <section

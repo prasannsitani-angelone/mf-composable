@@ -20,7 +20,8 @@
 </script>
 
 <section
-	class="cardHeight mt-2 flex flex-col items-center justify-center rounded-lg bg-white px-8 shadow-csm {$$props?.class}"
+	class="cardHeight mt-2 flex flex-col items-center justify-center rounded-lg bg-white px-8 shadow-csm {$$props?.class ||
+		''}"
 >
 	<slot name="icon">
 		<svelte:component this={Icon} />
