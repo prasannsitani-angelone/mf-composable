@@ -108,9 +108,9 @@
 		}
 
 		orderScreenOpenAnalytics({
-			FundName: sd?.schemeName,
-			isin: sd?.isin,
-			Amount: sd?.installmentAmount,
+			FundName: od?.schemeName,
+			isin: od?.isin,
+			Amount: isSIPOrder ? sd?.installmentAmount : od?.amount,
 			investmentType: isSIPOrder
 				? orderData?.data?.data?.firstOrder === 'N'
 					? 'SIP-installment'

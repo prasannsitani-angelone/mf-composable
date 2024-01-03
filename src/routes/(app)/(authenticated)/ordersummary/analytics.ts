@@ -1,6 +1,8 @@
 import Analytics from '$lib/utils/analytics';
 
-export const orderScreenOpenAnalytics = (eventMetaData: Record<string, any> | null) => {
+export const orderScreenOpenAnalytics = (
+	eventMetaData: Record<string, string | number | boolean | null | undefined> | null | undefined
+) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-orderSummary',
 		event_type: 'impression',
@@ -12,7 +14,9 @@ export const orderScreenOpenAnalytics = (eventMetaData: Record<string, any> | nu
 	});
 };
 
-export const goToDashboardButtonAnalytics = (eventMetaData: Record<string, any> | null) => {
+export const goToDashboardButtonAnalytics = (
+	eventMetaData: Record<string, string | number | boolean | null | undefined> | null | undefined
+) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-orderSummary',
 		event_type: 'click',
