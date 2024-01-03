@@ -1,7 +1,7 @@
 import { PUBLIC_MF_ANDROID_APN, PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 
 import type { PageLoad } from './$types';
-import type { SchemeDetails, SchemeHoldings } from '$lib/types/ISchemeDetails';
+import type { SchemeDetails, SchemeHoldings, SectorHoldings } from '$lib/types/ISchemeDetails';
 import { browser } from '$app/environment';
 import type { FundComparisons } from '$components/Scheme/types';
 import { useFetch } from '$lib/utils/useFetch';
@@ -110,6 +110,14 @@ export const load = (async ({ fetch, params, url, parent }) => {
 		return holdingData;
 	};
 
+	const getFundHoldingsBySector = async (): Promise<Array<SectorHoldings>> => {
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/sectors`;
+		const res = await useFetch(url, {}, fetch);
+		const holdingData: Array<SectorHoldings> = res.data?.sectorDetails;
+
+		return holdingData;
+	};
+
 	const getFundComparisonsData = async (): Promise<FundComparisons> => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/comparisons`;
 		const res = await useFetch(url, {}, fetch);
@@ -151,10 +159,21 @@ export const load = (async ({ fetch, params, url, parent }) => {
 				mandateData: res[1]
 			};
 		} catch (e) {
-			console.log('the errorrrrrr -- ', e);
+			return {};
 		}
 	};
 
+	const getDataforHoldings = async () => {
+		try {
+			const res = await Promise.all([getFundHoldings(), getFundHoldingsBySector()]);
+			return {
+				holdingData: res[0],
+				sectorHoldings: res[1]
+			};
+		} catch (e) {
+			console.log('the errorrrrrr -- ', e);
+		}
+	};
 	return {
 		layoutConfig: {
 			title: 'Fund Details',
@@ -168,7 +187,7 @@ export const load = (async ({ fetch, params, url, parent }) => {
 		},
 		api: {
 			schemeData: hydrate ? getSchemeData() : await getSchemeData(),
-			holdingData: hydrate ? getFundHoldings() : await getFundHoldings(),
+			holdingData: hydrate ? getDataforHoldings() : await getDataforHoldings(),
 			comparisons: hydrate ? getFundComparisonsData() : await getFundComparisonsData(),
 			dataForInvestment: hydrate ? getDataforInvestment() : await getDataforInvestment()
 		},

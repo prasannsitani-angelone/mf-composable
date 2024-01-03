@@ -90,6 +90,12 @@ export interface SchemeDetails {
 export interface SchemeHoldings {
 	companyName: string;
 	percentageHold: number;
+	sector: string;
+}
+
+export interface SectorHoldings {
+	sector: string;
+	percentage: number;
 }
 
 export interface SchemeDetailsContext {

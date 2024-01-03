@@ -195,9 +195,10 @@
 			<RiskAndRating schemeDetails={schemedata} />
 			{#if !isNFO}
 				{#await data?.api?.holdingData then fundHoldingData}
-					{#if fundHoldingData?.length > 0}
+					{#if fundHoldingData?.holdingData?.length || fundHoldingData?.sectorHoldings?.length}
 						<FundHoldings
-							{fundHoldingData}
+							fundHoldingData={fundHoldingData?.holdingData}
+							sectorData={fundHoldingData?.sectorHoldings}
 							isin={schemedata?.isin}
 							schemeName={schemedata?.schemeName}
 						/>

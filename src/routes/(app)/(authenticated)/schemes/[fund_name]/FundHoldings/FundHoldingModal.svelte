@@ -4,7 +4,10 @@
 	import type { TopHolding } from '$components/Scheme/types';
 	import { fundHoldingsInfo } from '$components/Scheme/analytics';
 	import Modal from '$components/Modal.svelte';
+	import type { SectorHoldings } from '$lib/types/ISchemeDetails';
 	let holdings: TopHolding[];
+	let sectorHoldings: SectorHoldings[];
+	let activeTab: string;
 	let isModalOpen = false;
 	let isin: string;
 	let schemeName: string;
@@ -17,7 +20,15 @@
 		});
 	}
 
-	export { isModalOpen, toggleSchemeIformationModal, holdings, isin, schemeName };
+	export {
+		isModalOpen,
+		toggleSchemeIformationModal,
+		holdings,
+		isin,
+		schemeName,
+		sectorHoldings,
+		activeTab
+	};
 </script>
 
 <Modal {isModalOpen} on:backdropclicked={toggleSchemeIformationModal}>
@@ -34,7 +45,7 @@
 		</header>
 
 		<section>
-			<HoldingTable {holdings} />
+			<HoldingTable {holdings} {sectorHoldings} {activeTab} />
 		</section>
 	</article>
 </Modal>

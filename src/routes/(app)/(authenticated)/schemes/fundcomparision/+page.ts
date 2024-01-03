@@ -35,7 +35,7 @@ export const load = (async ({ fetch, url }) => {
 	};
 
 	const getSectorData = async (isin: string) => {
-		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/sectors`;
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/sectors?offset=0&limit=5`;
 		return await useFetch(url, {}, fetch);
 	};
 

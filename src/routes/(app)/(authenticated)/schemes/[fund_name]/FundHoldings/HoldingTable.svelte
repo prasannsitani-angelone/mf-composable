@@ -6,45 +6,78 @@
 	import Tr from '$components/Table/TR.svelte';
 	import Table from '$components/Table/Table.svelte';
 	import type { TopHolding } from '$components/Scheme/types';
+	import type { SectorHoldings } from '$lib/types/ISchemeDetails';
 
 	let holdings: TopHolding[];
+	let sectorHoldings: SectorHoldings[];
+	let activeTab: string;
 	let topHolding = false;
 
-	const holdinggText = topHolding ? 'Holding Name' : 'Name';
-	export { holdings, topHolding };
+	export { holdings, topHolding, sectorHoldings, activeTab };
 </script>
 
 <Table>
 	<THead slot="thead">
 		<Th class="h-3 w-3/5 !border-none !pl-0 text-xs normal-case">
-			{holdinggText}
+			{activeTab === 'holdingCompany' ? 'Holding Name' : 'Sector Name'}
 		</Th>
 		<Th class="flex h-3 justify-end !border-none !pr-0 text-right text-xs normal-case"
 			>Allocation</Th
 		>
 	</THead>
 	<TBody slot="tbody">
-		{#each holdings as holding}
-			<Tr>
-				<Td class="!pl-0">
-					{#if topHolding}
-						<div class="flex items-center text-sm font-medium text-black-title">
-							<div>
-								{holding.companyName}
+		{#if activeTab === 'holdingCompany'}
+			{#each holdings as holding}
+				<Tr>
+					<Td class="!pl-0">
+						{#if topHolding}
+							<div class="flex flex-col text-sm font-medium text-black-title">
+								<div>
+									{holding.companyName}
+								</div>
+								<div class="text-xs font-normal text-grey-body">
+									{holding.sector}
+								</div>
 							</div>
-						</div>
-					{:else}
-						<div class="flex items-start text-sm font-medium text-black-title">
-							<div>
-								{holding.companyName}
+						{:else}
+							<div class="flex flex-col items-start text-sm font-medium text-black-title">
+								<div>
+									{holding.companyName}
+								</div>
+								<div class="text-xs font-normal text-grey-body">
+									{holding.sector}
+								</div>
 							</div>
-						</div>
-					{/if}
-				</Td>
-				<Td class="mr-4 !pr-0 text-right text-sm font-medium !text-black-title"
-					>{holding.percentageHold}%</Td
-				>
-			</Tr>
-		{/each}
+						{/if}
+					</Td>
+					<Td class="mr-4 !pr-0 text-right text-sm font-medium !text-black-title"
+						>{holding.percentageHold}%</Td
+					>
+				</Tr>
+			{/each}
+		{:else}
+			{#each sectorHoldings as holding}
+				<Tr>
+					<Td class="!pl-0">
+						{#if topHolding}
+							<div class="flex flex-col text-sm font-medium uppercase text-black-title">
+								<div>
+									{holding.sector}
+								</div>
+							</div>
+						{:else}
+							<div class="flex flex-col items-start text-sm font-medium uppercase text-black-title">
+								<div>
+									{holding.sector}
+								</div>
+							</div>
+						{/if}
+					</Td>
+					<Td class="mr-4 !pr-0 text-right text-sm font-medium !text-black-title"
+						>{holding.percentage}%</Td
+					>
+				</Tr>
+			{/each}
+		{/if}
 	</TBody>
 </Table>

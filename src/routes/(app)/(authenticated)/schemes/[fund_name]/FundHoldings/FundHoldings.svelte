@@ -1,17 +1,26 @@
 <script lang="ts">
 	import Button from '$components/Button.svelte';
 
-	import type { SchemeHoldings } from '$lib/types/ISchemeDetails';
+	import type { SchemeHoldings, SectorHoldings } from '$lib/types/ISchemeDetails';
 	import { viewAllFundHoldings } from '$components/Scheme/analytics';
 
 	import type { TopHolding } from '$components/Scheme/types';
 	import FundHoldingModal from './FundHoldingModal.svelte';
 	import HoldingTable from './HoldingTable.svelte';
+	import { Tabs } from 'svelte-components';
 
 	let fundHoldingData: Array<SchemeHoldings>;
 	let isin: string;
 	let schemeName: string;
+	let sectorData: Array<SectorHoldings>;
+	let schemeTopHolding: Array<SchemeHoldings>;
+	let topSectorHolding: Array<SectorHoldings> = [];
 	$: isModalOpen = false;
+	const tabStyles = {
+		container: 'px-4 sm:px-6',
+		tabsContainer: '',
+		contentContainer: ''
+	};
 	const toggleSchemeIformationModal = () => {
 		isModalOpen = isModalOpen ? false : true;
 
@@ -23,8 +32,35 @@
 		}
 	};
 
-	const setTableData = (holdings: SchemeHoldings[]) => {
+	const tabs = [
+		{
+			title: {
+				label: 'HOLDINGS BY SECTOR'
+			},
+			tabId: 'sector',
+			styles: {
+				active: '!border-b-2 !border-blue-primary'
+			}
+		},
+		{
+			title: {
+				label: 'TOP HOLDINGS'
+			},
+			tabId: 'holdingCompany',
+			styles: {
+				active: '!border-b-2 !border-blue-primary'
+			}
+		}
+	];
+	let activeTab = tabs[0].tabId;
+	const onTabChange = (tabId: string | number) => {
+		activeTab = tabId?.toString();
+	};
+	const setTableData = (holdings: SchemeHoldings[], sectorData: SectorHoldings[]) => {
 		if (!holdings?.length) {
+			return [];
+		}
+		if (!sectorData?.length) {
 			return [];
 		}
 		let sortedHoldings: TopHolding[] = holdings.sort((a, b) =>
@@ -32,14 +68,13 @@
 		);
 
 		let topHolding = sortedHoldings.slice(0, 10);
+		topSectorHolding = sectorData.slice(0, 10);
 
-		topHolding = [...topHolding];
-
-		return topHolding;
+		schemeTopHolding = [...topHolding];
 	};
-	const schemeTopHolding = setTableData(fundHoldingData);
+	setTableData(fundHoldingData, sectorData);
 
-	export { fundHoldingData, isin, schemeName };
+	export { fundHoldingData, isin, schemeName, sectorData };
 </script>
 
 <article class="mt-4 max-w-4xl rounded-lg bg-white text-sm shadow-csm">
@@ -52,8 +87,14 @@
 			</section>
 		</section>
 	</header>
-	<section class="px-4 sm:px-6">
-		<HoldingTable topHolding holdings={schemeTopHolding} />
+	<Tabs items={tabs} {activeTab} onChange={onTabChange} classes={tabStyles} />
+	<section class="px-4 pt-4 sm:px-6">
+		<HoldingTable
+			topHolding
+			holdings={schemeTopHolding}
+			sectorHoldings={topSectorHolding}
+			{activeTab}
+		/>
 	</section>
 
 	<footer class=" flex px-4 sm:px-6">
@@ -66,6 +107,8 @@
 </article>
 <FundHoldingModal
 	holdings={fundHoldingData}
+	sectorHoldings={sectorData}
+	{activeTab}
 	{isModalOpen}
 	{toggleSchemeIformationModal}
 	{isin}
