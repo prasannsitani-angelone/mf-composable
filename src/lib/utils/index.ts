@@ -70,32 +70,6 @@ export const yearlyReturnMap: Array<TableColumnToggle> = [
 	}
 ];
 
-export const nfoTableToggleList: Array<TableColumnToggle> = [
-	{
-		label: 'Open Date',
-		field: 'nfoStartDate',
-		prefix: '',
-		suffix: ''
-	},
-	{
-		label: 'Close Date',
-		field: 'nfoEndDate',
-		prefix: '',
-		suffix: ''
-	},
-	{
-		label: 'Current NAV',
-		field: 'navValue',
-		prefix: '₹',
-		suffix: ''
-	},
-	{
-		label: 'Min amount',
-		field: 'minPurchaseAmount',
-		prefix: '₹',
-		suffix: ''
-	}
-];
 const findNextYearReturn = (yearlyReturn: Array<TableColumnToggle>, currentReturn: string) => {
 	const currentIndex = yearlyReturn.findIndex((val) => val.field === currentReturn);
 

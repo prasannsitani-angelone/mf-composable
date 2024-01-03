@@ -23,4 +23,5 @@ export interface NFOList {
 	minPurchaseAmount: number;
 	nfoStartDate: number;
 	nfoEndDate: number;
+	nfoAllotmentDate: number;
 }

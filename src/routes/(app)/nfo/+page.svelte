@@ -1,9 +1,10 @@
 <script lang="ts">
-	import NFOTable from './NFOTable.svelte';
-	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
-	import type { PageData } from './$types';
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
+	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
 	import { SEO } from 'svelte-components';
+	import type { PageData } from './$types';
+	import ActiveNfo from './components/ActiveNFO.svelte';
+	import ClosedNfo from './components/ClosedNFO.svelte';
 
 	const breadCrumbs = [
 		{
@@ -21,14 +22,17 @@
 <SEO seoTitle="New Fund Offering, NFO | Angelone" seoDescription="New Fund Offering, NFO" />
 
 <Breadcrumbs items={breadCrumbs} class="my-4 hidden items-center justify-start md:flex" />
-<header class="hidden sm:block">
-	<h2 class="mb-6 mt-1 text-lg font-normal text-black-title">Open NFO’s</h2>
-</header>
-<div />
+
 {#await data.api.nfo}
 	<TableSkeleton />
 {:then nfo}
-	<NFOTable searchOption={nfo} />
-{:catch error}
-	<!-- promise was rejected -->
+	{#if nfo?.length > 0}
+		<ActiveNfo {nfo} />
+	{:else}
+		{#await data.api.closedNfo}
+			<TableSkeleton />
+		{:then closedNfo}
+			<ClosedNfo {closedNfo} />
+		{/await}
+	{/if}
 {/await}

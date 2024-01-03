@@ -15,5 +15,17 @@ const getactiveNfo = async (fetch?: FetchType) => {
 
 	return NfoList;
 };
+export const getClosedNfo = async (fetch?: FetchType) => {
+	const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes?closedNfo=true`;
+	let NfoList: NFOList[] = [];
+
+	const res = await useFetch(url, {}, fetch);
+
+	if (res.ok) {
+		NfoList = res?.data;
+	}
+
+	return NfoList;
+};
 
 export default getactiveNfo;
