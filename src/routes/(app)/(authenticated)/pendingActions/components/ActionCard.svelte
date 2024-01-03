@@ -17,12 +17,12 @@
 	class="my-2 flex flex-col rounded-lg border-[1px] border-grey-line bg-white p-3 text-xs text-black-key shadow-sm {$$props.class}"
 >
 	<div class="flex items-center justify-between pb-2">
-		<div class="flex items-center pr-2">
+		<div class="flex items-center pr-3">
 			<div><SchemeLogo size="xs" src={order?.logoUrl} alt={order?.schemeName} /></div>
 			<div>{order?.schemeName}</div>
 		</div>
 		<div>
-			<Button size="sm" onClick={() => onButtonClick(order)}
+			<Button class="!whitespace-nowrap" size="sm" onClick={() => onButtonClick(order)}
 				><span class="text-xs">{buttonText}</span></Button
 			>
 		</div>

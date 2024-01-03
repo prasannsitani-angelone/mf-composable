@@ -15,8 +15,31 @@
 	const onOrderFailedButtonClick = (order: Notif) => {
 		goto(`${base}/orders/${order?.orderID}`);
 	};
-	const handleSipPaymentClick = (order: Notif) => {
+	const handleFailedSipPaymentClick = (order: Notif) => {
 		if (order?.orderID) {
+			const reRouteUrl = 'schemes';
+			const path = `${reRouteUrl}/${normalizeFundName(
+				order?.schemeName,
+				order?.isin,
+				order?.schemeCode
+			)}`;
+
+			let params = null;
+			params = encodeObject({
+				investmentType: 'LUMPSUM',
+				investmentAmount: order?.amount,
+				skipOrderPad: true,
+				sipInstalmentId: order?.orderID.toString(),
+				isAdditionalFlag: true
+			});
+
+			goto(`${base}/${path}?params=${params}&orderpad=INVEST`);
+		} else {
+			goto(`${base}/sipbook/dashboard`);
+		}
+	};
+	const handlePendingSipPaymentClick = (order: Notif) => {
+		if (order?.sipId) {
 			const reRouteUrl = 'schemes';
 			const path = `${reRouteUrl}/${normalizeFundName(
 				order?.schemeName,
@@ -26,27 +49,17 @@
 			const { format } = DateFns.DateFns;
 
 			let params = null;
-			if (order?.isSipPaymentNudge) {
-				params = encodeObject({
-					investmentType: 'LUMPSUM',
-					investmentAmount: order?.amount,
-					skipOrderPad: true,
-					sipInstalmentId: order?.orderID,
-					isAdditionalFlag: true
-				});
-			} else {
-				params = encodeObject({
-					investmentType: 'SIP',
-					investmentAmount: order?.amount,
-					sipDate: new Date(order?.sipPaymentDate)?.getDate(),
-					ftp: true,
-					skipOrderPad: true,
-					redirectedFrom: 'SIP_PAYMENTS',
-					sipId: order?.sipId,
-					sipRegistrationNumber: order?.sipRegistrationNo,
-					sipDueDate: format(new Date(order?.sipPaymentDate), 'yyyy-MM-dd')
-				});
-			}
+			params = encodeObject({
+				investmentType: 'LUMPSUM',
+				investmentAmount: order?.installmentAmount,
+				sipDate: new Date(order?.sipPaymentDate)?.getDate(),
+				ftp: true,
+				skipOrderPad: true,
+				redirectedFrom: 'SIP_PAYMENTS',
+				sipId: order?.sipId,
+				sipRegistrationNumber: order?.sipRegistrationNo,
+				sipDueDate: format(new Date(order?.sipPaymentDate), 'yyyy-MM-dd')
+			});
 			goto(`${base}/${path}?params=${params}&orderpad=INVEST`);
 		} else {
 			goto(`${base}/sipbook/${order?.sipId}`);
@@ -58,6 +71,26 @@
 </script>
 
 <section class="flex flex-col rounded-md bg-white px-2 pb-2 sm:bg-grey">
+	{#if actionsData?.instalmentPending?.length > 0}
+		<div class="py-2 font-medium">
+			{actionsData?.instalmentPending?.length} Pending SIP Payments
+		</div>
+		{#each actionsData?.instalmentPending as order}
+			{@const currentDate = new Date()}
+			{@const t3DayDate = new Date(order?.sipAmountPayTillDate)}
+			{@const message =
+				currentDate.getDate() === t3DayDate.getDate()
+					? `Last day for SIP payment`
+					: `Payment due by ${getDateTimeString(order?.sipAmountPayTillDate)}`}
+			<ActionCard
+				{order}
+				buttonText="PAY NOW"
+				{message}
+				icon="clock-bold"
+				onButtonClick={handlePendingSipPaymentClick}
+			/>
+		{/each}
+	{/if}
 	{#if actionsData?.instalmentFailedOrders?.length > 0}
 		<div class="py-2 font-medium">
 			{actionsData?.instalmentFailedOrders?.length} SIP Payments Missed
@@ -67,22 +100,8 @@
 				{order}
 				buttonText="PAY NOW"
 				message="Pay now to continue your SIP"
-				icon="red-exclamation"
-				onButtonClick={handleSipPaymentClick}
-			/>
-		{/each}
-	{/if}
-	{#if actionsData?.instalmentPending?.length > 0}
-		<div class="py-2 font-medium">
-			{actionsData?.instalmentPending?.length} Pending SIP Payments
-		</div>
-		{#each actionsData?.instalmentPending as order}
-			<ActionCard
-				{order}
-				buttonText="PAY NOW"
-				message="Payment due by {getDateTimeString(order?.sipAmountPayTillDate)}"
-				icon="clock"
-				onButtonClick={handleSipPaymentClick}
+				icon="filledInfo"
+				onButtonClick={handleFailedSipPaymentClick}
 			/>
 		{/each}
 	{/if}
@@ -92,7 +111,7 @@
 			<ActionCard
 				{order}
 				buttonText="RETRY"
-				message={getDateTimeString(order?.orderDate)}
+				message={getDateTimeString(order?.orderDate * 1000)}
 				icon="calander-icon"
 				onButtonClick={onOrderFailedButtonClick}
 			/>
