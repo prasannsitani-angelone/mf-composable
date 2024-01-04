@@ -20,7 +20,6 @@
 	import Card from '$components/Card.svelte';
 	import Link from '$components/Link.svelte';
 	import PageFilter from './components/PageFilter.svelte';
-	import Modal from '$components/Modal.svelte';
 	import Button from '$components/Button.svelte';
 	import type { ToggleButtonParam } from '$lib/types/IInvestments';
 	import {
@@ -31,6 +30,7 @@
 	import OptimisePortfolioCard from './components/OptimisePortfolioCard.svelte';
 	import { WMSIcon } from 'svelte-components';
 	import OptimisePortfolioModal from './components/OptimisePortfolioModal.svelte';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 
 	$: isExternal = $page?.data?.isExternal;
 
@@ -289,7 +289,7 @@
 	{/if}
 </section>
 {#if isXIRRModalOpen}
-	<Modal
+	<ModalWithAnimation
 		closeModal={onModalClick}
 		isModalOpen
 		on:modalMounted={() => xirrFilterModalImpressionEvent()}
@@ -313,7 +313,7 @@
 				<Button class="px-12" variant="outlined" onClick={onModalClick}>GOT IT</Button>
 			</div>
 		</div>
-	</Modal>
+	</ModalWithAnimation>
 {/if}
 
 {#if isOptimisePortfolioOpen}

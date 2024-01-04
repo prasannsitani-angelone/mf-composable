@@ -7,7 +7,6 @@
 	import { getMaskedMobileNumberSuffix } from '$lib/utils/helpers/masked';
 	import { useFetch } from '$lib/utils/useFetch';
 	import { getCappedUnitString } from '$lib/utils/helpers/formatAmount';
-	import Modal from '$components/Modal.svelte';
 	import InfoModal from '$components/InfoModal.svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import Button from '$components/Button.svelte';
@@ -17,6 +16,7 @@
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
 	import { page } from '$app/stores';
 	import TpinVerified from './TpinVerified.svelte';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 
 	export let uuid: string;
 	export let folio: FolioObject;
@@ -373,7 +373,7 @@
 
 <section>
 	{#if !showAboutEdisModal && !showTpinRegeneratedModal && !showCdslModal && !showTpinVerifiedModal && !loadingState?.isLoading && !error?.visible}
-		<Modal isModalOpen={true} on:backdropclicked={closeTpinActionModal}>
+		<ModalWithAnimation isModalOpen={true} on:backdropclicked={closeTpinActionModal}>
 			<div
 				class="flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white shadow-csm md:w-120 md:rounded-lg"
 			>
@@ -449,7 +449,7 @@
 					</section>
 				</slot>
 			</div>
-		</Modal>
+		</ModalWithAnimation>
 	{/if}
 
 	{#if showAboutEdisModal}
@@ -496,7 +496,7 @@
 
 	<!-- CDSL Website in Modal -->
 	<article class="z-60 justify-start {!showCdslModal && 'hidden'}">
-		<Modal isModalOpen={true} on:backdropclicked={cdslModalCrossButtonClicked}>
+		<ModalWithAnimation isModalOpen={true} on:backdropclicked={cdslModalCrossButtonClicked}>
 			<section
 				class="flex h-full w-screen flex-col rounded-b-none bg-white shadow-csm md:h-96 md:w-5/6 md:rounded-lg"
 			>
@@ -546,7 +546,7 @@
 					</section>
 				</slot>
 			</section>
-		</Modal>
+		</ModalWithAnimation>
 	</article>
 
 	<!-- TPIN verified modal (to allow user to take action - either PROCEED to place order or GO BACK and cancel) -->

@@ -4,7 +4,6 @@ import { faqsIconClick } from '$lib/analytics/faqs/faqs';
 import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
 import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
-import MobileInvestmentTab from './components/MobileInvestmentTab.svelte';
 
 export const load = (async ({ fetch, url }) => {
 	const urlParams = url.searchParams.get('param') || '';
@@ -91,9 +90,9 @@ export const load = (async ({ fetch, url }) => {
 			title: 'Investment Dashboard',
 			showBottomNavigation: true,
 			layoutType: 'TWO_COLUMN_REVERSE',
+			layoutClass: '!m-0 !p-0 md:px-2 md:py-2',
 			titleClass: '!text-xl',
 			headerClass: '!bg-grey !py-2.5 !px-4',
-			component: MobileInvestmentTab,
 			showFaqIcon: true,
 			faqParams,
 			onClickFaqsIcon

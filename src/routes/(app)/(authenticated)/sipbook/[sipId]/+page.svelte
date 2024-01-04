@@ -66,6 +66,7 @@
 	import EditSip from './EditSip.svelte';
 	import { sipBookStore } from '$lib/stores/SipBookStore';
 	import clickOutside from '$lib/utils/useClickOutside';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 	import { decodeToObject } from '$lib/utils/helpers/params';
 
 	$: bankDetails = $profileStore?.bankDetails;
@@ -451,7 +452,7 @@
 			<SipDetailLoader />
 		{:then sipData}
 			{#if sipData}
-				<Modal
+				<ModalWithAnimation
 					isModalOpen={$sipBookStore.showdropdown && (isMobile || isTablet)}
 					closeModal={updateSipBookStore}
 				>
@@ -463,7 +464,7 @@
 						packId={sipData?.packId}
 						on:onButtonClick={onOptionSelect}
 					/>
-				</Modal>
+				</ModalWithAnimation>
 				{#if $sipBookStore.showdropdown && !isMobile && !isTablet}
 					<div
 						class="relative flex flex-col rounded-lg border-grey-line bg-white shadow-csm"

@@ -1,11 +1,11 @@
 <script lang="ts">
 	import Button from '$components/Button.svelte';
-	import Modal from '$components/Modal.svelte';
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
 	import FailedIcon from '$lib/images/icons/FailedIcon.svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import SuccessTickInCircleIcon from '$lib/images/icons/SuccessTickInCircleIcon.svelte';
 	import { createEventDispatcher } from 'svelte';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 	let popupType = '';
 	let title = '';
 	let text = '';
@@ -44,7 +44,7 @@
 	};
 </script>
 
-<Modal {isModalOpen} {closeModal}>
+<ModalWithAnimation {isModalOpen} {closeModal}>
 	<div
 		class={`flex flex-col items-center justify-between overflow-y-auto bg-white shadow-clg sm:w-120 sm:rounded-lg ${$$props.class}`}
 	>
@@ -89,4 +89,4 @@
 			{/if}
 		</slot>
 	</div>
-</Modal>
+</ModalWithAnimation>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import Modal from './Modal.svelte';
 	import CrossInCircleIcon from '$lib/images/icons/CrossInCircleIcon.svelte';
+	import ModalWithAnimation from './ModalWithAnimation.svelte';
 
 	export let heading = '';
 	export let detailText = '';
@@ -16,7 +16,7 @@
 </script>
 
 <section class="z-20 justify-start">
-	<Modal isModalOpen={showModal} on:backdropclicked={crossButtonClicked}>
+	<ModalWithAnimation isModalOpen={showModal} on:backdropclicked={crossButtonClicked}>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
 			class="flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white shadow-csm sm:w-120 sm:rounded-lg"
@@ -50,5 +50,5 @@
 				</section>
 			</slot>
 		</div>
-	</Modal>
+	</ModalWithAnimation>
 </section>

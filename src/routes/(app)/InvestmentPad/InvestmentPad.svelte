@@ -8,15 +8,11 @@
 	import MobileHeader from '$components/Headers/MobileHeader.svelte';
 	import Button from '$components/Button.svelte';
 	import NumPad from '$components/Keyboard/NumPad.svelte';
-	import CalendarSmallIcon from '$lib/images/icons/CalendarSmallIcon.svelte';
-	import CheckboxCheckedIcon from '$lib/images/icons/CheckboxCheckedIcon.svelte';
-	import CheckboxUncheckedIcon from '$lib/images/icons/CheckboxUncheckedIcon.svelte';
 	import {
 		addCommasToAmountString,
 		formatAmount,
 		roundUpAmountToNearestThousand
 	} from '$lib/utils/helpers/formatAmount';
-	import TabNotSupported from './OrderPadComponents/TabNotSupported.svelte';
 	import {
 		getCompleteSIPDateBasedonDD,
 		getDateSuperscript,
@@ -27,7 +23,6 @@
 	} from '$lib/utils/helpers/date';
 	import CalendarComponent from '$components/Calendar/CalendarComponent.svelte';
 	import NextSipDate from '$components/Calendar/NextSipDate.svelte';
-	import Modal from '$components/Modal.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import type { dateArrayTypes } from '$lib/types/Calendar/ICalendar';
 	import type { decodedParamsTypes } from '$lib/types/IOrderPad';
@@ -106,7 +101,6 @@
 	} from '$components/Payment/constants';
 	import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
 	import { stringToInteger } from '$lib/utils/helpers/numbers';
-	import OrderpadReturns from './OrderPadComponents/OrderpadReturns.svelte';
 	import {
 		checkPreviousWrongBankFailedPayment,
 		checkRequestIdExpired
@@ -143,6 +137,10 @@
 	import type { MandateWithBankDetails } from '$lib/types/IEmandate';
 	import AutopayMethod from '$components/Payment/AutopayMethod.svelte';
 	import InfoPopup from '$components/Popup/InfoPopup.svelte';
+	import { Tabs } from 'svelte-components';
+	import SipTab from './OrderPadComponents/SIPTab.svelte';
+	import LumpsumTab from './OrderPadComponents/LumpsumTab.svelte';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 	import Physical2FAOtpVerificationComponent from '$components/Payment/Physical2FAOtpVerificationComponent.svelte';
 
 	export let schemeData: SchemeDetails;
@@ -1864,8 +1862,6 @@
 		}
 	};
 
-	// const animate = (node, args) => (args.cond ? fly(node, args) : {});
-
 	// -------- **** ----------
 </script>
 
@@ -1934,186 +1930,115 @@
 			<article class="rounded-lg bg-white text-black-title md:mx-3 md:mb-4 md:mt-2">
 				<!-- Tab Section (SIP | ONE TIME) -->
 				{#if isInvestTypeVisible() && !isAdditionalFlag}
-					<section class="bg-whites flex rounded-lg rounded-b-none text-black-title">
-						<button
-							class={`h-12 w-40 flex-1 cursor-default rounded-t md:cursor-pointer ${
-								activeTab === 'SIP'
-									? 'border-t-4 border-t-green-buy'
-									: 'rounded-tr-none border-l border-t bg-grey'
-							}`}
-							on:click={() => switchTabs('SIP')}
-						>
-							SIP
-						</button>
-						<button
-							class={`h-12 w-40 flex-1 cursor-default rounded-t md:cursor-pointer ${
-								activeTab === 'ONETIME'
-									? 'border-t-4 border-t-green-buy'
-									: 'rounded-tl-none border-r border-t bg-grey'
-							}`}
-							on:click={() => switchTabs('ONETIME')}
-						>
-							ONE TIME
-						</button>
-					</section>
-				{/if}
-
-				{#if activeTab === 'SIP'}
-					<article class="flex flex-col p-3">
-						<!-- Amount input -->
-						<article class="flex flex-col items-center rounded border border-grey-line py-2.5">
-							<!-- svelte-ignore a11y-label-has-associated-control -->
-							<label class="mb-2 text-xs font-normal text-grey-body">ENTER AMOUNT</label>
-							<button
-								class="flex w-full cursor-text items-center justify-start"
-								on:click={handleAmountInputFocus}
-							>
-								<input
-									id="amountInput"
-									inputmode="none"
-									maxlength="13"
-									placeholder="₹"
-									value={amountVal}
-									class="w-full bg-white text-center text-2xl font-medium leading-none text-black-title outline-none"
-									on:input={onInputChange}
-									on:focus={handleAmountInputBlur}
-								/>
-							</button>
-						</article>
-
-						{#if errorMessage?.length && isSelectedInvestmentTypeAllowed()}
-							<article class="flex justify-center pb-1">
-								<p class="text-xs font-light text-red-sell">
-									{errorMessage}
-								</p>
-							</article>
-						{/if}
-
-						<article class="mt-3 flex w-full flex-row items-center justify-between">
-							<!-- svelte-ignore a11y-label-has-associated-control -->
-							<label class="text-xs font-normal text-black-title">Monthly SIP Date</label>
-							<!-- svelte-ignore a11y-no-static-element-interactions -->
-							<section
-								class="flex items-center md:cursor-pointer {isSelectedInvestmentTypeAllowed()
-									? 'md:cursor-pointer'
-									: 'md:cursor-not-allowed'}"
-								on:click={toggleCalendar}
-								on:keypress={() => {
-									// add logic
-								}}
-							>
-								<div class="text-xs font-normal text-black-title">
-									{`${calendarDate}${dateSuperscript}`}
-								</div>
-								<section class="pl-1">
-									<CalendarSmallIcon height={16} width={16} />
-								</section>
-							</section>
-						</article>
-
-						<!-- Checkbox for SIP payment now -->
-						{#if !paymentMandatory}
-							<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-							<article
-								class={`mt-4 flex w-fit items-center justify-start text-xs font-normal text-grey-body ${
-									isSelectedInvestmentTypeAllowed() ? 'md:cursor-pointer' : 'md:cursor-not-allowed'
-								}`}
-								on:click={toggleFirstSipPayment}
-								on:keypress={() => {
-									// add logic
-								}}
-							>
-								{#if firstSipPayment}
-									<div class="mr-2">
-										<CheckboxCheckedIcon />
-									</div>
-								{:else}
-									<div class="mr-1">
-										<CheckboxUncheckedIcon />
-									</div>
-								{/if}
-								<span class="text-black-title"> Make first SIP payment now </span>
-							</article>
-						{/if}
-
-						{#if isSipInvestmentAllowed && amount?.length && !errorMessage?.length}
-							<OrderpadReturns
-								investedAmount={Number(amount)}
-								threeYearReturns={schemeData?.returns3yr}
-								class="mt-4 !border-b-0 border-t !px-0 pb-0 pt-3"
-								amountClass="text-xl"
-								textClass="flex flex-row items-center"
-							>
-								<span slot="supporting-text" class="ml-1">Expected 3Y Returns</span>
-							</OrderpadReturns>
-						{/if}
-
-						{#if showTabNotSupported}
-							<div class="pb-1">
-								<TabNotSupported {tabNotSupportedType} />
-							</div>
-						{/if}
-					</article>
+					<Tabs
+						items={[
+							{
+								tabId: 'SIP',
+								title: {
+									label: 'SIP'
+								},
+								styles: {
+									default:
+										'h-12 w-40 flex-1 cursor-default md:cursor-pointer !border-b-0 border-l border-t !border-grey-line !bg-grey !rounded-none !text-black-title !font-normal !text-base',
+									active: '!border-t-4 !border-t-green-buy !border-l-0 !bg-white'
+								},
+								content: {
+									component: SipTab,
+									props: {
+										amount,
+										amountVal,
+										errorMessage,
+										calendarDate,
+										dateSuperscript,
+										paymentMandatory,
+										firstSipPayment,
+										showTabNotSupported,
+										tabNotSupportedType,
+										threeYearReturns: schemeData?.returns3yr,
+										isSipInvestmentAllowed,
+										toggleCalendar,
+										toggleFirstSipPayment,
+										onInputChange,
+										handleAmountInputFocus,
+										handleAmountInputBlur
+									}
+								},
+								animation: {
+									animation: isMobile,
+									x: '-100%',
+									duration: 500
+								}
+							},
+							{
+								tabId: 'ONETIME',
+								title: {
+									label: 'ONE TIME'
+								},
+								styles: {
+									default:
+										'h-12 w-40 flex-1 cursor-default md:cursor-pointer !border-b-0 border-r border-t !border-grey-line !bg-grey !rounded-none !text-black-title !font-normal !text-base',
+									active: '!border-t-4 !border-t-green-buy !border-b-0 !border-r-0 !bg-white'
+								},
+								content: {
+									component: LumpsumTab,
+									props: {
+										amountVal,
+										errorMessage,
+										showTabNotSupported,
+										tabNotSupportedType,
+										isLumpsumToSipEligible,
+										isLumpsumInvestmentAllowed,
+										toggleShowLumpsumToSipModal,
+										onInputChange,
+										handleAmountInputFocus,
+										handleAmountInputBlur
+									}
+								},
+								animation: {
+									animation: isMobile,
+									x: '100%',
+									duration: 500
+								}
+							}
+						]}
+						classes={{
+							tabsContainer: '!border-b-0'
+						}}
+						onChange={switchTabs}
+					/>
+				{:else if activeTab === 'SIP'}
+					<SipTab
+						{amount}
+						{amountVal}
+						{errorMessage}
+						{calendarDate}
+						{dateSuperscript}
+						{paymentMandatory}
+						{firstSipPayment}
+						{showTabNotSupported}
+						{tabNotSupportedType}
+						threeYearReturns={schemeData?.returns3yr}
+						{isSipInvestmentAllowed}
+						{toggleCalendar}
+						{toggleFirstSipPayment}
+						{onInputChange}
+						{handleAmountInputFocus}
+						{handleAmountInputBlur}
+					/>
 				{:else}
-					<article class="flex flex-col p-3">
-						<!-- Amount input -->
-						<article class="flex flex-col items-center rounded border border-grey-line py-2.5">
-							<!-- svelte-ignore a11y-label-has-associated-control -->
-							<label class="mb-2 text-xs font-normal text-grey-body">ENTER AMOUNT</label>
-							<button
-								class="flex w-full cursor-text items-center justify-start"
-								on:click={handleAmountInputFocus}
-							>
-								<input
-									id="amountInput"
-									inputmode="none"
-									maxlength="13"
-									placeholder="₹"
-									value={amountVal}
-									class="w-full bg-white text-center text-2xl font-medium leading-none text-black-title outline-none"
-									on:input={onInputChange}
-									on:focus={handleAmountInputBlur}
-								/>
-							</button>
-						</article>
-
-						{#if errorMessage?.length && isSelectedInvestmentTypeAllowed()}
-							<article class="flex justify-center pb-1">
-								<p class="text-xs font-light text-red-sell">
-									{errorMessage}
-								</p>
-							</article>
-						{/if}
-
-						{#if isLumpsumToSipEligible && !errorMessage?.length}
-							<article class="border-t px-2 py-3">
-								<section
-									class="to flex items-center justify-between rounded bg-gradient-to-r from-green-buy/40 to-white px-1 py-2"
-								>
-									<div class="flex items-start">
-										<WMSIcon class="mr-1 mt-1" name="double-tick" width={15} height={9} />
-										<p class="w-[80%] text-xs font-normal text-black-title">
-											To reduce the risk of market fluctuations, consider investing this amount as
-											SIP
-										</p>
-									</div>
-									<Button
-										variant="transparent"
-										class="!h-fit !min-h-0 !px-0 !text-[11px] !font-normal"
-										onClick={toggleShowLumpsumToSipModal}
-									>
-										Learn How
-									</Button>
-								</section>
-							</article>
-						{/if}
-
-						{#if showTabNotSupported}
-							<div class="pb-1">
-								<TabNotSupported {tabNotSupportedType} />
-							</div>
-						{/if}
-					</article>
+					<LumpsumTab
+						{amountVal}
+						{errorMessage}
+						{showTabNotSupported}
+						{tabNotSupportedType}
+						,
+						{isLumpsumInvestmentAllowed}
+						{isLumpsumToSipEligible}
+						{toggleShowLumpsumToSipModal}
+						{onInputChange}
+						{handleAmountInputFocus}
+						{handleAmountInputBlur}
+					/>
 				{/if}
 			</article>
 			<!-- Footer section for Mobile layout (PaymentMode/StartSipDate + TnC + Submit + Numpad) -->
@@ -2195,7 +2120,7 @@
 			<NotAllowed titleText={investmentNotAllowedText} />
 		{/if}
 		{#if showCalendar}
-			<Modal isModalOpen={showCalendar} on:backdropclicked={toggleCalendar}>
+			<ModalWithAnimation isModalOpen={showCalendar} on:backdropclicked={toggleCalendar}>
 				<CalendarComponent
 					visible={showCalendar}
 					title={'Select SIP Instalment Date'}
@@ -2228,7 +2153,7 @@
 						</section>
 					</svelte:fragment>
 				</CalendarComponent>
-			</Modal>
+			</ModalWithAnimation>
 		{/if}
 
 		{#if showTncModal}
@@ -2394,18 +2319,21 @@
 {/if}
 
 {#if showLumpsumToSipModal}
-	<Modal isModalOpen={showLumpsumToSipModal} on:backdropclicked={toggleShowLumpsumToSipModal}>
+	<ModalWithAnimation
+		isModalOpen={showLumpsumToSipModal}
+		on:backdropclicked={toggleShowLumpsumToSipModal}
+	>
 		<LumpsumToSip
 			class="z-60 sm:w-120"
 			sipAmount={lumpsumToSipAmount}
 			on:primaryCtaClick={redirectToSip}
 			on:secondaryCtaClick={handleLumpsumToSipOtiClick}
 		/>
-	</Modal>
+	</ModalWithAnimation>
 {/if}
 
 {#if showBeforePaymentAckModal}
-	<Modal
+	<ModalWithAnimation
 		isModalOpen={showBeforePaymentAckModal}
 		on:backdropclicked={toggleShowBeforePaymentAckModal}
 	>
@@ -2441,7 +2369,7 @@
 				PAY ₹{addCommasToAmountString(amount)}
 			</Button>
 		</section>
-	</Modal>
+	</ModalWithAnimation>
 {/if}
 
 {#if oneLinkExpired}

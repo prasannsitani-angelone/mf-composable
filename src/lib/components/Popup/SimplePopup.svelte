@@ -1,7 +1,7 @@
 <script setup lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import Modal from '../Modal.svelte';
 	import Button from '../Button.svelte';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 
 	const dispatch = createEventDispatcher();
 
@@ -21,7 +21,7 @@
 	};
 </script>
 
-<Modal closeModal={backdropClick} isModalOpen>
+<ModalWithAnimation closeModal={backdropClick} isModalOpen>
 	<div
 		class="sm:flex-column !static w-screen items-stretch rounded-b-none rounded-t-2xl bg-white sm:min-h-[460px] sm:w-120 sm:justify-center sm:rounded-lg sm:px-14 sm:py-[72px]"
 	>
@@ -61,4 +61,4 @@
 			</section>
 		{/if}
 	</div>
-</Modal>
+</ModalWithAnimation>

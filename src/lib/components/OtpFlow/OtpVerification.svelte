@@ -9,11 +9,11 @@
 	import InfoModal from '$components/InfoModal.svelte';
 	import LoadingPopup from '../../../routes/(app)/InvestmentPad/OrderPadComponents/LoadingPopup.svelte';
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
-	import Modal from '$components/Modal.svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import type { FolioObject } from '$lib/types/IInvestments';
 	import { formatOtpValue } from '$lib/utils/helpers/otp';
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 
 	export let uuid: string;
 	export let amount: string;
@@ -268,7 +268,7 @@
 
 <section>
 	{#if !showAboutOrderVerificationModal && !loadingState.isLoading && !error?.visible}
-		<Modal isModalOpen={true} on:backdropclicked={closeOtpActionModal}>
+		<ModalWithAnimation isModalOpen={true} on:backdropclicked={closeOtpActionModal}>
 			<div
 				class="flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white shadow-csm md:w-120 md:rounded-lg"
 			>
@@ -387,7 +387,7 @@
 					</section>
 				</slot>
 			</div>
-		</Modal>
+		</ModalWithAnimation>
 	{/if}
 
 	<!-- About Order Verification Modal -->

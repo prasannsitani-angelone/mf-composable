@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Button from '$components/Button.svelte';
-	import Modal from '$components/Modal.svelte';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 	let isModalOpen = false;
 	let closeModal: (() => void) | null = null;
 	let confirm: (() => void) | null = null;
@@ -19,7 +19,7 @@
 	};
 </script>
 
-<Modal {closeModal} {isModalOpen}>
+<ModalWithAnimation {closeModal} {isModalOpen}>
 	<section
 		class="z-40 flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white shadow-csm md:w-96 md:rounded-lg"
 	>
@@ -60,4 +60,4 @@
 			</section>
 		</slot>
 	</section>
-</Modal>
+</ModalWithAnimation>

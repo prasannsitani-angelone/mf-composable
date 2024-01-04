@@ -1,15 +1,15 @@
 <script lang="ts">
-	import Modal from '$components/Modal.svelte';
 	import WmsIcon from '$components/WMSIcon.svelte';
 	import Button from '$components/Button.svelte';
 	import { addCommasToAmountString } from 'svelte-components';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 
 	export let mandateLimit: number;
 	export let closeModal = () => '';
 	export let onSubmit = (): void => undefined;
 </script>
 
-<Modal {closeModal} isModalOpen>
+<ModalWithAnimation {closeModal} isModalOpen>
 	<div
 		class=" w-screen justify-between rounded-b-none rounded-t-2xl bg-white px-4 pb-3 pt-6 text-left sm:!w-[460px] sm:rounded-lg sm:px-16 sm:py-8"
 	>
@@ -45,7 +45,7 @@
 			<Button class="w-full sm:w-48" onClick={onSubmit}>DONE</Button>
 		</div>
 	</div>
-</Modal>
+</ModalWithAnimation>
 
 <style>
 	.info-icon-container :global(.info-in-circle-dark-icon path) {

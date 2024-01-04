@@ -1,10 +1,10 @@
 <script setup lang="ts">
-	import Modal from './Modal.svelte';
 	import Button from './Button.svelte';
 	import WmsIcon from './WMSIcon.svelte';
 	import type { MandateWithBankDetails } from '$lib/types/IEmandate';
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import PaymentTile from '$components/Payment/PaymentTile.svelte';
+	import ModalWithAnimation from './ModalWithAnimation.svelte';
 
 	export let selectedMandate: MandateWithBankDetails;
 	export let mandateList: Array<MandateWithBankDetails> = [];
@@ -22,7 +22,7 @@
 	};
 </script>
 
-<Modal on:backdropclicked={onClose} isModalOpen>
+<ModalWithAnimation on:backdropclicked={onClose} isModalOpen>
 	<div class="w-full rounded-t-3xl bg-white sm:w-120 sm:rounded-lg {$$props.class}">
 		<div class="ml-4 pb-4 pt-6 text-lg font-normal text-black-title">Select Autopay</div>
 		<div class="flex flex-col pb-4">
@@ -77,7 +77,7 @@
 		</div>
 		<slot name="loader" />
 	</div>
-</Modal>
+</ModalWithAnimation>
 
 <style>
 	.info-icon-container :global(.info-in-circle-dark-icon path) {

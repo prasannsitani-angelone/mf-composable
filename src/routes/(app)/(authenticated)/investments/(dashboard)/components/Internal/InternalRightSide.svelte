@@ -1,0 +1,78 @@
+<script lang="ts">
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
+	import PortfolioCardInvestment from '$components/PortfolioCards/PortfolioCardInvestment.svelte';
+	import ClevertapNudgeComponent from '$components/clevertap/ClevertapNudgeComponent.svelte';
+	import { ctNudgeStore } from '$lib/stores/CtNudgeStore';
+	import type { IOPtimsiePortfolioData, InvestmentEntity } from '$lib/types/IInvestments';
+	import { createEventDispatcher } from 'svelte';
+	import type { PageData } from '../../$types';
+	import { fundForYouClickAnalytics } from '../../../analytics';
+	import InvestmentOrders from '../../InvestmentOrders.svelte';
+	import OptimisePortfolioCard from '../OptimisePortfolioCard.svelte';
+
+	export let data: PageData;
+
+	let optimisePorfolioData: IOPtimsiePortfolioData = {
+		isin: '',
+		schemeCode: '',
+		schemeName: '',
+		logoUrl: ''
+	};
+	let holdings: Array<InvestmentEntity>;
+	$: isMobile = $page?.data?.deviceType?.isMobile;
+	let dispatch = createEventDispatcher();
+
+	const showXirrModal = () => {
+		dispatch('showXirr');
+	};
+	const toggleOptimisePorfolioCard = () => {
+		const investmentSummary = data?.investementSummary;
+		fundForYouClickAnalytics({
+			'Current Value': investmentSummary?.currentValue,
+			'Total Investment': investmentSummary?.investedValue,
+			'Overall Gain': `${investmentSummary?.returnsValue}(${investmentSummary?.returnsAbsolutePer}%)`,
+			'Todays Loss': `${investmentSummary?.previousDayReturns}(${investmentSummary?.previousDayReturnPercentage}%)`,
+			'Fund Name': holdings?.filter((holding) => {
+				return {
+					'Fund Name': holding?.schemeName,
+					'Current Value': holding?.currentValue,
+					'Total Investment': holding?.investedValue,
+					'Overall Gain': `${holding?.returnsValue}(${holding?.returnsAbsolutePer}%)`
+				};
+			})
+		});
+		dispatch('openOptimisePortfolio');
+	};
+</script>
+
+<!-- Right Side Contents -->
+<section class="col-span-1 row-start-1 sm:col-span-1 sm:col-start-2 sm:row-span-3">
+	<section class="sm:sticky sm:top-0">
+		<!-- Portfolio cards: All scenarios -->
+		<article class="mb-2 overflow-hidden sm:mb-0">
+			<PortfolioCardInvestment
+				onInfoClick={showXirrModal}
+				investmentSummary={data.investementSummary}
+			/>
+			{#if $ctNudgeStore?.kv?.topic === 'mf_invdash_inpage1_type_d' || (['mf_invdash_bottomsticky_type_b', 'mf_invdash_bottomsticky_type_c', 'mf_invdash_bottomsticky_type_d'].includes($ctNudgeStore?.kv?.topic) && !isMobile)}
+				<ClevertapNudgeComponent
+					class="mt-2 w-full items-center rounded-lg"
+					data={$ctNudgeStore}
+					on:onCTAClicked={(e) => goto(e.detail.url)}
+				/>
+			{/if}
+		</article>
+		{#if optimisePorfolioData?.schemeCode && optimisePorfolioData?.schemeName && optimisePorfolioData?.isin}
+			<article class="mt-2 hidden sm:block">
+				<OptimisePortfolioCard on:click={toggleOptimisePorfolioCard} />
+			</article>
+		{/if}
+		<!-- Order cards: Visible only in desktop and tablet -->
+		{#if !isMobile}
+			<article class="mt-5">
+				<InvestmentOrders />
+			</article>
+		{/if}
+	</section>
+</section>

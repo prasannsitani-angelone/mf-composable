@@ -2,7 +2,7 @@
 	import type { FinancialYear } from '$lib/types/IReports';
 	import { createEventDispatcher } from 'svelte';
 	import ReportsDetailedCard from './ReportsDetailedCard.svelte';
-	import Modal from '$components/Modal.svelte';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 
 	export let selected: FinancialYear = {};
 	export let info = '';
@@ -20,7 +20,7 @@
 	};
 </script>
 
-<Modal closeModal={backdropClick} isModalOpen>
+<ModalWithAnimation closeModal={backdropClick} isModalOpen>
 	<div
 		class="w-screen items-stretch rounded-b-none rounded-t-2xl bg-white max-sm:!p-0 sm:rounded-lg"
 	>
@@ -44,4 +44,4 @@
 			</svelte:fragment>
 		</ReportsDetailedCard>
 	</div>
-</Modal>
+</ModalWithAnimation>

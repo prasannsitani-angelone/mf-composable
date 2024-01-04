@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Modal from '$components/Modal.svelte';
 	import { onMount } from 'svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import Button from '$components/Button.svelte';
@@ -17,6 +16,7 @@
 		tefGenerateOtpScreenAnalytics,
 		investmentExternalRefreshGotToInvestmentAnalytics
 	} from '../../analytics';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 
 	export let step: string;
 	export let flow: string;
@@ -139,7 +139,7 @@
 	});
 </script>
 
-<Modal closeModal={onModalClick} isModalOpen>
+<ModalWithAnimation closeModal={onModalClick} isModalOpen>
 	<div
 		class="w-screen rounded-b-none rounded-t-2xl bg-white px-4 pb-3 pt-6 sm:!w-[460px] sm:rounded-lg sm:p-0 sm:pb-6"
 	>
@@ -226,4 +226,4 @@
 			</div>
 		{/if}
 	</div>
-</Modal>
+</ModalWithAnimation>

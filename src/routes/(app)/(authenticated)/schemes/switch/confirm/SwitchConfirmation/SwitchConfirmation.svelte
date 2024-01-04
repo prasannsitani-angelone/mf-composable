@@ -38,9 +38,9 @@
 	import type { FolioHoldingType, FolioObject } from '$lib/types/IInvestments';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { base } from '$app/paths';
-	import Modal from '$components/Modal.svelte';
 	import InterAmcSwitchCue from './InterAmcSwitchCue.svelte';
 	import type { IMandateDetails } from '$lib/types/IEmandate';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 
 	let showTpinVerificationModal = false;
 	let showOtpVerificationModal = false;
@@ -429,7 +429,7 @@
 {/if}
 
 {#if interAmcFlag && showInterAmcPopup}
-	<Modal isModalOpen={showInterAmcPopup} closeModal={toggleInterAMCPopup}>
+	<ModalWithAnimation isModalOpen={showInterAmcPopup} closeModal={toggleInterAMCPopup}>
 		<div
 			class="flex w-screen flex-col items-center rounded-b-none rounded-t-2xl bg-white px-4 py-4 shadow-csm sm:!w-[875px] md:rounded-lg"
 		>
@@ -440,5 +440,5 @@
 				>
 			</div>
 		</div>
-	</Modal>
+	</ModalWithAnimation>
 {/if}

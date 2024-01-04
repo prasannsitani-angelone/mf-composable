@@ -7,12 +7,12 @@
 	import AmountSection from '$components/AmountInputOrderpad/AmountSection.svelte';
 	import CalendarSmallIcon from '$lib/images/icons/CalendarSmallIcon.svelte';
 	import CalendarComponent from '$components/Calendar/CalendarComponent.svelte';
-	import Modal from '$components/Modal.svelte';
 	import type { dateArrayTypes } from '$lib/types/Calendar/ICalendar';
 	import { getDateSuperscript } from '$lib/utils/helpers/date';
 	import PaymentFlow from './PaymentFlow.svelte';
 	import OrderpadReturns from '../../../../InvestmentPad/OrderPadComponents/OrderpadReturns.svelte';
 	import TncModal from '$components/TnC/TncModal.svelte';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 
 	export let portfolioPack: PortfolioPack;
 	export let amount = 500;
@@ -158,7 +158,7 @@
 </section>
 
 {#if showCalendar}
-	<Modal isModalOpen={showCalendar} on:backdropclicked={toggleCalendar}>
+	<ModalWithAnimation isModalOpen={showCalendar} on:backdropclicked={toggleCalendar}>
 		<CalendarComponent
 			classes={{
 				title: 'uppercase mr-auto'
@@ -174,7 +174,7 @@
 			on:close={toggleCalendar}
 			class="z-60 sm:w-120"
 		/>
-	</Modal>
+	</ModalWithAnimation>
 {/if}
 
 {#if showTncModal}

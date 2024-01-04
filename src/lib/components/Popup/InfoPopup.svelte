@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Modal from '$components/Modal.svelte';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	let heading = '';
 	let detailText = '';
@@ -8,7 +8,7 @@
 	export { heading, detailText, isModalOpen, closeModal };
 </script>
 
-<Modal {isModalOpen} {closeModal}>
+<ModalWithAnimation {isModalOpen} {closeModal}>
 	<div
 		class="flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white shadow-csm md:w-120 md:rounded-lg"
 	>
@@ -37,4 +37,4 @@
 			</section>
 		</slot>
 	</div>
-</Modal>
+</ModalWithAnimation>

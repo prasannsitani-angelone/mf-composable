@@ -22,7 +22,6 @@
 	import type { OrderPadTypes } from '$lib/types/IOrderPad';
 	import RedemptionPad from '../../../Redemption/RedemptionPad.svelte';
 	import { format } from 'date-fns';
-	import Modal from '$components/Modal.svelte';
 	import SwitchOptions from '$components/Switch/SwitchOptions.svelte';
 	import {
 		stayInvestedPrimaryCtaClickAnalytics,
@@ -40,6 +39,7 @@
 	import { investMoreClickEvent } from '$lib/analytics/investments/investments';
 	import SwpDetails from './components/SwpDetails.svelte';
 	import type { MandateWithBankDetails } from '$lib/types/IEmandate';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 	import { versionStore } from '$lib/stores/VersionStore';
 
 	export let data: PageData;
@@ -458,17 +458,17 @@
 			/>
 		</section>
 	{/if}
-	<Modal isModalOpen={isSwitchModalOpen} closeModal={toggleSwitch}>
+	<ModalWithAnimation isModalOpen={isSwitchModalOpen} closeModal={toggleSwitch}>
 		<SwitchOptions
 			schemeData={res?.schemeData}
 			switchFlags={holdingsData.switchFlag}
 			holdingDetails={holdingsData}
 			redemptionNotAllowedText={withdrawDisableText}
 		/>
-	</Modal>
+	</ModalWithAnimation>
 
 	{#if showStayInvestedModal}
-		<Modal
+		<ModalWithAnimation
 			isModalOpen={showStayInvestedModal}
 			on:backdropclicked={() => toggleShowStayInvestedModal()}
 		>
@@ -481,6 +481,6 @@
 				subCategoryName={res?.schemeData?.subCategoryName}
 				exitLoadDetails={res?.schemeData?.exitLoadValue || ''}
 			/>
-		</Modal>
+		</ModalWithAnimation>
 	{/if}
 {/await}

@@ -3,7 +3,7 @@
 	import HoldingTable from './HoldingTable.svelte';
 	import type { TopHolding } from '$components/Scheme/types';
 	import { fundHoldingsInfo } from '$components/Scheme/analytics';
-	import Modal from '$components/Modal.svelte';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 	import type { SectorHoldings } from '$lib/types/ISchemeDetails';
 	let holdings: TopHolding[];
 	let sectorHoldings: SectorHoldings[];
@@ -31,7 +31,7 @@
 	};
 </script>
 
-<Modal {isModalOpen} on:backdropclicked={toggleSchemeIformationModal}>
+<ModalWithAnimation {isModalOpen} on:backdropclicked={toggleSchemeIformationModal}>
 	<article
 		class="h-[70vh] overflow-x-scroll rounded-t-2xl bg-white px-6 pb-8 pt-6 md:w-120 md:rounded-lg"
 	>
@@ -48,4 +48,4 @@
 			<HoldingTable {holdings} {sectorHoldings} {activeTab} />
 		</section>
 	</article>
-</Modal>
+</ModalWithAnimation>

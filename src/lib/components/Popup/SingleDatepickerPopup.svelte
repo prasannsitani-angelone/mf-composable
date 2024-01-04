@@ -1,5 +1,4 @@
 <script setup lang="ts">
-	import Modal from '$components/Modal.svelte';
 	import Button from '$components/Button.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { page } from '$app/stores';
@@ -7,6 +6,7 @@
 	import CrossInCircleIcon from '$lib/images/icons/CrossInCircleIcon.svelte';
 	import SingleDatepicker from '$components/Datepickers/SingleDatepicker.svelte';
 	import type { DatepickerEntity } from '$lib/types/IDatepicker';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 
 	export let date = new Date();
 	export let displayDate = '';
@@ -27,7 +27,7 @@
 	};
 </script>
 
-<Modal closeModal={backdropClick} isModalOpen>
+<ModalWithAnimation closeModal={backdropClick} isModalOpen>
 	<div class="rounded-b-none rounded-t-2xl bg-white sm:rounded-lg">
 		<div class="flex items-center justify-between border-b border-grey-line px-8">
 			<p class="py-6 text-xl font-normal text-black-title">
@@ -58,4 +58,4 @@
 			{/if}
 		</div>
 	</div>
-</Modal>
+</ModalWithAnimation>

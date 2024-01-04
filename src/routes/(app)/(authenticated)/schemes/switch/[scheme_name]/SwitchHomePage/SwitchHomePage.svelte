@@ -1,11 +1,9 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import Modal from '$components/Modal.svelte';
 	import SwitchSearch from '$components/Switch/SwitchSearch.svelte';
 	import { SwitchOrderTitleCard, SwitchOrderTile, SEO } from 'svelte-components';
 	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
-
 	import SwitchInFundSelection from '../SwitchInFundSelection/SwitchInFundSelection.svelte';
 	import type { FolioHoldingType, FolioObject, SwitchInSchemeType } from '$lib/types/IInvestments';
 	import { NomineeUpdateLinks } from '$components/NomineeUpdate/constants';
@@ -39,6 +37,7 @@
 	import { createEventDispatcher, tick } from 'svelte';
 	import SwitchConfirmation from '../../confirm/SwitchConfirmation/SwitchConfirmation.svelte';
 	import DotIcon from '$lib/images/icons/DotIcon.svelte';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 
 	export let folioHolding: FolioHoldingType;
 	export let switchInSchemeData: SwitchInSchemeType;
@@ -636,14 +635,14 @@
 		{/if}
 
 		<!-- All PopUps of Page  -->
-		<Modal isModalOpen={selectSwitchFund && isMobile}>
+		<ModalWithAnimation isModalOpen={selectSwitchFund && isMobile}>
 			<SwitchSearch
 				{toggleModal}
 				on:optInSwitchScheme={optInSwitchScheme}
 				amccode={folioHolding?.amcCode}
 				isin={folioHolding?.isin}
 			/>
-		</Modal>
+		</ModalWithAnimation>
 		<!-- Amount PopUp -->
 		<InfoPopup
 			isModalOpen={showSwitchableAmountInfo}
@@ -736,7 +735,7 @@
 		</InfoPopup>
 
 		<!-- Switch Cue -->
-		<Modal isModalOpen={showSwitchCue} closeModal={toggleSwitchCue}>
+		<ModalWithAnimation isModalOpen={showSwitchCue} closeModal={toggleSwitchCue}>
 			<div
 				class="flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white p-4 shadow-csm md:w-120 md:rounded-lg"
 			>
@@ -745,12 +744,12 @@
 					<ButtonMedium class="w-full" on:click={toggleSwitchCue}>CONTINUE</ButtonMedium>
 				</div>
 			</div>
-		</Modal>
+		</ModalWithAnimation>
 
 		{#if showFolioSelection && isMobile}
 			<!-- Folio Selection screen section mobile -->
 			<section class="block rounded text-grey-dark md:hidden">
-				<Modal
+				<ModalWithAnimation
 					isModalOpen={showFolioSelection && isMobile}
 					on:backdropclicked={() => toggleFolioSelection(false)}
 				>
@@ -761,7 +760,7 @@
 						selectedFolioNumber={selectedFolio?.folioNumber}
 						on:confirmSelectedFolio={(folioData) => setFolioWithdrawalData(folioData?.detail)}
 					/>
-				</Modal>
+				</ModalWithAnimation>
 			</section>
 		{/if}
 	</div>

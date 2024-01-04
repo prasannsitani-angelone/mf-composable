@@ -4,7 +4,6 @@
 	import { compareVersion } from '$lib/utils/helpers';
 	import type { ReportDownloadArgs } from '$lib/types/IReports';
 	import { reportType, reportMode } from '$lib/types/IReports';
-	import Modal from '$components/Modal.svelte';
 	import Button from '$components/Button.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { page } from '$app/stores';
@@ -12,6 +11,7 @@
 	import CrossInCircleIcon from '$lib/images/icons/CrossInCircleIcon.svelte';
 	import SingleDatepicker from '$components/Datepickers/SingleDatepicker.svelte';
 	import type { DatepickerEntity } from '$lib/types/IDatepicker';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 
 	export let fromDate = '';
 	export let displayFromDate = '';
@@ -89,7 +89,7 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<Modal closeModal={backdropClick} isModalOpen>
+<ModalWithAnimation closeModal={backdropClick} isModalOpen>
 	<div
 		class="w-screen items-stretch rounded-b-none rounded-t-2xl bg-white max-sm:!p-0 sm:!w-[460px] sm:rounded-lg"
 	>
@@ -205,4 +205,4 @@
 			</section>
 		{/if}
 	</div>
-</Modal>
+</ModalWithAnimation>

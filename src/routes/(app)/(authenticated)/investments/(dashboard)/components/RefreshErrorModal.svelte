@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import Modal from '$components/Modal.svelte';
 	import Button from '$components/Button.svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import {
 		investmentExternalRefreshGotItAnalytics,
 		investmentExternalRefreshFlowAnalytics
 	} from '../../analytics';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 
 	export let onModalClick = () => '';
 
@@ -21,7 +21,7 @@
 	});
 </script>
 
-<Modal closeModal={onModalClick} isModalOpen>
+<ModalWithAnimation closeModal={onModalClick} isModalOpen>
 	<div
 		class="flex w-screen flex-col items-center justify-between rounded-b-none rounded-t-2xl bg-white px-10 pb-8 pt-6 text-center sm:!w-[460px] sm:rounded-lg sm:px-20 sm:py-10"
 	>
@@ -34,4 +34,4 @@
 
 		<Button class="mt-8 w-40 px-2" variant="outlined" onClick={onConfirmationClick}>GOT IT</Button>
 	</div>
-</Modal>
+</ModalWithAnimation>
