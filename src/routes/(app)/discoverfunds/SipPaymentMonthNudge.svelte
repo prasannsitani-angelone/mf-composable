@@ -28,7 +28,8 @@
 			investmentAmount: sip?.amount,
 			skipOrderPad: true,
 			sipInstalmentId: (sip?.orderID || '')?.toString(),
-			isAdditionalFlag: true
+			isAdditionalFlag: true,
+			require2FA: false
 		});
 		goto(`${base}/${routerPath}?params=${params}&orderpad=INVEST`);
 	};

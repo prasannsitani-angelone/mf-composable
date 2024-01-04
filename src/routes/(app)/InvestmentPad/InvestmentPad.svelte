@@ -143,6 +143,7 @@
 	import type { MandateWithBankDetails } from '$lib/types/IEmandate';
 	import AutopayMethod from '$components/Payment/AutopayMethod.svelte';
 	import InfoPopup from '$components/Popup/InfoPopup.svelte';
+	import Physical2FAOtpVerificationComponent from '$components/Payment/Physical2FAOtpVerificationComponent.svelte';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -173,7 +174,8 @@
 		folioNumber,
 		sipInstalmentId,
 		isAdditionalFlag,
-		hideAutopayMethod
+		hideAutopayMethod,
+		require2FA = true
 	} = params || {};
 
 	const os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
@@ -726,6 +728,9 @@
 
 		handleInvestClick(paymentHandler?.upiId);
 	};
+
+	let showOtpVerificationModal = false;
+	let isOtpVerificationDone = !require2FA;
 
 	const handleInvestClick = (inputId: string) => {
 		if (
@@ -1461,6 +1466,11 @@
 			assignNewRequestId();
 		}
 
+		if (profileStore.accountType() === 'P' && !isOtpVerificationDone) {
+			showOtpVerificationModal = true;
+			return;
+		}
+
 		const commonSIPLumpSumInput = {
 			amount,
 			accNO: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO,
@@ -1504,7 +1514,9 @@
 			sipDate: getSIPDate(),
 			sipType: investmentType,
 			mandateId,
-			onSuccess: navigateToSipCompletePage
+			onSuccess: navigateToSipCompletePage,
+			emailId: profileData?.clientDetails?.email,
+			mobileNo: profileData?.mobile
 		};
 
 		const sipInstallmentInput = {
@@ -1529,7 +1541,9 @@
 				stopLoading,
 				displayError,
 				showLoading,
-				onSuccess: navigateToSipCompletePage
+				onSuccess: navigateToSipCompletePage,
+				emailId: profileData?.clientDetails?.email,
+				mobileNo: profileData?.mobile
 			});
 		} else if (
 			paymentHandler?.paymentMode === 'NET_BANKING' &&
@@ -1677,7 +1691,9 @@
 			isFtpWithMandate: true,
 			emandateId: selectedAutopay.mandateId,
 			bankName: selectedAutopay.bankName,
-			bankAccountNo: selectedAutopay.accountNo
+			bankAccountNo: selectedAutopay.accountNo,
+			emailId: profileData?.clientDetails?.email,
+			mobileNo: profileData?.mobile
 		});
 	};
 
@@ -2502,6 +2518,24 @@
 		</div>
 	</svelte:fragment>
 </InfoPopup>
+
+<!-- 2FA (OTP) Verification Process -->
+{#if showOtpVerificationModal && !error?.visible}
+	<Physical2FAOtpVerificationComponent
+		uuid={xRequestId}
+		{amount}
+		investmentType={activeTab === 'SIP' ? 'SIP' : 'One Time'}
+		schemeName={schemeData?.schemeName}
+		on:otpVerificationSuccessful={() => {
+			showOtpVerificationModal = false;
+			isOtpVerificationDone = true;
+			handleInvestClick(paymentHandler?.upiId);
+		}}
+		on:closeOtpModal={() => {
+			showOtpVerificationModal = false;
+		}}
+	/>
+{/if}
 
 <style>
 	.trucateTo2Line {

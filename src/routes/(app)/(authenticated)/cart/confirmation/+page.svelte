@@ -48,6 +48,7 @@
 	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
 	import KycProgressPopup from '$components/Payment/KYCProgressPopup.svelte';
 	import TncModal from '$components/TnC/TncModal.svelte';
+	import Physical2FAOtpVerificationComponent from '$components/Payment/Physical2FAOtpVerificationComponent.svelte';
 
 	export let data: PageData;
 
@@ -235,6 +236,9 @@
 		isKYCInProgress = !isKYCInProgress;
 	};
 
+	let showOtpVerificationModal = false;
+	let isOtpVerificationDone = false;
+
 	const paymentFailedScreenAnalyticsWithData = async () => {
 		const itemList = await data.api.itemList;
 		paymentFailedScreenAnalytics({
@@ -353,13 +357,22 @@
 			showPaymentMethodScreen();
 			return;
 		}
+
 		assignNewRequestId();
+
+		if (profileStore.accountType() === 'P' && !isOtpVerificationDone) {
+			showOtpVerificationModal = true;
+			return;
+		}
+
 		const commonInput = {
 			amount: itemList?.totalAmount,
 			accNO: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.accNO,
 			ifscCode: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.ifscCode,
 			bankName: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
 			fullName: profileData?.clientDetails?.fullName,
+			emailId: profileData?.clientDetails?.email,
+			mobileNo: profileData?.mobile,
 			cartItemIds: itemList?.cartIDArray || [],
 			paymentMode: paymentHandler?.paymentMode,
 			xRequestId,
@@ -617,6 +630,24 @@
 		{#if showTncModal}
 			<!-- T&C Modal -->
 			<TncModal showModal={showTncModal} on:closeModal={toggleTncModal} />
+		{/if}
+
+		<!-- 2FA (OTP) Verification Process -->
+		{#if showOtpVerificationModal && !error?.visible}
+			<Physical2FAOtpVerificationComponent
+				uuid={xRequestId}
+				investmentType="Cart"
+				schemeName={itemList.data?.data[0]?.schemeName}
+				amount={itemList?.totalAmount?.toString()}
+				on:otpVerificationSuccessful={() => {
+					showOtpVerificationModal = false;
+					isOtpVerificationDone = true;
+					onPayment(paymentHandler.upiId);
+				}}
+				on:closeOtpModal={() => {
+					showOtpVerificationModal = false;
+				}}
+			/>
 		{/if}
 	{:catch}
 		<div class="flex h-full flex-col items-center self-center px-4 py-4">

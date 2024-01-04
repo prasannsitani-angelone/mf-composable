@@ -56,6 +56,8 @@ export const noPaymentFlow = async (params) => {
 		xRequestId,
 		sipType = 'SIP',
 		source = '',
+		emailId,
+		mobileNo,
 		previousOrderId = '', // for previous order deletion
 		previousPGTxnId = '', // for previous order deletion
 		stopLoading = () => undefined,
@@ -89,7 +91,9 @@ export const noPaymentFlow = async (params) => {
 			firstSipPayment: false,
 			sipDate,
 			xRequestId,
-			source
+			source,
+			emailId,
+			mobileNo
 		});
 		handleOrderPostResponse({
 			orderPostResponse,
@@ -119,6 +123,8 @@ export const netBankingCartFlow = async (params) => {
 		paymentMode,
 		xRequestId,
 		source = '',
+		emailId,
+		mobileNo,
 		netBankingState = {},
 		state = {},
 		showLoading = () => undefined,
@@ -141,7 +147,9 @@ export const netBankingCartFlow = async (params) => {
 			cartItemIds,
 			paymentMode,
 			xRequestId,
-			source
+			source,
+			emailId,
+			mobileNo
 		});
 		handleOrderPostResponse({
 			orderPostResponse,
@@ -425,6 +433,8 @@ export const netBankingSIPFlow = async (params) => {
 		previousOrderId = '', // for previous order deletion
 		previousPGTxnId = '', // for previous order deletion
 		state = {},
+		emailId,
+		mobileNo,
 		netBankingState = {},
 		showLoading = () => undefined,
 		stopLoading = () => undefined,
@@ -467,7 +477,9 @@ export const netBankingSIPFlow = async (params) => {
 			firstSipPayment: true,
 			sipDate,
 			xRequestId,
-			source
+			source,
+			emailId,
+			mobileNo
 		});
 		handleOrderPostResponse({
 			orderPostResponse,
@@ -593,6 +605,8 @@ export const netBankingBulkSIPFlow = async (params) => {
 		fullName,
 		xRequestId,
 		source = '',
+		emailId,
+		mobileNo,
 		previousOrderId = '', // for previous order deletion
 		previousPGTxnId = '', // for previous order deletion
 		state = {},
@@ -627,7 +641,9 @@ export const netBankingBulkSIPFlow = async (params) => {
 			orders,
 			packId,
 			xRequestId,
-			source
+			source,
+			emailId,
+			mobileNo
 		});
 		handleOrderPostResponse({
 			orderPostResponse,
@@ -749,6 +765,8 @@ export const upiCartFlow = async (params) => {
 		bankName,
 		xRequestId,
 		source = '',
+		emailId,
+		mobileNo,
 		upiState = {},
 		state = {},
 		showUPILoading = () => undefined,
@@ -783,7 +801,9 @@ export const upiCartFlow = async (params) => {
 			cartItemIds,
 			paymentMode,
 			xRequestId,
-			source
+			source,
+			emailId,
+			mobileNo
 		});
 		handleOrderPostResponse({
 			orderPostResponse,
@@ -1127,6 +1147,8 @@ export const upiSIPFlow = async (params) => {
 		xRequestId,
 		source = '',
 		mandateId = '',
+		emailId,
+		mobileNo,
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
 		upiState = {},
@@ -1195,7 +1217,9 @@ export const upiSIPFlow = async (params) => {
 			sipDate,
 			xRequestId,
 			source,
-			isFirstSip
+			isFirstSip,
+			emailId,
+			mobileNo
 		});
 		handleOrderPostResponse({
 			orderPostResponse,
@@ -1349,6 +1373,8 @@ export const upiIntegeratedFlow = async (params) => {
 		xRequestId,
 		source = '',
 		mandateId = '',
+		emailId,
+		mobileNo,
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
 		upiState = {},
@@ -1380,7 +1406,9 @@ export const upiIntegeratedFlow = async (params) => {
 			xRequestId,
 			source,
 			isFirstSip,
-			integratedFlow: true
+			integratedFlow: true,
+			emailId,
+			mobileNo
 		});
 		handleOrderPostResponse({
 			orderPostResponse,
@@ -1579,6 +1607,8 @@ export const upiBulkSIPFlow = async (params) => {
 		bankName,
 		xRequestId,
 		source = '',
+		emailId,
+		mobileNo,
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
 		upiState = {},
@@ -1627,7 +1657,9 @@ export const upiBulkSIPFlow = async (params) => {
 			orders,
 			packId,
 			xRequestId,
-			source
+			source,
+			emailId,
+			mobileNo
 		});
 		handleOrderPostResponse({
 			orderPostResponse,
@@ -1772,6 +1804,8 @@ export const walletCartFlow = async (params) => {
 		bankName,
 		xRequestId,
 		source = '',
+		emailId,
+		mobileNo,
 		gpayPaymentState = {},
 		state = {},
 		showLoading = () => undefined,
@@ -1790,7 +1824,9 @@ export const walletCartFlow = async (params) => {
 			cartItemIds,
 			paymentMode,
 			xRequestId,
-			source
+			source,
+			emailId,
+			mobileNo
 		});
 		handleOrderPostResponse({
 			orderPostResponse,
@@ -2118,6 +2154,8 @@ export const walletSIPFlow = async (params) => {
 		xRequestId,
 		source = '',
 		mandateId = '',
+		emailId,
+		mobileNo,
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
 		gpayPaymentState = {},
@@ -2161,7 +2199,9 @@ export const walletSIPFlow = async (params) => {
 			sipDate,
 			xRequestId,
 			source,
-			isFirstSip
+			isFirstSip,
+			emailId,
+			mobileNo
 		});
 		handleOrderPostResponse({
 			orderPostResponse,
@@ -2308,6 +2348,8 @@ export const walletBulkSIPFlow = async (params) => {
 		bankName,
 		xRequestId,
 		source = '',
+		emailId,
+		mobileNo,
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
 		gpayPaymentState = {},
@@ -2338,7 +2380,9 @@ export const walletBulkSIPFlow = async (params) => {
 			orders,
 			packId,
 			xRequestId,
-			source
+			source,
+			emailId,
+			mobileNo
 		});
 		handleOrderPostResponse({
 			orderPostResponse,
@@ -2488,6 +2532,8 @@ export const walletIntegeratedFlow = async (params) => {
 		xRequestId,
 		source = '',
 		mandateId = '',
+		emailId,
+		mobileNo,
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
 		gpayPaymentState = {},
@@ -2518,7 +2564,9 @@ export const walletIntegeratedFlow = async (params) => {
 			xRequestId,
 			source,
 			isFirstSip,
-			integratedFlow: true
+			integratedFlow: true,
+			emailId,
+			mobileNo
 		});
 		handleOrderPostResponse({
 			orderPostResponse,
@@ -2725,7 +2773,9 @@ export const sipAutopayFlow = async (params) => {
 		showLoading = () => undefined,
 		onSuccess = () => undefined,
 		bankName = '',
-		bankAccountNo = ''
+		bankAccountNo = '',
+		emailId,
+		mobileNo
 	} = params || {};
 	try {
 		showLoading('Creating your order');
@@ -2744,7 +2794,9 @@ export const sipAutopayFlow = async (params) => {
 			source,
 			isFtpWithMandate,
 			bankAccountNo,
-			bankName
+			bankName,
+			emailId,
+			mobileNo
 		});
 		handleOrderPostResponse({
 			orderPostResponse,

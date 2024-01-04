@@ -242,7 +242,9 @@ export const sipOrderPostFunction = async (params) => {
 			integratedFlow,
 			isFtpWithMandate,
 			bankName,
-			bankAccountNo
+			bankAccountNo,
+			emailId,
+			mobileNo
 		} = params || {};
 
 		const response = await useFetch(url, {
@@ -264,7 +266,9 @@ export const sipOrderPostFunction = async (params) => {
 				orderPgRefId: xRequestId,
 				isFtpWithMandate: isFtpWithMandate,
 				bankName: bankName,
-				bankAccountNo: bankAccountNo
+				bankAccountNo: bankAccountNo,
+				emailId,
+				mobileNo
 			}),
 			headers: {
 				'X-Request-Id': xRequestId,
@@ -424,8 +428,17 @@ export const initiateWalletPayment = async (params) => {
 export const cartPostFunction = async (params) => {
 	const url = `${PUBLIC_MF_CORE_BASE_URL}/carts/items/orders`;
 	try {
-		const { accNO, bankName, cartItemIds, paymentMode, transactionRefNumber, xRequestId, source } =
-			params || {};
+		const {
+			accNO,
+			bankName,
+			cartItemIds,
+			paymentMode,
+			transactionRefNumber,
+			xRequestId,
+			source,
+			emailId,
+			mobileNo
+		} = params || {};
 		const response = await useFetch(url, {
 			method: 'POST',
 			body: JSON.stringify({
@@ -435,7 +448,9 @@ export const cartPostFunction = async (params) => {
 				paymentMode,
 				pgTxnId: transactionRefNumber,
 				paymentStatus: 'pending',
-				orderPgRefId: xRequestId
+				orderPgRefId: xRequestId,
+				emailId,
+				mobileNo
 			}),
 			headers: {
 				'X-Request-Id': xRequestId,
@@ -485,8 +500,17 @@ export const cartPatchFunction = async (params) => {
 export const sipBulkPostFunction = async (params) => {
 	const url = `${PUBLIC_MF_CORE_BASE_URL}/sips/bulk`;
 	try {
-		const { dpNumber, emandateId, orders, packId, transactionRefNumber, xRequestId, source } =
-			params || {};
+		const {
+			dpNumber,
+			emandateId,
+			orders,
+			packId,
+			transactionRefNumber,
+			xRequestId,
+			source,
+			emailId,
+			mobileNo
+		} = params || {};
 
 		const response = await useFetch(url, {
 			method: 'POST',
@@ -497,7 +521,9 @@ export const sipBulkPostFunction = async (params) => {
 				packId,
 				transactionRefNumber,
 				type: 'SIP',
-				orderPgRefId: xRequestId
+				orderPgRefId: xRequestId,
+				emailId,
+				mobileNo
 			}),
 			headers: {
 				'X-Request-Id': xRequestId,

@@ -25,6 +25,7 @@
 	import type { PortfolioPack } from '$lib/types/IBuyPortfolio';
 	import { v4 as uuidv4 } from 'uuid';
 	import { encodeObject } from '$lib/utils/helpers/params';
+	import Physical2FAOtpVerificationComponent from '$components/Payment/Physical2FAOtpVerificationComponent.svelte';
 
 	export let portfolioPack: PortfolioPack;
 	export let amount = 0;
@@ -126,7 +127,15 @@
 		return getCompleteSIPDateBasedonDD(date, new Date(), 30);
 	};
 
+	let showOtpVerificationModal = false;
+	let isOtpVerificationDone = false;
+
+	// eslint-disable-next-line
+	let paymentFlowParams: any;
+
 	const paymentFlow = async (params) => {
+		paymentFlowParams = params;
+
 		if (userData?.isKycInProgress) {
 			toggleKYCProgressPopup();
 			return;
@@ -137,6 +146,11 @@
 		// when first time user and first time payment true then navigate to payment method screen
 		if (paymentHandler.firstTimeUser) {
 			showPaymentMethodScreen();
+			return;
+		}
+
+		if (profileStore.accountType() === 'P' && !isOtpVerificationDone) {
+			showOtpVerificationModal = true;
 			return;
 		}
 
@@ -165,7 +179,9 @@
 			bankName: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
 			dpNumber: profileData?.dpNumber,
 			fullName: profileData?.clientDetails?.fullName,
-			onSuccess: successFlow
+			onSuccess: successFlow,
+			emailId: profileData?.clientDetails?.email,
+			mobileNo: profileData?.mobile
 		};
 
 		if (paymentHandler?.paymentMode === 'NET_BANKING') {
@@ -304,4 +320,22 @@
 
 {#if isKYCInProgress}
 	<KycProgressPopup onClose={toggleKYCProgressPopup} onSubmit={toggleKYCProgressPopup} />
+{/if}
+
+<!-- 2FA (OTP) Verification Process -->
+{#if showOtpVerificationModal}
+	<Physical2FAOtpVerificationComponent
+		uuid={paymentFlowParams?.xRequestId}
+		amount={amount.toString()}
+		investmentType="Portfolio"
+		schemeName={portfolioPack?.schemes[0]?.schemeName}
+		on:otpVerificationSuccessful={() => {
+			showOtpVerificationModal = false;
+			isOtpVerificationDone = true;
+			paymentFlow(paymentFlowParams);
+		}}
+		on:closeOtpModal={() => {
+			showOtpVerificationModal = false;
+		}}
+	/>
 {/if}

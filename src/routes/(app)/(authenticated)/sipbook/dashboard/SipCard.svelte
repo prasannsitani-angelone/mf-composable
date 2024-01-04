@@ -71,7 +71,8 @@
 					investmentAmount: sip?.installmentAmount,
 					skipOrderPad: true,
 					sipInstalmentId: sip?.sipInstalmentId,
-					isAdditionalFlag: true
+					isAdditionalFlag: true,
+					require2FA: false
 				});
 			} else {
 				params = encodeObject({
@@ -83,7 +84,8 @@
 					redirectedFrom: 'SIP_PAYMENTS',
 					sipId: sip?.sipId,
 					sipRegistrationNumber: sip?.sipRegistrationNo,
-					sipDueDate: format(new Date(sip?.sipPaymentDate), 'yyyy-MM-dd')
+					sipDueDate: format(new Date(sip?.sipPaymentDate), 'yyyy-MM-dd'),
+					require2FA: false
 				});
 			}
 			goto(`${base}/${path}?params=${params}&orderpad=INVEST`);

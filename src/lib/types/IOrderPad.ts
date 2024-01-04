@@ -25,4 +25,5 @@ export interface decodedParamsTypes {
 	sipInstalmentId?: string;
 	isAdditionalFlag?: boolean;
 	hideAutopayMethod?: boolean;
+	require2FA?: boolean;
 }

@@ -48,7 +48,8 @@
 			orderId: orderItem?.orderId,
 			pgTxnId: orderItem?.pgTxnId,
 			investmentType: orderItem?.investmentType,
-			investmentAmount: orderItem?.amount
+			investmentAmount: orderItem?.amount,
+			require2FA: false
 		});
 
 		let redirectPath = `${reRouteUrl}/${normalizeFundName(

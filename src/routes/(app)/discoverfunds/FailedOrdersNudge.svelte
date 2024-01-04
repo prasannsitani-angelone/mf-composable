@@ -24,7 +24,8 @@
 			orderId: order?.orderID,
 			pgTxnId: order?.pgTxnId,
 			investmentType: order?.investmentType === 'ONE-TIME' ? 'LUMPSUM' : 'SIP',
-			investmentAmount: order?.amount
+			investmentAmount: order?.amount,
+			require2FA: false
 		});
 		goto(`${base}/${routerPath}?params=${params}&orderpad=INVEST`);
 	};

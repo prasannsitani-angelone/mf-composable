@@ -169,7 +169,9 @@
 			bankName: profileData?.bankDetails?.[paymentHandler?.selectedAccount]?.bankName,
 			dpNumber: profileData?.dpNumber,
 			fullName: profileData?.clientDetails?.fullName,
-			onSuccess: successFlow
+			onSuccess: successFlow,
+			emailId: profileData?.clientDetails?.email,
+			mobileNo: profileData?.mobile
 		};
 
 		if (paymentHandler?.paymentMode === 'NET_BANKING') {

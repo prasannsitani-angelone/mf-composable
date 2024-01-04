@@ -19,6 +19,7 @@
 	export let amount: string;
 	export let folio: FolioObject;
 	export let schemeName: string;
+	export let investmentType: string;
 	export let orderType: unknown = undefined;
 
 	const dispatch = createEventDispatcher();
@@ -27,7 +28,7 @@
 		dispatch('closeOtpModal');
 	};
 
-	const aboutModalData = [
+	export let aboutModalData = [
 		{
 			text: 'In line with SEBI regulations, all physical account holders have to verify withdraw orders with an OTP sent to the mobile number and email address registered with the folio'
 		},
@@ -191,7 +192,8 @@
 				email: emailId,
 				data: {
 					amount: parseFloat(amount),
-					schemeName
+					schemeName,
+					investmentType
 				},
 				useCase: orderType
 			})

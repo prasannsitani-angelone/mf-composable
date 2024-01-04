@@ -58,7 +58,8 @@
 				orderId: orderItem?.orderId,
 				pgTxnId: orderItem?.pgTxnId,
 				investmentType: REVERSE_INVESTMENT_TYPE[orderItem?.investmentType?.toUpperCase()],
-				investmentAmount: orderItem?.amount
+				investmentAmount: orderItem?.amount,
+				require2FA: false
 			});
 
 			goto(`${base}/${path}?params=${params}&orderpad=INVEST`);
