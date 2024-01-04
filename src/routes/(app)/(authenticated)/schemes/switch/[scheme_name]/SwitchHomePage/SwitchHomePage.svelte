@@ -397,6 +397,7 @@
 						schemeName={folioHolding?.schemeName}
 						orderTypeText="SWITCH OUT"
 						orderTypeBgColor="bg-yellow-primary"
+						schemeNameClass="!font-normal"
 					>
 						<footer slot="footer" class="mb-6 flex justify-between bg-grey px-4 py-2">
 							<div class="flex">
@@ -440,6 +441,7 @@
 							schemeName={switchInFund?.schemeName}
 							orderTypeText="SWITCH IN"
 							orderTypeBgColor="bg-purple-primary"
+							schemeNameClass="!font-normal"
 						>
 							<div class="flex items-center justify-center border-t border-grey-line" slot="footer">
 								<ButtonMedium

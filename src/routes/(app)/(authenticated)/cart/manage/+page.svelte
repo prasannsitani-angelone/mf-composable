@@ -58,7 +58,7 @@
 			amount={cartItem?.amount}
 			schemeName={cartItem?.schemeName}
 			schemeLogo={cartItem?.logoUrl}
-			sipDate={4}
+			sipDate={cartItem?.sipDay}
 			isSip={cartItem.investmentType === 'SIP'}
 		/>
 	{/each}

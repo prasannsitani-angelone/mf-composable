@@ -10,7 +10,7 @@
 <div class="bg-white">
 	<AccordianCardComponent
 		data={{ title }}
-		titleStyle="!ml-0"
+		titleStyle="!ml-0 !font-medium"
 		titleFontSize="!text-xs !font-medium !text-black-bolder"
 		headerClass="!p-4"
 		class="!mt-0 !max-w-none !rounded-none"

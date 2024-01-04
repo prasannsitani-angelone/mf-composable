@@ -118,6 +118,9 @@
 						else return '₹' + value.toFixed(1).toString();
 					}
 				}
+			},
+			x: {
+				display: false
 			}
 		},
 		layout: {
@@ -394,7 +397,7 @@
 			);
 			fundBasics[2].push(element.schemeData?.exitLoadValue);
 			fundBasics[3].push(
-				element.schemeData?.aum ? `${addCommasToAmountString(element.schemeData?.aum)} Cr.` : ''
+				element.schemeData?.aum ? `₹${addCommasToAmountString(element.schemeData?.aum)} Cr.` : ''
 			);
 			fundBasics[4].push(
 				element.schemeData?.launchDate

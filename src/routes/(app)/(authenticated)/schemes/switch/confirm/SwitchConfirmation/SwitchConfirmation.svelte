@@ -322,6 +322,8 @@
 	switchInLogo={switchInFund?.logoUrl}
 	class="md:flex-col"
 	orderTileClass="md:w-full"
+	switchInSchemeNameClass="!font-normal"
+	switchOutSchemeNameClass="!font-normal"
 >
 	<svelte:fragment slot="switchIcon">
 		<div class="z-20 -my-1 flex max-h-0 items-center self-center">
