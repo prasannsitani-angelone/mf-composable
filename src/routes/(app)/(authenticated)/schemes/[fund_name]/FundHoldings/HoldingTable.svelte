@@ -26,7 +26,7 @@
 		>
 	</THead>
 	<TBody slot="tbody">
-		{#if activeTab === 'holdingCompany'}
+		{#if activeTab === 'holdingCompany' && holdings?.length}
 			{#each holdings as holding}
 				<Tr>
 					<Td class="!pl-0">
@@ -55,7 +55,7 @@
 					>
 				</Tr>
 			{/each}
-		{:else}
+		{:else if activeTab === 'sector' && sectorHoldings?.length}
 			{#each sectorHoldings as holding}
 				<Tr>
 					<Td class="!pl-0">

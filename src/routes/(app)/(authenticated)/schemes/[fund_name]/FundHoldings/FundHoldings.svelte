@@ -35,20 +35,22 @@
 	const tabs = [
 		{
 			title: {
-				label: 'HOLDINGS BY SECTOR'
+				label: 'Holdings By Sector'
 			},
 			tabId: 'sector',
 			styles: {
-				active: '!border-b-2 !border-blue-primary'
+				active: '!border-b-2 !border-blue-primary !text-blue-primary !font-normal !normal-case',
+				default: '!text-black-title !font-normal !normal-case'
 			}
 		},
 		{
 			title: {
-				label: 'TOP HOLDINGS'
+				label: 'Top Holdings'
 			},
 			tabId: 'holdingCompany',
 			styles: {
-				active: '!border-b-2 !border-blue-primary'
+				active: '!border-b-2 !border-blue-primary !text-blue-primary !font-normal !normal-case',
+				default: '!text-black-title !font-normal !normal-case'
 			}
 		}
 	];
@@ -60,17 +62,17 @@
 		if (!holdings?.length) {
 			return [];
 		}
-		if (!sectorData?.length) {
-			return [];
-		}
 		let sortedHoldings: TopHolding[] = holdings.sort((a, b) =>
 			a.percentageHold > b.percentageHold ? -1 : 1
 		);
-
 		let topHolding = sortedHoldings.slice(0, 10);
-		topSectorHolding = sectorData.slice(0, 10);
-
 		schemeTopHolding = [...topHolding];
+
+		if (!sectorData?.length) {
+			activeTab = 'holdingCompany';
+			return [];
+		}
+		topSectorHolding = sectorData.slice(0, 10);
 	};
 	setTableData(fundHoldingData, sectorData);
 
@@ -87,7 +89,9 @@
 			</section>
 		</section>
 	</header>
-	<Tabs items={tabs} {activeTab} onChange={onTabChange} classes={tabStyles} />
+	{#if sectorData?.length}
+		<Tabs items={tabs} {activeTab} onChange={onTabChange} classes={tabStyles} />
+	{/if}
 	<section class="px-4 pt-4 sm:px-6">
 		<HoldingTable
 			topHolding
