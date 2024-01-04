@@ -108,8 +108,8 @@
 		}
 
 		orderScreenOpenAnalytics({
-			FundName: od?.schemeName,
-			isin: od?.isin,
+			FundName: isSIPOrder ? sd?.schemeName : od?.schemeName,
+			isin: isSIPOrder ? sd?.isin : od?.isin,
 			Amount: isSIPOrder ? sd?.installmentAmount : od?.amount,
 			investmentType: isSIPOrder
 				? orderData?.data?.data?.firstOrder === 'N'
@@ -121,7 +121,7 @@
 			AutoPayBank: emandateBankDetails?.bankName,
 			AutopayCtaExist: !sd?.accountNo,
 			PaymentMethod: sd?.isFtpWithMandate ? 'autopay' : od?.paymentMode,
-			PaymentBank: od?.bankName,
+			PaymentBank: isSIPOrder ? sd?.bankName : od?.bankName,
 			Status: orderStatus,
 			Remarks: od?.remarks,
 			integratedUpiFlow: isIntegeratedFlow,

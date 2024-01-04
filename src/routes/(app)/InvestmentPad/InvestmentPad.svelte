@@ -195,10 +195,10 @@
 	let sipAllowedDaysArray = schemeData?.sipAllowedDays?.length
 		? schemeData?.sipAllowedDays?.trim()?.split(',') || []
 		: [];
-	let dateSuperscript = 'th';
 	let calendarDate = new Date(schemeData?.sipDate)?.getDate();
 	let calendarMonth = new Date(schemeData?.sipDate)?.toLocaleString('default', { month: 'short' });
 	let calendarYear = new Date(schemeData?.sipDate)?.getFullYear();
+	let dateSuperscript = getDateSuperscript(calendarDate);
 	let tempCalendarDate = calendarDate;
 	let tempCalendarMonth = calendarMonth;
 	let tempCalendarYear = calendarYear;
@@ -820,6 +820,7 @@
 
 		setDefaultSipDate();
 		prefillParamsData();
+		setNextSipDate();
 
 		await tick();
 		checkIfOrderIsValidFromDeeplink();
