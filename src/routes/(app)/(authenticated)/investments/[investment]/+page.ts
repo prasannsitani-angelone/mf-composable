@@ -50,9 +50,7 @@ export const load = (async ({ fetch, params }) => {
 	const getMandateData = async () => {
 		const mandateResponse = await getEmandateDataFunc({
 			amount: 0,
-			sipDate: getCompleteSIPDateBasedonDD(4, new Date(), 30),
-			mandateType: 'YES',
-			mandateFor: 'LUMPSUM'
+			sipDate: getCompleteSIPDateBasedonDD(4, new Date(), 30)
 		});
 		const mandateData = getAllMandates(mandateResponse?.data);
 		return mandateData;
