@@ -43,7 +43,7 @@
 <article class="flex h-full flex-col items-start">
 	{#if schemeDetails?.isin}
 		<div class="flex w-full justify-between">
-			<SchemeLogo src={schemeDetails?.logoUrl} class="!mr-1" />
+			<SchemeLogo src={schemeDetails?.logoUrl} size="xs" class="!mr-1" />
 			{#if isPrimary}
 				<div class="mr-auto self-start rounded-full bg-red-errorDark px-[6px] py-[2px]">
 					<p class="text-[10px] font-medium text-white">This Fund</p>
