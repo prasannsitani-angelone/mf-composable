@@ -80,6 +80,7 @@
 	let editSuccess = false;
 	let editFailure = false;
 	let isLoading = false;
+	let editFailureMsg = '';
 	$: amountVal = amount?.length ? `₹${addCommasToAmountString(amount)}` : '';
 	$: onInputChange(amount);
 
@@ -298,6 +299,10 @@
 			});
 		} else {
 			editFailure = true;
+			editFailureMsg =
+				response?.data?.errorCode === 'MF-SVC-SIPS-40'
+					? response?.data?.message
+					: 'We could not edit your SIP due to a technical error. Please try again';
 		}
 	};
 </script>
@@ -527,7 +532,7 @@
 			isModalOpen={editFailure}
 			popupType={STATUS_ARR.FAILURE}
 			title="Error"
-			text="We could not edit your SIP due to a technical error. Please try again"
+			text={editFailureMsg}
 			buttonTitle="RETRY"
 			class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-8 sm:py-8 md:rounded-lg"
 			buttonClass="mt-8 w-40 border border-blue-primary rounded !bg-white !text-blue-primary cursor-default md:cursor-pointer"
