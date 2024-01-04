@@ -375,5 +375,11 @@
 				</div>
 			{/if}
 		</svelte:fragment>
+		<svelte:fragment slot="infoText">
+			<div class="ml-3 text-sm font-normal text-grey-body">
+				If your SIP order is already in progress, autopay will be used from the next instalment.
+				Only Autopays with limit above your SIP amount are listed here
+			</div>
+		</svelte:fragment>
 	</AutopaySelectionPopup>
 {/if}

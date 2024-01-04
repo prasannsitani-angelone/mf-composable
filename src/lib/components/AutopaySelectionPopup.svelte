@@ -68,9 +68,12 @@
 					class="info-in-circle-dark-icon"
 				/>
 			</div>
-			<div class="ml-3 text-sm font-normal text-grey-body">
-				If your order is already in progress, switched Autopay will be used from the next instalment
-			</div>
+			<slot name="infoText">
+				<div class="ml-3 text-sm font-normal text-grey-body">
+					If your order is already in progress, switched Autopay will be used from the next
+					instalment
+				</div>
+			</slot>
 		</div>
 		<div class="px-4 pb-3 pt-5">
 			<Button class="w-full rounded" onClick={onProceed}>CONFIRM</Button>
@@ -83,6 +86,7 @@
 	.info-icon-container :global(.info-in-circle-dark-icon path) {
 		stroke: #3f5bd9;
 	}
+
 	.info-icon-container :global(.info-in-circle-dark-icon circle) {
 		stroke: #3f5bd9;
 	}
