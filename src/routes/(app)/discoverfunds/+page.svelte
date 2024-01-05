@@ -536,19 +536,6 @@
 					on:onCTAClicked={(e) => goto(e.detail.url)}
 				/>
 			{/if}
-
-			{#if sipPaymentNudges?.length}
-				<section class="row-start-{placementMapping?.sipNudges?.rowStart} mt-2">
-					{#each sipPaymentNudges as sip, index (sip?.sipId + index)}
-						<LazyComponent
-							{sip}
-							when={sipPaymentNudges?.length}
-							component={async () =>
-								await import('../(authenticated)/sipbook/dashboard/SipCard.svelte')}
-						/>
-					{/each}
-				</section>
-			{/if}
 			{#if data?.searchDashboardData?.amcAd}
 				<IntersectionObserver once element={elementOnce} bind:intersecting={intersectOnce}>
 					<div bind:this={elementOnce}>

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import PortfolioCard from '$components/PortfolioCards/PortfolioCard.svelte';
 	import { page } from '$app/stores';
-	import SipCard from '../../(authenticated)/sipbook/dashboard/SipCard.svelte';
 	import type {
 		INudge,
 		IRetryPaymentNudge,
@@ -517,13 +516,6 @@
 		{/if}
 	{/if}
 
-	{#if sipPaymentNudges?.length}
-		<section class="row-start-{placementMapping.sipNudges?.rowStart} col-start-1 mt-2">
-			{#each sipPaymentNudges as sip, index (sip?.sipId + index)}
-				<SipCard {sip} />
-			{/each}
-		</section>
-	{/if}
 	{#if data?.searchDashboardData?.amcAd}
 		<PromotionCard
 			amcData={data.searchDashboardData.amcAd}
