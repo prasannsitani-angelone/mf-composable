@@ -91,11 +91,11 @@
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<secton
-			class="flex h-full min-h-[138px] w-full flex-col items-center justify-center gap-2 md:cursor-pointer"
+			class="flex h-full min-h-[126px] w-full flex-col items-center justify-center gap-2 md:cursor-pointer"
 			on:click={onAddFundClick}
 		>
 			<WMSIcon name="add-outline" height={20} width={20} />
-			<p class="text-xs font-medium text-black-key">Add Fund</p>
+			<p class="text-center text-xs font-medium text-black-key">Add Fund <br /> to Compare</p>
 		</secton>
 	{/if}
 </article>

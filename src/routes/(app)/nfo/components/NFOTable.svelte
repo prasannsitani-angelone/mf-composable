@@ -2,7 +2,9 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
+	import ChipOverview from '$components/ChipOverview.svelte';
 	import SchemeCard from '$components/SchemeCard.svelte';
+	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import TBody from '$components/Table/TBody.svelte';
 	import Td from '$components/Table/TD.svelte';
 	import Th from '$components/Table/TH.svelte';
@@ -83,15 +85,27 @@
 				}}
 			>
 				<Td class="!pr-0">
-					<SchemeCard
-						schemes={scheme}
-						preventRedirectOnSchemeClick={!clickable}
-						class={`${!clickable ? 'cursor-default' : ''}`}
-					>
-						<svelte:fragment slot="arqRating">
-							<span />
-						</svelte:fragment>
-					</SchemeCard>
+					{#if clickable}
+						<SchemeCard schemes={scheme}>
+							<svelte:fragment slot="arqRating">
+								<span />
+							</svelte:fragment>
+						</SchemeCard>
+					{:else}
+						<div class="flex items-start justify-between">
+							<SchemeLogo size="sm" src={scheme?.logoUrl} alt={scheme?.schemeName} />
+							<div class="m-0 mr-auto flex flex-col">
+								<ChipOverview
+									headingPrimary={scheme?.categoryName}
+									headingSecondary={scheme?.subcategoryName}
+								/>
+								<h3 class="whitespace-normal text-sm font-normal text-black-title md:text-sm">
+									{scheme?.schemeName}
+								</h3>
+								<div class="mt-1 text-xs text-grey-body">{scheme?.reInvestmentPlan}</div>
+							</div>
+						</div>
+					{/if}
 				</Td>
 
 				{#if $page?.data?.deviceType?.isBrowser && !isClosedNFO}
