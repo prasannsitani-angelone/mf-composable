@@ -312,7 +312,6 @@
 										}}
 									/>
 								{:else if nudge?.nudgesType === 'link_mandate'}
-									{'normalSips'}
 									<DiscoverFundsNudge
 										{nudge}
 										onAction={() => showAutopaySelectionPopup(sip)}
