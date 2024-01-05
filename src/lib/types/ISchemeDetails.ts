@@ -85,6 +85,7 @@ export interface SchemeDetails {
 	isCartItem: boolean;
 	nfoAllotmentDate: number;
 	nfoEndDate: number;
+	nfoAllotmentDateString: string;
 }
 
 export interface SchemeHoldings {

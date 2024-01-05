@@ -6,7 +6,7 @@
 	let schemeDetails: SchemeDetails;
 	const nfoStartDate = getDateTimeString(schemeDetails?.nfoStartDate);
 	const nfoEndDate = getDateTimeString(schemeDetails?.nfoEndDate);
-	const nfoAllotmentDate = getDateTimeString(schemeDetails?.nfoAllotmentDate);
+	const nfoAllotmentDate = schemeDetails?.nfoAllotmentDateString || 'NA';
 	export { schemeDetails };
 </script>
 
