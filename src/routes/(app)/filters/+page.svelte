@@ -131,6 +131,7 @@
 				filterType={filterData?.filters[selectedParentFilterIndex]?.type}
 				filterLabel={filterData?.filters[selectedParentFilterIndex]?.label}
 				showSearch={filterData?.filters[selectedParentFilterIndex]?.search}
+				sections={filterData?.filters[selectedParentFilterIndex]?.section || []}
 				on:optionChange={(e) => handleOptionChange(e?.detail)}
 				on:rangeChange={(e) => handleRangeChange(e?.detail)}
 			/>
