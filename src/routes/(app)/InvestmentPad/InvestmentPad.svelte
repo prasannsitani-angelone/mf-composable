@@ -2165,7 +2165,6 @@
 {:else if showChangePayment}
 	<ChangePaymentContainer
 		{amount}
-		onBackClick={hidePaymentMethodScreen}
 		allowedPaymentmethods={$paymentAppStore.allPaymentApps}
 		selectedMode={paymentHandler?.paymentMode}
 		onSelect={onPaymentModeSelect}
@@ -2184,6 +2183,7 @@
 		paymentOptionsHeading={mandateData?.length && activeTab === 'SIP'
 			? 'Pay With Other Payment Methods'
 			: 'Pay With'}
+		on:backClick={hidePaymentMethodScreen}
 	>
 		<div slot="schemeTile" class="m-4 mb-0 rounded-lg border border-grey-line bg-white p-3">
 			<div class="mb-2 flex flex-row items-center rounded-full text-xs font-normal text-grey-body">

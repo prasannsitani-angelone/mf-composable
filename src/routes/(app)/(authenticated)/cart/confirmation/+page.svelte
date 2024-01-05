@@ -542,7 +542,6 @@
 			<ChangePaymentContainer
 				allowedPaymentmethods={$paymentAppStore.allPaymentApps}
 				amount={itemList?.totalAmount?.toString()}
-				onBackClick={hidePaymentMethodScreen}
 				selectedMode={paymentHandler?.paymentMode}
 				onSelect={onPaymentModeSelect}
 				onSubmit={onPayment}
@@ -554,6 +553,7 @@
 				onChangeBank={showBankPopup}
 				class={$$props.class}
 				isLoading={loadingState.isLoading || validateUPILoading}
+				on:backClick={hidePaymentMethodScreen}
 			/>
 		{/if}
 
