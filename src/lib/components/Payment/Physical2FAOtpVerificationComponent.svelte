@@ -7,19 +7,22 @@
 	export let amount: string;
 	export let schemeName: string;
 	export let investmentType: string;
+
+	const getTrimmedSchemeName = (size = 30) =>
+		schemeName?.length > size ? `${schemeName.slice(0, size)}...` : schemeName;
 </script>
 
 <OtpVerification
 	{uuid}
 	{amount}
-	{schemeName}
+	schemeName={getTrimmedSchemeName()}
 	{investmentType}
 	orderType="PHYSICAL_ORDER"
 	on:otpVerificationSuccessful
 	on:closeOtpModal
 	aboutModalData={[
 		{
-			text: 'In line with SEBI regulations, all orders placed in physical/SOA mode must be verified with an OTP. This OTP will be sent to your registered mobile number and email address'
+			text: 'In line with SEBI regulations, all physical account holders have to verify purchase orders with an OTP sent to the mobile number and email address'
 		}
 	]}
 >
