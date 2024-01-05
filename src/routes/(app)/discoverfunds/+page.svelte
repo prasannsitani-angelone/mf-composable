@@ -366,10 +366,16 @@
 							{notifData?.summary?.length > 1
 								? `${notifData?.totalCount} items require your attention`
 								: notifData?.summary[0].type === 'instalment_failed_sips'
-								? `${notifData?.summary[0].count} sip payments missed`
+								? `${notifData?.summary[0].count} SIP payment${
+										notifData?.summary[0].count === 1 ? '' : 's'
+								  } missed`
 								: notifData?.summary[0].type === 'payment_failed_orders'
-								? `${notifData?.summary[0].count} failed orders recently`
-								: `${notifData?.summary[0].count} sip payments are due`}
+								? `${notifData?.summary[0].count} failed order${
+										notifData?.summary[0].count === 1 ? '' : 's'
+								  } recently`
+								: `${notifData?.summary[0].count} SIP payment${
+										notifData?.summary[0].count === 1 ? ' is' : 's are'
+								  } due`}
 						</p>
 					</div>
 				</div>

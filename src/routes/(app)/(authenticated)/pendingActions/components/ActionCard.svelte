@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AmountText from '$components/AmountText.svelte';
 	import Button from '$components/Button.svelte';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import type { Notif } from '$lib/types/INotifications';
@@ -8,9 +9,10 @@
 	let message = '';
 	let buttonText = '';
 	let icon = '';
+	let messageStyle = '';
 	let onButtonClick: (order: Notif) => void;
 
-	export { order, message, buttonText, icon, onButtonClick };
+	export { order, message, buttonText, icon, onButtonClick, messageStyle };
 </script>
 
 <div
@@ -31,10 +33,10 @@
 	<div class="flex items-center justify-between pt-2 text-black-bolder">
 		<div class="flex">
 			<div class="pr-1"><WMSIcon name={icon} height={16} width={16} stroke="#425061" /></div>
-			<div>{message}</div>
+			<div class={messageStyle}>{message}</div>
 		</div>
 		<div>
-			₹{order?.amount}
+			<AmountText amount={order?.amount || 0} />
 		</div>
 	</div>
 </div>

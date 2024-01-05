@@ -101,6 +101,7 @@
 				buttonText="PAY NOW"
 				message="Pay now to continue your SIP"
 				icon="filledInfo"
+				messageStyle="!text-red-card"
 				onButtonClick={handleFailedSipPaymentClick}
 			/>
 		{/each}

@@ -89,7 +89,7 @@ export const load = (async ({ fetch, params, url, parent }) => {
 			2
 		)}% returns since its launch. Learn more on Angel One -`;
 		const message = {
-			text: `Hey, check out ${
+			text: `Hey,\n check out ${
 				nfoScheme === 'Y'
 					? nfoText
 					: returns3yr === 0 && schemeData?.inceptionReturn > 0
@@ -97,7 +97,7 @@ export const load = (async ({ fetch, params, url, parent }) => {
 					: returns3yr <= 0
 					? lessThanZeroReturn
 					: grThanZeroReturn
-			} https://angeloneapp.page.link/?link=${url?.href}&apn=${PUBLIC_MF_ANDROID_APN}`
+			}\n https://angeloneapp.page.link/?link=${url?.href}&apn=${PUBLIC_MF_ANDROID_APN}`
 		};
 		shareMessage(message);
 	};
