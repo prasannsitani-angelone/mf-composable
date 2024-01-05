@@ -9,7 +9,7 @@
 	let closeModal: (() => void) | null = null;
 	let animationDuration = 500;
 	let isModalClosed = false;
-	let delay = 250;
+	let delay = 0;
 	let preventBackDropClick = false;
 	$: deviceType = $page?.data?.deviceType;
 
