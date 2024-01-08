@@ -1,10 +1,18 @@
 <script lang="ts">
 	import { toastStore } from '$lib/stores/ToastStore';
-	import { onMount } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import { BtnVariant, Button, WMSIcon } from 'svelte-components';
 
+	const dispatch = createEventDispatcher();
+
 	const handleRetryClick = () => {
-		window?.location?.reload();
+		dispatch('retryButtonClick');
+
+		if (navigator?.onLine) {
+			window?.location?.reload();
+		} else {
+			updateStatusToast();
+		}
 	};
 
 	let statusTimeout;

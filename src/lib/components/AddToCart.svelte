@@ -30,6 +30,30 @@
 
 	let disabled = false; // To prevent user for clicking on the cart icon if a cart addition request is already in progress
 
+	let statusTimeout;
+
+	const updateStatusToast = () => {
+		if (statusTimeout) {
+			clearTimeout(statusTimeout);
+		}
+
+		let statusMessage = 'Something went wrong. Please try again in some time';
+
+		if (!navigator?.onLine) {
+			statusMessage =
+				'You are not connected to the internet. Please check your connection and retry';
+		}
+
+		toastStore?.updateStatusToast({
+			type: 'STATUS',
+			message: statusMessage
+		});
+
+		statusTimeout = setTimeout(() => {
+			toastStore?.updateStatusToast(null);
+		}, 4000);
+	};
+
 	/**
 	 * Request Addition to the cart
 	 */
@@ -62,17 +86,7 @@
 			});
 		} else {
 			// Show Error Status Toast on Failure
-			if (navigator?.onLine) {
-				toastStore.updateStatusToast({
-					type: 'STATUS',
-					message: 'Something went wrong. Please try again in some time'
-				});
-			} else {
-				toastStore.updateStatusToast({
-					type: 'STATUS',
-					message: 'You are not connected to the internet. Please check your connection and retry'
-				});
-			}
+			updateStatusToast();
 		}
 	};
 

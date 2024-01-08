@@ -1,13 +1,21 @@
 <script lang="ts">
 	import SomethingWentWrongIllustration from '$lib/images/SomethingWentWrongIllustration.svelte';
 	import { toastStore } from '$lib/stores/ToastStore';
-	import { onMount } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import { BtnVariant, Button } from 'svelte-components';
 
 	export let showPageLayout = false;
 
+	const dispatch = createEventDispatcher();
+
 	const handleRetryClick = () => {
-		window?.location?.reload();
+		dispatch('retryButtonClick');
+
+		if (navigator?.onLine) {
+			window?.location?.reload();
+		} else {
+			updateStatusToast();
+		}
 	};
 
 	let statusTimeout;

@@ -17,6 +17,7 @@
 	import { ProceedToCheckoutClickAnalytics } from '../analytics/cart';
 	import type { CartEntity } from '$lib/types/ICartStore';
 	import { createCartEventMetaDataAnalytics } from './utils';
+	import { toastStore } from '$lib/stores/ToastStore';
 
 	export let cartItems: CartEntity[];
 
@@ -31,11 +32,35 @@
 	const nextSipDateBufferDaysWithFtp = 30;
 	const nextSipDateBufferDaysWithoutFtp = 10;
 
+	let statusTimeout;
+
+	const updateStatusToast = () => {
+		if (statusTimeout) {
+			clearTimeout(statusTimeout);
+		}
+
+		let statusMessage = 'Something went wrong. Please try again in some time';
+
+		if (!navigator?.onLine) {
+			statusMessage =
+				'You are not connected to the internet. Please check your connection and retry';
+		}
+
+		toastStore?.updateStatusToast({
+			type: 'STATUS',
+			message: statusMessage
+		});
+
+		statusTimeout = setTimeout(() => {
+			toastStore?.updateStatusToast(null);
+		}, 4000);
+	};
+
 	function upDateLocalStateOnCartUpdate(items: CartEntity[]) {
 		selectedItems = getSelectedItems(items);
 		isSelectAllChecked = selectedItems.length === items?.length;
 	}
-	function toggleSelectAll() {
+	async function toggleSelectAll() {
 		isSelectAllChecked = !isSelectAllChecked;
 		cartItems.forEach((item) => (item.isSelected = isSelectAllChecked));
 		cartItems = cartItems;
@@ -44,7 +69,12 @@
 			selectedAll: isSelectAllChecked,
 			items: []
 		};
-		bulkUpdateCartItems(payload);
+
+		let bulkUpdateCartItemsRes = await bulkUpdateCartItems(payload);
+
+		if (bulkUpdateCartItemsRes instanceof Error) {
+			updateStatusToast();
+		}
 	}
 	function isProceedAllowed(selected: CartEntity[]) {
 		return (

@@ -9,6 +9,7 @@
 	import { getInvestmentType } from '$lib/utils/helpers/investmentOrder';
 	import { updateCartItem } from '$lib/services/cart';
 	import type { CartEntity } from '$lib/types/ICartStore';
+	import { toastStore } from '$lib/stores/ToastStore';
 
 	export let cartItem: CartEntity;
 
@@ -18,7 +19,31 @@
 	let inputError = '';
 	let showSIPDateSelect = getInvestmentType(cartItem) === 'SIP';
 
-	function triggerPatchCallForThisChange(data: boolean) {
+	let statusTimeout;
+
+	const updateStatusToast = () => {
+		if (statusTimeout) {
+			clearTimeout(statusTimeout);
+		}
+
+		let statusMessage = 'Something went wrong. Please try again in some time';
+
+		if (!navigator?.onLine) {
+			statusMessage =
+				'You are not connected to the internet. Please check your connection and retry';
+		}
+
+		toastStore?.updateStatusToast({
+			type: 'STATUS',
+			message: statusMessage
+		});
+
+		statusTimeout = setTimeout(() => {
+			toastStore?.updateStatusToast(null);
+		}, 4000);
+	};
+
+	async function triggerPatchCallForThisChange(data: boolean) {
 		if (!hasMounted || !data) {
 			return;
 		}
@@ -26,7 +51,12 @@
 		cartItem = cartItem;
 		updateLocalState();
 		let dPayload = createPatchPayload(cartItem);
-		updateCartItem(cartItem?.cartItemId, dPayload);
+		let updateCartItemRes = await updateCartItem(cartItem?.cartItemId, dPayload);
+
+		if (updateCartItemRes instanceof Error) {
+			updateStatusToast();
+		}
+
 		hasInputUpdated = false;
 	}
 

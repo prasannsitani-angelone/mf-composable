@@ -14,6 +14,10 @@ const getScreenerSearch = async (fetch?: FetchType | null, queryPath?: string) =
 
 	if (res.ok) {
 		screenedSchemes = res.data?.data?.schemes;
+	} else if (res?.status < 500) {
+		return screenedSchemes;
+	} else {
+		return new Error('Something Went Wrong');
 	}
 
 	return screenedSchemes;

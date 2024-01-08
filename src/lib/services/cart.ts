@@ -3,7 +3,7 @@ import { useFetch } from '$lib/utils/useFetch';
 
 export const updateCartItem = async (param: number | string, payload) => {
 	const url = `${PUBLIC_MF_CORE_BASE_URL}/carts/items/${param}`;
-	await useFetch(
+	const res = await useFetch(
 		url,
 		{
 			body: JSON.stringify(payload),
@@ -11,6 +11,12 @@ export const updateCartItem = async (param: number | string, payload) => {
 		},
 		fetch
 	);
+
+	if (res?.ok || res?.status < 500) {
+		return res;
+	} else {
+		return new Error('Something went wrong');
+	}
 };
 
 export const bulkUpdateCartItems = async (payload) => {
@@ -23,5 +29,10 @@ export const bulkUpdateCartItems = async (payload) => {
 		},
 		fetch
 	);
-	return res;
+
+	if (res?.ok || res?.status < 500) {
+		return res;
+	} else {
+		return new Error('Something went wrong');
+	}
 };

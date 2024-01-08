@@ -13,7 +13,10 @@
 	};
 </script>
 
-<section class="inset-x-0 z-40 flex-shrink-0 border-t-2 bg-white shadow-lg lg:hidden">
+<section
+	class="inset-x-0 z-40 flex-shrink-0 border-t-2 bg-white shadow-lg lg:hidden {$$props?.class ||
+		''}"
+>
 	<div id="tabs" class="flex items-baseline justify-between text-grey-disabled">
 		{#each navs as nav (nav.path)}
 			{@const isActive = $page.url.pathname === nav.path}

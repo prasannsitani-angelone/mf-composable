@@ -51,7 +51,7 @@
 		<div
 			in:fly={{ y: 100, duration: 1000 }}
 			out:fade
-			class="fixed bottom-0 left-0 right-0 mx-2 mb-20 flex w-fit max-w-[100vw] items-center justify-around rounded bg-red-light px-3 py-2 text-sm font-normal text-black-key sm:p-4 md:mx-auto {statusToast?.class ||
+			class="fixed bottom-0 left-0 right-0 z-100 mx-2 mb-20 flex w-fit max-w-[100vw] items-center justify-around rounded bg-red-light px-3 py-2 text-sm font-normal text-black-key sm:p-4 md:mx-auto {statusToast?.class ||
 				''}"
 		>
 			<WMSIcon name="red-exclamation" width={36} height={36} />
