@@ -150,12 +150,14 @@
 		<div class="mt-3">
 			<LinearChart chartInput={taxGainGraph} />
 		</div>
-		<div class="mt-4">
+		<div>
 			{#each investmentTypes as investmentType}
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<div
-					class={`flex items-start py-3 ${
-						investmentType.label === 'Short term investment' ? 'border-b border-grey-line' : ''
+					class={`flex items-center ${
+						investmentType.label === 'Short term investment'
+							? 'border-b border-grey-line pb-3'
+							: 'pt-3'
 					}`}
 					on:click={() => {
 						navigateToDetailedAnalysis(investmentType?.taxType);
