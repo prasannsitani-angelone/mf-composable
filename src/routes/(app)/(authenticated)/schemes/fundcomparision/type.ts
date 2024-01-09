@@ -9,8 +9,8 @@ export interface ICompareFunds {
 		isin2: string;
 	};
 	comparefundcardfunds3YReturn: {
-		return3Year1: string;
-		return3Year2: string;
+		return3Year1: number;
+		return3Year2: number;
 	};
 	comparefundcardfundsMinSIPAmount: {
 		minSIPAmount1: number;

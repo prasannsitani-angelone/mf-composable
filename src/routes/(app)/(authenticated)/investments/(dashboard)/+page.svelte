@@ -232,7 +232,7 @@
 			animation: {
 				animation: isMobile,
 				x: '-100%',
-				duration: 600
+				duration: 500
 			}
 		},
 		{

@@ -81,13 +81,6 @@
 </script>
 
 <div class="px-2 py-2 md:p-0">
-	{#if isMobile}
-		<InternalRightSide
-			{data}
-			on:showXirr={showXirrModal}
-			on:openOptimisePortfolio={toggleOptimisePorfolioCard}
-		/>
-	{/if}
 	<section class="col-span-1 row-start-3 mb-32 sm:col-span-1 sm:col-start-1 sm:row-start-2">
 		{#await data.api.investment}
 			<InvestmentDashboardLoader />
@@ -96,6 +89,13 @@
 				<SomethingWentWrongSmall class="!mt-0 shadow-none md:mt-2" />
 			{:else if response && response.status === 'success' && Array.isArray(response.data.holdings) && response.data.holdings.length > 0}
 				<!-- Show Users investment if exist -->
+				{#if isMobile}
+					<InternalRightSide
+						{data}
+						on:showXirr={showXirrModal}
+						on:openOptimisePortfolio={toggleOptimisePorfolioCard}
+					/>
+				{/if}
 				<YourInvestmentsNew
 					investmentSummary={data.investementSummary}
 					{optimisePorfolioData}
