@@ -12,6 +12,7 @@
 
 	import type { PageData } from './$types';
 	import SomethingWentWrong from '$components/Error/SomethingWentWrong.svelte';
+	import { invalidate } from '$app/navigation';
 
 	function updateCartStore(cartItems: CartEntity[]) {
 		cartStore.updateStore(cartItems);
@@ -19,11 +20,25 @@
 
 	export let data: PageData;
 
+	const reloadCurrentPage = () => {
+		invalidate(() => true);
+	};
+
+	const refreshOnInternetConnectivity = () => {
+		window?.addEventListener('online', reloadCurrentPage);
+	};
+
 	onMount(() => {
 		data.api.cart.then((res: { data: CartEntity[] }) => {
 			updateCartStore(res.data);
 			mountAddToCartAnalytics(createCartEventMetaDataAnalytics(res.data));
 		});
+
+		refreshOnInternetConnectivity();
+
+		return () => {
+			window?.removeEventListener('online', reloadCurrentPage);
+		};
 	});
 </script>
 
