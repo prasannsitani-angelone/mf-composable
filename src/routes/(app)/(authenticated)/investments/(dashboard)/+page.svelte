@@ -179,10 +179,10 @@
 	const switchTabs = async (val: string) => {
 		if (val !== activeTab) {
 			activeTab = val;
-			if (val === INVESTMENT_TABS.ANGEL_ONE.value) {
+			if (val === 'Angel One') {
 				angeloneTabClickedAnalytics();
 				goto('./investments');
-			} else if (val == INVESTMENT_TABS.ALL.value) {
+			} else if (val === INVESTMENT_TABS.ALL.value) {
 				const summaryResponse = await externalInvestmentSummary;
 				initiateTabClickAnalyticsClientSide(summaryResponse);
 				goto('./investments?type=all');
@@ -213,14 +213,15 @@
 	{activeTab}
 	items={[
 		{
-			tabId: INVESTMENT_TABS.ANGEL_ONE.value,
+			tabId: 'Angel One',
 			title: {
-				label: INVESTMENT_TABS.ANGEL_ONE.label
+				label: 'Angel One'
 			},
 			styles: {
 				default:
 					'h-16 !text-grey-body !text-sm !font-normal rounded-none normal-case pt-4 pb-4 w-1/2 !border-b-[3px] border-grey-line border-b-[3px] hover:border-grey-line',
-				active: 'border-b-[3px] !text-primary !pb-4 !border-blue-primary hover:!border-blue-primary'
+				active:
+					'!border-b-[3px] !text-primary !pb-4 !border-blue-primary hover:!border-blue-primary'
 			},
 			content: {
 				component: InternalInvestmentsTab,
@@ -231,7 +232,7 @@
 			animation: {
 				animation: isMobile,
 				x: '-100%',
-				duration: 500
+				duration: 600
 			}
 		},
 		{
