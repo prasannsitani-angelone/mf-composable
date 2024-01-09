@@ -2006,6 +2006,7 @@
 							tabsContainer: '!border-b-0'
 						}}
 						onChange={switchTabs}
+						{activeTab}
 					/>
 				{:else if activeTab === 'SIP'}
 					<SipTab
