@@ -1,5 +1,6 @@
 <script>
 	import PortfolioBuilder from '$lib/images/PortfolioBuilder.svg';
+	import { WMSIcon } from 'svelte-components';
 </script>
 
 <section
@@ -7,10 +8,24 @@
 >
 	<article class="flex items-center justify-between">
 		<div class="justify-between pr-8 text-black-key">
-			<div class="flex flex-col text-base font-medium">What is a Goal Based Portfolio?</div>
-			<div class="pt-2 text-sm">
-				Invest in a set of mutual funds based on a particular goal or idea with goal based
-				portfolios
+			<div class="flex flex-col text-base font-medium">What is a Portfolio?</div>
+			<div class="pt-2 text-[11px] text-black-bolder">
+				<div class="flex items-start">
+					<div
+						class="mr-2 mt-1 flex items-center justify-center rounded-full border-[2px] border-black-bolder"
+					>
+						<WMSIcon name="eclipse" height={4} width={4} stroke="#E7EBFA" />
+					</div>
+					<div>Portfolios are a collection of mutual funds based on a theme or idea</div>
+				</div>
+				<div class="mt-2 flex items-start">
+					<div
+						class="mr-2 mt-1 flex items-center justify-center rounded-full border-[2px] border-black-bolder"
+					>
+						<WMSIcon name="eclipse" height={4} width={4} stroke="#E7EBFA" />
+					</div>
+					<div>Select the right portfolio based on your risk appetite</div>
+				</div>
 			</div>
 		</div>
 		<div class="">

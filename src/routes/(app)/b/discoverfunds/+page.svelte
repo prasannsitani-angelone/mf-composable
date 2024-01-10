@@ -54,6 +54,7 @@
 	import type { UserEducationNudgeType } from '$lib/types/INudge';
 	import type { INotificationSummary } from '$lib/types/INotifications';
 	import { base } from '$app/paths';
+	import BuyPortfolio from '../../discoverfunds/BuyPortfolio.svelte';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -449,6 +450,8 @@
 				await import('$components/InvestWithExperts/CuratedInvestmentCardComponent.svelte')}
 		/>
 	</div>
+
+	<BuyPortfolio />
 
 	<!-- 9. Quick Entry Points - External Funds, NFO, Calculator -->
 	<QuickEntryPointsComponent

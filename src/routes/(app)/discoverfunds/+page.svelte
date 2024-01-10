@@ -52,6 +52,7 @@
 	import TutorialNudge from '$components/Tutorial/nudge/TutorialNudge.svelte';
 	import type { INotificationSummary } from '$lib/types/INotifications';
 	import { base } from '$app/paths';
+	import BuyPortfolio from './BuyPortfolio.svelte';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -455,6 +456,7 @@
 		/>
 	</div>
 
+	<BuyPortfolio />
 	<!-- 9. Quick Entry Points - External Funds, NFO, Calculator -->
 	<QuickEntryPointsComponent
 		class="row-start-{placementMapping?.quickEntryPoints?.rowStart} col-start-{placementMapping
