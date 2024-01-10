@@ -45,8 +45,8 @@ dependencies:
     specifier: 3.1.2
     version: 3.1.2(chart.js@4.4.0)(svelte@4.2.1)
   svelte-components:
-    specifier: 0.236.0
-    version: 0.236.0(@sveltejs/kit@1.25.1)(autoprefixer@10.4.14)(svelte@4.2.1)
+    specifier: 0.237.0
+    version: 0.237.0(@sveltejs/kit@1.25.1)(autoprefixer@10.4.14)(svelte@4.2.1)
   svelte-device-detector:
     specifier: 0.2.2
     version: 0.2.2
@@ -68,6 +68,9 @@ dependencies:
   vite-plugin-pwa:
     specifier: 0.16.4
     version: 0.16.4(vite@4.4.9)(workbox-build@7.0.0)(workbox-window@7.0.0)
+  web-vitals:
+    specifier: ^3.5.1
+    version: 3.5.1
   word-wrap:
     specifier: ^1.2.3
     version: 1.2.5
@@ -4719,8 +4722,8 @@ packages:
       - sugarss
     dev: true
 
-  /svelte-components@0.236.0(@sveltejs/kit@1.25.1)(autoprefixer@10.4.14)(svelte@4.2.1):
-    resolution: {integrity: sha512-/IYrTJq3XuH3qcMUeyZEhyUh9f68VIF0iaJlz0zylHCTQNPFHi/Q4TLpjNGEnJNcJI0NK9Kq8DmZ2d09G0Bj3w==}
+  /svelte-components@0.237.0(@sveltejs/kit@1.25.1)(autoprefixer@10.4.14)(svelte@4.2.1):
+    resolution: {integrity: sha512-F9VNSc0m4x5kGwEbbuXVrHoSppS3Le384Lv/nuzCWz4J9uPFOPnmidPsZ1MtfJz6/QDR2seYC68YyXmhJtGpZg==}
     requiresBuild: true
     peerDependencies:
       '@sveltejs/kit': ^1.22.3
@@ -5289,6 +5292,10 @@ packages:
       - supports-color
       - terser
     dev: true
+
+  /web-vitals@3.5.1:
+    resolution: {integrity: sha512-xQ9lvIpfLxUj0eSmT79ZjRoU5wIRfIr7pNukL7ZE4EcWZSmfZQqOlhuAGfkVa3EFmzPHZhWhXfm2i5ys+THVPg==}
+    dev: false
 
   /webidl-conversions@4.0.2:
     resolution: {integrity: sha512-YQ+BmxuTgd6UXZW3+ICGfyqRyHXVlD5GtQr5+qjiNW7bF0cqrzX500HVXPBOvgXb5YnzDd+h0zqyv61KUD7+Sg==}

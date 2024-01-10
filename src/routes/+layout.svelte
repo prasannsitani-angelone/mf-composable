@@ -29,6 +29,19 @@
 	import LazyComponent from '$components/LazyComponent.svelte';
 	import { hydratedStore } from '$lib/stores/AppHydratedStore';
 	import { urlStore } from '$lib/stores/UrlStore';
+	import { onLCP, onTTFB, onFCP, onINP, onCLS } from 'web-vitals/attribution';
+	import { logWebVitals } from '$lib/utils/webVitals';
+
+	function logDelta(metric) {
+		logWebVitals(metric?.name, metric);
+	}
+	if (browser) {
+		onCLS(logDelta);
+		onINP(logDelta);
+		onLCP(logDelta);
+		onFCP(logDelta);
+		onTTFB(logDelta);
+	}
 	export let data;
 	interface WebVitals {
 		type: string;

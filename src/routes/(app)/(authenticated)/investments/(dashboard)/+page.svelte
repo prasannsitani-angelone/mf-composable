@@ -35,7 +35,20 @@
 	import { partialImportCheck } from '../utils';
 	import PortfolioCardLoader from '$components/PortfolioCards/PortfolioCardLoader.svelte';
 	import { INVESTMENT_TABS } from '$lib/constants/portfolio';
+	import { browser } from '$app/environment';
+	import { onLCP, onTTFB, onFCP, onINP, onCLS } from 'web-vitals/attribution';
+	import { logWebVitals } from '$lib/utils/webVitals';
 
+	function logDelta(metric) {
+		logWebVitals(metric?.name, metric);
+	}
+	if (browser) {
+		onCLS(logDelta);
+		onINP(logDelta);
+		onLCP(logDelta);
+		onFCP(logDelta);
+		onTTFB(logDelta);
+	}
 	export let data: PageData;
 
 	let isXIRRModalOpen = false;

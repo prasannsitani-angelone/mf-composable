@@ -33,6 +33,20 @@
 	import { cubicOut } from 'svelte/easing';
 	import type { AnimationArguments } from 'svelte-components';
 	import { fly } from 'svelte/transition';
+	import { browser } from '$app/environment';
+	import { onLCP, onTTFB, onFCP, onINP, onCLS } from 'web-vitals/attribution';
+	import { logWebVitals } from '$lib/utils/webVitals';
+
+	function logDelta(metric) {
+		logWebVitals(metric?.name, metric);
+	}
+	if (browser) {
+		onCLS(logDelta);
+		onINP(logDelta);
+		onLCP(logDelta);
+		onFCP(logDelta);
+		onTTFB(logDelta);
+	}
 
 	$: pageMetaData = $page?.data?.layoutConfig;
 	let searchFocused = false;

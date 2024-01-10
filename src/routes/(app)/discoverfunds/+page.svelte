@@ -53,7 +53,19 @@
 	import type { INotificationSummary } from '$lib/types/INotifications';
 	import { base } from '$app/paths';
 	import BuyPortfolio from './BuyPortfolio.svelte';
+	import { onLCP, onTTFB, onFCP, onINP, onCLS } from 'web-vitals/attribution';
+	import { logWebVitals } from '$lib/utils/webVitals';
 
+	function logDelta(metric) {
+		logWebVitals(metric?.name, metric);
+	}
+	if (browser) {
+		onCLS(logDelta);
+		onINP(logDelta);
+		onLCP(logDelta);
+		onFCP(logDelta);
+		onTTFB(logDelta);
+	}
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
 	$: isGuest = $page.data.isGuest;
