@@ -4,7 +4,7 @@ import { userStore } from '$lib/stores/UserStore';
 import { isTokenExpired } from '$lib/utils/helpers/token';
 import type { PageLoad } from './$types';
 
-export const load = (async ({ data }) => {
+export const load = (async ({ data, url }) => {
 	const { tokenObj, userDetails, isGuest } = data;
 
 	if (browser) {
@@ -19,6 +19,7 @@ export const load = (async ({ data }) => {
 		userStore.updateStore({ ...userDetails });
 	}
 	return {
-		...data
+		...data,
+		pathname: url.pathname
 	};
 }) satisfies PageLoad;

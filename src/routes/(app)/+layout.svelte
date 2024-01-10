@@ -30,6 +30,9 @@
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { ctNudgeStore } from '$lib/stores/CtNudgeStore';
 	import AskAngelEntry from '$components/AskAngel/AskAngelEntry.svelte';
+	import { cubicOut } from 'svelte/easing';
+	import type { AnimationArguments } from 'svelte-components';
+	import { fly } from 'svelte/transition';
 
 	$: pageMetaData = $page?.data?.layoutConfig;
 	let searchFocused = false;
@@ -46,6 +49,18 @@
 	// Update store with Spark headers
 
 	let showAngelBeeBanner = false;
+	let isBack = false;
+
+	const animate = (node: Element, args: AnimationArguments) => (args.cond ? fly(node, args) : {});
+	$: isMobile = $page?.data?.deviceType?.isMobile;
+
+	const getDirection = () => {
+		if (isBack) {
+			isBack = false;
+			return '-100%';
+		}
+		return '100%';
+	};
 
 	const initClevertap = async () => {
 		useFetch(`${PUBLIC_MF_CORE_BASE_URL}/events`, {
@@ -87,6 +102,16 @@
 			});
 			ctNudgeStore.set(data);
 		});
+
+		window.addEventListener(
+			'popstate',
+			function (event) {
+				console.log(event);
+				// The popstate event is fired each time when the current history entry changes.
+				isBack = true;
+			},
+			false
+		);
 
 		handleBackHistoryForDeeplinks();
 	});
@@ -151,9 +176,22 @@
 	<!-- <TwoColumnRightLarge {searchFocused}>
 		<slot />
 	</TwoColumnRightLarge> -->
+
 	<Default {searchFocused} layoutType={$appPage.data?.layoutConfig?.layoutType}>
-		<slot />
+		{#key data.pathname}
+			<div
+				in:animate={{
+					x: getDirection(),
+					easing: cubicOut,
+					duration: 300,
+					cond: isMobile
+				}}
+			>
+				<slot />
+			</div>
+		{/key}
 	</Default>
+
 	{#if pageMetaData?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN}
 		<AskAngelEntry />
 	{/if}
