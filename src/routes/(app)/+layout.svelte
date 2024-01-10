@@ -29,7 +29,6 @@
 	import { useFetch } from '$lib/utils/useFetch';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { ctNudgeStore } from '$lib/stores/CtNudgeStore';
-	import AskAngelEntry from '$components/AskAngel/AskAngelEntry.svelte';
 	import { cubicOut } from 'svelte/easing';
 	import type { AnimationArguments } from 'svelte-components';
 	import { fly } from 'svelte/transition';
@@ -206,9 +205,6 @@
 		{/key}
 	</Default>
 
-	{#if pageMetaData?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN}
-		<AskAngelEntry />
-	{/if}
 	{#if pageMetaData?.showBottomNavigation}
 		<footer>
 			<BottomNavigation navs={BOTTOM_NAVBARS(version)} />

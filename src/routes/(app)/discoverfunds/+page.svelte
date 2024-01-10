@@ -53,6 +53,8 @@
 	import type { INotificationSummary } from '$lib/types/INotifications';
 	import { base } from '$app/paths';
 	import BuyPortfolio from './BuyPortfolio.svelte';
+	import AskAngel from './AskAngel.svelte';
+	import { AUTH_STATE_ENUM, tokenStore } from '$lib/stores/TokenStore';
 	import { onLCP, onTTFB, onFCP, onINP, onCLS } from 'web-vitals/attribution';
 	import { logWebVitals } from '$lib/utils/webVitals';
 
@@ -469,6 +471,9 @@
 	</div>
 
 	<BuyPortfolio />
+	{#if !deviceType?.isBrowser && data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN}
+		<AskAngel />
+	{/if}
 	<!-- 9. Quick Entry Points - External Funds, NFO, Calculator -->
 	<QuickEntryPointsComponent
 		class="row-start-{placementMapping?.quickEntryPoints?.rowStart} col-start-{placementMapping
@@ -563,6 +568,9 @@
 						/>
 					</div>
 				</IntersectionObserver>
+			{/if}
+			{#if data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN}
+				<AskAngel />
 			{/if}
 		</div>
 	</article>

@@ -55,6 +55,8 @@
 	import type { INotificationSummary } from '$lib/types/INotifications';
 	import { base } from '$app/paths';
 	import BuyPortfolio from '../../discoverfunds/BuyPortfolio.svelte';
+	import { AUTH_STATE_ENUM, tokenStore } from '$lib/stores/TokenStore';
+	import AskAngel from '../../discoverfunds/AskAngel.svelte';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -452,6 +454,9 @@
 	</div>
 
 	<BuyPortfolio />
+	{#if !deviceType?.isBrowser && data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN}
+		<AskAngel />
+	{/if}
 
 	<!-- 9. Quick Entry Points - External Funds, NFO, Calculator -->
 	<QuickEntryPointsComponent
@@ -526,6 +531,9 @@
 				?.rowStart} col-start-1 mt-3 rounded-lg text-center"
 			imageClass="h-32 md:h-42 lg:h-32 w-full object-cover"
 		/>
+	{/if}
+	{#if data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN}
+		<AskAngel />
 	{/if}
 </article>
 
