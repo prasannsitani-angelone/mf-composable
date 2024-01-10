@@ -46,7 +46,7 @@
 	});
 </script>
 
-<div class="flex flex-col overflow-y-scroll bg-white px-4 py-3 {$$props.class}">
+<div class="flex flex-col bg-white px-4 py-3 {$$props.class}">
 	<div class="mb-3 text-sm font-normal text-black-title">
 		{paymentOptionsHeading}
 	</div>

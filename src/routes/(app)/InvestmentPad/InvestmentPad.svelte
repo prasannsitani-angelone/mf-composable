@@ -1448,7 +1448,8 @@
 					paymentHandler?.paymentMode === 'AUTOPAY'
 						? `Autopay with ${selectedAutopay?.authenticationMode}`
 						: paymentHandler?.paymentMode,
-				Bank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName
+				Bank: profileData?.bankDetails?.[paymentHandler.selectedAccount]?.bankName,
+				PaywithAutopay: paymentHandler?.paymentMode === 'AUTOPAY' ? 'Y' : 'N'
 			});
 		}
 
@@ -1669,7 +1670,8 @@
 			InvestmentType: activeTab === 'SIP' ? 'SIP' : 'OTI',
 			AutopayID: selectedAutopay?.mandateId,
 			AutopayBank: selectedAutopay?.bankName,
-			AutopayType: selectedAutopay?.authenticationMode
+			AutopayType: selectedAutopay?.authenticationMode,
+			Source: showChangePayment ? 'Changepaymentscreen' : 'Orderpad'
 		};
 		sipWithAutopayConfirmClickAnalytics(eventMetaData);
 		sipAutopayFlow({
@@ -1857,7 +1859,8 @@
 				InvestmentType: activeTab === 'SIP' ? 'SIP' : 'OTI',
 				AutopayID: selectedAutopay?.mandateId,
 				AutopayBank: selectedAutopay?.bankName,
-				AutopayType: selectedAutopay?.authenticationMode
+				AutopayType: selectedAutopay?.authenticationMode,
+				Source: showChangePayment ? 'Changepaymentscreen' : 'Orderpad'
 			};
 			sipWithAutopayConfirmImpressionAnalytics(eventMetaData);
 		}
@@ -2208,7 +2211,7 @@
 				</div>
 			</div>
 		</div>
-		<div slot="autopayMethods" class="my-2 max-h-[35%] w-full overflow-y-scroll">
+		<div slot="autopayMethods" class="my-2 w-full">
 			{#if mandateData?.length && activeTab === 'SIP' && !hideAutopayMethod}
 				<AutopayMethod
 					selectedMode={'AUTOPAY'}

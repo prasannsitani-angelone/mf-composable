@@ -108,37 +108,39 @@
 		{/if}
 	</slot>
 
-	{#if selected && showExtraInfo}
+	{#if selected}
 		<div class="ml-6 flex flex-col pb-4 {$$props.innerClass}">
 			{#if showInput}
 				<UpiHandlerDropDown {inputText} {onInputChange} {inputError} />
 			{/if}
-			<div class="mb-4 mt-2 flex flex-row justify-between">
-				<div class="flex w-9/12 flex-row">
-					<div
-						class="ml-2 mr-3 flex h-5 w-[30px] items-center justify-center rounded-sm border border-grey-line bg-white"
-					>
-						<img src={bankLogo} class="h-3 w-3" alt="bank logo" />
-					</div>
-					<div class="flex flex-col">
-						<div class="mb-1 text-sm text-grey-body">
-							{bankName} - *{bankAccount?.substring(bankAccount.length - 4)}
+			{#if showExtraInfo}
+				<div class="mb-4 mt-2 flex flex-row justify-between">
+					<div class="flex w-9/12 flex-row">
+						<div
+							class="ml-2 mr-3 flex h-5 w-[30px] items-center justify-center rounded-sm border border-grey-line bg-white"
+						>
+							<img src={bankLogo} class="h-3 w-3" alt="bank logo" />
 						</div>
-						<div class="text-xs text-grey-body">
-							Registered with Angel One. Use the same bank account to pay
+						<div class="flex flex-col">
+							<div class="mb-1 text-sm text-grey-body">
+								{bankName} - *{bankAccount?.substring(bankAccount.length - 4)}
+							</div>
+							<div class="text-xs text-grey-body">
+								Registered with Angel One. Use the same bank account to pay
+							</div>
 						</div>
 					</div>
+					{#if showChangeBank}
+						<Button
+							variant="transparent"
+							class="!h-fit !min-h-0 !px-0 text-xs !font-normal !uppercase"
+							onClick={onChangeBankClick}
+						>
+							Change
+						</Button>
+					{/if}
 				</div>
-				{#if showChangeBank}
-					<Button
-						variant="transparent"
-						class="!h-fit !min-h-0 !px-0 text-xs !font-normal !uppercase"
-						onClick={onChangeBankClick}
-					>
-						Change
-					</Button>
-				{/if}
-			</div>
+			{/if}
 			<Button
 				class="rounded"
 				disabled={!amount?.length ||

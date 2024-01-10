@@ -43,7 +43,7 @@
 {#if asModal}
 	<ModalWithAnimation isModalOpen={true} {isModalClosed}>
 		<div
-			class="flex h-full w-full flex-col bg-white shadow-csm sm:h-max sm:max-h-[640px] sm:w-max sm:min-w-[490px]"
+			class="flex h-full w-full flex-col overflow-y-scroll bg-white shadow-csm sm:h-max sm:max-h-[640px] sm:w-max sm:min-w-[490px]"
 		>
 			<PaymentMethodHeader {onBackClick} isPartOfModal />
 			<slot name="schemeTile" />

@@ -42,6 +42,7 @@
 					{isLoading}
 					{paymentModesStatus}
 					showExtraInfo={false}
+					submitButtonText={'START SIP'}
 					class="first:rounded-t-lg last:rounded-b-lg"
 				>
 					<div slot="icon" class="flex h-8 w-11 items-center justify-center rounded-sm">
