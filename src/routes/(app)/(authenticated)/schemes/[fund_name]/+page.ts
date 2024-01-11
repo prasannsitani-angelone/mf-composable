@@ -55,15 +55,16 @@ export const load = (async ({ fetch, params, url, parent }) => {
 
 		if (res.ok) {
 			schemeData = res.data;
-		} else {
+			return schemeData;
+		} else if (res?.status < 500) {
 			if (browser) {
 				goto(`${base}/schemes/error`, { replaceState: true });
 			} else {
 				throw redirect(302, `${base}/schemes/error`);
 			}
+		} else {
+			return new Error('Something went wrong');
 		}
-
-		return schemeData;
 	};
 
 	const onClickShareIcon = async () => {
@@ -107,7 +108,11 @@ export const load = (async ({ fetch, params, url, parent }) => {
 		const res = await useFetch(url, {}, fetch);
 		const holdingData: Array<SchemeHoldings> = res.data;
 
-		return holdingData;
+		if (res?.ok || res?.status < 500) {
+			return holdingData;
+		} else {
+			return new Error('Something went wrong');
+		}
 	};
 
 	const getFundHoldingsBySector = async (): Promise<Array<SectorHoldings>> => {
@@ -115,7 +120,11 @@ export const load = (async ({ fetch, params, url, parent }) => {
 		const res = await useFetch(url, {}, fetch);
 		const holdingData: Array<SectorHoldings> = res.data?.sectorDetails;
 
-		return holdingData;
+		if (res?.ok || res?.status < 500) {
+			return holdingData;
+		} else {
+			return new Error('Something went wrong');
+		}
 	};
 
 	const getFundComparisonsData = async (): Promise<FundComparisons> => {
@@ -123,7 +132,11 @@ export const load = (async ({ fetch, params, url, parent }) => {
 		const res = await useFetch(url, {}, fetch);
 		const holdingData: FundComparisons = res.data;
 
-		return holdingData;
+		if (res?.ok || res?.status < 500) {
+			return holdingData;
+		} else {
+			return new Error('Something went wrong');
+		}
 	};
 
 	const getPreviousPaymentDetails = async () => {
@@ -131,7 +144,7 @@ export const load = (async ({ fetch, params, url, parent }) => {
 			const url = `${PUBLIC_MF_CORE_BASE_URL}/user/paymentHandlers`;
 			return await useFetch(url, {}, fetch);
 		} catch (e) {
-			return {};
+			return new Error('Something went wrong');
 		}
 	};
 
@@ -157,7 +170,7 @@ export const load = (async ({ fetch, params, url, parent }) => {
 				mandateData: res[1]
 			};
 		} catch (e) {
-			return {};
+			return new Error('Something went wrong');
 		}
 	};
 
@@ -169,7 +182,7 @@ export const load = (async ({ fetch, params, url, parent }) => {
 				sectorHoldings: res[1]
 			};
 		} catch (e) {
-			console.log('the errorrrrrr -- ', e);
+			return new Error('Something went wrong');
 		}
 	};
 	return {

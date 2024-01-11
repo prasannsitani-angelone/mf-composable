@@ -30,13 +30,7 @@
 
 	let disabled = false; // To prevent user for clicking on the cart icon if a cart addition request is already in progress
 
-	let statusTimeout;
-
 	const updateStatusToast = () => {
-		if (statusTimeout) {
-			clearTimeout(statusTimeout);
-		}
-
 		let statusMessage = 'Something went wrong. Please try again in some time';
 
 		if (!navigator?.onLine) {
@@ -48,10 +42,6 @@
 			type: 'STATUS',
 			message: statusMessage
 		});
-
-		statusTimeout = setTimeout(() => {
-			toastStore?.updateStatusToast(null);
-		}, 4000);
 	};
 
 	/**

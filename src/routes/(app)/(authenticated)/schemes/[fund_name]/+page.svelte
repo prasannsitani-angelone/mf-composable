@@ -36,6 +36,8 @@
 	import FundHeading from './FundHeading/FundHeading.svelte';
 	import FundComparisonEntry from './FundComparison/FundComparisonEntry.svelte';
 	import { versionStore } from '$lib/stores/VersionStore';
+	import SomethingWentWrong from '$components/Error/SomethingWentWrong.svelte';
+	import SomethingWentWrongSmall from '$components/Error/SomethingWentWrongSmall.svelte';
 
 	export let data: PageData;
 
@@ -148,124 +150,142 @@
 
 	<OrderpadLoader />
 {:then schemedata}
-	<SEO
-		seoTitle="{schemedata?.schemeName} NAV, Mutual Fund Returns | Angel One"
-		seoDescription="{schemedata?.schemeName} - Get Todays NAV, Historical Returns, Fund Performance, Portfolio. Start Investing in {schemedata?.amcName} online with Angel One."
-	/>
-	{@const isNFO = schemedata?.nfoScheme === 'Y'}
-	<!-- Left Side -->
-	{#if (!isMobile && !isTablet) || !showInvestmentPad}
-		<article class="pb-16">
-			<Breadcrumbs
-				items={getSchemeDetailsBreadCrumbs(schemedata)}
-				class="my-4 hidden items-center justify-start md:flex"
-			/>
-			<FundHeading schemeDetails={schemedata} {isNFO} />
-			{#if !isNFO}
-				<FundOverview schemeDetails={schemedata} {isNFO} />
-			{/if}
-			{#if isNFO}
-				<NfoDetails schemeDetails={schemedata} />
-			{/if}
-
-			{#if !isNFO}
-				<ReturnEstimator
-					returns3yr={schemedata?.returns3yr}
-					returns5yr={schemedata?.returns5yr}
-					categoryName={schemedata?.categoryName}
-					minSipAmount={schemedata?.minSipAmount}
-					minLumpsumAmount={schemedata?.minLumpsumAmount}
-					class="mt-2 md:mt-4"
-					on:onYearChange={(e) => handleReturnCalculatorYearChange(e.detail)}
-					on:returnEstimatorInViewPort={(e) => returnCalculatorImpressionAnalyticsFunc(e?.detail)}
-					on:returnCalculatorResult={(e) => returnCalculatorResultAnalyticsFunc(e?.detail)}
+	{#if schemedata instanceof Error}
+		<SomethingWentWrong class="cardHeightNoBottomNav" />
+	{:else}
+		<SEO
+			seoTitle="{schemedata?.schemeName} NAV, Mutual Fund Returns | Angel One"
+			seoDescription="{schemedata?.schemeName} - Get Todays NAV, Historical Returns, Fund Performance, Portfolio. Start Investing in {schemedata?.amcName} online with Angel One."
+		/>
+		{@const isNFO = schemedata?.nfoScheme === 'Y'}
+		<!-- Left Side -->
+		{#if (!isMobile && !isTablet) || !showInvestmentPad}
+			<article class="pb-16">
+				<Breadcrumbs
+					items={getSchemeDetailsBreadCrumbs(schemedata)}
+					class="my-4 hidden items-center justify-start md:flex"
 				/>
-			{/if}
-			{#if !isNFO}
-				<SchemeInformation schemeDetails={schemedata} {isNFO} />
-				{#await data?.api?.comparisons then comparisons}
-					<FundComparisonEntry
-						firstSchemeDetails={schemedata}
-						similarFunds={comparisons?.otherScheme || []}
-					/>
-				{/await}
-			{/if}
+				<FundHeading schemeDetails={schemedata} {isNFO} />
+				{#if !isNFO}
+					<FundOverview schemeDetails={schemedata} {isNFO} />
+				{/if}
+				{#if isNFO}
+					<NfoDetails schemeDetails={schemedata} />
+				{/if}
 
-			<FundManager schemeDetails={schemedata} />
-			<RiskAndRating schemeDetails={schemedata} />
-			{#if !isNFO}
-				{#await data?.api?.holdingData then fundHoldingData}
-					{#if fundHoldingData?.holdingData?.length || fundHoldingData?.sectorHoldings?.length}
-						<FundHoldings
-							fundHoldingData={fundHoldingData?.holdingData}
-							sectorData={fundHoldingData?.sectorHoldings}
+				{#if !isNFO}
+					<ReturnEstimator
+						returns3yr={schemedata?.returns3yr}
+						returns5yr={schemedata?.returns5yr}
+						categoryName={schemedata?.categoryName}
+						minSipAmount={schemedata?.minSipAmount}
+						minLumpsumAmount={schemedata?.minLumpsumAmount}
+						class="mt-2 md:mt-4"
+						on:onYearChange={(e) => handleReturnCalculatorYearChange(e.detail)}
+						on:returnEstimatorInViewPort={(e) => returnCalculatorImpressionAnalyticsFunc(e?.detail)}
+						on:returnCalculatorResult={(e) => returnCalculatorResultAnalyticsFunc(e?.detail)}
+					/>
+				{/if}
+				{#if !isNFO}
+					<SchemeInformation schemeDetails={schemedata} {isNFO} />
+					{#await data?.api?.comparisons then comparisons}
+						{#if comparisons instanceof Error}
+							<SomethingWentWrongSmall />
+						{:else}
+							<FundComparisonEntry
+								firstSchemeDetails={schemedata}
+								similarFunds={comparisons?.otherScheme || []}
+							/>
+						{/if}
+					{/await}
+				{/if}
+
+				<FundManager schemeDetails={schemedata} />
+				<RiskAndRating schemeDetails={schemedata} />
+				{#if !isNFO}
+					{#await data?.api?.holdingData then fundHoldingData}
+						{#if fundHoldingData instanceof Error}
+							<SomethingWentWrongSmall />
+						{:else if fundHoldingData?.holdingData?.length || fundHoldingData?.sectorHoldings?.length}
+							<FundHoldings
+								fundHoldingData={fundHoldingData?.holdingData}
+								sectorData={fundHoldingData?.sectorHoldings}
+								isin={schemedata?.isin}
+								schemeName={schemedata?.schemeName}
+							/>
+						{/if}
+					{/await}
+				{/if}
+				{#await data?.api?.comparisons then comparisons}
+					{#if comparisons instanceof Error}
+						<SomethingWentWrongSmall />
+					{:else}
+						{#if !isNFO}
+							<SimilarFunds
+								similarFunds={comparisons?.otherScheme || []}
+								isin={schemedata?.isin}
+								schemeName={schemedata?.schemeName}
+								returns3yr={schemedata?.returns3yr}
+							/>
+						{/if}
+						<OtherFundsByAMC
+							sameAmcScheme={comparisons?.sameAmcScheme}
 							isin={schemedata?.isin}
 							schemeName={schemedata?.schemeName}
+							returns3yr={schemedata?.returns3yr}
 						/>
 					{/if}
 				{/await}
+			</article>
+
+			{#if schemedata}
+				{#if $hydratedStore.isHydrated}
+					<InvestmentDetailsFooter
+						parentPage={orderpadParentPage?.SCHEME}
+						investmentAllowed={true}
+						on:investButtonClick={handleInvestMoreCtaClick}
+					/>
+				{:else}
+					<article class="fixed inset-0 top-auto z-20 block bg-white p-2 md:hidden">
+						<InvestmentDetailsFooterLoader isSchemeDetailsPage />
+					</article>
+				{/if}
 			{/if}
-			{#await data?.api?.comparisons then comparisons}
-				{#if !isNFO}
-					<SimilarFunds
-						similarFunds={comparisons?.otherScheme || []}
-						isin={schemedata?.isin}
-						schemeName={schemedata?.schemeName}
-						returns3yr={schemedata?.returns3yr}
+		{:else}
+			{#await data?.api?.dataForInvestment}
+				<div />
+			{:then dataForInvestment}
+				{#if dataForInvestment instanceof Error}
+					<SomethingWentWrongSmall />
+				{:else}
+					<InvestmentPad
+						{isNFO}
+						class="block md:hidden"
+						schemeData={schemedata}
+						previousPaymentDetails={dataForInvestment?.previousPaymentDetails}
+						mandateData={versionStore.getVersion() === 'B' ? dataForInvestment?.mandateData : []}
+						params={orderpadParams}
+						fromInvestmentDetailsPage={false}
 					/>
 				{/if}
-				<OtherFundsByAMC
-					sameAmcScheme={comparisons?.sameAmcScheme}
-					isin={schemedata?.isin}
-					schemeName={schemedata?.schemeName}
-					returns3yr={schemedata?.returns3yr}
+			{/await}
+		{/if}
+
+		<!-- Right Side -->
+		{#if !isMobile && !isTablet}
+			{#await data?.api?.dataForInvestment}
+				<div />
+			{:then dataForInvestment}
+				<InvestmentPad
+					{isNFO}
+					class="sticky -top-2 mt-[52px] hidden md:block"
+					schemeData={schemedata}
+					previousPaymentDetails={dataForInvestment?.previousPaymentDetails}
+					mandateData={versionStore.getVersion() === 'B' ? dataForInvestment?.mandateData : []}
+					params={orderpadParams}
+					fromInvestmentDetailsPage={false}
 				/>
 			{/await}
-		</article>
-
-		{#if schemedata}
-			{#if $hydratedStore.isHydrated}
-				<InvestmentDetailsFooter
-					parentPage={orderpadParentPage?.SCHEME}
-					investmentAllowed={true}
-					on:investButtonClick={handleInvestMoreCtaClick}
-				/>
-			{:else}
-				<article class="fixed inset-0 top-auto z-20 block bg-white p-2 md:hidden">
-					<InvestmentDetailsFooterLoader isSchemeDetailsPage />
-				</article>
-			{/if}
 		{/if}
-	{:else}
-		{#await data?.api?.dataForInvestment}
-			<div />
-		{:then dataForInvestment}
-			<InvestmentPad
-				{isNFO}
-				class="block md:hidden"
-				schemeData={schemedata}
-				previousPaymentDetails={dataForInvestment?.previousPaymentDetails}
-				mandateData={versionStore.getVersion() === 'B' ? dataForInvestment?.mandateData : []}
-				params={orderpadParams}
-				fromInvestmentDetailsPage={false}
-			/>
-		{/await}
-	{/if}
-
-	<!-- Right Side -->
-	{#if !isMobile && !isTablet}
-		{#await data?.api?.dataForInvestment}
-			<div />
-		{:then dataForInvestment}
-			<InvestmentPad
-				{isNFO}
-				class="sticky -top-2 mt-[52px] hidden md:block"
-				schemeData={schemedata}
-				previousPaymentDetails={dataForInvestment?.previousPaymentDetails}
-				mandateData={versionStore.getVersion() === 'B' ? dataForInvestment?.mandateData : []}
-				params={orderpadParams}
-				fromInvestmentDetailsPage={false}
-			/>
-		{/await}
 	{/if}
 {/await}

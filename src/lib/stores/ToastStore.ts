@@ -11,6 +11,18 @@ const initalStore: IToastStore = {
 	statusToast: null
 };
 
+let statusTimeout;
+
+const updateStatusToast = () => {
+	if (statusTimeout) {
+		clearTimeout(statusTimeout);
+	}
+
+	statusTimeout = setTimeout(() => {
+		toastStore?.updateStatusToast(null);
+	}, 4000);
+};
+
 function CreateStore() {
 	const { subscribe, set, update } = writable(initalStore);
 	return {
@@ -26,7 +38,11 @@ function CreateStore() {
 				};
 			});
 		},
-		updateStatusToast: (item: ToastItem | null) => {
+		updateStatusToast: (item: ToastItem | null, isStickyToast = false) => {
+			if (!isStickyToast) {
+				updateStatusToast();
+			}
+
 			return update((prev: IToastStore) => {
 				return {
 					...prev,

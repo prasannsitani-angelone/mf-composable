@@ -32,13 +32,7 @@
 	const nextSipDateBufferDaysWithFtp = 30;
 	const nextSipDateBufferDaysWithoutFtp = 10;
 
-	let statusTimeout;
-
 	const updateStatusToast = () => {
-		if (statusTimeout) {
-			clearTimeout(statusTimeout);
-		}
-
 		let statusMessage = 'Something went wrong. Please try again in some time';
 
 		if (!navigator?.onLine) {
@@ -50,10 +44,6 @@
 			type: 'STATUS',
 			message: statusMessage
 		});
-
-		statusTimeout = setTimeout(() => {
-			toastStore?.updateStatusToast(null);
-		}, 4000);
 	};
 
 	function upDateLocalStateOnCartUpdate(items: CartEntity[]) {

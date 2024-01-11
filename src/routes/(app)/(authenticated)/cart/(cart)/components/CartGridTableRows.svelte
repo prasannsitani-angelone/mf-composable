@@ -19,13 +19,7 @@
 	let inputError = '';
 	let showSIPDateSelect = getInvestmentType(cartItem) === 'SIP';
 
-	let statusTimeout;
-
 	const updateStatusToast = () => {
-		if (statusTimeout) {
-			clearTimeout(statusTimeout);
-		}
-
 		let statusMessage = 'Something went wrong. Please try again in some time';
 
 		if (!navigator?.onLine) {
@@ -37,10 +31,6 @@
 			type: 'STATUS',
 			message: statusMessage
 		});
-
-		statusTimeout = setTimeout(() => {
-			toastStore?.updateStatusToast(null);
-		}, 4000);
 	};
 
 	async function triggerPatchCallForThisChange(data: boolean) {

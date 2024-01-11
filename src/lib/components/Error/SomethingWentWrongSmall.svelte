@@ -2,6 +2,7 @@
 	import { toastStore } from '$lib/stores/ToastStore';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { BtnVariant, Button, WMSIcon } from 'svelte-components';
+	import { invalidateAll } from '$app/navigation';
 
 	const dispatch = createEventDispatcher();
 
@@ -9,27 +10,17 @@
 		dispatch('retryButtonClick');
 
 		if (navigator?.onLine) {
-			window?.location?.reload();
+			invalidateAll();
 		} else {
 			updateStatusToast();
 		}
 	};
 
-	let statusTimeout;
-
 	const updateStatusToast = () => {
-		if (statusTimeout) {
-			clearTimeout(statusTimeout);
-		}
-
 		toastStore?.updateStatusToast({
 			type: 'STATUS',
 			message: 'You are not connected to the internet. Please check your connection and retry'
 		});
-
-		statusTimeout = setTimeout(() => {
-			toastStore?.updateStatusToast(null);
-		}, 4000);
 	};
 
 	onMount(() => {
