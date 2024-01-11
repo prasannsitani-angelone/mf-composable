@@ -8,6 +8,7 @@
 	import { onMount, tick } from 'svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import QuickEntryPointsCard from './QuickEntryPointsCard.svelte';
+	import { encodeObject } from '$lib/utils/helpers/params';
 
 	$: openNfo = 0;
 
@@ -17,6 +18,14 @@
 		const nfoList = await getactiveNfo();
 		openNfo = nfoList?.length;
 	});
+
+	const getParams = () => {
+		const params = {
+			comparisionArr: [],
+			showSearch: true
+		};
+		return params;
+	};
 
 	export { isGuest };
 </script>
@@ -75,7 +84,10 @@
 			</svg>
 		</div>
 	</QuickEntryPointsCard>
-	<QuickEntryPointsCard title="Buy a Portfolio" to="/buyPortfolio">
+	<QuickEntryPointsCard
+		title="Compare Funds"
+		to={`/schemes/fundcomparision?params=${encodeObject(getParams())}`}
+	>
 		<div
 			slot="icon"
 			class="mt-1 flex h-9 w-9 items-center justify-center rounded-full bg-yellow-primary"

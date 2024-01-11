@@ -9,7 +9,7 @@ export const load = (async ({ fetch, url }) => {
 	const queryParam = url?.searchParams?.get('params') || '';
 
 	const decodedParams = decodeToObject(queryParam);
-	const { comparisionArr } = decodedParams || {};
+	const { comparisionArr, showSearch } = decodedParams || {};
 
 	const getSchemeData = async (isin: string, schemeCode: string) => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/${schemeCode}`;
@@ -70,6 +70,7 @@ export const load = (async ({ fetch, url }) => {
 				? getCompleteData(comparisionArr)
 				: await getCompleteData(comparisionArr)
 		},
-		comparisionArr
+		comparisionArr,
+		showSearch
 	};
 }) satisfies PageLoad;

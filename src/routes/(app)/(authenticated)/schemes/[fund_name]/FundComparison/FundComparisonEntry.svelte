@@ -24,7 +24,8 @@
 					isin: similarFunds?.[0]?.isin,
 					schemeCode: similarFunds?.[0]?.schemeCode
 				}
-			]
+			],
+			showSearch: false
 		};
 		goto(`${base}/schemes/fundcomparision?params=${encodeObject(params)}`);
 	};

@@ -139,7 +139,7 @@
 		return accumulator;
 	}, 0);
 
-	let showSearch = false;
+	let showSearch = data?.showSearch || false;
 
 	const toggleSearch = () => {
 		showSearch = !showSearch;
