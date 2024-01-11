@@ -29,9 +29,6 @@
 	import { useFetch } from '$lib/utils/useFetch';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { ctNudgeStore } from '$lib/stores/CtNudgeStore';
-	import { cubicOut } from 'svelte/easing';
-	import type { AnimationArguments } from 'svelte-components';
-	import { fly } from 'svelte/transition';
 	import { browser } from '$app/environment';
 	import { onLCP, onTTFB, onFCP, onINP, onCLS } from 'web-vitals/attribution';
 	import { logWebVitals } from '$lib/utils/webVitals';
@@ -62,18 +59,6 @@
 	// Update store with Spark headers
 
 	let showAngelBeeBanner = false;
-	let isBack = false;
-
-	const animate = (node: Element, args: AnimationArguments) => (args.cond ? fly(node, args) : {});
-	$: isMobile = $page?.data?.deviceType?.isMobile;
-
-	const getDirection = () => {
-		if (isBack) {
-			isBack = false;
-			return '-100%';
-		}
-		return '100%';
-	};
 
 	const initClevertap = async () => {
 		useFetch(`${PUBLIC_MF_CORE_BASE_URL}/events`, {
@@ -115,17 +100,6 @@
 			});
 			ctNudgeStore.set(data);
 		});
-
-		window.addEventListener(
-			'popstate',
-			function (event) {
-				console.log(event);
-				// The popstate event is fired each time when the current history entry changes.
-				isBack = true;
-			},
-			false
-		);
-
 		handleBackHistoryForDeeplinks();
 	});
 	// initialising logging again with all new headers for routes of (app)
@@ -190,19 +164,12 @@
 		<slot />
 	</TwoColumnRightLarge> -->
 
-	<Default {searchFocused} layoutType={$appPage.data?.layoutConfig?.layoutType}>
-		{#key data.pathname}
-			<div
-				in:animate={{
-					x: getDirection(),
-					easing: cubicOut,
-					duration: 300,
-					cond: isMobile
-				}}
-			>
-				<slot />
-			</div>
-		{/key}
+	<Default
+		{searchFocused}
+		layoutType={$appPage.data?.layoutConfig?.layoutType}
+		pathname={data.pathname}
+	>
+		<slot />
 	</Default>
 
 	{#if pageMetaData?.showBottomNavigation}
