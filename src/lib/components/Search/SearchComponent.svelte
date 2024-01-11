@@ -3,7 +3,7 @@
 	import ResultItem from '$components/Autocomplete/ResultItem.svelte';
 	import SearchHeader from '$components/Autocomplete/SearchHeader.svelte';
 	import Link from '$components/Link.svelte';
-	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+	import { PUBLIC_MF_CORE_BASE_URL, PUBLIC_MF_CORE_BASE_URL_V2 } from '$env/static/public';
 	import {
 		keywordSearchAnalytics,
 		screenOpenAnalytics,
@@ -49,7 +49,7 @@
 	const getSearchResultsData = async (query: string) => {
 		const encodedQuery = encodeURIComponent(query || 'ALL');
 
-		const url = `${PUBLIC_MF_CORE_BASE_URL}/search?value=${encodedQuery}${
+		const url = `${PUBLIC_MF_CORE_BASE_URL_V2}/search?value=${encodedQuery}${
 			filter ? `&filters=${filter}` : ''
 		}`;
 		const res = await useFetch(url);
