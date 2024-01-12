@@ -24,18 +24,18 @@
 	};
 </script>
 
-<div class="my-2 flex items-center rounded-lg bg-white px-4 py-3 shadow-sm">
+<div class="my-2 flex items-center rounded-lg bg-white px-4 py-3 shadow-sm {$$props.class}">
 	<div>
 		<img
-			height="90"
-			width="105"
+			height="80"
+			width="95"
 			src={AskAngelIcon}
 			loading="lazy"
 			alt="Illustration showing ask angel"
 		/>
 	</div>
 	<div class="flex flex-col pl-4">
-		<p class="text-black-key">Not sure where to invest your money?</p>
+		<p class="font-medium text-black-key">Not sure where to invest your money?</p>
 		<p class="py-2 text-xs text-black-bolder">
 			Let us match you with the right investments based on your goals
 		</p>

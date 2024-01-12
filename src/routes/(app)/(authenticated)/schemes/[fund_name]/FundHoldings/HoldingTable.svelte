@@ -62,16 +62,14 @@
 				<Tr>
 					<Td class="!pl-0">
 						{#if topHolding}
-							<div
-								class="flex flex-col whitespace-normal text-sm font-medium uppercase text-black-title"
-							>
+							<div class="flex flex-col whitespace-normal text-sm font-medium text-black-title">
 								<div>
 									{holding.sector}
 								</div>
 							</div>
 						{:else}
 							<div
-								class="flex flex-col items-start whitespace-normal text-sm font-medium uppercase text-black-title"
+								class="flex flex-col items-start whitespace-normal text-sm font-medium text-black-title"
 							>
 								<div>
 									{holding.sector}

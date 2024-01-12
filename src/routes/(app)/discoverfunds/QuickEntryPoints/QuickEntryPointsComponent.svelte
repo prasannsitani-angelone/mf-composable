@@ -92,7 +92,7 @@
 			slot="icon"
 			class="mt-1 flex h-9 w-9 items-center justify-center rounded-full bg-yellow-primary"
 		>
-			<WMSIcon name="folder-star" />
+			<WMSIcon name="compare-funds" />
 		</div>
 		<div slot="bottomLayer">
 			<svg width="100%" viewBox="0 0 300 40" fill="none" xmlns="http://www.w3.org/2000/svg">

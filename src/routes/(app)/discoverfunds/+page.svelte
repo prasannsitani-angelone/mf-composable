@@ -313,11 +313,13 @@
 				failedOrdersNudge: { rowStart: 7, columnStart: 1 },
 				sipPaymentMonthNudge: { rowStart: 8, columnStart: 1 },
 				curatedInvestmentCard: { rowStart: 9, columnStart: 1 },
-				quickEntryPoints: { rowStart: 10, columnStart: 1 },
-				tutorials: { rowStart: 11, columnStart: 1 },
-				screener: { rowStart: 12, columnStart: 1 },
-				promotionCard: { rowStart: 13, columnStart: 1 },
-				logout: { rowStart: 14, columnStart: 1 }
+				buyPortfolioCard: { rowStart: 10, columnStart: 1 },
+				quickEntryPoints: { rowStart: 11, columnStart: 1 },
+				askAngel: { rowStart: 12, columnStart: 1 },
+				tutorials: { rowStart: 13, columnStart: 1 },
+				screener: { rowStart: 14, columnStart: 1 },
+				promotionCard: { rowStart: 15, columnStart: 1 },
+				logout: { rowStart: 16, columnStart: 1 }
 			};
 		} else {
 			placementMapping = {
@@ -327,12 +329,14 @@
 				failedOrdersNudge: { rowStart: 4, columnStart: 1 },
 				sipPaymentMonthNudge: { rowStart: 5, columnStart: 1 },
 				curatedInvestmentCard: { rowStart: 6, columnStart: 1 },
-				quickEntryPoints: { rowStart: 7, columnStart: 1 },
-				tutorials: { rowStart: 8, columnStart: 1 },
-				screener: { rowStart: 9, columnStart: 1 },
+				buyPortfolioCard: { rowStart: 7, columnStart: 1 },
+				quickEntryPoints: { rowStart: 8, columnStart: 1 },
+				tutorials: { rowStart: 9, columnStart: 1 },
+				screener: { rowStart: 10, columnStart: 1 },
 				investments: { rowStart: 1, columnStart: 2 },
 				sipNudges: { rowStart: 2, columnStart: 2 },
 				promotionCard: { rowStart: 3, columnStart: 2 },
+				askAngel: { rowStart: 5, columnStart: 2 },
 
 				ctNudge: { rowStart: 4, columnStart: 2 }
 			};
@@ -458,10 +462,20 @@
 		/>
 	</div>
 
-	<BuyPortfolio />
+	<BuyPortfolio
+		class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
+			?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
+			? 'mt-2'
+			: ''}"
+	/>
+
 	{#if !deviceType?.isBrowser && data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN}
-		<AskAngel />
+		<AskAngel
+			class="row-start-{placementMapping?.askAngel?.rowStart} col-start-{placementMapping?.askAngel
+				?.columnStart} {placementMapping?.askAngel?.rowStart > 1 ? 'mt-2' : ''}"
+		/>
 	{/if}
+
 	<!-- 9. Quick Entry Points - External Funds, NFO, Calculator -->
 	<QuickEntryPointsComponent
 		class="row-start-{placementMapping?.quickEntryPoints?.rowStart} col-start-{placementMapping
@@ -470,7 +484,6 @@
 			: ''}"
 		{isGuest}
 	/>
-
 	<!-- 10. PromotionCard -->
 	{#if data?.searchDashboardData?.amcAd && !deviceType?.isBrowser}
 		<div
@@ -558,7 +571,7 @@
 				</IntersectionObserver>
 			{/if}
 			{#if data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN}
-				<AskAngel />
+				<AskAngel class="row-start-{placementMapping.askAngel?.rowStart}" />
 			{/if}
 		</div>
 	</article>
