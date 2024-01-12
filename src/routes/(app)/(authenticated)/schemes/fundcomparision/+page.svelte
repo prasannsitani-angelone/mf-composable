@@ -315,9 +315,12 @@
 		sectors = [['1'], ['2'], ['3'], ['4'], ['5']];
 		holdings = [['1'], ['2'], ['3'], ['4'], ['5']];
 		meta = [['3Y Returns'], ['Minimum  SIP Investment'], ['Investors']];
+		schemeDetailsList = [];
+	};
+
+	const initialiseChartData = () => {
 		chartMetaData = [['Current Value'], ['Return %']];
 		chartNavData = [];
-		schemeDetailsList = [];
 		fillChartData(chartNavData);
 	};
 	const formatComparisionData = async (promise) => {
@@ -338,7 +341,7 @@
 		// initilaising everything
 		initialiseData();
 
-		response.forEach((element, index) => {
+		response.forEach((element) => {
 			schemeDetailsList.push(element.schemeData);
 			//meta data
 			meta[0].push(
@@ -354,25 +357,6 @@
 					? `${addCommasToAmountString(element.schemeData?.noOfClientInvested)}`
 					: ''
 			);
-
-			// chart meta data
-			chartMetaData[0].push(
-				element?.chartsData?.[index]?.amount
-					? {
-							component: ValueComponent,
-							type: 'component',
-							props: {
-								dotColor: chartDatasetConfig[index]?.borderColor,
-								text: `₹${addCommasToAmountString(element?.chartsData?.[index]?.amount)}`
-							}
-					  }
-					: ''
-			);
-			chartMetaData[1].push(
-				element.schemeData?.returns3yr ? `${element.schemeData?.returns3yr?.toFixed(2)}%` : ''
-			);
-			// chart nav data
-			chartNavData.push(element?.chartsData);
 
 			// past returns
 			pastReturns[0].push(
@@ -476,10 +460,52 @@
 				);
 			}
 		});
-		fillChartData(chartNavData);
 		if (browser) {
 			compareFundImpressionAnalytics();
 		}
+	};
+	const formatChartData = async (promise) => {
+		const totalRows = $page?.data?.deviceType?.isMobile ? rowsConfig['mf'] : rowsConfig['lf'];
+		const response = await promise;
+		const length = totalRows - response.length;
+		for (let i = 0; i < length; i++) {
+			response.push([
+				{
+					schemeData: {},
+					holdingsData: [],
+					chartsData: [],
+					sectorData: []
+				}
+			]);
+		}
+
+		// ===== initilaising chart Data ======
+		initialiseChartData();
+
+		response.forEach((element, index) => {
+			// --------- chart meta data ----------
+			chartMetaData[0].push(
+				element?.chartsData?.[index]?.amount
+					? {
+							component: ValueComponent,
+							type: 'component',
+							props: {
+								dotColor: chartDatasetConfig[index]?.borderColor,
+								text: `₹${addCommasToAmountString(element?.chartsData?.[index]?.amount)}`
+							}
+					  }
+					: ''
+			);
+			chartMetaData[1].push(
+				schemeDetailsList?.[index]?.returns3yr
+					? `${schemeDetailsList?.[index]?.returns3yr?.toFixed(2)}%`
+					: ''
+			);
+
+			// --------- chart nav data ----------
+			chartNavData.push(element?.chartsData);
+		});
+		fillChartData(chartNavData);
 	};
 
 	const chartMonthTagSelectionAnalytics = () => {
@@ -573,15 +599,26 @@
 		<div class="mt-4 md:mt-0">
 			<Table data={meta} />
 		</div>
-		<TableWithAccordian
-			data={chartMetaData}
-			title="If ₹1,000 invested 3 years ago"
-			cardToggled={chartMetaDataToggled}
-		>
-			<svelte:fragment slot="footer">
-				<Chart {lineData} {lineChartOptions} {tags} {onTagClick} {selectedTag} />
-			</svelte:fragment>
-		</TableWithAccordian>
+
+		<!-- Graph Accordian -->
+		{#await formatChartData(data.api.chartsData)}
+			<TableWithAccordian
+				title="If ₹1,000 invested 3 years ago"
+				cardToggled={chartMetaDataToggled}
+				loading={true}
+			/>
+		{:then}
+			<TableWithAccordian
+				data={chartMetaData}
+				title="If ₹1,000 invested 3 years ago"
+				cardToggled={chartMetaDataToggled}
+			>
+				<svelte:fragment slot="footer">
+					<Chart {lineData} {lineChartOptions} {tags} {onTagClick} {selectedTag} />
+				</svelte:fragment>
+			</TableWithAccordian>
+		{/await}
+
 		<TableWithAccordian data={pastReturns} title="Past Returns" cardToggled={pastReturnsToggled} />
 		<TableWithAccordian data={fundBasics} title="Fund Basics" cardToggled={fundBasicsToggled} />
 		<TableWithAccordian data={ratings} title="Ratings" cardToggled={ratingsToggled} />

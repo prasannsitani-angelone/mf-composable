@@ -1,10 +1,12 @@
 <script lang="ts">
 	import AccordianCardComponent from '$components/Accordian/AccordianCardComponent.svelte';
+	import AccordionLoader from './AccordionLoader.svelte';
 	import Table from './Table.svelte';
 
 	export let data = [[]];
 	export let title = '';
 	export let cardToggled = (): void => undefined;
+	export let loading = false;
 </script>
 
 <div class="bg-white">
@@ -18,14 +20,18 @@
 		on:cardToggled={cardToggled}
 	>
 		<svelte:fragment slot="accordionBody">
-			<Table {data}>
-				<svelte:fragment slot="header">
-					<slot name="header" />
-				</svelte:fragment>
-				<svelte:fragment slot="footer">
-					<slot name="footer" />
-				</svelte:fragment>
-			</Table>
+			{#if loading}
+				<AccordionLoader />
+			{:else}
+				<Table {data}>
+					<svelte:fragment slot="header">
+						<slot name="header" />
+					</svelte:fragment>
+					<svelte:fragment slot="footer">
+						<slot name="footer" />
+					</svelte:fragment>
+				</Table>
+			{/if}
 		</svelte:fragment>
 	</AccordianCardComponent>
 </div>
