@@ -29,20 +29,6 @@
 	import { useFetch } from '$lib/utils/useFetch';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { ctNudgeStore } from '$lib/stores/CtNudgeStore';
-	import { browser } from '$app/environment';
-	import { onLCP, onTTFB, onFCP, onINP, onCLS } from 'web-vitals/attribution';
-	import { logWebVitals } from '$lib/utils/webVitals';
-
-	function logDelta(metric) {
-		logWebVitals(metric?.name, metric);
-	}
-	if (browser) {
-		onCLS(logDelta);
-		onINP(logDelta);
-		onLCP(logDelta);
-		onFCP(logDelta);
-		onTTFB(logDelta);
-	}
 
 	$: pageMetaData = $page?.data?.layoutConfig;
 	let searchFocused = false;

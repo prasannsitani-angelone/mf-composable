@@ -55,19 +55,7 @@
 	import BuyPortfolio from './BuyPortfolio.svelte';
 	import AskAngel from './AskAngel.svelte';
 	import { AUTH_STATE_ENUM, tokenStore } from '$lib/stores/TokenStore';
-	import { onLCP, onTTFB, onFCP, onINP, onCLS } from 'web-vitals/attribution';
-	import { logWebVitals } from '$lib/utils/webVitals';
 
-	function logDelta(metric) {
-		logWebVitals(metric?.name, metric);
-	}
-	if (browser) {
-		onCLS(logDelta);
-		onINP(logDelta);
-		onLCP(logDelta);
-		onFCP(logDelta);
-		onTTFB(logDelta);
-	}
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
 	$: isGuest = $page.data.isGuest;

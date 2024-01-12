@@ -13,20 +13,7 @@
 	import type { PageData } from './$types';
 	import SomethingWentWrong from '$components/Error/SomethingWentWrong.svelte';
 	import { invalidate } from '$app/navigation';
-	import { onLCP, onTTFB, onFCP, onINP, onCLS } from 'web-vitals/attribution';
-	import { logWebVitals } from '$lib/utils/webVitals';
-	import { browser } from '$app/environment';
 
-	function logDelta(metric) {
-		logWebVitals(metric?.name, metric);
-	}
-	if (browser) {
-		onCLS(logDelta);
-		onINP(logDelta);
-		onLCP(logDelta);
-		onFCP(logDelta);
-		onTTFB(logDelta);
-	}
 	function updateCartStore(cartItems: CartEntity[]) {
 		cartStore.updateStore(cartItems);
 	}

@@ -16,13 +16,7 @@
 	import { base } from '$app/paths';
 	import Analytics from '$lib/utils/analytics';
 	import { appStore } from '$lib/stores/SparkStore';
-	import {
-		appBackground,
-		appForeground,
-		appMount,
-		webVitalsAnalytics
-	} from '$lib/analytics/AppMounted';
-	import logger from '$lib/utils/logger';
+	import { appBackground, appForeground, appMount } from '$lib/analytics/AppMounted';
 	import { deviceStore } from '$lib/stores/DeviceStore';
 	import { PUBLIC_ANALYTICS_ENABLED, PUBLIC_ANALYTICS_URL } from '$env/static/public';
 	import { BrowserSupportDefault, isBrowserSupported } from '$lib/utils/helpers/browserSupport';
@@ -43,11 +37,6 @@
 		onTTFB(logDelta);
 	}
 	export let data;
-	interface WebVitals {
-		type: string;
-		entry: object;
-	}
-	$: webVitals = <WebVitals[]>[];
 
 	// Update store with Spark headers
 	const {
@@ -94,24 +83,6 @@
 	});
 
 	let browserDetails = BrowserSupportDefault;
-
-	const sendWebVitalsLogs = (vitals: WebVitals[]) => {
-		if (vitals.length === 3) {
-			// connection details
-			const connectionDetails = {
-				downlink: navigator?.connection?.downlink,
-				effectiveType: navigator?.connection?.effectiveType,
-				rtt: navigator?.connection?.rtt,
-				saveData: navigator?.connection?.saveData,
-				url: window?.location?.href
-			};
-			webVitalsAnalytics([...webVitals, connectionDetails]);
-			logger.info({
-				type: 'WebVitals',
-				params: [...webVitals, connectionDetails]
-			});
-		}
-	};
 
 	onMount(async () => {
 		update();
@@ -187,43 +158,6 @@
 		if (PUBLIC_ENV_NAME === 'prod') {
 			deleteCookie(getUserCookieName(), getCookieOptions(false));
 		}
-		const lcpObserver = new PerformanceObserver((list) => {
-			const entries = list.getEntries();
-			const lastEntry = entries[entries.length - 1];
-
-			webVitals.push({
-				type: 'LCP',
-				entry: lastEntry
-			});
-			lcpObserver.disconnect();
-			sendWebVitalsLogs(webVitals);
-		});
-		const fcpObserver = new PerformanceObserver((list) => {
-			const paints = {};
-			list.getEntries().forEach((entry) => {
-				paints[entry.name] = entry.startTime;
-			});
-			webVitals.push({
-				type: 'Paints',
-				entry: paints
-			});
-			fcpObserver.disconnect();
-			sendWebVitalsLogs(webVitals);
-		});
-		const ttfbObserver = new PerformanceObserver((entryList) => {
-			const [pageNav] = entryList.getEntriesByType('navigation');
-
-			webVitals.push({
-				type: 'TTFB',
-				entry: pageNav.responseStart
-			});
-			ttfbObserver.disconnect();
-			sendWebVitalsLogs(webVitals);
-		});
-
-		fcpObserver.observe({ type: 'paint', buffered: true });
-		lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true });
-		ttfbObserver.observe({ type: 'navigation', buffered: true });
 
 		browserDetails = isBrowserSupported();
 	});
