@@ -168,6 +168,12 @@ const handler = (async ({ event, resolve }) => {
 			response.headers.set('link', linkHeader);
 
 			response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+			response.headers.set('X-Frame-Options', 'SAMEORIGIN');
+			response.headers.set('Referrer-Policy', 'strict-origin');
+			// response.headers.set('Content-Security-Policy', "img-src 'self'; default-src 'self' style-src 'self' 'unsafe-inline';");
+			response.headers.set('Strict-Transport-Security', 'max-age=31536000');
+			response.headers.set('X-Content-Type-Options', 'nosniff');
+
 			// Set the cache header
 			// response.headers.set(
 			// 	swCacheHeader,
