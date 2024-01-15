@@ -9,9 +9,8 @@ import { useUserDetailsFetch } from '$lib/utils/useUserDetailsFetch';
 import type { Handle, HandleFetch, HandleServerError } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { handleDeviecDetector } from 'sveltekit-device-detector';
-import * as servertime from 'servertime';
 import { PRIVATE_MF_CORE_BASE_URL, PRIVATE_MF_CORE_BASE_URL_V2 } from '$env/static/private';
-import { PUBLIC_ENV_NAME, PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { dev } from '$app/environment';
 import { getHoldingSummary } from '$lib/api/holdings';
 import type { InvestmentSummary } from '$lib/types/IInvestments';
@@ -44,10 +43,18 @@ const addPreloadLinkHeaders = (linkHeader = '', url: string) => {
 	}
 	return linkHeader;
 };
+const addSecurityHeaders = (response: Response) => {
+	response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+	response.headers.set('X-Frame-Options', 'SAMEORIGIN');
+	response.headers.set('Referrer-Policy', 'strict-origin');
+	response.headers.set('Content-Security-Policy', "frame-ancestors 'self' https://*.angelone.in;");
+	response.headers.set('Strict-Transport-Security', 'max-age=31536000');
+	response.headers.set('X-Content-Type-Options', 'nosniff');
+
+	return response;
+};
 const handler = (async ({ event, resolve }) => {
 	try {
-		const serverTiming = servertime.createTimer();
-		serverTiming.start('ssr generation', 'Timing of SSR generation');
 		const cookieString = event.request.headers.get('cookie') || '';
 		const deviceidFromQuery: string | null = event.url.searchParams.get('deviceid');
 
@@ -77,7 +84,6 @@ const handler = (async ({ event, resolve }) => {
 			token = await getAuthToken('guest');
 			isAuthenticatedUser = false;
 		}
-		serverTiming.start('Get profile and User', 'Timing of get Profile and User');
 		const isGuest = isAuthenticatedUser ? false : true;
 		let searchDashboardData;
 		let userPaymentMethodsStatus: UserPaymentMethodsData;
@@ -125,8 +131,6 @@ const handler = (async ({ event, resolve }) => {
 			}
 		}
 
-		serverTiming.end('Get profile and User');
-
 		const isMissingHeaders: boolean =
 			(deviceidFromQuery && !event?.request?.headers?.get('deviceid')) || false;
 
@@ -151,13 +155,8 @@ const handler = (async ({ event, resolve }) => {
 			searchDashboardData
 		};
 
-		const response = await resolve(event);
-		serverTiming.end('ssr generation');
+		let response = await resolve(event);
 
-		const headers = serverTiming.getHeader() || '';
-		if (PUBLIC_ENV_NAME !== 'prod') {
-			response.headers.set('Server-Timing', headers);
-		}
 		if (response.headers.get('Content-Type') === 'text/html') {
 			// Remove Preload link resource to increase FCP
 			response.headers.delete('link');
@@ -167,12 +166,7 @@ const handler = (async ({ event, resolve }) => {
 
 			response.headers.set('link', linkHeader);
 
-			response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
-			response.headers.set('X-Frame-Options', 'SAMEORIGIN');
-			response.headers.set('Referrer-Policy', 'strict-origin');
-			// response.headers.set('Content-Security-Policy', "img-src 'self'; default-src 'self' style-src 'self' 'unsafe-inline';");
-			response.headers.set('Strict-Transport-Security', 'max-age=31536000');
-			response.headers.set('X-Content-Type-Options', 'nosniff');
+			response = addSecurityHeaders(response);
 
 			// Set the cache header
 			// response.headers.set(
