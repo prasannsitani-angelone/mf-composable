@@ -1,5 +1,5 @@
 export interface LinearChartInput {
-	name: string;
+	name?: string;
 	color: string;
 	weightage: number; // in percentage
 }

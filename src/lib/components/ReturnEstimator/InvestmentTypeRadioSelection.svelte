@@ -15,7 +15,7 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-<section class="flex items-center text-xs font-normal text-black-title">
+<section class="flex items-center text-xs font-normal text-black-title {$$props.class}">
 	<article
 		class="flex items-center md:cursor-pointer"
 		on:click={() => handleInvestmentTypeChange('SIP')}
@@ -26,7 +26,9 @@
 				: ''}"
 			selected={selectedInvestmentType === 'SIP'}
 		/>
-		<div class="ml-2.5 {selectedInvestmentType === 'SIP' ? 'font-medium' : ''}">SIP</div>
+		<div class="ml-2.5 {selectedInvestmentType === 'SIP' ? 'font-medium' : ''}">
+			<slot name="sipLabel">SIP</slot>
+		</div>
 	</article>
 
 	<article
@@ -39,6 +41,8 @@
 				: ''}"
 			selected={selectedInvestmentType === 'OneTime'}
 		/>
-		<div class="ml-2.5 {selectedInvestmentType === 'OneTime' ? 'font-medium' : ''}">One Time</div>
+		<div class="ml-2.5 {selectedInvestmentType === 'OneTime' ? 'font-medium' : ''}">
+			<slot name="oneTimeLabel">One Time</slot>
+		</div>
 	</article>
 </section>
