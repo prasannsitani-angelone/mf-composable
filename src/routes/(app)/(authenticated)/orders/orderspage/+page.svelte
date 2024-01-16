@@ -6,10 +6,17 @@
 	import DateFns from '$lib/utils/asyncDateFns';
 	import { SEO } from 'svelte-components';
 	import SomethingWentWrong from '$components/Error/SomethingWentWrong.svelte';
+	import { appStore } from '$lib/stores/SparkStore';
 	export let data: PageData;
+
+	const resetSelectedLinkedFamilyMembers = () => {
+		appStore?.updateStore({ linkedMembers: { selected: [] } });
+	};
 
 	onMount(async () => {
 		await DateFns.init();
+
+		resetSelectedLinkedFamilyMembers();
 	});
 </script>
 

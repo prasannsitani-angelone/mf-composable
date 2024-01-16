@@ -5,14 +5,21 @@
 	import { SEO } from 'svelte-components';
 	import { onMount } from 'svelte';
 	import SomethingWentWrong from '$components/Error/SomethingWentWrong.svelte';
+	import { appStore } from '$lib/stores/SparkStore';
 	export let data: PageData;
 
 	const scrollToTop = () => {
 		document?.getElementsByTagName?.('main')?.[0]?.scrollTo(0, 0);
 	};
 
+	const resetSelectedLinkedFamilyMembers = () => {
+		appStore?.updateStore({ linkedMembers: { selected: [] } });
+	};
+
 	onMount(() => {
 		scrollToTop();
+
+		resetSelectedLinkedFamilyMembers();
 	});
 </script>
 

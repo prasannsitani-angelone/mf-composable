@@ -1,5 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { appStore } from '$lib/stores/SparkStore';
+	import { profileStore } from '$lib/stores/ProfileStore';
+	import { familyStore } from '$lib/stores/FamilyStore';
 	import ExternalInvestments from './ExternalInvestments.svelte';
 	import type { PageData } from './$types';
 	import { SEO, Tabs } from 'svelte-components';
@@ -35,6 +38,9 @@
 	import { partialImportCheck } from '../utils';
 	import PortfolioCardLoader from '$components/PortfolioCards/PortfolioCardLoader.svelte';
 	import { INVESTMENT_TABS } from '$lib/constants/portfolio';
+	import type { FamilyMemberTypes } from '$lib/types/IFamilyPortfolio';
+	import FamilyPortfolioEntryPoint from '$components/FamilyPortfolio/FamilyPortfolioEntryPoint.svelte';
+
 	export let data: PageData;
 
 	let isXIRRModalOpen = false;
@@ -53,6 +59,7 @@
 		logoUrl: ''
 	};
 	let holdings: Array<InvestmentEntity>;
+	let isFamilyPortfolio: boolean = appStore?.isFamilyPortfolioSelected($profileStore?.clientId);
 
 	$: isExternal = data?.isExternal;
 	$: isMobile = $page?.data?.deviceType?.isMobile;
@@ -105,9 +112,42 @@
 		});
 	});
 
+	const getFormattedFetchedFamilyMembers = (familyMembersList: FamilyMemberTypes[]) => {
+		const selectedLinkedMembersFromStore = appStore?.getLinkedMembers()?.selected || [];
+
+		return (familyMembersList || [])?.map((member) => {
+			member.selected =
+				selectedLinkedMembersFromStore?.findIndex(
+					(linkedMember) => linkedMember?.toLowerCase() === member?.party_code?.toLowerCase()
+				) > -1;
+			return member;
+		});
+	};
+
+	const setFamilyMembersData = async () => {
+		const familyMembersData = await data.api.familyMembers;
+		const selfProfile: FamilyMemberTypes = {
+			party_code: $profileStore?.clientId,
+			nickname: $page.data?.profile?.clientDetails?.fullName,
+			relation: 'Self',
+			status: 'Accepted',
+			selected: false
+		};
+
+		let familyMembersList: FamilyMemberTypes[] = familyMembersData?.child_list;
+		familyMembersList = [selfProfile, ...familyMembersList];
+		familyMembersList = getFormattedFetchedFamilyMembers(familyMembersList);
+
+		familyStore?.set(familyMembersList);
+		isFamilyPortfolio = familyStore?.isFamilyPortfolio($profileStore?.clientId);
+	};
+
 	onMount(async () => {
 		initializeClevertapData();
 		await tick();
+
+		setFamilyMembersData();
+
 		const investmentSummary = data?.investementSummary;
 		const eventMetaData = {
 			'Current Value': investmentSummary?.currentValue,
@@ -207,63 +247,69 @@
 	seoDescription="Get Access to your Mutual Funds investment here. Check and enhance mutual funds investment portfolio better with Angel One."
 />
 
-<Tabs
-	class="!shadow-csm "
-	{activeTab}
-	items={[
-		{
-			tabId: 'Angel One',
-			title: {
-				label: 'Angel One'
-			},
-			styles: {
-				default:
-					'h-16 !text-grey-body !text-sm !font-normal rounded-none normal-case pt-4 pb-4 w-1/2 !border-b-[3px] border-grey-line border-b-[3px] hover:border-grey-line',
-				active:
-					'!border-b-[3px] !text-primary !pb-4 !border-blue-primary hover:!border-blue-primary'
-			},
-			content: {
-				component: InternalInvestmentsTab,
-				props: {
-					data
+<section>
+	<section class="hidden md:block">
+		<FamilyPortfolioEntryPoint class="mb-6 mt-3 w-fit" />
+	</section>
+	<Tabs
+		class="!shadow-csm "
+		{activeTab}
+		items={[
+			{
+				tabId: 'Angel One',
+				title: {
+					label: 'Angel One'
+				},
+				styles: {
+					default:
+						'h-16 !text-grey-body !text-sm !font-normal rounded-none normal-case pt-4 pb-4 w-1/2 !border-b-[3px] border-grey-line border-b-[3px] hover:border-grey-line',
+					active:
+						'!border-b-[3px] !text-primary !pb-4 !border-blue-primary hover:!border-blue-primary'
+				},
+				content: {
+					component: InternalInvestmentsTab,
+					props: {
+						data
+					}
+				},
+				animation: {
+					animation: isMobile,
+					x: '-100%',
+					duration: 500
 				}
 			},
-			animation: {
-				animation: isMobile,
-				x: '-100%',
-				duration: 500
-			}
-		},
-		{
-			tabId: INVESTMENT_TABS.ALL.value,
-			title: {
-				label: INVESTMENT_TABS.ALL.label
-			},
-			styles: {
-				default:
-					'h-16 !text-grey-body !text-sm !font-normal rounded-none normal-case pt-4 pb-4 w-1/2 !border-b-[3px] border-grey-line border-b-[3px] hover:border-grey-line',
-				active:
-					'!border-b-[3px] !text-primary !pb-4 !border-blue-primary hover:!border-blue-primary'
-			},
-			content: {
-				component: ExternalInvestments,
-				props: {
-					data
+			{
+				tabId: INVESTMENT_TABS.ALL.value,
+				title: {
+					label: INVESTMENT_TABS.ALL.label
+				},
+				styles: {
+					default:
+						'h-16 !text-grey-body !text-sm !font-normal rounded-none normal-case pt-4 pb-4 w-1/2 !border-b-[3px] border-grey-line border-b-[3px] hover:border-grey-line',
+					active:
+						'!border-b-[3px] !text-primary !pb-4 !border-blue-primary hover:!border-blue-primary'
+				},
+				content: {
+					component: ExternalInvestments,
+					props: {
+						data,
+						isFamilyPortfolio
+					}
+				},
+				animation: {
+					animation: isMobile,
+					x: '100%',
+					duration: 500
 				}
-			},
-			animation: {
-				animation: isMobile,
-				x: '100%',
-				duration: 500
 			}
-		}
-	]}
-	classes={{
-		tabsContainer:
-			'scroll-lock overflow-auto sticky md:static top-0 z-60 !border-b-0 bg-white !shadow-csm rounded-t-lg'
-	}}
-	onChange={switchTabs}
-/>
+		]}
+		classes={{
+			tabsContainer:
+				'scroll-lock overflow-auto sticky md:static top-0 z-60 !border-b-0 bg-white !shadow-csm rounded-t-lg'
+		}}
+		onChange={switchTabs}
+	/>
+</section>
 
 {#if !isMobile && activeTab === INVESTMENT_TABS.ANGEL_ONE.value}
 	<InternalRightSide
@@ -283,7 +329,7 @@
 				<PortfolioCardLoader />
 			</section>
 		{:then res}
-			{#if setSuccessScenarioParams(res.data?.holdings || [])}
+			{#if setSuccessScenarioParams(res.data?.holdings || []) && !isFamilyPortfolio}
 				<ExternalInvestmentsRightSide
 					investmentSummary={response.data?.summary}
 					{partialImportedFundCount}

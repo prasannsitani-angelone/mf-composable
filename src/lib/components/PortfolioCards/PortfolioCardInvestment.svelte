@@ -14,7 +14,10 @@
 		portfolioCardExpandClickEvent,
 		portfolioCardExpandImpressionEvent
 	} from '$components/PortfolioCards/analytics';
+	import { familyStore } from '$lib/stores/FamilyStore';
+	import { profileStore } from '$lib/stores/ProfileStore';
 
+	const isFamilyPortfolio = familyStore?.isFamilyPortfolio($profileStore?.clientId);
 	let cardCollapsed = true;
 
 	const viewPortfolioAnalysisAnalyticsFunc = () => {
@@ -76,7 +79,7 @@
 	}
 </script>
 
-<PortfolioCard class="!px-3 !pb-3 !pt-4">
+<PortfolioCard class="!px-3 !pt-4 {isFamilyPortfolio ? '!pb-1' : '!pb-3'}">
 	<section class=" flex items-start justify-between lg:mx-0" data-testid="portfolioTopSection">
 		<article class="flex flex-col items-start">
 			<div class="text-xs">Current Value</div>
@@ -86,7 +89,7 @@
 					: '0.00'}
 			</div>
 		</article>
-		{#if investmentSummary && investmentSummary.investedValue && investmentSummary.investedValue !== 0}
+		{#if investmentSummary && investmentSummary.investedValue && investmentSummary.investedValue !== 0 && !isFamilyPortfolio}
 			<Button
 				variant="transparent"
 				class="flex flex-col items-end !pr-0 !pt-0 pb-2 pl-2"
@@ -113,7 +116,7 @@
 			class="mb-3 mt-2 flex flex-col items-center justify-around rounded-lg bg-white bg-opacity-10 px-2 py-4 md:py-3.5 lg:mx-0"
 		>
 			<div class="flex w-full">
-				<article class=" flex-1 border-r border-dashed border-grey-dashed text-left">
+				<article class=" flex-1 border-r border-grey-dashed text-left">
 					<div class=" text-xs font-normal">Total Invested</div>
 					<div class=" text-sm font-normal" data-testid="portfolioInvestedValue">
 						₹{investmentSummary?.investedValue
@@ -211,23 +214,26 @@
 			{/if}
 		</section>
 
-		<section
-			class={`border-t border-neutral-100 border-opacity-10 px-4 lg:px-0 ${
-				discoverPage ? 'max-sm:hidden' : ''
-			}`}
-		>
-			<article data-testid="viewPortfolioAnalysis">
-				<!-- svelte-ignore a11y-click-events-have-key-events -->
-				<div on:click={onGoToPortfolioClick}>
-					<div
-						class="px-17 flex cursor-pointer items-center justify-center pt-3 text-center text-sm font-medium"
-					>
-						<span> VIEW PORTFOLIO ANALYSIS </span>
-						<RightIcon class="ml-2" stroke="white" />
+		{#if !isFamilyPortfolio}
+			<section
+				class={`border-t border-neutral-100 border-opacity-10 px-4 lg:px-0 ${
+					discoverPage ? 'max-sm:hidden' : ''
+				}`}
+			>
+				<article data-testid="viewPortfolioAnalysis">
+					<!-- svelte-ignore a11y-click-events-have-key-events -->
+					<!-- svelte-ignore a11y-no-static-element-interactions -->
+					<div on:click={onGoToPortfolioClick}>
+						<div
+							class="px-17 flex cursor-pointer items-center justify-center pt-3 text-center text-sm font-medium"
+						>
+							<span> VIEW PORTFOLIO ANALYSIS </span>
+							<RightIcon class="ml-2" stroke="white" />
+						</div>
 					</div>
-				</div>
-			</article>
-		</section>
+				</article>
+			</section>
+		{/if}
 	{/if}
 </PortfolioCard>
 

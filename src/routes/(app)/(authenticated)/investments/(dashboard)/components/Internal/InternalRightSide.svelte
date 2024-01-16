@@ -10,8 +10,15 @@
 	import { fundForYouClickAnalytics } from '../../../analytics';
 	import InvestmentOrders from '../../InvestmentOrders.svelte';
 	import OptimisePortfolioCard from '../OptimisePortfolioCard.svelte';
+	import { appStore } from '$lib/stores/SparkStore';
+	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+	import { useFetch } from '$lib/utils/useFetch';
+	import { profileStore } from '$lib/stores/ProfileStore';
+	import { onMount } from 'svelte';
 
 	export let data: PageData;
+	let familyPortfolioSummary;
+	let isFamilyPortfolio = false;
 
 	let optimisePorfolioData: IOPtimsiePortfolioData = {
 		isin: '',
@@ -44,6 +51,31 @@
 		});
 		dispatch('openOptimisePortfolio');
 	};
+
+	isFamilyPortfolio = appStore?.isFamilyPortfolioSelected($profileStore?.clientId);
+
+	const getFamilyPortfolioSummary = async () => {
+		const query = appStore?.getSelectedLinkedMembersQuery();
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings?summary=true`;
+		const res = await useFetch(
+			url,
+			{
+				headers: {
+					'X-FOR-MEMBER': query
+				}
+			},
+			fetch
+		);
+		if (res?.ok) {
+			familyPortfolioSummary = res?.data?.data?.summary;
+		}
+	};
+
+	onMount(() => {
+		if (isFamilyPortfolio) {
+			getFamilyPortfolioSummary();
+		}
+	});
 </script>
 
 <!-- Right Side Contents -->
@@ -53,7 +85,9 @@
 		<article class="mb-2 overflow-hidden sm:mb-0">
 			<PortfolioCardInvestment
 				onInfoClick={showXirrModal}
-				investmentSummary={data.investementSummary}
+				investmentSummary={isFamilyPortfolio
+					? familyPortfolioSummary || {}
+					: data.investementSummary}
 			/>
 			{#if $ctNudgeStore?.kv?.topic === 'mf_invdash_inpage1_type_d' || (['mf_invdash_bottomsticky_type_b', 'mf_invdash_bottomsticky_type_c', 'mf_invdash_bottomsticky_type_d'].includes($ctNudgeStore?.kv?.topic) && !isMobile)}
 				<ClevertapNudgeComponent

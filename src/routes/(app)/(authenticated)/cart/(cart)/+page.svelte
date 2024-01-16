@@ -13,6 +13,7 @@
 	import type { PageData } from './$types';
 	import SomethingWentWrong from '$components/Error/SomethingWentWrong.svelte';
 	import { invalidate } from '$app/navigation';
+	import { appStore } from '$lib/stores/SparkStore';
 
 	function updateCartStore(cartItems: CartEntity[]) {
 		cartStore.updateStore(cartItems);
@@ -28,6 +29,10 @@
 		window?.addEventListener('online', reloadCurrentPage);
 	};
 
+	const resetSelectedLinkedFamilyMembers = () => {
+		appStore?.updateStore({ linkedMembers: { selected: [] } });
+	};
+
 	onMount(() => {
 		data.api.cart.then((res: { data: CartEntity[] }) => {
 			updateCartStore(res.data);
@@ -35,6 +40,8 @@
 		});
 
 		refreshOnInternetConnectivity();
+
+		resetSelectedLinkedFamilyMembers();
 
 		return () => {
 			window?.removeEventListener('online', reloadCurrentPage);

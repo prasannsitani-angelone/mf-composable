@@ -40,6 +40,7 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div on:click={navigateToInvestments} class="block cursor-pointer">
 	<PortfolioCard class="pb-4 pt-6 lg:p-6 {$$props.class || ''}">
 		<section class=" flex items-center justify-between lg:mx-0">

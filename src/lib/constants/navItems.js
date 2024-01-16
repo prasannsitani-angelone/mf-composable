@@ -30,7 +30,7 @@ export const BOTTOM_NAVBARS = (version) => [
 		height: 24
 	},
 	{
-		label: 'Investments',
+		label: 'Portfolio',
 		path: `${base}/investments`,
 		icon: RupeeNav,
 		activeIcon: RupeeNavFilled,

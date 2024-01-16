@@ -246,11 +246,17 @@
 		return '/';
 	};
 
+	const resetSelectedLinkedFamilyMembers = () => {
+		appStore?.updateStore({ linkedMembers: { selected: [] } });
+	};
+
 	onMount(async () => {
 		await tick();
 		versionStore.setVersion('B');
 
 		storiesData = setStoriesData(setStoryCtaUrl);
+
+		resetSelectedLinkedFamilyMembers();
 
 		sHomepage({
 			version: 'B',

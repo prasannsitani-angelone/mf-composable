@@ -5,6 +5,8 @@
 	import { headerStore } from '$lib/stores/HeaderStore';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import NxtHeader from './NxtHeader.svelte';
+	import FamilyPortfolioEntryPoint from '$components/FamilyPortfolio/FamilyPortfolioEntryPoint.svelte';
+	import FamilyPortfolioInfo from '$components/FamilyPortfolio/FamilyPortfolioInfo.svelte';
 	$: pageMetaData = $page?.data?.layoutConfig;
 	$: userType = $page?.data?.userDetails?.userType || 'B2C';
 	const dispatch = createEventDispatcher();
@@ -56,6 +58,19 @@
 							</div>
 						{/if}
 					</h1>
+				</svelte:fragment>
+
+				<svelte:fragment slot="additionalSection">
+					{#if pageMetaData?.title === 'Portfolio'}
+						<section class="ml-2">
+							<FamilyPortfolioEntryPoint />
+						</section>
+					{/if}
+					{#if pageMetaData?.title === 'Family Portfolio'}
+						<section class="ml-1">
+							<FamilyPortfolioInfo />
+						</section>
+					{/if}
 				</svelte:fragment>
 			</MobileHeader>
 		{/if}

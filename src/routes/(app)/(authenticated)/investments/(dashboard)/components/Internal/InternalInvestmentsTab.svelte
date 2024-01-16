@@ -22,8 +22,15 @@
 	import Clevertap from '$lib/utils/Clevertap';
 	import { debounce } from '$lib/utils/helpers/debounce';
 	import SomethingWentWrongSmall from '$components/Error/SomethingWentWrongSmall.svelte';
+	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+	import { useFetch } from '$lib/utils/useFetch';
+	import { appStore } from '$lib/stores/SparkStore';
+	import { profileStore } from '$lib/stores/ProfileStore';
 
 	export let data: PageData;
+	let isFamilyPortfolio = false;
+
+	let familyPortfolioHoldings;
 
 	let isXIRRModalOpen = false;
 	let isOptimisePortfolioOpen = false;
@@ -72,8 +79,31 @@
 		});
 	});
 
-	onMount(() => {
+	const getFamilyPortfolioHoldings = async () => {
+		const query = appStore?.getSelectedLinkedMembersQuery();
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings`;
+		const res = await useFetch(
+			url,
+			{
+				headers: {
+					'X-FOR-MEMBER': query
+				}
+			},
+			fetch
+		);
+		if (res?.ok) {
+			familyPortfolioHoldings = res?.data?.data?.holdings;
+		}
+	};
+
+	isFamilyPortfolio = appStore?.isFamilyPortfolioSelected($profileStore?.clientId);
+
+	onMount(async () => {
 		initializeClevertapData();
+
+		if (isFamilyPortfolio) {
+			getFamilyPortfolioHoldings();
+		}
 	});
 	onDestroy(() => {
 		initializeClevertapData.cancel();
@@ -97,9 +127,11 @@
 					/>
 				{/if}
 				<YourInvestmentsNew
-					investmentSummary={data.investementSummary}
+					investmentSummary={isFamilyPortfolio ? {} : data.investementSummary}
 					{optimisePorfolioData}
-					tableData={response.data?.holdings || []}
+					tableData={isFamilyPortfolio
+						? familyPortfolioHoldings || []
+						: response.data?.holdings || []}
 					bind:holdings
 					bind:isXIRRModalOpen
 					bind:isOptimisePortfolioOpen

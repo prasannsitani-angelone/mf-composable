@@ -31,7 +31,10 @@
 	import { WMSIcon } from 'svelte-components';
 	import OptimisePortfolioModal from './components/OptimisePortfolioModal.svelte';
 	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
+	import { familyStore } from '$lib/stores/FamilyStore';
+	import { profileStore } from '$lib/stores/ProfileStore';
 
+	const isFamilyPortfolio = familyStore?.isFamilyPortfolio($profileStore?.clientId);
 	$: isExternal = $page?.data?.isExternal;
 
 	export let isXIRRModalOpen = false;
@@ -55,10 +58,15 @@
 	let holdings: Array<InvestmentEntity>;
 	holdings = tableData;
 	let tableDataToDisplay = [...tableData];
+	$: tableDataToDisplay = [...tableData];
 
 	export { tableData, holdings };
 
 	const handleRowClick = (selectedRow: InvestmentEntity) => {
+		if (isFamilyPortfolio) {
+			return;
+		}
+
 		const dParam = `${
 			isExternal ? '-rtaSchemeCode-' + selectedRow?.rtaSchemeCode + '/external' : ''
 		}`;
@@ -110,7 +118,7 @@
 </script>
 
 <section class="overflow-hidden rounded-b-xl sm:shadow-csm">
-	{#if !isExternal}
+	{#if !isExternal && !isFamilyPortfolio}
 		<section data-testid="investmentFilterContainer">
 			<PageFilter
 				{onXirrClick}

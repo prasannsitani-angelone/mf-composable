@@ -4,6 +4,7 @@
 	import InvestmentDashboardLoader from './Loaders/InvestmentDashboardLoader.svelte';
 	import PortfolioCardLoader from '$components/PortfolioCards/PortfolioCardLoader.svelte';
 	import ExternalFundsNoData from '$components/PortfolioCards/ExternalFundsNoData.svelte';
+	import FamilyPortfolioState from '$components/ExternalInvestments/FamilyPortfolioState.svelte';
 	import FetchFundsFlowModal from './components/FetchFundsFlowModal.svelte';
 	import FirstTimeImport from './components/FirstTimeImport.svelte';
 	import RefreshFunds from './components/RefreshFunds.svelte';
@@ -45,6 +46,7 @@
 	import { page } from '$app/stores';
 
 	export let data: PageData;
+	export let isFamilyPortfolio = false;
 
 	$: isExternal = data?.isExternal;
 	$: isMobile = $page?.data?.deviceType?.isMobile;
@@ -317,93 +319,101 @@
 </script>
 
 <div class="px-2 py-2 md:p-0">
-	{#await externalInvestmentSummary}
-		<section class="col-span-1 row-start-3 sm:col-span-1 sm:col-start-1">
-			<InvestmentDashboardLoader />
+	{#if isFamilyPortfolio}
+		<section>
+			<FamilyPortfolioState />
 		</section>
-		<section class="col-span-1 col-start-1 row-start-2 sm:col-start-2 sm:row-span-3 sm:row-start-1">
-			<PortfolioCardLoader />
-		</section>
-	{:then response}
-		<!-- Check for unhappy scenarios -->
-		{#if getUnhappyScenario(response)}
-			<!-- Render Left side for unhapy scenario -->
-			<section class="col-span-1 row-start-2 sm:col-span-1 sm:col-start-1">
-				<svelte:component
-					this={UnhappyComponentsMap[getUnhappyScenario(response)].info}
-					onConfirmation={onInitiateFundsFetch}
-					{data}
-				/>
+	{:else}
+		{#await externalInvestmentSummary}
+			<section class="col-span-1 row-start-3 sm:col-span-1 sm:col-start-1">
+				<InvestmentDashboardLoader />
 			</section>
-			<!-- Render Right Side of Unhappy Scenario -->
-			<section class="col-span-1 row-start-1 sm:col-span-1 sm:col-start-2 sm:row-span-3">
-				<svelte:component
-					this={UnhappyComponentsMap[getUnhappyScenario(response)].card}
-					scenario={getUnhappyScenario(response)}
-				/>
+			<section
+				class="col-span-1 col-start-1 row-start-2 sm:col-start-2 sm:row-span-3 sm:row-start-1"
+			>
+				<PortfolioCardLoader />
 			</section>
-		{:else}
-			<!-- Success scenarios -->
-			{#await externalInvestmentHoldings}
-				<ExternalFundsLoadingComponent />
-			{:then res}
-				{#if showRemoveExternalFundsLoader}
+		{:then response}
+			<!-- Check for unhappy scenarios -->
+			{#if getUnhappyScenario(response)}
+				<!-- Render Left side for unhapy scenario -->
+				<section class="col-span-1 row-start-2 sm:col-span-1 sm:col-start-1">
+					<svelte:component
+						this={UnhappyComponentsMap[getUnhappyScenario(response)].info}
+						onConfirmation={onInitiateFundsFetch}
+						{data}
+					/>
+				</section>
+				<!-- Render Right Side of Unhappy Scenario -->
+				<section class="col-span-1 row-start-1 sm:col-span-1 sm:col-start-2 sm:row-span-3">
+					<svelte:component
+						this={UnhappyComponentsMap[getUnhappyScenario(response)].card}
+						scenario={getUnhappyScenario(response)}
+					/>
+				</section>
+			{:else}
+				<!-- Success scenarios -->
+				{#await externalInvestmentHoldings}
 					<ExternalFundsLoadingComponent />
-				{:else if setSuccessScenarioParams(res.data?.holdings || [])}
-					{#if isMobile}
-						<ExternalInvestmentsRightSide
-							investmentSummary={response.data?.summary}
-							{partialImportedFundCount}
-							{totalImportedFundCount}
-							{isPartialImport}
-						/>
-					{/if}
-					<section class="col-span-1 row-start-3 sm:col-span-1 sm:col-start-1">
-						<!-- Render Refresh component for both partial/ full success scenario -->
-						<section class="col-span-1 row-start-2 sm:col-span-1 sm:col-start-1">
-							{#if !showRemoveExternalFundsLoader}
-								<RefreshFunds
-									summary={response.data?.summary}
-									onButtonClick={() => onRefreshFunds(response.data?.summary)}
+				{:then res}
+					{#if showRemoveExternalFundsLoader}
+						<ExternalFundsLoadingComponent />
+					{:else if setSuccessScenarioParams(res.data?.holdings || [])}
+						{#if isMobile}
+							<ExternalInvestmentsRightSide
+								investmentSummary={response.data?.summary}
+								{partialImportedFundCount}
+								{totalImportedFundCount}
+								{isPartialImport}
+							/>
+						{/if}
+						<section class="col-span-1 row-start-3 sm:col-span-1 sm:col-start-1">
+							<!-- Render Refresh component for both partial/ full success scenario -->
+							<section class="col-span-1 row-start-2 sm:col-span-1 sm:col-start-1">
+								{#if !showRemoveExternalFundsLoader}
+									<RefreshFunds
+										summary={response.data?.summary}
+										onButtonClick={() => onRefreshFunds(response.data?.summary)}
+									/>
+								{/if}
+							</section>
+							{#if res.status === 'success'}
+								<YourInvestmentsNew tableData={res.data?.holdings || []} />
+
+								<StopExternalFundTrackingComponent
+									class="my-4"
+									on:stopTrackingClicked={() => setRemoveExternalFundTrackingConfirm(true)}
+								/>
+							{:else}
+								<ErrorLoadingComponent
+									title="Error Fetching Investments"
+									message="We could not fetch your investment list due to a technical error. Please try again"
 								/>
 							{/if}
 						</section>
-						{#if res.status === 'success'}
-							<YourInvestmentsNew tableData={res.data?.holdings || []} />
-
-							<StopExternalFundTrackingComponent
-								class="my-4"
-								on:stopTrackingClicked={() => setRemoveExternalFundTrackingConfirm(true)}
-							/>
-						{:else}
-							<ErrorLoadingComponent
-								title="Error Fetching Investments"
-								message="We could not fetch your investment list due to a technical error. Please try again"
-							/>
-						{/if}
-					</section>
-				{/if}
-			{:catch error}
-				<div>
-					<ErrorLoadingComponent
-						title="Error Fetching Investments"
-						message="We could not fetch your investment list due to a technical error. Please try again"
-					/>
-				</div>
-			{/await}
-		{/if}
-		{#if refreshNotAllowed}
-			<RefreshErrorModal {onModalClick} summary={response.data?.summary} />
-		{:else if otpInitiated}
-			<FetchFundsFlowModal
-				flow={otpFlow}
-				step={otpStep}
-				{data}
-				{onModalClick}
-				onfetchFundsSuccess={updatePageData}
-			/>
-		{/if}
-	{/await}
+					{/if}
+				{:catch error}
+					<div>
+						<ErrorLoadingComponent
+							title="Error Fetching Investments"
+							message="We could not fetch your investment list due to a technical error. Please try again"
+						/>
+					</div>
+				{/await}
+			{/if}
+			{#if refreshNotAllowed}
+				<RefreshErrorModal {onModalClick} summary={response.data?.summary} />
+			{:else if otpInitiated}
+				<FetchFundsFlowModal
+					flow={otpFlow}
+					step={otpStep}
+					{data}
+					{onModalClick}
+					onfetchFundsSuccess={updatePageData}
+				/>
+			{/if}
+		{/await}
+	{/if}
 </div>
 
 {#if showRemoveExternalFundTrackingConfirm}

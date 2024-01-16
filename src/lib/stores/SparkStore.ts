@@ -19,6 +19,11 @@ export interface SparkStore {
 	isWebView: boolean;
 	paymentapps: string;
 	sessionId: string;
+	linkedMembers: LinkedMembersHeaderTypes;
+}
+
+export interface LinkedMembersHeaderTypes {
+	selected: string[];
 }
 
 const initalStore: SparkStore = {
@@ -38,7 +43,10 @@ const initalStore: SparkStore = {
 	isTWA: false,
 	isWebView: false,
 	paymentapps: '',
-	sessionId: ''
+	sessionId: '',
+	linkedMembers: {
+		selected: []
+	}
 };
 
 function Store() {
@@ -90,7 +98,34 @@ function Store() {
 		deviceid: () => sparkStore.deviceid,
 		get: () => sparkStore,
 		isTWA: () => sparkStore.isTWA,
-		isWebView: () => sparkStore.isWebView
+		isWebView: () => sparkStore.isWebView,
+		getLinkedMembers: () => sparkStore?.linkedMembers,
+		isFamilyPortfolioSelected: (selfClientCode: string) => {
+			let isFamilyPortfolioValue = false;
+			const selectedLinkedMembers = sparkStore?.linkedMembers?.selected || [];
+
+			if (
+				selectedLinkedMembers?.length > 1 ||
+				(selectedLinkedMembers?.length === 1 && selectedLinkedMembers[0] !== selfClientCode)
+			) {
+				isFamilyPortfolioValue = true;
+			}
+
+			return isFamilyPortfolioValue;
+		},
+		getSelectedLinkedMembersQuery: () => {
+			const selectedLinkedMembers = sparkStore?.linkedMembers?.selected || [];
+			let query = '';
+
+			selectedLinkedMembers?.forEach((member) => {
+				if (query?.length) {
+					query = query + ',';
+				}
+				query = query + member;
+			});
+
+			return query;
+		}
 	};
 }
 
