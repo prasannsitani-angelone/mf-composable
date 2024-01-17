@@ -40,7 +40,7 @@
 	export { schemeDetails, isPrimary, isRemovable, showCompact, showCTA };
 </script>
 
-<article class="flex h-full flex-col items-start">
+<article class="flex h-full w-full flex-col items-start">
 	{#if schemeDetails?.isin}
 		<div class="flex w-full justify-between">
 			<SchemeLogo src={schemeDetails?.logoUrl} size="xs" class="!mr-1" />

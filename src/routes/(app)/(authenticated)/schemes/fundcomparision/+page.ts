@@ -29,20 +29,6 @@ export const load = (async ({ fetch, url }) => {
 		return await useFetch(url, {}, fetch);
 	};
 
-	const getGraphData = async (comparisionArr) => {
-		const result = [];
-		for (let i = 0; i < comparisionArr.length; i++) {
-			const { isin } = comparisionArr[i];
-			const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/nav?months=36&simulate=true&initialFund=1000`;
-			const response = await useFetch(url, {}, fetch);
-			result.push({
-				chartsData: response.ok ? response.data || [] : []
-			});
-		}
-
-		return result;
-	};
-
 	const getSectorData = async (isin: string) => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${isin}/sectors?offset=0&limit=5`;
 		return await useFetch(url, {}, fetch);
@@ -75,8 +61,7 @@ export const load = (async ({ fetch, url }) => {
 		api: {
 			comparisionData: hydrate
 				? getCompleteData(comparisionArr)
-				: await getCompleteData(comparisionArr),
-			chartsData: hydrate ? getGraphData(comparisionArr) : await getGraphData(comparisionArr)
+				: await getCompleteData(comparisionArr)
 		},
 		comparisionArr,
 		showSearch

@@ -1,3 +1,7 @@
+export interface NavDetails {
+	amount: number;
+	date: string;
+}
 export interface ICompareFunds {
 	comparefundscardvisible: string;
 	comparefundcardfunds: {

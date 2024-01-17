@@ -20,6 +20,7 @@
 		searchedFundnameSelectClickEvent,
 		suggestedFundnameClickEvent
 	} from '../analytics';
+	import SuggestedFundsLoader from './SuggestedFundsLoader.svelte';
 
 	const dispatch = createEventDispatcher();
 
@@ -126,20 +127,24 @@
 				{/if}
 
 				<div>
-					{#each suggestedSchemes as scheme, idx (idx)}
-						<!-- svelte-ignore a11y-click-events-have-key-events -->
-						<!-- svelte-ignore a11y-no-static-element-interactions -->
-						<div
-							on:click|preventDefault={() => {
-								handleSchemeSelected(scheme, idx);
-							}}
-						>
-							<SchemeCard schemes={scheme} titleClass="lg:flex-wrap" class="my-4 w-full pr-2">
-								<div slot="chip-overview" />
-								<div slot="rating" />
-							</SchemeCard>
-						</div>
-					{/each}
+					{#if !suggestedSchemes?.length}
+						<SuggestedFundsLoader />
+					{:else}
+						{#each suggestedSchemes as scheme, idx (idx)}
+							<!-- svelte-ignore a11y-click-events-have-key-events -->
+							<!-- svelte-ignore a11y-no-static-element-interactions -->
+							<div
+								on:click|preventDefault={() => {
+									handleSchemeSelected(scheme, idx);
+								}}
+							>
+								<SchemeCard schemes={scheme} titleClass="lg:flex-wrap" class="my-4 w-full pr-2">
+									<div slot="chip-overview" />
+									<div slot="rating" />
+								</SchemeCard>
+							</div>
+						{/each}
+					{/if}
 				</div>
 			</div>
 		</div>
@@ -197,7 +202,7 @@
 										<div slot="rating" />
 									</SchemeCard>
 									<div class="flex w-3/12 items-center justify-end text-center">
-										{scheme?.returns3yr?.toFixed(2)} %
+										{scheme?.returns3yr ? `${scheme?.returns3yr.toFixed(1)}%` : '-'}
 									</div>
 								</article>
 							{/each}
