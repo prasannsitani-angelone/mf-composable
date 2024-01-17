@@ -134,7 +134,7 @@
 			selected: false
 		};
 
-		let familyMembersList: FamilyMemberTypes[] = familyMembersData?.data?.child_list;
+		let familyMembersList: FamilyMemberTypes[] = familyMembersData?.data?.child_list || [];
 		familyMembersList = [selfProfile, ...familyMembersList];
 		familyMembersList = getFormattedFetchedFamilyMembers(familyMembersList);
 

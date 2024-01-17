@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { WMSIcon } from 'svelte-components';
@@ -6,17 +6,40 @@
 	import { familyStore } from '$lib/stores/FamilyStore';
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import { appStore } from '$lib/stores/SparkStore';
+	import { onMount } from 'svelte';
 
+	let entryPointInterval: ReturnType<typeof setInterval>;
 	let selfClientCode = $profileStore?.clientId;
 	let familyMembersList = familyStore?.getFamilyMembersDetails() || [];
 	let isFamilyPortfolio = appStore?.isFamilyPortfolioSelected(selfClientCode);
 	let isLoaded = false;
 
-	setTimeout(() => {
+	const setEntryPointData = () => {
+		selfClientCode = $profileStore?.clientId;
 		familyMembersList = familyStore?.getFamilyMembersDetails() || [];
 		isFamilyPortfolio = appStore?.isFamilyPortfolioSelected(selfClientCode);
 		isLoaded = true;
-	}, 300);
+	};
+
+	setEntryPointData();
+
+	onMount(() => {
+		if (!familyMembersList?.length) {
+			entryPointInterval = setInterval(() => {
+				setEntryPointData();
+
+				if (familyMembersList?.length) {
+					clearInterval(entryPointInterval);
+				}
+			}, 100);
+		}
+
+		return () => {
+			if (entryPointInterval !== undefined) {
+				clearInterval(entryPointInterval);
+			}
+		};
+	});
 
 	const redirectToFamilyPage = () => {
 		goto(`${base}/investments/family`);
