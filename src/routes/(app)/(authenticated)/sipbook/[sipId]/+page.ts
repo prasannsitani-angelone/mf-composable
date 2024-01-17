@@ -48,7 +48,9 @@ export const load = (async ({ fetch, params, depends }) => {
 				BankDetails: {
 					BankName: bankName,
 					BankAccountNumber: accountNo
-				}
+				},
+				portfoliotag: sipData?.packId ? 'Y' : 'N',
+				portfolioName: sipData?.packId
 			};
 			sipDetailsScreenOpenAnalytics(eventMetaData);
 			return res.data.data;

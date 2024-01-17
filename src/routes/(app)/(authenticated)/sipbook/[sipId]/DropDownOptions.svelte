@@ -30,7 +30,7 @@
 				}
 			}
 		}
-		threeDotsPopup({ activeFields: activeFields });
+		threeDotsPopup({ activeFields: activeFields, porfolioModificationtext: packId ? 'Y' : 'N' });
 	});
 </script>
 

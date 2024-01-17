@@ -104,7 +104,9 @@
 			BankDetails: {
 				BankName: sip?.bankName,
 				BankAccountNumber: sip?.accountNo
-			}
+			},
+			portfoliotag: sip?.packId ? 'Y' : 'N',
+			portfolioName: sip?.packId
 		};
 		sipCardClickAnalytics(eventMetaData);
 	};

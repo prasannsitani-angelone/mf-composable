@@ -408,7 +408,10 @@ export const clickOnThreeDots = () => {
 	});
 };
 
-export const threeDotsPopup = (eventMetaData: { activeFields: string }) => {
+export const threeDotsPopup = (eventMetaData: {
+	activeFields: string;
+	porfolioModificationtext: string;
+}) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-sipdetails',
 		event_type: 'impression',
