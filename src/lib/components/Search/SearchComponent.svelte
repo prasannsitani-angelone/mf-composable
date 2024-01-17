@@ -156,7 +156,9 @@
 	}
 
 	const refreshPageOnRetry = () => {
-		window?.location?.reload();
+		if (navigator?.onLine) {
+			window?.location?.reload();
+		}
 	};
 
 	export {
