@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Button from '$components/Button.svelte';
 	import Modal from '$components/Modal.svelte';
+	import { proceedToInvest } from '$lib/analytics/buyPortfolio/buyPortfolio';
 	import type { PortfolioPack } from '$lib/types/IBuyPortfolio';
 	import BasicDetails from '../../components/BasicDetails.svelte';
 	import PortfolioAllocation from './PortfolioAllocation.svelte';
@@ -18,6 +19,13 @@
 
 	const toggleInput = () => {
 		showInputPopup = !showInputPopup;
+		if (showInputPopup) {
+			let funds = '';
+			portfolioPack?.schemes?.forEach((x) => {
+				funds = funds + x.schemeName + ',';
+			});
+			proceedToInvest({ SelectedFunds: funds });
+		}
 	};
 </script>
 

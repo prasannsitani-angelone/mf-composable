@@ -26,6 +26,11 @@
 	import { v4 as uuidv4 } from 'uuid';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import Physical2FAOtpVerificationComponent from '$components/Payment/Physical2FAOtpVerificationComponent.svelte';
+	import {
+		payClick,
+		type IFund,
+		paymentModeChange
+	} from '$lib/analytics/buyPortfolio/buyPortfolio';
 
 	export let portfolioPack: PortfolioPack;
 	export let amount = 0;
@@ -102,6 +107,15 @@
 
 	const showPaymentMethodScreen = () => {
 		showChangePayment = true;
+		const funds: IFund[] = [];
+		portfolioPack?.schemes.forEach((x) => {
+			const fund = {
+				FundName: x.schemeName,
+				Amount: (amount * x.wieightPercentage) / 100
+			};
+			funds.push(fund);
+		});
+		paymentModeChange(funds);
 	};
 
 	const hidePaymentMethodScreen = () => {
@@ -192,6 +206,15 @@
 		} else {
 			walletBulkSIPFlow(commonInput);
 		}
+		const funds: IFund[] = [];
+		portfolioPack?.schemes.forEach((x) => {
+			const fund = {
+				FundName: x.schemeName,
+				Amount: (amount * x.wieightPercentage) / 100
+			};
+			funds.push(fund);
+		});
+		payClick(funds);
 	};
 
 	const navigateToOrders = async (bulkId) => {

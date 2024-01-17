@@ -1,9 +1,15 @@
 <script lang="ts">
 	import AmountText from '$components/AmountText.svelte';
+	import { graphImpression } from '$lib/analytics/buyPortfolio/buyPortfolio';
 	import ProjectedReturnsGraph from '$lib/images/ProjectedReturnsGraph.svg';
 	import { calculateSipReturns } from '$lib/utils/helpers/returns';
+	import { onMount } from 'svelte';
 
 	export let threeYearReturns: number;
+
+	onMount(() => {
+		graphImpression({ Graph: 'Y' });
+	});
 
 	const finalVal =
 		Math.round(calculateSipReturns(1000, 5, threeYearReturns)?.matuarityAmount * 100) / 100;

@@ -8,6 +8,7 @@
 	import { decodeToObject } from '$lib/utils/helpers/params';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
+	import { portfolioImpression } from '$lib/analytics/buyPortfolio/buyPortfolio';
 
 	export let data: PageData;
 
@@ -26,8 +27,14 @@
 		document?.getElementsByTagName?.('main')?.[0]?.scrollTo(0, 0);
 	};
 
-	onMount(() => {
+	onMount(async () => {
 		scrollToTop();
+		const portfolio = await data?.api?.portfolioOption;
+		portfolioImpression({
+			Portfolio: portfolio?.packName,
+			MinSipAmount: portfolio?.minSipAmount,
+			'3yReturn': portfolio?.threeYrReturnAvgPer
+		});
 	});
 </script>
 

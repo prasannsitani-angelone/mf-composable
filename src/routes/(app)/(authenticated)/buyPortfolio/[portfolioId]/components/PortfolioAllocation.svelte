@@ -17,6 +17,11 @@
 	import { redirect } from '@sveltejs/kit';
 	import { browser } from '$app/environment';
 	import { schemeInfoCueCardDetailsClickEvent } from '$components/Scheme/cuecards/analytics';
+	import {
+		portfolioFundsImpression,
+		type IFund,
+		fundCardClick
+	} from '$lib/analytics/buyPortfolio/buyPortfolio';
 
 	export let portfolioPack: PortfolioPack;
 	export let showWeightage = false;
@@ -61,10 +66,24 @@
 		return schemeData;
 	};
 
-	const goToFundDetailsPage = async (isin: string, schemeCode: string) => {
+	const goToFundDetailsPage = async (
+		isin: string,
+		schemeCode: string,
+		itemNo: number,
+		weightage: number
+	) => {
 		schemeData = await getSchemeData(isin, schemeCode);
 		fundDetailsCarouselItems = getFundDetailsCarouselItems();
 		showFundDetailCarousel = true;
+		if (showWeightage) {
+			const metaData = {
+				SelectedFundNo: itemNo + 1,
+				FundName: schemeData?.schemeName,
+				Weightage: weightage,
+				'3yReturn': schemeData?.returns3yr
+			};
+			fundCardClick(metaData);
+		}
 	};
 	const handleCueCardLoad = (e) => {
 		if (showFundDetailCarousel) {
@@ -74,6 +93,17 @@
 
 	onMount(async () => {
 		fundDetailsCarouselItems = getFundDetailsCarouselItems();
+		if (showWeightage) {
+			const funds: IFund[] = [];
+			portfolioPack?.schemes?.forEach((x) => {
+				const fund = {
+					FundName: x.schemeName,
+					FundWeightage: x.wieightPercentage
+				};
+				funds.push(fund);
+			});
+			portfolioFundsImpression(funds);
+		}
 	});
 
 	const getFundDetailsCarouselItems = () => {
@@ -142,7 +172,7 @@
 		<div
 			class="mt-2 flex items-start justify-between py-2 text-black-key"
 			on:click={() => {
-				goToFundDetailsPage(scheme.isin, scheme.schemeCode);
+				goToFundDetailsPage(scheme.isin, scheme.schemeCode, i, scheme.wieightPercentage);
 			}}
 		>
 			<div class="flex">

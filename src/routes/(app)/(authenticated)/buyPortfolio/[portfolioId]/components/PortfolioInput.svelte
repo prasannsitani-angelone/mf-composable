@@ -13,6 +13,13 @@
 	import OrderpadReturns from '../../../../InvestmentPad/OrderPadComponents/OrderpadReturns.svelte';
 	import TncModal from '$components/TnC/TncModal.svelte';
 	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
+	import {
+		minusAmountClick,
+		orderPadImpression,
+		plusAmountClick,
+		popularAmountClick,
+		sipDateClick
+	} from '$lib/analytics/buyPortfolio/buyPortfolio';
 
 	export let portfolioPack: PortfolioPack;
 	export let amount = 500;
@@ -42,6 +49,10 @@
 			maxAmounts.push(x.sipMaxAmount);
 		});
 		sipMaxAmount = Math.min(...maxAmounts);
+		orderPadImpression({
+			Portfolio: portfolioPack?.packName,
+			'Returnp.a.': portfolioPack?.threeYrReturnAvgPer
+		});
 	});
 
 	const handleBackButtonClick = () => {
@@ -53,6 +64,7 @@
 			return;
 		}
 		amount += 100;
+		plusAmountClick();
 	};
 	const handleMinusClick = () => {
 		if (amount <= portfolioPack.minSipAmount) {
@@ -60,9 +72,11 @@
 			return;
 		}
 		amount -= 100;
+		minusAmountClick();
 	};
 	const handleQuickInputClick = (pillAmount: number) => {
 		amount = pillAmount;
+		popularAmountClick({ amount: pillAmount });
 	};
 	const toggleCalendar = () => {
 		showCalendar = !showCalendar;
@@ -70,6 +84,7 @@
 	const handleDateChange = (value: unknown) => {
 		sipStartDate = value?.detail;
 		toggleCalendar();
+		sipDateClick({ DayOfMonth: sipStartDate });
 	};
 	const toggleTncModal = () => {
 		showTncModal = !showTncModal;

@@ -3,9 +3,11 @@
 	import { base } from '$app/paths';
 	import { WMSIcon } from 'svelte-components';
 	import Buyportfolio from '$lib/images/BuyPortfolio.svg';
+	import { buildPortfolioCardClicked } from '$lib/analytics/buyPortfolio/buyPortfolio';
 
 	const goToBuyPortfolio = () => {
 		goto(`${base}/buyPortfolio`);
+		buildPortfolioCardClicked();
 	};
 </script>
 
@@ -28,7 +30,7 @@
 		<div class="flex flex-col">
 			<p class="text-sm font-medium text-black-key">Invest in a Ready Made Portfolio</p>
 			<p class="pt-1 text-xs text-black-bolder">
-				Select a portfolio based on your expected returns and maximise performance
+				Select a portfolio based on expected returns and maximise performance
 			</p>
 		</div>
 	</div>

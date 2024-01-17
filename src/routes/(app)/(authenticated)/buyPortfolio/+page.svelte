@@ -6,6 +6,7 @@
 	import PortfolioList from './components/PortfolioList.svelte';
 	import PageTitle from '$components/PageTitle.svelte';
 	import { onMount } from 'svelte';
+	import { buildPortfolioScreenImpression } from '$lib/analytics/buyPortfolio/buyPortfolio';
 
 	export let data: PageData;
 
@@ -15,6 +16,7 @@
 
 	onMount(() => {
 		scrollToTop();
+		buildPortfolioScreenImpression();
 	});
 </script>
 

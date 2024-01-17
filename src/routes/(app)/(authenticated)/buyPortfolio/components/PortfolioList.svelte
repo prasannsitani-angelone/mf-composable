@@ -4,12 +4,23 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import BasicDetails from './BasicDetails.svelte';
+	import { portfolioClicked } from '$lib/analytics/buyPortfolio/buyPortfolio';
 
 	export let portfolioData: PortfolioPack[];
 	let showChevron = true;
 
 	function gotoPortfolioPackDetails(packId: string) {
 		goto(`${base}/buyPortfolio/${packId}`);
+		const portfolio = portfolioData?.filter((x) => {
+			return (x.packId = packId);
+		})[0];
+		const eventMetaData = {
+			Portfolio: portfolio?.packName,
+			MinSipAmount: portfolio?.minSipAmount,
+			'3yReturn': portfolio?.threeYrReturnAvgPer,
+			peopleinvetsed: portfolio?.totalUsersInvested
+		};
+		portfolioClicked(eventMetaData);
 	}
 </script>
 
