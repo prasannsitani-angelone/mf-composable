@@ -16,7 +16,7 @@
 		familyMembersList = familyStore?.getFamilyMembersDetails() || [];
 		isFamilyPortfolio = appStore?.isFamilyPortfolioSelected(selfClientCode);
 		isLoaded = true;
-	}, 150);
+	}, 300);
 
 	const redirectToFamilyPage = () => {
 		goto(`${base}/investments/family`);

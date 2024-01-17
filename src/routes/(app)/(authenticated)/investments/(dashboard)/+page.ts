@@ -81,6 +81,9 @@ export const load = (async ({ fetch, url, parent }) => {
 		const res = await useFetch(
 			url,
 			{
+				headers: {
+					token: parentData?.token
+				},
 				method: 'POST',
 				body: JSON.stringify({
 					party_code: parentData?.profile?.clientId
