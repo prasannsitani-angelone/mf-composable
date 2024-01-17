@@ -55,6 +55,10 @@
 	import BuyPortfolio from './BuyPortfolio.svelte';
 	import AskAngel from './AskAngel.svelte';
 	import { AUTH_STATE_ENUM, tokenStore } from '$lib/stores/TokenStore';
+	import {
+		actionCentreEntryImpression,
+		actionCentreClick
+	} from '$lib/analytics/pendingActionCenter/analytics';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -285,6 +289,7 @@
 		schemeScreenerStore?.reinitializeStore();
 		schemeScreenerStore.getFiltersResponse();
 		await initializeClevertapData();
+		actionCentreEntryImpression();
 	});
 
 	const initializeClevertapData = async () => {
@@ -369,6 +374,20 @@
 	{/if}
 
 	{#if notifData?.totalCount > 0}
+		{@const notifText =
+			notifData?.summary?.length > 1
+				? `${notifData?.totalCount} items require your attention`
+				: notifData?.summary[0].type === 'instalment_failed_sips'
+				? `${notifData?.summary[0].count} SIP payment${
+						notifData?.summary[0].count === 1 ? '' : 's'
+				  } missed`
+				: notifData?.summary[0].type === 'payment_failed_orders'
+				? `${notifData?.summary[0].count} failed order${
+						notifData?.summary[0].count === 1 ? '' : 's'
+				  } recently`
+				: `${notifData?.summary[0].count} SIP payment${
+						notifData?.summary[0].count === 1 ? ' is' : 's are'
+				  } due`}
 		<div class="mx-1 mb-2 mt-4 rounded-md bg-yellow-background p-2 shadow-lg">
 			<div class="flex items-center justify-between">
 				<div class="flex items-center">
@@ -376,24 +395,18 @@
 					<div class="px-4 text-black-key">
 						<p class="text-sm font-medium">Action Required</p>
 						<p class="text-xs">
-							{notifData?.summary?.length > 1
-								? `${notifData?.totalCount} items require your attention`
-								: notifData?.summary[0].type === 'instalment_failed_sips'
-								? `${notifData?.summary[0].count} SIP payment${
-										notifData?.summary[0].count === 1 ? '' : 's'
-								  } missed`
-								: notifData?.summary[0].type === 'payment_failed_orders'
-								? `${notifData?.summary[0].count} failed order${
-										notifData?.summary[0].count === 1 ? '' : 's'
-								  } recently`
-								: `${notifData?.summary[0].count} SIP payment${
-										notifData?.summary[0].count === 1 ? ' is' : 's are'
-								  } due`}
+							{notifText}
 						</p>
 					</div>
 				</div>
 				<div>
-					<Button size="sm" onClick={() => goto(`${base}/pendingActions`)}>ACT NOW</Button>
+					<Button
+						size="sm"
+						onClick={() => {
+							goto(`${base}/pendingActions`);
+							actionCentreClick({ text: notifText });
+						}}>ACT NOW</Button
+					>
 				</div>
 			</div>
 		</div>
