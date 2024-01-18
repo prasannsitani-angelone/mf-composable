@@ -19,7 +19,7 @@ export interface SparkStore {
 	isWebView: boolean;
 	paymentapps: string;
 	sessionId: string;
-	linkedMembers: LinkedMembersHeaderTypes;
+	linkedmembers: LinkedMembersHeaderTypes;
 }
 
 export interface LinkedMembersHeaderTypes {
@@ -44,7 +44,7 @@ const initalStore: SparkStore = {
 	isWebView: false,
 	paymentapps: '',
 	sessionId: '',
-	linkedMembers: {
+	linkedmembers: {
 		selected: []
 	}
 };
@@ -99,10 +99,10 @@ function Store() {
 		get: () => sparkStore,
 		isTWA: () => sparkStore.isTWA,
 		isWebView: () => sparkStore.isWebView,
-		getLinkedMembers: () => sparkStore?.linkedMembers,
+		getLinkedMembers: () => sparkStore?.linkedmembers,
 		isFamilyPortfolioSelected: (selfClientCode: string) => {
 			let isFamilyPortfolioValue = false;
-			const selectedLinkedMembers = sparkStore?.linkedMembers?.selected || [];
+			const selectedLinkedMembers = sparkStore?.linkedmembers?.selected || [];
 
 			if (
 				selectedLinkedMembers?.length > 1 ||
@@ -114,7 +114,7 @@ function Store() {
 			return isFamilyPortfolioValue;
 		},
 		getSelectedLinkedMembersQuery: () => {
-			const selectedLinkedMembers = sparkStore?.linkedMembers?.selected || [];
+			const selectedLinkedMembers = sparkStore?.linkedmembers?.selected || [];
 			let query = '';
 
 			selectedLinkedMembers?.forEach((member) => {

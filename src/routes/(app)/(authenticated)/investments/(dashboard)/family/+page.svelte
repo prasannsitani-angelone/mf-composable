@@ -159,7 +159,7 @@
 
 	const handleViewHoldingsClick = async () => {
 		familyStore?.set(familyList);
-		appStore?.updateStore({ linkedMembers: { selected: getSelectedMembers() } });
+		appStore?.updateStore({ linkedmembers: { selected: getSelectedMembers() } });
 
 		await goto(`${base}/investments`);
 
@@ -189,7 +189,7 @@
 
 <section class="mx-2 md:rounded-xl md:bg-white md:shadow-csm">
 	{#if familyListReactive?.length}
-		<section class="mb-40 md:p-6">
+		<section class="mb-40 md:mb-0 md:p-6">
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 			<article

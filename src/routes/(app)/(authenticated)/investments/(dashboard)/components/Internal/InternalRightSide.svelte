@@ -15,6 +15,7 @@
 	import { useFetch } from '$lib/utils/useFetch';
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import { onMount } from 'svelte';
+	import PortfolioCardLoader from '$components/PortfolioCards/PortfolioCardLoader.svelte';
 
 	export let data: PageData;
 	let familyPortfolioSummary;
@@ -54,7 +55,10 @@
 
 	isFamilyPortfolio = appStore?.isFamilyPortfolioSelected($profileStore?.clientId);
 
+	let isFamilyPortfolioDataFetched = false;
+
 	const getFamilyPortfolioSummary = async () => {
+		isFamilyPortfolioDataFetched = false;
 		const query = appStore?.getSelectedLinkedMembersQuery();
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings?summary=true`;
 		const res = await useFetch(
@@ -69,6 +73,7 @@
 		if (res?.ok) {
 			familyPortfolioSummary = res?.data?.data?.summary;
 		}
+		isFamilyPortfolioDataFetched = true;
 	};
 
 	onMount(() => {
@@ -83,12 +88,16 @@
 	<section class="sm:sticky sm:top-0">
 		<!-- Portfolio cards: All scenarios -->
 		<article class="mb-2 overflow-hidden sm:mb-0">
-			<PortfolioCardInvestment
-				onInfoClick={showXirrModal}
-				investmentSummary={isFamilyPortfolio
-					? familyPortfolioSummary || {}
-					: data.investementSummary}
-			/>
+			{#if isFamilyPortfolio && !isFamilyPortfolioDataFetched}
+				<PortfolioCardLoader hideBottomLoader={isFamilyPortfolio} />
+			{:else}
+				<PortfolioCardInvestment
+					onInfoClick={showXirrModal}
+					investmentSummary={isFamilyPortfolio
+						? familyPortfolioSummary || {}
+						: data.investementSummary}
+				/>
+			{/if}
 			{#if $ctNudgeStore?.kv?.topic === 'mf_invdash_inpage1_type_d' || (['mf_invdash_bottomsticky_type_b', 'mf_invdash_bottomsticky_type_c', 'mf_invdash_bottomsticky_type_d'].includes($ctNudgeStore?.kv?.topic) && !isMobile)}
 				<ClevertapNudgeComponent
 					class="mt-2 w-full items-center rounded-lg"

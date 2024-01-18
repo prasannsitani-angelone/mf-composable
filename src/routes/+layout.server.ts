@@ -13,7 +13,7 @@ const sparkHeadersList: Array<keyof SparkStore> = [
 	'deviceosversion',
 	'paymentapps',
 	'sessionId',
-	'linkedMembers'
+	'linkedmembers'
 ];
 
 const getSparkHeaders = (headers: Headers) => {
@@ -29,7 +29,7 @@ const getSparkHeaders = (headers: Headers) => {
 		deviceosversion: '',
 		paymentapps: '',
 		sessionId: '',
-		linkedMembers: {
+		linkedmembers: {
 			selected: []
 		}
 	};

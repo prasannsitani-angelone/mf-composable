@@ -13,7 +13,7 @@
 	};
 
 	const resetSelectedLinkedFamilyMembers = () => {
-		appStore?.updateStore({ linkedMembers: { selected: [] } });
+		appStore?.updateStore({ linkedmembers: { selected: [] } });
 	};
 
 	onMount(() => {
