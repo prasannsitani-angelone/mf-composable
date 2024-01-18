@@ -24,26 +24,22 @@
 	};
 </script>
 
-<div class="my-2 flex items-center rounded-lg bg-white px-4 py-3 shadow-sm {$$props.class}">
-	<div>
-		<img
-			height="80"
-			width="95"
-			src={AskAngelIcon}
-			loading="lazy"
-			alt="Illustration showing ask angel"
-		/>
-	</div>
-	<div class="flex flex-col pl-4">
-		<p class="font-medium text-black-key">Not sure where to invest your money?</p>
-		<p class="py-2 text-xs text-black-bolder">
-			Let us match you with the right investments based on your goals
-		</p>
-		<Button
-			class="!w-32 !whitespace-nowrap"
-			size="sm"
-			onClick={() => handleAskAngelEntryPointClick()}>ASK ANGEL</Button
-		>
+<div class="my-2 flex flex-col items-start rounded-lg bg-white px-4 py-3 shadow-sm {$$props.class}">
+	<p class="text-left font-medium text-black-key">Not sure where to invest your money?</p>
+	<div class="flex items-center">
+		<div class="flex flex-col">
+			<p class="py-2 pr-2 text-xs text-black-bolder">
+				Let us match you with the right investments based on your goals
+			</p>
+			<Button
+				class="!w-32 !whitespace-nowrap"
+				size="sm"
+				onClick={() => handleAskAngelEntryPointClick()}>ASK ANGEL</Button
+			>
+		</div>
+		<div>
+			<img src={AskAngelIcon} loading="lazy" alt="Illustration showing ask angel" />
+		</div>
 	</div>
 	{#if showAskAngel}
 		<article class="fixed inset-0 left-auto top-auto">
