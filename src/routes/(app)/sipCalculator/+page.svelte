@@ -17,21 +17,29 @@
 		sipCalculatorReturnsSliderAnalytics,
 		sipCalculatorScreenOpenAnalytics
 	} from './analytics';
+	import { linearInterpolator } from './utils';
 
 	let currentInvestmentMode: 'SIP' | 'OTI' = 'SIP';
 	const updateSelectedInvestmentTypeChange = (investmentType: 'SIP' | 'OneTime') => {
 		currentInvestmentMode = investmentType;
+		selectedDataSet = {
+			durationInYears: null,
+			investedAmount: 0,
+			gains: 0
+		};
 		performCalculation();
 	};
 
 	$: MinAmountSlider = currentInvestmentMode === 'SIP' ? 100 : 500;
 	$: MaxAmountSlider = currentInvestmentMode === 'SIP' ? 10000 : 500000;
 	$: amountSteps = currentInvestmentMode === 'SIP' ? 100 : 500;
-	$: amountSlider = [currentInvestmentMode === 'SIP' ? 1000 : 5000];
+	const amountInitialValue = currentInvestmentMode === 'SIP' ? 1000 : 5000;
+	$: amountSlider = [MinAmountSlider];
 
 	const MinRoiSlider = 1;
 	const MaxRoiSlider = 40;
-	$: roiSlider = [12];
+	const roiInitialValue = 12;
+	$: roiSlider = [MinRoiSlider];
 
 	$: dataSet = [
 		{
@@ -66,11 +74,13 @@
 		}
 	];
 
-	$: maxData = [...dataSet].sort(
-		(a, b) => b.gains + b.investedAmount - (a.gains + a.investedAmount)
-	)[0];
+	let maxData: {
+		durationInYears: number;
+		investedAmount: number;
+		gains: number;
+	};
 
-	$: selectedDataSet = {
+	let selectedDataSet = {
 		durationInYears: null,
 		investedAmount: 0,
 		gains: 0
@@ -103,6 +113,7 @@
 				selectedDataSet = it;
 			}
 		});
+		maxData = dataSet[dataSet.length - 1];
 	};
 
 	const getDisplayAmount = (amount: number) => {
@@ -159,6 +170,13 @@
 			totalvalue: maxData?.investedAmount + maxData?.gains,
 			investedvalue: maxData?.investedAmount
 		});
+
+		linearInterpolator(MinAmountSlider, amountInitialValue, 500, 0, (progress) => {
+			amountSlider = [progress];
+		});
+		linearInterpolator(MinRoiSlider, roiInitialValue, 500, 0, (progress) => {
+			roiSlider = [progress];
+		});
 	});
 
 	const investInputChangeAnalyticEvent = debounce(() => {
@@ -186,7 +204,13 @@
 			<div class="flex flex-col items-center justify-start gap-1 self-stretch">
 				<div class="flex items-center justify-center gap-2.5 self-stretch px-4">
 					<div class="shrink grow basis-0 text-xs font-normal leading-tight text-black-bolder">
-						Total Value
+						<span>
+							{#if currentInvestmentMode === 'SIP'}
+								Total Value
+							{:else}
+								Total Value in {maxData?.durationInYears} Years
+							{/if}
+						</span>
 					</div>
 				</div>
 				<div class="flex items-center justify-center gap-2.5 self-stretch px-4">
@@ -198,20 +222,26 @@
 			<div class="flex items-center justify-center gap-2.5 self-stretch px-4">
 				<div class="shrink grow basis-0 text-xs font-normal leading-tight text-black-bolder">
 					When you invest ₹{addCommasToAmountString(maxData?.investedAmount)}
-					over {maxData?.durationInYears} years
+					<span>
+						{#if currentInvestmentMode === 'SIP'}
+							over {maxData?.durationInYears} years
+						{:else}
+							once
+						{/if}
+					</span>
 				</div>
 			</div>
 		</div>
 
 		<div class="inline-flex w-full flex-col items-start justify-start gap-2 sm:flex-row sm:gap-8">
 			<div class="inline-flex items-center justify-start gap-2 sm:min-w-[130px]">
-				<div class="h-2 w-3.5 rounded bg-[#008F75]" />
+				<div class="h-2 w-3.5 rounded bg-[#C2E4DE]" />
 				<div class="text-xs font-normal text-black-bolder">
 					Investment - ₹{getDisplayAmount(selectedDataSet.investedAmount || maxData.investedAmount)}
 				</div>
 			</div>
 			<div class="inline-flex items-center justify-start gap-2 sm:min-w-[130px]">
-				<div class="h-2 w-3.5 rounded bg-[#C2E4DE]" />
+				<div class="h-2 w-3.5 rounded bg-[#008F75]" />
 				<div class="text-xs font-normal text-black-bolder">
 					Gains - ₹{getDisplayAmount(selectedDataSet.gains || maxData.gains)}
 				</div>
@@ -233,11 +263,11 @@
 					chartInput={[
 						{
 							color: isSelected ? '#008F75' : '#E8EBF1',
-							weightage: investPercent
+							weightage: gainsPercent
 						},
 						{
 							color: isSelected ? '#C2E4DE' : '#F4F6FB',
-							weightage: gainsPercent
+							weightage: investPercent
 						}
 					]}
 					on:click={() => handleChartClick(item)}
