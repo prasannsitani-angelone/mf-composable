@@ -1371,11 +1371,12 @@
 			paymentHandler.selectedAccount = index;
 			const paymentMode = data?.paymentMode;
 			if (mandateData?.length && activeTab === 'SIP' && redirectedFrom !== 'SIP_PAYMENTS') {
-				mandateData.forEach((mandate) => {
+				mandateData.every((mandate) => {
 					if (mandate.availableAmount > parseInt(amount)) {
 						paymentHandler.paymentMode = 'AUTOPAY';
 						subIdentifier = mandate.mandateId;
 						selectedAutopay = mandate;
+						return false;
 					}
 				});
 			} else if (activeTab === 'ONETIME') {
