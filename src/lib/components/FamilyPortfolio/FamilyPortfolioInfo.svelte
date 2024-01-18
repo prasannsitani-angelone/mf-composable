@@ -1,11 +1,20 @@
 <script lang="ts">
 	import { WMSIcon } from 'svelte-components';
 	import InfoModal from '$components/InfoModal.svelte';
+	import {
+		familyPortfolioInfoButtonClickAnalytics,
+		familyPortfolioInfoPopupImpressionAnalytics
+	} from '$lib/analytics/familyPortfolio/familyPortfolio';
 
 	let showModal = false;
 
 	const toggleShowModal = () => {
 		showModal = !showModal;
+
+		if (showModal) {
+			familyPortfolioInfoButtonClickAnalytics();
+			familyPortfolioInfoPopupImpressionAnalytics();
+		}
 	};
 </script>
 

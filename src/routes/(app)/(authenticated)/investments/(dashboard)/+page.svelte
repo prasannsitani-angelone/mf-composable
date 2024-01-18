@@ -124,6 +124,10 @@
 		});
 	};
 
+	const filterAcceptedFamilyMembers = (list: FamilyMemberTypes[]) => {
+		return list?.filter((member) => member?.status?.toLowerCase() === 'accepted');
+	};
+
 	const setFamilyMembersData = async () => {
 		const familyMembersData = await data.api.familyMembers;
 		const selfProfile: FamilyMemberTypes = {
@@ -137,18 +141,62 @@
 		let familyMembersList: FamilyMemberTypes[] = familyMembersData?.data?.child_list || [];
 		familyMembersList = [selfProfile, ...familyMembersList];
 		familyMembersList = getFormattedFetchedFamilyMembers(familyMembersList);
+		familyMembersList = filterAcceptedFamilyMembers(familyMembersList);
 
 		familyStore?.set(familyMembersList);
 		isFamilyPortfolio = familyStore?.isFamilyPortfolio($profileStore?.clientId);
 	};
 
-	onMount(async () => {
-		initializeClevertapData();
-		await tick();
+	let impressionEventInterval: ReturnType<typeof setInterval>;
 
-		setFamilyMembersData();
+	const investmentDashboardImpressionAnalyticsFunc = (investmentSummary) => {
+		let familyList = familyStore?.getFamilyMembersDetails() || [];
+		let Allclients = familyList?.map((member) => member?.party_code);
+		let Selected_client_codes: string[] = [];
+		familyList?.forEach((member) => {
+			if (member?.selected) {
+				Selected_client_codes.push(member?.party_code);
+			}
+		});
 
-		const investmentSummary = data?.investementSummary;
+		impressionEventInterval = setInterval(() => {
+			Allclients = [];
+			Selected_client_codes = [];
+			familyList = familyStore?.getFamilyMembersDetails() || [];
+			Allclients = familyList?.map((member) => member?.party_code);
+			familyList?.forEach((member) => {
+				if (member?.selected) {
+					Selected_client_codes.push(member?.party_code);
+				}
+			});
+
+			if (familyList?.length) {
+				clearInterval(impressionEventInterval);
+				const eventMetaData = {
+					'Current Value': investmentSummary?.currentValue,
+					'Total Investment': investmentSummary?.investedValue,
+					'Overall Gain': `${investmentSummary?.returnsValue}(${investmentSummary?.returnsAbsolutePer}%)`,
+					'Todays Loss': `${investmentSummary?.previousDayReturns}(${investmentSummary?.previousDayReturnPercentage}%)`,
+					Funds: holdings?.filter((holding) => {
+						return {
+							'Fund Name': holding?.schemeName,
+							'Current Value': holding?.currentValue,
+							'Total Investment': holding?.investedValue,
+							'Overall Gain': `${holding?.returnsValue}(${holding?.returnsAbsolutePer}%)`
+						};
+					}),
+					family_portfolio_visible: familyList?.length > 1,
+					portfoliotype: familyList?.length > 1 ? (isFamilyPortfolio ? 'Family' : 'Self') : 'Null',
+					Allclients,
+					Selected_client_codes
+				};
+
+				investmentDashboardImpressionAnalytics(eventMetaData);
+			}
+		}, 100);
+	};
+
+	const fundForYouImpressionAnalyticsFunc = (investmentSummary) => {
 		const eventMetaData = {
 			'Current Value': investmentSummary?.currentValue,
 			'Total Investment': investmentSummary?.investedValue,
@@ -163,7 +211,19 @@
 				};
 			})
 		};
-		investmentDashboardImpressionAnalytics(eventMetaData);
+
+		fundForYouImpressionAnalytics(eventMetaData);
+	};
+
+	onMount(async () => {
+		initializeClevertapData();
+		await tick();
+
+		setFamilyMembersData();
+
+		const investmentSummary = data?.investementSummary;
+
+		investmentDashboardImpressionAnalyticsFunc(investmentSummary);
 		switchToDirectFundsImpression();
 
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/recommendation/sip`;
@@ -175,11 +235,15 @@
 				optimisePorfolioData?.schemeName &&
 				optimisePorfolioData?.isin
 			) {
-				fundForYouImpressionAnalytics({
-					...eventMetaData
-				});
+				fundForYouImpressionAnalyticsFunc(investmentSummary);
 			}
 		}
+
+		return () => {
+			if (impressionEventInterval !== undefined) {
+				clearInterval(impressionEventInterval);
+			}
+		};
 	});
 
 	onDestroy(() => {
@@ -248,8 +312,8 @@
 />
 
 <section>
-	<section class="hidden md:block">
-		<FamilyPortfolioEntryPoint class="mb-6 mt-3 w-fit" />
+	<section class="mb-6 mt-3 hidden md:block">
+		<FamilyPortfolioEntryPoint />
 	</section>
 	<Tabs
 		class="!shadow-csm "

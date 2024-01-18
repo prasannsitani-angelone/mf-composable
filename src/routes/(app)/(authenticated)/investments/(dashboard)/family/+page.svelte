@@ -11,6 +11,12 @@
 	import FamilyPageFooter from '$components/FamilyPortfolio/FamilyPageFooter.svelte';
 	import LeftArrowIcon from '$lib/images/icons/LeftArrowIcon.svelte';
 	import FamilyPortfolioInfo from '$components/FamilyPortfolio/FamilyPortfolioInfo.svelte';
+	import {
+		familyPortfolioScreenImpressionAnalytics,
+		familyPortfolioSelectAllAnalytics,
+		familyPortfolioSelectMemberAnalytics,
+		familyPortfolioViewHoldingsButtonClickAnalytics
+	} from '$lib/analytics/familyPortfolio/familyPortfolio';
 
 	let familyList: FamilyMemberTypes[] = $familyStore;
 	let familyListReactive: FamilyMemberTypes[];
@@ -54,9 +60,36 @@
 		}
 	};
 
+	const familyPortfolioScreenImpressionAnalyticsFunc = () => {
+		const Allclients = familyList?.map((member) => member?.party_code);
+		const Selected_client_codes: string[] = [];
+		familyList?.forEach((member) => {
+			if (member?.selected) {
+				Selected_client_codes.push(member?.party_code);
+			}
+		});
+
+		const eventMetaData = {
+			Allclients,
+			Selected_client_codes
+		};
+
+		familyPortfolioScreenImpressionAnalytics(eventMetaData);
+	};
+
+	const familyPortfolioSelectMemberAnalyticsFunc = (clientId: string) => {
+		const eventMetaData = {
+			selectedclientid1: clientId
+		};
+
+		familyPortfolioSelectMemberAnalytics(eventMetaData);
+	};
+
 	onMount(() => {
 		redirectToPortfolio();
 		handleSelectAllMembers();
+
+		familyPortfolioScreenImpressionAnalyticsFunc();
 	});
 
 	const handleOptionClick = (e: Event, familyMember: FamilyMemberTypes, index: number) => {
@@ -70,6 +103,10 @@
 
 		handleSelectAllMembers();
 		familyListReactive = familyList;
+
+		if (member?.selected) {
+			familyPortfolioSelectMemberAnalyticsFunc(member?.party_code);
+		}
 	};
 
 	const setSelectAllMembers = () => {
@@ -87,6 +124,8 @@
 			selectAllMembers = true;
 		}
 		familyListReactive = familyList;
+
+		familyPortfolioSelectAllAnalytics();
 	};
 
 	const getSelectedMembers = () => {
@@ -101,11 +140,30 @@
 		return selectedMembersClientCodes;
 	};
 
+	const familyPortfolioViewHoldingsButtonClickAnalyticsFunc = () => {
+		const Allclients = familyList?.map((member) => member?.party_code);
+		const Selected_client_codes: string[] = [];
+		familyList?.forEach((member) => {
+			if (member?.selected) {
+				Selected_client_codes.push(member?.party_code);
+			}
+		});
+
+		const eventMetaData = {
+			Allclients,
+			Selected_client_codes
+		};
+
+		familyPortfolioViewHoldingsButtonClickAnalytics(eventMetaData);
+	};
+
 	const handleViewHoldingsClick = async () => {
 		familyStore?.set(familyList);
 		appStore?.updateStore({ linkedMembers: { selected: getSelectedMembers() } });
 
 		await goto(`${base}/investments`);
+
+		familyPortfolioViewHoldingsButtonClickAnalyticsFunc();
 	};
 
 	const handleBackNavigation = async () => {
@@ -131,7 +189,7 @@
 
 <section class="mx-2 md:rounded-xl md:bg-white md:shadow-csm">
 	{#if familyListReactive?.length}
-		<section class="md:p-6">
+		<section class="mb-40 md:p-6">
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 			<article

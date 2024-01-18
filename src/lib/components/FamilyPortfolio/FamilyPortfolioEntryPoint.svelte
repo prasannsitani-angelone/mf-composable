@@ -7,6 +7,7 @@
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import { appStore } from '$lib/stores/SparkStore';
 	import { onMount } from 'svelte';
+	import { familyPortfolioEntryPointClickAnalytics } from '$lib/analytics/familyPortfolio/familyPortfolio';
 
 	let entryPointInterval: ReturnType<typeof setInterval>;
 	let selfClientCode = $profileStore?.clientId;
@@ -43,6 +44,8 @@
 
 	const redirectToFamilyPage = () => {
 		goto(`${base}/investments/family`);
+
+		familyPortfolioEntryPointClickAnalytics();
 	};
 </script>
 
@@ -50,12 +53,13 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 {#if isLoaded && familyMembersList?.length > 1}
 	<section
-		class="flex items-center rounded-2xl bg-white px-2 py-1 text-sm font-normal text-black-key md:cursor-pointer {$$props?.class ||
-			''}"
+		class="flex items-center rounded-2xl bg-white px-2 py-1 text-sm font-normal text-black-key md:cursor-pointer {isFamilyPortfolio
+			? 'md:w-[106px]'
+			: 'md:w-[90px]'} {$$props?.class || ''}"
 		on:click={redirectToFamilyPage}
 	>
 		<WMSIcon name={isFamilyPortfolio ? 'family' : 'profile'} />
 		<div class="ml-0.5">{isFamilyPortfolio ? 'Family' : 'You'}</div>
-		<DownArrowLargeIcon class="ml-1 w-fit px-1" />
+		<DownArrowLargeIcon class="ml-1 w-5 px-1" />
 	</section>
 {/if}
