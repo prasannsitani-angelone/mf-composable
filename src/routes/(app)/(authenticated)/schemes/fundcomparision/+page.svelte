@@ -366,7 +366,7 @@
 
 		// initilaising everything
 		initialiseData();
-		onTagClick(5, false);
+		onTagClick(4, false); // 4th index for 3Y nav
 
 		response.forEach((element) => {
 			schemeDetailsList.push(element.schemeData);
