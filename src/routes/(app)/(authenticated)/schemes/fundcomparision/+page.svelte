@@ -295,13 +295,13 @@
 		navData.forEach((element, index: number) => {
 			// chart meta data
 			chartMetaData[0].push(
-				element?.[index]?.amount
+				element?.[0]?.amount
 					? {
 							component: ValueComponent,
 							type: 'component',
 							props: {
 								dotColor: chartDatasetConfig[index]?.borderColor,
-								text: `₹${addCommasToAmountString(element?.[index]?.amount)}`
+								text: `₹${addCommasToAmountString(element?.[0]?.amount)}`
 							}
 					  }
 					: ''
