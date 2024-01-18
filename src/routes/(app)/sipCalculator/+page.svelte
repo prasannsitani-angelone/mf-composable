@@ -18,6 +18,7 @@
 		sipCalculatorScreenOpenAnalytics
 	} from './analytics';
 	import { linearInterpolator } from './utils';
+	import Background from './icons/Background.svelte';
 
 	let currentInvestmentMode: 'SIP' | 'OTI' = 'SIP';
 	const updateSelectedInvestmentTypeChange = (investmentType: 'SIP' | 'OneTime') => {
@@ -133,7 +134,7 @@
 	};
 
 	const getExploreFundsPath = async () => {
-		const investmentType = currentInvestmentMode;
+		const investmentType = currentInvestmentMode === 'SIP' ? 'SIP' : 'OTI';
 		const returnRangeStart = Math.max(roiSlider[0] - 2, 0);
 		const returnRangeEnd = Math.min(roiSlider[0] + 3, MaxRoiSlider);
 		await schemeScreenerStore?.getFiltersResponse(
@@ -198,37 +199,42 @@
 			</Button>
 			<div class="h-max text-center text-lg font-medium text-black">Calculate Returns</div>
 		</header>
-		<div
-			class="mb-6 flex w-full flex-col items-center justify-start gap-3 rounded-lg bg-opacity-60 bg-gradient-to-r from-[#E8EBFA] to-[#94A7FF] py-4 shadow"
-		>
-			<div class="flex flex-col items-center justify-start gap-1 self-stretch">
+
+		<div class="relative mb-6 overflow-hidden rounded-lg">
+			<Background class="absolute h-full w-full" />
+
+			<div
+				class="flex h-full w-full flex-col items-center justify-center gap-3 px-1 py-4 opacity-[.99] sm:py-8"
+			>
+				<div class="flex flex-col items-center justify-start gap-1 self-stretch">
+					<div class="flex items-center justify-center gap-2.5 self-stretch px-4">
+						<div class="shrink grow basis-0 text-xs font-normal leading-tight text-black-bolder">
+							<span>
+								{#if currentInvestmentMode === 'SIP'}
+									Total Value
+								{:else}
+									Total Value in {maxData?.durationInYears} Years
+								{/if}
+							</span>
+						</div>
+					</div>
+					<div class="flex items-center justify-center gap-2.5 self-stretch px-4">
+						<div class="shrink grow basis-0 text-xl font-medium text-black-key">
+							₹{addCommasToAmountString(maxData?.investedAmount + maxData?.gains)}
+						</div>
+					</div>
+				</div>
 				<div class="flex items-center justify-center gap-2.5 self-stretch px-4">
 					<div class="shrink grow basis-0 text-xs font-normal leading-tight text-black-bolder">
+						When you invest ₹{addCommasToAmountString(maxData?.investedAmount)}
 						<span>
 							{#if currentInvestmentMode === 'SIP'}
-								Total Value
+								over {maxData?.durationInYears} years
 							{:else}
-								Total Value in {maxData?.durationInYears} Years
+								once
 							{/if}
 						</span>
 					</div>
-				</div>
-				<div class="flex items-center justify-center gap-2.5 self-stretch px-4">
-					<div class="shrink grow basis-0 text-xl font-medium text-black-key">
-						₹{addCommasToAmountString(maxData?.investedAmount + maxData?.gains)}
-					</div>
-				</div>
-			</div>
-			<div class="flex items-center justify-center gap-2.5 self-stretch px-4">
-				<div class="shrink grow basis-0 text-xs font-normal leading-tight text-black-bolder">
-					When you invest ₹{addCommasToAmountString(maxData?.investedAmount)}
-					<span>
-						{#if currentInvestmentMode === 'SIP'}
-							over {maxData?.durationInYears} years
-						{:else}
-							once
-						{/if}
-					</span>
 				</div>
 			</div>
 		</div>
