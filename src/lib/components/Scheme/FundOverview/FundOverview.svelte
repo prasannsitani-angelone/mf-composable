@@ -9,8 +9,10 @@
 	import { sFundDetails } from '../analytics';
 	import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
 	import { getDateTimeString } from '$lib/utils/helpers/date';
+	import type { FundComparisons } from '../types';
 
 	let schemeDetails: SchemeDetails;
+	let comparisons: FundComparisons;
 	let selectedTag: Tags[];
 	let isNFO = false;
 	let onMountEvent = true;
@@ -47,8 +49,11 @@
 			returns3yr,
 			isSipAllowed,
 			isLumpsumAllowed,
-			nfoScheme
+			nfoScheme,
+			minSipAmount,
+			noOfClientInvested
 		} = schemeDetails || {};
+		const { otherScheme } = comparisons || {};
 		const eventMetadata = {
 			Fundname: schemeName,
 			FundType: reInvestmentPlan,
@@ -62,7 +67,14 @@
 			'3YReturn': returns3yr || 0,
 			isSIPAllowed: isSipAllowed === 'Y',
 			isOTIAllowed: isLumpsumAllowed === 'Y',
-			isOpenNFO: nfoScheme === 'Y'
+			isOpenNFO: nfoScheme === 'Y',
+			minSIPamount: minSipAmount,
+			compareFundsCardVisible: nfoScheme !== 'Y',
+			compareFundCardFunds: [schemeName, otherScheme?.[0]?.schemeName],
+			compareFundCardFundsISIN: [isin, otherScheme?.[0]?.isin],
+			compareFundCardFunds3YReturn: [returns3yr || 0, otherScheme?.[0]?.returns3yr || 0],
+			compareFundCardFundsMinSIPAmount: [minSipAmount, otherScheme?.[0]?.minSipAmount],
+			compareFundCardFundsNoofInvestors: [noOfClientInvested, otherScheme?.[0]?.noOfClientInvested]
 		};
 		if (onMountEvent) {
 			sFundDetails(eventMetadata);
@@ -87,7 +99,7 @@
 
 	let innerStyle = '';
 
-	export { schemeDetails, isNFO, innerStyle, onMountEvent };
+	export { schemeDetails, isNFO, innerStyle, onMountEvent, comparisons };
 </script>
 
 <section class="rounded-lg bg-white p-4 pb-1 pt-3 shadow-csm sm:p-6 {$$props.class}">

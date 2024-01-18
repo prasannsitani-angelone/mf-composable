@@ -12,7 +12,7 @@
 	import InvestmentPad from '../../../InvestmentPad/InvestmentPad.svelte';
 	import { orderpadParentPage } from '../../../InvestmentPad/constants';
 	import InvestmentDetailsFooter from '../../../(authenticated)/investments/[investment]/components/InvestmentDetailsFooter.svelte';
-	import { afterUpdate } from 'svelte';
+	import { afterUpdate, onMount } from 'svelte';
 	import { decodeToObject, getQueryParamsObj } from '$lib/utils/helpers/params';
 	import type { OrderPadTypes, decodedParamsTypes } from '$lib/types/IOrderPad';
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
@@ -38,6 +38,7 @@
 	import { versionStore } from '$lib/stores/VersionStore';
 	import SomethingWentWrong from '$components/Error/SomethingWentWrong.svelte';
 	import SomethingWentWrongSmall from '$components/Error/SomethingWentWrongSmall.svelte';
+	import type { FundComparisons } from '$components/Scheme/types';
 
 	export let data: PageData;
 
@@ -46,6 +47,7 @@
 	$: showInvestmentPad = data?.showInvestmentPad;
 	$: queryParamsObj = <OrderPadTypes>{};
 	let orderpadParams = <decodedParamsTypes>{};
+	let comparisons: FundComparisons;
 
 	function getSchemeDetailsBreadCrumbs(scheme: SchemeDetails) {
 		const { schemeName, isin, schemeCode } = scheme;
@@ -140,6 +142,9 @@
 
 		returnCalculatorResultAnalytics(eventMetadata);
 	};
+	onMount(async () => {
+		comparisons = await data?.api?.comparisons;
+	});
 </script>
 
 <svelte:head>
@@ -167,7 +172,7 @@
 				/>
 				<FundHeading schemeDetails={schemedata} {isNFO} />
 				{#if !isNFO}
-					<FundOverview schemeDetails={schemedata} {isNFO} />
+					<FundOverview schemeDetails={schemedata} {comparisons} {isNFO} />
 				{/if}
 				{#if isNFO}
 					<NfoDetails schemeDetails={schemedata} />
