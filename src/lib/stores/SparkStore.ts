@@ -71,6 +71,10 @@ function Store() {
 				const isAngelBeeIosUser = platform === PLATFORM_TYPE.ANGELBEE_IOS;
 				const isTWA = platformvariant === 'twa';
 				const isWebView = platformvariant === 'webview';
+				const linkedmembers =
+					typeof consolidated?.linkedmembers === 'string'
+						? JSON?.parse(consolidated?.linkedmembers)
+						: consolidated?.linkedmembers;
 
 				return {
 					...consolidated,
@@ -81,7 +85,8 @@ function Store() {
 					isAngelBeeAndroidUser,
 					isAngelBeeIosUser,
 					isTWA,
-					isWebView
+					isWebView,
+					linkedmembers
 				};
 			});
 		},
