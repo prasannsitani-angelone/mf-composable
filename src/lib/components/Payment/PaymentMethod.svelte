@@ -5,6 +5,7 @@
 	import { stringToFloat } from '$lib/utils/helpers/numbers';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
+	import { paymentMethodStatusStore } from '$lib/stores/PaymentMethodStatusStore';
 
 	export let selectedMode = '';
 	export let paymentModes: Array<string> = [];
@@ -27,9 +28,7 @@
 	$: os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
 
 	$: paymentModesStatus =
-		$page?.data?.userPaymentMethodsStatus?.payment_modes?.[
-			`${bankAccounts[selectedAccount]?.ifscCode}`
-		] || {};
+		$paymentMethodStatusStore?.payment_modes?.[`${bankAccounts[selectedAccount]?.ifscCode}`] || {};
 
 	function setDefaultSelection() {
 		if (!selectedMode) {

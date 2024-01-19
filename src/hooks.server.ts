@@ -15,8 +15,6 @@ import { dev } from '$app/environment';
 import { getHoldingSummary } from '$lib/api/holdings';
 import type { InvestmentSummary } from '$lib/types/IInvestments';
 import { getsearchDashboardData } from '$lib/api/getSearchDashboard';
-import { getUserPaymentMethodsStatus } from '$components/Payment/api';
-import type { UserPaymentMethodsData } from '$lib/types/IPayments';
 // import { accountType } from '$lib/utils/getAccountType';
 // import { getHashKey } from '$lib/server/getHashKey';
 const deviceDetector = handleDeviecDetector({});
@@ -86,7 +84,6 @@ const handler = (async ({ event, resolve }) => {
 		}
 		const isGuest = isAuthenticatedUser ? false : true;
 		let searchDashboardData;
-		let userPaymentMethodsStatus: UserPaymentMethodsData;
 
 		if (!event.request.url.includes('/api/')) {
 			const searchDashboardPromise = getsearchDashboardData(
@@ -109,17 +106,10 @@ const handler = (async ({ event, resolve }) => {
 					searchDashboardPromise
 				]);
 
-				const userPaymentMethodsStatusRes = await getUserPaymentMethodsStatus({
-					token,
-					source: 'mf'
-				});
-
 				profileData = userData[0]?.value;
 				userDetails = userData[1]?.value;
 				investementSummary = userData[2]?.value;
 				searchDashboardData = userData[3]?.value;
-
-				userPaymentMethodsStatus = userPaymentMethodsStatusRes?.data?.data || {};
 			}
 			if (userDetails?.userType === 'B2B') {
 				searchDashboardData = await getsearchDashboardData(
@@ -141,7 +131,6 @@ const handler = (async ({ event, resolve }) => {
 			isGuest,
 			userDetails,
 			profileData,
-			userPaymentMethodsStatus,
 			scheme,
 			host,
 			sparkHeaders: event.request.headers,

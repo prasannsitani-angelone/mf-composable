@@ -20,8 +20,7 @@ export const load = (async ({ request, locals, cookies }) => {
 		refreshToken = '',
 		shouldSetABUserCookie,
 		investementSummary,
-		searchDashboardData,
-		userPaymentMethodsStatus
+		searchDashboardData
 	} = locals;
 
 	const tokenObj: TokenStore = {
@@ -71,7 +70,6 @@ export const load = (async ({ request, locals, cookies }) => {
 		searchDashboardData,
 		isGuest,
 		userDetails: localUserDetails,
-		investementSummary,
-		userPaymentMethodsStatus
+		investementSummary
 	};
 }) satisfies LayoutServerLoad;

@@ -142,6 +142,7 @@
 	import LumpsumTab from './OrderPadComponents/LumpsumTab.svelte';
 	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 	import Physical2FAOtpVerificationComponent from '$components/Payment/Physical2FAOtpVerificationComponent.svelte';
+	import { paymentMethodStatusStore } from '$lib/stores/PaymentMethodStatusStore';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -1398,7 +1399,7 @@
 			}
 
 			const paymentModesStatus: PaymentMethodsStatusTypes =
-				$page?.data?.userPaymentMethodsStatus?.payment_modes[
+				$paymentMethodStatusStore?.payment_modes[
 					`${bankDetails[paymentHandler?.selectedAccount]?.ifscCode}`
 				] || {};
 

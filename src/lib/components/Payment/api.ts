@@ -7,11 +7,10 @@ import { getFormattedSIPDate } from './util';
 
 export const getUserPaymentMethodsStatus = async (params) => {
 	try {
-		const { token, source } = params || {};
+		const { source } = params || {};
 		const url = `${PUBLIC_PAYMENT_BASE_URL}/payment-page-data?product=${source}`;
 		const response = await useFetch(url, {
 			headers: {
-				authorization: `Bearer ${token}`,
 				// 'X-Request-Id': xRequestId,
 				'X-Source': source || 'diy'
 			}

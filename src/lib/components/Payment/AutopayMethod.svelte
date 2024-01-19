@@ -5,6 +5,7 @@
 	import { page } from '$app/stores';
 	import type { MandateWithBankDetails } from '$lib/types/IEmandate';
 	import { profileStore } from '$lib/stores/ProfileStore';
+	import { paymentMethodStatusStore } from '$lib/stores/PaymentMethodStatusStore';
 
 	export let selectedMode = '';
 	export let subIdentifier = '';
@@ -21,9 +22,7 @@
 	$: os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
 
 	$: paymentModesStatus =
-		$page?.data?.userPaymentMethodsStatus?.payment_modes?.[
-			`${bankAccounts[selectedAccount]?.ifscCode}`
-		] || {};
+		$paymentMethodStatusStore?.payment_modes?.[`${bankAccounts[selectedAccount]?.ifscCode}`] || {};
 </script>
 
 <div class="flex flex-col bg-white px-4 py-3 {$$props.class}">

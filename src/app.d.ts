@@ -4,7 +4,6 @@ import type { DiscoverFund } from '$lib/types/IDiscoverFunds';
 import type { UserProfile } from '$lib/types/IUserProfile';
 import type { DevicePayload } from 'sveltekit-device-detector/dist/types';
 import * as servertime from 'servertime';
-import type { UserPaymentMethodsData } from '$lib/types/IPayments';
 
 interface LayoutConfig {
 	title: string;
@@ -46,7 +45,6 @@ declare global {
 			token: string;
 			userDetails: IUserDetails;
 			profileData: UserProfile;
-			userPaymentMethodsStatus: UserPaymentMethodsData;
 			refreshToken: string;
 			isGuest: boolean;
 			serverTiming: servertime.ServertimeOptions;
@@ -60,7 +58,6 @@ declare global {
 			deviceType: DevicePayload;
 			searchDashboardData: DiscoverFund;
 			layoutConfig: LayoutConfig;
-			userPaymentMethodsStatus: UserPaymentMethodsData;
 		}
 		// interface Platform {}
 	}
