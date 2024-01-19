@@ -2,32 +2,15 @@
 	import { page } from '$app/stores';
 	import Overlay from '$components/Overlay.svelte';
 	import { afterNavigate } from '$app/navigation';
-	import type { AnimationArguments } from 'svelte-components';
-	import { fly } from 'svelte/transition';
-	import { cubicOut } from 'svelte/easing';
-	import { onMount } from 'svelte';
 
 	$: pageMetaData = $page?.data?.layoutConfig;
 	let layoutType = 'DEFAULT';
 	export let searchFocused = false;
-	export let pathname = '';
 
 	let contentClass = '';
 	let layoutClass = '';
-	let isBack = false;
 
 	const commonStyle = 'w-full lg:pt-3 xl:w-4/5';
-
-	onMount(() => {
-		window.addEventListener(
-			'popstate',
-			function () {
-				// The popstate event is fired each time when the current history entry changes.
-				isBack = true;
-			},
-			false
-		);
-	});
 
 	const gridClassMap = {
 		TWO_COLUMN_RIGHT_LARGE_TEMP: {
@@ -69,37 +52,18 @@
 		// workaround for an open bug https://github.com/sveltejs/kit/issues/2733
 		document.getElementById('main-container').scrollTop = 0;
 	});
-
-	const animate = (node: Element, args: AnimationArguments) => (args.cond ? fly(node, args) : {});
-	$: isMobile = $page?.data?.deviceType?.isMobile;
-
-	const getDirection = () => {
-		if (isBack) {
-			isBack = false;
-			return '-100%';
-		}
-		return '100%';
-	};
 </script>
 
-{#key pathname}
-	<main
-		class="scroll-lock w-full flex-grow overflow-auto {layoutClass} {pageMetaData?.layoutClass}"
-		id="main-container"
-		in:animate={{
-			x: getDirection(),
-			easing: cubicOut,
-			duration: 300,
-			cond: isMobile
-		}}
-	>
-		{#if searchFocused}
-			<Overlay containerClass="!z-60" />
-		{/if}
-		<section class="m-auto flex max-w-8xl flex-wrap justify-center {pageMetaData?.layoutBodyClass}">
-			<section class={contentClass}>
-				<slot />
-			</section>
+<main
+	class="scroll-lock w-full flex-grow overflow-auto {layoutClass} {pageMetaData?.layoutClass}"
+	id="main-container"
+>
+	{#if searchFocused}
+		<Overlay containerClass="!z-60" />
+	{/if}
+	<section class="m-auto flex max-w-8xl flex-wrap justify-center {pageMetaData?.layoutBodyClass}">
+		<section class={contentClass}>
+			<slot />
 		</section>
-	</main>
-{/key}
+	</section>
+</main>
