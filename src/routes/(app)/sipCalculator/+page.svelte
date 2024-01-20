@@ -191,6 +191,9 @@
 	}, 1000);
 </script>
 
+<svelte:head>
+	<meta name="robots" content="noindex, follow" />
+</svelte:head>
 <section class="col-span-1 col-start-1 row-start-2">
 	<Card class="mb-6 bg-white px-4 max-sm:rounded-none max-sm:border-b max-sm:shadow-none">
 		<header class="hidden flex-row items-center sm:flex">

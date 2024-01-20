@@ -19,6 +19,9 @@
 	export let data: PageData;
 </script>
 
+<svelte:head>
+	<meta name="robots" content="noindex, follow" />
+</svelte:head>
 <SEO seoTitle="New Fund Offering, NFO | Angelone" seoDescription="New Fund Offering, NFO" />
 
 <Breadcrumbs items={breadCrumbs} class="my-4 hidden items-center justify-start md:flex" />

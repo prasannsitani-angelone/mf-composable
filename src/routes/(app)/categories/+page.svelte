@@ -61,6 +61,9 @@
 	}
 </script>
 
+<svelte:head>
+	<meta name="robots" content="noindex, follow" />
+</svelte:head>
 <article class="flex min-h-screen flex-col">
 	<SEO
 		seoTitle="Mutual Funds Screener: Explore All Types of Mutual Funds | Angel One"
