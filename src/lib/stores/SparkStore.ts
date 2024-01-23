@@ -49,6 +49,16 @@ const initalStore: SparkStore = {
 	}
 };
 
+const parseLinkedMember = (linkedmembers: string) => {
+	try {
+		return JSON?.parse(linkedmembers);
+	} catch (e) {
+		return {
+			selected: []
+		};
+	}
+};
+
 function Store() {
 	const { subscribe, update } = writable(initalStore);
 	let sparkStore: SparkStore;
@@ -73,7 +83,7 @@ function Store() {
 				const isWebView = platformvariant === 'webview';
 				const linkedmembers =
 					typeof consolidated?.linkedmembers === 'string'
-						? JSON?.parse(consolidated?.linkedmembers)
+						? parseLinkedMember(consolidated?.linkedmembers)
 						: consolidated?.linkedmembers;
 
 				return {
