@@ -265,6 +265,7 @@ function updateFilterFromCategory(item, filters): number {
 						const [min, max] = category.split('_');
 						option.minSelectedVal = min;
 						option.maxSelectedVal = max;
+						totalCountAtSelectedCategory += 1;
 					}
 				}
 			}
