@@ -63,7 +63,7 @@
 					{/if}
 				</section>
 				<section class="my-3 flex flex-col items-center justify-center">
-					<p class="text-[10px] text-black-bolder">8,000+ funds are available on Angel One</p>
+					<p class="text-[11px] text-black-bolder">8,000+ funds are available on Angel One</p>
 					<Button
 						variant="transparent"
 						class="!text-sm !uppercase"

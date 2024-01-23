@@ -58,7 +58,7 @@
 	$: selectedFilter, updateSearchResults();
 </script>
 
-<section>
+<section class={$$props.class}>
 	{#if showSearch}
 		<section>
 			<button
@@ -137,6 +137,7 @@
 											sections={filter.section || []}
 											on:optionChange={(e) => handleOptionClick(e?.detail, e)}
 											on:rangeChange={(e) => handleRangeChange(e?.detail)}
+											class="ml-6"
 										/>
 									{/if}
 								</svelte:fragment>
@@ -207,6 +208,7 @@
 									sections={filter.section || []}
 									on:optionChange={(e) => handleOptionClick(e?.detail, e)}
 									on:rangeChange={(e) => handleRangeChange(e?.detail)}
+									class="ml-6"
 								/>
 							{/if}
 						</svelte:fragment>
