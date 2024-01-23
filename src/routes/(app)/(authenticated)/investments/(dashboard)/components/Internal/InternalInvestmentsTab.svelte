@@ -116,10 +116,10 @@
 
 	const handleFamilyPortfolioData = () => {
 		if (selfClientId?.length) {
-			setFamilyPortfolioData();
-		} else {
 			isFamilyPortfolio = appStore?.isFamilyPortfolioSelected(selfClientId);
 			getFamilyPortfolioHoldings();
+		} else {
+			setFamilyPortfolioData();
 		}
 	};
 
