@@ -136,7 +136,7 @@
 	const getExploreFundsPath = async () => {
 		const investmentType = currentInvestmentMode === 'SIP' ? 'SIP' : 'OTI';
 		const returnRangeStart = Math.max(roiSlider[0] - 2, 0);
-		const returnRangeEnd = Math.min(roiSlider[0] + 3, MaxRoiSlider);
+		const returnRangeEnd = roiSlider[0] + 3;
 		await schemeScreenerStore?.getFiltersResponse(
 			`investmentType=${investmentType}&schemeType=Growth&threeYearReturn=${returnRangeStart}_${returnRangeEnd}`
 		);
