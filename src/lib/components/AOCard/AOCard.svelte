@@ -10,7 +10,7 @@
 			</section>
 		</section>
 	</header>
-	<section class="mt-3 w-full overflow-x-auto rounded-lg bg-white px-4 md:px-6">
+	<section class="mt-2 w-full overflow-x-auto rounded-lg bg-white px-4 md:px-6">
 		<slot name="content" />
 	</section>
 </article>

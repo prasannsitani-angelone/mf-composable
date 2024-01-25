@@ -38,7 +38,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div on:click={gotoSchemeDetails} class={`flex cursor-pointer flex-col ${clazz}`}>
-	<div class="flex flex-row items-start">
+	<div class="mb-3 flex flex-row items-start">
 		<SchemeLogo
 			size="sm"
 			src={schemes?.logoUrl}
@@ -60,21 +60,16 @@
 			/>
 		</slot>
 	</div>
-	<div class="flex flex-col">
+	<div class="flex flex-col border-t">
 		<slot name="details">
 			<div
-				class="relative mt-3 w-full overflow-hidden {schemes?.noOfClientInvested
+				class="relative mt-2 w-full overflow-hidden {schemes?.noOfClientInvested
 					? ''
 					: 'rounded-b'}"
 			>
-				<img
-					src="{base}/images/TrendingFundsBackground.svg"
-					class="absolute h-full w-full"
-					decoding="sync"
-					alt="Trending Funds"
-					fetchpriority="high"
-				/>
-				<div class=" flex flex-row rounded-t-lg p-2 opacity-[.99]">
+				<div
+					class="grid grid-cols-2 flex-row justify-between divide-x rounded-t-lg p-2 opacity-[.99]"
+				>
 					<slot name="detailsLeft">
 						<div class="flex flex-col items-start">
 							<p class="text-xs font-normal">Min. SIP Amount</p>
@@ -84,7 +79,6 @@
 							</p>
 						</div>
 					</slot>
-					<div class="flex-1" />
 					<slot name="detailsRight">
 						<div class="flex flex-col items-end">
 							<p class="text-xs font-normal">3 Year Returns</p>

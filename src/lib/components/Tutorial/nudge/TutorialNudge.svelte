@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { WMSIcon } from 'svelte-components';
-	import NudgeBottom from '$components/Tutorial/nudge/NudgeBottom.svelte';
 	import NudgeIcon from '$components/Tutorial/nudge/NudgeIcon.svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
@@ -19,7 +18,7 @@
 	class="relative cursor-pointer overflow-hidden rounded-lg bg-white shadow-csm {$$props.class}"
 	on:click={toGoToTutorialDetails}
 >
-	<div class="-mb-2 flex flex-1 flex-row items-center gap-3 px-3 pt-3">
+	<div class="my-3 flex flex-1 flex-row items-center gap-3 px-3">
 		<NudgeIcon />
 		<div class="flex-1">
 			<p class="text-base font-semibold text-black-bolder">{title}</p>
@@ -27,5 +26,4 @@
 		</div>
 		<WMSIcon name="arrow-collapse" width={20} height={20} class="rotate-90" />
 	</div>
-	<NudgeBottom />
 </div>

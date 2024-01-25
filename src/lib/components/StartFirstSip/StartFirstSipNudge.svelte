@@ -1,8 +1,7 @@
 <script lang="ts">
-	import type { StartFirstSipNudgeType } from '$lib/types/INudge';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import StartFirstSipImage from '$lib/images/StartFirstSipImage.svelte';
+	import { WMSIcon } from 'svelte-components';
 	import { onMount } from 'svelte';
 	import {
 		firstSipCardGetStartedButtonClickAnalytics,
@@ -11,7 +10,6 @@
 	import { BtnSize } from 'svelte-components';
 	import ButtonMedium from '$components/ButtonMedium.svelte';
 
-	export let nudgeData: StartFirstSipNudgeType;
 	export let version: string;
 
 	const redirectToStartFirstSipLandingPage = () => {
@@ -27,21 +25,30 @@
 </script>
 
 <article
-	class="mt-2 flex flex-row items-center rounded-lg bg-white p-4 pl-6 pr-3 shadow-csm {$$props.class}"
+	class="bg-image mt-2 flex flex-row items-center justify-between sm:-mx-2 {$$props.class}"
 	data-testid="startFirstSipNudge"
 >
-	<div class="flex flex-1 flex-col">
-		<p class="mb-2 text-base font-medium text-black-title">{nudgeData.heading}</p>
-		<p class="mb-2 text-xs font-medium text-grey-body">{nudgeData.description}</p>
-
-		<ButtonMedium
-			size={BtnSize.SM}
-			onClick={redirectToStartFirstSipLandingPage}
-			class="w-fit px-6 text-xs"
-		>
-			EXPLORE NOW
-		</ButtonMedium>
+	<div class="mr-2 flex flex-1 items-center p-4">
+		<div class="mr-1 flex h-9 w-9 items-center justify-center rounded-full bg-white p-2">
+			<WMSIcon name="angel" />
+		</div>
+		<p class="pl-1 text-sm text-black-key">Start your first SIP with Angel One today!</p>
 	</div>
 
-	<StartFirstSipImage />
+	<ButtonMedium
+		size={BtnSize.SM}
+		onClick={redirectToStartFirstSipLandingPage}
+		class="z-0 mr-4 w-fit px-6 text-xs"
+	>
+		INVEST NOW
+	</ButtonMedium>
 </article>
+
+<style>
+	.bg-image {
+		background-image: url('$lib/images/StartFirstSip.svg');
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center;
+	}
+</style>

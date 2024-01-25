@@ -6,4 +6,5 @@ export interface IUserDetails {
 	isARNExpired?: string;
 	panSeeded: boolean;
 	isKycInProgress: boolean;
+	cohort: Array<string>;
 }

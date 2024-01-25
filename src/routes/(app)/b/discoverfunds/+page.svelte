@@ -61,6 +61,7 @@
 		actionCentreEntryImpression,
 		actionCentreClick
 	} from '$lib/analytics/pendingActionCenter/analytics';
+	import { cohorts, cohorts_LF } from '$lib/constants/cohorts';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -75,6 +76,15 @@
 	let start4SipsNudgeData: Start4SipsNudgeType;
 	let userEducationNudge: UserEducationNudgeType;
 	let notifData: INotificationSummary;
+	let user_cohort = $page?.data?.userDetails?.cohort?.length
+		? $page?.data?.userDetails?.cohort[0]
+		: 'Fallback';
+	let placementMapping = {};
+	if ($page.data.deviceType?.isMobile || $page.data.deviceType?.isTablet) {
+		placementMapping = cohorts[user_cohort].placementMapping;
+	} else {
+		placementMapping = cohorts_LF[user_cohort].placementMapping;
+	}
 
 	let formattedRetryPaymentNudgeData: IRetryPaymentNudge;
 
@@ -262,11 +272,6 @@
 
 		resetSelectedLinkedFamilyMembers();
 
-		sHomepage({
-			version: 'B',
-			userType: $page?.data?.userDetails?.userType || 'B2C',
-			storyVisible: storiesData?.stories?.length > 0 ? 'Y' : 'N'
-		});
 		getNudgeData().then((nudgeData) => {
 			setNudgeData(nudgeData);
 			setSipNudgesData(nudgeData);
@@ -287,6 +292,12 @@
 		}
 		schemeScreenerStore?.reinitializeStore();
 		schemeScreenerStore.getFiltersResponse();
+		sHomepage({
+			version: 'A',
+			userType: $page?.data?.userDetails?.userType || 'B2C',
+			storyVisible: storiesData?.stories?.length > 0 ? 'Y' : 'N',
+			mf_cohort_name: user_cohort
+		});
 		await initializeClevertapData();
 		actionCentreEntryImpression();
 	});
@@ -307,51 +318,6 @@
 	let showExitNudge = false;
 
 	export let data: PageData;
-
-	let placementMapping = {};
-
-	const setPlacement = () => {
-		placementMapping = {};
-		if ($page.data.deviceType?.isMobile) {
-			placementMapping = {
-				investments: { rowStart: 1, columnStart: 1 },
-				stories: { rowStart: 2, columnStart: 1 },
-				ctNudge: { rowStart: 3, columnStart: 1 },
-				trendingFunds: { rowStart: 4, columnStart: 1 },
-				sipNudges: { rowStart: 5, columnStart: 1 },
-				categories: { rowStart: 6, columnStart: 1 },
-				failedOrdersNudge: { rowStart: 7, columnStart: 1 },
-				sipPaymentMonthNudge: { rowStart: 8, columnStart: 1 },
-				curatedInvestmentCard: { rowStart: 9, columnStart: 1 },
-				buyPortfolioCard: { rowStart: 10, columnStart: 1 },
-				quickEntryPoints: { rowStart: 11, columnStart: 1 },
-				askAngel: { rowStart: 12, columnStart: 1 },
-				tutorials: { rowStart: 13, columnStart: 1 },
-				screener: { rowStart: 14, columnStart: 1 },
-				promotionCard: { rowStart: 15, columnStart: 1 },
-				logout: { rowStart: 16, columnStart: 1 }
-			};
-		} else {
-			placementMapping = {
-				stories: { rowStart: 1, columnStart: 1 },
-				trendingFunds: { rowStart: 2, columnStart: 1 },
-				categories: { rowStart: 3, columnStart: 1 },
-				failedOrdersNudge: { rowStart: 4, columnStart: 1 },
-				sipPaymentMonthNudge: { rowStart: 5, columnStart: 1 },
-				buyPortfolioCard: { rowStart: 6, columnStart: 1 },
-				quickEntryPoints: { rowStart: 7, columnStart: 1 },
-				logout: { rowStart: 8, columnStart: 1 },
-				tutorials: { rowStart: 9, columnStart: 1 },
-				screener: { rowStart: 10, columnStart: 1 },
-				investments: { rowStart: 1, columnStart: 2 },
-				ctNudge: { rowStart: 2, columnStart: 2 },
-				sipNudges: { rowStart: 3, columnStart: 2 },
-				promotionCard: { rowStart: 4, columnStart: 2 },
-				askAngel: { rowStart: 5, columnStart: 2 }
-			};
-		}
-	};
-	setPlacement();
 </script>
 
 <SEO
@@ -360,9 +326,9 @@
 />
 
 <article class="grid grid-cols-[100%]">
-	<!-- 1. <Portfolio Card / Start First SIP Nudge /> -->
+	<!-- 1. Portfolio Card  -->
 	<div class="row-start-{placementMapping.investments?.rowStart} col-start-1 sm:hidden">
-		{#if isLoggedInUser && deviceType?.isMobile}
+		{#if isLoggedInUser && deviceType?.isMobile && placementMapping?.investments}
 			{#if data?.investementSummary?.currentValue}
 				<div
 					class="{placementMapping.investments?.rowStart > 1 ? 'mt-2' : ''} block overflow-hidden"
@@ -383,7 +349,7 @@
 		/>
 	{/if}
 
-	{#if notifData?.totalCount > 0}
+	{#if notifData?.totalCount > 0 && placementMapping?.actions}
 		{@const notifText =
 			notifData?.summary?.length > 1
 				? `${notifData?.totalCount} items require your attention`
@@ -398,7 +364,10 @@
 				: `${notifData?.summary[0].count} SIP payment${
 						notifData?.summary[0].count === 1 ? ' is' : 's are'
 				  } due`}
-		<div class="mx-1 mb-2 mt-4 rounded-md bg-yellow-background p-2 shadow-lg">
+		<div
+			class="row-start-{placementMapping?.actions?.rowStart} col-start-{placementMapping?.actions
+				?.columnStart} mx-1 mb-2 mt-4 rounded-md bg-yellow-background p-2 shadow-lg"
+		>
 			<div class="flex items-center justify-between">
 				<div class="flex items-center">
 					<WMSIcon name="exclamation-circle-solid" />
@@ -422,7 +391,7 @@
 		</div>
 	{/if}
 
-	{#if userEducationNudge && deviceType?.isMobile}
+	{#if userEducationNudge && deviceType?.isMobile && placementMapping?.tutorials}
 		<TutorialNudge
 			title={userEducationNudge.heading}
 			subTitle={userEducationNudge.description}
@@ -455,7 +424,7 @@
 	<!-- 6. Category Section -->
 	<article
 		class="row-start-{placementMapping?.categories?.rowStart} col-start-{placementMapping
-			?.categories?.columnStart} {placementMapping?.categories?.rowStart > 1 ? '!mt-2' : ''}"
+			?.categories?.columnStart} mt-2"
 	>
 		<CategoriesComponent categories={data?.searchDashboardData?.categories} />
 	</article>
@@ -485,14 +454,16 @@
 		{isGuest}
 	/>
 
-	<BuyPortfolio
-		class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
-			?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
-			? 'mt-2'
-			: ''}"
-	/>
+	{#if !deviceType?.isBrowser && placementMapping?.buyPortfolioCard}
+		<BuyPortfolio
+			class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
+				?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
+				? 'mt-2'
+				: ''}"
+		/>
+	{/if}
 
-	{#if !deviceType?.isBrowser && data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN}
+	{#if !deviceType?.isBrowser && data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN && placementMapping?.askAngel}
 		<AskAngel
 			class="row-start-{placementMapping?.askAngel?.rowStart} col-start-{placementMapping?.askAngel
 				?.columnStart} {placementMapping?.askAngel?.rowStart > 1 ? 'mt-2' : ''}"
@@ -500,7 +471,7 @@
 	{/if}
 
 	<!-- 10. PromotionCard -->
-	{#if data?.searchDashboardData?.amcAd}
+	{#if data?.searchDashboardData?.amcAd && placementMapping?.promotionCard}
 		<PromotionCard
 			amcData={data.searchDashboardData.amcAd}
 			class="row-start-{placementMapping?.promotionCard?.rowStart} col-start-{placementMapping
@@ -533,6 +504,15 @@
 			</Button>
 		</article>
 	{/if}
+	<!-- 12. Start First SIP -->
+	<LazyComponent
+		class="row-start-{placementMapping?.startFirstSip?.rowStart} col-start-{placementMapping
+			?.startFirstSip?.columnStart} {placementMapping?.startFirstSip?.rowStart > 1 ? 'mt-2' : ''}"
+		when={isLoggedInUser && placementMapping?.startFirstSip && nudgesData && startFirstSipNudgeData}
+		component={async () => await import('$components/StartFirstSip/StartFirstSipNudge.svelte')}
+		nudgeData={startFirstSipNudgeData}
+		version="A"
+	/>
 </article>
 
 <article class="sticky -top-2 hidden grid-cols-[100%] sm:grid" style="height:min-content">
@@ -556,7 +536,7 @@
 		{/if}
 	{/if}
 
-	{#if data?.searchDashboardData?.amcAd}
+	{#if data?.searchDashboardData?.amcAd && placementMapping?.promotionCard}
 		<PromotionCard
 			amcData={data.searchDashboardData.amcAd}
 			class="row-start-{placementMapping.promotionCard
@@ -564,8 +544,16 @@
 			imageClass="h-32 md:h-42 lg:h-32 w-full object-cover"
 		/>
 	{/if}
-	{#if data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN}
+	{#if data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN && placementMapping?.askAngel}
 		<AskAngel class="row-start-{placementMapping.askAngel?.rowStart}" />
+	{/if}
+	{#if placementMapping?.buyPortfolioCard}
+		<BuyPortfolio
+			class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
+				?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
+				? 'mt-2'
+				: ''}"
+		/>
 	{/if}
 </article>
 

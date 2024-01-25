@@ -59,6 +59,7 @@
 		actionCentreEntryImpression,
 		actionCentreClick
 	} from '$lib/analytics/pendingActionCenter/analytics';
+	import { cohorts, cohorts_LF } from '$lib/constants/cohorts';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -77,6 +78,15 @@
 	let intersectOnce: boolean;
 	let showExitNudge = false;
 	let notifData: INotificationSummary;
+	let user_cohort = $page?.data?.userDetails?.cohort?.length
+		? $page?.data?.userDetails?.cohort[0]
+		: 'Fallback';
+	let placementMapping = {};
+	if ($page.data.deviceType?.isMobile || $page.data.deviceType?.isTablet) {
+		placementMapping = cohorts[user_cohort].placementMapping;
+	} else {
+		placementMapping = cohorts_LF[user_cohort].placementMapping;
+	}
 
 	const getNudgeData = async () => {
 		let nudgesData: NudgeDataType = {
@@ -264,11 +274,6 @@
 
 		resetSelectedLinkedFamilyMembers();
 
-		sHomepage({
-			version: 'A',
-			userType: $page?.data?.userDetails?.userType || 'B2C',
-			storyVisible: storiesData?.stories?.length > 0 ? 'Y' : 'N'
-		});
 		getNudgeData().then((nudgeData) => {
 			setNudgeData(nudgeData);
 			setSipNudgesData(nudgeData);
@@ -288,6 +293,12 @@
 		}
 		schemeScreenerStore?.reinitializeStore();
 		schemeScreenerStore.getFiltersResponse();
+		sHomepage({
+			version: 'A',
+			userType: $page?.data?.userDetails?.userType || 'B2C',
+			storyVisible: storiesData?.stories?.length > 0 ? 'Y' : 'N',
+			mf_cohort_name: user_cohort
+		});
 		await initializeClevertapData();
 		actionCentreEntryImpression();
 	});
@@ -306,55 +317,6 @@
 	});
 
 	export let data: PageData;
-
-	let placementMapping = {};
-
-	const setPlacement = () => {
-		placementMapping = {};
-
-		if ($page.data.deviceType?.isMobile || $page.data.deviceType?.isTablet) {
-			placementMapping = {
-				stories: { rowStart: 1, columnStart: 1 },
-				investments: { rowStart: 2, columnStart: 1 },
-				startFirstSip: { rowStart: 3, columnStart: 1 },
-				ctNudge: { rowStart: 4, columnStart: 1 },
-				trendingFunds: { rowStart: 5, columnStart: 1 },
-				categories: { rowStart: 6, columnStart: 1 },
-				sipNudges: { rowStart: 3, columnStart: 1 },
-				failedOrdersNudge: { rowStart: 7, columnStart: 1 },
-				sipPaymentMonthNudge: { rowStart: 8, columnStart: 1 },
-				curatedInvestmentCard: { rowStart: 9, columnStart: 1 },
-				buyPortfolioCard: { rowStart: 10, columnStart: 1 },
-				quickEntryPoints: { rowStart: 11, columnStart: 1 },
-				askAngel: { rowStart: 12, columnStart: 1 },
-				tutorials: { rowStart: 13, columnStart: 1 },
-				screener: { rowStart: 14, columnStart: 1 },
-				promotionCard: { rowStart: 15, columnStart: 1 },
-				logout: { rowStart: 16, columnStart: 1 }
-			};
-		} else {
-			placementMapping = {
-				stories: { rowStart: 1, columnStart: 1 },
-				trendingFunds: { rowStart: 2, columnStart: 1 },
-				categories: { rowStart: 3, columnStart: 1 },
-				failedOrdersNudge: { rowStart: 4, columnStart: 1 },
-				sipPaymentMonthNudge: { rowStart: 5, columnStart: 1 },
-				curatedInvestmentCard: { rowStart: 6, columnStart: 1 },
-				buyPortfolioCard: { rowStart: 7, columnStart: 1 },
-				quickEntryPoints: { rowStart: 8, columnStart: 1 },
-				tutorials: { rowStart: 9, columnStart: 1 },
-				screener: { rowStart: 10, columnStart: 1 },
-				investments: { rowStart: 1, columnStart: 2 },
-				sipNudges: { rowStart: 2, columnStart: 2 },
-				promotionCard: { rowStart: 3, columnStart: 2 },
-				askAngel: { rowStart: 5, columnStart: 2 },
-
-				ctNudge: { rowStart: 4, columnStart: 2 }
-			};
-		}
-	};
-
-	setPlacement();
 </script>
 
 <SEO
@@ -373,7 +335,7 @@
 		/>
 	{/if}
 
-	{#if notifData?.totalCount > 0}
+	{#if notifData?.totalCount > 0 && placementMapping?.actions}
 		{@const notifText =
 			notifData?.summary?.length > 1
 				? `${notifData?.totalCount} items require your attention`
@@ -388,7 +350,10 @@
 				: `${notifData?.summary[0].count} SIP payment${
 						notifData?.summary[0].count === 1 ? ' is' : 's are'
 				  } due`}
-		<div class="mx-1 mb-2 mt-4 rounded-md bg-yellow-background p-2 shadow-lg">
+		<div
+			class="row-start-{placementMapping?.actions?.rowStart} col-start-{placementMapping?.actions
+				?.columnStart} mx-1 mb-2 mt-4 rounded-md bg-yellow-background p-2 shadow-lg"
+		>
 			<div class="flex items-center justify-between">
 				<div class="flex items-center">
 					<WMSIcon name="exclamation-circle-solid" />
@@ -412,7 +377,7 @@
 		</div>
 	{/if}
 
-	{#if userEducationNudge && deviceType?.isMobile}
+	{#if userEducationNudge && deviceType?.isMobile && placementMapping?.tutorials}
 		<TutorialNudge
 			title={userEducationNudge.heading}
 			subTitle={userEducationNudge.description}
@@ -421,8 +386,8 @@
 		/>
 	{/if}
 
-	<!-- 2. <Portfolio Card / Start First SIP Nudge /> -->
-	{#if isLoggedInUser && deviceType?.isMobile}
+	<!-- 2. Portfolio Card -->
+	{#if isLoggedInUser && deviceType?.isMobile && placementMapping?.investments}
 		{#if data?.investementSummary?.currentValue}
 			<div
 				class="row-start-{placementMapping?.investments?.rowStart} col-start-{placementMapping
@@ -460,7 +425,7 @@
 	<!-- 4. Category Section -->
 	<article
 		class="row-start-{placementMapping?.categories?.rowStart} col-start-{placementMapping
-			?.categories?.columnStart} {placementMapping?.categories?.rowStart > 1 ? '!mt-2' : ''}"
+			?.categories?.columnStart} mt-2"
 	>
 		<CategoriesComponent categories={data?.searchDashboardData?.categories} />
 	</article>
@@ -481,14 +446,16 @@
 		/>
 	</div>
 
-	<BuyPortfolio
-		class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
-			?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
-			? 'mt-2'
-			: ''}"
-	/>
+	{#if !deviceType?.isBrowser && placementMapping?.buyPortfolioCard}
+		<BuyPortfolio
+			class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
+				?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
+				? 'mt-2'
+				: ''}"
+		/>
+	{/if}
 
-	{#if !deviceType?.isBrowser && data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN}
+	{#if !deviceType?.isBrowser && data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN && placementMapping?.askAngel}
 		<AskAngel
 			class="row-start-{placementMapping?.askAngel?.rowStart} col-start-{placementMapping?.askAngel
 				?.columnStart} {placementMapping?.askAngel?.rowStart > 1 ? 'mt-2' : ''}"
@@ -504,7 +471,7 @@
 		{isGuest}
 	/>
 	<!-- 10. PromotionCard -->
-	{#if data?.searchDashboardData?.amcAd && !deviceType?.isBrowser}
+	{#if data?.searchDashboardData?.amcAd && !deviceType?.isBrowser && placementMapping?.promotionCard}
 		<div
 			class="row-start-{placementMapping?.promotionCard?.rowStart} col-start-{placementMapping
 				?.promotionCard?.columnStart} sm:hidden {placementMapping?.promotionCard?.rowStart > 1
@@ -551,7 +518,7 @@
 	<LazyComponent
 		class="row-start-{placementMapping?.startFirstSip?.rowStart} col-start-{placementMapping
 			?.startFirstSip?.columnStart} {placementMapping?.startFirstSip?.rowStart > 1 ? 'mt-2' : ''}"
-		when={isLoggedInUser && deviceType?.isMobile && nudgesData && startFirstSipNudgeData}
+		when={isLoggedInUser && placementMapping?.startFirstSip && nudgesData && startFirstSipNudgeData}
 		component={async () => await import('$components/StartFirstSip/StartFirstSipNudge.svelte')}
 		nudgeData={startFirstSipNudgeData}
 		version="A"
@@ -575,7 +542,7 @@
 					on:onCTAClicked={(e) => goto(e.detail.url)}
 				/>
 			{/if}
-			{#if data?.searchDashboardData?.amcAd}
+			{#if data?.searchDashboardData?.amcAd && placementMapping?.promotionCard}
 				<IntersectionObserver once element={elementOnce} bind:intersecting={intersectOnce}>
 					<div bind:this={elementOnce}>
 						<LazyComponent
@@ -589,8 +556,15 @@
 					</div>
 				</IntersectionObserver>
 			{/if}
-			{#if data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN}
+			{#if data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN && placementMapping?.askAngel}
 				<AskAngel class="row-start-{placementMapping.askAngel?.rowStart}" />
+			{/if}
+			{#if placementMapping?.buyPortfolioCard}
+				<BuyPortfolio
+					class="row-start-{placementMapping?.buyPortfolioCard
+						?.rowStart} col-start-{placementMapping?.buyPortfolioCard
+						?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1 ? 'mt-2' : ''}"
+				/>
 			{/if}
 		</div>
 	</article>

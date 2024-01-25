@@ -38,33 +38,31 @@
 		seoDescription="Step-by-Step guide to make your first investment"
 	/>
 
-	{#if isMobile || isTablet}
-		<article class="-m-2" data-testid="startFirstSipPage">
-			<section class=" h-full p-3">
-				<StartFirstSipStatic class="mb-6" />
+	<article class="-m-2" data-testid="startFirstSipPage">
+		<section class=" h-full p-3">
+			<StartFirstSipStatic class="mb-6" />
 
-				<p class="mb-2 text-sm font-medium text-black-title">
-					Select a fund based on your goals and start an SIP
-				</p>
+			<p class="mb-2 text-sm font-medium text-black-title">
+				Select a fund based on your goals and start an SIP
+			</p>
 
-				{#each schemePack as scheme, index}
-					<TrendingCarouselItems
-						clazz="rounded-lg border p-3 bg-white mb-2"
-						schemes={scheme}
-						index="1"
-						on:onCardClick={() => schemeCardClicked(scheme, index + 1)}
-					>
-						<div slot="topRightSection" />
-						<div slot="cardFooter">
-							{#if scheme.riskoMeterValue}
-								<div class="mt-2 text-xs font-medium text-grey-body">
-									{scheme.riskoMeterValue}
-								</div>
-							{/if}
-						</div>
-					</TrendingCarouselItems>
-				{/each}
-			</section>
-		</article>
-	{/if}
+			{#each schemePack as scheme, index}
+				<TrendingCarouselItems
+					clazz="rounded-lg border p-3 bg-white mb-2"
+					schemes={scheme}
+					index="1"
+					on:onCardClick={() => schemeCardClicked(scheme, index + 1)}
+				>
+					<div slot="topRightSection" />
+					<div slot="cardFooter">
+						{#if scheme.riskoMeterValue}
+							<div class="mt-2 text-xs font-medium text-grey-body">
+								{scheme.riskoMeterValue}
+							</div>
+						{/if}
+					</div>
+				</TrendingCarouselItems>
+			{/each}
+		</section>
+	</article>
 {/await}

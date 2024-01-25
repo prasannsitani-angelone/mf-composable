@@ -1,10 +1,9 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import Button from '$components/Button.svelte';
-	import AskAngelIcon from '$lib/images/AskAngelIcon.svg';
 	import AskAngel from '$components/AskAngel/AskAngel.svelte';
 	import { page } from '$app/stores';
+	import Button from '$components/Button.svelte';
 
 	let showAskAngel = false;
 
@@ -24,26 +23,32 @@
 	};
 </script>
 
-<div class="my-2 flex flex-col items-start rounded-lg bg-white px-4 py-3 shadow-sm {$$props.class}">
-	<p class="text-left font-medium text-black-key">Not sure where to invest your money?</p>
-	<div class="flex items-center">
+<div class="bg-image mt-2 flex items-center rounded-lg {$$props.class}">
+	<div class="flex items-center p-4">
 		<div class="flex flex-col">
-			<p class="py-2 pr-2 text-xs text-black-bolder">
+			<p class="text-sm font-medium text-black-key">Not sure where to invest your money?</p>
+			<p class="py-1 pr-28 text-xs text-black-key">
 				Let us match you with the right investments based on your goals
 			</p>
 			<Button
-				class="!w-32 !whitespace-nowrap"
+				class="mt-1 !w-32 !whitespace-nowrap !text-xs"
 				size="sm"
-				onClick={() => handleAskAngelEntryPointClick()}>ASK ANGEL</Button
+				onClick={handleAskAngelEntryPointClick}>ASK ANGEL</Button
 			>
 		</div>
-		<div>
-			<img src={AskAngelIcon} loading="lazy" alt="Illustration showing ask angel" />
-		</div>
 	</div>
-	{#if showAskAngel}
-		<article class="fixed inset-0 left-auto top-auto">
-			<AskAngel on:closeAskAngel={onCloseAskAngel} />
-		</article>
-	{/if}
 </div>
+{#if showAskAngel}
+	<article class="fixed inset-0 left-auto top-auto">
+		<AskAngel on:closeAskAngel={onCloseAskAngel} />
+	</article>
+{/if}
+
+<style>
+	.bg-image {
+		background-image: url('$lib/images/AskAngelIcon.svg');
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center;
+	}
+</style>

@@ -9,7 +9,9 @@ export const useUserDetailsFetch = async (
 	fetch: FetchType,
 	internalBaseUrl?: string
 ) => {
-	const url = `${internalBaseUrl && !dev ? internalBaseUrl : PUBLIC_MF_CORE_BASE_URL}/user`;
+	const url = `${
+		internalBaseUrl && !dev ? internalBaseUrl : PUBLIC_MF_CORE_BASE_URL
+	}/user?cohort=true`;
 	const userDetails = await useFetch(
 		url,
 		{
