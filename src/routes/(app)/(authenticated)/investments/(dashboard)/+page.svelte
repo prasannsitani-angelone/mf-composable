@@ -40,6 +40,7 @@
 	import { INVESTMENT_TABS } from '$lib/constants/portfolio';
 	import type { FamilyMemberTypes } from '$lib/types/IFamilyPortfolio';
 	import FamilyPortfolioEntryPoint from '$components/FamilyPortfolio/FamilyPortfolioEntryPoint.svelte';
+	import { getFamilyMembers } from '$lib/api/familyPortfolio';
 
 	export let data: PageData;
 
@@ -129,7 +130,11 @@
 	};
 
 	const setFamilyMembersData = async () => {
-		const familyMembersData = await data.api.familyMembers;
+		const { token } = $page?.data || {};
+		const { clientId } = $page?.data?.profile || {};
+
+		const familyMembersData = await getFamilyMembers(token, clientId);
+
 		const selfProfile: FamilyMemberTypes = {
 			party_code: $profileStore?.clientId,
 			nickname: $page.data?.profile?.clientDetails?.fullName,

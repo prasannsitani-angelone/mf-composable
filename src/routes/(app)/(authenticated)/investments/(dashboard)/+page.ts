@@ -1,11 +1,11 @@
 import { browser } from '$app/environment';
-import { PUBLIC_MF_CORE_BASE_URL, PUBLIC_PORTFOLIO_BASE_URL } from '$env/static/public';
+import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { faqsIconClick } from '$lib/analytics/faqs/faqs';
 import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
 import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
 
-export const load = (async ({ fetch, url, parent }) => {
+export const load = (async ({ fetch, url }) => {
 	const urlParams = url.searchParams.get('param') || '';
 	const decodedParams = decodeToObject(urlParams);
 	const { type } = decodedParams || {};
@@ -74,31 +74,6 @@ export const load = (async ({ fetch, url, parent }) => {
 		});
 	};
 
-	const getFamilyMembers = async () => {
-		const parentData = await parent();
-
-		const url = `${PUBLIC_PORTFOLIO_BASE_URL}/family/v1/managemembers`;
-		const res = await useFetch(
-			url,
-			{
-				headers: {
-					token: parentData?.token
-				},
-				method: 'POST',
-				body: JSON.stringify({
-					party_code: parentData?.profile?.clientId
-				})
-			},
-			fetch
-		);
-
-		if (res?.ok) {
-			return res?.data;
-		} else {
-			return {};
-		}
-	};
-
 	return {
 		api: {
 			investment: browser ? getInvestmentData() : await getInvestmentData(),
@@ -108,8 +83,7 @@ export const load = (async ({ fetch, url, parent }) => {
 			externalInvestment: browser ? getExternalInvestmentData() : await getExternalInvestmentData(),
 			getOptimisePortfolioData: browser
 				? getOptimisePortfolioData()
-				: await getOptimisePortfolioData(),
-			familyMembers: browser ? getFamilyMembers() : await getFamilyMembers()
+				: await getOptimisePortfolioData()
 		},
 		isExternal,
 		layoutConfig: {
