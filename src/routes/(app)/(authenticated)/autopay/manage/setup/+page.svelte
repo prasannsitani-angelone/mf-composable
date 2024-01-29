@@ -52,10 +52,10 @@
 		const os = deviceType?.osName || deviceType?.os;
 		if (paramMode && allowedPaymentMethods?.includes(paramMode)) {
 			mode = paramMode;
-		} else if ((os === 'Android' || os === 'iOS') && allowedPaymentMethods?.includes('GOOGLEPAY')) {
-			mode = 'GOOGLEPAY';
 		} else if ((os === 'Android' || os === 'iOS') && allowedPaymentMethods?.includes('PHONEPE')) {
 			mode = 'PHONEPE';
+		} else if ((os === 'Android' || os === 'iOS') && allowedPaymentMethods?.includes('GOOGLEPAY')) {
+			mode = 'GOOGLEPAY';
 		} else if (allowedPaymentMethods?.includes('UPI')) {
 			mode = 'UPI';
 		} else if (allowedPaymentMethods?.includes('NET_BANKING')) {
@@ -102,6 +102,9 @@
 				}
 			}
 		}
+		allowedPaymentMethods = $paymentAppStore.allPaymentApps.filter((value) =>
+			allowedPaymentMethods.includes(value)
+		);
 		assignDefaultMode();
 	};
 
@@ -229,9 +232,7 @@
 					{onSuccessPopupClick}
 					{mode}
 					{updateMode}
-					allowedPaymentMethods={$paymentAppStore.allPaymentApps.filter((value) =>
-						allowedPaymentMethods.includes(value)
-					)}
+					{allowedPaymentMethods}
 					onAccChange={onAccountChange}
 					{os}
 				/>

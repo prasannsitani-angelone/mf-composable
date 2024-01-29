@@ -235,6 +235,7 @@
 	let previousWrongBankFailedPayment = false;
 
 	let integeratedFlow = {
+		enabled: false,
 		isIntegeratedFlow: false,
 		visible: false,
 		integeratedFlowFunc: () => undefined,
@@ -1737,10 +1738,7 @@
 	};
 
 	const isAppEligibleForIntegeratedFlow = () => {
-		if (
-			paymentHandler.paymentMode === 'GOOGLEPAY' ||
-			(paymentHandler.paymentMode === 'PHONEPE' && os?.toLowerCase() === 'android')
-		) {
+		if (paymentHandler.paymentMode === 'GOOGLEPAY' || paymentHandler.paymentMode === 'PHONEPE') {
 			return true;
 		}
 		return false;
@@ -1749,7 +1747,7 @@
 	const isIntegeratedFlowFunc = async () => {
 		let isIntegeratedFlow = false;
 		let normalFlow = true;
-		if (version === 'B' && !mandateId && !integeratedFlowError.occured) {
+		if (integeratedFlow.enabled && version === 'B' && !mandateId && !integeratedFlowError.occured) {
 			showLoading('Gathering Info');
 			const response = await Promise.all([getMandateOptions(), getMandateDetails()]);
 			stopLoading();
