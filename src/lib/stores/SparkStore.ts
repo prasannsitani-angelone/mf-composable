@@ -20,6 +20,7 @@ export interface SparkStore {
 	paymentapps: string;
 	sessionId: string;
 	linkedmembers: LinkedMembersHeaderTypes;
+	isTabView: boolean;
 }
 
 export interface LinkedMembersHeaderTypes {
@@ -46,7 +47,8 @@ const initalStore: SparkStore = {
 	sessionId: '',
 	linkedmembers: {
 		selected: []
-	}
+	},
+	isTabView: false
 };
 
 const parseLinkedMember = (linkedmembers: string) => {
@@ -96,7 +98,8 @@ function Store() {
 					isAngelBeeIosUser,
 					isTWA,
 					isWebView,
-					linkedmembers
+					linkedmembers,
+					isTabView: consolidated?.isTabView
 				};
 			});
 		},
@@ -140,7 +143,8 @@ function Store() {
 			});
 
 			return query;
-		}
+		},
+		isTabview: () => sparkStore?.isTabView
 	};
 }
 

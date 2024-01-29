@@ -60,6 +60,8 @@
 		actionCentreClick
 	} from '$lib/analytics/pendingActionCenter/analytics';
 	import { cohorts, cohorts_LF } from '$lib/constants/cohorts';
+	import SearchComponent from '$components/Search/SearchComponent.svelte';
+	import Link from '$components/Link.svelte';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -315,7 +317,6 @@
 			exitNudgeStore.setShown();
 		}
 	});
-
 	export let data: PageData;
 </script>
 
@@ -333,6 +334,20 @@
 			stories={storiesData?.stories}
 			version="A"
 		/>
+	{/if}
+
+	<!-- 2. Search section -->
+	{#if $appStore.isTabView}
+		<Link
+			to={`/search`}
+			ariaLabel="search"
+			class="row-start-{placementMapping?.search?.rowStart} col-start-{placementMapping?.search
+				?.columnStart}"
+		>
+			<SearchComponent class="mt-2 rounded-3xl bg-white" searchInputClass="!border-0">
+				<div slot="defaultResult" />
+			</SearchComponent>
+		</Link>
 	{/if}
 
 	{#if notifData?.totalCount > 0 && placementMapping?.actions}
