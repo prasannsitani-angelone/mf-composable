@@ -46,7 +46,7 @@
 
 <style>
 	.bg-image {
-		background-image: url('$lib/images/StartFirstSip.svg');
+		background-image: url('../../images/StartFirstSip.svg');
 		background-repeat: no-repeat;
 		background-size: cover;
 		background-position: center;

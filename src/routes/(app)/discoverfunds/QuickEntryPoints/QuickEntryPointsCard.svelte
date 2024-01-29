@@ -1,29 +1,35 @@
 <script lang="ts">
 	import Link from '$components/Link.svelte';
+	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	export let title = '';
+	export let subtitle = '';
 	export let to = '';
-	export let comingSoon = false;
+	export let liveNFO = 0;
 	export let preloadData = 'hover';
 	export let onLinkClicked: () => void = () => undefined;
 </script>
 
-<Link {to} {preloadData} disableRedirect={comingSoon} on:linkClicked={onLinkClicked}>
-	<div class="flex flex-col rounded-lg bg-white pt-2">
-		<div class="pl-4 pr-2">
-			<div class="flex flex-row justify-between">
+<Link {to} {preloadData} on:linkClicked={onLinkClicked}>
+	<div class="flex items-center justify-between bg-white p-4 {$$props.class}">
+		<div class="flex pr-4">
+			<div class="flex justify-between">
 				<slot name="icon" />
-				{#if comingSoon}
-					<div
-						class="flex h-fit items-center justify-center rounded-[32px] bg-red-errorDark px-4 py-0.5 text-center text-[10px] font-medium text-white"
-					>
-						Coming Soon
-					</div>
-				{/if}
 			</div>
-			<div class="mt-2 text-sm font-medium text-black-key">
-				{title}
+			<div class="mt-2 px-3 text-sm font-medium text-black-key">
+				<p>{title}</p>
+				<p class="font-normal">{subtitle}</p>
 			</div>
+		</div>
+		<div class="flex items-center">
+			{#if liveNFO}
+				<div
+					class="mr-1 h-4 w-12 items-center rounded-lg bg-red-card text-center text-[10px] text-white"
+				>
+					Live ({liveNFO})
+				</div>
+			{/if}
+			<WMSIcon name="right-arrow" stroke="#3F5BD9" />
 		</div>
 		<slot name="bottomLayer" />
 	</div>

@@ -46,7 +46,7 @@
 
 <style>
 	.bg-image {
-		background-image: url('$lib/images/AskAngelIcon.svg');
+		background-image: url('../../../lib/images/AskAngelIcon.svg');
 		background-repeat: no-repeat;
 		background-size: cover;
 		background-position: center;

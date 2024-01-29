@@ -1,15 +1,19 @@
 <script setup lang="ts">
 	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
-	import GainArrowIcon from '$lib/images/icons/GainArrowIcon.svelte';
-	import LossArrowIcon from '$lib/images/icons/LossArrowIcon.svelte';
 	import VerticalLineSeparatorIcon from '$lib/images/icons/VerticalLineSeparatorIcon.svelte';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import Button from '$components/Button.svelte';
-	import { PortfolioCard } from 'svelte-components';
+	import { PortfolioCard, WMSIcon } from 'svelte-components';
 	import type { InvestmentSummary } from '$lib/types/IInvestments';
 	import { viewPortfolioAnalysisAnalytics } from '../../../routes/(app)/(authenticated)/investments/analytics';
+
+	let showInfo = false;
+
+	const toggleInfo = () => {
+		showInfo = !showInfo;
+	};
 
 	const viewPortfolioAnalysisAnalyticsFunc = () => {
 		const eventMetaData = {
@@ -39,27 +43,59 @@
 	export let investmentSummary: InvestmentSummary;
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<div on:click={navigateToInvestments} class="block cursor-pointer">
-	<PortfolioCard class="pb-4 pt-6 lg:p-6 {$$props.class || ''}">
-		<section class=" flex items-center justify-between lg:mx-0">
+<div class="block cursor-pointer">
+	<PortfolioCard class="p-4 {$$props.class || ''}" variant="secondary">
+		<section class="flex items-center justify-between sm:hidden lg:mx-0">
 			<article class="flex flex-col items-start">
-				<div class="text-xs md:text-sm">Total Invested</div>
-				<div class="text-[18px] font-normal md:text-xl">
-					₹{investmentSummary?.investedValue
-						? addCommasToAmountString(investmentSummary?.investedValue?.toFixed(2))
+				<div class="text-xs md:text-sm">Current Value</div>
+				<div class="font-normal md:text-xl">
+					₹{investmentSummary?.currentValue
+						? addCommasToAmountString(investmentSummary?.currentValue?.toFixed(2))
 						: '0.00'}
 				</div>
 			</article>
 
 			<article class="flex flex-col items-end">
-				<div class="text-xs md:text-sm">Current Value</div>
-				<div class="text-[18px] font-normal md:text-xl">
+				<div class="text-xs md:text-sm">Total Returns</div>
+				<div class="items-center font-normal md:text-xl">
+					{investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
+						? '-'
+						: ''}₹{investmentSummary?.returnsValue
+						? addCommasToAmountString(Math.abs(investmentSummary?.returnsValue)?.toFixed(2))
+						: '0.00'}
+					<span
+						class={investmentSummary?.returnsValue && investmentSummary.returnsValue >= 0
+							? 'text-xs text-green-buy'
+							: 'text-xs text-red-sell'}
+						>({investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
+							? '-'
+							: '+'}{investmentSummary?.returnsAbsolutePer
+							? Math.abs(investmentSummary?.returnsAbsolutePer)?.toFixed(2)
+							: '0.00'}%)</span
+					>
+				</div>
+			</article>
+		</section>
+
+		<section class="hidden justify-between pb-1 sm:flex lg:mx-0">
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<!-- svelte-ignore a11y-no-static-element-interactions -->
+			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+			<article on:click={navigateToInvestments} class="flex flex-col items-start">
+				<div class="text-xs">Current Value</div>
+				<div class="text-lg font-normal">
 					₹{investmentSummary?.currentValue
 						? addCommasToAmountString(investmentSummary?.currentValue?.toFixed(2))
 						: '0.00'}
 				</div>
+			</article>
+
+			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<article class="flex flex-col items-start" on:click={toggleInfo}>
+				{#if showInfo}<WMSIcon name="arrow-collapse" width={12} height={8} stroke="#FFFFFF" />
+				{:else}<WMSIcon name="arrow-expand" width={12} height={8} stroke="#FFFFFF" />
+				{/if}
 			</article>
 		</section>
 
@@ -69,27 +105,20 @@
 			>
 				<article>Explore funds and start investing today</article>
 			</section>
-		{:else}
+		{:else if showInfo}
 			<section
-				class={`my-4 flex items-center justify-around rounded-lg bg-white bg-opacity-10 px-3 py-4 md:my-6 md:py-3.5 lg:mx-0 ${
+				class={`flex items-center justify-between rounded-lg bg-white bg-opacity-10 p-3 ${
 					discoverPage ? 'max-sm:hidden' : ''
 				}`}
 			>
-				<article class="flex flex-col items-center">
-					<div class="flex items-center justify-around text-xs">
-						{#if investmentSummary?.returnsValue && investmentSummary.returnsValue >= 0}
-							<GainArrowIcon class="mr-1.5" />
-						{:else}
-							<LossArrowIcon class="mr-1.5" />
-						{/if}
-						<span class="text-[11px] md:text-xs"> Total Returns </span>
-					</div>
-					<div class="mx-1 mt-2 text-center text-xs md:text-sm">
+				<article class="flex flex-col text-left">
+					<div class="flex text-xs">Total Invested</div>
+					<div class="mt-1">
 						<span class="mr-1 font-normal">
-							{investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
+							{investmentSummary?.investedValue && investmentSummary.investedValue < 0
 								? '-'
-								: ''}₹{investmentSummary?.returnsValue
-								? addCommasToAmountString(Math.abs(investmentSummary?.returnsValue)?.toFixed(2))
+								: ''}₹{investmentSummary?.investedValue
+								? addCommasToAmountString(Math.abs(investmentSummary?.investedValue)?.toFixed(2))
 								: '0.00'}
 						</span>
 						<span>
@@ -106,65 +135,24 @@
 						<VerticalLineSeparatorIcon />
 					</div>
 				</article>
-				<article class="flex flex-col items-center">
-					<div class="flex items-center justify-around text-xs">
-						{#if investmentSummary?.previousDayReturns && investmentSummary.previousDayReturns >= 0}
-							<GainArrowIcon class="mr-1.5" />
-						{:else}
-							<LossArrowIcon class="mr-1.5" />
-						{/if}
-						<span class="text-[11px] md:text-xs"> 1 Day Return </span>
-					</div>
-					<div class="mx-1 mt-2 text-center text-xs md:text-sm">
-						<span class="mr-1 font-normal">
-							{investmentSummary?.previousDayReturns && investmentSummary.previousDayReturns < 0
-								? '-'
-								: ''}₹{investmentSummary?.previousDayReturns
-								? addCommasToAmountString(
-										Math.abs(investmentSummary?.previousDayReturns)?.toFixed(2)
-								  )
-								: '0.00'}
-						</span>
-						<span>
-							({investmentSummary?.previousDayReturns && investmentSummary.previousDayReturns < 0
-								? '-'
-								: '+'}{investmentSummary?.previousDayReturnPercentage
-								? Math.abs(investmentSummary?.previousDayReturnPercentage)?.toFixed(2)
-								: '0.00'}%)
-						</span>
-					</div>
-				</article>
-			</section>
-
-			<section>
-				<article
-					class={`ml-4 mr-3 mt-3 hidden items-baseline justify-between border-t border-neutral-100 border-opacity-10 ${
-						discoverPage ? 'max-sm:flex' : ''
-					}`}
-				>
-					<div class="flex items-center justify-around text-xs">
-						{#if investmentSummary?.returnsValue && investmentSummary.returnsValue >= 0}
-							<GainArrowIcon class="mr-1.5" />
-						{:else}
-							<LossArrowIcon class="mr-1.5" />
-						{/if}
-						<span class="text-[11px] md:text-xs"> Total Returns </span>
-					</div>
-					<div class="mx-1 mt-2 text-center text-xs md:text-sm">
-						<span class="mr-1 font-normal">
-							{investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
-								? '-'
-								: ''}₹{investmentSummary?.returnsValue
-								? addCommasToAmountString(Math.abs(investmentSummary?.returnsValue)?.toFixed(2))
-								: '0.00'}
-						</span>
-						<span>
-							({investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
+				<article class="flex flex-col items-end text-right">
+					<div class="flex text-xs">Total Returns</div>
+					<div class="mt-1">
+						{investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
+							? '-'
+							: ''}₹{investmentSummary?.returnsValue
+							? addCommasToAmountString(Math.abs(investmentSummary?.returnsValue)?.toFixed(2))
+							: '0.00'}
+						<span
+							class={investmentSummary?.returnsValue && investmentSummary.returnsValue >= 0
+								? 'text-xs text-green-buy'
+								: 'text-xs text-red-sell'}
+							>({investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
 								? '-'
 								: '+'}{investmentSummary?.returnsAbsolutePer
 								? Math.abs(investmentSummary?.returnsAbsolutePer)?.toFixed(2)
-								: '0.00'}%)
-						</span>
+								: '0.00'}%)</span
+						>
 					</div>
 				</article>
 			</section>
@@ -180,9 +168,10 @@
 					<Button
 						onClick={onGoToPortfolioClick}
 						variant="transparent"
-						class=" px-17 flex !h-auto !w-full cursor-pointer items-center justify-center pt-4 text-center text-sm font-medium hover:border-white hover:outline-white lg:rounded lg:border lg:border-white lg:py-4"
+						size="sm"
+						class="px-17 flex !h-auto !w-full cursor-pointer items-center justify-center pt-4 text-center text-sm font-medium"
 					>
-						<span class=" text-white"> VIEW PORTFOLIO ANALYSIS </span>
+						<span class="text-white"> VIEW PORTFOLIO ANALYSIS </span>
 						<RightIcon class="ml-2" stroke="white" />
 					</Button>
 					<!-- </Button> -->

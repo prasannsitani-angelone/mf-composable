@@ -549,8 +549,8 @@
 	{/if}
 	{#if placementMapping?.buyPortfolioCard}
 		<BuyPortfolio
-			class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
-				?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
+			class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} {placementMapping
+				?.buyPortfolioCard?.rowStart > 1
 				? 'mt-2'
 				: ''}"
 		/>
