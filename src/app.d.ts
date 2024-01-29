@@ -59,6 +59,7 @@ declare global {
 			searchDashboardData: DiscoverFund;
 			layoutConfig: LayoutConfig;
 		}
+		// interface PageState {}
 		// interface Platform {}
 	}
 }

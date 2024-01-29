@@ -3,13 +3,13 @@
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import AddToCart from '$components/AddToCart.svelte';
-	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import GreenUpArrowTrendingFund from '$lib/images/GreenUpArrowTrendingFund.svg';
 	import PeopleIcon from '$lib/images/PeopleIcon.svg';
 	import { createEventDispatcher } from 'svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
+	import { modifiedGoto } from '$lib/utils/goto';
 
 	export let schemes: WeeklyTopSchemesEntity;
 	export let clazz = '';
@@ -30,7 +30,7 @@
 			investmentType: 'SIP',
 			paymentMandatory: true
 		})}`;
-		goto(schemeDetailsPath);
+		modifiedGoto(schemeDetailsPath);
 		dispatch('onCardClick');
 	}
 </script>

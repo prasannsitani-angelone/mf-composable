@@ -3,6 +3,7 @@
 	import { tabClickNavigationAnalytics } from '$lib/analytics/DiscoverFunds';
 	import { cartStore } from '$lib/stores/CartStore';
 	import type { IBottomNavItem } from '$lib/types/IBottomNavItem';
+	import Link from './Link.svelte';
 	export let navs: IBottomNavItem[];
 
 	const bottomNavClickAnalytics = (label: string) => {
@@ -20,10 +21,11 @@
 	<div id="tabs" class="flex items-baseline justify-between text-grey-disabled">
 		{#each navs as nav (nav.path)}
 			{@const isActive = $page.url.pathname === nav.path}
-			<a
-				href={nav.path}
-				on:click={() => bottomNavClickAnalytics(nav.label)}
+			<Link
+				to={nav.path}
+				on:linkClicked={() => bottomNavClickAnalytics(nav.label)}
 				class="inline-block w-full justify-center py-3 text-center"
+				pathConversion={false}
 			>
 				<img
 					width={nav.width}
@@ -38,7 +40,7 @@
 						isActive ? 'text-blue-primary' : 'text-black-bolder'
 					}`}>{nav.label} {nav.label === 'Cart' ? '(' + $cartStore.count + ')' : ''}</span
 				>
-			</a>
+			</Link>
 		{/each}
 	</div>
 </section>

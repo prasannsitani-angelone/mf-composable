@@ -1,6 +1,5 @@
 <script setup lang="ts">
 	import { base } from '$app/paths';
-	import { goto } from '$app/navigation';
 	import VerticalLineSeparatorIcon from '$lib/images/icons/VerticalLineSeparatorIcon.svelte';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
@@ -8,6 +7,7 @@
 	import { PortfolioCard, WMSIcon } from 'svelte-components';
 	import type { InvestmentSummary } from '$lib/types/IInvestments';
 	import { viewPortfolioAnalysisAnalytics } from '../../../routes/(app)/(authenticated)/investments/analytics';
+	import { modifiedGoto } from '$lib/utils/goto';
 
 	let showInfo = false;
 
@@ -31,12 +31,12 @@
 
 	const onGoToPortfolioClick = (e: MouseEvent) => {
 		e.stopPropagation();
-		goto(`${base}/investments/portfolio`);
+		modifiedGoto(`${base}/investments/portfolio`);
 		viewPortfolioAnalysisAnalyticsFunc();
 	};
 
 	const navigateToInvestments = () => {
-		goto(`${base}/investments`);
+		modifiedGoto(`${base}/investments`);
 	};
 
 	export let discoverPage = false;

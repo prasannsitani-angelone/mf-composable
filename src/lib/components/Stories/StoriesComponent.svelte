@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
 	import Button from '$components/Button.svelte';
@@ -19,6 +18,7 @@
 	} from '$lib/analytics/stories/stories';
 	import VideoPlayer from './VideoPlayer.svelte';
 	import logger from '$lib/utils/logger';
+	import { modifiedGoto } from '$lib/utils/goto';
 
 	export let stories: Array<Story>;
 	export let version: string;
@@ -51,7 +51,7 @@
 		const currentPath = window?.location?.pathname;
 		const redirectPath = `${currentPath}?storyPlayer=true`;
 
-		goto(redirectPath);
+		modifiedGoto(redirectPath);
 	};
 
 	const playStoryVideo = (
@@ -169,7 +169,7 @@
 		ctaClickAnalyticsFunc();
 
 		if (selectedStory?.ctaUrl?.length) {
-			goto(`${base}${selectedStory?.ctaUrl}`);
+			modifiedGoto(`${base}${selectedStory?.ctaUrl}`);
 		}
 	};
 

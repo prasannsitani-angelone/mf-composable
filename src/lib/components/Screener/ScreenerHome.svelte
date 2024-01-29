@@ -5,19 +5,19 @@
 	import type { ScreenedSchemes } from '$lib/types/Screener';
 	import ScreenerTable from './ScreenerTable.svelte';
 	import { WMSIcon, Button } from 'svelte-components';
-	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import QuickFilter from './QuickFilter.svelte';
 	import { topfilterClick, viewallfundsClick } from '$lib/analytics/filters/filters';
 	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
 	import SomethingWentWrongSmall from '$components/Error/SomethingWentWrongSmall.svelte';
+	import { modifiedGoto } from '$lib/utils/goto';
 
 	let screenedSchemes: ScreenedSchemes[];
 	let loading = true;
 	let dataFetchFailed = false;
 	const navigateToFilters = async () => {
 		topfilterClick({ source: 'Homepage' });
-		await goto(`${base}/filters`);
+		await modifiedGoto(`${base}/filters`);
 	};
 
 	const navigateToFilteredItems = async (source?: 'Homepage' | 's_Eexploremutualfunds') => {
@@ -26,7 +26,7 @@
 				source
 			});
 		}
-		await goto(`${base}/filters/items`);
+		await modifiedGoto(`${base}/filters/items`);
 	};
 
 	onMount(async () => {

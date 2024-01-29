@@ -1,7 +1,7 @@
 <script lang="ts">
+	import Link from '$components/Link.svelte';
 	import type { CategoryOptionsEntity, DashboardCategoryEntity } from '$lib/types/IDiscoverFunds';
 	import { getCategoriesFundsNavigationPath } from '$lib/utils';
-	import { Link } from 'svelte-components';
 	import { exploreMFFilter } from '../../../routes/(app)/explorefunds/[slug]/analytics';
 
 	export let category: DashboardCategoryEntity;

@@ -44,7 +44,6 @@
 	import CategoriesComponent from './CategoriesComponent.svelte';
 	import { askAngelEntryImpressionAnalytics } from '$lib/analytics/askangel/askangel';
 	import { ctNudgeStore } from '$lib/stores/CtNudgeStore';
-	import { goto } from '$app/navigation';
 	import ClevertapNudgeComponent from '$components/clevertap/ClevertapNudgeComponent.svelte';
 	import Clevertap from '$lib/utils/Clevertap';
 	import { schemeScreenerStore } from '$lib/stores/SchemeScreenerStore';
@@ -62,6 +61,7 @@
 	import { cohorts, cohorts_LF } from '$lib/constants/cohorts';
 	import SearchComponent from '$components/Search/SearchComponent.svelte';
 	import Link from '$components/Link.svelte';
+	import { modifiedGoto } from '$lib/utils/goto';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -384,7 +384,7 @@
 					<Button
 						size="sm"
 						onClick={() => {
-							goto(`${base}/pendingActions`);
+							modifiedGoto(`${base}/pendingActions`);
 							actionCentreClick({ text: notifText });
 						}}>ACT NOW</Button
 					>
@@ -423,7 +423,7 @@
 				class="row-start-{placementMapping?.ctNudge?.rowStart} col-start-{placementMapping?.ctNudge
 					?.columnStart} {placementMapping?.ctNudge?.rowStart > 1 ? '!mt-2' : ''} rounded-lg"
 				data={$ctNudgeStore}
-				on:onCTAClicked={(e) => goto(e.detail.url)}
+				on:onCTAClicked={(e) => modifiedGoto(e.detail.url)}
 			/>
 		{/if}
 	{/if}
@@ -555,7 +555,7 @@
 				<ClevertapNudgeComponent
 					class="row-start-{placementMapping?.ctNudge?.rowStart} mt-2 w-full rounded-lg"
 					data={$ctNudgeStore}
-					on:onCTAClicked={(e) => goto(e.detail.url)}
+					on:onCTAClicked={(e) => modifiedGoto(e.detail.url)}
 				/>
 			{/if}
 			{#if data?.searchDashboardData?.amcAd && placementMapping?.promotionCard}

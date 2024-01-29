@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import AskAngel from '$components/AskAngel/AskAngel.svelte';
 	import { page } from '$app/stores';
 	import Button from '$components/Button.svelte';
+	import { modifiedGoto } from '$lib/utils/goto';
 
 	let showAskAngel = false;
 
@@ -12,7 +12,7 @@
 
 	const handleAskAngelEntryPointClick = () => {
 		if (isMobile || isTablet) {
-			goto(`${base}/askangel`);
+			modifiedGoto(`${base}/askangel`);
 		} else {
 			showAskAngel = true;
 		}

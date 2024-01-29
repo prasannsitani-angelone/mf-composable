@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { base } from '$app/paths';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName.js';
-	import { goto } from '$app/navigation';
 	import type { CategorySubOptionsEntity } from '$lib/types/IDiscoverFunds';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { createEventDispatcher } from 'svelte';
 	import { WMSIcon } from 'svelte-components';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
+	import { modifiedGoto } from '$lib/utils/goto';
 	export let schemeData: CategorySubOptionsEntity;
 	export let parentCategoryId: string;
 	const MAX_RETURN_FILTER_ID = '107';
@@ -22,7 +22,7 @@
 			investmentType: 'SIP',
 			paymentMandatory: true
 		})}`;
-		await goto(schemeDetailsPath);
+		await modifiedGoto(schemeDetailsPath);
 		dispatch('subCategoryClicked', {
 			subCategory: schemeData
 		});

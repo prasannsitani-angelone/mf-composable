@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { WMSIcon } from 'svelte-components';
 	import { onMount } from 'svelte';
@@ -9,6 +8,7 @@
 	} from '$lib/analytics/startFirstSip/startFirstSip';
 	import { BtnSize } from 'svelte-components';
 	import ButtonMedium from '$components/ButtonMedium.svelte';
+	import { modifiedGoto } from '$lib/utils/goto';
 
 	export let version: string;
 
@@ -16,7 +16,7 @@
 		firstSipCardGetStartedButtonClickAnalytics({ version });
 
 		const redirectUrl = `${base}/startfirstsip`;
-		goto(redirectUrl);
+		modifiedGoto(redirectUrl);
 	};
 
 	onMount(() => {

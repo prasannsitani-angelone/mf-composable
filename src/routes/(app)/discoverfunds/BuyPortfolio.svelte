@@ -1,11 +1,11 @@
 <script>
-	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { buildPortfolioCardClicked } from '$lib/analytics/buyPortfolio/buyPortfolio';
 	import Button from '$components/Button.svelte';
+	import { modifiedGoto } from '$lib/utils/goto';
 
 	const goToBuyPortfolio = () => {
-		goto(`${base}/buyPortfolio`);
+		modifiedGoto(`${base}/buyPortfolio`);
 		buildPortfolioCardClicked();
 	};
 </script>

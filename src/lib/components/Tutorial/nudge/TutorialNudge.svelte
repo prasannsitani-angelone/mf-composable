@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { WMSIcon } from 'svelte-components';
 	import NudgeIcon from '$components/Tutorial/nudge/NudgeIcon.svelte';
-	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
+	import { modifiedGoto } from '$lib/utils/goto';
 
 	export let title = 'Mutual Funds: Explained';
 	export let subTitle = 'Everything you need to know about mutual funds to start investing';
 
 	const toGoToTutorialDetails = async () => {
-		await goto(`${base}/tutorials`);
+		await modifiedGoto(`${base}/tutorials`);
 	};
 </script>
 
