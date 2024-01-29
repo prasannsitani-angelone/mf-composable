@@ -78,9 +78,10 @@
 	let start4SipsNudgeData: Start4SipsNudgeType;
 	let userEducationNudge: UserEducationNudgeType;
 	let notifData: INotificationSummary;
-	let user_cohort = $page?.data?.userDetails?.cohort?.length
-		? $page?.data?.userDetails?.cohort[0]
-		: 'Fallback';
+	let user_cohort =
+		$page?.data?.userDetails?.cohort?.length && $page?.data?.userDetails?.cohort[0]
+			? $page?.data?.userDetails?.cohort[0]
+			: 'Fallback';
 	let placementMapping = {};
 	if ($page.data.deviceType?.isMobile || $page.data.deviceType?.isTablet) {
 		placementMapping = cohorts[user_cohort].placementMapping;
