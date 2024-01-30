@@ -130,7 +130,7 @@
 	};
 
 	const setFamilyMembersData = async () => {
-		const { token } = $page?.data || {};
+		const token = $page?.data?.tokenObj?.userToken?.NTAccessToken;
 		const { clientId } = $page?.data?.profile || {};
 
 		const familyMembersData = await getFamilyMembers(token, clientId);
