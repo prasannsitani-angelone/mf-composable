@@ -32,6 +32,7 @@
 					selected={selected?.mandateId === mandate.mandateId}
 					onSelect={() => onChange(mandate)}
 					showExtraInfo={false}
+					showPayCta={false}
 					class="first:rounded-t-lg last:rounded-b-lg"
 				>
 					<div slot="icon" class="flex h-8 w-11 items-center justify-center rounded-sm">

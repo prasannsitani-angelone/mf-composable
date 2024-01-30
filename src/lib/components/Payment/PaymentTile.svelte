@@ -23,6 +23,7 @@
 	export let submitButtonText = '';
 	export let subIdentifier = '';
 	export let showExtraInfo = true;
+	export let showPayCta = true;
 
 	export let onSelect: (identifier: string, subIdentifier: string) => void = () => undefined;
 	export let onSubmit: (text: string, subIdentifier: string) => void = () => undefined;
@@ -141,18 +142,20 @@
 					{/if}
 				</div>
 			{/if}
-			<Button
-				class="rounded"
-				disabled={!amount?.length ||
-					isLoading ||
-					isSchemeDisabled ||
-					paymentModeStatus === PAYMENT_MODE_STATUS?.disabled}
-				onClick={() => onSubmit(inputText, subIdentifier)}
-			>
-				{submitButtonText
-					? submitButtonText
-					: `PAY ${amount?.length ? `₹${addCommasToAmountString(amount)}` : ''}`}
-			</Button>
+			{#if showPayCta}
+				<Button
+					class="rounded"
+					disabled={!amount?.length ||
+						isLoading ||
+						isSchemeDisabled ||
+						paymentModeStatus === PAYMENT_MODE_STATUS?.disabled}
+					onClick={() => onSubmit(inputText, subIdentifier)}
+				>
+					{submitButtonText
+						? submitButtonText
+						: `PAY ${amount?.length ? `₹${addCommasToAmountString(amount)}` : ''}`}
+				</Button>
+			{/if}
 		</div>
 	{/if}
 </div>
