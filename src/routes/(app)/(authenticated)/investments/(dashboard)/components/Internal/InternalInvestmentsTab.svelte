@@ -123,9 +123,8 @@
 		}
 	};
 
-	handleFamilyPortfolioData();
-
 	onMount(() => {
+		handleFamilyPortfolioData();
 		initializeClevertapData();
 
 		return () => {
