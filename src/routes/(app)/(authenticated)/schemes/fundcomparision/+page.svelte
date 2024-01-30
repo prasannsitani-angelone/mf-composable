@@ -569,7 +569,9 @@
 {:then}
 	<div class="flex flex-col gap-2 sm:gap-6">
 		<div class="sticky -top-2 z-60 -mb-6 flex border-b border-grey-line bg-white">
-			<div class=" flex flex-[4] p-2 sm:flex-[5] md:p-4" />
+			<div class=" flex flex-[4] items-center p-2 text-xs text-black-bolder sm:flex-[5] md:p-4">
+				Add funds to compare
+			</div>
 			{#each schemeDetailsList as schemeDetails, idx (idx)}
 				<div class="flex flex-[5] items-center justify-center border-l border-grey-line p-2 md:p-4">
 					<FundOverviewTile
