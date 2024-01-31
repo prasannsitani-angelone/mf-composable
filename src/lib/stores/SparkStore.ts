@@ -87,7 +87,10 @@ function Store() {
 					typeof consolidated?.linkedmembers === 'string'
 						? parseLinkedMember(consolidated?.linkedmembers)
 						: consolidated?.linkedmembers;
-
+				const isTabView =
+					typeof consolidated?.isTabView === 'boolean'
+						? consolidated?.isTabView
+						: consolidated?.isTabView === 'true';
 				return {
 					...consolidated,
 					platform,
@@ -99,7 +102,7 @@ function Store() {
 					isTWA,
 					isWebView,
 					linkedmembers,
-					isTabView: consolidated?.isTabView
+					isTabView
 				};
 			});
 		},
