@@ -36,9 +36,9 @@
 		</div>
 
 		<ButtonMedium
-			size={BtnSize.SM}
+			size={BtnSize.XS}
 			onClick={redirectToStartFirstSipLandingPage}
-			class="z-0 w-fit px-6 text-xs"
+			class="z-0 w-fit px-2 text-xs"
 		>
 			INVEST NOW
 		</ButtonMedium>

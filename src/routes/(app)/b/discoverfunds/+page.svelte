@@ -567,23 +567,22 @@
 	{/if}
 	{#if placementMapping?.setupAutopay}
 		<SetupAutopayNudge
-			class="row-start-{placementMapping?.setupAutopay?.rowStart} col-start-{placementMapping
-				?.setupAutopay?.columnStart} {placementMapping?.setupAutopay?.rowStart > 1 ? 'mt-2' : ''}"
+			class="row-start-{placementMapping?.setupAutopay?.rowStart} {placementMapping?.setupAutopay
+				?.rowStart > 1
+				? 'mt-2'
+				: ''}"
 		/>
 	{/if}
 	{#if placementMapping?.buyPortfolioCard}
 		<BuyPortfolio
-			class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
-				?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
+			class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} {placementMapping
+				?.buyPortfolioCard?.rowStart > 1
 				? 'mt-2'
 				: ''}"
 		/>
 	{/if}
 	{#if data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN && placementMapping?.askAngel}
-		<AskAngel
-			class="row-start-{placementMapping.askAngel?.rowStart} col-start-{placementMapping?.askAngel
-				?.columnStart}"
-		/>
+		<AskAngel class="row-start-{placementMapping.askAngel?.rowStart}" />
 	{/if}
 </article>
 

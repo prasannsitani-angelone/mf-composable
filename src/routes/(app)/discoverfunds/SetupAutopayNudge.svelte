@@ -17,7 +17,7 @@
 			<p class="py-1 pr-28 text-xs text-black-key">
 				Automate all your SIP payments in 2 simple steps
 			</p>
-			<Button size="sm" onClick={goToSetupAutopay} class="mr-4 mt-1 w-fit px-6 text-xs">
+			<Button size="xs" onClick={goToSetupAutopay} class="mr-4 mt-1 w-fit px-2 text-xs">
 				SET UP AUTOPAY
 			</Button>
 		</div>

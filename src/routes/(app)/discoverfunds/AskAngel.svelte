@@ -33,8 +33,8 @@
 				Let us match you with the right investments based on your goals
 			</p>
 			<Button
-				class="mt-1 !w-32 !whitespace-nowrap !text-xs"
-				size="sm"
+				class="mt-1 !w-fit !whitespace-nowrap !text-xs"
+				size="xs"
 				onClick={handleAskAngelEntryPointClick}>ASK ANGEL</Button
 			>
 		</div>

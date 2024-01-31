@@ -19,7 +19,7 @@
 			<p class="py-1 pr-28 text-xs text-black-key">
 				Select a portfolio based on expected returns and maximise performance
 			</p>
-			<Button size="sm" onClick={goToBuyPortfolio} class="mr-4 mt-1 w-fit px-6 text-xs">
+			<Button size="xs" onClick={goToBuyPortfolio} class="mr-4 mt-1 w-fit px-2 text-xs">
 				EXPLORE NOW
 			</Button>
 		</div>
