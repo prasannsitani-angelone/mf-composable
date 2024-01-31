@@ -129,8 +129,7 @@ export const load = async ({ fetch, url, depends }) => {
 		},
 		layoutConfig: {
 			layoutType: 'FULL_HEIGHT_WITHOUT_PADDING',
-			title: 'Order Summary',
-			showBackIcon: true
+			title: 'Order Summary'
 		}
 	};
 };

@@ -30,7 +30,7 @@
 	</div>
 	<div class="pb-2 pt-2 text-start">
 		<div
-			class="mb-1 text-xs {item?.currentState ? 'font-medium' : 'font-normal'} text-black-title
+			class="mb-1 text-xs {item?.currentState ? 'font-medium' : 'font-normal'} text-black-key
 			{item.status === STATUS_ARR.NONE ? 'text-grey-body' : ''}
 			{item.status === STATUS_ARR.FAILED ? 'text-red-sell' : ''}
 			{item.status === STATUS_ARR.PAYMENT_PENDING ? 'text-yellow-primary' : ''}"

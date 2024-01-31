@@ -227,6 +227,13 @@ export const load = async ({ fetch, url, parent, depends }) => {
 					}
 				];
 				headerContent.status = STATUS_ARR.SUCCESS;
+			} else if (data?.isFtpWithMandate) {
+				headerContent.subHeadingArr = [
+					{
+						text: 'SIP amount will be debited from your Autopay bank account within 3 working days',
+						class: ''
+					}
+				];
 			}
 
 			getAutopayTimelineItems(
@@ -303,6 +310,10 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			headerContent.heading = 'SWP Order Placed';
 		}
 
+		if (headerContent.status == STATUS_ARR.PENDING) {
+			headerContent.heading = 'Order Pending';
+		}
+
 		return {
 			amount,
 			schemeCardItems,
@@ -343,8 +354,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			showFaqIcon: true,
 			faqParams,
 			onClickFaqsIcon,
-			faqIconStroke: '#3F5BD9',
-			showBackIcon: true
+			faqIconStroke: '#3F5BD9'
 		}
 	};
 };

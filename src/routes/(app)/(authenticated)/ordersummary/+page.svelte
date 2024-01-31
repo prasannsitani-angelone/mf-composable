@@ -166,7 +166,10 @@
 				<header class="hidden sm:block">
 					<PageTitle title="Order Summary" class="-mx-2 !mt-2 mb-3">
 						<svelte:fragment slot="leftTitle">
-							<div class="text-lg font-medium text-black-key">Order Summary</div>
+							<div class="ml-4 text-lg font-medium text-black-key">Order Summary</div>
+						</svelte:fragment>
+						<svelte:fragment slot="leftIcon">
+							<span />
 						</svelte:fragment>
 					</PageTitle>
 				</header>
@@ -181,6 +184,7 @@
 				<div class="flex flex-1 flex-col overflow-auto px-2">
 					<OrderStatus
 						class="mt-3"
+						cardHeading={isSIPOrder && !firstTimePayment ? 'Order Details' : 'Order Status'}
 						schemeData={{
 							amount,
 							schemeName: schemeDetails?.schemeName,
@@ -189,6 +193,7 @@
 						statusData={orderSummaryData?.statusHistoryItems}
 						showTimeline={true}
 						collapsibleTimeline={!orderSummaryData?.emandateBankDetails &&
+							!isLumpsumOrder &&
 							!isRedeem &&
 							!isSwitch &&
 							!isSwp}
