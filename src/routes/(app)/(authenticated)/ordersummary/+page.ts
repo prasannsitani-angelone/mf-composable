@@ -188,6 +188,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 				});
 			}
 			if (isLumpsumOrder) {
+				headerContent.heading = 'One Time Order Placed Successfully';
 				amount = `₹${addCommasToAmountString(data?.amount)}`;
 				schemeCardItems.push({
 					title: 'One Time Investment Amount',

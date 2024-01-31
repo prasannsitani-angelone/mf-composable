@@ -196,7 +196,8 @@
 							!isLumpsumOrder &&
 							!isRedeem &&
 							!isSwitch &&
-							!isSwp}
+							!isSwp &&
+							!isLumpsumOrder}
 						{isRedeem}
 						{isSwitch}
 						{isSwp}

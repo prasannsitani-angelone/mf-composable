@@ -53,7 +53,7 @@ export const load = async ({ fetch, url, depends }) => {
 			if (response.ok) {
 				const data = response?.data?.data;
 				if (data?.paymentStatus?.toUpperCase() === STATUS_ARR.SUCCESS) {
-					headerContent.heading = 'Order Placed Successfully';
+					headerContent.heading = 'Order Placed';
 					headerContent.subHeadingArr = [
 						{
 							text: `Your portfolio will be updated by ${format(
@@ -64,7 +64,6 @@ export const load = async ({ fetch, url, depends }) => {
 						}
 					];
 					headerContent.status = STATUS_ARR.SUCCESS;
-					headerContent.subHeaderClass = 'bg-green-buy/10';
 				} else if (data?.paymentStatus?.toUpperCase() === STATUS_ARR.FAILURE) {
 					headerContent.heading = 'Order Failed';
 					headerContent.subHeadingArr = [
@@ -74,7 +73,6 @@ export const load = async ({ fetch, url, depends }) => {
 						}
 					];
 					headerContent.status = STATUS_ARR.FAILED;
-					headerContent.subHeaderClass = 'bg-yellow-secondary/20';
 				} else if (data?.paymentStatus?.toUpperCase() === STATUS_ARR.PENDING) {
 					headerContent.heading = 'Order Pending';
 					headerContent.subHeadingArr = [
@@ -84,7 +82,6 @@ export const load = async ({ fetch, url, depends }) => {
 						}
 					];
 					headerContent.status = STATUS_ARR.PENDING;
-					headerContent.subHeaderClass = 'bg-yellow-secondary/20';
 				}
 
 				data?.checkedOutItems.map((item) => {
