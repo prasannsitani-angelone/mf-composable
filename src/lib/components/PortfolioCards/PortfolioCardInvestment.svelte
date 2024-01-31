@@ -166,7 +166,7 @@
 			{#if !cardCollapsed}
 				{@const log = logToggleCardExpandedEvent()}
 				<div class=" mt-4 flex w-full">
-					<article class="flex-1 border-r border-dashed border-grey-dashed text-left">
+					<article class="flex-1 border-r border-grey-dashed text-left">
 						<div
 							data-testid="xirrCardTitle"
 							class="investment-xirr flex items-center text-xs font-normal"

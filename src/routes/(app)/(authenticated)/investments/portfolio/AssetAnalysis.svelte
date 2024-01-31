@@ -520,7 +520,7 @@
 			<GraphTableChart
 				type="category"
 				parentId="categoriesDistributionChart"
-				subLabel="Equity vs Debt"
+				subLabel="Equity vs Non-Equity"
 				nameColumnHeader="Category"
 				nameColumnHeaderForFunds="Equity Funds"
 				footerText="Funds"
@@ -561,7 +561,7 @@
 							disabled={debtTotalAmount <= 0}
 							onClick={() => toggleEquityDebt('DEBT')}
 						>
-							Debt
+							Non-Equity
 						</Button>
 					</article>
 				</article>
@@ -589,7 +589,7 @@
 							disabled={debtTotalAmount <= 0}
 							onClick={() => toggleEquityDebt('DEBT')}
 						>
-							Debt ({debtTotalPercentage?.toFixed(2)}%)
+							Non-Equity ({debtTotalPercentage?.toFixed(2)}%)
 						</Button>
 					</article>
 				</article>
