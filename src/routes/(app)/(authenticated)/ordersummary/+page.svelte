@@ -2,11 +2,10 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import type { PageData } from './$types';
-	import Header from './Header/HeaderComponent.svelte';
 	import { format } from 'date-fns';
 	import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
-	import SchemeCard from './SchemeCard/SchemeCard.svelte';
-	import OrderStatusCard from './OrderStatusCard/OrderStatusCard.svelte';
+	import OrderSummaryHeader from '$components/OrderSummary/OrderSummaryHeader.svelte';
+	import OrderStatus from '$components/OrderSummary/OrderStatus.svelte';
 	import AutopayTile from './AutopayEnabledTile/AutopayEnabledTile.svelte';
 	import Button from '$components/Button.svelte';
 	import { onMount } from 'svelte';
@@ -16,13 +15,25 @@
 	import { invalidate } from '$app/navigation';
 	import { SEO } from 'svelte-components';
 	import { ORDER_STATUS } from '$lib/constants/orderFlowStatuses';
-	import OrdersAutoPayComponent from '$components/AutopaySetupTile/OrdersAutoPayComponent.svelte';
 	import { base } from '$app/paths';
+	import PageTitle from '$components/PageTitle.svelte';
+	import AutopayTimeLineCard from './AutopayTimeLine/AutopayTimeLineCard.svelte';
 	export let data: PageData;
 
 	const params = $page.url.searchParams.get('params') || '';
 	const decodedParams = decodeToObject(params);
-	const { firstTimePayment, orderID, sipID, amount, date, isIntegeratedFlow } = decodedParams;
+	const {
+		firstTimePayment,
+		orderID,
+		sipID,
+		amount,
+		date,
+		isIntegeratedFlow,
+		isRedeem,
+		isSwitch,
+		isSwp,
+		isLumpsumViaMandate
+	} = decodedParams;
 
 	let orderStatusString = '';
 	let paymentStatusString = '';
@@ -138,35 +149,59 @@
 
 <SEO seoTitle="Order Summary | Angel One" seoDescription="Summary of your Investment" />
 
-<article class="flex h-full flex-col justify-center">
+<article class="flex h-full flex-col justify-center md:pb-4">
 	{#await data.api.data}
 		<LoadingIndicator svgClass="!w-12 !h-12" class="self-center" />
 	{:then orderSummaryData}
 		{#if orderSummaryData.ok}
-			<div class="flex h-full flex-col overflow-hidden">
-				<Header
-					heading={orderSummaryData.headerContent?.heading}
-					subHeadingArr={orderSummaryData.headerContent?.subHeadingArr}
-					subHeaderClass={orderSummaryData.headerContent?.subHeaderClass}
-					status={orderSummaryData.headerContent?.status}
-					clazz="sm:ml-2 sm:mr-2 border-b border-grey-line sm:border-b-0"
+			{@const { headerContent, schemeDetails, amount } = orderSummaryData}
+			{@const {
+				schemeName,
+				toSchemeName,
+				amount: switchAmount
+			} = orderSummaryData?.orderData?.data?.data || {}}
+			<div
+				class="flex h-[calc(100vh-56px)] flex-col overflow-hidden sm:h-full md:rounded-lg md:bg-white md:p-2"
+			>
+				<header class="hidden sm:block">
+					<PageTitle title="Order Summary" class="-mx-2 !mt-2 mb-3">
+						<svelte:fragment slot="leftTitle">
+							<div class="text-lg font-medium text-black-key">Order Summary</div>
+						</svelte:fragment>
+					</PageTitle>
+				</header>
+
+				<OrderSummaryHeader
+					heading={headerContent?.heading}
+					subHeadingArr={headerContent?.subHeadingArr}
+					subHeaderClass={headerContent?.subHeaderClass}
+					status={headerContent?.status}
+					class="sm:ml-2 sm:mr-2"
 				/>
 				<div class="flex flex-1 flex-col overflow-auto px-2">
-					<SchemeCard
-						logoUrl={orderSummaryData.schemeDetails?.logoUrl}
-						schemePlan={orderSummaryData.schemeDetails?.schemePlan}
-						schemeName={orderSummaryData.schemeDetails?.schemeName}
-						schemeCardItems={orderSummaryData.schemeCardItems}
-						clazz="mt-2 shadow-csm"
+					<OrderStatus
+						class="mt-3"
+						schemeData={{
+							amount,
+							schemeName: schemeDetails?.schemeName,
+							logoUrl: schemeDetails?.logoUrl
+						}}
+						statusData={orderSummaryData?.statusHistoryItems}
+						showTimeline={true}
+						collapsibleTimeline={!orderSummaryData?.emandateBankDetails &&
+							!isRedeem &&
+							!isSwitch &&
+							!isSwp}
+						{isRedeem}
+						{isSwitch}
+						{isSwp}
+						switchData={{
+							schemeName,
+							toSchemeName,
+							amount: switchAmount
+						}}
 					/>
-					{#if orderSummaryData.sipData?.data?.data?.isFtpWithMandate || (firstTimePayment && orderSummaryData?.paymentStatus && orderSummaryData?.paymentStatus !== 'pending')}
-						<OrderStatusCard
-							statusHistoryItems={orderSummaryData?.statusHistoryItems}
-							heading={orderSummaryData?.statusCardHeading}
-							clazz="!mt-2"
-						/>
-					{/if}
-					{#if orderSummaryData.emandateBankDetails && isSIPOrder}
+					{#if orderSummaryData.emandateBankDetails && (isSIPOrder || isLumpsumViaMandate)}
 						<AutopayTile
 							bankLogo={orderSummaryData.emandateBankDetails?.bankLogo}
 							bankName={orderSummaryData.emandateBankDetails?.bankName}
@@ -174,50 +209,41 @@
 							isFtpWithMandate={orderSummaryData.sipData?.data?.data?.isFtpWithMandate}
 							clazz="mt-2"
 						/>
-						{#if firstTimePayment}
-							<Button
-								variant="transparent"
-								class="mt-6 w-max self-center"
-								onClick={navigateToOrders}
-							>
-								GO TO ORDERS
-							</Button>
-						{:else}
-							<Button
-								variant="transparent"
-								class="mt-6 w-max self-center"
-								onClick={navigateToSipBook}
-							>
-								GO TO SIPS
-							</Button>
-						{/if}
-					{:else if isSIPOrder && orderSummaryData?.paymentStatus === 'success'}
-						<OrdersAutoPayComponent class="mt-2" {amount} on:autoPayClick={navigateToEmandate} />
-					{:else if isSIPOrder}
-						<OrdersAutoPayComponent class="mt-2" {amount} on:autoPayClick={navigateToEmandate} />
-						{#if firstTimePayment}
-							<Button
-								variant="transparent"
-								class="mt-6 w-max self-center"
-								onClick={navigateToOrders}
-							>
-								GO TO ORDERS
-							</Button>
-						{:else}
-							<Button
-								variant="transparent"
-								class="mt-6 w-max self-center"
-								onClick={navigateToSipBook}
-							>
-								GO TO SIPS
-							</Button>
-						{/if}
-					{:else if isLumpsumOrder}
-						<Button variant="transparent" class="mt-6 w-max self-center" onClick={navigateToOrders}>
-							GO TO ORDERS
-						</Button>
 					{/if}
 				</div>
+				<section class="sticky bottom-0 flex flex-col bg-white shadow-top sm:shadow-none">
+					{#if !orderSummaryData.emandateBankDetails && isSIPOrder}
+						<AutopayTimeLineCard
+							autopayTimelineItems={orderSummaryData.autopayTimelineItems}
+							class="px-4"
+						/>
+					{/if}
+					<section class="px-4 py-3 shadow-top sm:self-end sm:px-0 sm:shadow-none md:pb-2 md:pt-4">
+						{#if isSIPOrder && !firstTimePayment && orderSummaryData.emandateBankDetails}
+							<Button
+								variant="outlined"
+								class="w-full self-end sm:w-[328px] md:mr-2"
+								onClick={navigateToSipBook}
+							>
+								GO TO SIPS
+							</Button>
+						{:else if isSIPOrder && !orderSummaryData.emandateBankDetails}
+							<Button
+								variant="contained"
+								onClick={navigateToEmandate}
+								class="w-full self-end sm:w-[328px] md:mr-2">SET UP AUTOPAY</Button
+							>
+						{:else}
+							<Button
+								variant="outlined"
+								class="w-full self-end sm:w-[328px] md:mr-2"
+								onClick={navigateToOrders}
+							>
+								GO TO ORDERS
+							</Button>
+						{/if}
+					</section>
+				</section>
 			</div>
 		{:else}
 			<div class="flex h-full flex-col items-center self-center px-4 py-4">

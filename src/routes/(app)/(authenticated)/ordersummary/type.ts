@@ -15,6 +15,11 @@ export interface StatusHistoryItem {
 	showSubTitle?: boolean;
 }
 
+export interface AutopayTimelineItems {
+	status: string;
+	title: string;
+}
+
 export interface SchemeCardItems {
 	value: string;
 	title: string;
@@ -22,4 +27,10 @@ export interface SchemeCardItems {
 
 export interface SIPData {
 	startDate?: string;
+}
+
+export interface OrderSummarySchemeDataTypes {
+	amount?: string;
+	schemeName?: string;
+	logoUrl?: string;
 }

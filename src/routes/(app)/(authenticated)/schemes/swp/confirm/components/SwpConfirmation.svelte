@@ -42,6 +42,7 @@
 	import InfoModal from '$components/InfoModal.svelte';
 	import TncModal from '$components/TnC/TncModal.svelte';
 	import { format } from 'date-fns';
+	import { encodeObject } from '$lib/utils/helpers/params';
 
 	let schemeData: SchemeDetails;
 	let holdingDetails: FolioHoldingType;
@@ -205,8 +206,14 @@
 			res?.data?.status?.toUpperCase() === STATUS_ARR?.SUCCESS &&
 			res?.data?.data?.orderId !== undefined
 		) {
-			const path = `/ordersummary/redeem/${res?.data?.data?.orderId}`;
-			goto(`${base}${path}`, { replaceState: true });
+			const params = encodeObject({
+				orderID: res?.data?.data?.orderId,
+				isSwp: true
+			});
+
+			goto(`${base}/ordersummary?params=${params}`, {
+				replaceState: true
+			});
 		} else {
 			error.visible = true;
 			error.heading = 'Order Failed';

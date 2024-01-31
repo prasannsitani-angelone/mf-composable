@@ -3,13 +3,14 @@
 	import { base } from '$app/paths';
 	import Button from '$components/Button.svelte';
 	import { onMount } from 'svelte';
-	import HeaderComponent from '../../ordersummary/Header/HeaderComponent.svelte';
+	import OrderSummaryHeader from '$components/OrderSummary/OrderSummaryHeader.svelte';
 	import OrdersTile from '../components/OrdersTile.svelte';
 	import type { PageData } from './$types';
 	import { goToOrders, mountAnalytics } from '../analytics/ordersummary';
 	import OrderSummaryLoader from '../components/OrderSummaryLoader.svelte';
-	import OrdersAutoPayComponent from '$components/AutopaySetupTile/OrdersAutoPayComponent.svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
+	import PageTitle from '$components/PageTitle.svelte';
+	import AutopayTimeLineCard from '../../ordersummary/AutopayTimeLine/AutopayTimeLineCard.svelte';
 
 	export let data: PageData;
 
@@ -43,13 +44,22 @@
 		<OrderSummaryLoader />
 	{:then ordersData}
 		{#if ordersData.ok}
-			<div class="flex h-full flex-col overflow-hidden sm:h-max sm:overflow-auto">
-				<HeaderComponent
+			<div
+				class="flex h-[calc(100vh-56px)] flex-col overflow-hidden bg-white sm:h-full sm:overflow-auto md:rounded-lg md:p-2"
+			>
+				<header class="hidden sm:block">
+					<PageTitle title="Order Summary" class="-mx-2 !mt-2 mb-3">
+						<svelte:fragment slot="leftTitle">
+							<div class="text-lg font-medium text-black-key">Order Summary</div>
+						</svelte:fragment>
+					</PageTitle>
+				</header>
+				<OrderSummaryHeader
 					heading={ordersData.headerContent?.heading}
 					subHeadingArr={ordersData.headerContent?.subHeadingArr}
 					subHeaderClass={ordersData.headerContent?.subHeaderClass}
 					status={ordersData.headerContent?.status}
-					clazz="border-b border-grey-line sm:border-b-0"
+					class="sm:ml-2 sm:mr-2"
 				/>
 				<div
 					class="my-2 ml-2 mr-2 flex flex-1 flex-col overflow-auto sm:m-0 sm:my-3 sm:flex-initial sm:overflow-visible"
@@ -57,17 +67,34 @@
 					<OrdersTile
 						items={ordersData?.data?.data?.checkedOutItems?.length}
 						totalAmount={ordersData.totalAmount}
-						onClick={navigateToOrders}
 						schemeLogoUrl={ordersData.schemeLogoUrl}
 					/>
+				</div>
+				<section class="sticky bottom-0 flex flex-col bg-white shadow-top sm:shadow-none">
 					{#if !ordersData.isMandateLinked && ordersData.investmentType === 'SIP'}
-						<OrdersAutoPayComponent
-							amount={ordersData.totalAmount}
-							class="mt-2"
-							on:autoPayClick={() => navigateToEmandate(ordersData.totalAmount)}
+						<AutopayTimeLineCard
+							autopayTimelineItems={ordersData.autopayTimelineItems}
+							class="px-4 sm:px-0"
 						/>
 					{/if}
-				</div>
+					<section class="px-4 py-3 shadow-top sm:self-end sm:px-0 sm:shadow-none md:pb-2 md:pt-4">
+						{#if !ordersData.isMandateLinked && ordersData.investmentType === 'SIP'}
+							<Button
+								variant="contained"
+								onClick={navigateToEmandate}
+								class="w-full self-end sm:w-[328px]">SET UP AUTOPAY</Button
+							>
+						{:else}
+							<Button
+								variant="outlined"
+								class="w-full self-end sm:w-[328px]"
+								onClick={navigateToOrders}
+							>
+								GO TO ORDERS
+							</Button>
+						{/if}
+					</section>
+				</section>
 			</div>
 		{:else}
 			<div class="flex h-full flex-col items-center self-center px-4 py-4">

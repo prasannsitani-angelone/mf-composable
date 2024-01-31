@@ -4,11 +4,33 @@ import { useFetch } from '$lib/utils/useFetch';
 import { hydrate } from '$lib/utils/helpers/hydrated';
 import STATUS_ARR from '$lib/constants/orderFlowStatuses';
 import { format } from 'date-fns';
+import type { AutopayTimelineItems } from '../../ordersummary/type';
 
 export const load = async ({ fetch, url, depends }) => {
 	const params = url.searchParams.get('params');
 	const decodedParams = decodeToObject(params);
 	const { orderID } = decodedParams;
+	const autopayTimelineItems: Array<AutopayTimelineItems> = [];
+
+	const getAutopayTimelineItems = (currentStatus: string) => {
+		const status = currentStatus;
+		const futurePaymentMonths = 3;
+
+		autopayTimelineItems.push({
+			title: `${new Date()?.toLocaleDateString('en-US', { month: 'short' })}`,
+			status: status
+		});
+
+		const temp = new Date();
+		for (let i = 0; i < futurePaymentMonths; i++) {
+			temp?.setMonth(temp.getMonth() + 1);
+			const status = i === 0 ? STATUS_ARR.FAILED : STATUS_ARR.NONE;
+			autopayTimelineItems.push({
+				title: `${temp?.toLocaleDateString('en-US', { month: 'short' })}`,
+				status: status
+			});
+		}
+	};
 
 	const getOrderDetailsFunc = async () => {
 		const headerContent: Record<string, string | Array<Record<string, string>>> = {
@@ -74,6 +96,8 @@ export const load = async ({ fetch, url, depends }) => {
 							? 'SIP'
 							: 'LUMPSUM';
 				});
+
+				getAutopayTimelineItems(headerContent?.status);
 			}
 
 			return {
@@ -82,7 +106,8 @@ export const load = async ({ fetch, url, depends }) => {
 				investmentType,
 				totalAmount,
 				isMandateLinked,
-				schemeLogoUrl
+				schemeLogoUrl,
+				autopayTimelineItems
 			};
 		} catch (e) {
 			return {
@@ -90,7 +115,8 @@ export const load = async ({ fetch, url, depends }) => {
 				investmentType,
 				totalAmount,
 				isMandateLinked,
-				schemeLogoUrl
+				schemeLogoUrl,
+				autopayTimelineItems
 			};
 		}
 	};
@@ -103,7 +129,8 @@ export const load = async ({ fetch, url, depends }) => {
 		},
 		layoutConfig: {
 			layoutType: 'FULL_HEIGHT_WITHOUT_PADDING',
-			title: 'Order Summary'
+			title: 'Order Summary',
+			showBackIcon: true
 		}
 	};
 };

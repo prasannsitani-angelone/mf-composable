@@ -69,7 +69,8 @@
 	const navigateToLumpsumCompletePage = async (orderId: number) => {
 		const params = encodeObject({
 			orderID: orderId,
-			firstTimePayment: true
+			firstTimePayment: true,
+			isLumpsumViaMandate: true
 		});
 
 		goto(`${base}/ordersummary?params=${params}`, {

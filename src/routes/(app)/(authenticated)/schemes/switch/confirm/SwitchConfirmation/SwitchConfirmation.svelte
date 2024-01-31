@@ -41,6 +41,7 @@
 	import InterAmcSwitchCue from './InterAmcSwitchCue.svelte';
 	import type { IMandateDetails } from '$lib/types/IEmandate';
 	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
+	import { encodeObject } from '$lib/utils/helpers/params';
 
 	let showTpinVerificationModal = false;
 	let showOtpVerificationModal = false;
@@ -151,8 +152,14 @@
 				purchaseResult?.data?.status?.toUpperCase() === STATUS_ARR?.SUCCESS &&
 				redeemResult?.data?.data?.orderId !== undefined
 			) {
-				const path = `${base}/orders/redeem/${redeemResult?.data?.data?.orderId}`;
-				goto(`${path}`);
+				const params = encodeObject({
+					orderID: redeemResult?.data?.data?.orderId,
+					isSwitch: true
+				});
+
+				goto(`${base}/ordersummary?params=${params}`, {
+					replaceState: true
+				});
 			} else {
 				error.visible = true;
 				error.heading = 'Order Failed';
@@ -189,8 +196,14 @@
 				res?.data?.status?.toUpperCase() === STATUS_ARR?.SUCCESS &&
 				res?.data?.data?.orderId !== undefined
 			) {
-				const path = `${base}/orders/redeem/${res?.data?.data?.orderId}`;
-				goto(`${path}`);
+				const params = encodeObject({
+					orderID: res?.data?.data?.orderId,
+					isSwitch: true
+				});
+
+				goto(`${base}/ordersummary?params=${params}`, {
+					replaceState: true
+				});
 			} else {
 				error.visible = true;
 				error.heading = 'Order Failed';

@@ -44,7 +44,7 @@
 		withdrawInfoAnalytics
 	} from '$lib/analytics/redemption/redemption';
 	import { page } from '$app/stores';
-	import { decodeToObject } from '$lib/utils/helpers/params';
+	import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
 
 	export let holdingDetails: FolioHoldingType;
 	export let bankAccounts: Array<BankDetailsEntity>;
@@ -179,8 +179,14 @@
 			res?.data?.status?.toUpperCase() === STATUS_ARR?.SUCCESS &&
 			res?.data?.data?.orderId !== undefined
 		) {
-			const path = `/ordersummary/redeem/${res?.data?.data?.orderId}`;
-			goto(`${base}${path}`, { replaceState: true });
+			const params = encodeObject({
+				orderID: res?.data?.data?.orderId,
+				isRedeem: true
+			});
+
+			goto(`${base}/ordersummary?params=${params}`, {
+				replaceState: true
+			});
 		} else {
 			error.visible = true;
 			error.heading = 'Order Failed';

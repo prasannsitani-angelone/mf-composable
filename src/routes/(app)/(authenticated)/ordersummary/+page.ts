@@ -1,32 +1,30 @@
-import { PUBLIC_MF_ANDROID_APN, PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
-import { decodeToObject } from '$lib/utils/helpers/params';
+import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
 import { useFetch } from '$lib/utils/useFetch';
 import { hydrate } from '$lib/utils/helpers/hydrated';
-import type { SchemeCardItems, SIPData } from './type';
+import type { AutopayTimelineItems, SchemeCardItems, SIPData } from './type';
 import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 import { STATUS_ARR } from './constant';
 import { format } from 'date-fns';
 import type { BankDetailsEntity } from '$lib/types/IUserProfile';
-import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
-import { base } from '$app/paths';
-import { shareMessage } from '$lib/utils/share';
-import { shouldDisplayShare } from '$lib/utils';
-import { shareOrderSummaryClickAnalytics } from '$lib/analytics/orders/orders';
+import { ORDER_STATUS } from '$lib/constants/orderFlowStatuses';
+import { faqsIconClick } from '$lib/analytics/faqs/faqs';
 
 export const load = async ({ fetch, url, parent, depends }) => {
 	const params = url.searchParams.get('params');
 	const decodedParams = decodeToObject(params);
 	const { profile } = await parent();
-	const { orderID, sipID, firstTimePayment } = decodedParams;
+	const { orderID, sipID, firstTimePayment, isRedeem, isSwitch, isSwp } = decodedParams;
 	const isLumpsumOrder = orderID && !sipID;
 	const isSIPOrder = (orderID && sipID) || (!firstTimePayment && sipID);
-	let schemeData: Record<string, string>;
-	const parentData = await parent();
-	let installmentAmount = 0;
-	const showShare = shouldDisplayShare(parentData);
+	const autopayTimelineItems: Array<AutopayTimelineItems> = [];
+	let tag = 'orders';
+	let isInvestmentSipOrXsip = false;
+	let faqParams;
+
 	const getOrderDetailsFunc = async () => {
 		try {
-			if (firstTimePayment) {
+			if (firstTimePayment || isRedeem || isSwitch || isSwp) {
 				const response = await useFetch(
 					`${PUBLIC_MF_CORE_BASE_URL}/orders/${orderID}?statusHistory=true`,
 					{},
@@ -67,25 +65,36 @@ export const load = async ({ fetch, url, parent, depends }) => {
 		});
 	};
 
-	const onClickShareIcon = async () => {
-		shareOrderSummaryClickAnalytics({
-			Fundname: schemeData?.schemeName,
-			Amount: addCommasToAmountString(installmentAmount),
-			ISIN: schemeData?.isin,
-			InvestmentType: isSIPOrder ? 'SIP' : 'OTI',
-			FirstSipPayment: firstTimePayment
+	const getAutopayTimelineItems = (
+		nextSipDate: number,
+		firstOrderToday: boolean,
+		currentStatus: string
+	) => {
+		const nextSipDueDate = new Date(nextSipDate);
+		const status = currentStatus;
+		const futurePaymentMonths = firstOrderToday ? 3 : 4;
+
+		if (firstOrderToday) {
+			autopayTimelineItems.push({
+				title: `${new Date()?.toLocaleDateString('en-US', { month: 'short' })}`,
+				status: status
+			});
+		}
+
+		for (let i = 0; i < futurePaymentMonths; i++) {
+			const temp = new Date(nextSipDueDate?.setMonth(nextSipDueDate.getMonth() + i));
+			const status = i === 0 ? STATUS_ARR.FAILED : STATUS_ARR.NONE;
+			autopayTimelineItems.push({
+				title: `${temp?.toLocaleDateString('en-US', { month: 'short' })}`,
+				status: status
+			});
+		}
+	};
+
+	const onClickFaqsIcon = () => {
+		faqsIconClick({
+			Source: 'OrderSummary'
 		});
-		const link = `https://angeloneapp.page.link/?link=${parentData.scheme}//${
-			parentData.host
-		}${base}/schemes/${normalizeFundName(
-			schemeData?.schemeName,
-			schemeData?.isin,
-			schemeData?.schemeCode
-		)}&apn=${PUBLIC_MF_ANDROID_APN}`;
-		const message = {
-			text: `Hey, I just invested in the ${schemeData?.schemeName}. Join me in investing on Angel One - ${link}`
-		};
-		shareMessage(message);
 	};
 
 	const getAPIData = async () => {
@@ -95,6 +104,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 		const schemeCardItems: Array<SchemeCardItems> = [];
 		const schemeDetails: Record<string, string> = {};
 		const statusHistoryItems: Array<Record<string, any>> = [];
+		let amount = '';
 		let statusCardHeading = '';
 		const headerContent: Record<string, any> = {
 			heading: '',
@@ -109,11 +119,12 @@ export const load = async ({ fetch, url, parent, depends }) => {
 				let previousStepCurrentState: number | null = null;
 				data.statusHistory.forEach((item: Record<string, any>, index: number) => {
 					let status = STATUS_ARR.NONE;
-					let subTitle = `Estimated by: ${format(new Date(item.timeStamp), 'dd MMMM yyyy')}`;
+					let subTitle = `Estimated by: ${format(new Date(item.timeStamp), 'dd MMM yyyy')}`;
+					const currentState = item?.currentState || false;
 					if (isNull(previousStepCurrentState) && item.failed) {
 						status = STATUS_ARR.FAILED;
 						statusCardHeading = item.description;
-						subTitle = format(new Date(item.timeStamp), 'dd MMMM yyyy hh:mm a');
+						subTitle = format(new Date(item.timeStamp), 'dd MMM yyyy, hh:mm a');
 					} else if (isNull(previousStepCurrentState) && item.currentState) {
 						previousStepCurrentState = index;
 						statusCardHeading = item.description;
@@ -121,12 +132,13 @@ export const load = async ({ fetch, url, parent, depends }) => {
 					} else if (isNull(previousStepCurrentState)) {
 						status = STATUS_ARR.SUCCESS;
 						statusCardHeading = item.description;
-						subTitle = format(new Date(item.timeStamp), 'dd MMMM yyyy hh:mm a');
+						subTitle = format(new Date(item.timeStamp), 'dd MMM yyyy, hh:mm a');
 					}
 					statusHistoryItems.push({
 						title: item.description,
 						subTitle,
-						status
+						status,
+						currentState
 					});
 				});
 				statusHistoryItems.forEach((item, index) => {
@@ -140,9 +152,8 @@ export const load = async ({ fetch, url, parent, depends }) => {
 								}
 							];
 							headerContent.status = STATUS_ARR.FAILED;
-							headerContent.subHeaderClass = 'bg-yellow-secondary/20';
 						} else if (item.status === STATUS_ARR.PENDING) {
-							item.status = STATUS_ARR.PAYMENT_PENDING;
+							item.status = STATUS_ARR.PENDING;
 							headerContent.heading = 'Order Pending';
 							headerContent.subHeadingArr = [
 								{
@@ -151,20 +162,18 @@ export const load = async ({ fetch, url, parent, depends }) => {
 								}
 							];
 							headerContent.status = STATUS_ARR.PENDING;
-							headerContent.subHeaderClass = 'bg-yellow-secondary/20';
 						} else if (item.status === STATUS_ARR.SUCCESS) {
 							headerContent.heading = 'Order Placed Successfully';
 							headerContent.subHeadingArr = [
 								{
 									text: `Your portfolio will be updated by ${format(
 										new Date(data.statusHistory[data.statusHistory.length - 1].timeStamp),
-										'do MMMM yyyy'
+										'dd MMM yyyy'
 									)}`,
-									class: '!text-black-title font-normal'
+									class: ''
 								}
 							];
 							headerContent.status = STATUS_ARR.SUCCESS;
-							headerContent.subHeaderClass = 'bg-green-buy/10';
 						}
 					} else if (index === 2 && item.status === STATUS_ARR.FAILED) {
 						headerContent.heading = 'Order Processing Failed by AMC';
@@ -175,12 +184,11 @@ export const load = async ({ fetch, url, parent, depends }) => {
 							}
 						];
 						headerContent.status = STATUS_ARR.FAILED;
-						headerContent.subHeaderClass = 'bg-yellow-secondary/20';
 					}
 				});
 			}
 			if (isLumpsumOrder) {
-				installmentAmount = data?.amount || 0;
+				amount = `₹${addCommasToAmountString(data?.amount)}`;
 				schemeCardItems.push({
 					title: 'One Time Investment Amount',
 					value: `₹ ${addCommasToAmountString(data?.amount)}`
@@ -195,7 +203,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 
 		if (sipData?.ok) {
 			const data = sipData?.data?.data;
-			installmentAmount = data?.installmentAmount || 0;
+			amount = `₹${addCommasToAmountString(data?.installmentAmount)}`;
 			schemeCardItems.push({
 				title: 'Amount',
 				value: `₹ ${addCommasToAmountString(data?.installmentAmount)}`
@@ -209,28 +217,94 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			schemeDetails.schemeName = data?.schemeName;
 			schemeDetails.isin = data?.isin;
 			schemeDetails.schemeCode = data?.schemeCode;
+
+			headerContent.heading = 'SIP Order Placed';
+			if (!firstTimePayment) {
+				headerContent.subHeadingArr = [
+					{
+						text: `Your first SIP payment is on ${getNextSIPDate(data)}`,
+						class: ''
+					}
+				];
+				headerContent.status = STATUS_ARR.SUCCESS;
+			}
+
+			getAutopayTimelineItems(
+				sipData?.data?.data?.nextSipDueDate,
+				sipData?.data?.data?.firstOrderToday,
+				headerContent?.status
+			);
 		}
-		if (!firstTimePayment && sipData?.ok) {
-			const data = sipData?.data?.data;
-			headerContent.heading = 'SIP Created Successfully';
-			headerContent.subHeadingArr = [
-				{
-					text: `Your first SIP payment is on ${getNextSIPDate(data)}`,
-					class: '!text-black-title font-normal'
+
+		// ** ============ FAQ tag specification ============= **
+		if (orderData?.ok) {
+			const data = orderData?.data?.data;
+			const {
+				investmentType,
+				firstOrder,
+				transactionType,
+				createdBy,
+				status: orderStatus,
+				paymentStatus
+			} = data;
+			const paymentStatusString = paymentStatus?.toUpperCase();
+
+			isInvestmentSipOrXsip =
+				investmentType?.toUpperCase() === 'SIP' || investmentType?.toUpperCase() === 'XSIP';
+			// Fetching SIP details
+			if (isInvestmentSipOrXsip) {
+				tag += '_sip';
+				if (firstOrder?.toUpperCase() === 'Y') {
+					tag += '_ftpy';
+				} else {
+					tag += '_ftpn';
 				}
-			];
-			headerContent.status = STATUS_ARR.SUCCESS;
-			headerContent.subHeaderClass = 'bg-green-buy/10';
-		} else if (sipData?.ok && sipData?.data?.data?.isFtpWithMandate) {
-			headerContent.subHeadingArr = [
-				{
-					text: 'SIP amount will be debited from your Autopay bank account within 3 working days',
-					class: '!text-black-title font-normal'
+			}
+
+			if (investmentType?.toUpperCase() === 'LUMPSUM') {
+				tag += '_lumpsum';
+			}
+
+			// Setting the Transaction Details
+			if (transactionType === 'PURCHASE') {
+				if (orderStatus === ORDER_STATUS.ORDER_REJECTED) {
+					tag += '_rejected';
 				}
-			];
+				if (
+					orderStatus?.toUpperCase() !== ORDER_STATUS.ORDER_COMPLETE &&
+					orderStatus?.toUpperCase() !== ORDER_STATUS.ORDER_REJECTED
+				) {
+					tag += '_inprogress';
+					if (paymentStatusString?.toUpperCase() === STATUS_ARR.SUCCESS) {
+						tag += '_payment_success';
+					}
+					if (paymentStatusString?.toUpperCase() === STATUS_ARR.PENDING) {
+						tag += '_payment_pending';
+					}
+				}
+				if (orderStatus?.toUpperCase() === ORDER_STATUS.ORDER_COMPLETE) {
+					tag += '_complete';
+				}
+			}
+			if (createdBy?.toLowerCase() === 'nudge') {
+				tag += '_nudge';
+			}
+			faqParams = encodeObject({
+				tag,
+				orderId: orderID
+			});
 		}
-		schemeData = schemeDetails;
+
+		if (isRedeem) {
+			headerContent.heading = 'Withdraw Order Placed';
+		} else if (isSwitch) {
+			headerContent.heading = 'Switch Order Placed';
+		} else if (isSwp) {
+			headerContent.heading = 'SWP Order Placed';
+		}
+
 		return {
+			amount,
 			schemeCardItems,
 			schemeDetails,
 			statusHistoryItems,
@@ -238,14 +312,21 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			headerContent,
 			ok:
 				(isLumpsumOrder && orderData?.ok) ||
-				(isSIPOrder && ((orderData?.ok && sipData?.ok) || (!firstTimePayment && sipData?.ok))),
+				(isSIPOrder && ((orderData?.ok && sipData?.ok) || (!firstTimePayment && sipData?.ok))) ||
+				isRedeem ||
+				isSwitch ||
+				isSwp,
 			paymentStatus: orderData?.data?.data?.paymentStatus,
 			emandateBankDetails: getBankDetailsByAccountNumber(
 				profile?.bankDetails,
 				sipData?.data?.data?.accountNo
 			),
 			orderData,
-			sipData
+			sipData,
+			autopayTimelineItems,
+			isRedeem,
+			isSwitch,
+			isSwp
 		};
 	};
 
@@ -257,9 +338,13 @@ export const load = async ({ fetch, url, parent, depends }) => {
 		},
 		layoutConfig: {
 			layoutType: 'FULL_HEIGHT_WITHOUT_PADDING',
+			layoutClass: 'bg-white md:bg-grey',
 			title: 'Order Summary',
-			showShareIcon: showShare,
-			onClickShareIcon
+			showFaqIcon: true,
+			faqParams,
+			onClickFaqsIcon,
+			faqIconStroke: '#3F5BD9',
+			showBackIcon: true
 		}
 	};
 };

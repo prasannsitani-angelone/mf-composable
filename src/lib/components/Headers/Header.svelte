@@ -38,6 +38,7 @@
 				showFaqIcon={pageMetaData?.showFaqIcon}
 				showThreeDotsIcon={pageMetaData?.showThreeDotsIcon}
 				faqParams={pageMetaData?.faqParams}
+				faqIconStroke={pageMetaData?.faqIconStroke}
 				onClickShareIcon={pageMetaData?.onClickShareIcon}
 				onThreeDotsClick={pageMetaData?.onThreeDotsClick}
 				onClickFaqsIcon={pageMetaData?.onClickFaqsIcon}

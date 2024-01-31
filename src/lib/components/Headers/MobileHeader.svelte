@@ -21,6 +21,7 @@
 	export let showShareIcon = false;
 	export let showCartIcon = false;
 	export let showFaqIcon = false;
+	export let faqIconStroke = '#2A394E';
 	export let showRightIcon = false;
 	export let faqParams = '';
 	export let titleClass = '';
@@ -144,7 +145,7 @@
 							<Link to={`/faqs?params=${faqParams}`} ariaLabel="search">
 								<WMSIcon
 									name="question-mark-point"
-									stroke="#2A394E"
+									stroke={faqIconStroke}
 									height={24}
 									width={24}
 									class="p-0.5"

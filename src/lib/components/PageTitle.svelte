@@ -20,17 +20,25 @@
 </script>
 
 <div class={`mt-3 hidden items-center justify-between lg:flex ${$$props.class || ''}`}>
-	<div class="flex items-center">
-		<Button size="xs" onClick={handleBackArrowClick} variant="transparent" class="!p-0 !pl-4">
-			<LeftArrowIcon class="mr-4 cursor-pointer" />
-		</Button>
+	<slot name="leftColumn">
+		<div class="flex items-center">
+			<slot name="leftIcon">
+				<Button size="xs" onClick={handleBackArrowClick} variant="transparent" class="!p-0 !pl-4">
+					<LeftArrowIcon class="mr-4 cursor-pointer" />
+				</Button>
+			</slot>
 
-		<div class="text-lg font-normal text-black-title">{title}</div>
-	</div>
+			<slot name="leftTitle">
+				<div class="text-lg font-normal text-black-title">{title}</div>
+			</slot>
+		</div>
+	</slot>
 
-	{#if source === 'sipBook'}
-		<Button class="border-none !bg-white px-3" onClick={() => onThreeDotsClick()}>
-			<WMSIcon name="three-vertical-dots-icon" height={15} />
-		</Button>
-	{/if}
+	<slot name="rightColumn">
+		{#if source === 'sipBook'}
+			<Button class="border-none !bg-white px-3" onClick={() => onThreeDotsClick()}>
+				<WMSIcon name="three-vertical-dots-icon" height={15} />
+			</Button>
+		{/if}
+	</slot>
 </div>
