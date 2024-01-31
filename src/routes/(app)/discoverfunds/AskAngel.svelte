@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { base } from '$app/paths';
+	import AskAngelBg from '$components/AskAngelBg.svelte';
 	import AskAngel from '$components/AskAngel/AskAngel.svelte';
 	import { page } from '$app/stores';
 	import Button from '$components/Button.svelte';
@@ -23,8 +24,9 @@
 	};
 </script>
 
-<div class="bg-image mt-2 flex items-center rounded-lg {$$props.class}">
-	<div class="flex items-center p-4">
+<div class="relative flex items-center rounded-lg {$$props.class}">
+	<div class="z-2 absolute h-full w-full"><AskAngelBg class="absolute h-full w-full" /></div>
+	<div class="z-0 flex items-center p-4">
 		<div class="flex flex-col">
 			<p class="text-sm font-medium text-black-key">Not sure where to invest your money?</p>
 			<p class="py-1 pr-28 text-xs text-black-key">
@@ -39,16 +41,7 @@
 	</div>
 </div>
 {#if showAskAngel}
-	<article class="fixed inset-0 left-auto top-auto">
+	<article class="fixed inset-0 left-auto top-auto z-0">
 		<AskAngel on:closeAskAngel={onCloseAskAngel} />
 	</article>
 {/if}
-
-<style>
-	.bg-image {
-		background-image: url('../../../lib/images/AskAngelIcon.svg');
-		background-repeat: no-repeat;
-		background-size: cover;
-		background-position: center;
-	}
-</style>

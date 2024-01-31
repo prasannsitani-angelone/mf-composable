@@ -9,6 +9,7 @@
 	import { BtnSize } from 'svelte-components';
 	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import { modifiedGoto } from '$lib/utils/goto';
+	import StartFirstSipBg from './StartFirstSipBg.svelte';
 
 	export let version: string;
 
@@ -24,31 +25,22 @@
 	});
 </script>
 
-<article
-	class="bg-image mt-2 flex flex-row items-center justify-between sm:-mx-2 {$$props.class}"
-	data-testid="startFirstSipNudge"
->
-	<div class="mr-2 flex flex-1 items-center p-4">
-		<div class="mr-1 flex h-9 w-9 items-center justify-center rounded-full bg-white p-2">
-			<WMSIcon name="angel" />
+<article class="relative mt-2 flex {$$props.class}" data-testid="startFirstSipNudge">
+	<div class="z-2 absolute h-full w-full"><StartFirstSipBg class="absolute h-full w-full" /></div>
+	<div class="z-0 flex w-full flex-row items-center justify-between px-3 sm:-mx-2">
+		<div class="mr-2 flex flex-1 items-center p-4">
+			<div class="mr-1 flex h-9 w-9 items-center justify-center rounded-full bg-white p-2">
+				<WMSIcon name="angel" />
+			</div>
+			<p class="pl-1 text-sm text-black-key">Start your first SIP with Angel One today!</p>
 		</div>
-		<p class="pl-1 text-sm text-black-key">Start your first SIP with Angel One today!</p>
+
+		<ButtonMedium
+			size={BtnSize.SM}
+			onClick={redirectToStartFirstSipLandingPage}
+			class="z-0 w-fit px-6 text-xs"
+		>
+			INVEST NOW
+		</ButtonMedium>
 	</div>
-
-	<ButtonMedium
-		size={BtnSize.SM}
-		onClick={redirectToStartFirstSipLandingPage}
-		class="z-0 mr-4 w-fit px-6 text-xs"
-	>
-		INVEST NOW
-	</ButtonMedium>
 </article>
-
-<style>
-	.bg-image {
-		background-image: url('../../images/StartFirstSip.svg');
-		background-repeat: no-repeat;
-		background-size: cover;
-		background-position: center;
-	}
-</style>

@@ -5,7 +5,6 @@
 	import AddToCart from '$components/AddToCart.svelte';
 	import { base } from '$app/paths';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
-	import GreenUpArrowTrendingFund from '$lib/images/GreenUpArrowTrendingFund.svg';
 	import PeopleIcon from '$lib/images/PeopleIcon.svg';
 	import { createEventDispatcher } from 'svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
@@ -38,7 +37,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div on:click={gotoSchemeDetails} class={`flex cursor-pointer flex-col ${clazz}`}>
-	<div class="mb-3 flex flex-row items-start">
+	<div class="mb-3 flex flex-row items-start px-3">
 		<SchemeLogo
 			size="sm"
 			src={schemes?.logoUrl}
@@ -63,7 +62,7 @@
 	<div class="flex flex-col border-t">
 		<slot name="details">
 			<div
-				class="relative mt-2 w-full overflow-hidden {schemes?.noOfClientInvested
+				class="relative mt-2 w-full overflow-hidden px-1 {schemes?.noOfClientInvested
 					? ''
 					: 'rounded-b'}"
 			>
@@ -83,16 +82,12 @@
 						<div class="flex flex-col items-end">
 							<p class="text-xs font-normal">3 Year Returns</p>
 							<div class="flex flex-row items-center">
-								<img
-									src={GreenUpArrowTrendingFund}
-									class="mr-1 h-3 w-2.5"
-									decoding="async"
-									alt="Trending Funds Up Arrow"
-									width="10"
-									height="12"
-								/>
 								<p class="text-xs font-normal">
-									<span class="text-base font-medium">{schemes?.returns3yr?.toFixed(2)}%</span> p.a
+									<span
+										class="text-base font-medium {schemes?.returns3yr > 0
+											? 'text-green-amount'
+											: 'text-black-bolder'}">{schemes?.returns3yr?.toFixed(2)}%</span
+									>
 								</p>
 							</div>
 						</div>

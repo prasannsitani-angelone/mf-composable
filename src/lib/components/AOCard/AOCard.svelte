@@ -1,4 +1,4 @@
-<article class="mt-4 max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:pb-4">
+<article class="mt-2 max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:pb-4">
 	<header>
 		<section class="flex cursor-pointer justify-between p-4 !pb-0 pt-3 text-lg md:px-6 md:py-5">
 			<section class=" w-full items-center">

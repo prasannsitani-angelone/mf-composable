@@ -80,14 +80,15 @@ export const cohorts: { [key: string]: { placementMapping: object } } = {
 		placementMapping: {
 			stories: { rowStart: 1, columnStart: 1 },
 			search: { rowStart: 2, columnStart: 1 },
-			actions: { rowStart: 3, columnStart: 1 },
-			trendingFunds: { rowStart: 4, columnStart: 1 },
-			setupAutopay: { rowStart: 5, columnStart: 1 },
-			categories: { rowStart: 6, columnStart: 1 },
-			quickEntryPoints: { rowStart: 7, columnStart: 1 },
-			buyPortfolioCard: { rowStart: 8, columnStart: 1 },
-			screener: { rowStart: 9, columnStart: 1 },
-			logout: { rowStart: 10, columnStart: 1 }
+			investments: { rowStart: 3, columnStart: 1 },
+			actions: { rowStart: 4, columnStart: 1 },
+			trendingFunds: { rowStart: 5, columnStart: 1 },
+			setupAutopay: { rowStart: 6, columnStart: 1 },
+			categories: { rowStart: 7, columnStart: 1 },
+			quickEntryPoints: { rowStart: 8, columnStart: 1 },
+			buyPortfolioCard: { rowStart: 9, columnStart: 1 },
+			screener: { rowStart: 10, columnStart: 1 },
+			logout: { rowStart: 11, columnStart: 1 }
 		}
 	}
 };
@@ -125,7 +126,7 @@ export const cohorts_LF: { [key: string]: { placementMapping: object } } = {
 			quickEntryPoints: { rowStart: 4, columnStart: 1 },
 			categories: { rowStart: 5, columnStart: 1 },
 			screener: { rowStart: 6, columnStart: 1 },
-			investments: { rowStart: 1, columnStart: 2 },
+			setupAutopay: { rowStart: 1, columnStart: 2 },
 			buyPortfolioCard: { rowStart: 2, columnStart: 2 },
 			askAngel: { rowStart: 3, columnStart: 2 }
 		}
@@ -165,8 +166,9 @@ export const cohorts_LF: { [key: string]: { placementMapping: object } } = {
 			categories: { rowStart: 4, columnStart: 1 },
 			quickEntryPoints: { rowStart: 5, columnStart: 1 },
 			screener: { rowStart: 6, columnStart: 1 },
-			setupAutopay: { rowStart: 1, columnStart: 2 },
-			buyPortfolioCard: { rowStart: 2, columnStart: 2 }
+			investments: { rowStart: 1, columnStart: 2 },
+			setupAutopay: { rowStart: 2, columnStart: 2 },
+			buyPortfolioCard: { rowStart: 3, columnStart: 2 }
 		}
 	}
 };

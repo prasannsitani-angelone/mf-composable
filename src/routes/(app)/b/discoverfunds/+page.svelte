@@ -32,7 +32,6 @@
 	import { useFetch } from '$lib/utils/useFetch';
 	import TrendingFunds from '$components/TrendingFunds/TrendingFunds.svelte';
 	import QuickEntryPointsComponent from '../../discoverfunds/QuickEntryPoints/QuickEntryPointsComponent.svelte';
-	import StartNewInvestment from '../../discoverfunds/StartNewInvestment.svelte';
 	import { versionStore } from '$lib/stores/VersionStore';
 	import LazyComponent from '$components/LazyComponent.svelte';
 	import {
@@ -54,6 +53,7 @@
 	import type { INotificationSummary } from '$lib/types/INotifications';
 	import { base } from '$app/paths';
 	import BuyPortfolio from '../../discoverfunds/BuyPortfolio.svelte';
+	import SetupAutopayNudge from '../../discoverfunds/SetupAutopayNudge.svelte';
 	import { AUTH_STATE_ENUM, tokenStore } from '$lib/stores/TokenStore';
 	import AskAngel from '../../discoverfunds/AskAngel.svelte';
 	import {
@@ -471,6 +471,13 @@
 		{isGuest}
 	/>
 
+	{#if !deviceType?.isBrowser && placementMapping?.setupAutopay}
+		<SetupAutopayNudge
+			class="row-start-{placementMapping?.setupAutopay?.rowStart} col-start-{placementMapping
+				?.setupAutopay?.columnStart} {placementMapping?.setupAutopay?.rowStart > 1 ? 'mt-2' : ''}"
+		/>
+	{/if}
+
 	{#if !deviceType?.isBrowser && placementMapping?.buyPortfolioCard}
 		<BuyPortfolio
 			class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
@@ -502,8 +509,7 @@
 
 	<Screener
 		class="row-start-{placementMapping?.screener?.rowStart} col-start-{placementMapping?.screener
-			?.columnStart}
-	: ''}"
+			?.columnStart}"
 	/>
 
 	<!-- 11. Logout -->
@@ -534,12 +540,10 @@
 
 <article class="sticky -top-2 hidden grid-cols-[100%] sm:grid" style="height:min-content">
 	<div class="row-start-{placementMapping.investments?.rowStart} col-start-1">
-		{#if isLoggedInUser}
+		{#if isLoggedInUser && data.investementSummary?.currentValue && placementMapping?.investments}
 			<div class="block overflow-hidden">
 				<PortfolioCard discoverPage={true} investmentSummary={data.investementSummary} />
 			</div>
-		{:else}
-			<StartNewInvestment />
 		{/if}
 	</div>
 
@@ -561,15 +565,24 @@
 			imageClass="h-32 md:h-42 lg:h-32 w-full object-cover"
 		/>
 	{/if}
-	{#if data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN && placementMapping?.askAngel}
-		<AskAngel class="row-start-{placementMapping.askAngel?.rowStart}" />
+	{#if placementMapping?.setupAutopay}
+		<SetupAutopayNudge
+			class="row-start-{placementMapping?.setupAutopay?.rowStart} col-start-{placementMapping
+				?.setupAutopay?.columnStart} {placementMapping?.setupAutopay?.rowStart > 1 ? 'mt-2' : ''}"
+		/>
 	{/if}
 	{#if placementMapping?.buyPortfolioCard}
 		<BuyPortfolio
-			class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} {placementMapping
-				?.buyPortfolioCard?.rowStart > 1
+			class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
+				?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
 				? 'mt-2'
 				: ''}"
+		/>
+	{/if}
+	{#if data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN && placementMapping?.askAngel}
+		<AskAngel
+			class="row-start-{placementMapping.askAngel?.rowStart} col-start-{placementMapping?.askAngel
+				?.columnStart}"
 		/>
 	{/if}
 </article>

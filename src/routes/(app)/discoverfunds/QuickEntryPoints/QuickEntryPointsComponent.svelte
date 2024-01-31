@@ -32,7 +32,7 @@
 
 <article class="item grid grid-cols-1 justify-between sm:grid-rows-1 {$$props.class} divide-y">
 	<QuickEntryPointsCard
-		title="NFO"
+		title="New Fund Offerings"
 		subtitle={`Explore ${openNfo} NFOs currently live`}
 		liveNFO={openNfo}
 		onLinkClicked={() => homepageNfoClickAnalytics(openNfo)}
@@ -44,7 +44,7 @@
 		</div>
 	</QuickEntryPointsCard>
 	<QuickEntryPointsCard
-		title="External Funds"
+		title="Track External Investments"
 		subtitle="Monitor your entire portfolio, including investments outside Angel One"
 		onLinkClicked={homepageExternalFundsClickAnalytics}
 		to="/investments?type=all"
@@ -58,7 +58,7 @@
 		</div>
 	</QuickEntryPointsCard>
 	<QuickEntryPointsCard
-		title="Compare Funds"
+		title="Compare Mutual Funds"
 		subtitle="Compare performance of 8,000+ funds"
 		to={`/schemes/fundcomparision?params=${encodeObject(getParams())}`}
 	>
@@ -70,7 +70,7 @@
 		</div>
 	</QuickEntryPointsCard>
 	<QuickEntryPointsCard
-		title="SIP Calculator"
+		title="SIP Returns Calculator"
 		subtitle="Calculate long term returns for your SIP investments"
 		onLinkClicked={homepageSipCalculatorClickAnalytics}
 		to="/sipCalculator"

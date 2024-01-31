@@ -1,6 +1,5 @@
 <script lang="ts">
 	import TrendingFunds from '$components/TrendingFunds/TrendingFunds.svelte';
-	import StartNewInvestment from './StartNewInvestment.svelte';
 	import PortfolioCard from '$components/PortfolioCards/PortfolioCard.svelte';
 	import { page } from '$app/stores';
 	import IntersectionObserver from 'svelte-intersection-observer';
@@ -52,6 +51,7 @@
 	import type { INotificationSummary } from '$lib/types/INotifications';
 	import { base } from '$app/paths';
 	import BuyPortfolio from './BuyPortfolio.svelte';
+	import SetupAutopayNudge from './SetupAutopayNudge.svelte';
 	import AskAngel from './AskAngel.svelte';
 	import { AUTH_STATE_ENUM, tokenStore } from '$lib/stores/TokenStore';
 	import {
@@ -462,6 +462,13 @@
 		/>
 	</div>
 
+	{#if !deviceType?.isBrowser && placementMapping?.setupAutopay}
+		<SetupAutopayNudge
+			class="row-start-{placementMapping?.setupAutopay?.rowStart} col-start-{placementMapping
+				?.setupAutopay?.columnStart} {placementMapping?.setupAutopay?.rowStart > 1 ? 'mt-2' : ''}"
+		/>
+	{/if}
+
 	{#if !deviceType?.isBrowser && placementMapping?.buyPortfolioCard}
 		<BuyPortfolio
 			class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
@@ -510,8 +517,7 @@
 
 	<Screener
 		class="row-start-{placementMapping?.screener?.rowStart} col-start-{placementMapping?.screener
-			?.columnStart}
-		: ''}"
+			?.columnStart}"
 	/>
 
 	<!-- 11. Logout -->
@@ -544,12 +550,10 @@
 {#if deviceType?.isBrowser}
 	<article class="sticky -top-2 hidden grid-cols-[100%] sm:grid" style="height:min-content">
 		<div class="row-start-{placementMapping?.investments?.rowStart}">
-			{#if isLoggedInUser}
+			{#if isLoggedInUser && data.investementSummary?.currentValue && placementMapping?.investments}
 				<div class="block overflow-hidden">
 					<PortfolioCard discoverPage={true} investmentSummary={data.investementSummary} />
 				</div>
-			{:else}
-				<StartNewInvestment />
 			{/if}
 			{#if $ctNudgeStore?.kv?.topic === 'mf_discover_inpage1_type_d'}
 				<ClevertapNudgeComponent
@@ -572,14 +576,25 @@
 					</div>
 				</IntersectionObserver>
 			{/if}
-			{#if data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN && placementMapping?.askAngel}
-				<AskAngel class="row-start-{placementMapping.askAngel?.rowStart}" />
+			{#if placementMapping?.setupAutopay}
+				<SetupAutopayNudge
+					class="row-start-{placementMapping?.setupAutopay?.rowStart} col-start-{placementMapping
+						?.setupAutopay?.columnStart} {placementMapping?.setupAutopay?.rowStart > 1
+						? 'mt-2'
+						: ''}"
+				/>
 			{/if}
 			{#if placementMapping?.buyPortfolioCard}
 				<BuyPortfolio
 					class="row-start-{placementMapping?.buyPortfolioCard
 						?.rowStart} col-start-{placementMapping?.buyPortfolioCard
 						?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1 ? 'mt-2' : ''}"
+				/>
+			{/if}
+			{#if data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN && placementMapping?.askAngel}
+				<AskAngel
+					class="row-start-{placementMapping.askAngel?.rowStart} col-start-{placementMapping
+						?.askAngel?.columnStart}"
 				/>
 			{/if}
 		</div>

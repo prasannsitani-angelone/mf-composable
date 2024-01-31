@@ -65,7 +65,7 @@
 				<TrendingCarouselItems
 					on:onCartClick={(e) => handleCartClick(e, index)}
 					on:onCardClick={(e) => handleCardClick(e, index)}
-					clazz="ml-5 rounded-lg border p-3"
+					clazz="ml-5 rounded-lg border pt-3"
 					{schemes}
 					{index}
 				/>

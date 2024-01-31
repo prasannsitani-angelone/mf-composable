@@ -9,7 +9,7 @@
 	import { viewPortfolioAnalysisAnalytics } from '../../../routes/(app)/(authenticated)/investments/analytics';
 	import { modifiedGoto } from '$lib/utils/goto';
 
-	let showInfo = false;
+	let showInfo = true;
 
 	const toggleInfo = () => {
 		showInfo = !showInfo;
@@ -120,13 +120,6 @@
 								: ''}₹{investmentSummary?.investedValue
 								? addCommasToAmountString(Math.abs(investmentSummary?.investedValue)?.toFixed(2))
 								: '0.00'}
-						</span>
-						<span>
-							({investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
-								? '-'
-								: '+'}{investmentSummary?.returnsAbsolutePer
-								? Math.abs(investmentSummary?.returnsAbsolutePer)?.toFixed(2)
-								: '0.00'}%)
 						</span>
 					</div>
 				</article>

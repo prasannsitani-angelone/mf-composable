@@ -70,7 +70,10 @@
 				>
 
 				<Td class="!pr-0 text-right"
-					><span class="text-base font-medium text-black-title"
+					><span
+						class="text-base font-medium text-black-title {funds?.returns3yr > 0
+							? 'text-green-amount'
+							: 'text-black-bolder'}"
 						>{funds?.returns3yr > 0 ? `${funds?.returns3yr?.toFixed(2)}%` : '-'}</span
 					></Td
 				>
