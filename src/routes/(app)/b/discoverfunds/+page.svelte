@@ -78,6 +78,7 @@
 	let start4SipsNudgeData: Start4SipsNudgeType;
 	let userEducationNudge: UserEducationNudgeType;
 	let notifData: INotificationSummary;
+	let autopayNudge: INudge;
 	let user_cohort =
 		$page?.data?.userDetails?.cohort?.length && $page?.data?.userDetails?.cohort[0]
 			? $page?.data?.userDetails?.cohort[0]
@@ -239,6 +240,8 @@
 				start4SipsNudgeData = item;
 			} else if (item?.nudgesType === 'USER_EDUCATION_ENGAGEMENT') {
 				userEducationNudge = item;
+			} else if (item?.nudgesType === 'mandate') {
+				autopayNudge = item;
 			}
 		});
 	};
@@ -471,7 +474,7 @@
 		{isGuest}
 	/>
 
-	{#if !deviceType?.isBrowser && placementMapping?.setupAutopay}
+	{#if !deviceType?.isBrowser && autopayNudge && placementMapping?.setupAutopay}
 		<SetupAutopayNudge
 			class="row-start-{placementMapping?.setupAutopay?.rowStart} col-start-{placementMapping
 				?.setupAutopay?.columnStart} {placementMapping?.setupAutopay?.rowStart > 1 ? 'mt-2' : ''}"
@@ -565,7 +568,7 @@
 			imageClass="h-32 md:h-42 lg:h-32 w-full object-cover"
 		/>
 	{/if}
-	{#if placementMapping?.setupAutopay}
+	{#if autopayNudge && placementMapping?.setupAutopay}
 		<SetupAutopayNudge
 			class="row-start-{placementMapping?.setupAutopay?.rowStart} {placementMapping?.setupAutopay
 				?.rowStart > 1

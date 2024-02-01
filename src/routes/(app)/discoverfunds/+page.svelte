@@ -76,6 +76,7 @@
 	let startFirstSipNudgeData: StartFirstSipNudgeType;
 	let start4SipsNudgeData: Start4SipsNudgeType;
 	let userEducationNudge: UserEducationNudgeType;
+	let autopayNudge: INudge;
 	let elementOnce: HTMLElement;
 	let intersectOnce: boolean;
 	let showExitNudge = false;
@@ -242,6 +243,8 @@
 				start4SipsNudgeData = item;
 			} else if (item?.nudgesType === 'USER_EDUCATION_ENGAGEMENT') {
 				userEducationNudge = item;
+			} else if (item?.nudgesType === 'mandate') {
+				autopayNudge = item;
 			}
 		});
 	};
@@ -462,7 +465,7 @@
 		/>
 	</div>
 
-	{#if !deviceType?.isBrowser && placementMapping?.setupAutopay}
+	{#if !deviceType?.isBrowser && autopayNudge && placementMapping?.setupAutopay}
 		<SetupAutopayNudge
 			class="row-start-{placementMapping?.setupAutopay?.rowStart} col-start-{placementMapping
 				?.setupAutopay?.columnStart} {placementMapping?.setupAutopay?.rowStart > 1 ? 'mt-2' : ''}"
@@ -576,7 +579,7 @@
 					</div>
 				</IntersectionObserver>
 			{/if}
-			{#if placementMapping?.setupAutopay}
+			{#if autopayNudge && placementMapping?.setupAutopay}
 				<SetupAutopayNudge
 					class="row-start-{placementMapping?.setupAutopay?.rowStart} col-start-{placementMapping
 						?.setupAutopay?.columnStart} {placementMapping?.setupAutopay?.rowStart > 1

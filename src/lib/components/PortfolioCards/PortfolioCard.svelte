@@ -45,7 +45,12 @@
 
 <div class="block cursor-pointer">
 	<PortfolioCard class="p-4 {$$props.class || ''}" variant="secondary">
-		<section class="flex items-center justify-between sm:hidden lg:mx-0">
+		<!-- svelte-ignore a11y-no-static-element-interactions -->
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<section
+			on:click={navigateToInvestments}
+			class="flex items-center justify-between sm:hidden lg:mx-0"
+		>
 			<article class="flex flex-col items-start">
 				<div class="text-xs md:text-sm">Current Value</div>
 				<div class="font-normal md:text-xl">

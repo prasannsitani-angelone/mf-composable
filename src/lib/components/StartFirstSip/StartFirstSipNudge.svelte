@@ -26,9 +26,11 @@
 </script>
 
 <article class="relative mt-2 flex {$$props.class}" data-testid="startFirstSipNudge">
-	<div class="z-2 absolute h-full w-full"><StartFirstSipBg class="absolute h-full w-full" /></div>
-	<div class="z-0 flex w-full flex-row items-center justify-between px-3 sm:-mx-2">
-		<div class="mr-2 flex flex-1 items-center p-4">
+	<div class="z-2 absolute h-full w-full rounded-lg bg-yellow-background shadow-csm">
+		<StartFirstSipBg class="absolute h-full w-full" />
+	</div>
+	<div class="z-0 flex w-full flex-row items-center justify-between p-3">
+		<div class="mr-2 flex flex-1 items-center">
 			<div class="mr-1 flex h-9 w-9 items-center justify-center rounded-full bg-white p-2">
 				<WMSIcon name="angel" />
 			</div>

@@ -37,7 +37,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div on:click={gotoSchemeDetails} class={`flex cursor-pointer flex-col ${clazz}`}>
-	<div class="mb-3 flex flex-row items-start px-3">
+	<div class="mb-3 flex flex-row items-start px-2">
 		<SchemeLogo
 			size="sm"
 			src={schemes?.logoUrl}
@@ -97,7 +97,7 @@
 		</slot>
 		<slot name="detailsFooter">
 			{#if schemes?.noOfClientInvested}
-				<div class="flex flex-row items-center rounded-b bg-[#D1D8F6] p-2">
+				<div class="flex flex-row items-center rounded-b bg-purple-background p-2">
 					<slot name="detailsFooterIcon">
 						<img
 							src={PeopleIcon}
@@ -110,7 +110,7 @@
 					</slot>
 
 					<slot name="detailsFooterDescription">
-						<p class="text-xs">
+						<p class="text-xs text-black-bolder">
 							<span class=" font-medium">
 								{addCommasToAmountString(schemes?.noOfClientInvested)}
 							</span>
