@@ -13,7 +13,7 @@
 	import { goToDashboardButtonAnalytics, orderScreenOpenAnalytics } from './analytics';
 	import LoadingIndicator from '$components/LoadingIndicator.svelte';
 	import { invalidate } from '$app/navigation';
-	import { SEO } from 'svelte-components';
+	import { SEO, WMSIcon } from 'svelte-components';
 	import { ORDER_STATUS } from '$lib/constants/orderFlowStatuses';
 	import { base } from '$app/paths';
 	import PageTitle from '$components/PageTitle.svelte';
@@ -83,6 +83,16 @@
 			sipID: sipID
 		});
 		goto(`${base}/autopay/manage?params=${params}`);
+	};
+
+	const navigateToFAQ = (tag: string) => {
+		if (tag) {
+			const params = encodeObject({
+				tag: tag,
+				orderId: orderID
+			});
+			goto(`${base}/faqs?params=${params}`);
+		}
 	};
 
 	const getNextSIPDate = (data: SIPData = {}) => {
@@ -171,6 +181,18 @@
 						<svelte:fragment slot="leftIcon">
 							<span />
 						</svelte:fragment>
+						<svelte:fragment slot="rightColumn">
+							<div class="mr-4">
+								<WMSIcon
+									name="question-mark-point"
+									stroke="#3F5BD9"
+									height={24}
+									width={24}
+									class="p-0.5"
+									on:click={() => navigateToFAQ(orderSummaryData?.tag)}
+								/>
+							</div>
+						</svelte:fragment>
 					</PageTitle>
 				</header>
 
@@ -206,6 +228,7 @@
 							toSchemeName,
 							amount: switchAmount
 						}}
+						{headerContent}
 					/>
 					{#if orderSummaryData.emandateBankDetails && (isSIPOrder || isLumpsumViaMandate)}
 						<AutopayTile

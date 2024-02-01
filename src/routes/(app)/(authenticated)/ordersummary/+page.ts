@@ -20,7 +20,10 @@ export const load = async ({ fetch, url, parent, depends }) => {
 	const autopayTimelineItems: Array<AutopayTimelineItems> = [];
 	let tag = 'orders';
 	let isInvestmentSipOrXsip = false;
-	let faqParams;
+	let faqParams = encodeObject({
+		tag,
+		orderId: orderID
+	});
 
 	const getOrderDetailsFunc = async () => {
 		try {
@@ -82,7 +85,8 @@ export const load = async ({ fetch, url, parent, depends }) => {
 		}
 
 		for (let i = 0; i < futurePaymentMonths; i++) {
-			const temp = new Date(nextSipDueDate?.setMonth(nextSipDueDate.getMonth() + i));
+			const monthsToAdd = i === 0 ? 0 : 1;
+			const temp = new Date(nextSipDueDate?.setMonth(nextSipDueDate.getMonth() + monthsToAdd));
 			const status = i === 0 ? STATUS_ARR.FAILED : STATUS_ARR.NONE;
 			autopayTimelineItems.push({
 				title: `${temp?.toLocaleDateString('en-US', { month: 'short' })}`,
@@ -110,7 +114,8 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			heading: '',
 			subHeadingArr: [],
 			status: STATUS_ARR.SUCCESS,
-			subHeaderClass: ''
+			subHeaderClass: '',
+			remarks: ''
 		};
 
 		if (orderData?.ok) {
@@ -155,9 +160,11 @@ export const load = async ({ fetch, url, parent, depends }) => {
 						} else if (item.status === STATUS_ARR.PENDING) {
 							item.status = STATUS_ARR.PENDING;
 							headerContent.heading = 'Order Pending';
+							headerContent.remarks =
+								'If the payment is not processed, it will be refunded to your bank account automatically';
 							headerContent.subHeadingArr = [
 								{
-									text: 'We are confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update',
+									text: 'We are confirming the status of your payment. This usually takes a few minutes.',
 									class: ''
 								}
 							];
@@ -259,7 +266,6 @@ export const load = async ({ fetch, url, parent, depends }) => {
 
 			isInvestmentSipOrXsip =
 				investmentType?.toUpperCase() === 'SIP' || investmentType?.toUpperCase() === 'XSIP';
-			// Fetching SIP details
 			if (isInvestmentSipOrXsip) {
 				tag += '_sip';
 				if (firstOrder?.toUpperCase() === 'Y') {
@@ -273,7 +279,6 @@ export const load = async ({ fetch, url, parent, depends }) => {
 				tag += '_lumpsum';
 			}
 
-			// Setting the Transaction Details
 			if (transactionType === 'PURCHASE') {
 				if (orderStatus === ORDER_STATUS.ORDER_REJECTED) {
 					tag += '_rejected';
@@ -338,7 +343,8 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			autopayTimelineItems,
 			isRedeem,
 			isSwitch,
-			isSwp
+			isSwp,
+			tag
 		};
 	};
 

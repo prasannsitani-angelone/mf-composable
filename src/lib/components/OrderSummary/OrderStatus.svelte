@@ -22,6 +22,7 @@
 	};
 	let timelineCollapsed = collapsibleTimeline || false;
 	let modifiedStatusData = statusData || [];
+	let headerContent = {};
 
 	const setStatusTimeline = () => {
 		if (!showTimeline) {
@@ -69,7 +70,8 @@
 		collapsibleTimeline,
 		isRedeem,
 		isSwitch,
-		switchData
+		switchData,
+		headerContent
 	};
 </script>
 
@@ -128,10 +130,10 @@
 	<slot name="orderStatusTimeline">
 		<!-- Order Status Timeline -->
 		{#if showTimeline && statusData?.length}
-			<section class="flex items-start justify-between p-3 pb-1 pt-1">
+			<section class="mt-3 flex items-start justify-between p-3 pb-1 pt-1">
 				<article>
 					{#each modifiedStatusData as item, index}
-						<StatusTile {item} {index} itemsCount={modifiedStatusData.length} />
+						<StatusTile {headerContent} {item} {index} itemsCount={modifiedStatusData.length} />
 					{/each}
 				</article>
 

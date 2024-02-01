@@ -6,13 +6,11 @@
 	export let item: StatusHistoryItem = {};
 	export let index = 0;
 	export let itemsCount = 0;
+	export let headerContent = {};
 </script>
 
 <div class="flex w-full flex-row">
-	<div class="-mt-5 mr-5 flex flex-col items-center">
-		<div
-			class={`flex flex-1 border-l border-grey-line ${index === 0 ? 'border-transparent' : ''}`}
-		/>
+	<div class="mr-5 flex flex-col items-center justify-start">
 		{#if item.status === STATUS_ARR.SUCCESS}
 			<WMSIcon name="tick-in-circle" height={20} width={20} stroke="#fff" bgStroke="#008F75" />
 		{:else if item.status === STATUS_ARR.PENDING}
@@ -28,17 +26,24 @@
 			}`}
 		/>
 	</div>
-	<div class="pb-2 pt-2 text-start">
+	<div class="pb-4 text-start">
 		<div
-			class="mb-1 text-xs {item?.currentState ? 'font-medium' : 'font-normal'} text-black-key
+			class=" text-xs {item?.currentState ? 'font-medium' : 'font-normal'} text-black-key
 			{item.status === STATUS_ARR.NONE ? 'text-grey-body' : ''}
 			{item.status === STATUS_ARR.FAILED ? 'text-red-sell' : ''}
 			{item.status === STATUS_ARR.PAYMENT_PENDING ? 'text-yellow-primary' : ''}"
 		>
 			{item.title}
 		</div>
-		<div class="text-[10px] font-normal text-grey-body">
-			{item.subTitle}
-		</div>
+		{#if item.status === STATUS_ARR.PENDING && headerContent.status === STATUS_ARR.PENDING}
+			<p class="mt-1 rounded bg-purple-background p-[6px] text-xs font-normal text-black-key">
+				{headerContent?.remarks}
+			</p>
+		{/if}
+		{#if headerContent.status !== STATUS_ARR.PENDING}
+			<div class="mt-1 text-[10px] font-normal text-grey-body">
+				{item.subTitle}
+			</div>
+		{/if}
 	</div>
 </div>

@@ -221,7 +221,7 @@
 		const params = encodeObject({
 			bulkId
 		});
-		await goto(`${base}/investwithexperts/ordersummary?params=${params}`, {
+		await goto(`${base}/buyPortfolio/ordersummary?params=${params}`, {
 			replaceState: true
 		});
 	};
