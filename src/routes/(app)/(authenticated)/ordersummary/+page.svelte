@@ -8,7 +8,7 @@
 	import OrderStatus from '$components/OrderSummary/OrderStatus.svelte';
 	import AutopayTile from './AutopayEnabledTile/AutopayEnabledTile.svelte';
 	import Button from '$components/Button.svelte';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import type { SIPData } from './type';
 	import { goToDashboardButtonAnalytics, orderScreenOpenAnalytics } from './analytics';
 	import LoadingIndicator from '$components/LoadingIndicator.svelte';
@@ -18,7 +18,12 @@
 	import { base } from '$app/paths';
 	import PageTitle from '$components/PageTitle.svelte';
 	import AutopayTimeLineCard from './AutopayTimeLine/AutopayTimeLineCard.svelte';
+	import MobileHeader from '$components/Headers/MobileHeader.svelte';
+	import { headerStore } from '$lib/stores/HeaderStore';
 	export let data: PageData;
+
+	$: isMobile = $page?.data?.deviceType?.isMobile;
+	$: isTablet = $page?.data?.deviceType?.isTablet;
 
 	const params = $page.url.searchParams.get('params') || '';
 	const decodedParams = decodeToObject(params);
@@ -153,13 +158,22 @@
 	};
 
 	onMount(() => {
+		if (isMobile || isTablet) {
+			$headerStore.showMobileHeader = false;
+		}
 		onMountAnalytics();
+	});
+
+	onDestroy(() => {
+		if (isMobile || isTablet) {
+			$headerStore.showMobileHeader = true;
+		}
 	});
 </script>
 
 <SEO seoTitle="Order Summary | Angel One" seoDescription="Summary of your Investment" />
 
-<article class="flex h-full flex-col justify-center md:pb-4">
+<article class="mt-14 flex h-full flex-col justify-center md:mt-0 md:pb-4">
 	{#await data.api.data}
 		<LoadingIndicator svgClass="!w-12 !h-12" class="self-center" />
 	{:then orderSummaryData}
@@ -170,6 +184,18 @@
 				toSchemeName,
 				amount: switchAmount
 			} = orderSummaryData?.orderData?.data?.data || {}}
+			<MobileHeader title={'Order Summary'} class="fixed left-0 right-0 top-0 bg-white">
+				<svelte:fragment slot="faqIcon">
+					<WMSIcon
+						name="question-mark-point"
+						stroke="#3F5BD9"
+						height={24}
+						width={24}
+						class="p-0.5"
+						on:click={() => navigateToFAQ(orderSummaryData?.tag)}
+					/>
+				</svelte:fragment>
+			</MobileHeader>
 			<div
 				class="flex h-[calc(100vh-56px)] flex-col overflow-hidden sm:h-full md:rounded-lg md:bg-white md:p-2"
 			>

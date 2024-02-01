@@ -1,5 +1,5 @@
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
-import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
+import { decodeToObject } from '$lib/utils/helpers/params';
 import { useFetch } from '$lib/utils/useFetch';
 import { hydrate } from '$lib/utils/helpers/hydrated';
 import type { AutopayTimelineItems, SchemeCardItems, SIPData } from './type';
@@ -8,7 +8,6 @@ import { STATUS_ARR } from './constant';
 import { format } from 'date-fns';
 import type { BankDetailsEntity } from '$lib/types/IUserProfile';
 import { ORDER_STATUS } from '$lib/constants/orderFlowStatuses';
-import { faqsIconClick } from '$lib/analytics/faqs/faqs';
 
 export const load = async ({ fetch, url, parent, depends }) => {
 	const params = url.searchParams.get('params');
@@ -20,10 +19,6 @@ export const load = async ({ fetch, url, parent, depends }) => {
 	const autopayTimelineItems: Array<AutopayTimelineItems> = [];
 	let tag = 'orders';
 	let isInvestmentSipOrXsip = false;
-	let faqParams = encodeObject({
-		tag,
-		orderId: orderID
-	});
 
 	const getOrderDetailsFunc = async () => {
 		try {
@@ -93,12 +88,6 @@ export const load = async ({ fetch, url, parent, depends }) => {
 				status: status
 			});
 		}
-	};
-
-	const onClickFaqsIcon = () => {
-		faqsIconClick({
-			Source: 'OrderSummary'
-		});
 	};
 
 	const getAPIData = async () => {
@@ -302,10 +291,6 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			if (createdBy?.toLowerCase() === 'nudge') {
 				tag += '_nudge';
 			}
-			faqParams = encodeObject({
-				tag,
-				orderId: orderID
-			});
 		}
 
 		if (isRedeem) {
@@ -357,11 +342,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 		layoutConfig: {
 			layoutType: 'FULL_HEIGHT_WITHOUT_PADDING',
 			layoutClass: 'bg-white md:bg-grey',
-			title: 'Order Summary',
-			showFaqIcon: true,
-			faqParams,
-			onClickFaqsIcon,
-			faqIconStroke: '#3F5BD9'
+			title: 'Order Summary'
 		}
 	};
 };
