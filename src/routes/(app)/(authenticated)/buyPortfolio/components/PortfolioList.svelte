@@ -12,7 +12,7 @@
 	function gotoPortfolioPackDetails(packId: string) {
 		goto(`${base}/buyPortfolio/${packId}`);
 		const portfolio = portfolioData?.filter((x) => {
-			return (x.packId = packId);
+			return x.packId === packId;
 		})[0];
 		const eventMetaData = {
 			Portfolio: portfolio?.packName,
