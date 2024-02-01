@@ -27,7 +27,9 @@
 </script>
 
 {#if LottiePlayer}
-	<section class="flex h-[95vh] w-full flex-col items-center justify-center">
+	<section
+		class="flex h-screen w-full flex-col items-center justify-center md:h-[calc(100vh-148px)] {$$props?.class}"
+	>
 		<LottiePlayer
 			src={AnimatedLottie}
 			autoplay={true}

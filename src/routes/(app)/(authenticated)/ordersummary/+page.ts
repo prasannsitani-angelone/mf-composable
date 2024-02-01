@@ -301,7 +301,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			headerContent.heading = 'SWP Order Placed';
 		}
 
-		if (headerContent.status == STATUS_ARR.PENDING) {
+		if (headerContent.status === STATUS_ARR.PENDING) {
 			headerContent.heading = 'Order Pending';
 		}
 
@@ -329,7 +329,8 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			isRedeem,
 			isSwitch,
 			isSwp,
-			tag
+			tag,
+			pendingOrder: headerContent.status === STATUS_ARR.PENDING || false
 		};
 	};
 

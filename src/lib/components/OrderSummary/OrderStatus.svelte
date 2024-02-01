@@ -130,7 +130,7 @@
 	<slot name="orderStatusTimeline">
 		<!-- Order Status Timeline -->
 		{#if showTimeline && statusData?.length}
-			<section class="mt-3 flex items-start justify-between p-3 pb-1 pt-1">
+			<section class="mt-3 flex items-start justify-between p-3 pb-0 pt-1">
 				<article>
 					{#each modifiedStatusData as item, index}
 						<StatusTile {headerContent} {item} {index} itemsCount={modifiedStatusData.length} />
