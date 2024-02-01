@@ -186,7 +186,7 @@
 			<article class="col-start-1 row-start-2 md:row-span-6 md:row-start-1">
 				{#if !data?.showRecentOrders && !deviceType?.isMobile}
 					<FaqHeader
-						title={'FAQs'}
+						title={data?.redirectedFrom === 'ordersummary' ? 'Order FAQs' : 'FAQs'}
 						handleBackNavigation={() => {
 							history?.back();
 						}}

@@ -7,7 +7,7 @@ import type { PageLoad } from './$types';
 export const load = (async ({ fetch, url }) => {
 	const params = url.searchParams.get('params') || undefined;
 	const decodedParams = decodeToObject(params);
-	const { tag, orderId, Status, showRecentOrders } = decodedParams;
+	const { tag, orderId, Status, showRecentOrders, redirectedFrom } = decodedParams;
 
 	const getFAQS = async () => {
 		try {
@@ -38,8 +38,9 @@ export const load = (async ({ fetch, url }) => {
 		orderId,
 		Status,
 		showRecentOrders,
+		redirectedFrom,
 		layoutConfig: {
-			title: 'FAQs',
+			title: redirectedFrom === 'ordersummary' ? 'Order FAQs' : 'FAQs',
 			showBackIcon: true,
 			layoutType: 'DEFAULT'
 		}

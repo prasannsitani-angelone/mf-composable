@@ -8,7 +8,7 @@
 </script>
 
 <div class="flex flex-col rounded border border-grey-line bg-white p-3">
-	<div class="mb-2 text-base font-medium text-black-key">Order Status</div>
+	<div class="mb-2 text-base font-medium text-black-key">Order Details</div>
 	<div class="font-sm mb-2 flex flex-row items-center justify-between font-normal text-black-title">
 		<section class="flex items-center">
 			<div class="flex flex-row">

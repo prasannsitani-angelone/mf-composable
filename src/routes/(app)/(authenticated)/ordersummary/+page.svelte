@@ -94,7 +94,8 @@
 		if (tag) {
 			const params = encodeObject({
 				tag: tag,
-				orderId: orderID
+				orderId: orderID,
+				redirectedFrom: 'ordersummary'
 			});
 			goto(`${base}/faqs?params=${params}`);
 		}
@@ -208,7 +209,7 @@
 							<span />
 						</svelte:fragment>
 						<svelte:fragment slot="rightColumn">
-							<div class="mr-4">
+							<div class="mr-4 sm:cursor-pointer">
 								<WMSIcon
 									name="question-mark-point"
 									stroke="#3F5BD9"
