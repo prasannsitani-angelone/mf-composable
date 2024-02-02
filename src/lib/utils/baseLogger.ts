@@ -80,8 +80,6 @@ class BaseLogger {
 			body: JSON.stringify(this._state.getLogsBody(logs)),
 			method: 'POST',
 			headers: {
-				...this._state.headers,
-				'Content-Type': 'text/plain',
 				Authorization: `Bearer ${this._state.headers?.accessToken}`
 			}
 		};
