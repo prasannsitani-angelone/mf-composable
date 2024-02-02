@@ -23,6 +23,7 @@
 	import { fly } from 'svelte/transition';
 	import AnimationPlayer from '$components/AnimationPlayer.svelte';
 	import SuccessAnimation from '$lib/images/SuccessLottie.json';
+	import { orderSummaryStore } from '$lib/stores/OrderSummaryStore';
 
 	export let data: PageData;
 
@@ -46,6 +47,7 @@
 
 	let orderStatusString = '';
 	let paymentStatusString = '';
+	let isOrderSummaryVisited = orderSummaryStore?.isOrderVisited(orderID);
 	let animationCompleted = false;
 	let animationTimeout: ReturnType<typeof setTimeout>;
 
@@ -120,6 +122,12 @@
 		}
 	};
 
+	const updateOrderSummaryStory = () => {
+		const visitedOrders = orderSummaryStore?.getVisitedOrders();
+		visitedOrders?.push(orderID);
+		orderSummaryStore?.updateStore({ visitedOrders });
+	};
+
 	const clearTimeouts = () => {
 		if (animationTimeout !== undefined) {
 			clearTimeout(animationTimeout);
@@ -132,6 +140,15 @@
 
 			clearTimeouts();
 		}, 2500);
+	};
+
+	const checkOrderSummaryVisited = () => {
+		if (isOrderSummaryVisited) {
+			animationCompleted = true;
+		} else {
+			updateOrderSummaryStory();
+			handleAnimation();
+		}
 	};
 
 	const onMountAnalytics = async () => {
@@ -186,8 +203,8 @@
 
 	onMount(() => {
 		setMobileHeader(false);
+		checkOrderSummaryVisited();
 		onMountAnalytics();
-		handleAnimation();
 
 		return () => {
 			clearTimeouts();
@@ -203,7 +220,9 @@
 
 <article class="mt-14 flex h-full flex-col justify-center md:mt-0 md:pb-4">
 	{#await data.api.data}
-		<LoadingIndicator svgClass="!w-12 !h-12" class="self-center" />
+		<section class="flex h-[calc(100vh-56px)] items-center justify-center md:h-[calc(100vh-148px)]">
+			<LoadingIndicator svgClass="!w-12 !h-12" />
+		</section>
 	{:then orderSummaryData}
 		{#if orderSummaryData.ok}
 			{@const { headerContent, schemeDetails, amount, pendingOrder } = orderSummaryData}
@@ -213,7 +232,7 @@
 				amount: switchAmount
 			} = orderSummaryData?.orderData?.data?.data || {}}
 
-			{#if animationCompleted}
+			{#if animationCompleted || pendingOrder}
 				<section
 					class="flex h-[calc(100vh-56px)] flex-col overflow-hidden sm:h-full md:rounded-lg md:bg-white md:p-2"
 				>
@@ -346,7 +365,7 @@
 						</section>
 					</section>
 				</section>
-			{:else if !pendingOrder}
+			{:else}
 				<AnimationPlayer
 					AnimatedLottie={SuccessAnimation}
 					bannerText="Order Placed Successfully"
