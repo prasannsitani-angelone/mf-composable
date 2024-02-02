@@ -23,6 +23,7 @@ export interface Config {
 	enabled?: boolean;
 	baseUrl?: string;
 	url?: string;
+	NBULoggerUrl?: string;
 	headers?: Record<string, any>;
 	getLogsBody?: (params: any) => any;
 	getLog?: (msgObj: any, logLevel?: string) => Record<string, any>;
@@ -38,6 +39,7 @@ export interface State {
 	enabled: boolean;
 	baseUrl: string;
 	url: string;
+	NBULoggerUrl: string;
 	headers: Record<string, any>;
 	getLogsBody: (params: Record<string, any>) => any;
 	getLog: (msgObj: AnalyticMsgObj | LogMsgObj, logLevel?: string) => Record<string, any>;

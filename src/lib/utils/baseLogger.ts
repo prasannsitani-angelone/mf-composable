@@ -22,6 +22,7 @@ class BaseLogger {
 			enabled: false,
 			baseUrl: '',
 			url: '',
+			NBULoggerUrl: '',
 			headers: {
 				'content-type': 'application/json'
 			},
@@ -65,6 +66,32 @@ class BaseLogger {
 			console.log(
 				JSON.stringify({
 					type: 'Failed To send logs',
+					param: {
+						error: errorStr
+					}
+				})
+			);
+		}
+	}
+
+	sendNBUApiLog(logs: Record<string, unknown>) {
+		const { NBULoggerUrl } = this._state;
+		const options = {
+			body: JSON.stringify(this._state.getLogsBody(logs)),
+			method: 'POST',
+			headers: {
+				...this._state.headers,
+				'Content-Type': 'text/plain',
+				Authorization: `Bearer ${this._state.headers?.accessToken}`
+			}
+		};
+		try {
+			fetch(`${NBULoggerUrl}`, options);
+		} catch (error) {
+			const errorStr = error?.stack?.toString() || error?.toString();
+			console.log(
+				JSON.stringify({
+					type: 'Failed To send logs to NBU logger',
 					param: {
 						error: errorStr
 					}
@@ -124,6 +151,7 @@ class BaseLogger {
 			this.sendConsoleLog(logs);
 		} else {
 			this.sendApiLog(logs);
+			this.sendNBUApiLog(logs);
 		}
 	}
 

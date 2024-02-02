@@ -3,7 +3,8 @@
 		PUBLIC_LOG_LEVEL,
 		PUBLIC_LOG_ENABLED,
 		PUBLIC_ENV_NAME,
-		PUBLIC_ADD_VWO_SNIPPET
+		PUBLIC_ADD_VWO_SNIPPET,
+		PUBLIC_NBU_LOGGER_URL
 	} from '$env/static/public';
 	import { pwaInfo } from 'virtual:pwa-info';
 	import Logger from '$lib/utils/logger';
@@ -55,6 +56,7 @@
 		batchSize: browser ? 10 : 1,
 		baseUrl: `${scheme}//${host}${base}/api`,
 		url: '/logging',
+		NBULoggerUrl: PUBLIC_NBU_LOGGER_URL,
 		logLevel: PUBLIC_LOG_LEVEL,
 		enabled: PUBLIC_LOG_ENABLED === 'true',
 		initialised: true,
