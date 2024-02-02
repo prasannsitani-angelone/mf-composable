@@ -41,14 +41,18 @@
 						class={`mt-1 flex w-full flex-col text-xs font-normal text-black-bolder ${subHeaderClass}`}
 					>
 						{#each subHeadingArr as subHeading, i}
-							<div class="flex flex-row justify-center">
-								{#if subHeadingArr.length > 1}
-									<div class="mr-1.5 mt-2 h-1.5 w-1.5 rounded-full bg-black-title" />
-								{/if}
-								<div class={`flex ${subHeading.class}`}>
-									{subHeading.text}
+							{#if subHeading?.text}
+								<div class="flex flex-row justify-center">
+									{#if subHeadingArr.length > 1}
+										<div class="mr-1.5 mt-2 h-1.5 w-1.5 rounded-full bg-black-title" />
+									{/if}
+									<div class={`flex ${subHeading?.class}`}>
+										{subHeading?.text}
+									</div>
 								</div>
-							</div>
+							{:else if subHeading?.html}
+								{@html subHeading?.html}
+							{/if}
 						{/each}
 					</div>
 				{/if}

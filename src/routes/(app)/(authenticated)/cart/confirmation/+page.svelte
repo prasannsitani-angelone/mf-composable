@@ -422,10 +422,11 @@
 	const navigatToOrderSummary = async ({ orderId }) => {
 		cartStore.updateCartData(false);
 		const params = encodeObject({
-			orderID: orderId
+			orderID: orderId,
+			isCart: true
 		});
 
-		goto(`${base}/cart/ordersummary?params=${params}`, {
+		goto(`${base}/ordersummary?params=${params}`, {
 			replaceState: true
 		});
 	};

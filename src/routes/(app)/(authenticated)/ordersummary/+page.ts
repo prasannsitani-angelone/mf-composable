@@ -13,10 +13,25 @@ export const load = async ({ fetch, url, parent, depends }) => {
 	const params = url.searchParams.get('params');
 	const decodedParams = decodeToObject(params);
 	const { profile } = await parent();
-	const { orderID, sipID, firstTimePayment, isRedeem, isSwitch, isSwp } = decodedParams;
+	const { orderID, sipID, firstTimePayment, isRedeem, isSwitch, isSwp, isBuyPortfolio, isCart } =
+		decodedParams;
 	const isLumpsumOrder = orderID && !sipID;
 	const isSIPOrder = (orderID && sipID) || (!firstTimePayment && sipID);
 	const autopayTimelineItems: Array<AutopayTimelineItems> = [];
+	const headerContent: Record<string, any> = {
+		heading: '',
+		subHeadingArr: [],
+		status: STATUS_ARR.SUCCESS,
+		subHeaderClass: '',
+		remarks: ''
+	};
+	const cartData = {
+		investmentType: '',
+		totalAmount: 0,
+		isMandateLinked: false,
+		schemeLogoUrl: '',
+		checkedOutItemsLength: 0
+	};
 	let tag = 'orders';
 	let isInvestmentSipOrXsip = false;
 
@@ -25,6 +40,20 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			if (firstTimePayment || isRedeem || isSwitch || isSwp) {
 				const response = await useFetch(
 					`${PUBLIC_MF_CORE_BASE_URL}/orders/${orderID}?statusHistory=true`,
+					{},
+					fetch
+				);
+				return response;
+			} else if (isBuyPortfolio) {
+				const response = await useFetch(
+					`${PUBLIC_MF_CORE_BASE_URL}/sips/bulk/${orderID}`,
+					{},
+					fetch
+				);
+				return response;
+			} else if (isCart) {
+				const response = await useFetch(
+					`${PUBLIC_MF_CORE_BASE_URL}/carts/items/orders/${orderID}`,
 					{},
 					fetch
 				);
@@ -64,11 +93,11 @@ export const load = async ({ fetch, url, parent, depends }) => {
 	};
 
 	const getAutopayTimelineItems = (
-		nextSipDate: number,
+		currentStatus: string,
 		firstOrderToday: boolean,
-		currentStatus: string
+		nextSipDate?: number
 	) => {
-		const nextSipDueDate = new Date(nextSipDate);
+		const nextDate = nextSipDate ? new Date(nextSipDate) : new Date();
 		const status = currentStatus;
 		const futurePaymentMonths = firstOrderToday ? 3 : 4;
 
@@ -80,14 +109,97 @@ export const load = async ({ fetch, url, parent, depends }) => {
 		}
 
 		for (let i = 0; i < futurePaymentMonths; i++) {
-			const monthsToAdd = i === 0 ? 0 : 1;
-			const temp = new Date(nextSipDueDate?.setMonth(nextSipDueDate.getMonth() + monthsToAdd));
+			const monthsToAdd = nextSipDate && i === 0 ? 0 : 1;
+			nextDate?.setMonth(nextDate.getMonth() + monthsToAdd);
 			const status = i === 0 ? STATUS_ARR.FAILED : STATUS_ARR.NONE;
 			autopayTimelineItems.push({
-				title: `${temp?.toLocaleDateString('en-US', { month: 'short' })}`,
+				title: `${nextDate?.toLocaleDateString('en-US', { month: 'short' })}`,
 				status: status
 			});
 		}
+	};
+
+	const setBuyPortfolioData = (orderData: Response) => {
+		const bulkData = orderData?.data?.data;
+
+		if (bulkData?.paymentStatus?.toUpperCase() === STATUS_ARR.SUCCESS) {
+			headerContent.heading = 'Basket Order Placed';
+			headerContent.subHeadingArr = [
+				{
+					html: `<p class="!text-black-title font-normal">Your orders can be tracked from <span class="font-medium">Orders</span></p>`
+				}
+			];
+			headerContent.status = STATUS_ARR.SUCCESS;
+		} else if (bulkData?.paymentStatus?.toUpperCase() === STATUS_ARR.FAILURE) {
+			headerContent.heading = 'Order Failed';
+			headerContent.subHeadingArr = [
+				{
+					text: 'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+					class: 'text-red-sell'
+				}
+			];
+			headerContent.status = STATUS_ARR.FAILED;
+		} else if (bulkData?.paymentStatus?.toUpperCase() === STATUS_ARR.PENDING) {
+			headerContent.heading = 'Order Pending';
+			headerContent.subHeadingArr = [
+				{
+					text: 'We are confirming the status of your payment. This usually takes a few minutes.',
+					class: ''
+				}
+			];
+			headerContent.status = STATUS_ARR.PENDING;
+		}
+
+		getAutopayTimelineItems(headerContent?.status, true, bulkData?.nextSipDueDate);
+	};
+
+	const setCartData = (orderData: Response) => {
+		const data = orderData?.data?.data;
+		if (data?.paymentStatus?.toUpperCase() === STATUS_ARR.SUCCESS) {
+			headerContent.heading = 'Order Placed';
+			headerContent.subHeadingArr = [
+				{
+					text: `Your portfolio will be updated by ${format(
+						new Date(data?.estimatedCompletionDate),
+						'do MMMM yyyy'
+					)}`,
+					class: '!text-black-title font-normal'
+				}
+			];
+			headerContent.status = STATUS_ARR.SUCCESS;
+		} else if (data?.paymentStatus?.toUpperCase() === STATUS_ARR.FAILURE) {
+			headerContent.heading = 'Order Failed';
+			headerContent.subHeadingArr = [
+				{
+					text: 'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+					class: 'text-red-sell'
+				}
+			];
+			headerContent.status = STATUS_ARR.FAILED;
+		} else if (data?.paymentStatus?.toUpperCase() === STATUS_ARR.PENDING) {
+			headerContent.heading = 'Order Pending';
+			headerContent.subHeadingArr = [
+				{
+					text: 'We are confirming the status of your payment. This usually takes a few minutes.',
+					class: ''
+				}
+			];
+			headerContent.status = STATUS_ARR.PENDING;
+		}
+
+		cartData.checkedOutItemsLength = data?.checkedOutItems?.length;
+		data?.checkedOutItems.map((item) => {
+			cartData.totalAmount += item.amount;
+			cartData.isMandateLinked = cartData.isMandateLinked || item.isMandateLinked;
+			cartData.schemeLogoUrl = item.logoUrl;
+			cartData.investmentType =
+				cartData.investmentType.toUpperCase() === 'SIP' ||
+				item?.investmentType?.toUpperCase() === 'SIP'
+					? 'SIP'
+					: 'LUMPSUM';
+		});
+
+		getAutopayTimelineItems(headerContent?.status, true);
 	};
 
 	const getAPIData = async () => {
@@ -99,102 +211,101 @@ export const load = async ({ fetch, url, parent, depends }) => {
 		const statusHistoryItems: Array<Record<string, any>> = [];
 		let amount = '';
 		let statusCardHeading = '';
-		const headerContent: Record<string, any> = {
-			heading: '',
-			subHeadingArr: [],
-			status: STATUS_ARR.SUCCESS,
-			subHeaderClass: '',
-			remarks: ''
-		};
 
 		if (orderData?.ok) {
-			const data = orderData?.data?.data;
-			if (data?.statusHistory && data.statusHistory.length > 0) {
-				let previousStepCurrentState: number | null = null;
-				data.statusHistory.forEach((item: Record<string, any>, index: number) => {
-					let status = STATUS_ARR.NONE;
-					let subTitle = `Estimated by: ${format(new Date(item.timeStamp), 'dd MMM yyyy')}`;
-					const currentState = item?.currentState || false;
-					if (isNull(previousStepCurrentState) && item.failed) {
-						status = STATUS_ARR.FAILED;
-						statusCardHeading = item.description;
-						subTitle = format(new Date(item.timeStamp), 'dd MMM yyyy, hh:mm a');
-					} else if (isNull(previousStepCurrentState) && item.currentState) {
-						previousStepCurrentState = index;
-						statusCardHeading = item.description;
-						status = STATUS_ARR.PENDING;
-					} else if (isNull(previousStepCurrentState)) {
-						status = STATUS_ARR.SUCCESS;
-						statusCardHeading = item.description;
-						subTitle = format(new Date(item.timeStamp), 'dd MMM yyyy, hh:mm a');
-					}
-					statusHistoryItems.push({
-						title: item.description,
-						subTitle,
-						status,
-						currentState
+			if (isBuyPortfolio) {
+				setBuyPortfolioData(orderData);
+			} else if (isCart) {
+				setCartData(orderData);
+			} else {
+				const data = orderData?.data?.data;
+				if (data?.statusHistory && data.statusHistory.length > 0) {
+					let previousStepCurrentState: number | null = null;
+					data.statusHistory.forEach((item: Record<string, any>, index: number) => {
+						let status = STATUS_ARR.NONE;
+						let subTitle = `Estimated by: ${format(new Date(item.timeStamp), 'dd MMM yyyy')}`;
+						const currentState = item?.currentState || false;
+						if (isNull(previousStepCurrentState) && item.failed) {
+							status = STATUS_ARR.FAILED;
+							statusCardHeading = item.description;
+							subTitle = format(new Date(item.timeStamp), 'dd MMM yyyy, hh:mm a');
+						} else if (isNull(previousStepCurrentState) && item.currentState) {
+							previousStepCurrentState = index;
+							statusCardHeading = item.description;
+							status = STATUS_ARR.PENDING;
+						} else if (isNull(previousStepCurrentState)) {
+							status = STATUS_ARR.SUCCESS;
+							statusCardHeading = item.description;
+							subTitle = format(new Date(item.timeStamp), 'dd MMM yyyy, hh:mm a');
+						}
+						statusHistoryItems.push({
+							title: item.description,
+							subTitle,
+							status,
+							currentState
+						});
 					});
-				});
-				statusHistoryItems.forEach((item, index) => {
-					if (index === 0) {
-						if (item.status === STATUS_ARR.FAILED) {
-							headerContent.heading = 'Order Failed';
+					statusHistoryItems.forEach((item, index) => {
+						if (index === 0) {
+							if (item.status === STATUS_ARR.FAILED) {
+								headerContent.heading = 'Order Failed';
+								headerContent.subHeadingArr = [
+									{
+										text: 'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+										class: 'text-red-sell'
+									}
+								];
+								headerContent.status = STATUS_ARR.FAILED;
+							} else if (item.status === STATUS_ARR.PENDING) {
+								item.status = STATUS_ARR.PENDING;
+								headerContent.heading = 'Order Pending';
+								headerContent.remarks =
+									'If the payment is not processed, it will be refunded to your bank account automatically';
+								headerContent.subHeadingArr = [
+									{
+										text: 'We are confirming the status of your payment. This usually takes a few minutes.',
+										class: ''
+									}
+								];
+								headerContent.status = STATUS_ARR.PENDING;
+							} else if (item.status === STATUS_ARR.SUCCESS) {
+								headerContent.heading = 'Order Placed Successfully';
+								headerContent.subHeadingArr = [
+									{
+										text: `Your portfolio will be updated by ${format(
+											new Date(data.statusHistory[data.statusHistory.length - 1].timeStamp),
+											'dd MMM yyyy'
+										)}`,
+										class: ''
+									}
+								];
+								headerContent.status = STATUS_ARR.SUCCESS;
+							}
+						} else if (index === 2 && item.status === STATUS_ARR.FAILED) {
+							headerContent.heading = 'Order Processing Failed by AMC';
 							headerContent.subHeadingArr = [
 								{
-									text: 'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+									text: 'We are currently unable to process the mandate request to schedule automatic fund transfer from your bank account to trading account for SIP investments due to some technical issues. Please try again',
 									class: 'text-red-sell'
 								}
 							];
 							headerContent.status = STATUS_ARR.FAILED;
-						} else if (item.status === STATUS_ARR.PENDING) {
-							item.status = STATUS_ARR.PENDING;
-							headerContent.heading = 'Order Pending';
-							headerContent.remarks =
-								'If the payment is not processed, it will be refunded to your bank account automatically';
-							headerContent.subHeadingArr = [
-								{
-									text: 'We are confirming the status of your payment. This usually takes a few minutes.',
-									class: ''
-								}
-							];
-							headerContent.status = STATUS_ARR.PENDING;
-						} else if (item.status === STATUS_ARR.SUCCESS) {
-							headerContent.heading = 'Order Placed Successfully';
-							headerContent.subHeadingArr = [
-								{
-									text: `Your portfolio will be updated by ${format(
-										new Date(data.statusHistory[data.statusHistory.length - 1].timeStamp),
-										'dd MMM yyyy'
-									)}`,
-									class: ''
-								}
-							];
-							headerContent.status = STATUS_ARR.SUCCESS;
 						}
-					} else if (index === 2 && item.status === STATUS_ARR.FAILED) {
-						headerContent.heading = 'Order Processing Failed by AMC';
-						headerContent.subHeadingArr = [
-							{
-								text: 'We are currently unable to process the mandate request to schedule automatic fund transfer from your bank account to trading account for SIP investments due to some technical issues. Please try again',
-								class: 'text-red-sell'
-							}
-						];
-						headerContent.status = STATUS_ARR.FAILED;
-					}
-				});
-			}
-			if (isLumpsumOrder) {
-				headerContent.heading = 'One Time Order Placed Successfully';
-				amount = `₹${addCommasToAmountString(data?.amount)}`;
-				schemeCardItems.push({
-					title: 'One Time Investment Amount',
-					value: `₹ ${addCommasToAmountString(data?.amount)}`
-				});
-				schemeDetails.logoUrl = data?.logoUrl;
-				schemeDetails.schemePlan = data?.schemePlan;
-				schemeDetails.schemeName = data?.schemeName;
-				schemeDetails.isin = data?.isin;
-				schemeDetails.schemeCode = data?.schemeCode;
+					});
+				}
+				if (isLumpsumOrder) {
+					headerContent.heading = 'One Time Order Placed Successfully';
+					amount = `₹${addCommasToAmountString(data?.amount)}`;
+					schemeCardItems.push({
+						title: 'One Time Investment Amount',
+						value: `₹ ${addCommasToAmountString(data?.amount)}`
+					});
+					schemeDetails.logoUrl = data?.logoUrl;
+					schemeDetails.schemePlan = data?.schemePlan;
+					schemeDetails.schemeName = data?.schemeName;
+					schemeDetails.isin = data?.isin;
+					schemeDetails.schemeCode = data?.schemeCode;
+				}
 			}
 		}
 
@@ -234,14 +345,14 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			}
 
 			getAutopayTimelineItems(
-				sipData?.data?.data?.nextSipDueDate,
+				headerContent?.status,
 				sipData?.data?.data?.firstOrderToday,
-				headerContent?.status
+				sipData?.data?.data?.nextSipDueDate
 			);
 		}
 
 		// ** ============ FAQ tag specification ============= **
-		if (orderData?.ok) {
+		if (!isBuyPortfolio && !isCart && orderData?.ok) {
 			const data = orderData?.data?.data;
 			const {
 				investmentType,
@@ -317,7 +428,9 @@ export const load = async ({ fetch, url, parent, depends }) => {
 				(isSIPOrder && ((orderData?.ok && sipData?.ok) || (!firstTimePayment && sipData?.ok))) ||
 				isRedeem ||
 				isSwitch ||
-				isSwp,
+				isSwp ||
+				isBuyPortfolio ||
+				isCart,
 			paymentStatus: orderData?.data?.data?.paymentStatus,
 			emandateBankDetails: getBankDetailsByAccountNumber(
 				profile?.bankDetails,
@@ -325,6 +438,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			),
 			orderData,
 			sipData,
+			cartData,
 			autopayTimelineItems,
 			isRedeem,
 			isSwitch,

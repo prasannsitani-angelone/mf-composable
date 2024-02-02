@@ -217,11 +217,12 @@
 		payClick(funds);
 	};
 
-	const navigateToOrders = async (bulkId) => {
+	const navigateToOrders = async (bulkId: string) => {
 		const params = encodeObject({
-			bulkId
+			orderID: bulkId,
+			isBuyPortfolio: true
 		});
-		await goto(`${base}/buyPortfolio/ordersummary?params=${params}`, {
+		await goto(`${base}/ordersummary?params=${params}`, {
 			replaceState: true
 		});
 	};

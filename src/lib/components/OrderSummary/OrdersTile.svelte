@@ -2,19 +2,32 @@
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 
-	export let title: string;
+	export let items = 1;
+	export let isCart = false;
+	export let title = '';
 	export let totalAmount: number;
 	export let schemeLogoUrl: string;
 </script>
 
-<div class="flex flex-col rounded border border-grey-line bg-white p-3">
+<div class="mt-3 flex flex-col rounded border border-grey-line bg-white p-3">
 	<div class="mb-2 text-base font-medium text-black-key">Order Details</div>
 	<div class="font-sm mb-2 flex flex-row items-center justify-between font-normal text-black-title">
 		<section class="flex items-center">
 			<div class="flex flex-row">
 				<SchemeLogo class="!mr-0" size="sm" src={schemeLogoUrl} alt="scheme logo" />
+				{#if isCart && items > 1}
+					<div
+						class="relative left-[-16px] -mr-4 flex h-12 w-12 items-center justify-center rounded-full border border-grey-line bg-white text-base"
+					>
+						+ {items - 1}
+					</div>
+				{/if}
 			</div>
-			<div class="ml-2 text-base">{title}</div>
+			{#if isCart}
+				<div class="ml-2 text-base">{items} {items > 1 ? 'Orders' : 'Order'} Placed</div>
+			{:else}
+				<div class="ml-2 text-base">{title}</div>
+			{/if}
 		</section>
 		<section class="flex flex-col items-end justify-center text-sm font-normal text-black-title">
 			<div class="text-[11px] font-normal text-black-bolder">Amount</div>

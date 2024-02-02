@@ -24,7 +24,7 @@
 	import AnimationPlayer from '$components/AnimationPlayer.svelte';
 	import SuccessAnimation from '$lib/images/SuccessLottie.json';
 	import { orderSummaryStore } from '$lib/stores/OrderSummaryStore';
-
+	import OrdersTile from '$components/OrderSummary/OrdersTile.svelte';
 	export let data: PageData;
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
@@ -42,7 +42,9 @@
 		isRedeem,
 		isSwitch,
 		isSwp,
-		isLumpsumViaMandate
+		isLumpsumViaMandate,
+		isBuyPortfolio,
+		isCart
 	} = decodedParams;
 
 	let orderStatusString = '';
@@ -225,7 +227,7 @@
 		</section>
 	{:then orderSummaryData}
 		{#if orderSummaryData.ok}
-			{@const { headerContent, schemeDetails, amount, pendingOrder } = orderSummaryData}
+			{@const { headerContent, schemeDetails, amount, pendingOrder, cartData } = orderSummaryData}
 			{@const {
 				schemeName,
 				toSchemeName,
@@ -243,14 +245,16 @@
 						titleClass="!font-medium"
 					>
 						<svelte:fragment slot="faqIcon">
-							<WMSIcon
-								name="question-mark-point"
-								stroke="#3F5BD9"
-								height={24}
-								width={24}
-								class="p-0.5"
-								on:click={() => navigateToFAQ(orderSummaryData?.tag)}
-							/>
+							{#if !(isBuyPortfolio || isCart)}
+								<WMSIcon
+									name="question-mark-point"
+									stroke="#3F5BD9"
+									height={24}
+									width={24}
+									class="p-0.5"
+									on:click={() => navigateToFAQ(orderSummaryData?.tag)}
+								/>
+							{/if}
 						</svelte:fragment>
 					</MobileHeader>
 
@@ -264,16 +268,18 @@
 								<span />
 							</svelte:fragment>
 							<svelte:fragment slot="rightColumn">
-								<div class="mr-4 sm:cursor-pointer">
-									<WMSIcon
-										name="question-mark-point"
-										stroke="#3F5BD9"
-										height={24}
-										width={24}
-										class="p-0.5"
-										on:click={() => navigateToFAQ(orderSummaryData?.tag)}
-									/>
-								</div>
+								{#if !(isBuyPortfolio || isCart)}
+									<div class="mr-4 sm:cursor-pointer">
+										<WMSIcon
+											name="question-mark-point"
+											stroke="#3F5BD9"
+											height={24}
+											width={24}
+											class="p-0.5"
+											on:click={() => navigateToFAQ(orderSummaryData?.tag)}
+										/>
+									</div>
+								{/if}
 							</svelte:fragment>
 						</PageTitle>
 					</header>
@@ -292,32 +298,47 @@
 						class="flex flex-1 flex-col overflow-auto px-2"
 						in:fly={{ y: 100, duration: 1250 }}
 					>
-						<OrderStatus
-							class="mt-3"
-							cardHeading={isSIPOrder && !firstTimePayment ? 'Order Details' : 'Order Status'}
-							schemeData={{
-								amount,
-								schemeName: schemeDetails?.schemeName,
-								logoUrl: schemeDetails?.logoUrl
-							}}
-							statusData={orderSummaryData?.statusHistoryItems}
-							showTimeline={true}
-							collapsibleTimeline={!orderSummaryData?.emandateBankDetails &&
-								!isLumpsumOrder &&
-								!isRedeem &&
-								!isSwitch &&
-								!isSwp &&
-								!isLumpsumOrder}
-							{isRedeem}
-							{isSwitch}
-							{isSwp}
-							switchData={{
-								schemeName,
-								toSchemeName,
-								amount: switchAmount
-							}}
-							{headerContent}
-						/>
+						{#if isBuyPortfolio}
+							<OrdersTile
+								schemeLogoUrl={orderSummaryData?.orderData?.data?.data?.logoUrl}
+								title={orderSummaryData?.orderData?.data?.data?.packName}
+								totalAmount={orderSummaryData?.orderData?.data?.data?.totalAmount}
+							/>
+						{:else if isCart}
+							<OrdersTile
+								isCart={true}
+								items={cartData?.checkedOutItemsLength}
+								schemeLogoUrl={cartData?.schemeLogoUrl}
+								totalAmount={cartData?.totalAmount}
+							/>
+						{:else}
+							<OrderStatus
+								class="mt-3"
+								cardHeading={isSIPOrder && !firstTimePayment ? 'Order Details' : 'Order Status'}
+								schemeData={{
+									amount,
+									schemeName: schemeDetails?.schemeName,
+									logoUrl: schemeDetails?.logoUrl
+								}}
+								statusData={orderSummaryData?.statusHistoryItems}
+								showTimeline={true}
+								collapsibleTimeline={!orderSummaryData?.emandateBankDetails &&
+									!isLumpsumOrder &&
+									!isRedeem &&
+									!isSwitch &&
+									!isSwp &&
+									!isLumpsumOrder}
+								{isRedeem}
+								{isSwitch}
+								{isSwp}
+								switchData={{
+									schemeName,
+									toSchemeName,
+									amount: switchAmount
+								}}
+								{headerContent}
+							/>
+						{/if}
 						{#if orderSummaryData.emandateBankDetails && (isSIPOrder || isLumpsumViaMandate)}
 							<AutopayTile
 								bankLogo={orderSummaryData.emandateBankDetails?.bankLogo}
