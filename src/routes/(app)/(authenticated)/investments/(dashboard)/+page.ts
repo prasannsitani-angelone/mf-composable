@@ -92,7 +92,7 @@ export const load = (async ({ fetch, url }) => {
 			layoutType: 'TWO_COLUMN_REVERSE',
 			layoutClass: '!m-0 !p-0 md:px-2 md:py-2',
 			titleClass: '!text-xl',
-			headerClass: '!bg-grey !py-2.5 !px-4',
+			headerClass: '!bg-grey !py-2.5 !px-4 !shadow-none',
 			showFaqIcon: true,
 			faqParams,
 			onClickFaqsIcon
