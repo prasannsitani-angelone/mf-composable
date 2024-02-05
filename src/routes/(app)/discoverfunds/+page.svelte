@@ -1,5 +1,5 @@
 <script lang="ts">
-	import TrendingFunds from '$components/TrendingFunds/TrendingFunds.svelte';
+	import OldTrendingFunds from '$components/TrendingFunds/Old/OldTrendingFunds.svelte';
 	import PortfolioCard from '$components/PortfolioCards/PortfolioCard.svelte';
 	import { page } from '$app/stores';
 	import IntersectionObserver from 'svelte-intersection-observer';
@@ -82,10 +82,7 @@
 	let intersectOnce: boolean;
 	let showExitNudge = false;
 	let notifData: INotificationSummary;
-	let user_cohort =
-		$page?.data?.userDetails?.cohort?.length && $page?.data?.userDetails?.cohort[0]
-			? $page?.data?.userDetails?.cohort[0]
-			: 'Fallback';
+	let user_cohort = 'Fallback';
 	let placementMapping = {};
 	if ($page.data.deviceType?.isMobile || $page.data.deviceType?.isTablet) {
 		placementMapping = cohorts[user_cohort].placementMapping;
@@ -434,7 +431,7 @@
 	{/if}
 
 	<!-- 3. Most Bought Section -->
-	<TrendingFunds
+	<OldTrendingFunds
 		class="row-start-{placementMapping?.trendingFunds?.rowStart} col-start-{placementMapping
 			?.trendingFunds?.columnStart} !my-0 {placementMapping?.trendingFunds?.rowStart > 1
 			? '!mt-2'
