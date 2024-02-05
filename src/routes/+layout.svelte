@@ -56,7 +56,7 @@
 		batchSize: browser ? 10 : 1,
 		baseUrl: `${scheme}//${host}${base}/api`,
 		url: '/logging',
-		NBULoggerUrl: PUBLIC_NBU_LOGGER_URL,
+		NBULoggerUrl: '',
 		logLevel: PUBLIC_LOG_LEVEL,
 		enabled: PUBLIC_LOG_ENABLED === 'true',
 		initialised: true,
@@ -127,7 +127,11 @@
 			baseUrl: '',
 			url: PUBLIC_ANALYTICS_URL,
 			enabled: PUBLIC_ANALYTICS_ENABLED,
-			initialised: true
+			initialised: true,
+			NBULoggerUrl: PUBLIC_NBU_LOGGER_URL,
+			headers: {
+				accessToken: token
+			}
 		});
 
 		// connection details
