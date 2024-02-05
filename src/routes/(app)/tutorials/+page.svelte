@@ -51,7 +51,7 @@
 	};
 </script>
 
-<div class="relative h-full">
+<div class="h-full overflow-hidden">
 	<div class="absolute left-0 right-0 top-0 z-100 my-auto flex flex-row gap-5 p-5">
 		<WMSIcon
 			width={18}
