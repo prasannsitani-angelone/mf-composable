@@ -2,6 +2,7 @@
 	import { base } from '$app/paths';
 	import { WMSIcon } from 'svelte-components';
 	import { onMount } from 'svelte';
+	import { slide } from 'svelte/transition';
 	import {
 		firstSipCardGetStartedButtonClickAnalytics,
 		firstSipCardMountedAnalytics
@@ -25,7 +26,11 @@
 	});
 </script>
 
-<article class="relative mt-2 flex {$$props.class}" data-testid="startFirstSipNudge">
+<article
+	class="slide-down relative mt-2 flex {$$props.class}"
+	data-testid="startFirstSipNudge"
+	in:slide={{ duration: 300 }}
+>
 	<div class="z-2 absolute h-full w-full rounded-lg bg-yellow-background shadow-csm">
 		<StartFirstSipBg class="absolute h-full w-full" />
 	</div>
@@ -46,3 +51,10 @@
 		</ButtonMedium>
 	</div>
 </article>
+
+<style>
+	.slide-down {
+		transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		transform: translateY(0%);
+	}
+</style>

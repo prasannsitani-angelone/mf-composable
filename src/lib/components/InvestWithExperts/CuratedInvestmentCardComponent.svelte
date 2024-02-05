@@ -9,6 +9,7 @@
 	} from '$components/InvestWithExperts/analytics';
 	import { base } from '$app/paths';
 	import { modifiedGoto } from '$lib/utils/goto';
+	import { slide } from 'svelte/transition';
 
 	export let nudgeData: Start4SipsNudgeType;
 	export let stopRedirection = false;
@@ -29,7 +30,11 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="relative overflow-hidden rounded-lg {$$props.class}" on:click={handleCardClick}>
+<div
+	class="slide-down relative overflow-hidden rounded-lg {$$props.class}"
+	on:click={handleCardClick}
+	in:slide={{ duration: 300 }}
+>
 	<CuratedInvestmentCardBackground class="absolute h-full w-full" />
 	<div class="relative px-4 py-3 pb-6">
 		<p class="mb-3 text-base font-medium text-white">{nudgeData.heading}</p>
@@ -53,3 +58,10 @@
 		/>
 	</div>
 </div>
+
+<style>
+	.slide-down {
+		transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		transform: translateY(0%);
+	}
+</style>

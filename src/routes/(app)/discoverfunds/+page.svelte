@@ -62,6 +62,7 @@
 	import SearchComponent from '$components/Search/SearchComponent.svelte';
 	import Link from '$components/Link.svelte';
 	import { modifiedGoto } from '$lib/utils/goto';
+	import { slide } from 'svelte/transition';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -371,7 +372,8 @@
 				  } due`}
 		<div
 			class="row-start-{placementMapping?.actions?.rowStart} col-start-{placementMapping?.actions
-				?.columnStart} mx-1 mb-2 mt-4 rounded-md bg-yellow-background p-2 shadow-lg"
+				?.columnStart} slide-down mx-1 mb-2 mt-4 rounded-md bg-yellow-background p-2 shadow-lg"
+			in:slide={{ duration: 300 }}
 		>
 			<div class="flex items-center justify-between">
 				<div class="flex items-center">
@@ -609,3 +611,10 @@
 	when={showExitNudge}
 	component={async () => await import('$components/ExitNudge/ExitNudgeComponent.svelte')}
 />
+
+<style>
+	.slide-down {
+		transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		transform: translateY(0%);
+	}
+</style>
