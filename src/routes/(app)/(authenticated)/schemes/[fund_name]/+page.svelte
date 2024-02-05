@@ -35,7 +35,6 @@
 	import RiskAndRating from '$components/Scheme/RiskAndRating/RiskAndRating.svelte';
 	import FundHeading from './FundHeading/FundHeading.svelte';
 	import FundComparisonEntry from './FundComparison/FundComparisonEntry.svelte';
-	import { versionStore } from '$lib/stores/VersionStore';
 	import SomethingWentWrong from '$components/Error/SomethingWentWrong.svelte';
 	import SomethingWentWrongSmall from '$components/Error/SomethingWentWrongSmall.svelte';
 	import type { FundComparisons } from '$components/Scheme/types';
@@ -268,7 +267,7 @@
 						class="block md:hidden"
 						schemeData={schemedata}
 						previousPaymentDetails={dataForInvestment?.previousPaymentDetails}
-						mandateData={versionStore.getVersion() === 'B' ? dataForInvestment?.mandateData : []}
+						mandateData={dataForInvestment?.mandateData}
 						params={orderpadParams}
 						fromInvestmentDetailsPage={false}
 					/>
@@ -286,7 +285,7 @@
 					class="sticky -top-2 mt-[52px] hidden md:block"
 					schemeData={schemedata}
 					previousPaymentDetails={dataForInvestment?.previousPaymentDetails}
-					mandateData={versionStore.getVersion() === 'B' ? dataForInvestment?.mandateData : []}
+					mandateData={dataForInvestment?.mandateData}
 					params={orderpadParams}
 					fromInvestmentDetailsPage={false}
 				/>
