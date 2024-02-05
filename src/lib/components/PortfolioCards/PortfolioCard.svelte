@@ -4,16 +4,12 @@
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import Button from '$components/Button.svelte';
-	import { PortfolioCard, WMSIcon } from 'svelte-components';
+	import { PortfolioCard } from 'svelte-components';
 	import type { InvestmentSummary } from '$lib/types/IInvestments';
 	import { viewPortfolioAnalysisAnalytics } from '../../../routes/(app)/(authenticated)/investments/analytics';
 	import { modifiedGoto } from '$lib/utils/goto';
 
 	let showInfo = true;
-
-	const toggleInfo = () => {
-		showInfo = !showInfo;
-	};
 
 	const viewPortfolioAnalysisAnalyticsFunc = () => {
 		const eventMetaData = {
@@ -87,14 +83,6 @@
 						? addCommasToAmountString(investmentSummary?.currentValue?.toFixed(2))
 						: '0.00'}
 				</div>
-			</article>
-
-			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-			<!-- svelte-ignore a11y-click-events-have-key-events -->
-			<article class="flex flex-col items-start" on:click={toggleInfo}>
-				{#if showInfo}<WMSIcon name="arrow-collapse" width={12} height={8} stroke="#FFFFFF" />
-				{:else}<WMSIcon name="arrow-expand" width={12} height={8} stroke="#FFFFFF" />
-				{/if}
 			</article>
 		</section>
 
