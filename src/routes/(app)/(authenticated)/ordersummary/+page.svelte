@@ -10,7 +10,13 @@
 	import Button from '$components/Button.svelte';
 	import { onDestroy, onMount } from 'svelte';
 	import type { SIPData } from './type';
-	import { goToDashboardButtonAnalytics, orderScreenOpenAnalytics } from './analytics';
+	import {
+		faqsButtonClickAnalytics,
+		goToDashboardButtonAnalytics,
+		orderScreenOpenAnalytics,
+		orderTimelineDropdownToggledAnalytics,
+		setupAutopayOrderSummaryButtonClickAnalytics
+	} from './analytics';
 	import LoadingIndicator from '$components/LoadingIndicator.svelte';
 	import { invalidate } from '$app/navigation';
 	import { SEO, WMSIcon } from 'svelte-components';
@@ -53,6 +59,36 @@
 	let animationCompleted = false;
 	let animationTimeout: ReturnType<typeof setTimeout>;
 
+	const getCommonEventMetaData = async () => {
+		const { orderData, sipData, emandateBankDetails, headerContent } = await data.api.data;
+		const sd = sipData?.data?.data;
+		const od = orderData?.data?.data;
+		const eventMetaData = {
+			FundName: isSIPOrder ? sd?.schemeName : od?.schemeName,
+			Isin: isSIPOrder ? sd?.isin : od?.isin,
+			Amount: isSIPOrder ? sd?.installmentAmount : od?.amount,
+			InvestmentType: isSIPOrder
+				? orderData?.data?.data?.firstOrder === 'N'
+					? 'SIP-installment'
+					: 'SIP'
+				: 'OTI',
+			NextSIPPayment: isSIPOrder ? getNextSIPDate(sd) : null,
+			FirstSIPPayment: isSIPOrder ? firstTimePayment : null,
+			AutoPayBank: emandateBankDetails?.bankName,
+			AutopayCtaExist: !sd?.accountNo,
+			PaymentMethod: sd?.isFtpWithMandate ? 'autopay' : od?.paymentMode,
+			PaymentBank: isSIPOrder ? sd?.bankName : od?.bankName,
+			Status: headerContent?.status,
+			Remarks: od?.remarks,
+			integratedUpiFlow: isIntegeratedFlow,
+			OrderID: orderID,
+			SipId: sipID,
+			PaywithAutopay: sd?.isFtpWithMandate ? 'Yes' : 'No',
+			FAQsPresent: !(isBuyPortfolio || isCart) ? 'Yes' : 'No'
+		};
+		return eventMetaData;
+	};
+
 	const navigateToOrders = async () => {
 		const { orderData } = await data.api.data;
 
@@ -91,7 +127,14 @@
 		invalidate('app:ordersummary');
 	};
 
-	const navigateToEmandate = () => {
+	const handleTimelineToggle = async () => {
+		const eventMetaData = await getCommonEventMetaData();
+		orderTimelineDropdownToggledAnalytics(eventMetaData);
+	};
+
+	const navigateToEmandate = async () => {
+		const eventMetaData = await getCommonEventMetaData();
+		setupAutopayOrderSummaryButtonClickAnalytics(eventMetaData);
 		const params = encodeObject({
 			amount: amount,
 			date: date,
@@ -100,7 +143,9 @@
 		goto(`${base}/autopay/manage?params=${params}`);
 	};
 
-	const navigateToFAQ = (tag: string) => {
+	const navigateToFAQ = async (tag: string) => {
+		const eventMetaData = await getCommonEventMetaData();
+		faqsButtonClickAnalytics(eventMetaData);
 		if (tag) {
 			const params = encodeObject({
 				tag: tag,
@@ -154,53 +199,8 @@
 	};
 
 	const onMountAnalytics = async () => {
-		const { orderData, sipData, emandateBankDetails } = await data.api.data;
-		const sd = sipData?.data?.data;
-		const od = orderData?.data?.data;
-
-		orderStatusString = orderData?.data?.data?.status || '';
-		paymentStatusString = orderData?.data?.data?.paymentStatus || '';
-
-		let orderStatus = '';
-
-		if (
-			(isLumpsumOrder && orderData?.ok) ||
-			(isSIPOrder && ((orderData?.ok && sipData?.ok) || (sipData?.ok && !firstTimePayment)))
-		) {
-			if (orderStatusString === 'ORDER_REJECTED' || paymentStatusString === 'failure') {
-				orderStatus = 'failed';
-			} else if (
-				orderStatusString === ORDER_STATUS?.ORDER_COMPLETE ||
-				paymentStatusString === 'success'
-			) {
-				orderStatus = 'success';
-			} else {
-				orderStatus = 'pending';
-			}
-		}
-
-		orderScreenOpenAnalytics({
-			FundName: isSIPOrder ? sd?.schemeName : od?.schemeName,
-			isin: isSIPOrder ? sd?.isin : od?.isin,
-			Amount: isSIPOrder ? sd?.installmentAmount : od?.amount,
-			investmentType: isSIPOrder
-				? orderData?.data?.data?.firstOrder === 'N'
-					? 'SIP-installment'
-					: 'SIP'
-				: 'OTI',
-			NextSIPPayment: isSIPOrder ? getNextSIPDate(sd) : null,
-			FirstSIPPayment: isSIPOrder ? firstTimePayment : null,
-			AutoPayBank: emandateBankDetails?.bankName,
-			AutopayCtaExist: !sd?.accountNo,
-			PaymentMethod: sd?.isFtpWithMandate ? 'autopay' : od?.paymentMode,
-			PaymentBank: isSIPOrder ? sd?.bankName : od?.bankName,
-			Status: orderStatus,
-			Remarks: od?.remarks,
-			integratedUpiFlow: isIntegeratedFlow,
-			OrderID: orderID,
-			SipId: sipID,
-			PaywithAutopay: sd?.isFtpWithMandate ? 'Yes' : 'No'
-		});
+		const eventMetaData = await getCommonEventMetaData();
+		orderScreenOpenAnalytics(eventMetaData);
 	};
 
 	onMount(() => {
@@ -337,6 +337,7 @@
 									amount: switchAmount
 								}}
 								{headerContent}
+								on:timelineToggle={handleTimelineToggle}
 							/>
 						{/if}
 						{#if orderSummaryData.emandateBankDetails && (isSIPOrder || isLumpsumViaMandate)}
@@ -354,7 +355,7 @@
 						{#if !orderSummaryData.emandateBankDetails && isSIPOrder}
 							<AutopayTimeLineCard
 								autopayTimelineItems={orderSummaryData.autopayTimelineItems}
-								class="px-4"
+								class="px-4 sm:px-0"
 							/>
 						{/if}
 						<section

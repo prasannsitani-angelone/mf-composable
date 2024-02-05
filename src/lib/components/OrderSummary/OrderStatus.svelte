@@ -7,6 +7,7 @@
 		StatusHistoryItem
 	} from '../../../routes/(app)/(authenticated)/ordersummary/type';
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
+	import { createEventDispatcher } from 'svelte';
 
 	let cardHeading = 'Order Status';
 	let schemeData: OrderSummarySchemeDataTypes;
@@ -23,6 +24,7 @@
 	let timelineCollapsed = collapsibleTimeline || false;
 	let modifiedStatusData = statusData || [];
 	let headerContent = {};
+	let dispatch = createEventDispatcher();
 
 	const setStatusTimeline = () => {
 		if (!showTimeline) {
@@ -59,6 +61,7 @@
 
 	const handleToggleClick = () => {
 		timelineCollapsed = !timelineCollapsed;
+		dispatch('timelineToggle');
 		setStatusTimeline();
 	};
 

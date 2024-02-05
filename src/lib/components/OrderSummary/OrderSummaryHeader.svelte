@@ -16,15 +16,15 @@
 			{#if STATUS_ARR.FAILED === status}
 				<ErrorIcon />
 			{:else if STATUS_ARR.PENDING === status}
-				<div class="rounded-full border border-[#FEEED4] p-0.5">
-					<WMSIcon name="clock-grey" height={38} width={38} stroke="#F9BA4D" />
+				<div class="rounded-full border border-[#FEEED4] p-[1px]">
+					<WMSIcon name="clock-grey" height={44} width={44} stroke="#F9BA4D" />
 				</div>
 			{:else if STATUS_ARR.SUCCESS === status}
 				<div class="rounded-full border border-[#E0F2EE] p-[1px]">
 					<WMSIcon
 						name="tick-in-circle"
-						height={38}
-						width={38}
+						height={44}
+						width={44}
 						stroke="#fff"
 						bgStroke="#008F75"
 						class="min-w-[12px]"
