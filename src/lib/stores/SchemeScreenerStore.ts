@@ -16,7 +16,7 @@ const initalStore = {
 
 const initialFilter = [
 	{
-		label: 'Scheme Type',
+		label: 'Fund Type',
 		values: [
 			{
 				label: 'Growth'
