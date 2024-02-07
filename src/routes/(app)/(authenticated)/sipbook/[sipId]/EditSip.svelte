@@ -38,6 +38,8 @@
 	} from '$lib/analytics/sipbook/sipbook';
 	import { page } from '$app/stores';
 	import { decodeToObject } from '$lib/utils/helpers/params';
+	import { profileStore } from '$lib/stores/ProfileStore';
+	import Physical2FAOtpVerificationComponent from '$components/Payment/Physical2FAOtpVerificationComponent.svelte';
 
 	let editSipShowModal: () => void = () => undefined;
 	let nextSipDueDate: number;
@@ -83,6 +85,9 @@
 	let editFailureMsg = '';
 	$: amountVal = amount?.length ? `₹${addCommasToAmountString(amount)}` : '';
 	$: onInputChange(amount);
+
+	let showOtpVerificationModal = false;
+	let isOtpVerificationDone = false;
 
 	const params = $page.url.searchParams.get('params') || '';
 	const {
@@ -266,6 +271,11 @@
 		}
 	};
 	const onFinalConfirm = async () => {
+		if (profileStore.accountType() === 'P' && !isOtpVerificationDone) {
+			showOtpVerificationModal = true;
+			return;
+		}
+
 		editSipConfirmClickAnalytics({
 			fundName: schemeName,
 			updatedAmount: stringToFloat(amount),
@@ -543,6 +553,24 @@
 		/>
 		{#if isLoading}
 			<LoadingPopup />
+		{/if}
+
+		<!-- 2FA (OTP) Verification Process -->
+		{#if showOtpVerificationModal}
+			<Physical2FAOtpVerificationComponent
+				uuid={isExternal && requestId ? requestId : uuid}
+				amount={amount.toString()}
+				investmentType="Portfolio"
+				{schemeName}
+				on:otpVerificationSuccessful={() => {
+					showOtpVerificationModal = false;
+					isOtpVerificationDone = true;
+					onFinalConfirm();
+				}}
+				on:closeOtpModal={() => {
+					showOtpVerificationModal = false;
+				}}
+			/>
 		{/if}
 	</div>
 </div>

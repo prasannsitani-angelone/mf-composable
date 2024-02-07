@@ -27,13 +27,13 @@
 	]}
 >
 	<section class="px-4 pb-6 text-sm font-normal md:px-8 md:py-6 md:text-base" slot="bodySection">
-		<p class="text-gray-500">
+		<p class="text-body">
 			An OTP has been sent to
-			<span class="font-medium text-black-title">
+			<span class="font-medium text-title">
 				{getMaskedEmail($profileStore?.clientDetails?.email || '')}
 			</span>
 			and
-			<span class="font-medium text-black-title">
+			<span class="font-medium text-title">
 				{getMaskedMobileNumberSuffix($profileStore?.mobile || '', false)}
 			</span>. Please enter the OTP to verify your order
 		</p>
