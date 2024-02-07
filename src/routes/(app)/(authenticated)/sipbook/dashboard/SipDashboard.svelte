@@ -17,7 +17,6 @@
 	} from '$lib/analytics/sipbook/sipbook';
 	import { getDateTimeString } from '$lib/utils/helpers/date';
 	import { format } from 'date-fns';
-	import type { INudge } from '$lib/types/INudge';
 	import { goto, invalidate } from '$app/navigation';
 	import { base } from '$app/paths';
 	import SipBookAutoPayNudge from '$components/AutopaySetupTile/SipBookAutoPayNudge.svelte';
@@ -33,6 +32,9 @@
 	import type { MandateWithBankDetails } from '$lib/types/IEmandate';
 	import { toastStore } from '$lib/stores/ToastStore';
 	import WmsIcon from '$components/WMSIcon.svelte';
+	import TutorialNudge from '$components/Tutorial/nudge/TutorialNudge.svelte';
+	import type { INudge, UserEducationNudgeType } from '$lib/types/INudge';
+	import TrendingFunds from '$components/TrendingFunds/TrendingFunds.svelte';
 
 	const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips`;
 	let showInactiveSipsCta = false;
@@ -45,6 +47,7 @@
 	let data: PageData;
 	let nudgeData: INudge[];
 	let automatedSipsCount = 0;
+	let userEducationNudge: UserEducationNudgeType;
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 
@@ -52,6 +55,12 @@
 		normalSipsArray = [];
 		paymentSipsArray = [];
 		automatedSipsCount = 0;
+	};
+
+	let classes = {
+		header: '!px-0',
+		container: '',
+		item: '!ml-0 mr-5'
 	};
 
 	const setSipLists = (sipList: ISip[] = []) => {
@@ -91,6 +100,7 @@
 			.then(({ nudges }) => {
 				nudgeData = nudges;
 				setSipCardNudges();
+				setOtherNudgeDataTypes(nudgeData);
 			});
 	};
 
@@ -108,6 +118,14 @@
 		});
 
 		setSipLists(updatedSipList);
+	};
+
+	const setOtherNudgeDataTypes = (data) => {
+		(data || [])?.forEach((item) => {
+			if (item?.nudgesType === 'USER_EDUCATION_ENGAGEMENT') {
+				userEducationNudge = item;
+			}
+		});
 	};
 
 	const handleInactiveSipsClick = () => {
@@ -345,7 +363,74 @@
 				on:onCTAClicked={(e) => goto(e.detail.url)}
 			/>
 		{/if}
-		<NoSipScreen {data} {showInactiveSipsCta} />
+		<section class="mb-24 grid grid-cols-[100%] sm:grid-cols-[70%_30%] sm:gap-x-5">
+			{#if !isMobile}
+				<section class="col-start-1 row-start-2 sm:row-start-1">
+					<NoSipScreen {data} />
+					<TrendingFunds
+						class="!my-0 !mt-2"
+						tableData={data?.searchDashboardData?.weeklyTopSchemes}
+						version="A"
+						title="Most Bought SIPs"
+					/>
+				</section>
+				<section class="col-start-1 row-start-1 h-min sm:col-start-2">
+					{#if userEducationNudge}
+						<TutorialNudge
+							title={userEducationNudge.heading}
+							subTitle={userEducationNudge.description}
+							class="col-start-6 row-start-1 !mb-0 h-fit border shadow-none"
+						/>
+					{/if}
+					<!-- Inactive SIPs CTA section -->
+					<Link
+						to="/sipbook/inactivesips"
+						on:linkClicked={handleInactiveSipsClick}
+						class="col-start-1 row-start-3 sm:row-start-2"
+					>
+						{#if showInactiveSipsCta}
+							<section
+								class="mt-8 cursor-default text-center text-sm font-medium text-blue-primary"
+							>
+								VIEW INACTIVE SIPs
+							</section>
+						{/if}
+					</Link>
+				</section>
+			{:else}
+				<NoSipScreen {data} />
+				<section class="-mx-2 mt-2 max-w-4xl bg-white px-2 !pt-0 pb-7 shadow-csm">
+					<TrendingFunds
+						class="col-start-6 row-start-1 !my-0 mx-2 !mt-2 pt-3 shadow-none"
+						tableData={data?.searchDashboardData?.weeklyTopSchemes}
+						version="A"
+						title="Most Bought SIPs"
+						{classes}
+					/>
+					{#if userEducationNudge}
+						<TutorialNudge
+							title={userEducationNudge.heading}
+							subTitle={userEducationNudge.description}
+							class="col-start-6 row-start-1 mx-2 !mb-0 mt-2 h-fit border shadow-none"
+						/>
+					{/if}
+					<!-- Inactive SIPs CTA section -->
+					<Link
+						to="/sipbook/inactivesips"
+						on:linkClicked={handleInactiveSipsClick}
+						class="col-start-1 row-start-3 sm:row-start-2"
+					>
+						{#if showInactiveSipsCta}
+							<section
+								class="mt-8 cursor-default text-center text-sm font-medium text-blue-primary"
+							>
+								VIEW INACTIVE SIPs
+							</section>
+						{/if}
+					</Link>
+				</section>
+			{/if}
+		</section>
 	{/if}
 
 	{#if ['mf_sips_bottomsticky_type_b', 'mf_sips_bottomsticky_type_c', 'mf_sips_bottomsticky_type_d'].includes($ctNudgeStore?.kv?.topic) && isMobile}

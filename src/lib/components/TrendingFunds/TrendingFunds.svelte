@@ -6,7 +6,8 @@
 	let tableData: Array<WeeklyTopSchemesEntity>;
 	let classes = {
 		header: '',
-		container: ''
+		container: '',
+		item: ''
 	};
 	let version: string;
 
@@ -19,6 +20,6 @@
 	<header class={`flex flex-col px-6 py-3 sm:py-6 ${classes.header}`}>
 		<h2 class="text-lg font-medium text-black-title">{title}</h2>
 	</header>
-	<TrendingCarousel {tableData} {version} />
+	<TrendingCarousel {tableData} {version} class={classes.item} />
 	<slot name="footer" />
 </section>
