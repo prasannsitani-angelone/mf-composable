@@ -457,6 +457,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 		layoutConfig: {
 			layoutType: 'FULL_HEIGHT_WITHOUT_PADDING',
 			layoutClass: 'bg-white md:bg-grey',
+			layoutBodyClass: 'h-full',
 			title: 'Order Summary'
 		}
 	};

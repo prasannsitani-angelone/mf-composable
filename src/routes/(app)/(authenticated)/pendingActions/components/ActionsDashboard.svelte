@@ -67,7 +67,7 @@
 
 			let params = null;
 			params = encodeObject({
-				investmentType: 'LUMPSUM',
+				investmentType: 'SIP',
 				investmentAmount: order?.installmentAmount,
 				sipDate: new Date(order?.sipPaymentDate)?.getDate(),
 				ftp: true,

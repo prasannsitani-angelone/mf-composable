@@ -38,7 +38,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div on:click={gotoSchemeDetails} class={`flex cursor-pointer flex-col ${clazz}`}>
-	<div class="mb-3 flex flex-row items-start px-2">
+	<div class="flex flex-row items-start">
 		<SchemeLogo
 			size="sm"
 			src={schemes?.logoUrl}

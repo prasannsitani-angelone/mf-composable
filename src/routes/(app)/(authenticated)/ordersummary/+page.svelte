@@ -220,9 +220,9 @@
 
 <SEO seoTitle="Order Summary | Angel One" seoDescription="Summary of your Investment" />
 
-<article class="mt-14 flex h-full flex-col justify-center md:mt-0 md:pb-4">
+<article class="flex h-full flex-col justify-center md:mt-0 md:pb-4">
 	{#await data.api.data}
-		<section class="flex h-[calc(100vh-56px)] items-center justify-center md:h-[calc(100vh-148px)]">
+		<section class="flex h-full items-center justify-center md:h-[calc(100vh-148px)]">
 			<LoadingIndicator svgClass="!w-12 !h-12" />
 		</section>
 	{:then orderSummaryData}
@@ -236,14 +236,10 @@
 
 			{#if animationCompleted || pendingOrder}
 				<section
-					class="flex h-[calc(100vh-56px)] flex-col overflow-hidden sm:h-full md:rounded-lg md:bg-white md:p-2"
+					class="flex h-full flex-col overflow-hidden sm:h-full md:rounded-lg md:bg-white md:p-2"
 				>
 					<!-- Mobile Header -->
-					<MobileHeader
-						title={'Order Summary'}
-						class="fixed left-0 right-0 top-0 bg-white shadow-none"
-						titleClass="!font-medium"
-					>
+					<MobileHeader title={'Order Summary'} class="bg-white" titleClass="!font-medium">
 						<svelte:fragment slot="faqIcon">
 							{#if !(isBuyPortfolio || isCart)}
 								<WMSIcon
