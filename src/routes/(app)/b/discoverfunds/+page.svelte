@@ -387,15 +387,15 @@
 				  } due`}
 		<div
 			class="row-start-{placementMapping?.actions?.rowStart} col-start-{placementMapping?.actions
-				?.columnStart} slide-down mx-1 mb-2 mt-4 rounded-md bg-yellow-background p-2 shadow-lg"
+				?.columnStart} slide-down mx-1 mt-2 rounded-md bg-yellow-background p-2 shadow-lg"
 			in:slide={{ duration: 400 }}
 		>
 			<div class="flex items-center justify-between">
 				<div class="flex items-center">
-					<WMSIcon name="exclamation-circle-solid" />
-					<div class="px-4 text-black-key">
+					<WMSIcon name="exclamation-circle-solid" height={31} width={31} />
+					<div class="pl-2 pr-4 text-black-key">
 						<p class="text-sm font-medium">Action Required</p>
-						<p class="text-xs">
+						<p class="pt-1 text-xs">
 							{notifText}
 						</p>
 					</div>
