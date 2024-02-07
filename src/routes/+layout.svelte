@@ -114,7 +114,7 @@
 			navigator?.serviceWorker?.addEventListener('message', async (event) => {
 				if (event?.data?.meta === 'workbox-broadcast-update') {
 					// Reload when data changed
-					// window.location.reload();
+					window.location.reload();
 				}
 			});
 		}

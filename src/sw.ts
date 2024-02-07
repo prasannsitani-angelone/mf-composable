@@ -7,11 +7,11 @@
 
 import { cleanupOutdatedCaches, precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { CacheFirst } from 'workbox-strategies';
+import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
 import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 import { ExpirationPlugin } from 'workbox-expiration';
-// import { BroadcastUpdatePlugin } from 'workbox-broadcast-update';
-// const swCacheHeader = 'X-Sw-Cache';
+import { BroadcastUpdatePlugin } from 'workbox-broadcast-update';
+const swCacheHeader = 'X-Sw-Cache';
 const cacheList = ['workbox-offline-fallbacks', 'workbox-precache-v2'];
 
 declare let self: ServiceWorkerGlobalScope;
@@ -55,24 +55,24 @@ precacheAndRoute(self.__WB_MANIFEST);
 // clean old assets
 cleanupOutdatedCaches();
 
-// registerRoute(
-// 	({ request }) => {
-// 		return request.mode === 'navigate' && request.url.includes('/mutual-funds/discoverfunds');
-// 	},
-// 	new StaleWhileRevalidate({
-// 		cacheName: 'pages',
-// 		plugins: [
-// 			new CacheableResponsePlugin({ statuses: [200] }),
-// 			new ExpirationPlugin({
-// 				maxEntries: 500,
-// 				maxAgeSeconds: 60 * 60 * 12
-// 			}),
-// 			new BroadcastUpdatePlugin({
-// 				headersToCheck: [swCacheHeader]
-// 			})
-// 		]
-// 	})
-// );
+registerRoute(
+	({ request }) => {
+		return request.mode === 'navigate' && request.url.includes('/mutual-funds/discoverfunds');
+	},
+	new StaleWhileRevalidate({
+		cacheName: 'pages',
+		plugins: [
+			new CacheableResponsePlugin({ statuses: [200] }),
+			new ExpirationPlugin({
+				maxEntries: 500,
+				maxAgeSeconds: 60 * 60 * 12
+			}),
+			new BroadcastUpdatePlugin({
+				headersToCheck: [swCacheHeader]
+			})
+		]
+	})
+);
 // / Cache Web Manifest, CSS, JS, and Web Worker requests with a Stale While Revalidate strategy
 registerRoute(
 	({ request }) =>
