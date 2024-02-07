@@ -9,7 +9,6 @@
 	import Link from '$components/Link.svelte';
 	import AddToCart from '$components/AddToCart.svelte';
 	import { goto } from '$app/navigation';
-	import { exitNudgeStore } from '$lib/stores/ExitNudgeStore';
 	import { crossButtonClickEvent } from '$components/Headers/analytics';
 	import { createEventDispatcher } from 'svelte';
 	import Button from '$lib/components/Button.svelte';
@@ -32,19 +31,8 @@
 
 	const dispatch = createEventDispatcher();
 
-	function overrideCloseButtonClick() {
-		const shouldShow = exitNudgeStore.shouldShow();
-		if (shouldShow) {
-			exitNudgeStore.showNudge();
-		}
-		return shouldShow;
-	}
-
 	const handleCloseButtonClick = () => {
 		crossButtonClickEvent();
-		if (overrideCloseButtonClick()) {
-			return;
-		}
 		if ($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) {
 			window.location.href = `${window.location.origin}${base}/exit`;
 		} else {

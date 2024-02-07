@@ -28,7 +28,7 @@
 	import Button from '$components/Button.svelte';
 	import { SEO, WMSIcon } from 'svelte-components';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
-	import { onDestroy, onMount, tick } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import LazyComponent from '$components/LazyComponent.svelte';
@@ -37,8 +37,6 @@
 		storiesDataObjectWithoutUrls,
 		videoCtaList
 	} from '$components/Stories/utils';
-	import { exitNudgeStore } from '$lib/stores/ExitNudgeStore';
-	import { browser } from '$app/environment';
 	import QuickEntryPointsComponent from './QuickEntryPoints/QuickEntryPointsComponent.svelte';
 	import CategoriesComponent from './CategoriesComponent.svelte';
 	import { askAngelEntryImpressionAnalytics } from '$lib/analytics/askangel/askangel';
@@ -80,7 +78,6 @@
 	let autopayNudge: INudge;
 	let elementOnce: HTMLElement;
 	let intersectOnce: boolean;
-	let showExitNudge = false;
 	let notifData: INotificationSummary;
 	let user_cohort = 'Fallback';
 	let placementMapping = {};
@@ -236,7 +233,6 @@
 		(nudgesData?.nudges || [])?.forEach((item) => {
 			if (item?.nudgesType === 'CREATE_YOUR_FIRST_SIP') {
 				startFirstSipNudgeData = item;
-				exitNudgeStore.hasNudgeData(true);
 			} else if (item?.nudgesType === 'START_FOUR_SIPS') {
 				start4SipsNudgeData = item;
 			} else if (item?.nudgesType === 'USER_EDUCATION_ENGAGEMENT') {
@@ -288,9 +284,6 @@
 		getAllNotificationsData().then((data) => {
 			notifData = data;
 		});
-		exitNudgeStore.subscribe((store) => {
-			showExitNudge = store.showExitNudge;
-		});
 
 		if (data?.layoutConfig?.showAskAngelEntry) {
 			askAngelEntryImpressionAnalytics();
@@ -314,11 +307,6 @@
 		});
 	};
 
-	onDestroy(() => {
-		if (browser) {
-			exitNudgeStore.setShown();
-		}
-	});
 	export let data: PageData;
 </script>
 
@@ -602,12 +590,6 @@
 		</div>
 	</article>
 {/if}
-
-<LazyComponent
-	nudgeData={startFirstSipNudgeData}
-	when={showExitNudge}
-	component={async () => await import('$components/ExitNudge/ExitNudgeComponent.svelte')}
-/>
 
 <style>
 	.slide-down {

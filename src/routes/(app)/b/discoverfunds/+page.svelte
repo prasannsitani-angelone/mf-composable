@@ -27,7 +27,7 @@
 	import PromotionCard from '$components/Promotions/PromotionCard.svelte';
 	import { SEO, WMSIcon } from 'svelte-components';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
-	import { onDestroy, onMount, tick } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import TrendingFunds from '$components/TrendingFunds/TrendingFunds.svelte';
@@ -39,8 +39,6 @@
 		storiesDataObjectWithoutUrls,
 		videoCtaList
 	} from '$components/Stories/utils';
-	import { exitNudgeStore } from '$lib/stores/ExitNudgeStore';
-	import { browser } from '$app/environment';
 	import CategoriesComponent from '../../discoverfunds/CategoriesComponent.svelte';
 	import { askAngelEntryImpressionAnalytics } from '$lib/analytics/askangel/askangel';
 	import { ctNudgeStore } from '$lib/stores/CtNudgeStore';
@@ -236,7 +234,6 @@
 		(nudgesData?.nudges || [])?.forEach((item) => {
 			if (item?.nudgesType === 'CREATE_YOUR_FIRST_SIP') {
 				startFirstSipNudgeData = item;
-				exitNudgeStore.hasNudgeData(true);
 			} else if (item?.nudgesType === 'START_FOUR_SIPS') {
 				start4SipsNudgeData = item;
 			} else if (item?.nudgesType === 'USER_EDUCATION_ENGAGEMENT') {
@@ -290,10 +287,6 @@
 			notifData = data;
 		});
 
-		exitNudgeStore.subscribe((store) => {
-			showExitNudge = store.showExitNudge;
-		});
-
 		if (data?.layoutConfig?.showAskAngelEntry) {
 			askAngelEntryImpressionAnalytics();
 		}
@@ -315,14 +308,6 @@
 			event_type: 'impression'
 		});
 	};
-
-	onDestroy(() => {
-		if (browser) {
-			exitNudgeStore.setShown();
-		}
-	});
-
-	let showExitNudge = false;
 
 	export let data: PageData;
 </script>
@@ -590,12 +575,6 @@
 		<AskAngel class="row-start-{placementMapping.askAngel?.rowStart}" />
 	{/if}
 </article>
-
-<LazyComponent
-	nudgeData={startFirstSipNudgeData}
-	when={showExitNudge}
-	component={async () => await import('$components/ExitNudge/ExitNudgeComponent.svelte')}
-/>
 
 <style>
 	.slide-down {
