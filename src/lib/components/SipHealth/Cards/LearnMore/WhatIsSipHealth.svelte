@@ -7,11 +7,11 @@
 </script>
 
 <div
-	class="flex h-[450px] w-fit flex-col items-start justify-self-center rounded-lg bg-white {$$props.class}"
+	class="flex h-[450px] w-fit flex-col items-start justify-self-center rounded-lg bg-background-alt {$$props.class}"
 >
 	<p class="mt-6 px-6 text-4xl font-medium text-[#581DBE]">01</p>
-	<p class="mb-4 px-6 text-2xl font-medium text-black-title">What is SIP Health?</p>
-	<p class="mb-10 px-6 text-sm text-black-title">
+	<p class="mb-4 px-6 text-2xl font-medium text-title">What is SIP Health?</p>
+	<p class="mb-10 px-6 text-sm text-title">
 		Your SIP health score is reflection of your investing habits. It is calculated using multiple
 		factors like your investing discipline, consistency, and overall portfolio growth.
 	</p>

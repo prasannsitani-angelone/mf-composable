@@ -76,7 +76,7 @@
 	const protfolioData: ProtfolioData = {
 		upComing: {
 			countIdentifier: 'totalScheduledOrders',
-			orderCountStyles: 'text-blue-primary  bg-blue-600',
+			orderCountStyles: 'text-primary  bg-blue-600',
 			title: 'Upcoming',
 			orders: [],
 			textString: 'Next payment',

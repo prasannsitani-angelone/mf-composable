@@ -270,7 +270,7 @@
 	{#if !showAboutOrderVerificationModal && !loadingState.isLoading && !error?.visible}
 		<ModalWithAnimation isModalOpen={true} on:backdropclicked={closeOtpActionModal}>
 			<div
-				class="flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white shadow-csm md:w-120 md:rounded-lg"
+				class="flex w-screen flex-col rounded-b-none rounded-t-2xl bg-background-alt shadow-csm md:w-120 md:rounded-lg"
 			>
 				<slot name="heading">
 					<div class="flex items-center justify-between px-4 py-6 md:px-8">
@@ -295,7 +295,7 @@
 				</slot>
 
 				<slot name="horizontalLine">
-					<div class="hidden border-t border-grey-line sm:block" />
+					<div class="hidden border-t sm:block" />
 				</slot>
 
 				<slot name="bodySection">
@@ -316,10 +316,10 @@
 							wrongOtpLimit
 								? 'cursor-text'
 								: 'cursor-not-allowed'} {(isIncorrectOtp || wrongOtpCount >= wrongOtpLimit) &&
-								'border-red-sell'}"
+								'border-sell'}"
 							on:click={focusOtpInput}
 						>
-							<label class="mb-0.5 mr-5 cursor-text text-xs text-black-title" for="otpInput">
+							<label class="mb-0.5 mr-5 cursor-text text-xs text-title" for="otpInput">
 								<WMSIcon width={24} height={25} name="keypad" />
 							</label>
 							<section class="flex flex-col items-start justify-start text-sm">
@@ -333,7 +333,8 @@
 									value={otpValue}
 									maxlength="6"
 									disabled={wrongOtpCount >= wrongOtpLimit}
-									class="border-none bg-white text-base outline-none {wrongOtpCount < wrongOtpLimit
+									class="border-none bg-background-alt text-base outline-none {wrongOtpCount <
+									wrongOtpLimit
 										? 'cursor-text'
 										: 'cursor-not-allowed'} {!otpValue?.length && '-mt-2 mb-3'}"
 									on:input={onOtpInput}
@@ -344,7 +345,7 @@
 						<!-- Error and Resent OTP section -->
 						<article class="flex items-start justify-between text-sm font-normal">
 							{#if isIncorrectOtp || wrongOtpCount >= wrongOtpLimit}
-								<div class="text-red-sell">
+								<div class="text-sell">
 									{#if wrongOtpCount >= wrongOtpLimit}
 										<span> Wrong OTP limit exceeded. Please resend OTP and try again </span>
 									{:else}
@@ -356,16 +357,13 @@
 							{/if}
 
 							{#if timerCountdownInProgress && !isIncorrectOtp && wrongOtpCount < wrongOtpLimit}
-								<div class="text-sm font-normal text-grey-body">
+								<div class="text-sm font-normal text-body">
 									<span id="resendOtpCountdown">
 										Resend in {countdownTime}
 									</span>
 								</div>
 							{:else}
-								<button
-									class="min-w-fit cursor-pointer text-blue-primary"
-									on:click={resendOtpClicked}
-								>
+								<button class="min-w-fit cursor-pointer text-primary" on:click={resendOtpClicked}>
 									Resend OTP
 								</button>
 							{/if}
@@ -400,7 +398,7 @@
 			<svelte:fragment slot="bodySection">
 				<section class="p-8">
 					{#each aboutModalData as statement (statement?.text)}
-						<div class="font-base flex items-start justify-start pb-5 text-sm text-grey-body">
+						<div class="font-base flex items-start justify-start pb-5 text-sm text-body">
 							<WMSIcon class="mr-2.5 min-w-[20px]" width={24} height={24} name="setting" />
 							<span>
 								{statement?.text}

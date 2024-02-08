@@ -17,13 +17,13 @@
 	<InvestmentTypeRadioSelection class="mb-6" bind:selectedInvestmentType on:investmentTypeChange>
 		<div
 			slot="sipLabel"
-			class="text-center text-sm font-normal leading-none tracking-tight text-black-key"
+			class="text-center text-sm font-normal leading-none tracking-tight text-title"
 		>
 			Invest Monthly (SIP)
 		</div>
 		<div
 			slot="oneTimeLabel"
-			class="text-center text-sm font-normal leading-none tracking-tight text-black-key"
+			class="text-center text-sm font-normal leading-none tracking-tight text-title"
 		>
 			Invest One Time
 		</div>
@@ -32,13 +32,13 @@
 	<div class="mb-6">
 		<div class="mb-3 flex justify-between">
 			<span
-				class="flex items-center justify-center text-xs font-normal text-black-title md:text-sm md:font-normal md:text-grey-body"
+				class="flex items-center justify-center text-xs font-normal text-title md:text-sm md:font-normal md:text-body"
 			>
 				{selectedInvestmentType === 'SIP' ? 'Monthly Investment' : 'Total Investment '}
 			</span>
 
-			<div class="min-w-[90px] items-center justify-end gap-2.5 rounded bg-grey px-2 py-1">
-				<div class="text-right text-base font-medium text-black-key">
+			<div class="min-w-[90px] items-center justify-end gap-2.5 rounded bg-background px-2 py-1">
+				<div class="text-right text-base font-medium text-title">
 					<AmountText amount={amountSlider[0]} />
 				</div>
 			</div>
@@ -51,7 +51,7 @@
 				max={MaxAmountSlider}
 				step={steps}
 			>
-				<div class="h-5 w-5 rounded-full bg-blue-primary" />
+				<div class="h-5 w-5 rounded-full bg-primary" />
 			</Slider>
 		</div>
 	</div>
@@ -59,26 +59,26 @@
 	<div class="mb-6">
 		<div class="mb-5 flex justify-between">
 			<span
-				class="flex items-center justify-center text-xs font-normal text-black-title md:text-sm md:font-normal md:text-grey-body"
+				class="flex items-center justify-center text-xs font-normal text-title md:text-sm md:font-normal md:text-body"
 			>
 				Expected Returns % (p.a.)
 			</span>
 			<div class="flex flex-row items-center">
 				{#if roiSlider[0] <= 10}
 					<div class="mr-2 inline-flex w-fit rounded bg-[#E0F2EE] px-2 py-1">
-						<div class="text-[10px] font-normal text-green-card">Low Risk</div>
+						<div class="text-[10px] font-normal text-buy">Low Risk</div>
 					</div>
 				{:else if roiSlider[0] <= 15}
-					<div class="mr-2 inline-flex w-fit rounded bg-yellow-background px-2 py-1">
-						<div class="text-[10px] font-normal text-yellow-primary">Moderate Risk</div>
+					<div class="mr-2 inline-flex w-fit rounded bg-tint12-secondary px-2 py-1">
+						<div class="text-[10px] font-normal text-secondary">Moderate Risk</div>
 					</div>
 				{:else}
-					<div class="mr-2 inline-flex w-fit rounded bg-red-light px-2 py-1">
-						<div class=" text-[10px] font-normal text-red-errorDark">High Risk</div>
+					<div class="mr-2 inline-flex w-fit rounded bg-tint12-sell px-2 py-1">
+						<div class=" text-[10px] font-normal text-sell">High Risk</div>
 					</div>
 				{/if}
-				<div class="min-w-[45px] rounded bg-grey px-2 py-1">
-					<div class="text-right text-base font-medium text-black-key">
+				<div class="min-w-[45px] rounded bg-background px-2 py-1">
+					<div class="text-right text-base font-medium text-title">
 						{roiSlider[0]}%
 					</div>
 				</div>
@@ -92,7 +92,7 @@
 				max={MaxRoiSlider}
 				step={1}
 			>
-				<div class="h-5 w-5 rounded-full bg-blue-primary" />
+				<div class="h-5 w-5 rounded-full bg-primary" />
 			</Slider>
 		</div>
 	</div>

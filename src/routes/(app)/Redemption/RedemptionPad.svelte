@@ -407,7 +407,7 @@
 	};
 </script>
 
-<section class="rounded-b-lg md:bg-white md:py-3 {$$props?.class}">
+<section class="rounded-b-lg md:bg-background-alt md:py-3 {$$props?.class}">
 	{#if isMobile && !$headerStore?.showMobileHeader}
 		<slot name="customMobileHeader">
 			<MobileHeader
@@ -415,13 +415,13 @@
 				showSearchIcon={false}
 				showBackIcon={true}
 				showCloseIcon={false}
-				class="-mx-2 -mt-2 mb-2 bg-white"
+				class="-mx-2 -mt-2 mb-2 bg-background-alt"
 			/>
 		</slot>
 	{/if}
 
 	<ResultItem
-		class="mb-2 rounded-lg bg-white p-2 shadow-csm md:hidden md:px-6 md:py-5 {!isInvestmentNotAllowed &&
+		class="mb-2 rounded-lg bg-background-alt p-2 shadow-csm md:hidden md:px-6 md:py-5 {!isInvestmentNotAllowed &&
 		holdingDetails
 			? 'cursor-pointer'
 			: ''}"
@@ -430,7 +430,7 @@
 		logoUrl={holdingDetails?.logoUrl}
 		categoryName={holdingDetails?.schemePlan}
 		subcategoryName={holdingDetails?.sipEnabled ? 'SIP' : 'ONE-TIME'}
-		titleStyle="ml-1 text-sm lg:text-lg font-normal text-black-title"
+		titleStyle="ml-1 text-sm lg:text-lg font-normal text-title"
 		categoryStyle="mx-1 font-normal"
 		subCategoryStyle="ml-1 font-normal"
 		on:click={handleSchemeCardClick}
@@ -452,26 +452,26 @@
 	{#if !showFolioSelection && !showWithdrawConfirmation && !isRedemptionNotAllowed}
 		<section>
 			<article
-				class="mx-0 flex items-center justify-between bg-grey px-3 py-2 shadow-csm md:mx-3 md:border md:shadow-none {folioList?.length >
+				class="mx-0 flex items-center justify-between bg-background px-3 py-2 shadow-csm md:mx-3 md:border md:shadow-none {folioList?.length >
 				1
 					? 'rounded-t-lg'
 					: 'rounded-lg'}"
 			>
 				{#if folioList?.length > 1}
-					<div class="flex items-center justify-start text-sm font-normal text-grey-body">
-						<span class="mr-1 text-sm text-grey-body"> Current Value </span>
+					<div class="flex items-center justify-start text-sm font-normal text-body">
+						<span class="mr-1 text-sm text-body"> Current Value </span>
 						<article
-							class="rounded-sm px-1 py-0.5 text-[10px] text-black-title"
+							class="rounded-sm px-1 py-0.5 text-[10px] text-title"
 							style="background-color: rgba(63, 91, 217, 0.12)"
 						>
 							{folioList?.length} FOLIOS
 						</article>
 					</div>
 				{:else}
-					<div class="text-sm text-grey-body">Current Value</div>
+					<div class="text-sm text-body">Current Value</div>
 				{/if}
 
-				<div class="flex items-center justify-center text-base font-normal text-black-title">
+				<div class="flex items-center justify-center text-base font-normal text-title">
 					<span class="text-sm md:text-base">
 						₹{addCommasToAmountString(holdingDetails?.currentValue?.toFixed(2))}
 					</span>
@@ -487,12 +487,12 @@
 
 			{#if folioList?.length > 1}
 				<article
-					class="mx-0 rounded-b-lg border-t-0 bg-white p-3 font-normal shadow-csm md:mx-3 md:border md:shadow-none"
+					class="mx-0 rounded-b-lg border-t-0 bg-background-alt p-3 font-normal shadow-csm md:mx-3 md:border md:shadow-none"
 				>
 					<section class="mb-4 flex items-center justify-between">
-						<div class="text-sm text-grey-body">Selected Folio</div>
+						<div class="text-sm text-body">Selected Folio</div>
 						<button
-							class="flex cursor-pointer items-center justify-center text-base text-black-title"
+							class="flex cursor-pointer items-center justify-center text-base text-title"
 							on:click={() => toggleFolioSelection(true)}
 						>
 							<span>
@@ -504,8 +504,8 @@
 						</button>
 					</section>
 					<section class="flex items-center justify-between">
-						<div class="text-sm text-grey-body">Folio Value</div>
-						<div class="mr-3.5 text-base text-black-title">
+						<div class="text-sm text-body">Folio Value</div>
+						<div class="mr-3.5 text-base text-title">
 							₹{addCommasToAmountString((redemableAmount + blockedAmount)?.toFixed(2))}
 						</div>
 					</section>
@@ -513,13 +513,13 @@
 			{/if}
 
 			<section
-				class="my-2 rounded-lg bg-white p-4 px-4 shadow-csm md:mx-3 md:my-4 md:border md:px-3"
+				class="my-2 rounded-lg bg-background-alt p-4 px-4 shadow-csm md:mx-3 md:my-4 md:border md:px-3"
 			>
 				{#if redemableAmount !== redemableAmount + blockedAmount}
 					<!-- Withdrawable amount section -->
 					<section class="mb-2.5 flex items-center justify-between font-normal">
-						<article class="flex items-center justify-start text-black-title">
-							<div class="text-xs text-grey-body">Withdrawable Amount</div>
+						<article class="flex items-center justify-start text-title">
+							<div class="text-xs text-body">Withdrawable Amount</div>
 							<div>
 								<WMSIcon
 									width={16}
@@ -532,7 +532,7 @@
 						</article>
 
 						<article>
-							<span class="text-sm text-black-title">
+							<span class="text-sm text-title">
 								₹{addCommasToAmountString(redemableAmount?.toFixed(2))}
 							</span>
 						</article>
@@ -549,7 +549,7 @@
 					on:click={handleAmountInputFocus}
 				>
 					<label
-						class="mb-0.5 text-xs text-black-title {isRedeemableAmountLessThanWithdrawableAmount
+						class="mb-0.5 text-xs text-title {isRedeemableAmountLessThanWithdrawableAmount
 							? 'cursor-not-allowed text-gray-400'
 							: 'cursor-text'}"
 						for="amountInput"
@@ -572,7 +572,7 @@
 							inputmode="numeric"
 							value={amountVal}
 							placeholder="0"
-							class="border-none bg-white text-center text-4xl text-black-title outline-none first-letter:text-xl {isRedeemableAmountLessThanWithdrawableAmount
+							class="border-none bg-background-alt text-center text-4xl text-title outline-none first-letter:text-xl {isRedeemableAmountLessThanWithdrawableAmount
 								? 'cursor-not-allowed text-gray-400'
 								: 'cursor-text'} {amountVal.length ? 'max-w-fit' : 'w-6 text-gray-400'}"
 							maxlength="13"
@@ -586,7 +586,7 @@
 
 				{#if errorMessage?.length}
 					<article class="flex justify-center py-1">
-						<p class="text-xs font-light text-red-sell">
+						<p class="text-xs font-light text-sell">
 							{errorMessage}
 						</p>
 					</article>
@@ -594,8 +594,8 @@
 
 				{#if isRedeemableAmountLessThanWithdrawableAmount}
 					<article class="flex justify-center px-5 pb-4 pt-1 text-center">
-						<p class="text-xs font-normal text-grey-body">
-							Minimum Withdrawable Amount is <span class="font-medium text-black-title"
+						<p class="text-xs font-normal text-body">
+							Minimum Withdrawable Amount is <span class="font-medium text-title"
 								>₹{minimumRedeemAmount?.toFixed(2)}</span
 							>. Please withdraw full amount
 						</p>
@@ -604,7 +604,7 @@
 
 				<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 				<article
-					class="flex w-fit items-center justify-start pt-1 text-xs font-normal text-grey-body {isRedeemableAmountLessThanWithdrawableAmount
+					class="flex w-fit items-center justify-start pt-1 text-xs font-normal text-body {isRedeemableAmountLessThanWithdrawableAmount
 						? 'cursor-not-allowed'
 						: 'cursor-pointer'}"
 					on:click={() => handleFullAmountClick()}
@@ -621,7 +621,7 @@
 							<CheckboxUncheckedIcon />
 						</span>
 					{/if}
-					<span class="text-black-neutral md:text-black-title"> Withdraw Full Amount </span>
+					<span class="text-title md:text-title"> Withdraw Full Amount </span>
 				</article>
 			</section>
 
@@ -646,7 +646,7 @@
 			<article class="mx-3 mt-4 hidden md:block">
 				<Button
 					class="w-full rounded {!amount?.length || !!errorMessage?.length || redemableAmount <= 0
-						? 'cursor-default !bg-grey-line !text-grey-disabled active:opacity-100'
+						? 'cursor-default !bg-border !text-disabled active:opacity-100'
 						: ''}"
 					disabled={!amount?.length || !!errorMessage?.length || redemableAmount <= 0}
 					onClick={handleFooterCtaClick}
@@ -664,12 +664,12 @@
 	{#if !showFolioSelection && !showWithdrawConfirmation}
 		<!-- Withdraw button for Mobile UI -->
 		<article class="mx-3 mt-4 block md:hidden">
-			<section class="fixed inset-0 top-auto bg-white px-4 py-3">
+			<section class="fixed inset-0 top-auto bg-background-alt px-4 py-3">
 				<Button
 					class="bottom-0 h-12 w-full rounded {!amount?.length ||
 					!!errorMessage?.length ||
 					redemableAmount <= 0
-						? 'cursor-default !bg-grey-line !text-grey-disabled active:opacity-100'
+						? 'cursor-default !bg-border !text-disabled active:opacity-100'
 						: ''}"
 					disabled={!amount?.length || !!errorMessage?.length || redemableAmount <= 0}
 					onClick={handleFooterCtaClick}
@@ -683,13 +683,13 @@
 	{#if showFolioSelection}
 		{#if isMobile}
 			<!-- Folio Selection screen section mobile -->
-			<section class="rounded text-grey-dark">
+			<section class="rounded text-body">
 				<Modal
 					isModalOpen={showFolioSelection}
 					on:backdropclicked={() => toggleFolioSelection(false)}
 				>
 					<FolioSelection
-						class="w-screen rounded-t-2xl bg-white px-3 py-2"
+						class="w-screen rounded-t-2xl bg-background-alt px-3 py-2"
 						{folioList}
 						selectedFolioNumber={selectedFolio?.folioNumber}
 						on:confirmSelectedFolio={(folioData) => setFolioWithdrawalData(folioData?.detail)}
@@ -698,7 +698,7 @@
 			</section>
 		{:else}
 			<!-- Folio Selection screen section desktop -->
-			<section class="rounded px-3 text-grey-dark">
+			<section class="rounded px-3 text-body">
 				<!-- Folio List -->
 				<FolioSelection
 					{folioList}
@@ -746,8 +746,8 @@
 		>
 			<svelte:fragment slot="headingDetails">
 				<div class="flex flex-col font-normal">
-					<span class="text-lg text-black-title md:text-xl"> Withdrawable Amount </span>
-					<span class="text-sm text-grey-body">
+					<span class="text-lg text-title md:text-xl"> Withdrawable Amount </span>
+					<span class="text-sm text-body">
 						Folio No: #{selectedFolio?.folioNumber}
 					</span>
 				</div>
@@ -759,10 +759,10 @@
 							<WMSIcon width={40} height={40} name="unlock-green" />
 						</span>
 						<div class="flex flex-col items-start justify-center">
-							<span class="text-xs font-normal text-grey-body">Available To Withdraw</span>
-							<span class="text-base font-normal text-black-title">
+							<span class="text-xs font-normal text-body">Available To Withdraw</span>
+							<span class="text-base font-normal text-title">
 								₹{addCommasToAmountString(selectedFolio?.redemableAmount?.toFixed(2))}
-								<span class="text-sm font-normal text-grey-body">
+								<span class="text-sm font-normal text-body">
 									({selectedFolio?.redemableUnits?.toFixed(3)} units)
 								</span>
 							</span>
@@ -774,10 +774,10 @@
 							<WMSIcon width={40} height={40} name="lock-red" />
 						</span>
 						<div class="flex flex-col items-start justify-center">
-							<span class="text-xs font-normal text-grey-body">Blocked</span>
-							<span class="text-base font-normal text-black-title">
+							<span class="text-xs font-normal text-body">Blocked</span>
+							<span class="text-base font-normal text-title">
 								₹{addCommasToAmountString(selectedFolio?.blockedAmount?.toFixed(2))}
-								<span class="text-sm font-normal text-grey-body">
+								<span class="text-sm font-normal text-body">
 									({selectedFolio?.blockedunits?.toFixed(3)} units)
 								</span>
 							</span>
@@ -785,13 +785,13 @@
 					</article>
 
 					<article
-						class="flex items-center justify-start rounded bg-grey px-4 py-3 font-normal text-grey-body"
+						class="flex items-center justify-start rounded bg-background px-4 py-3 font-normal text-body"
 					>
 						<span class="mr-3">
 							<WMSIcon width={25} height={25} name="not-allowed-icon" />
 						</span>
 						<div class="text-xs font-normal">
-							Withdrawal of <span class="font-normal text-black-title"
+							Withdrawal of <span class="font-normal text-title"
 								>{selectedFolio?.blockedunits?.toFixed(3)} units</span
 							>
 							is blocked. This could be due to the following reasons:

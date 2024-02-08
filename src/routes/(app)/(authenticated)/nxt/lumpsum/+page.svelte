@@ -142,7 +142,7 @@
 			<section
 				class="w-full grid-cols-[100%] sm:grid sm:grid-cols-[70%_29%] sm:gap-2 lg:gap-5 lg:gap-y-1"
 			>
-				<section class="rounded bg-white">
+				<section class="rounded bg-background-alt">
 					<SchemeOverview {schemeDetails} />
 				</section>
 

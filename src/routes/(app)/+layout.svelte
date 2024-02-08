@@ -120,8 +120,8 @@
 		style="visibility: hidden;"
 	/>
 </noscript>
-<div class="flex-no-wrap fixed flex h-full w-full flex-col bg-grey">
-	<header class="z-[70] flex-shrink-0 bg-white">
+<div class="flex-no-wrap fixed flex h-full w-full flex-col bg-background">
+	<header class="z-[70] flex-shrink-0 bg-background-alt">
 		<Header on:handleSearchFocus={handleSearchFocus} />
 	</header>
 	<!-- <TwoColumnRightLarge {searchFocused}>

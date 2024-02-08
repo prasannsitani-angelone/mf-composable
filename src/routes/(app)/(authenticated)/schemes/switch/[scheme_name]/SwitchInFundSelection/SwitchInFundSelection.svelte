@@ -7,13 +7,15 @@
 	export { toggleSwitchCue, toggleModal };
 </script>
 
-<section class="mx-3 mt-2 flex flex-col items-center justify-center rounded-lg bg-white px-8 pb-4">
+<section
+	class="mx-3 mt-2 flex flex-col items-center justify-center rounded-lg bg-background-alt px-8 pb-4"
+>
 	<div class="pb-4 pt-8">
 		<WMSIcon height={184} width={160} name="switch-in" />
 	</div>
 
 	<div class="flex items-center justify-center">
-		<div class="text-medium flex items-center font-normal text-black-title">
+		<div class="text-medium flex items-center font-normal text-title">
 			<p>Switch In Fund</p>
 			<WMSIcon
 				height={16}
@@ -24,7 +26,7 @@
 			/>
 		</div>
 	</div>
-	<div class="mb-2 mt-2 text-center text-sm font-normal text-black-title">
+	<div class="mb-2 mt-2 text-center text-sm font-normal text-title">
 		Select a Switch In Fund. Your investment will be <b>transferred to</b> this mutual fund
 	</div>
 

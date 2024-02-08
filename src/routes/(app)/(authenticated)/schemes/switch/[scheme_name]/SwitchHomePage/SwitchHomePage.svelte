@@ -357,9 +357,7 @@
 
 {(() => updateFolios(folioHolding))()}
 {#if !isMobile}
-	<article
-		class="mx-1 mb-2 flex cursor-pointer items-center justify-start border-b border-grey-line px-3 py-2"
-	>
+	<article class="mx-1 mb-2 flex cursor-pointer items-center justify-start border-b px-3 py-2">
 		<WMSIcon
 			name="left-arrow"
 			width={16}
@@ -367,7 +365,7 @@
 			class="mr-3 cursor-pointer"
 			on:click={() => handleBackNavigation()}
 		/>
-		<div class="text-md font-normal text-black-title">{currentTitle}</div>
+		<div class="text-md font-normal text-title">{currentTitle}</div>
 	</article>
 {/if}
 {#if folioHolding?.schemeName}
@@ -396,23 +394,23 @@
 						logoUrl={folioHolding?.logoUrl}
 						schemeName={folioHolding?.schemeName}
 						orderTypeText="SWITCH OUT"
-						orderTypeBgColor="bg-yellow-primary"
+						orderTypeBgColor="bg-secondary"
 						schemeNameClass="!font-normal"
 					>
-						<footer slot="footer" class="mb-6 flex justify-between bg-grey px-4 py-2">
+						<footer slot="footer" class="mb-6 flex justify-between bg-background px-4 py-2">
 							<div class="flex">
-								<div class="text-sm text-grey-body">Current Value</div>
+								<div class="text-sm text-body">Current Value</div>
 
 								{#if folioList?.length > 1}
 									<article
-										class="mx-1 rounded-sm px-1 py-0.5 text-[10px] text-black-title"
+										class="mx-1 rounded-sm px-1 py-0.5 text-[10px] text-title"
 										style="background-color: rgba(63, 91, 217, 0.12)"
 									>
 										{folioList?.length} FOLIOS
 									</article>
 								{/if}
 							</div>
-							<div class="flex items-center text-black-title">
+							<div class="flex items-center text-title">
 								<span class="text-sm"> ₹{folioHolding?.currentValue?.toFixed(2)}</span>
 								<WMSIcon
 									height={16}
@@ -440,10 +438,10 @@
 							logoUrl={switchInFund?.logoUrl}
 							schemeName={switchInFund?.schemeName}
 							orderTypeText="SWITCH IN"
-							orderTypeBgColor="bg-purple-primary"
+							orderTypeBgColor="bg-secondary-alt"
 							schemeNameClass="!font-normal"
 						>
-							<div class="flex items-center justify-center border-t border-grey-line" slot="footer">
+							<div class="flex items-center justify-center border-t" slot="footer">
 								<ButtonMedium
 									variant="transparent"
 									color="primary"
@@ -465,11 +463,11 @@
 					{toggleFolioSelection}
 					{redemableAmount}
 				/>
-				<section class=" mb-2 mt-0.5 rounded rounded-b-lg bg-white p-4 shadow-csm md:p-4">
+				<section class=" mb-2 mt-0.5 rounded rounded-b-lg bg-background-alt p-4 shadow-csm md:p-4">
 					{#if selectedFolio?.blockedunits > 0}
 						<section class="mb-2.5 flex items-center justify-between font-normal">
-							<article class="flex items-center justify-start text-black-title">
-								<div class="text-xs text-black-title">Switchable Amount</div>
+							<article class="flex items-center justify-start text-title">
+								<div class="text-xs text-title">Switchable Amount</div>
 								<WMSIcon
 									height={16}
 									width={16}
@@ -480,7 +478,7 @@
 							</article>
 
 							<article>
-								<span class="text-sm text-black-title">
+								<span class="text-sm text-title">
 									₹{addCommasToAmountString(redemableAmount?.toFixed(2))}
 								</span>
 							</article>
@@ -504,7 +502,7 @@
 								maxlength="13"
 								placeholder="₹"
 								value={amountVal}
-								class="w-full bg-white text-base font-normal leading-none text-black-title outline-none"
+								class="w-full bg-background-alt text-base font-normal leading-none text-title outline-none"
 								on:input={onInputChange}
 								size={amountVal.length + 1}
 								disabled={isRedeemableAmountLessThanWithdrawableAmount || dpError}
@@ -512,21 +510,21 @@
 						</div>
 						{#if dpError}
 							<article class="flex justify-center pb-3 pt-1">
-								<p class="text-xs font-light text-red-sell">
+								<p class="text-xs font-light text-sell">
 									Switch not allowed in the selected scheme
 								</p>
 							</article>
 						{/if}
 						{#if errorMessage?.length}
 							<article class="flex justify-center pb-3 pt-1">
-								<p class="text-xs font-light text-red-sell">
+								<p class="text-xs font-light text-sell">
 									{errorMessage}
 								</p>
 							</article>
 						{/if}
 						<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 						<article
-							class="flex w-fit items-center justify-start pt-1 text-xs font-normal text-grey-body {isRedeemableAmountLessThanWithdrawableAmount ||
+							class="flex w-fit items-center justify-start pt-1 text-xs font-normal text-body {isRedeemableAmountLessThanWithdrawableAmount ||
 							dpError
 								? 'cursor-not-allowed'
 								: 'cursor-pointer'}"
@@ -545,7 +543,7 @@
 								</span>
 							{/if}
 							<span
-								class="text-black-neutral md:text-black-title {isRedeemableAmountLessThanWithdrawableAmount ||
+								class="text-title md:text-title {isRedeemableAmountLessThanWithdrawableAmount ||
 								dpError
 									? 'cursor-not-allowed text-gray-400'
 									: 'cursor-pointer'}"
@@ -582,7 +580,7 @@
 			{#if !selectSwitchFund && !showSwitchConfirmation && !showFolioSelection}
 				<section class="mx-3 mt-4 hidden md:block">
 					<ButtonMedium
-						class="h-12 w-full rounded disabled:bg-grey-line disabled:bg-opacity-100 disabled:text-grey-disabled"
+						class="h-12 w-full rounded disabled:bg-border disabled:bg-opacity-100 disabled:text-disabled"
 						disabled={!amountVal?.length || !!errorMessage?.length}
 						on:click={() => handleFooterCtaClick(folioHolding)}
 					>
@@ -591,9 +589,9 @@
 				</section>
 			{/if}
 			<section class="mx-3 mt-4 block md:hidden">
-				<section class="fixed inset-0 top-auto bg-white px-4 py-3">
+				<section class="fixed inset-0 top-auto bg-background-alt px-4 py-3">
 					<ButtonMedium
-						class="bottom-0 h-12 w-full rounded disabled:bg-grey-line disabled:bg-opacity-100 disabled:text-grey-disabled"
+						class="bottom-0 h-12 w-full rounded disabled:bg-border disabled:bg-opacity-100 disabled:text-disabled"
 						disabled={!amountVal?.length || !!errorMessage?.length}
 						on:click={() => handleFooterCtaClick(folioHolding)}
 					>
@@ -628,7 +626,7 @@
 
 		{#if showFolioSelection && !isMobile}
 			<FolioSelection
-				class="bg-white px-3 py-2 md:px-3"
+				class="bg-background-alt px-3 py-2 md:px-3"
 				{folioList}
 				switchInSchemeMode={switchInFund?.purchaseTxnMode}
 				selectedFolioNumber={selectedFolio?.folioNumber}
@@ -669,10 +667,10 @@
 		>
 			<svelte:fragment slot="popupHeader">
 				<div class="flex items-center justify-between p-4 pt-6">
-					<span class="text-lg font-normal text-black-title md:text-xl">
+					<span class="text-lg font-normal text-title md:text-xl">
 						<div>Switchable Amount</div>
 						{#if folioList?.length > 1}
-							<div class="font-small text-sm text-grey-body">
+							<div class="font-small text-sm text-body">
 								Folio No: # {selectedFolio.folioNumber}
 							</div>
 						{/if}
@@ -691,10 +689,10 @@
 					<article class="mb-6 flex items-center justify-start">
 						<WMSIcon name="unlock-green" height={40} width={40} class="mr-3" />
 						<div class="flex flex-col items-start justify-center">
-							<span class="text-xs font-normal text-grey-body">Available for Switch</span>
-							<span class="text-base font-normal text-black-title">
+							<span class="text-xs font-normal text-body">Available for Switch</span>
+							<span class="text-base font-normal text-title">
 								₹{addCommasToAmountString(redemableAmount?.toFixed(2))}
-								<span class="text-sm font-normal text-grey-body">
+								<span class="text-sm font-normal text-body">
 									({redemableUnits?.toFixed(3)} units)
 								</span>
 							</span>
@@ -704,10 +702,10 @@
 					<article class="mb-6 flex items-center justify-start">
 						<WMSIcon name="lock-red" height={40} width={40} class="mr-3" />
 						<div class="flex flex-col items-start justify-center">
-							<span class="text-xs font-normal text-grey-body">Blocked</span>
-							<span class="text-base font-normal text-black-title">
+							<span class="text-xs font-normal text-body">Blocked</span>
+							<span class="text-base font-normal text-title">
 								₹{addCommasToAmountString(selectedFolio?.blockedAmount?.toFixed(2))}
-								<span class="text-sm font-normal text-grey-body">
+								<span class="text-sm font-normal text-body">
 									({selectedFolio?.blockedunits?.toFixed(3)} units)
 								</span>
 							</span>
@@ -715,7 +713,7 @@
 					</article>
 
 					<article
-						class="font-small flex items-center justify-start rounded bg-grey px-4 py-4 text-sm text-grey-body"
+						class="font-small flex items-center justify-start rounded bg-background px-4 py-4 text-sm text-body"
 					>
 						<span class="mr-2">
 							<WMSIcon name="not-allowed-icon" height={25} width={25} />
@@ -739,7 +737,7 @@
 		<!-- Switch Cue -->
 		<ModalWithAnimation isModalOpen={showSwitchCue} closeModal={toggleSwitchCue}>
 			<div
-				class="flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white p-4 shadow-csm md:w-120 md:rounded-lg"
+				class="flex w-screen flex-col rounded-b-none rounded-t-2xl bg-background-alt p-4 shadow-csm md:w-120 md:rounded-lg"
 			>
 				<SwitchCue />
 				<div class="pt-4">
@@ -750,13 +748,13 @@
 
 		{#if showFolioSelection && isMobile}
 			<!-- Folio Selection screen section mobile -->
-			<section class="block rounded text-grey-dark md:hidden">
+			<section class="block rounded text-body md:hidden">
 				<ModalWithAnimation
 					isModalOpen={showFolioSelection && isMobile}
 					on:backdropclicked={() => toggleFolioSelection(false)}
 				>
 					<FolioSelection
-						class="w-screen rounded-t-2xl bg-white px-3 py-2"
+						class="w-screen rounded-t-2xl bg-background-alt px-3 py-2"
 						{folioList}
 						switchInSchemeMode={switchInFund?.purchaseTxnMode}
 						selectedFolioNumber={selectedFolio?.folioNumber}

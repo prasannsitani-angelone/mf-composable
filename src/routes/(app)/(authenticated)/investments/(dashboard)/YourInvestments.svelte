@@ -60,7 +60,7 @@
 	};
 </script>
 
-<section class="max-w-4xl rounded-lg bg-white text-sm shadow-csm">
+<section class="max-w-4xl rounded-lg bg-background-alt text-sm shadow-csm">
 	<Table>
 		<THead slot="thead" class="border-t">
 			<Th class="w-[40%] text-start capitalize max-sm:w-[63%] max-sm:pl-4 max-sm:pr-1">Fund Name</Th
@@ -129,8 +129,8 @@
 							isPartialImport(schemes) ? '!border-b-0' : ''
 						}`}
 						>{#if isPartialImport(schemes)}
-							<article class="text-black-title max-sm:mr-1 lg:text-center">- -</article>
-						{:else}<div class="text-black-title">
+							<article class="text-title max-sm:mr-1 lg:text-center">- -</article>
+						{:else}<div class="text-title">
 								₹{schemes?.currentValue?.toString()
 									? addCommasToAmountString(schemes?.currentValue?.toFixed(2)?.toString())
 									: '-'}
@@ -138,9 +138,9 @@
 					>
 					<Td class={`text-center max-sm:hidden ${isPartialImport(schemes) ? '!border-b-0' : ''}`}>
 						{#if isPartialImport(schemes)}
-							<article class="text-black-title lg:text-center">- -</article>
+							<article class="text-title lg:text-center">- -</article>
 						{:else}
-							<div class="text-black-title">
+							<div class="text-title">
 								₹{schemes?.investedValue?.toString()
 									? addCommasToAmountString(schemes?.investedValue?.toFixed(2)?.toString())
 									: '-'}
@@ -153,9 +153,9 @@
 						}`}
 					>
 						{#if isPartialImport(schemes)}
-							<article class=" text-black-title lg:text-right">- -</article>
+							<article class=" text-title lg:text-right">- -</article>
 						{:else}
-							<article class="text-black-title lg:text-right">
+							<article class="text-title lg:text-right">
 								<div>
 									₹{schemes?.returnsValue?.toString()
 										? addCommasToAmountString(
@@ -163,9 +163,7 @@
 										  )
 										: '-'}
 								</div>
-								<div
-									class={`${schemes?.returnsAbsolutePer < 0 ? 'text-red-sell' : 'text-green-buy'}`}
-								>
+								<div class={`${schemes?.returnsAbsolutePer < 0 ? 'text-sell' : 'text-buy'}`}>
 									{schemes?.returnsAbsolutePer > 0
 										? '+'
 										: ''}{schemes?.returnsAbsolutePer?.toString()
@@ -185,13 +183,13 @@
 					<tr>
 						<td colspan={5} class="whitespace-pre-wrap pb-3 pt-0"
 							><div
-								class={` flex items-center rounded-lg bg-blue-background px-2 py-1 sm:items-start sm:px-3`}
+								class={` flex items-center rounded-lg bg-background px-2 py-1 sm:items-start sm:px-3`}
 							>
 								<div class="mr-3">
 									<WMSIcon name="polygon-red-warning" width={16} height={16} />
 								</div>
 
-								<div class="text-xs text-black-title">
+								<div class="text-xs text-title">
 									We are facing some technical issues identifying this investment
 								</div>
 							</div>

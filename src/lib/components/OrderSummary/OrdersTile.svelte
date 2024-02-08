@@ -9,15 +9,15 @@
 	export let schemeLogoUrl: string;
 </script>
 
-<div class="mt-3 flex flex-col rounded border border-grey-line bg-white p-3">
-	<div class="mb-2 text-base font-medium text-black-key">Order Details</div>
-	<div class="font-sm mb-2 flex flex-row items-center justify-between font-normal text-black-title">
+<div class="mt-3 flex flex-col rounded border bg-background-alt p-3">
+	<div class="mb-2 text-base font-medium text-title">Order Details</div>
+	<div class="font-sm mb-2 flex flex-row items-center justify-between font-normal text-title">
 		<section class="flex items-center">
 			<div class="flex flex-row">
 				<SchemeLogo class="!mr-0" size="sm" src={schemeLogoUrl} alt="scheme logo" />
 				{#if isCart && items > 1}
 					<div
-						class="relative left-[-16px] -mr-4 flex h-12 w-12 items-center justify-center rounded-full border border-grey-line bg-white text-base"
+						class="relative left-[-16px] -mr-4 flex h-12 w-12 items-center justify-center rounded-full border bg-background-alt text-base"
 					>
 						+ {items - 1}
 					</div>
@@ -29,9 +29,9 @@
 				<div class="ml-2 text-base">{title}</div>
 			{/if}
 		</section>
-		<section class="flex flex-col items-end justify-center text-sm font-normal text-black-title">
-			<div class="text-[11px] font-normal text-black-bolder">Amount</div>
-			<div class="text-sm font-normal text-black-key">
+		<section class="flex flex-col items-end justify-center text-sm font-normal text-title">
+			<div class="text-[11px] font-normal text-body">Amount</div>
+			<div class="text-sm font-normal text-title">
 				₹{addCommasToAmountString(totalAmount?.toString())}
 			</div>
 		</section>

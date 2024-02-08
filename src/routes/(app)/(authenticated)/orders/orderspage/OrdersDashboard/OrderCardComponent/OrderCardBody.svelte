@@ -90,11 +90,13 @@
 			<span />
 		</svelte:fragment>
 		<svelte:fragment slot="ratingSection">
-			<span class="mt-1 rounded-sm bg-grey p-1 text-3xs md:text-1xs">{investmentTypeText}</span>
+			<span class="mt-1 rounded-sm bg-border p-1 text-3xs text-body md:text-1xs"
+				>{investmentTypeText}</span
+			>
 		</svelte:fragment>
 		<div class="w-[30%] pl-2" slot="returns">
 			<section class="flex w-full flex-col font-normal">
-				<article class="truncate text-end text-sm md:text-base">
+				<article class="truncate text-end text-sm text-title md:text-base">
 					{item?.amount > 0
 						? `₹${addCommasToAmountString(item?.amount?.toFixed(0))}`
 						: item?.quantity > 0
@@ -104,9 +106,9 @@
 				<article class="mt-1 flex w-full justify-end">
 					<span
 						class="flex items-center justify-end rounded-sm bg-opacity-12 p-1 text-3xs"
-						class:bg-green-buy={item?.status?.toUpperCase() === 'COMPLETED'}
-						class:bg-red-sell={item?.status?.toUpperCase() === 'FAILED'}
-						class:bg-yellow-primary={item?.status?.toUpperCase() === 'IN PROGRESS'}
+						class:bg-buy={item?.status?.toUpperCase() === 'COMPLETED'}
+						class:bg-sell={item?.status?.toUpperCase() === 'FAILED'}
+						class:bg-secondary={item?.status?.toUpperCase() === 'IN PROGRESS'}
 					>
 						{#if item?.status?.toUpperCase() === 'FAILED'}
 							<WMSIcon name="red-exclamation" height={12} width={12} class="mr-1" />

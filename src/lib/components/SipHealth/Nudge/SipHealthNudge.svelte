@@ -37,7 +37,7 @@
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div
 			on:click={onViewReportClicked}
-			class="relative cursor-pointer overflow-hidden rounded-lg shadow-csm"
+			class="light relative cursor-pointer overflow-hidden rounded-lg shadow-csm"
 		>
 			<div class="absolute h-full w-full">
 				<SIPHealthCardBG class="absolute h-full w-full" />
@@ -45,8 +45,8 @@
 
 			<div class="flex flex-row items-center opacity-[.99] {cardStyle} px-3.5 py-3">
 				<div class="flex flex-1 flex-col">
-					<p class="text-base font-medium text-black-title">Your SIP Health</p>
-					<p class="mb-3 text-xs font-normal text-black-title">{getLabel(result?.score)}</p>
+					<p class="text-base font-medium text-title">Your SIP Health</p>
+					<p class="mb-3 text-xs font-normal text-title">{getLabel(result?.score)}</p>
 					<ButtonMedium
 						size={BtnSize.XS}
 						class="w-fit p-0 text-xs font-medium"

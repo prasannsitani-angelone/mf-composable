@@ -63,7 +63,7 @@
 </script>
 
 <article
-	class={`${$$props.class} mt-2 max-w-4xl rounded-lg bg-white text-sm text-black-title shadow-csm lg:mt-4`}
+	class={`${$$props.class} mt-2 max-w-4xl rounded-lg bg-background-alt text-sm text-title shadow-csm lg:mt-4`}
 >
 	<!-- Accordion Card Title -->
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -78,9 +78,7 @@
 				<slot name="accordionTitle">
 					<section class="flex items-center">
 						<slot name="titleIcon" />
-						<h2
-							class={`ml-3 flex items-center text-left font-normal text-black-title ${titleStyle}`}
-						>
+						<h2 class={`ml-3 flex items-center text-left font-normal text-title ${titleStyle}`}>
 							<span> {data.title}</span>
 							<slot name="titleUserAction" />
 						</h2>

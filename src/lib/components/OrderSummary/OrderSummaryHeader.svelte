@@ -10,7 +10,7 @@
 	export let status = '';
 </script>
 
-<article class="flex flex-col bg-white px-4 py-3 pt-4 md:px-0 {$$props?.class}">
+<article class="flex flex-col bg-background-alt px-4 py-3 pt-4 md:px-0 {$$props?.class}">
 	{#if heading}
 		<section class="flex flex-row items-center">
 			{#if STATUS_ARR.FAILED === status}
@@ -31,15 +31,13 @@
 					/>
 				</div>
 			{/if}
-			<article class="ml-3 text-base font-medium text-black-key">
+			<article class="ml-3 text-base font-medium text-title">
 				<div>
 					{heading}
 				</div>
 
 				{#if subHeadingArr && subHeadingArr.length > 0}
-					<div
-						class={`mt-1 flex w-full flex-col text-xs font-normal text-black-bolder ${subHeaderClass}`}
-					>
+					<div class={`mt-1 flex w-full flex-col text-xs font-normal text-body ${subHeaderClass}`}>
 						{#each subHeadingArr as subHeading, i}
 							{#if subHeading?.text}
 								<div class="flex flex-row justify-center">

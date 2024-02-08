@@ -250,7 +250,7 @@
 						on:investButtonClick={handleInvestMoreCtaClick}
 					/>
 				{:else}
-					<article class="fixed inset-0 top-auto z-20 block bg-white p-2 md:hidden">
+					<article class="fixed inset-0 top-auto z-20 block bg-background-alt p-2 md:hidden">
 						<InvestmentDetailsFooterLoader isSchemeDetailsPage />
 					</article>
 				{/if}

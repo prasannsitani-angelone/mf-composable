@@ -246,7 +246,7 @@
 
 <Modal isModalOpen={true}>
 	<div
-		class="flex h-full w-full flex-col bg-white shadow-csm sm:h-max sm:max-h-[640px] sm:w-max sm:min-w-[490px] {$$props.class}"
+		class="flex h-full w-full flex-col bg-background-alt shadow-csm sm:h-max sm:max-h-[640px] sm:w-max sm:min-w-[490px] {$$props.class}"
 	>
 		<PaymentMethodHeader onBackClick={hidePaymentMethodScreen} isPartOfModal />
 		<slot name="schemeTile" />
@@ -320,16 +320,16 @@
 		</svelte:fragment>
 		<svelte:fragment slot="middleSection">
 			{#if error?.code === WRONG_BANK_ERROR_CODE}
-				<section class="item-center mt-2 flex rounded bg-grey p-2">
+				<section class="item-center mt-2 flex rounded bg-background p-2">
 					<div class="my-auto flex-1">
 						<WMSIcon name="info-in-circle-dark" class="p-1" stroke="#3F5BD9" />
 					</div>
-					<div class="ml-3 text-left text-sm font-normal text-grey-body">
+					<div class="ml-3 text-left text-sm font-normal text-body">
 						If any money has been debited from your account, it will be refunded automatically.
 					</div>
 				</section>
 			{:else}
-				<section class="mt-4 text-sm text-grey-body">
+				<section class="mt-4 text-sm text-body">
 					To complete your order, please retry payment
 				</section>
 			{/if}

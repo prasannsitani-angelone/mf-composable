@@ -31,17 +31,15 @@
 
 <Card class="!p-3">
 	<div class="mb-4 flex">
-		<div class=" flex-1 border-r border-grey-separator text-left">
-			<div class=" mb-1 text-1xs font-normal leading-normal text-grey-body">
-				Unlinked SIP Amount
-			</div>
-			<div class=" text-xl font-normal text-black-title">
+		<div class=" flex-1 border-r text-left">
+			<div class=" mb-1 text-1xs font-normal leading-normal text-body">Unlinked SIP Amount</div>
+			<div class=" text-xl font-normal text-title">
 				₹{addCommasToAmountString(totalAmount)}
 			</div>
 		</div>
 		<div class="  flex-1 text-right">
 			<div
-				class=" mb-1 flex w-full items-center justify-end text-1xs font-normal leading-normal text-grey-body"
+				class=" mb-1 flex w-full items-center justify-end text-1xs font-normal leading-normal text-body"
 			>
 				Autopay Limit
 				<WMSIcon
@@ -52,16 +50,16 @@
 					name="question-mark-circle"
 				/>
 			</div>
-			<div class=" text-xl font-normal text-black-title">
+			<div class=" text-xl font-normal text-title">
 				₹{addCommasToAmountString(mandateLimit)}
 			</div>
 		</div>
 	</div>
-	<div class=" rounded bg-yellow-background px-2 py-1">
-		<div class=" mb-1 text-base font-normal text-black-title">Note:</div>
+	<div class=" rounded bg-tint12-secondary px-2 py-1">
+		<div class=" mb-1 text-base font-normal text-title">Note:</div>
 		<ul>
 			{#each autopayNotes as item, index (index)}
-				<li class=" mb-1 ml-4 list-disc text-sm font-normal text-black-title">{item.detail}</li>
+				<li class=" mb-1 ml-4 list-disc text-sm font-normal text-title">{item.detail}</li>
 			{/each}
 		</ul>
 	</div>
@@ -70,11 +68,11 @@
 {#if maxAutopayLimitVisible}
 	<Modal closeModal={onHideAutopayLimitmodal} isModalOpen>
 		<div
-			class="w-screen justify-between rounded-b-none rounded-t-2xl bg-white p-4 text-left sm:!w-[460px] sm:rounded-lg sm:px-20 sm:py-8"
+			class="w-screen justify-between rounded-b-none rounded-t-2xl bg-background-alt p-4 text-left sm:!w-[460px] sm:rounded-lg sm:px-20 sm:py-8"
 		>
-			<div class="pb-6 pt-2 text-lg font-normal text-black-title">Maximum Autopay Limit</div>
+			<div class="pb-6 pt-2 text-lg font-normal text-title">Maximum Autopay Limit</div>
 
-			<div class="text-sm font-normal text-grey-body">
+			<div class="text-sm font-normal text-body">
 				The maximum amount that can be deducted from your bank account on a single day for your SIP
 				payments is the <span class="font-medium">maximum autopay limit.</span>
 

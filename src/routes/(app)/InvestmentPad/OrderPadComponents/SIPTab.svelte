@@ -26,9 +26,9 @@
 
 <article class="flex flex-col p-3">
 	<!-- Amount input -->
-	<article class="flex flex-col items-center rounded border border-grey-line py-2.5">
+	<article class="flex flex-col items-center rounded border py-2.5">
 		<!-- svelte-ignore a11y-label-has-associated-control -->
-		<label class="mb-2 text-xs font-normal text-grey-body">ENTER AMOUNT</label>
+		<label class="mb-2 text-xs font-normal text-body">ENTER AMOUNT</label>
 		<button
 			class="flex w-full cursor-text items-center justify-start"
 			on:click={handleAmountInputFocus}
@@ -39,7 +39,7 @@
 				maxlength="13"
 				placeholder="₹"
 				value={amountVal}
-				class="w-full bg-white text-center text-2xl font-medium leading-none text-black-title outline-none"
+				class="w-full bg-background-alt text-center text-2xl font-medium leading-none text-title outline-none"
 				on:input={onInputChange}
 				on:focus={handleAmountInputBlur}
 			/>
@@ -48,7 +48,7 @@
 
 	{#if errorMessage?.length && isSipInvestmentAllowed}
 		<article class="flex justify-center pb-1">
-			<p class="text-xs font-light text-red-sell">
+			<p class="text-xs font-light text-sell">
 				{errorMessage}
 			</p>
 		</article>
@@ -56,7 +56,7 @@
 
 	<article class="mt-3 flex w-full flex-row items-center justify-between">
 		<!-- svelte-ignore a11y-label-has-associated-control -->
-		<label class="text-xs font-normal text-black-title">Monthly SIP Date</label>
+		<label class="text-xs font-normal text-title">Monthly SIP Date</label>
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<section
 			class="flex items-center md:cursor-pointer {isSipInvestmentAllowed
@@ -67,7 +67,7 @@
 				// add logic
 			}}
 		>
-			<div class="text-xs font-normal text-black-title">
+			<div class="text-xs font-normal text-title">
 				{`${calendarDate}${dateSuperscript}`}
 			</div>
 			<section class="pl-1">
@@ -80,7 +80,7 @@
 	{#if !paymentMandatory}
 		<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 		<article
-			class={`mt-4 flex w-fit items-center justify-start text-xs font-normal text-grey-body ${
+			class={`mt-4 flex w-fit items-center justify-start text-xs font-normal text-body ${
 				isSipInvestmentAllowed ? 'md:cursor-pointer' : 'md:cursor-not-allowed'
 			}`}
 			on:click={toggleFirstSipPayment}
@@ -97,7 +97,7 @@
 					<CheckboxUncheckedIcon />
 				</div>
 			{/if}
-			<span class="text-black-title"> Make first SIP payment now </span>
+			<span class="text-title"> Make first SIP payment now </span>
 		</article>
 	{/if}
 

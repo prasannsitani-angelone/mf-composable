@@ -63,20 +63,20 @@
 	export { sameAmcScheme, isin, schemeName, returns3yr };
 </script>
 
-<article class="mt-4 max-w-4xl rounded-lg bg-white text-sm shadow-csm sm:pb-4">
+<article class="mt-4 max-w-4xl rounded-lg bg-background-alt text-sm shadow-csm sm:pb-4">
 	<header class="">
 		<section
 			class="flex cursor-pointer items-center justify-between p-4 !pb-0 pt-6 text-lg md:px-6 md:py-5"
 		>
 			<section class="flex items-center">
-				<h2 class="flex items-center text-left text-base font-medium text-black-title">
+				<h2 class="flex items-center text-left text-base font-medium text-title">
 					<span>Other Funds by {sameAmcScheme?.amcName}</span>
 				</h2>
 			</section>
 		</section>
 	</header>
 	<section>
-		<div class="mt-3 w-full overflow-x-auto bg-white px-4 md:px-6">
+		<div class="mt-3 w-full overflow-x-auto bg-background-alt px-4 md:px-6">
 			<Table>
 				<THead slot="thead">
 					<tr>
@@ -85,7 +85,8 @@
 							class="flex h-3 cursor-pointer justify-end !border-none !pl-0 !pr-0 text-left sm:text-center"
 						>
 							<Button
-								class="flex items-center bg-white !pl-0 pr-0 align-middle !text-xs !font-normal !text-blue-primary hover:bg-white"
+								variant="transparent"
+								class="flex items-center bg-background-alt !pl-0 pr-0 align-middle !text-xs !font-normal !text-primary hover:bg-background-alt"
 								onClick={sortTable}
 							>
 								<span class="mr-1">{currentYearFilter.label}</span>
@@ -99,8 +100,8 @@
 				</THead>
 				<TBody slot="tbody">
 					{#each sameAmcScheme?.schemeInfo || [] as schemes}
-						<Tr on:click={() => onTableRowSelect(schemes)}>
-							<Td class="!px-0 ">
+						<Tr on:click={() => onTableRowSelect(schemes)} class="!last:border-none !border-b">
+							<Td class="border-none !px-0">
 								<ChipOverview
 									headingPrimary={schemes?.categoryName}
 									headingSecondary={schemes?.subcategoryName}
@@ -116,16 +117,16 @@
 									<SchemeLogo src={schemes?.logoUrl} alt={schemes?.schemeName} class="h-8 w-8" />
 									<div class="m-0 mr-auto flex flex-col">
 										<h3
-											class="line-clamp-2 block w-full whitespace-pre-wrap text-sm font-normal text-black-title sm:text-sm"
+											class="line-clamp-2 block w-full whitespace-pre-wrap text-sm font-normal text-title sm:text-sm"
 										>
 											{schemes?.schemeName}
 										</h3>
 									</div>
 								</Link>
 							</Td>
-							<Td class="!p-0"
+							<Td class="border-none !p-0"
 								><div class="flex items-end justify-end">
-									<span class="text-base font-normal text-black-title"
+									<span class="text-base font-normal text-title"
 										>{schemes[currentYearFilter.field]}%</span
 									>
 								</div>

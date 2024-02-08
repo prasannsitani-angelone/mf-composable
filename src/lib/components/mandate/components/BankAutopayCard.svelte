@@ -19,12 +19,12 @@
 	};
 </script>
 
-<section class={`rounded-lg bg-white p-4 pl-2 shadow-csm ${$$props.class}`}>
+<section class={`rounded-lg bg-background-alt p-4 pl-2 shadow-csm ${$$props.class}`}>
 	<slot name="header" />
 
 	<article class={cardBodyClass}>
 		<section class="flex items-center justify-between">
-			<section class="flex items-center text-black-title">
+			<section class="flex items-center text-title">
 				<div class="px-3 py-1.5 {bankLogoClass}">
 					<img src={bankLogo} alt="bank logo" class="h-4 w-4" />
 				</div>
@@ -37,7 +37,7 @@
 						{#each Array(4) as item}
 							<BigDotIcon class="mr-1" />
 						{/each}
-						<div class="text-xs font-normal text-grey-body">
+						<div class="text-xs font-normal text-body">
 							{bankAccountNumber?.slice(bankAccountNumber?.length - 4)}
 						</div>
 					</article>
@@ -47,7 +47,7 @@
 			<slot name="autopayStatusSlot">
 				<section class="flex items-center">
 					<AutopayEnabledIcon class="mr-1" />
-					<div class="text-xs font-normal text-grey-body">Autopay Enabled</div>
+					<div class="text-xs font-normal text-body">Autopay Enabled</div>
 				</section>
 			</slot>
 		</section>

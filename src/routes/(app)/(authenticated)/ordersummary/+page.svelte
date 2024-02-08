@@ -236,10 +236,10 @@
 
 			{#if animationCompleted || pendingOrder}
 				<section
-					class="flex h-full flex-col overflow-hidden sm:h-full md:rounded-lg md:bg-white md:p-2"
+					class="flex h-full flex-col overflow-hidden sm:h-full md:rounded-lg md:bg-background-alt md:p-2"
 				>
 					<!-- Mobile Header -->
-					<MobileHeader title={'Order Summary'} class="bg-white" titleClass="!font-medium">
+					<MobileHeader title={'Order Summary'} class="bg-background-alt" titleClass="!font-medium">
 						<svelte:fragment slot="faqIcon">
 							{#if !(isBuyPortfolio || isCart)}
 								<WMSIcon
@@ -347,7 +347,9 @@
 						{/if}
 					</section>
 
-					<section class="sticky bottom-0 flex flex-col bg-white shadow-top sm:shadow-none">
+					<section
+						class="sticky bottom-0 flex flex-col bg-background-alt shadow-top sm:shadow-none"
+					>
 						{#if !orderSummaryData.emandateBankDetails && isSIPOrder}
 							<AutopayTimeLineCard
 								autopayTimelineItems={orderSummaryData.autopayTimelineItems}
@@ -387,12 +389,12 @@
 				<AnimationPlayer
 					AnimatedLottie={SuccessAnimation}
 					bannerText="Order Placed Successfully"
-					class="absolute inset-0 z-100 bg-white md:static md:rounded-lg"
+					class="absolute inset-0 z-100 bg-background-alt md:static md:rounded-lg"
 				/>
 			{/if}
 		{:else}
 			<div class="flex h-full flex-col items-center self-center px-4 py-4">
-				<div class="mb-4 text-center text-base font-normal text-black-title">
+				<div class="mb-4 text-center text-base font-normal text-title">
 					We are facing some issue at our end. Please try again or contact field support
 				</div>
 				<Button variant="transparent" class="mt-6 w-max self-center" onClick={onRefresh}>
@@ -405,7 +407,7 @@
 		{/if}
 	{:catch}
 		<div class="flex h-full flex-col items-center self-center px-4 py-4">
-			<div class="mb-4 text-center text-base font-normal text-black-title">
+			<div class="mb-4 text-center text-base font-normal text-title">
 				We are facing some issue at our end. Please try again or contact field support
 			</div>
 			<Button variant="transparent" class="mt-6 w-max self-center" onClick={onRefresh}>

@@ -52,7 +52,7 @@ export const load = (async ({ fetch, depends }) => {
 		layoutConfig: {
 			title: 'SIPs',
 			titleClass: '!text-xl',
-			headerClass: '!bg-grey !py-2.5 !px-4 shadow-none',
+			headerClass: '!bg-background !py-2.5 !px-4 shadow-none',
 			showBottomNavigation: true,
 			showFaqIcon: true,
 			faqParams,

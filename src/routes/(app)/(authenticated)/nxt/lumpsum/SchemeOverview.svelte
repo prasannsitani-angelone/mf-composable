@@ -36,11 +36,9 @@
 </script>
 
 <div class="max-h-full">
-	<div class="border-b border-grey-line px-4 py-4 text-base text-black-neutral">
-		Mutual Fund Details
-	</div>
+	<div class="border-b px-4 py-4 text-base text-title">Mutual Fund Details</div>
 	{#if schemeDetails?.noOfClientInvested !== 0}
-		<div class="flex border-b border-grey-line p-4">
+		<div class="flex border-b p-4">
 			<img
 				src={PeopleIcon}
 				class="mr-2 p-1"
@@ -59,7 +57,7 @@
 		<div class="flex items-center p-6 pb-0">
 			<SchemeLogo src={schemeDetails?.logoUrl} alt={schemeDetails?.schemeName} />
 			<div class="mx-3">
-				<div class="text-sm uppercase text-grey-body">
+				<div class="text-sm uppercase text-body">
 					{schemeDetails?.categoryName} • {schemeDetails?.reInvestmentPlan}
 				</div>
 				<div class="text-lg font-normal">{schemeDetails?.schemeName}</div>
@@ -78,24 +76,20 @@
 						loading="lazy"
 					/>
 					<div
-						class="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform items-center justify-center text-sm font-bold text-black-title"
+						class="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform items-center justify-center text-sm font-bold text-title"
 					>
 						{schemeDetails?.arqRating}
 						<div class="rating gap-1">
-							<input
-								type="radio"
-								name="rating-3"
-								class="mask mask-star h-4 w-4 bg-yellow-secondary"
-							/>
+							<input type="radio" name="rating-3" class="mask mask-star h-4 w-4 bg-secondary" />
 						</div>
 					</div>
 				</div>
 			</div>
 		{:else}
 			<div>
-				<div class="mr-4 text-sm font-normal text-black-title">
+				<div class="mr-4 text-sm font-normal text-title">
 					Nav
-					<span class="text-lg font-normal text-black-title">
+					<span class="text-lg font-normal text-title">
 						₹{schemeDetails?.navValue && toFixed(schemeDetails?.navValue, 2)}
 					</span>
 				</div>
@@ -105,9 +99,9 @@
 
 	<div class="flex justify-between border-b p-4 px-6">
 		{#if schemeDetails?.arqRating !== 0}
-			<div class="text-sm font-normal text-grey-body">
+			<div class="text-sm font-normal text-body">
 				Nav
-				<span class="text-lg font-normal text-black-title"
+				<span class="text-lg font-normal text-title"
 					>₹{schemeDetails?.navValue && toFixed(schemeDetails?.navValue, 2)}</span
 				>
 				{#if navDate > nullDate}
@@ -147,14 +141,14 @@
 			class="flex cursor-pointer items-center justify-between p-4 text-lg hover:text-blue-800 md:px-6 md:py-5"
 		>
 			<div class="flex items-center">
-				<div class="flex h-12 w-12 items-center justify-center rounded-full bg-grey">
+				<div class="flex h-12 w-12 items-center justify-center rounded-full bg-background">
 					<SchemeInformationIcon />
 				</div>
-				<h2 class="ml-3 flex items-center text-left font-normal text-black-title">
+				<h2 class="ml-3 flex items-center text-left font-normal text-title">
 					<span class="mr-2">Scheme Information</span>
 
 					<Button
-						class="w-[22px] rounded-full !border-grey-line !p-0 !lowercase"
+						class="w-[22px] rounded-full !border-border !p-0 !lowercase"
 						variant="outlined"
 						size="xs"
 						onClick={toggleSchemeInfoModal}>i</Button
@@ -175,13 +169,15 @@
 			<!-- AUM -->
 			{#if schemeDetails?.aum !== 0}
 				<section class="flex flex-col gap-4 p-4 pt-0 lg:w-1/3 lg:flex-row">
-					<article class="flex-grow basis-0 rounded py-4 sm:bg-white lg:border lg:bg-grey lg:px-3">
+					<article
+						class="flex-grow basis-0 rounded py-4 sm:bg-background-alt lg:border lg:bg-background lg:px-3"
+					>
 						<div
-							class="mb-3 flex h-6 w-6 justify-center rounded-full bg-blue-primary align-middle leading-6 text-white"
+							class="mb-3 flex h-6 w-6 justify-center rounded-full bg-primary align-middle leading-6 text-background-alt"
 						>
 							₹
 						</div>
-						<h3 class="mb-1 text-xs font-normal text-grey-body">Asset Under Management</h3>
+						<h3 class="mb-1 text-xs font-normal text-body">Asset Under Management</h3>
 						<h4><AmountText amount={schemeDetails?.aum} /> <span>Cr.</span></h4>
 					</article>
 				</section>
@@ -189,13 +185,15 @@
 			<!-- Expense Ratio  -->
 			{#if schemeDetails?.expenseRatio !== 0}
 				<section class="flex flex-col gap-4 p-4 pt-0 lg:w-1/3 lg:flex-row">
-					<article class="flex-grow basis-0 rounded bg-white py-4 lg:border lg:bg-grey lg:px-3">
+					<article
+						class="flex-grow basis-0 rounded bg-background-alt py-4 lg:border lg:bg-background lg:px-3"
+					>
 						<div
-							class="mb-3 flex h-6 w-6 justify-center rounded-full bg-blue-primary align-middle leading-6 text-white"
+							class="mb-3 flex h-6 w-6 justify-center rounded-full bg-primary align-middle leading-6 text-background-alt"
 						>
 							%
 						</div>
-						<h3 class="mb-1 text-xs font-normal text-grey-body">Expense Ratio</h3>
+						<h3 class="mb-1 text-xs font-normal text-body">Expense Ratio</h3>
 						<h4>
 							<span>{schemeDetails?.expenseRatio}%</span>
 							<span> (inclusive of GST)</span>
@@ -206,9 +204,11 @@
 			<!-- Exit Load -->
 			{#if schemeDetails?.exitLoadFlag === 'Y'}
 				<section class="flex flex-col gap-4 p-4 pt-0 lg:w-1/3 lg:flex-row">
-					<article class="flex-grow basis-0 rounded bg-white py-4 lg:border lg:bg-grey lg:px-3">
+					<article
+						class="flex-grow basis-0 rounded bg-background-alt py-4 lg:border lg:bg-background lg:px-3"
+					>
 						<ExitLoadIcon />
-						<h3 class="mb-1 mt-3 text-xs font-normal text-grey-body">Exit Load</h3>
+						<h3 class="mb-1 mt-3 text-xs font-normal text-body">Exit Load</h3>
 						<h4>{schemeDetails?.exitLoadValue}</h4>
 					</article>
 				</section>

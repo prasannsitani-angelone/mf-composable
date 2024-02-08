@@ -41,7 +41,7 @@
 
 <section class="mt-2 rounded-lg shadow-csm">
 	<article
-		class="via-yellow flex items-center justify-between gap-3 rounded-tl rounded-tr-lg border-l-4 border-yellow-primary bg-gradient-to-r from-white to-yellow-50 px-3 py-2 text-xs font-normal text-black-title"
+		class="via-yellow flex items-center justify-between gap-3 rounded-tl rounded-tr-lg border-l-4 border-secondary bg-gradient-to-r from-background-alt to-yellow-50 px-3 py-2 text-xs font-normal text-title"
 	>
 		<div class="flex items-center justify-start">
 			<WMSIcon name="alert-icon" />
@@ -53,7 +53,7 @@
 		</div>
 	</article>
 
-	<div class="rounded-b-lg bg-white px-2 pb-3 pt-4">
+	<div class="rounded-b-lg bg-background-alt px-2 pb-3 pt-4">
 		<div>
 			<ResultItem
 				class="justify-between px-0 py-3 pt-0 {sipCount <= 1 && 'pb-0'}"
@@ -70,7 +70,7 @@
 						<div class="w-18 relative">
 							<SchemeLogo src={sip.logoUrl} alt="logo" size="xs" />
 							<span
-								class="absolute left-6 top-0 z-10 mr-3 h-9 w-9 rounded-full border bg-white object-cover py-2.5 text-center text-xs font-normal shadow-csm"
+								class="absolute left-6 top-0 z-10 mr-3 h-9 w-9 rounded-full border bg-background-alt object-cover py-2.5 text-center text-xs font-normal shadow-csm"
 								>+ {sipCount - 1}</span
 							>
 						</div>
@@ -81,7 +81,9 @@
 
 				<svelte:fragment slot="ratingSection">
 					{#if sipCount === 1}
-						<span class="rounded-sm bg-grey p-1 text-3xs font-normal">{sip.investmentType}</span>
+						<span class="rounded-sm bg-background p-1 text-3xs font-normal"
+							>{sip.investmentType}</span
+						>
 					{:else}
 						<span />
 					{/if}
@@ -95,7 +97,7 @@
 				</svelte:fragment>
 			</ResultItem>
 		</div>
-		<div class="border-t border-grey-line pt-1 text-right">
+		<div class="border-t pt-1 text-right">
 			{#if sipCount === 1}
 				<ButtonMedium
 					size="xs"

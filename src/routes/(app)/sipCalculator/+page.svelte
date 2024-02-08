@@ -195,15 +195,17 @@
 	<meta name="robots" content="noindex, follow" />
 </svelte:head>
 <section class="col-span-1 col-start-1 row-start-2">
-	<Card class="mb-6 bg-white px-4 max-sm:rounded-none max-sm:border-b max-sm:shadow-none">
+	<Card
+		class="mb-6 bg-background-alt px-4 max-sm:rounded-none max-sm:border-b max-sm:border-border max-sm:shadow-none"
+	>
 		<header class="hidden flex-row items-center sm:flex">
 			<Button size="xs" onClick={() => history.back()} variant="transparent" class="!p-0">
 				<LeftArrowIcon class="mr-4 cursor-pointer" />
 			</Button>
-			<div class="h-max text-center text-lg font-medium text-black">Calculate Returns</div>
+			<div class="h-max text-center text-lg font-medium text-title">Calculate Returns</div>
 		</header>
 
-		<div class="relative mb-6 overflow-hidden rounded-lg">
+		<div class="light relative mb-6 overflow-hidden rounded-lg">
 			<Background class="absolute h-full w-full" />
 
 			<div
@@ -211,7 +213,7 @@
 			>
 				<div class="flex flex-col items-center justify-start gap-1 self-stretch">
 					<div class="flex items-center justify-center gap-2.5 self-stretch px-4">
-						<div class="shrink grow basis-0 text-xs font-normal leading-tight text-black-bolder">
+						<div class="shrink grow basis-0 text-xs font-normal leading-tight text-body">
 							<span>
 								{#if currentInvestmentMode === 'SIP'}
 									Total Value
@@ -222,13 +224,13 @@
 						</div>
 					</div>
 					<div class="flex items-center justify-center gap-2.5 self-stretch px-4">
-						<div class="shrink grow basis-0 text-xl font-medium text-black-key">
+						<div class="shrink grow basis-0 text-xl font-medium text-title">
 							₹{addCommasToAmountString(maxData?.investedAmount + maxData?.gains)}
 						</div>
 					</div>
 				</div>
 				<div class="flex items-center justify-center gap-2.5 self-stretch px-4">
-					<div class="shrink grow basis-0 text-xs font-normal leading-tight text-black-bolder">
+					<div class="shrink grow basis-0 text-xs font-normal leading-tight text-body">
 						When you invest ₹{addCommasToAmountString(maxData?.investedAmount)}
 						<span>
 							{#if currentInvestmentMode === 'SIP'}
@@ -245,13 +247,13 @@
 		<div class="inline-flex w-full flex-col items-start justify-start gap-2 sm:flex-row sm:gap-8">
 			<div class="inline-flex items-center justify-start gap-2 sm:min-w-[130px]">
 				<div class="h-2 w-3.5 rounded bg-[#C2E4DE]" />
-				<div class="text-xs font-normal text-black-bolder">
+				<div class="text-xs font-normal text-body">
 					Investment - ₹{getDisplayAmount(selectedDataSet.investedAmount || maxData.investedAmount)}
 				</div>
 			</div>
 			<div class="inline-flex items-center justify-start gap-2 sm:min-w-[130px]">
 				<div class="h-2 w-3.5 rounded bg-[#008F75]" />
-				<div class="text-xs font-normal text-black-bolder">
+				<div class="text-xs font-normal text-body">
 					Gains - ₹{getDisplayAmount(selectedDataSet.gains || maxData.gains)}
 				</div>
 			</div>
@@ -281,10 +283,10 @@
 					]}
 					on:click={() => handleChartClick(item)}
 				>
-					<div class="mx-auto mb-2 w-fit text-xs font-normal text-black-key" slot="topLabel">
+					<div class="mx-auto mb-2 w-fit text-xs font-normal text-title" slot="topLabel">
 						₹{getDisplayAmount(total)}
 					</div>
-					<div class="mx-auto mt-2 w-fit text-xs font-normal text-black-bolder" slot="bottomLabel">
+					<div class="mx-auto mt-2 w-fit text-xs font-normal text-body" slot="bottomLabel">
 						{item.durationInYears}Y
 					</div>
 				</LinearVerticalChart>
@@ -307,7 +309,7 @@
 </section>
 <section class="col-span-1 col-start-1 row-start-3 max-sm:mb-16 sm:col-start-2 sm:row-start-2">
 	<Card
-		class="inset-x-0 bottom-0 !m-0  block bg-white !p-0 max-sm:fixed max-sm:rounded-none max-sm:p-2 max-sm:pt-2 max-sm:shadow-none"
+		class="inset-x-0 bottom-0 !m-0  block bg-background-alt !p-0 max-sm:fixed max-sm:rounded-none max-sm:p-2 max-sm:pt-2 max-sm:shadow-none"
 	>
 		<CalculatorInputComponent
 			class="hidden px-4 pt-5 sm:block"
@@ -327,7 +329,7 @@
 				on:click={getExploreFundsPath}
 				endAdornment={RightChevron}
 				variant={BtnVariant.Transparent}
-				class="w-full bg-white !px-0 text-center text-sm font-medium uppercase text-blue-primary"
+				class="w-full bg-background-alt !px-0 text-center text-sm font-medium uppercase text-primary"
 			>
 				FIND MUTUAL FUNDS
 			</Button>

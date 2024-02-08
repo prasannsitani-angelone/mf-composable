@@ -7,6 +7,7 @@
 	import { base } from '$app/paths';
 	import SipTransactions from './SipTransactions.svelte';
 	import WmsIcon from '$components/WMSIcon.svelte';
+	import { getRGBACssVar } from '$lib/utils/colors';
 	let sipId: number;
 	let sipOrderHistory: Array<ISipOrderHistory>;
 	let sipCreatedTs: number;
@@ -94,7 +95,7 @@
 		data={SipHistoryData}
 		titleFontSize="text-base"
 		{disableCollapse}
-		class="mt-2 rounded-lg bg-white text-sm font-normal text-black-title shadow-csm {$$props.class}"
+		class="mt-2 rounded-lg bg-background-alt text-sm font-normal text-title shadow-csm {$$props.class}"
 	>
 		<svelte:fragment slot="accordionHeader">
 			<section class="p-4">
@@ -104,7 +105,7 @@
 							<div class="mr-2 text-base">SIP History</div>
 						</article>
 					</article>
-					<div class="mb-5 mt-2 flex items-center text-xs text-black-bolder">
+					<div class="mb-5 mt-2 flex items-center text-xs text-body">
 						<div class="">
 							SIP created on {getDateTimeString(sipCreatedTs, 'DATE', true)}
 						</div>
@@ -118,37 +119,39 @@
 				<article>
 					<div class="flex items-center font-normal">
 						<span
-							class="mr-1 flex h-5 w-5 items-center justify-center rounded-full bg-green-buy bg-opacity-10 text-xs text-green-buy"
+							style="background-color: {getRGBACssVar('--BUY', 0.1)}"
+							class="mr-1 flex h-5 w-5 items-center justify-center rounded-full text-xs text-buy"
 							class:px-1.5={successfulTxns}
 						>
 							{successfulTxns}
 						</span>
-						<span class="mr-2 text-sm text-grey-body"> Successful </span>
+						<span class="mr-2 text-sm text-body"> Successful </span>
 						{#if skippedTxns > 0}
 							<span
-								class="mr-1 flex h-5 w-5 items-center justify-center rounded-full bg-gray-400 bg-opacity-10 text-xs text-grey-body"
+								class="mr-1 flex h-5 w-5 items-center justify-center rounded-full bg-gray-400 bg-opacity-10 text-xs text-body"
 								class:px-1.5={skippedTxns > 9}
 							>
 								{skippedTxns}
 							</span>
-							<span class="mr-2 text-sm text-grey-body"> Skipped </span>
+							<span class="mr-2 text-sm text-body"> Skipped </span>
 						{/if}
 						{#if editedTxns > 0}
 							<span
-								class="mr-1 flex h-5 w-5 items-center justify-center rounded-full bg-purple-glow text-xs text-grey-body"
+								class="mr-1 flex h-5 w-5 items-center justify-center rounded-full bg-tint12-secondary-alt text-xs text-body"
 								class:px-1.5={editedTxns > 9}
 							>
 								{editedTxns}
 							</span>
-							<span class="mr-2 text-sm text-grey-body"> Edited </span>
+							<span class="mr-2 text-sm text-body"> Edited </span>
 						{/if}
 						<span
-							class="mr-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-sell bg-opacity-10 text-xs text-red-sell"
+							style="background-color: {getRGBACssVar('--SELL', 0.1)}"
+							class="mr-1 flex h-5 w-5 items-center justify-center rounded-full text-xs text-sell"
 							class:px-1.5={failedTxns}
 						>
 							{failedTxns}
 						</span>
-						<span class="text-sm text-grey-body"> Failed </span>
+						<span class="text-sm text-body"> Failed </span>
 					</div>
 				</article>
 			</section>

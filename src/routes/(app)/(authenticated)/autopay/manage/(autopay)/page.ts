@@ -27,7 +27,7 @@ export const load = (async ({ fetch }) => {
 			layoutType: 'DEFAULT',
 			layoutClass: 'pt-0 md:pt-2',
 			titleClass: '!text-xl',
-			headerClass: '!bg-grey !py-2.5 !px-4 !shadow-none',
+			headerClass: '!bg-background !py-2.5 !px-4 !shadow-none',
 			showBottomNavigation: true
 		}
 	};

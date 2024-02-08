@@ -408,10 +408,10 @@
 	};
 
 	const inactiveButtonClass =
-		'font-normal bg-white !text-black-title/80 border hover:bg-inherit border-grey-primary';
+		'font-normal bg-background-alt !text-title/80 border hover:bg-inherit';
 	const inactiveMobileButtonClass =
-		'font-normal bg-white text-black-title/80 border-0 border-white';
-	const disabledClass = '!border-grey-line !bg-white';
+		'font-normal bg-background-alt text-title/80 border-0 border-background-alt';
+	const disabledClass = '!border-border !bg-background-alt';
 
 	const equityDebtTabSwitchAnalyticsFunc = () => {
 		const eventMetaData = {
@@ -498,17 +498,17 @@
 	<Card class="!p-0">
 		<svelte:fragment slot="header">
 			<section
-				class="flex items-center justify-between border-b border-grey-line p-4 text-lg md:px-6 md:py-5 lg:border-0"
+				class="flex items-center justify-between border-b p-4 text-lg md:px-6 md:py-5 lg:border-0"
 			>
 				<section class="flex items-center">
-					<div class="flex h-12 w-12 items-center justify-center rounded-full bg-grey">
+					<div class="flex h-12 w-12 items-center justify-center rounded-full bg-background">
 						<AssetAnalysisIcon />
 					</div>
 					<div class="ml-4 flex flex-col">
-						<span class="text-left text-base font-normal text-black-title md:text-lg"
+						<span class="text-left text-base font-normal text-title md:text-lg"
 							>Asset Class Analysis</span
 						>
-						<span class="text-left text-xs font-normal text-grey-body md:text-sm"
+						<span class="text-left text-xs font-normal text-body md:text-sm"
 							>Category wise fund analysis</span
 						>
 					</div>
@@ -570,10 +570,10 @@
 				<article class="lg:hidden">
 					<article class="flex border-b">
 						<Button
-							class={`w-1/2 !rounded-none !bg-white !py-5 font-medium !text-blue-primary ${
+							class={`w-1/2 !rounded-none !bg-background-alt !py-5 font-medium !text-primary ${
 								showEquityDebt === 'DEBT'
 									? inactiveMobileButtonClass
-									: 'border-b-[3px] !border-b-blue-primary'
+									: 'border-b-[3px] !border-b-primary'
 							} `}
 							disabled={equityTotalAmount <= 0}
 							onClick={() => toggleEquityDebt('EQUITY')}
@@ -581,10 +581,10 @@
 							Equity ({equityTotalPercentage?.toFixed(2)}%)
 						</Button>
 						<Button
-							class={`w-1/2 !rounded-none !bg-white !py-5 font-medium !text-blue-primary ${
+							class={`w-1/2 !rounded-none !bg-background-alt !py-5 font-medium !text-primary ${
 								showEquityDebt === 'EQUITY'
 									? inactiveMobileButtonClass
-									: 'border-b-[3px] !border-b-blue-primary'
+									: 'border-b-[3px] !border-b-primary'
 							} `}
 							disabled={debtTotalAmount <= 0}
 							onClick={() => toggleEquityDebt('DEBT')}

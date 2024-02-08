@@ -147,7 +147,7 @@
 			<PartialImportHeading />
 		{/if}
 		<ResultItem
-			class="mb-2 rounded-lg bg-white p-4 shadow-csm md:px-6 md:py-5 {!isInvestmentNotAllowed &&
+			class="mb-2 rounded-lg bg-background-alt p-4 shadow-csm md:px-6 md:py-5 {!isInvestmentNotAllowed &&
 			schemeDetails &&
 			isRedirectAllowed()
 				? 'cursor-pointer'
@@ -157,7 +157,7 @@
 			logoUrl={holdings?.logoUrl}
 			categoryName={holdings?.schemePlan}
 			subcategoryName={holdings?.sipEnabled ? 'SIP' : 'ONE-TIME'}
-			titleStyle="ml-1 text-sm lg:text-lg font-normal text-black-title"
+			titleStyle="ml-1 text-sm lg:text-lg font-normal text-title"
 			categoryStyle="mx-1 font-normal"
 			subCategoryStyle="ml-1 font-normal"
 			on:click={handleSchemeCardClick}

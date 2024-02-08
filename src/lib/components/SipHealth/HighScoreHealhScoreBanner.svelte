@@ -10,7 +10,9 @@
 		scorePercentile < 100 ? `${(100 - Math?.floor(scorePercentile))?.toFixed(0)}%` : '1%';
 </script>
 
-<article class="bgGradient relative overflow-hidden rounded-lg p-4 text-white md:pl-6 md:pr-9">
+<article
+	class="bgGradient relative overflow-hidden rounded-lg p-4 text-background-alt md:pl-6 md:pr-9"
+>
 	<div
 		class="-z-1 absolute -top-36 left-32 h-[25rem] w-11 rotate-[-30deg] rounded-lg bg-gradient-to-b from-[#646566] to-[#393A3D00] opacity-50 bg-blend-screen mix-blend-screen md:-top-44 md:left-1/3 md:w-20 md:rotate-[-60deg]"
 	/>

@@ -24,12 +24,12 @@
 	};
 </script>
 
-<div class="relative flex items-center rounded-lg {$$props.class}">
+<div class="light relative flex items-center rounded-lg {$$props.class}">
 	<div class="z-2 absolute h-full w-full"><AskAngelBg class="absolute h-full w-full" /></div>
 	<div class="z-0 flex items-center p-4">
 		<div class="flex flex-col">
-			<p class="text-sm font-medium text-black-key">Not sure where to invest your money?</p>
-			<p class="py-1 pr-28 text-xs text-black-key">
+			<p class="text-sm font-medium text-title">Not sure where to invest your money?</p>
+			<p class="text-black-body py-1 pr-28 text-xs">
 				Let us match you with the right investments based on your goals
 			</p>
 			<Button

@@ -5,8 +5,8 @@
 </script>
 
 <div
-	class={`flex h-4 w-4 items-center justify-center rounded-lg bg-grey-line ${$$props.class || ''}`}
-	class:!bg-green-buy={selected}
+	class={`flex h-4 w-4 items-center justify-center rounded-lg bg-border ${$$props.class || ''}`}
+	class:!bg-buy={selected}
 >
 	{#if selected}
 		<Tick />

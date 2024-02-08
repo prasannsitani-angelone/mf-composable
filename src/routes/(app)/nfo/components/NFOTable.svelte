@@ -57,7 +57,7 @@
 </script>
 
 <Table class="overflow-hidden !rounded-xl rounded-t {$$props.class}">
-	<THead slot="thead" class="rounded-lg rounded-t border-b border-t border-grey-line bg-white">
+	<THead slot="thead" class="rounded-lg rounded-t border-b border-t bg-background-alt">
 		<Th class=" w-8/12 !pr-0 font-medium normal-case sm:w-5/12">Funds</Th>
 		{#if $page?.data?.deviceType?.isBrowser && !isClosedNFO}
 			<Th wrapperClass="justify-end sm:justify-center normal-case">Open Date</Th>
@@ -79,7 +79,7 @@
 	<TBody slot="tbody">
 		{#each searchOption || [] as scheme}
 			<Tr
-				class={`${clickable ? 'cursor-pointer sm:hover' : ''} `}
+				class={`${clickable ? 'cursor-pointer sm:hover' : ''} border-b `}
 				on:click={() => {
 					onTableRowSelect(scheme);
 				}}
@@ -99,10 +99,10 @@
 									headingPrimary={scheme?.categoryName}
 									headingSecondary={scheme?.subcategoryName}
 								/>
-								<h3 class="whitespace-normal text-sm font-normal text-black-title md:text-sm">
+								<h3 class="whitespace-normal text-sm font-normal text-title md:text-sm">
 									{scheme?.schemeName}
 								</h3>
-								<div class="mt-1 text-xs text-grey-body">{scheme?.reInvestmentPlan}</div>
+								<div class="mt-1 text-xs text-body">{scheme?.reInvestmentPlan}</div>
 							</div>
 						</div>
 					{/if}

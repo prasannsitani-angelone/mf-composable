@@ -14,7 +14,7 @@
 <section class="flex flex-wrap px-4 py-3 sm:px-6 lg:items-center lg:justify-center">
 	{#each category.data || [] as option}
 		<article
-			class="group mr-0 flex basis-1/4 cursor-pointer items-center justify-center rounded-lg bg-white hover:bg-grey sm:justify-start sm:pl-6"
+			class="group mr-0 flex basis-1/4 cursor-pointer items-center justify-center rounded-lg bg-background-alt hover:bg-background sm:justify-start sm:pl-6"
 		>
 			<Link
 				to={getCategoriesFundsNavigationPath(option.id)}
@@ -29,7 +29,7 @@
 					<img src={option.iconUrl} class="h-9 w-9" alt="option.name" loading="lazy" />
 				</div>
 				<h2
-					class="mt-2 px-2 text-center text-sm font-normal text-black-title lg:ml-3 lg:mt-0 lg:pl-0 lg:pr-3 lg:text-left lg:text-base"
+					class="mt-2 px-2 text-center text-sm font-normal text-title lg:ml-3 lg:mt-0 lg:pl-0 lg:pr-3 lg:text-left lg:text-base"
 				>
 					{option.name}
 				</h2>

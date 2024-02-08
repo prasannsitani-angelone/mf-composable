@@ -25,9 +25,9 @@
 		$paymentMethodStatusStore?.payment_modes?.[`${bankAccounts[selectedAccount]?.ifscCode}`] || {};
 </script>
 
-<div class="flex flex-col bg-white px-4 py-3 {$$props.class}">
-	<div class="mb-3 text-sm font-normal text-black-title">Pay With Autopay</div>
-	<div class="divide-y divide-grey-line rounded-lg border border-grey-line">
+<div class="flex flex-col bg-background-alt px-4 py-3 {$$props.class}">
+	<div class="mb-3 text-sm font-normal text-title">Pay With Autopay</div>
+	<div class="divide-y divide-border rounded-lg border">
 		{#each autopayOptions as option (option)}
 			{@const logoIcon = profileStore.getBankDetailsByAccountNumber(option.accountNo)?.bankLogo}
 			{#if amountInNumber <= option.availableAmount}
@@ -47,19 +47,19 @@
 					<div slot="icon" class="flex h-8 w-11 items-center justify-center rounded-sm">
 						<img src={logoIcon} class="h-4 w-4" alt="bank logo" />
 					</div>
-					<div slot="content" class="mt-2 flex flex-col text-2xs font-normal text-grey-body">
+					<div slot="content" class="mt-2 flex flex-col text-2xs font-normal text-body">
 						<div class="flex">
 							<div class="mr-2 flex flex-row">
-								<div class="text-sm font-normal text-black-title">
+								<div class="text-sm font-normal text-title">
 									{option.bankName}
 								</div>
 							</div>
 
-							<div class="mt-1 flex flex-row items-center text-xs font-normal text-black-key">
-								<div class="mr-1 h-1 w-1 rounded-full bg-black-key" />
-								<div class="mr-1 h-1 w-1 rounded-full bg-black-key" />
-								<div class="mr-1 h-1 w-1 rounded-full bg-black-key" />
-								<div class="mr-1 h-1 w-1 rounded-full bg-black-key" />
+							<div class="mt-1 flex flex-row items-center text-xs font-normal text-title">
+								<div class="mr-1 h-1 w-1 rounded-full bg-title" />
+								<div class="mr-1 h-1 w-1 rounded-full bg-title" />
+								<div class="mr-1 h-1 w-1 rounded-full bg-title" />
+								<div class="mr-1 h-1 w-1 rounded-full bg-title" />
 								{option.accountNo?.substring(option.accountNo.length - 4)}
 							</div>
 						</div>

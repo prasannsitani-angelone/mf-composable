@@ -13,7 +13,7 @@
 	{#each items as item, index (index)}
 		<div class="flex flex-col" class:flex-1={index < items.length - 1}>
 			<div
-				class="mb-2 text-xs text-black-bolder {$$props?.titleClass || ''}"
+				class="mb-2 text-xs text-body {$$props?.titleClass || ''}"
 				class:ml-1={item.status === STATUS_ARR.FAILED}
 			>
 				{item.title}
@@ -57,12 +57,10 @@
 						/>
 					</div>
 				{:else}
-					<div class="my-1 h-5 w-5 rounded-full bg-grey sm:h-[30px] sm:w-[30px]" />
+					<div class="my-1 h-5 w-5 rounded-full bg-disabled sm:h-[30px] sm:w-[30px]" />
 				{/if}
 				<div
-					class="flex border-t {item.status === STATUS_ARR.SUCCESS
-						? 'border-[#E0F2EE]'
-						: 'border-grey-line'}"
+					class="flex border-t {item.status === STATUS_ARR.SUCCESS ? 'border-[#E0F2EE]' : 'border'}"
 					class:flex-1={index < items.length - 1}
 					class:w-4={index === items.length - 1}
 					class:sm:w-20={index === items.length - 1}

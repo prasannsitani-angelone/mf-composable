@@ -92,18 +92,18 @@
 	>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<article
-			class="w-full cursor-default rounded-t-2xl bg-white pb-8 pt-6 md:w-120 md:rounded-lg"
+			class="w-full cursor-default rounded-t-2xl bg-background-alt pb-8 pt-6 md:w-120 md:rounded-lg"
 			on:click={(e) => {
 				e.stopPropagation();
 			}}
 		>
 			<header
-				class="pb-4 pl-4 text-lg font-normal text-black-title sm:mb-4 sm:border-b md:text-xl lg:px-8 lg:pb-6"
+				class="pb-4 pl-4 text-lg font-normal text-title sm:mb-4 sm:border-b md:text-xl lg:px-8 lg:pb-6"
 			>
 				Remove from Favourites?
 			</header>
 			<div class="flex flex-col px-4">
-				<span class="text-grey-body">Do you want to remove this fund from your favourites?</span>
+				<span class="text-body">Do you want to remove this fund from your favourites?</span>
 
 				<div class="mt-9 flex w-full flex-1 gap-4">
 					<Button

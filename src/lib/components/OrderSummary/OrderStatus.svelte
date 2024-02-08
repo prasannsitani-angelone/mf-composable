@@ -78,11 +78,11 @@
 	};
 </script>
 
-<section class="{$$props?.class} rounded-lg border border-grey-line bg-white">
+<section class="{$$props?.class} rounded-lg border bg-background-alt">
 	<slot name="orderSchemeDetails">
 		<!-- Order Scheme Details -->
 		<section class="p-3">
-			<div class="text-base font-medium text-black-key">
+			<div class="text-base font-medium text-title">
 				{cardHeading}
 			</div>
 
@@ -90,7 +90,7 @@
 				{#if isSwitch && switchData?.toSchemeName?.length}
 					<section class="mt-3">
 						<div
-							class="w-[68px] rounded-sm bg-yellow-background px-1 py-0.5 text-[10px] font-normal text-black-key"
+							class="w-[68px] rounded-sm bg-yellow-background px-1 py-0.5 text-[10px] font-normal text-title"
 						>
 							SWITCH OUT
 						</div>
@@ -103,7 +103,7 @@
 
 					<section class="mt-3">
 						<div
-							class="w-[60px] rounded-sm bg-purple-background px-1 py-0.5 text-[10px] font-normal text-black-key"
+							class="w-[60px] rounded-sm bg-purple-background px-1 py-0.5 text-[10px] font-normal text-title"
 						>
 							SWITCH IN
 						</div>
@@ -126,7 +126,7 @@
 
 	<slot name="partition">
 		{#if showTimeline && statusData?.length}
-			<div class="mx-3 border-t border-grey-line md:border-dashed" />
+			<div class="mx-3 border-t md:border-dashed" />
 		{/if}
 	</slot>
 

@@ -66,7 +66,7 @@
 				{@const isSelected = currentIndex < index}
 				<div
 					class="h-1 flex-1 self-center rounded
-					{currentIndex < carouselItems.length - 1 ? `bg-white` : `bg-blue-primary`}
+					{currentIndex < carouselItems.length - 1 ? `bg-white` : `bg-primary`}
 					{isSelected ? 'opacity-[0.5]' : 'opacity-[1]'}"
 				/>
 			{/each}

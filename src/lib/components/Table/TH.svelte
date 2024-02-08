@@ -23,14 +23,14 @@
 </script>
 
 <th
-	class={`h-12 border-b border-grey-line bg-white py-0 pl-5 pr-6 font-normal text-grey-body ${clazz}`}
+	class={`h-12 border-b bg-background-alt py-0 pl-5 pr-6 font-normal text-body ${clazz}`}
 	style={thStyle}
 >
 	{#if sortable}
 		<Button
 			size="xs"
 			variant="transparent"
-			class={`!m-auto flex items-center !p-0 !text-xs !font-normal !text-blue-primary ${
+			class={`!m-auto flex items-center !p-0 !text-xs !font-normal !text-primary ${
 				wrapperClass || ''
 			}`}
 			onClick={initiateSort}
@@ -39,7 +39,7 @@
 			<THSorting {isHorizontalSort} />
 		</Button>
 	{:else}
-		<div class={`flex items-center text-grey-body  ${wrapperClass || ''}`}>
+		<div class={`flex items-center text-body  ${wrapperClass || ''}`}>
 			<slot />
 		</div>
 	{/if}

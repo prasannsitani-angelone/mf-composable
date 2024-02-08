@@ -95,23 +95,23 @@
 	class="flex h-screen flex-col bg-[#B99AE6] p-5 {$$props.class}"
 >
 	<section class="flex-1">
-		<p class="mb-3 mt-10 text-2xl font-medium text-black-key">Starting Your First SIP</p>
+		<p class="mb-3 mt-10 text-2xl font-medium text-title">Starting Your First SIP</p>
 		{#if clientHeight > HEIGHT_OFFSET}
 			<Icon3 class="mx-auto mb-3" />
 		{/if}
 
 		<ul class="mb-4 ml-3">
 			{#each options as option}
-				<li class="mb-2 list-disc text-sm font-normal leading-6 text-black-key">
+				<li class="mb-2 list-disc text-sm font-normal leading-6 text-title">
 					{option}
 				</li>
 			{/each}
 		</ul>
 
-		<p class="mb-4 text-lg font-medium text-black-key">Top Pick for First Investment</p>
+		<p class="mb-4 text-lg font-medium text-title">Top Pick for First Investment</p>
 
 		<div class="flex flex-col">
-			<div class="relative w-full overflow-hidden rounded-t-lg bg-white">
+			<div class="relative w-full overflow-hidden rounded-t-lg bg-background-alt">
 				<div class=" flex flex-row p-3 opacity-[.99]">
 					<div class="mr-2 flex flex-1 flex-row items-center">
 						<SchemeLogo
@@ -120,7 +120,7 @@
 							alt={schemeDetails?.schemeName}
 							lazy={'lazy'}
 						/>
-						<p class="text-sm font-normal text-black-title">
+						<p class="text-sm font-normal text-title">
 							{schemeDetails?.schemeName}
 						</p>
 					</div>
@@ -166,6 +166,6 @@
 
 	<section class="flex flex-col items-center justify-center">
 		<WMSIcon width={14} height={8} name="swipe-up" stroke="#000000" class="mb-1" />
-		<p class="text-sm font-medium text-black-key">Swipe up to invest</p>
+		<p class="text-sm font-medium text-title">Swipe up to invest</p>
 	</section>
 </div>

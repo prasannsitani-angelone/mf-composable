@@ -68,7 +68,7 @@
 			class: 'cursor-pointer',
 			iconWidth: '20',
 			iconHeight: '20',
-			iconDivClass: 'rounded-full bg-blue-background p-2'
+			iconDivClass: 'rounded-full bg-background p-2'
 		},
 		{
 			title: 'Logout',
@@ -79,9 +79,8 @@
 	];
 
 	const logoUrl = `${base}/images/AngelOneLogo.webp`;
-	const activePageTabClass =
-		'py-4 hover:text-blue-primary text-blue-primary lg:border-b-2 border-blue-primary';
-	const inactivePageTabClass = 'py-4 hover:text-blue-primary lg:border-b-2 border-white';
+	const activePageTabClass = 'py-4 hover:text-primary text-primary lg:border-b-2 border-primary';
+	const inactivePageTabClass = 'py-4 hover:text-primary lg:border-b-2 border-background-alt';
 	$: discoverFundsTabClass = $page.url?.pathname?.includes('/discoverfunds')
 		? activePageTabClass
 		: $page.url?.pathname?.includes('/explorefunds')
@@ -159,14 +158,14 @@
 			preloadData={isGuest ? 'off' : 'hover'}
 			on:linkClicked={() => onTabClickAnalytics('Cart')}
 		>
-			<div class="relative flex h-9 w-9 items-center justify-center rounded-full bg-grey-light">
+			<div class="relative flex h-9 w-9 items-center justify-center rounded-full bg-background">
 				{#if isCartActive}
 					<WMSIcon name="cart-filled" />
 				{:else}
 					<WMSIcon name="cart-outlined" stroke="#3F5BD9" />
 				{/if}
 				<div
-					class="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-tulip text-center text-xs font-bold text-white"
+					class="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-sell text-center text-xs font-bold text-background-alt"
 				>
 					{$cartStore.count}
 				</div>

@@ -108,15 +108,15 @@
 	<div class="flex w-full flex-col items-center lg:w-120">
 		<div class="mb-6 flex w-full flex-row items-center md:mb-12">
 			<div
-				class="mr-6 flex h-16 w-16 items-center justify-center rounded-full bg-grey-light text-blue-primary"
+				class="mr-6 flex h-16 w-16 items-center justify-center rounded-full bg-background text-primary"
 			>
 				{nameInitials}
 			</div>
 			<div>
-				<div class="mb-1 text-lg font-normal text-black-neutral">
+				<div class="mb-1 text-lg font-normal text-title">
 					{usersName}
 				</div>
-				<div class="text-base text-grey-dark">
+				<div class="text-base text-body">
 					{clientCode}
 				</div>
 			</div>
@@ -133,7 +133,7 @@
 				classes={{
 					input: 'text-base text-start placeholder:text-sm',
 					container: 'border shadow-none h-16 py-0',
-					label: 'text-grey-dark text-xs mb-0 font-normal',
+					label: 'text-body text-xs mb-0 font-normal',
 					error: 'border-red-500',
 					parent: 'w-full'
 				}}
@@ -158,7 +158,7 @@
 
 			<div id="forgot_mpin" class="mt-2 flex w-full flex-row justify-end">
 				<button
-					class="cursor-pointer text-sm font-medium text-blue-primary active:opacity-80"
+					class="cursor-pointer text-sm font-medium text-primary active:opacity-80"
 					on:click={onForgotPin}
 				>
 					Forgot PIN?
@@ -167,17 +167,17 @@
 		</div>
 		<Button
 			class="mt-6 w-full rounded-lg !py-3 md:mt-12 {buttonDisabled
-				? '!bg-grey-light !text-grey-disabled'
+				? '!bg-background !text-disabled'
 				: ''}"
 			disabled={buttonDisabled}
 			{onClick}
 		>
 			PROCEED
 		</Button>
-		<div class="mt-5 flex w-full flex-row text-sm text-grey-medium lg:w-120">
+		<div class="mt-5 flex w-full flex-row text-sm text-disabled lg:w-120">
 			<span class="mr-2">Login to another account?</span>
 			<button
-				class="cursor-pointer text-sm font-normal text-blue-primary active:opacity-80"
+				class="cursor-pointer text-sm font-normal text-primary active:opacity-80"
 				on:click={onSwitchHereClick}
 			>
 				Switch Here

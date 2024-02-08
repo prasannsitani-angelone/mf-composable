@@ -340,29 +340,29 @@
 						</article>
 						<div class="ml-4 mt-2 flex items-center gap-4 pl-4">
 							<div class="w-1/2">
-								<p class="mb-4 text-xs font-normal text-grey-body">From</p>
+								<p class="mb-4 text-xs font-normal text-body">From</p>
 								<div
-									class="flex cursor-pointer items-center border-b border-grey-line pb-2"
+									class="flex cursor-pointer items-center border-b pb-2"
 									on:click={() => showCalendarModal('from')}
 								>
 									{#if customFromDate}
 										<span class="test font-normal">{displayFromDate}</span>
 									{:else}
-										<span class="text-base font-normal text-grey-disabled">DD/MM/YYYY</span>
+										<span class="text-base font-normal text-disabled">DD/MM/YYYY</span>
 									{/if}
 									<CalendarIcon class="mb-1 ml-auto" />
 								</div>
 							</div>
 							<div class="w-1/2">
-								<p class="mb-4 text-xs font-normal text-grey-body">To</p>
+								<p class="mb-4 text-xs font-normal text-body">To</p>
 								<div
-									class="border-grey-lin flex cursor-pointer items-center border-b pb-2"
+									class="flex cursor-pointer items-center border-b pb-2"
 									on:click={() => showCalendarModal('to')}
 								>
 									{#if customToDate}
 										<span class="test font-normal">{displayToDate}</span>
 									{:else}
-										<span class="text-base font-normal text-grey-disabled">DD/MM/YYYY</span>
+										<span class="text-base font-normal text-disabled">DD/MM/YYYY</span>
 									{/if}
 									<CalendarIcon class="mb-1 ml-auto" />
 								</div>

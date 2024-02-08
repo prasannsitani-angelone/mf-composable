@@ -7,9 +7,9 @@
 	export let subHeaderClass = '';
 </script>
 
-<article class="flex flex-col bg-yellow-background px-5 py-2 {$$props?.class}">
+<article class="flex flex-col bg-tint12-secondary px-5 py-2 {$$props?.class}">
 	{#if heading}
-		<div class="flex flex-row items-center font-normal text-black-title {headerClass}">
+		<div class="flex flex-row items-center font-normal text-title {headerClass}">
 			<slot name="statusIcon">
 				<WmsIcon name="time-pending" />
 			</slot>

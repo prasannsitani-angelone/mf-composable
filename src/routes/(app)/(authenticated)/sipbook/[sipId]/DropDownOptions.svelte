@@ -36,8 +36,8 @@
 
 <div
 	class={isMobile
-		? 'flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white py-2 shadow-csm md:rounded-lg'
-		: 'z-1 absolute -top-5 right-0 flex w-[42%] flex-col rounded-md border-b bg-white shadow-csm'}
+		? 'flex w-screen flex-col rounded-b-none rounded-t-2xl bg-background-alt py-2 shadow-csm md:rounded-lg'
+		: 'z-1 absolute -top-5 right-0 flex w-[42%] flex-col rounded-md border-b bg-background-alt shadow-csm'}
 >
 	{#each SIP_OPTIONS as option}
 		{#if sipType === 'SIP' || (sipType === 'XSIP' && option.key === 'cancelSip')}
@@ -47,9 +47,9 @@
 				<Button
 					size={isDisabled ? 'lg' : 'md'}
 					variant="transparent"
-					class={`w-full !justify-start !font-normal !text-black-key ${
+					class={`w-full !justify-start !font-normal !text-title ${
 						isDisabled
-							? 'pointer-events-none !-ml-2 !cursor-not-allowed border-grey-disabled !bg-white !text-grey-disabled grayscale'
+							? 'pointer-events-none !-ml-2 !cursor-not-allowed border-disabled !bg-background-alt !text-disabled grayscale'
 							: ''
 					}`}
 					onClick={() => {
@@ -83,11 +83,11 @@
 		{/if}
 	{/each}
 	{#if packId}
-		<div class="mx-6 mb-2 flex rounded-lg bg-[#FEEED4] p-4 text-black-key">
+		<div class="mx-6 mb-2 flex rounded-lg bg-[#FEEED4] p-4 text-title">
 			<div>
 				<WMSIcon name="info-doughnut" fill="#FACE80" />
 			</div>
-			<div class="pl-2 text-xs text-black-key">
+			<div class="pl-2 text-xs text-title">
 				This SIP is part of a goal based portfolio. Editing this SIP might impact your portfolio
 				performance
 			</div>

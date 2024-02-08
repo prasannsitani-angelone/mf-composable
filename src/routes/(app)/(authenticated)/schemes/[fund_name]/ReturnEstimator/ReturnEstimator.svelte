@@ -32,21 +32,21 @@
 	}
 </script>
 
-<article class="mt-4 max-w-4xl rounded-lg bg-white pb-4 text-sm shadow-csm">
-	<header class="border border-b border-grey-line">
+<article class="mt-4 max-w-4xl rounded-lg bg-background-alt pb-4 text-sm shadow-csm">
+	<header class="border border-b">
 		<section
 			class="flex cursor-pointer items-center justify-between p-4 text-lg hover:text-blue-800 md:px-6 md:py-5"
 		>
 			<section class="flex items-center">
-				<div class="flex h-12 w-12 items-center justify-center rounded-full bg-grey">
+				<div class="flex h-12 w-12 items-center justify-center rounded-full bg-background">
 					<ReturnEstimatorIcon />
 				</div>
 				<div class="ml-4 flex flex-col">
-					<h2 class="flex items-center text-left font-normal text-black-title">
+					<h2 class="flex items-center text-left font-normal text-title">
 						<span> Calculate Returns</span>
 					</h2>
 					<h3 class="text-left font-normal">
-						<span class="text-sm text-grey-body">Based on past performance of this fund</span>
+						<span class="text-sm text-body">Based on past performance of this fund</span>
 					</h3>
 				</div>
 			</section>

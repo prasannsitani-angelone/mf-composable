@@ -85,13 +85,11 @@
 
 <div
 	class={isMobile
-		? 'flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white shadow-csm md:w-120 md:rounded-lg'
-		: 'flex-col items-center border-b border-grey-line md:py-3'}
+		? 'flex w-screen flex-col rounded-b-none rounded-t-2xl bg-background-alt shadow-csm md:w-120 md:rounded-lg'
+		: 'flex-col items-center border-b md:py-3'}
 >
 	{#if !isMobile && !activePage}
-		<article
-			class="mx-1 flex cursor-pointer items-center justify-start border-b border-grey-line px-3 py-2"
-		>
+		<article class="mx-1 flex cursor-pointer items-center justify-start border-b px-3 py-2">
 			<WMSIcon
 				name="left-arrow"
 				width={16}
@@ -99,7 +97,7 @@
 				class="mr-3 cursor-pointer"
 				on:click={handleBackButtonNavigation}
 			/>
-			<div class="text-md font-normal text-black-title">More Options</div>
+			<div class="text-md font-normal text-title">More Options</div>
 		</article>
 	{/if}
 	{#if !activePage}
@@ -110,15 +108,15 @@
 				disabled={switchFlags !== 'Y' ||
 					!!redemptionNotAllowedText?.length ||
 					!holdingDetails?.redemptionAllowed}
-				class=" !flex !h-max w-full flex-nowrap !items-center !border-none !bg-white !p-0 !py-4 text-sm !font-normal !normal-case text-white active:opacity-95 disabled:opacity-30"
+				class=" !flex !h-max w-full flex-nowrap !items-center !border-none !bg-background-alt !p-0 !py-4 text-sm !font-normal !normal-case text-background-alt active:opacity-95 disabled:opacity-30"
 				on:click={onSwitchNavigation}
 			>
 				<div class="flex self-start px-2 md:px-0 md:pr-2">
 					<WMSIcon height={36} width={36} name="switch-fund" />
 				</div>
-				<div class="px-2 text-left text-grey-body">
-					<p class="pb-1 text-sm font-normal text-black-title">Switch Funds</p>
-					<p class="border-bottom !text-xs text-grey-body">
+				<div class="px-2 text-left text-body">
+					<p class="pb-1 text-sm font-normal text-title">Switch Funds</p>
+					<p class="border-bottom !text-xs text-body">
 						Transfer your investment (partial or full) to another mutual fund from the same AMC
 					</p>
 				</div>

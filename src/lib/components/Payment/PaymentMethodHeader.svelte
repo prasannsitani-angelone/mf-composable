@@ -8,7 +8,7 @@
 </script>
 
 <div
-	class="z-10 flex flex-row items-center justify-between bg-white p-4 shadow-csm {isPartOfModal
+	class="z-10 flex flex-row items-center justify-between bg-background-alt p-4 shadow-csm {isPartOfModal
 		? 'sm:border-b sm:px-8 sm:py-6 sm:shadow-none'
 		: ''}"
 >
@@ -17,6 +17,7 @@
 			<WMSIcon
 				class="mr-3 sm:hidden"
 				name="left-arrow"
+				stroke="var(--TITLE)"
 				width={16}
 				height={16}
 				on:click={onBackClick}
@@ -24,7 +25,7 @@
 		{:else}
 			<WMSIcon class="mr-3" name="left-arrow" width={16} height={16} on:click={onBackClick} />
 		{/if}
-		<div class="text-lg font-normal text-black-title sm:text-xl">{title}</div>
+		<div class="text-lg font-normal text-title sm:text-xl">{title}</div>
 	</div>
 	{#if isPartOfModal}
 		<div class="hidden sm:flex">

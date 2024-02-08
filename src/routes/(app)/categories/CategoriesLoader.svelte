@@ -4,7 +4,7 @@
 
 <SkeletonWrapper>
 	<div class="flex flex-col">
-		<div class=" mb-5 bg-white p-3 pt-1 sm:mx-3 sm:mb-0">
+		<div class=" mb-5 bg-background-alt p-3 pt-1 sm:mx-3 sm:mb-0">
 			<div class="mb-4 flex flex-row gap-x-2">
 				<SkeletonRectangle class="!h-8 w-28" />
 				<SkeletonRectangle class="!h-8 w-28" />

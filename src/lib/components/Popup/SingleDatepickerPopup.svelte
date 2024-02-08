@@ -28,9 +28,9 @@
 </script>
 
 <ModalWithAnimation closeModal={backdropClick} isModalOpen>
-	<div class="rounded-b-none rounded-t-2xl bg-white sm:rounded-lg">
-		<div class="flex items-center justify-between border-b border-grey-line px-8">
-			<p class="py-6 text-xl font-normal text-black-title">
+	<div class="rounded-b-none rounded-t-2xl bg-background-alt sm:rounded-lg">
+		<div class="flex items-center justify-between border-b px-8">
+			<p class="py-6 text-xl font-normal text-title">
 				{heading}
 			</p>
 			{#if !isMobile}
@@ -38,12 +38,12 @@
 			{/if}
 		</div>
 		<div class="mx-8 py-6">
-			<p class="pb-4 text-sm font-normal text-grey-body">Date</p>
-			<div class="flex items-center justify-between border-b border-grey-line pb-3">
+			<p class="pb-4 text-sm font-normal text-body">Date</p>
+			<div class="flex items-center justify-between border-b pb-3">
 				{#if date}
-					<span class="tetx-black-title text-base font-normal">{displayDate}</span>
+					<span class="tetx-title text-base font-normal">{displayDate}</span>
 				{:else}
-					<span class="text-base font-normal text-grey-disabled">DD/MM/YYYY</span>{/if}
+					<span class="text-base font-normal text-disabled">DD/MM/YYYY</span>{/if}
 				<CalendarIcon class="mb-1 ml-auto" />
 			</div>
 			<SingleDatepicker class="mt-3" {minDate} selected={date} onChange={handleDateChange} />

@@ -1,12 +1,12 @@
 <article
-	class={`mx-2 overflow-auto rounded bg-white p-6 pb-20 text-black-title md:pb-6 ${$$props?.class}`}
+	class={`mx-2 overflow-auto rounded bg-background-alt p-6 pb-20 text-title md:pb-6 ${$$props?.class}`}
 >
 	<header>
-		<h1 class="text-xl font-bold text-black-title">Service Level Agreement</h1>
+		<h1 class="text-xl font-bold text-title">Service Level Agreement</h1>
 	</header>
 
 	<section>
-		<h2 class="text-sm font-bold text-black-title">Disclaimer -</h2>
+		<h2 class="text-sm font-bold text-title">Disclaimer -</h2>
 		<h3>
 			The amount required for the purchase of units will be debited from your bank account and
 			credited to the bank account of Clearing Corporation (ICCL), a wholly-owned subsidiary of BSE
@@ -15,16 +15,10 @@
 			services of Payment Aggregators and payment credit to ICCL may happen on T+1/T+2 subject to
 			settlement cycles.
 		</h3>
-		<h2 class="text-sm font-bold text-black-title">Angel One Cut off Time:</h2>
+		<h2 class="text-sm font-bold text-title">Angel One Cut off Time:</h2>
 
 		<div class="overflow-scroll">
-			<table
-				border="1"
-				cellpadding="5"
-				cellspacing="5"
-				align="center"
-				class="border border-grey-line shadow-sm"
-			>
+			<table border="1" cellpadding="5" cellspacing="5" align="center" class="border shadow-sm">
 				<tbody>
 					<tr height="100px" style="background-color:#D3D3D3">
 						<th> Scheme Category </th>
@@ -143,7 +137,7 @@
 				carefully.
 			</li>
 		</ol>
-		<h2 class="text-sm font-bold text-black-title">EUIN Declaration:</h2>
+		<h2 class="text-sm font-bold text-title">EUIN Declaration:</h2>
 		<p>
 			The transactions executed by the Angel One user on an ‘execution-only’ basis without any
 			advice from the employee/salesperson from Angel One.

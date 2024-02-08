@@ -39,7 +39,7 @@
 <article class={$$props?.class}>
 	<section class="max-h-full overflow-auto rounded pb-8 md:max-h-96 md:rounded-none">
 		<slot name="header">
-			<h4 class="p-2 text-lg font-normal text-black-title md:hidden md:p-0">
+			<h4 class="p-2 text-lg font-normal text-title md:hidden md:p-0">
 				Select Folio for Withdrawal
 			</h4>
 		</slot>
@@ -48,15 +48,15 @@
 			<section class="mb-4 mt-3 sm:mb-1">
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<article
-					class="cursor-default rounded-lg border bg-white font-normal shadow-csm md:cursor-pointer {!isSwitchOrRedeemAllowed(
+					class="cursor-default rounded-lg border bg-background-alt font-normal shadow-csm md:cursor-pointer {!isSwitchOrRedeemAllowed(
 						folio
 					) && 'cursor-not-allowed opacity-50 shadow-none'}"
 					on:click={() => handleFolioSelection(folio)}
 				>
 					<article
-						class="flex items-center justify-between rounded-t-lg border-b bg-grey p-3 md:bg-grey"
+						class="flex items-center justify-between rounded-t-lg border-b bg-background p-3 md:bg-background"
 					>
-						<div class="text-sm font-normal text-black-title">
+						<div class="text-sm font-normal text-title">
 							<span class="mr-1">
 								#{folio?.folioNumber}
 							</span>
@@ -74,16 +74,16 @@
 
 					<article class="mx-3 my-2.5">
 						<section class="mb-4 flex items-center justify-between">
-							<div class="text-sm text-grey-body">Value</div>
-							<div class="text-sm text-black-title sm:text-base">
+							<div class="text-sm text-body">Value</div>
+							<div class="text-sm text-title sm:text-base">
 								₹{addCommasToAmountString(
 									(folio?.redemableAmount + folio?.blockedAmount)?.toFixed(2)
 								)}
 							</div>
 						</section>
 						<section class="flex items-center justify-between">
-							<div class="text-sm text-grey-body">Units</div>
-							<div class="text-sm text-black-title sm:text-base">
+							<div class="text-sm text-body">Units</div>
+							<div class="text-sm text-title sm:text-base">
 								{folio?.redemableUnits + folio?.blockedunits}
 							</div>
 						</section>
@@ -100,7 +100,7 @@
 
 	<!-- Confirm Folio Selection button for Mobile UI -->
 	<article class="mx-3 mt-4 block md:hidden">
-		<section class="fixed inset-0 top-auto bg-white px-4 py-3">
+		<section class="fixed inset-0 top-auto bg-background-alt px-4 py-3">
 			<Button class="bottom-0 w-full rounded" onClick={handleConfirmClick}>
 				CONFIRM FOLIO SELECTION
 			</Button>

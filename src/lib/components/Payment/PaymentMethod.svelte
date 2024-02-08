@@ -45,11 +45,11 @@
 	});
 </script>
 
-<div class="flex flex-col bg-white px-4 py-3 {$$props.class}">
-	<div class="mb-3 text-sm font-normal text-black-title">
+<div class="flex flex-col bg-background-alt px-4 py-3 {$$props.class}">
+	<div class="mb-3 text-sm font-normal text-title">
 		{paymentOptionsHeading}
 	</div>
-	<div class="divide-y divide-grey-line rounded-lg border border-grey-line">
+	<div class="divide-y divide-border rounded-lg border">
 		{#each paymentModes as paymentModeKey (paymentModeKey)}
 			{#if PAYMENT_MODE[paymentModeKey].enabled(amountInNumber, os, redirectedFrom)}
 				<PaymentTile

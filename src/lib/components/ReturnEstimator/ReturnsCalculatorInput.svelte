@@ -151,7 +151,9 @@
 	};
 </script>
 
-<article class="mt-4 max-w-4xl rounded-lg bg-white pb-4 text-sm md:mt-8 {$$props.class || ''}">
+<article
+	class="mt-4 max-w-4xl rounded-lg bg-background-alt pb-4 text-sm md:mt-8 {$$props.class || ''}"
+>
 	<section class="origin-top">
 		<InvestmentTypeRadioSelection
 			selectedInvestmentType={currentCalculatorMode}
@@ -159,7 +161,7 @@
 		/>
 
 		<section class="mt-4 md:mt-6">
-			<div class="text-xs font-normal text-grey-body">
+			<div class="text-xs font-normal text-body">
 				{currentCalculatorMode === 'SIP' ? 'Choose SIP Amount' : 'Choose One Time Amount'}
 			</div>
 			<div class="slider -ml-2 mt-2 flex items-center">
@@ -173,13 +175,13 @@
 					on:input={handleAmountSliderInput}
 				>
 					<div
-						class="flex h-[22px] w-[22px] items-center justify-center rounded-full border border-blue-primary bg-white shadow-csm md:cursor-pointer"
+						class="flex h-[22px] w-[22px] items-center justify-center rounded-full border border-primary bg-background-alt shadow-csm md:cursor-pointer"
 					>
-						<div class="h-3 w-3 rounded-full bg-blue-primary" />
+						<div class="h-3 w-3 rounded-full bg-primary" />
 					</div>
 				</Slider>
 				<div
-					class="min-w-28 max-w-28 my-auto ml-3 w-28 rounded-md border border-blue-primary p-2.5 text-center text-sm font-medium text-black-title"
+					class="min-w-28 max-w-28 my-auto ml-3 w-28 rounded-md border border-primary p-2.5 text-center text-sm font-medium text-title"
 				>
 					<AmountText amount={amountReturnSlider[0]} />
 				</div>
@@ -188,7 +190,7 @@
 
 		<section class="flex flex-col justify-between md:flex-row md:items-end">
 			<section class="mt-4">
-				<div class="text-xs font-normal text-grey-body">Select Duration</div>
+				<div class="text-xs font-normal text-body">Select Duration</div>
 
 				<section class="mt-3 flex items-center justify-start">
 					{#each durationButtons as durationButton, index (durationButton.value)}
@@ -196,10 +198,10 @@
 							onClick={() => {
 								updateDuration(durationButton?.value);
 							}}
-							class="!h-fit !min-h-fit !border-grey-line px-3 py-2 text-xs font-medium !capitalize md:px-4 md:py-3 {duration ===
+							class="!h-fit !min-h-fit !border-border px-3 py-2 text-xs font-medium !capitalize md:px-4 md:py-3 {duration ===
 							durationButton.value
 								? ''
-								: '!text-grey-body'} {index > 0 ? 'ml-2' : ''}"
+								: '!text-body'} {index > 0 ? 'ml-2' : ''}"
 							variant={duration === durationButton.value ? 'contained' : 'outlined'}
 						>
 							{durationButton?.title}
@@ -210,15 +212,15 @@
 
 			<section class="mt-6 flex items-center justify-between md:mt-0">
 				<article class="flex flex-col font-normal">
-					<div class="text-xs text-grey-body">Expected Returns</div>
+					<div class="text-xs text-body">Expected Returns</div>
 
-					<div class="mt-1 text-[11px] uppercase text-black-bolder">
+					<div class="mt-1 text-[11px] uppercase text-body">
 						{returnsTitleBasedOnDuration}
 					</div>
 				</article>
 
 				<article class="md:ml-8">
-					<div class="text-base font-medium text-black-title">
+					<div class="text-base font-medium text-title">
 						{returnsPercentage?.toFixed(2)}% p.a.
 					</div>
 				</article>

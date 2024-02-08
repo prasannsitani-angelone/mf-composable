@@ -23,15 +23,15 @@
 
 <Overlay containerClass="justify-end sm:!justify-center">
 	<article
-		class="flex w-full flex-col items-center rounded-t-2xl bg-white px-4 pt-6 sm:w-160 sm:rounded-lg sm:p-8"
+		class="flex w-full flex-col items-center rounded-t-2xl bg-background-alt px-4 pt-6 sm:w-160 sm:rounded-lg sm:p-8"
 	>
 		<WMSIcon name="alert-triangle" height={64} width={64} class="mb-3" />
 
-		<p class="mb-6 text-lg font-normal text-black-title">Stop Tracking Funds?</p>
+		<p class="mb-6 text-lg font-normal text-title">Stop Tracking Funds?</p>
 
 		<ul class="mb-10 px-6 sm:px-14">
 			{#each descriptionItems as item, i}
-				<li class="mb-1 list-disc text-sm font-normal text-black-title">
+				<li class="mb-1 list-disc text-sm font-normal text-title">
 					{item}
 				</li>
 			{/each}

@@ -32,20 +32,20 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <article
-	class="cursor-pointer rounded-lg border border-grey-line bg-white p-3 shadow-none ${$$props.class}"
+	class="cursor-pointer rounded-lg border bg-background-alt p-3 shadow-none ${$$props.class}"
 	on:click={goToFundDetailsPage}
 >
 	<div class="flex flex-row justify-between">
 		<div class="flex flex-row">
 			<SchemeLogo size="sm" src={schemeData?.logoUrl} alt="schemelogo" />
-			<div class="mr-3 line-clamp-2 self-center text-sm font-normal text-black-title">
+			<div class="mr-3 line-clamp-2 self-center text-sm font-normal text-title">
 				{schemeData.schemeName}
 			</div>
 		</div>
 		{#if schemeData?.returns3yr > 0}
 			<div class="whitespace-nowrap">
-				<div class="text-xs font-normal text-grey-body">Returns p.a</div>
-				<div class="text-right text-base font-normal text-black-title">
+				<div class="text-xs font-normal text-body">Returns p.a</div>
+				<div class="text-right text-base font-normal text-title">
 					{schemeData?.returns3yr?.toFixed(1)}%
 				</div>
 			</div>
@@ -58,7 +58,7 @@
 			{:else}
 				<WMSIcon name="people-icon" width={14} height={12} fill="#6A7582" class="mr-2" />
 			{/if}
-			<div class="text-xs font-normal text-grey-body">
+			<div class="text-xs font-normal text-body">
 				{schemeData.textMessage}
 			</div>
 		</div>

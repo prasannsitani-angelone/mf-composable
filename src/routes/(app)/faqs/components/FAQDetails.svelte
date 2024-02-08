@@ -24,13 +24,13 @@
 				title: faq?.question
 			}}
 			disableCollapse={true}
-			titleStyle="!ml-0 text-black-title"
+			titleStyle="!ml-0 text-title"
 			titleFontSize="text-sm"
 			class="!mt-0 mb-0 max-w-8xl md:rounded-t-none"
 			headerClass="!p-3 md:!p-4"
 		>
 			<svelte:fragment slot="accordionBody">
-				<section class="details-container mt-1 px-4 pb-5 text-grey-body">
+				<section class="details-container mt-1 px-4 pb-5 text-body">
 					{#if faq?.contentType === 'html'}
 						{@html faq?.content}
 					{:else}

@@ -170,7 +170,9 @@
 				{/if}
 			{:else}
 				<!-- Show No orders component and TendingFunds Table in case user investment does not exist or not processed -->
-				<article class="mt-2 hidden max-w-4xl rounded-lg bg-white text-sm shadow-csm md:block">
+				<article
+					class="mt-2 hidden max-w-4xl rounded-lg bg-background-alt text-sm shadow-csm md:block"
+				>
 					<NoOrders
 						title="Your investments will show up here. Explore funds and place an order to get started"
 					/>
@@ -182,9 +184,9 @@
 						classes={{ container: '!pb-0 mb-4', header: 'max-sm:pb-0' }}
 					>
 						<svelte:fragment slot="footer">
-							<footer class="mt-3 border-t border-grey-line py-5">
+							<footer class="mt-3 border-t py-5">
 								<div
-									class=" flex cursor-pointer items-center justify-center text-sm font-medium uppercase text-blue-primary"
+									class=" flex cursor-pointer items-center justify-center text-sm font-medium uppercase text-primary"
 								>
 									<Link to={`/explorefunds/high-returns?id=19`} class="flex items-center">
 										<span class="uppercase">explore funds</span>
@@ -214,14 +216,14 @@
 				{#if regularFunds?.length > 0}
 					<!-- svelte-ignore a11y-click-events-have-key-events -->
 					<div
-						class="flex flex-row items-center justify-between rounded-lg bg-purple-light p-3 sm:mt-4"
+						class="flex flex-row items-center justify-between rounded-lg bg-tint12-secondary-alt p-3 sm:mt-4"
 						on:click={() => navigateToSwitchToDirectFunds(regularFunds)}
 					>
 						<div class="mr-4 flex flex-row items-center">
 							<WMSIcon name="switch-fund" class="mr-2 h-9 w-9 min-w-[36px]" />
 							<div>
-								<div class="text-xs font-bold text-black-title">Earn up to 1.5% More Returns</div>
-								<div class="text-xs text-black-title">
+								<div class="text-xs font-bold text-title">Earn up to 1.5% More Returns</div>
+								<div class="text-xs text-title">
 									Switch {regularFunds?.length} mutual funds in your portfolio to
 									<span class="font-bold">zero commission plans</span> and earn more returns
 								</div>

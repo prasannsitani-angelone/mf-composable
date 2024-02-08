@@ -249,8 +249,8 @@
 	getUtilsMetaData();
 </script>
 
-<section class="bg-white md:rounded-lg">
-	<div class="border-b border-grey-line px-6 py-4">SWP Details</div>
+<section class="bg-background-alt md:rounded-lg">
+	<div class="border-b px-6 py-4">SWP Details</div>
 	<ResultItem data={schemeData}>
 		<svelte:fragment slot="schemeInfo">
 			{#if schemeData?.categoryName}
@@ -267,19 +267,19 @@
 		</svelte:fragment>
 		<span slot="returns" />
 	</ResultItem>
-	<div class="border-y border-grey-line px-6 py-4">SWP Summary</div>
+	<div class="border-y px-6 py-4">SWP Summary</div>
 	<section class="px-6">
 		<div class="flex items-center justify-between py-[10px]">
-			<div class="text-sm text-grey-body">Request Date</div>
-			<div class="text-black-title">{format(new Date(), 'dd MMM yyyy')}</div>
+			<div class="text-sm text-body">Request Date</div>
+			<div class="text-title">{format(new Date(), 'dd MMM yyyy')}</div>
 		</div>
 		<div class="flex items-center justify-between py-[10px]">
-			<div class="text-sm text-grey-body">SWP Type</div>
-			<div class="capitalize text-black-title">{swpType}</div>
+			<div class="text-sm text-body">SWP Type</div>
+			<div class="capitalize text-title">{swpType}</div>
 		</div>
 		<div class="flex items-center justify-between py-[10px]">
 			{#if swpType === 'amount'}
-				<div class="flex items-center text-sm text-grey-body">
+				<div class="flex items-center text-sm text-body">
 					SWP Amount <WMSIcon
 						width={16}
 						height={16}
@@ -288,9 +288,9 @@
 						on:click={toggleshowSWPAmountTooltip}
 					/>
 				</div>
-				<div class="text-black-title">₹{addCommasToAmountString(amount)}</div>
+				<div class="text-title">₹{addCommasToAmountString(amount)}</div>
 			{:else}
-				<div class="flex items-center text-sm text-grey-body">
+				<div class="flex items-center text-sm text-body">
 					SWP Units <WMSIcon
 						width={16}
 						height={16}
@@ -299,16 +299,16 @@
 						on:click={toggleshowSWPUnitTooltip}
 					/>
 				</div>
-				<div class="text-black-title">{unit?.toFixed(2)}</div>
+				<div class="text-title">{unit?.toFixed(2)}</div>
 			{/if}
 		</div>
 		<div class="flex items-center justify-between py-[10px]">
-			<div class="flex items-center text-sm text-grey-body">No. of Instalments</div>
-			<div class="text-black-title">{noOfInstallment}</div>
+			<div class="flex items-center text-sm text-body">No. of Instalments</div>
+			<div class="text-title">{noOfInstallment}</div>
 		</div>
 		<div class="flex items-center justify-between py-[10px]">
-			<div class="flex items-center text-sm text-grey-body">SWP Date</div>
-			<div class="flex items-center text-black-title">
+			<div class="flex items-center text-sm text-body">SWP Date</div>
+			<div class="flex items-center text-title">
 				<WMSIcon
 					width={16}
 					height={16}
@@ -320,13 +320,13 @@
 		</div>
 		{#if !is2FAClient}
 			<div class="flex items-center justify-between py-[10px]">
-				<div class="flex items-center text-sm text-grey-body">Next SWP Date</div>
-				<div class="flex items-center text-black-title">
+				<div class="flex items-center text-sm text-body">Next SWP Date</div>
+				<div class="flex items-center text-title">
 					{nextSwpDate}
 				</div>
 			</div>
 			<div class="flex items-center justify-between py-[10px]">
-				<div class="flex items-center text-sm text-grey-body">
+				<div class="flex items-center text-sm text-body">
 					Expected NAV Date
 					<WMSIcon
 						height={16}
@@ -336,36 +336,36 @@
 						on:click={toggleExpectedNavDateModal}
 					/>
 				</div>
-				<div class="flex items-center text-black-title">
+				<div class="flex items-center text-title">
 					{getDateTimeString(utilsMetaData?.expectedNavDate * 1000, 'DATE', true)}
 				</div>
 			</div>
 		{/if}
 	</section>
-	<section class="border-t border-grey-line px-6 py-4">
-		<div class="pb-4 font-normal text-black-title">Credit to Account</div>
+	<section class="border-t px-6 py-4">
+		<div class="pb-4 font-normal text-title">Credit to Account</div>
 
 		<div>
 			<BankAccountTile {bankLogo} {bankName} bankAccount={String(bankAccountNo)} />
 		</div>
 		<section class="mt-3 flex flex-col items-center justify-center">
-			<article class="mb-1 flex items-center justify-start text-xs font-normal text-grey-body">
+			<article class="mb-1 flex items-center justify-start text-xs font-normal text-body">
 				<WMSIcon width={16} height={16} name="clock-bold" class="mr-1" />
 				<span> Estimated Credit Date </span>
 			</article>
-			<article class="text-base font-normal text-black-title">
+			<article class="text-base font-normal text-title">
 				{getDateTimeString(utilsMetaData?.estimatedCompletionDate * 1000, 'DATE', true)}
 			</article>
 		</section>
 	</section>
 
 	<section
-		class="fixed inset-0 top-auto bg-white px-4 py-2 shadow-csm md:static md:relative md:inset-auto md:border-t md:border-grey-line md:px-6 md:py-4 md:shadow-none"
+		class="fixed inset-0 top-auto bg-background-alt px-4 py-2 shadow-csm md:static md:relative md:inset-auto md:border-t md:border-border md:px-6 md:py-4 md:shadow-none"
 	>
 		<Button class="mb-2 w-full md:mb-4" onClick={handleConfirmAndPlaceSwp}>VERIFY ORDER</Button>
-		<p class="text-center text-sm font-normal text-grey-body">
+		<p class="text-center text-sm font-normal text-body">
 			By proceeding, you accept AngelOne's <button
-				class="font-medium text-blue-primary md:cursor-pointer"
+				class="font-medium text-primary md:cursor-pointer"
 				on:click={toggleTncModal}>T&C</button
 			>
 		</p>

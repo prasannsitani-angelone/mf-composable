@@ -91,12 +91,12 @@
 	};
 </script>
 
-<section class="h-screen w-full bg-grey max-sm:overflow-auto md:h-[860px] md:w-[500px]">
-	<div class="mb-2 flex items-center bg-white px-4 pb-3 pt-4 text-lg font-medium">
+<section class="h-screen w-full bg-background max-sm:overflow-auto md:h-[860px] md:w-[500px]">
+	<div class="mb-2 flex items-center bg-background-alt px-4 pb-3 pt-4 text-lg font-medium">
 		<LeftArrowIcon class="mr-4 cursor-pointer" onClick={handleBackButtonClick} />
 		Start SIP
 	</div>
-	<div class="mx-2 mb-2 flex items-center justify-between rounded-lg bg-white px-4 py-3">
+	<div class="mx-2 mb-2 flex items-center justify-between rounded-lg bg-background-alt px-4 py-3">
 		<div class="flex items-center">
 			<SchemeLogo src={portfolioPack.packLogoUrl} />
 			<div class="text-xs">
@@ -104,13 +104,13 @@
 			</div>
 		</div>
 		<div class="flex flex-col items-end">
-			<p class="text-xs text-black-bolder">Returns p.a</p>
+			<p class="text-xs text-body">Returns p.a</p>
 			<div class="flex flex-row items-center">
 				<p class="text-base font-medium">{portfolioPack.threeYrReturnAvgPer.toFixed(2)}%</p>
 			</div>
 		</div>
 	</div>
-	<div class="mx-2 mb-2 flex flex-col rounded-lg bg-white px-4 py-3">
+	<div class="mx-2 mb-2 flex flex-col rounded-lg bg-background-alt px-4 py-3">
 		<AmountSection
 			{amount}
 			quickInputsLabel="Popular"
@@ -122,7 +122,7 @@
 		/>
 		<section class="flex flex-row items-center justify-between">
 			<section class="flex flex-col">
-				<div class="text-sm font-normal text-black-key">Monthly SIP Date</div>
+				<div class="text-sm font-normal text-title">Monthly SIP Date</div>
 			</section>
 			<section
 				on:keydown={() => {
@@ -134,7 +134,7 @@
 				class="flex flex-row items-center"
 				on:click={toggleCalendar}
 			>
-				<div class="text-xs font-normal text-black-title">
+				<div class="text-xs font-normal text-title">
 					{`${sipStartDate}${getDateSuperscript(sipStartDate)}`}
 				</div>
 				<section class="p-2">
@@ -154,15 +154,15 @@
 			</OrderpadReturns>
 		</section>
 	</div>
-	<div class="mx-2 mb-2 rounded-lg bg-white p-4 max-sm:mb-36">
+	<div class="mx-2 mb-2 rounded-lg bg-background-alt p-4 max-sm:mb-36">
 		<PortfolioAllocation {portfolioPack} {showAmount} {amount} />
 	</div>
 	<div class="mx-2 rounded-lg">
-		<section class="fixed inset-0 top-auto rounded-lg bg-white p-2 md:relative">
-			<article class="flex items-center justify-center bg-white px-4 pt-2">
-				<p class="text-center text-xs font-normal text-black-title">
+		<section class="fixed inset-0 top-auto rounded-lg bg-background-alt p-2 md:relative">
+			<article class="flex items-center justify-center bg-background-alt px-4 pt-2">
+				<p class="text-center text-xs font-normal text-title">
 					By proceeding, you accept Angel One's
-					<button class="text-blue-primary md:cursor-pointer" on:click={toggleTncModal}>
+					<button class="text-primary md:cursor-pointer" on:click={toggleTncModal}>
 						Terms and Conditions
 					</button>
 				</p>

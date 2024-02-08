@@ -102,21 +102,21 @@
 	export { schemeDetails, isNFO, innerStyle, onMountEvent, comparisons };
 </script>
 
-<section class="rounded-lg bg-white p-4 pb-1 pt-3 shadow-csm sm:p-6 {$$props.class}">
+<section class="rounded-lg bg-background-alt p-4 pb-1 pt-3 shadow-csm sm:p-6 {$$props.class}">
 	<header>
 		{#if !isNFO}
 			<div class="relative flex">
 				<div class="flex flex-grow basis-0 flex-col pb-3 pt-3">
-					<span class="text-xs text-black-bolder">Returns</span>
+					<span class="text-xs text-body">Returns</span>
 					<div class="flex items-end">
 						<span
 							class="text-xl font-medium sm:text-2xl {schemeDetails[returnPeriod] >= 0
-								? 'text-green-amount'
-								: 'text-red-sell'}">{schemeDetails[returnPeriod]?.toFixed(2)}%</span
+								? 'text-buy'
+								: 'text-sell'}">{schemeDetails[returnPeriod]?.toFixed(2)}%</span
 						>
-						<span class="ml-1 flex gap-1 pb-[2px] text-xs font-normal text-grey-body sm:text-sm">
+						<span class="ml-1 flex gap-1 pb-[2px] text-xs font-normal text-body sm:text-sm">
 							{#if selectedTag[0].timeScale === 'year' && selectedTag[0]?.label !== '1Y'}
-								<span class="font-medium text-black-title">annually</span>
+								<span class="font-medium text-title">annually</span>
 							{/if}
 
 							{getReturnText(selectedTag[0])}</span
@@ -131,22 +131,18 @@
 			<NavCharts {schemeDetails} on:chartRangeChange={handleChartRangeChange} />
 			<div class="mt-9 flex justify-between sm:justify-center sm:gap-28">
 				<div class="flex flex-col">
-					<span class="mr-1 text-xs font-normal text-grey-body sm:text-sm"
+					<span class="mr-1 text-xs font-normal text-body sm:text-sm"
 						>NAV <span class="text-[10px]">on {getDateTimeString(schemeDetails?.navDate)}</span>
-					</span><span class="mr-1 text-sm text-black-title"
-						>₹{schemeDetails?.navValue?.toFixed(2)}</span
-					>
+					</span><span class="mr-1 text-sm text-title">₹{schemeDetails?.navValue?.toFixed(2)}</span>
 				</div>
 				<div class="flex flex-col">
 					{#if schemeDetails?.isSipAllowed === 'Y'}
-						<span class="text-xs font-normal text-grey-body"> Minimum SIP Investment </span><span
-							class="text-sm text-black-title">₹{schemeDetails?.minSipAmount || ''}</span
+						<span class="text-xs font-normal text-body"> Minimum SIP Investment </span><span
+							class="text-sm text-title">₹{schemeDetails?.minSipAmount || ''}</span
 						>
 					{:else if schemeDetails?.isLumpsumAllowed === 'Y'}
-						<span class="text-xs font-normal text-grey-body">
-							Minimum One Time Investment
-						</span><span class="text-sm text-black-title"
-							>₹{schemeDetails?.minLumpsumAmount || ''}</span
+						<span class="text-xs font-normal text-body"> Minimum One Time Investment </span><span
+							class="text-sm text-title">₹{schemeDetails?.minLumpsumAmount || ''}</span
 						>
 					{/if}
 				</div>

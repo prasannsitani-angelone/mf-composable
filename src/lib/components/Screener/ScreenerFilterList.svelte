@@ -63,14 +63,14 @@
 </script>
 
 <article class="mt-1 pb-14">
-	<section class="flex flex-col overflow-hidden bg-grey px-1">
-		<p class="mb-2 text-xs text-black-bolder">Select Quick Filters</p>
+	<section class="flex flex-col overflow-hidden bg-background px-1">
+		<p class="mb-2 text-xs text-body">Select Quick Filters</p>
 		<QuickFilter pageSource="s_Eexploremutualfunds" />
 	</section>
 	{#if loading}
 		<TableSkeleton rowLength={5} columnLength={2} />
 	{:else if screenedSchemes.length}
-		<section class="rounded bg-white px-4 py-3">
+		<section class="rounded bg-background-alt px-4 py-3">
 			<ScreenerTable {screenedSchemes} pageSource="s_Eexploremutualfunds" />
 			<InfiniteScroll
 				threshold={400}
@@ -83,22 +83,24 @@
 			/>
 		</section>
 	{:else}
-		<section class="flex w-full flex-col items-center justify-center rounded bg-white py-3">
+		<section
+			class="flex w-full flex-col items-center justify-center rounded bg-background-alt py-3"
+		>
 			<img src={NoFilterResult} width="60" height="60" loading="lazy" alt="No scheme found" />
-			<div class="mt-3 w-64 text-center text-xs text-black-bolder">
+			<div class="mt-3 w-64 text-center text-xs text-body">
 				No mutual funds found for selected filters. Please change filters or use quick filters
 			</div>
 			<Button class="!min-h-8 mt-5 !h-9" on:click={resetStore}>Reset Filters</Button>
 		</section>
 	{/if}
 	<section
-		class="fixed bottom-0 flex w-full items-center justify-center bg-white px-4 py-2 shadow-top sm:hidden"
+		class="fixed bottom-0 flex w-full items-center justify-center bg-background-alt px-4 py-2 shadow-top sm:hidden"
 	>
 		<Button variant="transparent" on:click={navigateToFilters}>
 			<WMSIcon name="filter-square" class="mr-1" />
-			<p class="ml-1 uppercase text-blue-primary">Filter</p>
+			<p class="ml-1 uppercase text-primary">Filter</p>
 			{#if appliedFilterCount > 0}
-				<p class="ml-1 rounded-full bg-red-errorDark px-[6px] pt-[2px] text-white">
+				<p class="ml-1 rounded-full bg-sell px-[6px] pt-[2px] text-background-alt">
 					{appliedFilterCount}
 				</p>
 			{/if}

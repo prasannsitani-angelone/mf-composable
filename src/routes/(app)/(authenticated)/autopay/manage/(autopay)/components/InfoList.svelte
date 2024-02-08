@@ -14,8 +14,8 @@
 
 <ul class="mt-7 px-2">
 	{#each infoList as item, index (index)}
-		<li class=" mb-4 flex items-baseline text-sm font-normal text-grey-body last:mb-1">
-			<div><div class="mr-3 h-2 w-2 rounded-full bg-grey-body" /></div>
+		<li class=" mb-4 flex items-baseline text-sm font-normal text-body last:mb-1">
+			<div><div class="mr-3 h-2 w-2 rounded-full bg-body" /></div>
 			<div>{item.details}</div>
 		</li>
 	{/each}

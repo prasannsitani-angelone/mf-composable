@@ -96,7 +96,7 @@
 			<section class="flex flex-col items-end font-normal">
 				<article
 					class="rounded-sm bg-opacity-20 px-1 text-[10px]"
-					class:bg-green-buy={item?.transactionType === 'PURCHASE'}
+					class:bg-buy={item?.transactionType === 'PURCHASE'}
 					class:bg-red-400={item?.transactionType === 'REDEEM'}
 					class:bg-blue-400={item?.transactionType === 'SWITCH'}
 				>

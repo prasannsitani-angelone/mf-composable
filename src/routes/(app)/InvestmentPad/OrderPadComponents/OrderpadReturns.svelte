@@ -37,8 +37,8 @@
 	<section class="border-b px-4 py-3 {$$props?.class}">
 		<article class="flex items-center">
 			<WMSIcon width={10} height={13} name="green-uparrow-trending-fund" />
-			<div class="ml-1 text-sm font-normal text-grey-body {textClass}">
-				<span class="font-bold text-green-teal {amountClass}"
+			<div class="ml-1 text-sm font-normal text-body {textClass}">
+				<span class="font-bold text-buy {amountClass}"
 					><AmountText amount={threeYearReturnsValue} /></span
 				>
 				<slot name="supporting-text">
@@ -66,7 +66,7 @@
 		on:crossClicked={toggleShowthreeYearReturnsInfoModal}
 	>
 		<svelte:fragment slot="headingDetails">
-			<span class="text-lg font-normal text-black-key lg:text-xl"> Current Value </span>
+			<span class="text-lg font-normal text-title lg:text-xl"> Current Value </span>
 		</svelte:fragment>
 
 		<svelte:fragment slot="crossIconSlot">
@@ -76,12 +76,12 @@
 		<svelte:fragment slot="bodySection">
 			<section class="px-4 pb-12 pt-0 text-sm md:px-8 md:pt-6">
 				<article>
-					<p class="font-normal text-black-bolder">
+					<p class="font-normal text-body">
 						Current value if you had invested <AmountText amount={investedAmount} /> monthly for the
 						last 3 years
 					</p>
 
-					<div class="mt-4 text-[28px] font-bold text-green-teal">
+					<div class="mt-4 text-[28px] font-bold text-buy">
 						<AmountText amount={threeYearReturnsValue} />
 					</div>
 				</article>

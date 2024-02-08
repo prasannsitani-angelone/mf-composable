@@ -28,48 +28,48 @@
 	<TBody slot="tbody">
 		{#if activeTab === 'holdingCompany' && holdings?.length}
 			{#each holdings as holding}
-				<Tr>
-					<Td class="!pl-0">
+				<Tr class="!last:border-none !border-b">
+					<Td class="border-none !pl-0">
 						{#if topHolding}
-							<div class="flex flex-col whitespace-normal text-sm font-medium text-black-title">
+							<div class="flex flex-col whitespace-normal text-sm font-medium text-title">
 								<div>
 									{holding.companyName}
 								</div>
-								<div class="text-xs font-normal text-grey-body">
+								<div class="text-xs font-normal text-body">
 									{holding.sector}
 								</div>
 							</div>
 						{:else}
 							<div
-								class="flex flex-col items-start whitespace-normal text-sm font-medium text-black-title"
+								class="flex flex-col items-start whitespace-normal text-sm font-medium text-title"
 							>
 								<div>
 									{holding.companyName}
 								</div>
-								<div class="text-xs font-normal text-grey-body">
+								<div class="text-xs font-normal text-body">
 									{holding.sector}
 								</div>
 							</div>
 						{/if}
 					</Td>
-					<Td class="mr-4 !pr-0 text-right text-sm font-medium !text-black-title"
+					<Td class="mr-4 border-none !pr-0 text-right text-sm font-medium !text-title"
 						>{holding.percentageHold}%</Td
 					>
 				</Tr>
 			{/each}
 		{:else if activeTab === 'sector' && sectorHoldings?.length}
 			{#each sectorHoldings as holding}
-				<Tr>
-					<Td class="!pl-0">
+				<Tr class="!last:border-none !border-b">
+					<Td class="!border-none !pl-0">
 						{#if topHolding}
-							<div class="flex flex-col whitespace-normal text-sm font-medium text-black-title">
+							<div class="flex flex-col whitespace-normal text-sm font-medium text-title">
 								<div>
 									{holding.sector}
 								</div>
 							</div>
 						{:else}
 							<div
-								class="flex flex-col items-start whitespace-normal text-sm font-medium text-black-title"
+								class="flex flex-col items-start whitespace-normal text-sm font-medium text-title"
 							>
 								<div>
 									{holding.sector}
@@ -77,7 +77,7 @@
 							</div>
 						{/if}
 					</Td>
-					<Td class="mr-4 !pr-0 text-right text-sm font-medium !text-black-title"
+					<Td class="mr-4 !border-none !pr-0 text-right text-sm font-medium !text-title"
 						>{holding.percentage}%</Td
 					>
 				</Tr>

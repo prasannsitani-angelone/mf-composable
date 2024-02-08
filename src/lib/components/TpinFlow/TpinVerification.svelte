@@ -375,7 +375,7 @@
 	{#if !showAboutEdisModal && !showTpinRegeneratedModal && !showCdslModal && !showTpinVerifiedModal && !loadingState?.isLoading && !error?.visible}
 		<ModalWithAnimation isModalOpen={true} on:backdropclicked={closeTpinActionModal}>
 			<div
-				class="flex w-screen flex-col rounded-b-none rounded-t-2xl bg-white shadow-csm md:w-120 md:rounded-lg"
+				class="flex w-screen flex-col rounded-b-none rounded-t-2xl bg-background-alt shadow-csm md:w-120 md:rounded-lg"
 			>
 				<slot name="heading">
 					<div class="flex items-center justify-between px-4 py-6 md:px-8">
@@ -403,26 +403,26 @@
 				</slot>
 
 				<slot name="horizontalLine">
-					<div class="hidden border-t border-grey-line sm:block" />
+					<div class="hidden border-t sm:block" />
 				</slot>
 
 				<slot name="bodySection">
 					<section class="px-4 py-3 text-base font-normal md:px-8 md:py-6">
-						<article class="rounded text-sm font-normal text-grey-body md:border md:p-4">
-							Once you continue, you will be redirected to the <span
-								class="font-normal text-black-title">CDSL</span
+						<article class="rounded text-sm font-normal text-body md:border md:p-4">
+							Once you continue, you will be redirected to the <span class="font-normal text-title"
+								>CDSL</span
 							>
-							website. Please enter your <span class="font-normal text-black-title">TPIN</span> to verify
-							the order.
+							website. Please enter your <span class="font-normal text-title">TPIN</span> to verify the
+							order.
 						</article>
 
 						<article
-							class="mt-6 flex items-center justify-start rounded bg-grey px-4 py-3 text-sm font-normal text-grey-body"
+							class="mt-6 flex items-center justify-start rounded bg-background px-4 py-3 text-sm font-normal text-body"
 						>
 							<WMSIcon width={25} height={24} name="message" class="mr-3" />
 							<span>
-								If you do not have your TPIN available, you can <span
-									class="font-normal text-black-title">regenerate TPIN</span
+								If you do not have your TPIN available, you can <span class="font-normal text-title"
+									>regenerate TPIN</span
 								> below
 							</span>
 						</article>
@@ -431,7 +431,7 @@
 							class="mt-8 flex flex-col-reverse items-center justify-between md:mt-16 md:flex-row"
 						>
 							<Button
-								class="mt-1 w-full rounded border-blue-primary !bg-white !text-blue-primary md:mt-0 md:w-48 md:border"
+								class="mt-1 w-full rounded border-primary !bg-background-alt !text-primary md:mt-0 md:w-48 md:border"
 								variant={isMobile ? 'transparent' : 'outlined'}
 								onClick={handleRegenerateTpinClick}
 							>
@@ -439,7 +439,7 @@
 							</Button>
 
 							<Button
-								class="w-full rounded border border-blue-primary md:w-48"
+								class="w-full rounded border border-primary md:w-48"
 								variant="contained"
 								onClick={handleProceedClick}
 							>
@@ -462,7 +462,7 @@
 			<svelte:fragment slot="bodySection">
 				<section class="p-8">
 					{#each aboutEdisModalData as statement (statement?.text)}
-						<div class="font-base flex items-start justify-start pb-5 text-sm text-grey-body">
+						<div class="font-base flex items-start justify-start pb-5 text-sm text-body">
 							<WMSIcon class="mr-2.5 min-w-[20px]" width={24} height={24} name="setting" />
 							<span>
 								{statement?.text}
@@ -485,7 +485,7 @@
 				<section class="p-8">
 					Your 6-digit CDSL PIN has been sent to the registered email address and mobile number {maskedMobileNumber}
 					<article class="mt-16 flex items-center justify-center">
-						<Button class="!w-48 rounded border border-blue-primary" onClick={regenerateProceed}>
+						<Button class="!w-48 rounded border border-primary" onClick={regenerateProceed}>
 							CONTINUE
 						</Button>
 					</article>
@@ -498,7 +498,7 @@
 	<article class="z-60 justify-start {!showCdslModal && 'hidden'}">
 		<ModalWithAnimation isModalOpen={true} on:backdropclicked={cdslModalCrossButtonClicked}>
 			<section
-				class="flex h-full w-screen flex-col rounded-b-none bg-white shadow-csm md:h-96 md:w-5/6 md:rounded-lg"
+				class="flex h-full w-screen flex-col rounded-b-none bg-background-alt shadow-csm md:h-96 md:w-5/6 md:rounded-lg"
 			>
 				<slot name="heading">
 					<div class="flex items-center justify-between px-4 py-3 md:px-8 md:py-6">
@@ -516,7 +516,7 @@
 				</slot>
 
 				<slot name="horizontalLine">
-					<div class="hidden border-t border-grey-line sm:block" />
+					<div class="hidden border-t sm:block" />
 				</slot>
 
 				<slot name="bodySection">

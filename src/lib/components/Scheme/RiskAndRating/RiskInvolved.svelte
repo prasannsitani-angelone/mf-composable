@@ -40,8 +40,10 @@
 		<div class="flex h-32 w-64 items-center justify-center">
 			<Riskometer data={riskometerData} chartClass="!w-64 !h-32" />
 		</div>
-		<div class="mt-2 flex flex-col items-center justify-center rounded border-0 bg-white px-9">
-			<div class="text-center text-sm font-normal text-grey-body">
+		<div
+			class="mt-2 flex flex-col items-center justify-center rounded border-0 bg-background-alt px-9"
+		>
+			<div class="text-center text-sm font-normal text-body">
 				<span>Your investment will be at </span>
 
 				<span class="text-sm font-normal" style="color: {borderColor};">

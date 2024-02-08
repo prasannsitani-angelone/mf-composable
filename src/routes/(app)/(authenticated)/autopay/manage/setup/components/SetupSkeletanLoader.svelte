@@ -4,7 +4,7 @@
 </script>
 
 <SkeletonWrapper>
-	<Card class="rounded-lg bg-white px-2 pt-4 shadow-csm">
+	<Card class="rounded-lg bg-background-alt px-2 pt-4 shadow-csm">
 		<div class="mb-6 flex">
 			<div class=" w-2/4 border-r">
 				<SkeletonRectangle class=" mb-2 !h-3 w-[75%]" />
@@ -43,7 +43,7 @@
 		</div></Card
 	>
 
-	<Card class="mt-2 rounded-lg bg-white px-2 pt-4 shadow-csm">
+	<Card class="mt-2 rounded-lg bg-background-alt px-2 pt-4 shadow-csm">
 		<SkeletonRectangle class=" mb-4 h-4 w-2/4" />
 		<div class=" w-full border px-4 py-3">
 			<div class=" flex items-center">

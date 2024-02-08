@@ -37,11 +37,11 @@
 >
 	<CuratedInvestmentCardBackground class="absolute h-full w-full" />
 	<div class="relative px-4 py-3 pb-6">
-		<p class="mb-3 text-base font-medium text-white">{nudgeData.heading}</p>
-		<p class="mb-2 max-w-[67%] text-sm font-normal text-white">
+		<p class="mb-3 text-base font-medium text-background-alt">{nudgeData.heading}</p>
+		<p class="mb-2 max-w-[67%] text-sm font-normal text-background-alt">
 			{nudgeData.description}
 		</p>
-		<p class="mb-3 text-2xs font-medium text-white">
+		<p class="mb-3 text-2xs font-medium text-background-alt">
 			Returns &nbsp;&nbsp;<span class="text-xs"
 				>{nudgeData.data.returnPercentage.toFixed(2)}% p.a</span
 			>
@@ -50,7 +50,7 @@
 		<ButtonMedium
 			text={{
 				label: nudgeData.linkHeading,
-				customClass: 'text-xs font-medium uppercase text-blue-primary'
+				customClass: 'text-xs font-medium uppercase text-primary'
 			}}
 			variant="contained"
 			size="btn-sm"

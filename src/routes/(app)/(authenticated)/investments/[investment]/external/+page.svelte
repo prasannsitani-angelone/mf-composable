@@ -155,7 +155,7 @@
 						/>
 					</article>
 				{:else}
-					<article class="fixed inset-0 top-auto z-20 block bg-white md:hidden">
+					<article class="fixed inset-0 top-auto z-20 block bg-background-alt md:hidden">
 						<ExternalInvestmentFooterLoader />
 					</article>
 				{/if}

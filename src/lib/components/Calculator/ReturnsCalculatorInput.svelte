@@ -101,7 +101,7 @@
 	};
 </script>
 
-<article class="mt-4 max-w-4xl rounded-lg bg-white pb-4 text-sm {$$props.class || ''}">
+<article class="mt-4 max-w-4xl rounded-lg bg-background-alt pb-4 text-sm {$$props.class || ''}">
 	<section class="origin-top">
 		<div class="flex h-10 gap-4">
 			<Button
@@ -118,12 +118,12 @@
 		<div class="mt-11">
 			<div class="mb-5 flex justify-between">
 				<span
-					class="flex items-center justify-center text-xs font-normal text-black-title md:text-sm md:font-normal md:text-grey-body"
+					class="flex items-center justify-center text-xs font-normal text-title md:text-sm md:font-normal md:text-body"
 				>
 					{currentCalculatorMode === 'SIP' ? 'Monthly Investment' : 'Select Amount'}
 				</span>
 				<div
-					class="flex border-b border-l-0 border-r-0 border-t-0 border-grey-disabled text-2xl font-normal text-black-title"
+					class="flex border-b border-l-0 border-r-0 border-t-0 border-disabled text-2xl font-normal text-title"
 				>
 					<AmountText amount={amountReturnSlider[0]} />
 				</div>
@@ -138,9 +138,9 @@
 					on
 				>
 					<div
-						class="flex h-[22px] w-[22px] items-center justify-center rounded-full bg-white shadow-csm"
+						class="flex h-[22px] w-[22px] items-center justify-center rounded-full bg-background-alt shadow-csm"
 					>
-						<div class="h-3 w-3 rounded-full bg-grey-line" />
+						<div class="h-3 w-3 rounded-full bg-border" />
 					</div>
 				</Slider>
 			</div>
@@ -149,12 +149,12 @@
 			<div class="mt-11">
 				<div class="mb-5 flex justify-between">
 					<span
-						class="flex items-center justify-center text-xs font-normal text-black-title md:text-sm md:font-normal md:text-grey-body"
+						class="flex items-center justify-center text-xs font-normal text-title md:text-sm md:font-normal md:text-body"
 					>
 						Expected Return (Yearly)
 					</span>
 					<div
-						class="border-b border-l-0 border-r-0 border-t-0 border-grey-disabled text-2xl font-normal text-black-title"
+						class="border-b border-l-0 border-r-0 border-t-0 border-disabled text-2xl font-normal text-title"
 					>
 						<div>{ROISlider[0]} %</div>
 					</div>
@@ -163,14 +163,14 @@
 				<div class="slider">
 					<Slider bind:value={ROISlider} class="h-[60px]" min={1} max={30} steps={1}>
 						<div
-							class="flex h-[22px] w-[22px] items-center justify-center rounded-full bg-white shadow-csm"
+							class="flex h-[22px] w-[22px] items-center justify-center rounded-full bg-background-alt shadow-csm"
 						>
-							<div class="h-3 w-3 rounded-full bg-grey-line" />
+							<div class="h-3 w-3 rounded-full bg-border" />
 						</div>
 					</Slider>
 				</div>
 
-				<div class="mt-4 flex justify-between text-xs text-grey-body">
+				<div class="mt-4 flex justify-between text-xs text-body">
 					<span>1%</span><span>30%</span>
 				</div>
 			</div>
@@ -178,12 +178,12 @@
 		<div class="mt-11">
 			<div class="mb-5 flex justify-between">
 				<span
-					class="flex items-center justify-center text-xs font-normal text-black-title md:text-sm md:font-normal md:text-grey-body"
+					class="flex items-center justify-center text-xs font-normal text-title md:text-sm md:font-normal md:text-body"
 				>
 					Time Period
 				</span>
 				<div
-					class="border-b border-l-0 border-r-0 border-t-0 border-grey-disabled text-2xl font-normal text-black-title"
+					class="border-b border-l-0 border-r-0 border-t-0 border-disabled text-2xl font-normal text-title"
 				>
 					<div>{yearsReturnSlider[0]} Y</div>
 				</div>
@@ -192,14 +192,14 @@
 			<div class="slider">
 				<Slider bind:value={yearsReturnSlider} class="h-[60px]" min={1} max={30} steps={1}>
 					<div
-						class="flex h-[22px] w-[22px] items-center justify-center rounded-full bg-white shadow-csm"
+						class="flex h-[22px] w-[22px] items-center justify-center rounded-full bg-background-alt shadow-csm"
 					>
-						<div class="h-3 w-3 rounded-full bg-grey-line" />
+						<div class="h-3 w-3 rounded-full bg-border" />
 					</div>
 				</Slider>
 			</div>
 
-			<div class="mt-4 flex justify-between text-xs text-grey-body">
+			<div class="mt-4 flex justify-between text-xs text-body">
 				<span>1Y</span><span>30Y</span>
 			</div>
 		</div>

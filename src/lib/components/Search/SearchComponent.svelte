@@ -192,7 +192,7 @@
 			<svelte:fragment slot="defaultResult">
 				<slot name="defaultResult">
 					<section
-						class="absolute z-60 w-full overflow-auto rounded-md rounded-t-none border border-t-0 border-gray-200 bg-white lg:w-[440px]"
+						class="absolute z-60 w-full overflow-auto rounded-md rounded-t-none border border-t-0 border-gray-200 bg-background-alt lg:w-[440px]"
 						style={`${deviceType.isBrowser ? 'max-height: 80vh' : 'max-height: 75vh'}`}
 					>
 						<!-- header 1 -->
@@ -281,7 +281,7 @@
 			<svelte:fragment slot="resultsData">
 				<slot name="resultsData" {resultsData}>
 					<section
-						class="absolute z-60 w-full overflow-auto rounded-md rounded-t-none border border-t-0 border-gray-200 bg-white lg:w-[440px]"
+						class="absolute z-60 w-full overflow-auto rounded-md rounded-t-none border border-t-0 border-gray-200 bg-background-alt lg:w-[440px]"
 						style={`${deviceType.isBrowser ? 'max-height: 80vh' : 'max-height: 75vh'}`}
 					>
 						{#if searchResultDataFetchFailed && !resultsData?.length}
@@ -330,7 +330,7 @@
 											class="m-4 flex items-center justify-center rounded-lg bg-gray-100 px-10 md:px-16"
 										>
 											<SearchResultImage />
-											<p class="pl-4 text-sm text-grey-body">
+											<p class="pl-4 text-sm text-body">
 												No results found. Please try using different keywords
 											</p>
 										</section>

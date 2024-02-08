@@ -17,6 +17,7 @@
 	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
 	import { getLogoutUrl } from '$lib/utils/helpers/logout';
+	import WMSIcon from '$components/WMSIcon.svelte';
 
 	const baseUrl = PUBLIC_MF_CORE_BASE_URL;
 	const cartsUrl = '/carts/items';
@@ -162,11 +163,7 @@
 	};
 
 	const buttonImgUrl =
-		color === 'blue'
-			? `${base}/images/AddToCartBlue.svg`
-			: color === 'grey'
-			? `${base}/images/AddToCartGrey.svg`
-			: '';
+		color === 'blue' ? 'var(--PRIMARY)' : color === 'grey' ? 'var(--DISABLED)' : '';
 
 	$: showCartIcon = $page.data?.isGuest ? (showForAllUsers ? true : false) : true;
 
@@ -195,6 +192,6 @@
 		ariaLabel="AddToCart"
 		onClick={handleCartIconClick}
 	>
-		<img src={buttonImgUrl} width="24" height="24" loading="lazy" alt="Add Scheme to Cart" />
+		<WMSIcon name="cart-plus" stroke={buttonImgUrl} height={24} width={24} />
 	</Button>
 {/if}

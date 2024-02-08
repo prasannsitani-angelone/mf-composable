@@ -29,7 +29,7 @@
 	</section>
 
 	<section class="mt-2.5">
-		<div class="text-xs text-black-bolder">{quickInputsLabel}</div>
+		<div class="text-xs text-body">{quickInputsLabel}</div>
 
 		<div class="mb-6 mt-2">
 			{#each quickInputs as pill, index (pill)}

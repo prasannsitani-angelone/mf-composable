@@ -33,10 +33,10 @@
 	closeModal={onSecondaryButtonClick}
 >
 	<svelte:fragment slot="popupFooter">
-		<div class="mt-8 flex w-full flex-row justify-around bg-white md:mt-12">
+		<div class="mt-8 flex w-full flex-row justify-around bg-background-alt md:mt-12">
 			{#if secondaryButtonTitle?.length}
 				<Button
-					class="w-32 rounded border border-blue-primary !bg-white !text-blue-primary md:w-40"
+					class="w-32 rounded border border-primary !bg-background-alt !text-primary md:w-40"
 					variant="outlined"
 					onClick={onSecondaryButtonClick}
 				>

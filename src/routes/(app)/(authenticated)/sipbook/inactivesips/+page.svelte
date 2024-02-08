@@ -72,24 +72,22 @@
 					<article>
 						<SipCard {sip} inactiveSip={true}>
 							<article class="flex-1 text-right" slot="sipCardDetailsRightSection">
-								<div class="text-[11px] font-normal text-red-sell">
+								<div class="text-[11px] font-normal text-sell">
 									{sip?.isExpiredSip ? 'Expired On' : 'Cancelled On'}
 								</div>
-								<div class="text-base font-normal text-black-title">
+								<div class="text-base font-normal text-title">
 									{getDateTimeString(sip?.cancelledTs, 'DATE', true)}
 								</div>
 							</article>
 							<svelte:fragment slot="cardFooter">
 								{#if isInvestmentAllowed(userType, sip?.schemePlan)}
-									<section
-										class="mx-3 mt-4 flex items-center justify-end border-t border-grey-line pb-1 pt-3"
-									>
+									<section class="mx-3 mt-4 flex items-center justify-end border-t pb-1 pt-3">
 										<Button
 											variant="transparent"
 											class="flex !h-fit !min-h-fit w-full cursor-default justify-end !pr-0"
 											onClick={() => redirectToOrderPad(sip)}
 										>
-											<span class="text-sm font-medium text-blue-primary"> RESTART SIP </span>
+											<span class="text-sm font-medium text-primary"> RESTART SIP </span>
 											<RightIcon class="ml-2 mt-0.5" stroke="#3F5BD9" />
 										</Button>
 									</section>

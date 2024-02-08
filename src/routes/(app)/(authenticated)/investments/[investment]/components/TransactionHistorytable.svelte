@@ -8,6 +8,7 @@
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { getDateTimeString } from '$lib/utils/helpers/date';
 	import type { Transaction } from '$lib/types/IInvestments';
+	import { getRGBACssVar } from '$lib/utils/colors';
 	$: deviceType = $page.data.deviceType;
 	export let modifiedTransactionList: Transaction[] = [];
 
@@ -25,12 +26,12 @@
 
 	const getTranscationTypeCss = (data: Transaction) => {
 		const cssMap = {
-			PURCHASE: 'bg-green-buy bg-opacity-[12%]',
-			REDEEM: 'bg-red-sell bg-opacity-[12%]',
-			['SWITCH OUT']: 'bg-yellow-primary bg-opacity-[12%]',
-			['SWITCH IN']: 'bg-purple-primary bg-opacity-[12%]',
-			BUY: 'bg-green-buy bg-opacity-[12%]',
-			WITHDRAW: 'bg-red-sell bg-opacity-[12%]'
+			PURCHASE: `background-color : ${getRGBACssVar('--BUY', 0.12)}`,
+			REDEEM: `background-color : ${getRGBACssVar('--SELL', 0.12)}`,
+			['SWITCH OUT']: `background-color : ${getRGBACssVar('--SECONDARY', 0.12)}`,
+			['SWITCH IN']: `background-color : ${getRGBACssVar('--SECONDARY-ALT', 0.12)}`,
+			BUY: `background-color : ${getRGBACssVar('--BUY', 0.12)}`,
+			WITHDRAW: `background-color : ${getRGBACssVar('--SELL', 0.12)}`
 		};
 
 		return data?.transactionType ? cssMap[data?.transactionType] : '';
@@ -54,33 +55,31 @@
 	<TBody slot="tbody">
 		{#each modifiedTransactionList as data, index (index)}
 			<tr>
-				<Td class={`border-b border-grey-line py-4 pl-5 pr-6 text-left text-grey-body`}>
+				<Td class={`border-b py-4 pl-5 pr-6 text-left text-body`}>
 					<div
-						class="flex flex-col font-normal text-black-title md:flex-row md:items-baseline md:justify-start"
+						class="flex flex-col font-normal text-title md:flex-row md:items-baseline md:justify-start"
 					>
 						{#if deviceType?.isMobile}
 							<div
-								class={`mb-2 block w-fit rounded-sm bg-opacity-20 px-1 text-[10px] font-normal md:hidden ${getTranscationTypeCss(
-									data
-								)}`}
+								style={getTranscationTypeCss(data)}
+								class="mb-2 block w-fit rounded-sm px-1 text-[10px] font-normal md:hidden"
 							>
 								<div>
 									{getTransactionTypeLabel(data?.transactionType)}
 								</div>
 							</div>
 						{/if}
-						<div class="text-xs text-black-title md:text-sm">
+						<div class="text-xs text-title md:text-sm">
 							{getDateTimeString(data?.transactionDate, 'DATE', true)}
 						</div>
 					</div>
 				</Td>
 				{#if deviceType && !deviceType.isMobile}
-					<Td class={`border-b border-grey-line py-4 pl-5 pr-6 text-center text-grey-body`}>
-						<article class="flex items-center justify-end text-black-title md:justify-center">
+					<Td class={`border-b py-4 pl-5 pr-6 text-center text-body`}>
+						<article class="flex items-center justify-end text-title md:justify-center">
 							<div
-								class={`rounded-sm bg-opacity-20 px-1 text-[10px] font-normal ${getTranscationTypeCss(
-									data
-								)}`}
+								style={getTranscationTypeCss(data)}
+								class="rounded-sm px-1 text-[10px] font-normal"
 							>
 								<div>
 									{getTransactionTypeLabel(data?.transactionType)}
@@ -89,11 +88,11 @@
 						</article>
 					</Td>
 				{/if}
-				<Td class={`border-b border-grey-line py-4 pl-5 pr-6 text-center text-grey-body`}>
+				<Td class={`border-b py-4 pl-5 pr-6 text-center text-body`}>
 					<div
-						class="flex flex-col font-normal text-black-title md:flex-row md:items-baseline md:justify-center"
+						class="flex flex-col font-normal text-title md:flex-row md:items-baseline md:justify-center"
 					>
-						<div class="text-base text-black-title md:mr-1">
+						<div class="text-base text-title md:mr-1">
 							{data?.units?.toFixed(3)}
 						</div>
 						<div class="text-xs text-gray-500">
@@ -103,9 +102,9 @@
 						</div>
 					</div>
 				</Td>
-				<Td class={`border-b border-grey-line py-4 pl-5 pr-6 text-right text-grey-body`}>
+				<Td class={`border-b py-4 pl-5 pr-6 text-right text-body`}>
 					<div
-						class="flex items-start justify-end text-base font-normal text-black-title md:block md:items-center md:justify-center md:text-sm"
+						class="flex items-start justify-end text-base font-normal text-title md:block md:items-center md:justify-center md:text-sm"
 					>
 						{data?.amount !== undefined ? '₹' : ''}{data?.amount !== undefined
 							? addCommasToAmountString(data?.amount?.toFixed(2))

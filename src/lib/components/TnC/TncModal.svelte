@@ -25,7 +25,7 @@
 <article>
 	<ModalWithAnimation isModalOpen={showModal} on:backdropclicked={closingModal} {isModalClosed}>
 		<section
-			class="flex h-full w-screen flex-col rounded-b-none bg-white text-black-title shadow-csm md:h-96 md:w-5/6 md:animate-none md:rounded-lg"
+			class="flex h-full w-screen flex-col rounded-b-none bg-background-alt text-title shadow-csm md:h-96 md:w-5/6 md:animate-none md:rounded-lg"
 		>
 			<slot name="heading">
 				<div class="flex items-center justify-between px-4 pt-6 md:px-8 md:py-6">
@@ -39,7 +39,7 @@
 			</slot>
 
 			<slot name="horizontalLine">
-				<div class="hidden border-t border-grey-line sm:block" />
+				<div class="hidden border-t sm:block" />
 			</slot>
 
 			<slot name="bodySection">

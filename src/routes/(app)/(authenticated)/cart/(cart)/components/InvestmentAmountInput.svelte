@@ -43,7 +43,7 @@
 </script>
 
 <div
-	class="cart-input-box relative flex items-center max-sm:ml-2 sm:h-full {inputError
+	class="cart-input-box relative flex items-center text-title max-sm:ml-2 sm:h-full {inputError
 		? 'input-has-error'
 		: ''}"
 >
@@ -58,8 +58,8 @@
 		value={inputValue}
 		on:input={onInputChange}
 		class="{inputError
-			? '!outline-red-sell'
-			: '!outline-blue-primary '}   cart-input !outline !h-7 w-full !rounded border-0 bg-white pl-3.5 text-base font-normal !leading-none text-black-title !outline-1 focus:outline-offset-0"
+			? '!outline-sell'
+			: '!outline-primary '}   cart-input !outline !h-7 w-full !rounded border-0 bg-background-alt pl-3.5 text-base font-normal !leading-none text-title !outline-1 focus:outline-offset-0"
 		size={100}
 		disabled={false}
 	/>

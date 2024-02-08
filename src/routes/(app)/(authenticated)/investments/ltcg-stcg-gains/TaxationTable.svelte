@@ -19,20 +19,19 @@
 		<Th class="h-3 w-8/12  !border-none  !pl-0 text-start !normal-case sm:w-2/3">Funds</Th>
 
 		<Th
-			class="flex h-3 justify-end !border-none bg-white py-0 !pl-0 !pr-0 text-left font-normal  sm:!pl-5 sm:text-center"
+			class="flex h-3 justify-end !border-none bg-background-alt py-0 !pl-0 !pr-0 text-left font-normal  sm:!pl-5 sm:text-center"
 		>
 			<p class="normal-case">Current Amount</p>
 		</Th>
 	</THead>
 	<TBody slot="tbody">
 		{#each taxationDetails || [] as funds}
-			<Tr class="border-b border-grey-line">
+			<Tr class="border-b">
 				<Td class="!px-0">
 					<div class="flex">
 						<SchemeLogo src={funds?.logoUrl} class="h-12 w-12" />
 						<div class="">
-							<span
-								class="line-clamp-2 whitespace-break-spaces text-sm font-normal text-black-title"
+							<span class="line-clamp-2 whitespace-break-spaces text-sm font-normal text-title"
 								>{funds?.schemeName}</span
 							>
 						</div>
@@ -41,10 +40,10 @@
 
 				<Td class="!pr-0 text-right">
 					<div class="flex flex-col">
-						<span class="text-sm font-medium text-black-key lg:font-semibold"
+						<span class="text-sm font-medium text-title lg:font-semibold"
 							><AmountText amount={funds?.currentValue?.toFixed(2) || 0} /></span
 						>
-						<span class="text-xs text-black-bolder">{funds?.units} units</span>
+						<span class="text-xs text-body">{funds?.units} units</span>
 					</div>
 				</Td>
 			</Tr>

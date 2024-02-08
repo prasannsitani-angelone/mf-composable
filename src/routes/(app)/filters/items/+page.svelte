@@ -52,8 +52,8 @@
 <article>
 	{#if !(isMobile || isTablet)}
 		<div class="overflow-hidden rounded-lg shadow-csm">
-			<div class="flex flex-row items-center justify-between bg-white px-6 py-5">
-				<div class="text-base font-medium text-black-key">FILTERS</div>
+			<div class="flex flex-row items-center justify-between bg-background-alt px-6 py-5">
+				<div class="text-base font-medium text-title">FILTERS</div>
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<!-- svelte-ignore a11y-no-static-element-interactions -->
 				<div

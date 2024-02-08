@@ -79,7 +79,7 @@
 	}
 </script>
 
-<PortfolioCard class="!px-3 !pt-4 {isFamilyPortfolio ? '!pb-1' : '!pb-3'}">
+<PortfolioCard class="dark !px-3 !pt-4 {isFamilyPortfolio ? '!pb-1' : '!pb-3'}" variant="secondary">
 	<section class=" flex items-start justify-between lg:mx-0" data-testid="portfolioTopSection">
 		<article class="flex flex-col items-start">
 			<div class="text-xs">Current Value</div>
@@ -113,10 +113,10 @@
 		</section>
 	{:else}
 		<section
-			class="mb-3 mt-2 flex flex-col items-center justify-around rounded-lg bg-white bg-opacity-10 px-2 py-4 md:py-3.5 lg:mx-0"
+			class="mb-3 mt-2 flex flex-col items-center justify-around rounded-lg bg-background-alt bg-opacity-10 px-2 py-4 md:py-3.5 lg:mx-0"
 		>
 			<div class="flex w-full">
-				<article class=" flex-1 border-r border-grey-dashed text-left">
+				<article class=" flex-1 border-r text-left">
 					<div class=" text-xs font-normal">Total Invested</div>
 					<div class=" text-sm font-normal" data-testid="portfolioInvestedValue">
 						₹{investmentSummary?.investedValue
@@ -150,8 +150,8 @@
 						<span
 							class="ml-1 font-normal {investmentSummary?.returnsValue &&
 							investmentSummary.returnsValue >= 0
-								? 'text-green-buy'
-								: 'text-red-banner'}"
+								? 'text-buy'
+								: 'text-sell'}"
 						>
 							({investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
 								? '-'
@@ -166,7 +166,7 @@
 			{#if !cardCollapsed}
 				{@const log = logToggleCardExpandedEvent()}
 				<div class=" mt-4 flex w-full">
-					<article class="flex-1 border-r border-grey-dashed text-left">
+					<article class="flex-1 border-r text-left">
 						<div
 							data-testid="xirrCardTitle"
 							class="investment-xirr flex items-center text-xs font-normal"
@@ -199,8 +199,8 @@
 							<span
 								class="ml-1 font-normal {investmentSummary?.previousDayReturns &&
 								investmentSummary.previousDayReturns >= 0
-									? 'text-green-buy'
-									: 'text-red-banner'}"
+									? 'text-buy'
+									: 'text-sell'}"
 							>
 								({investmentSummary?.previousDayReturns && investmentSummary.previousDayReturns < 0
 									? '-'

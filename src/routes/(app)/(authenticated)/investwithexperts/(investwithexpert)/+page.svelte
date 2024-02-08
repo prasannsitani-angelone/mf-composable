@@ -108,8 +108,8 @@
 	});
 </script>
 
-<article class="mb-3 mt-1 max-w-4xl rounded-lg bg-white p-4 py-6 shadow-csm">
-	<p class="alignment-center mb-6 text-center text-xl font-medium text-black-title">
+<article class="mb-3 mt-1 max-w-4xl rounded-lg bg-background-alt p-4 py-6 shadow-csm">
+	<p class="alignment-center mb-6 text-center text-xl font-medium text-title">
 		Earn more returns with a high performance portfolio
 	</p>
 
@@ -121,15 +121,15 @@
 
 	<ul class="px-4">
 		{#each descriptionItems as item}
-			<li class="list-disc text-sm font-normal text-black-title">
+			<li class="list-disc text-sm font-normal text-title">
 				{item}
 			</li>
 		{/each}
 	</ul>
 </article>
 
-<article class="mb-24 max-w-4xl rounded-lg bg-white p-4 shadow-csm">
-	<p class="mb-4 text-base font-normal text-black-title">Choose Monthly Investment Amount</p>
+<article class="mb-24 max-w-4xl rounded-lg bg-background-alt p-4 shadow-csm">
+	<p class="mb-4 text-base font-normal text-title">Choose Monthly Investment Amount</p>
 
 	<AmountSection
 		{amount}
@@ -142,9 +142,9 @@
 
 	<section class="flex flex-row items-center">
 		<section class="flex flex-col">
-			<div class="text-sm font-normal text-black-key">Monthly SIP Date</div>
+			<div class="text-sm font-normal text-title">Monthly SIP Date</div>
 			<button
-				class="w-fit text-xs font-normal text-blue-primary"
+				class="w-fit text-xs font-normal text-primary"
 				on:click={toggleShowCalendarLearnMoreModal}
 			>
 				Learn More
@@ -161,7 +161,7 @@
 			class="flex w-[100px] flex-row items-center rounded border"
 			on:click={toggleCalendar}
 		>
-			<div class="m-2 mr-6 text-xs font-normal text-black-title">
+			<div class="m-2 mr-6 text-xs font-normal text-title">
 				{`${sipStartDate}${getDateSuperscript(sipStartDate)}`}
 			</div>
 			<div class="flex-1" />
@@ -173,7 +173,7 @@
 </article>
 
 <article class="mx-3 mt-4 block md:hidden">
-	<section class="fixed inset-0 top-auto bg-white px-4 py-5">
+	<section class="fixed inset-0 top-auto bg-background-alt px-4 py-5">
 		<ButtonMedium onClick={handleProceedButtonClick} class="w-full">CONTINUE</ButtonMedium>
 	</section>
 </article>

@@ -28,7 +28,7 @@
 		tabindex={0}
 		on:click={onPaymentMethodChange}
 	>
-		<div class="flex flex-row items-center text-xs font-normal text-black-title">
+		<div class="flex flex-row items-center text-xs font-normal text-title">
 			<span>
 				{selectedMode === 'UPI'
 					? upiId?.length
@@ -40,18 +40,18 @@
 				name="arrow-up-solid"
 				width={12}
 				height={6}
-				stroke="#3F5BD9"
+				stroke="var(--PRIMARY)"
 				class="ml-1 min-w-[12px]"
 			/>
 		</div>
-		<div class="text-[10px] font-normal text-black-title">
+		<div class="text-[10px] font-normal text-title">
 			{truncate(bankName, 20)}
 		</div>
-		<div class="flex flex-row items-center text-[10px] font-normal text-black-title">
-			<div class="mr-1 h-1 w-1 rounded-full bg-black-title" />
-			<div class="mr-1 h-1 w-1 rounded-full bg-black-title" />
-			<div class="mr-1 h-1 w-1 rounded-full bg-black-title" />
-			<div class="mr-1 h-1 w-1 rounded-full bg-black-title" />
+		<div class="flex flex-row items-center text-[10px] font-normal text-title">
+			<div class="mr-1 h-1 w-1 rounded-full bg-title" />
+			<div class="mr-1 h-1 w-1 rounded-full bg-title" />
+			<div class="mr-1 h-1 w-1 rounded-full bg-title" />
+			<div class="mr-1 h-1 w-1 rounded-full bg-title" />
 			{bankAccount?.substring(bankAccount.length - 4)}
 		</div>
 	</div>

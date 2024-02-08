@@ -34,14 +34,14 @@
 	}
 </script>
 
-<article class="bg-white py-1 {$$props.class}">
+<article class="bg-background-alt py-1 {$$props.class}">
 	<div class="m-3 flex flex-row items-center justify-center rounded-lg bg-green-pale p-2">
 		{#if status === OrderSummaryStatus.SUCCESS}
 			<div class="mx-3">
 				<WMSIcon name="well-done" />
 			</div>
 		{/if}
-		<p class="text-center text-lg font-normal text-black-title">
+		<p class="text-center text-lg font-normal text-title">
 			{getStatusTitle()}
 		</p>
 	</div>
@@ -52,17 +52,17 @@
 		{getStatusDescription()}
 	</div>
 
-	<section class="mx-3 mb-4 flex items-center justify-between rounded bg-grey px-4 py-3">
+	<section class="mx-3 mb-4 flex items-center justify-between rounded bg-background px-4 py-3">
 		<article class="flex-1">
-			<div class="text-xs font-normal text-grey-body">Total SIP Amount</div>
-			<div class="text-base font-normal text-black-title">
+			<div class="text-xs font-normal text-body">Total SIP Amount</div>
+			<div class="text-base font-normal text-title">
 				₹{addCommasToAmountString(Math.trunc(sipAmount ?? 0))}
 			</div>
 		</article>
 
 		<article class="flex-1 text-right">
-			<div class="text-xs font-normal text-grey-body">Next SIP Payment</div>
-			<div class="text-base font-normal text-black-title">
+			<div class="text-xs font-normal text-body">Next SIP Payment</div>
+			<div class="text-base font-normal text-title">
 				{getDateTimeString(sipNextDate, 'DATE', true)}
 			</div>
 		</article>

@@ -235,29 +235,27 @@
 				<!-- Content -->
 				<section class="mx-2 mb-2 mt-3 flex flex-col overflow-y-scroll">
 					<!-- Section 1 -->
-					<div class="mb-2 rounded-lg bg-white p-3">
+					<div class="mb-2 rounded-lg bg-background-alt p-3">
 						<!-- Heading  -->
-						<div class="mb-4 text-base font-normal text-black-title">
-							Investing in 4 Mutual Funds
-						</div>
+						<div class="mb-4 text-base font-normal text-title">Investing in 4 Mutual Funds</div>
 						<!-- Investment Info  -->
 						<div
-							class="flex flex-row justify-between rounded bg-grey p-2 text-sm font-normal text-black-title"
+							class="flex flex-row justify-between rounded bg-background p-2 text-sm font-normal text-title"
 						>
 							<div class="flex flex-col">
-								<div class="text-xs text-grey-body">Total SIP Amount</div>
+								<div class="text-xs text-body">Total SIP Amount</div>
 								<div>₹{addCommasToAmountString(amount)}</div>
 							</div>
 							<div class="flex flex-col">
-								<div class="text-xs text-grey-body">Monthly SIP Date</div>
+								<div class="text-xs text-body">Monthly SIP Date</div>
 								<div class="text-end">{date}{getDateSuperscript(date)}</div>
 							</div>
 						</div>
 					</div>
 					<!-- Section 2 -->
-					<div class="rounded-lg bg-white p-3">
+					<div class="rounded-lg bg-background-alt p-3">
 						<!-- Heading  -->
-						<div class="mb-7 text-base font-normal text-black-title">Investment Allocation</div>
+						<div class="mb-7 text-base font-normal text-title">Investment Allocation</div>
 						<!-- Pie Chart  -->
 						<div class="mb-6 flex w-full flex-row items-center justify-center">
 							<PieChart data={basket?.chartData} />
@@ -265,16 +263,14 @@
 						<!-- schemes table -->
 						<div class="mb-6 flex flex-col">
 							<!-- header -->
-							<div
-								class="flex flex-row justify-between border-b border-grey-line pb-3 text-xs text-grey-body"
-							>
+							<div class="flex flex-row justify-between border-b pb-3 text-xs text-body">
 								<div class="w-2/3">Fund</div>
 								<div class="w-1/3 text-end">Amount</div>
 							</div>
 							<!-- data  -->
 							<div class="flex flex-col gap-5 pt-6">
 								{#each basket.schemes as scheme, index (index)}
-									<div class="flex flex-row text-sm font-normal text-black-title">
+									<div class="flex flex-row text-sm font-normal text-title">
 										<div class="flex w-2/3 flex-row">
 											<SchemeLogo size="xs" src={scheme.logoUrl} alt="scheme logo" />
 											<div class="ml-2">{scheme.schemeName}</div>
@@ -287,7 +283,7 @@
 						<!-- Why This Fund Link -->
 						<Button
 							variant="transparent"
-							class="h-fit min-h-min w-fit p-0 text-blue-primary"
+							class="h-fit min-h-min w-fit p-0 text-primary"
 							onClick={toggleWhyThisFundPopup}>Why these funds?</Button
 						>
 					</div>
@@ -296,7 +292,7 @@
 				{#await assignPreviousPaymentDetails(data.api.previousPaymentDetails)}
 					<div />
 				{:then}
-					<section class="flex w-full flex-row bg-white px-4 py-3">
+					<section class="flex w-full flex-row bg-background-alt px-4 py-3">
 						<PaymentSleeveWithState
 							amount={amount.toString()}
 							{paymentHandler}
@@ -327,7 +323,7 @@
 				clearInputPaymentError={clearInputPaymentErrorPC}
 			>
 				<div slot="schemeTile" class="flex flex-col">
-					<div class="flex w-full flex-col bg-white px-3 py-4">
+					<div class="flex w-full flex-col bg-background-alt px-3 py-4">
 						<div class="flex flex-row">
 							<div class="mr-2 flex max-w-[56px] flex-row">
 								<SchemeLogo
@@ -338,7 +334,7 @@
 								/>
 								{#if basket.schemes?.length > 1}
 									<div
-										class="relative left-[-16px] flex h-9 w-9 min-w-[36px] flex-row items-center justify-center rounded-full border border-grey-line bg-white text-xs shadow-csm"
+										class="relative left-[-16px] flex h-9 w-9 min-w-[36px] flex-row items-center justify-center rounded-full border bg-background-alt text-xs shadow-csm"
 									>
 										+ {basket.schemes?.length - 1}
 									</div>
@@ -349,17 +345,17 @@
 								<div>₹{addCommasToAmountString(amount)}</div>
 							</div>
 						</div>
-						<div class="mt-2 text-xs text-black-title">
+						<div class="mt-2 text-xs text-title">
 							Monthly SIP Date: {date}{getDateSuperscript(date)}
 						</div>
 					</div>
-					<div class="bg-grey pb-2" />
+					<div class="bg-background pb-2" />
 				</div>
 			</ChangePaymentContainerWithState>
 		{/if}
 	{:else}
 		<div class="flex h-full flex-col items-center self-center px-4 py-4">
-			<div class="mb-4 text-center text-base font-normal text-black-title">
+			<div class="mb-4 text-center text-base font-normal text-title">
 				We are facing some issue at our end. Please try again or contact field support
 			</div>
 			<Button variant="transparent" class="mt-6 w-max self-center" onClick={onRefresh}>
@@ -372,7 +368,7 @@
 	{/if}
 {:catch}
 	<div class="flex h-full flex-col items-center self-center px-4 py-4">
-		<div class="mb-4 text-center text-base font-normal text-black-title">
+		<div class="mb-4 text-center text-base font-normal text-title">
 			We are facing some issue at our end. Please try again or contact field support
 		</div>
 		<Button variant="transparent" class="mt-6 w-max self-center" onClick={onRefresh}>

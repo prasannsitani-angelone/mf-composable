@@ -9,14 +9,14 @@
 	};
 </script>
 
-<article class="-mx-2 h-[calc(100vh-80px)] bg-white">
+<article class="-mx-2 h-[calc(100vh-80px)] bg-background-alt">
 	<section class="md:hidden">
 		<MobileHeader
 			title={'Mutual Funds'}
 			showSearchIcon={true}
 			showBackIcon={false}
 			showCloseIcon={true}
-			class="fixed left-0 right-0 top-0 z-100 bg-white"
+			class="fixed left-0 right-0 top-0 z-100 bg-background-alt"
 		/>
 	</section>
 	<section class="flex h-full flex-col items-center justify-center pb-12 md:pb-0">

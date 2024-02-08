@@ -252,7 +252,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 								headerContent.subHeadingArr = [
 									{
 										text: 'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
-										class: 'text-red-sell'
+										class: 'text-sell'
 									}
 								];
 								headerContent.status = STATUS_ARR.FAILED;
@@ -286,7 +286,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 							headerContent.subHeadingArr = [
 								{
 									text: 'We are currently unable to process the mandate request to schedule automatic fund transfer from your bank account to trading account for SIP investments due to some technical issues. Please try again',
-									class: 'text-red-sell'
+									class: 'text-sell'
 								}
 							];
 							headerContent.status = STATUS_ARR.FAILED;
@@ -456,7 +456,6 @@ export const load = async ({ fetch, url, parent, depends }) => {
 		},
 		layoutConfig: {
 			layoutType: 'FULL_HEIGHT_WITHOUT_PADDING',
-			layoutClass: 'bg-white md:bg-grey',
 			layoutBodyClass: 'h-full',
 			title: 'Order Summary'
 		}

@@ -339,7 +339,7 @@
 </script>
 
 <section
-	class="scrollbar-hide mb-2 flex justify-start overflow-auto rounded-lg bg-white px-4 py-3 shadow-csm md:mb-4 md:justify-center {$$props.class}"
+	class="scrollbar-hide mb-2 flex justify-start overflow-auto rounded-lg bg-background-alt px-4 py-3 shadow-csm md:mb-4 md:justify-center {$$props.class}"
 >
 	{#each stories as story, index (story?.storyId)}
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -349,25 +349,25 @@
 		>
 			<img
 				src={story?.smallThumbnailUrl}
-				class="h-14 w-14 rounded-full border-[1.5px] border-blue-primary object-cover p-[3.5px]"
+				class="h-14 w-14 rounded-full border-[1.5px] border-primary object-cover p-[3.5px]"
 				alt="story thumbnail"
 				width="56"
 				height="56"
 			/>
-			<p class="mt-1 w-14 truncate text-center">
+			<p class="mt-1 w-14 truncate text-center text-body">
 				{story?.title}
 			</p>
 		</article>
 	{/each}
 
 	{#if showVideoSection}
-		<section>
+		<section class="light">
 			<Modal
 				isModalOpen={showVideoSection}
 				closeModal={crossButtonClicked}
 				on:backdropclicked={() => crossButtonClicked()}
 			>
-				<div class="top-0 flex h-full w-screen flex-col bg-black shadow-csm md:h-5/6 md:w-[360px]">
+				<div class="top-0 flex h-full w-screen flex-col bg-title shadow-csm md:h-5/6 md:w-[360px]">
 					<div class="relative h-5/6 w-full">
 						{#if showVideoPlayer}
 							<!-- svelte-ignore a11y-media-has-caption -->
@@ -383,7 +383,7 @@
 
 						<img
 							src={selectedStory?.imageThumbnailUrl}
-							class="absolute left-4 top-4 h-12 w-12 rounded-full object-cover text-lg font-normal text-white shadow-csm"
+							class="absolute left-4 top-4 h-12 w-12 rounded-full object-cover text-lg font-normal text-background-alt shadow-csm"
 							alt="video thumbnail"
 							width="48"
 							height="48"
@@ -409,13 +409,13 @@
 					</div>
 
 					<!-- Story footer section -->
-					<section class="flex h-1/6 flex-col items-center justify-center bg-black">
+					<section class="flex h-1/6 flex-col items-center justify-center bg-title">
 						{#if isMobile}
 							<WMSIcon width={14} height={8} name="swipe-up" class="mb-3" />
 						{/if}
 
 						<Button
-							class="h-auto !w-48 cursor-default rounded border border-white !bg-transparent !text-white md:cursor-pointer"
+							class="h-auto !w-48 cursor-default rounded border !border-background-alt !bg-transparent !text-background-alt md:cursor-pointer"
 							variant="outlined"
 							onClick={handleCtaClick}
 						>

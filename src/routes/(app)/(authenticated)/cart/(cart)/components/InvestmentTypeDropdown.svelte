@@ -72,17 +72,16 @@
 <div class="relative flex items-center sm:h-full">
 	<Button
 		variant="transparent"
-		class="relative flex w-20 items-center justify-between rounded-sm !bg-purple-background !p-1  max-sm:!h-auto"
+		class="relative flex w-20 items-center justify-between rounded-sm !bg-tint12-primary !p-1  max-sm:!h-auto"
 		size="xs"
 		onClick={toggleDropdown}
 	>
-		<span class="text-1xs font-normal leading-3 text-black-title"
-			>{activeSelection?.label || '-'}</span
+		<span class="text-1xs font-normal leading-3 text-title">{activeSelection?.label || '-'}</span
 		><span><WMSIcon width={12} height={6} name="arrow-expand" /></span>
 	</Button>
 	{#if isDDOptionsVisible}
 		<div
-			class=" absolute left-0 top-6 z-10 flex w-28 flex-col rounded-sm border bg-white text-left shadow-csm sm:top-9"
+			class=" absolute left-0 top-6 z-10 flex w-28 flex-col rounded-sm border bg-background-alt text-left shadow-csm sm:top-9"
 			use:clickOutside
 			on:outclick={closeDropDown}
 		>
@@ -90,9 +89,9 @@
 				<Button
 					variant="transparent"
 					size="xs"
-					class=" !w-full justify-start !rounded-none !border-b !border-inherit !text-xs font-normal !text-black-title {option.value ===
+					class=" !w-full justify-start !rounded-none !border-b !border-inherit !text-xs font-normal !text-title {option.value ===
 					activeSelection.value
-						? '!bg-purple-background !font-normal !text-blue-primary'
+						? '!bg-tint12-primary !font-normal !text-primary'
 						: ''}"
 					onClick={(e) => {
 						e.stopPropagation();

@@ -44,19 +44,19 @@
 </script>
 
 <div bind:clientHeight class="h-screen bg-[#a4afed] p-5 {$$props.class}">
-	<p class="mb-3 mt-10 text-2xl font-medium text-black-key">What are Mutual Funds?</p>
+	<p class="mb-3 mt-10 text-2xl font-medium text-title">What are Mutual Funds?</p>
 	{#if clientHeight > HEIGHT_OFFSET}
 		<Icon1 class="mx-auto mb-3" />
 	{/if}
 	<ul class="mb-4 ml-3">
 		{#each options as option}
-			<li class="mb-2 list-disc text-sm font-normal leading-6 text-black-key">
+			<li class="mb-2 list-disc text-sm font-normal leading-6 text-title">
 				{option}
 			</li>
 		{/each}
 	</ul>
 
-	<p class="mb-3 text-sm font-normal text-black-key">
+	<p class="mb-3 text-sm font-normal text-title">
 		Watch this <span class="font-medium">2-minute video</span> to learn more
 	</p>
 
@@ -67,7 +67,5 @@
 		src={youtubeLink}
 	/>
 
-	<p class="mx-auto w-fit text-sm font-normal text-black-key">
-		Zero Commissions &#x25CF; Zero Fees
-	</p>
+	<p class="mx-auto w-fit text-sm font-normal text-title">Zero Commissions &#x25CF; Zero Fees</p>
 </div>

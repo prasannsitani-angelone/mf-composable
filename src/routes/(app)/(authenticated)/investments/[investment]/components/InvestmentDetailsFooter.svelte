@@ -1,12 +1,11 @@
 <script lang="ts">
-	import Button from '$components/Button.svelte';
 	import CautionIcon from '$lib/images/icons/CautionIcon.svelte';
 	import LockedIcon from '$lib/images/icons/LockedIcon.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { investmentDetailsFooterEvents } from '../constants';
 	import { orderpadParentPage } from '../../../../InvestmentPad/constants';
 	import FooterErrorMessage from './FooterErrorMessage.svelte';
-	import { WMSIcon } from 'svelte-components';
+	import { WMSIcon, Button } from 'svelte-components';
 
 	const dispatch = createEventDispatcher();
 
@@ -29,7 +28,7 @@
 </script>
 
 {#if true}
-	<article class="fixed inset-0 top-auto z-20 block bg-white p-2 md:hidden">
+	<article class="fixed inset-0 top-auto z-20 block bg-background-alt p-2 md:hidden">
 		<section
 			class={`flex items-center ${
 				parentPage === orderpadParentPage?.INVESTMENT ? 'justify-around' : 'justify-between'
@@ -37,8 +36,8 @@
 		>
 			{#if parentPage === orderpadParentPage?.INVESTMENT}
 				<Button
-					class={`w-32 rounded !bg-white ${
-						redemptionDisableText?.length ? '!border-grey-line !text-grey-medium' : ''
+					class={`w-32 rounded !bg-background-alt ${
+						redemptionDisableText?.length ? '!border-border !text-disabled' : ''
 					}`}
 					disabled={!redemptionAllowed}
 					variant="outlined"
@@ -51,7 +50,7 @@
 			<Button
 				class={`${
 					parentPage === orderpadParentPage?.INVESTMENT ? 'w-32' : 'w-full'
-				} !disabled:text-grey-disabled rounded disabled:!bg-grey-line`}
+				} !disabled:text-disabled rounded disabled:!bg-border`}
 				disabled={!investmentAllowed}
 				onClick={() => handleButtonsClick(investmentDetailsFooterEvents?.INVEST)}
 			>
@@ -60,7 +59,7 @@
 
 			{#if parentPage === orderpadParentPage?.INVESTMENT}
 				<Button
-					class="rounded border-none !bg-grey px-6"
+					class="rounded border-none !bg-background px-6"
 					variant="outlined"
 					onClick={() => handleButtonsClick(investmentDetailsFooterEvents?.MORE_OPTIONS)}
 				>

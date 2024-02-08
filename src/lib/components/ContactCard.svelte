@@ -81,11 +81,11 @@
 	export { faq, helpAnalytics };
 </script>
 
-<section class="rounded-lg bg-white p-4 shadow-csm md:rounded-t-none">
-	<h2 class="flex items-center text-left text-sm font-normal text-black-title">
+<section class="rounded-lg bg-background-alt p-4 shadow-csm md:rounded-t-none">
+	<h2 class="flex items-center text-left text-sm font-normal text-title">
 		<span> {faq?.question}</span>
 	</h2>
-	<section class="details-container ml-1 mt-1 pb-5 text-sm text-grey-body">
+	<section class="details-container ml-1 mt-1 pb-5 text-sm text-body">
 		<p class="mt-4">Sorry for the inconvenience caused.</p>
 		<p class="mt-4">You can contact our support team by calling or emailing to us:</p>
 	</section>
@@ -93,7 +93,7 @@
 		<div>
 			<WMSIcon name="message-in-circle" width={36} height={36} />
 		</div>
-		<div class="text-sm font-normal text-black-title">
+		<div class="text-sm font-normal text-title">
 			{#if shouldDisplay(phoneCall)}
 				<p>
 					Call: <ButtonMedium

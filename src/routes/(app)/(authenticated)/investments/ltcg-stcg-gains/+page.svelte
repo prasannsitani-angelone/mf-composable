@@ -104,7 +104,7 @@
 	</header>
 	{#if data?.taxType === 'STCG'}
 		<div
-			class="sticky -top-2 z-100 -mt-2 ml-[calc(50%-50vw)] w-screen border-b border-grey-line bg-white px-4 py-3 text-xs text-black-key sm:relative sm:top-0 sm:ml-0 sm:w-full sm:rounded-lg sm:py-6"
+			class="sticky -top-2 z-100 -mt-2 ml-[calc(50%-50vw)] w-screen border-b bg-background-alt px-4 py-3 text-xs text-title sm:relative sm:top-0 sm:ml-0 sm:w-full sm:rounded-lg sm:py-6"
 		>
 			<p class="flex">
 				<span class="mr-2 mt-1">
@@ -127,7 +127,7 @@
 		</div>
 	{:else}
 		<div
-			class="sticky -top-2 z-100 -mt-2 ml-[calc(50%-50vw)] w-screen border-b border-grey-line bg-white px-4 py-3 text-xs text-black-key sm:relative sm:top-0 sm:ml-0 sm:w-full sm:rounded-lg sm:py-6"
+			class="sticky -top-2 z-100 -mt-2 ml-[calc(50%-50vw)] w-screen border-b bg-background-alt px-4 py-3 text-xs text-title sm:relative sm:top-0 sm:ml-0 sm:w-full sm:rounded-lg sm:py-6"
 		>
 			<p class="flex">
 				<span class="mr-2 mt-1">
@@ -151,11 +151,13 @@
 		<TableSkeleton />
 	{:then taxationDetails}
 		{#if taxationDetails?.length}
-			<TaxationTable {taxationDetails} class="bg-white px-4 pt-3" />
+			<TaxationTable {taxationDetails} class="bg-background-alt px-4 pt-3" />
 		{:else}
-			<section class="flex w-full flex-col items-center justify-center rounded bg-white pb-6 pt-8">
+			<section
+				class="flex w-full flex-col items-center justify-center rounded bg-background-alt pb-6 pt-8"
+			>
 				<img src={NoFilterResult} width="110" height="110" loading="lazy" alt="No scheme found" />
-				<div class="mt-3 w-64 text-center text-base text-black-bolder">
+				<div class="mt-3 w-64 text-center text-base text-body">
 					{#if data?.taxType === 'STCG'}
 						You do not have any short term {activeTab} investments
 					{:else}

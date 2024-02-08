@@ -113,14 +113,11 @@
 					<section class="px-4 text-sm md:px-8">
 						<article class="flex flex-col">
 							<p class="text-xs text-gray-500">Date</p>
-							<div
-								class="mb-3 flex items-center border-b border-grey-line"
-								on:click={toggleShowCalendar}
-							>
+							<div class="mb-3 flex items-center border-b" on:click={toggleShowCalendar}>
 								{#if date}
 									<span class="test font-normal">{displayDate}</span>
 								{:else}
-									<span class="text-base font-normal text-grey-disabled">DD/MM/YYYY</span>
+									<span class="text-base font-normal text-disabled">DD/MM/YYYY</span>
 								{/if}
 								<CalendarIcon class="mb-1 ml-auto" />
 							</div>
@@ -150,15 +147,12 @@
 		>
 			<svelte:fragment slot="content">
 				<section class="px-6 py-6">
-					<p class="pb-[14px] text-xs font-normal text-grey-body">Date</p>
-					<div
-						class="mb-32 flex w-1/2 items-center border-b border-grey-line"
-						on:click={toggleShowCalendar}
-					>
+					<p class="pb-[14px] text-xs font-normal text-body">Date</p>
+					<div class="mb-32 flex w-1/2 items-center border-b" on:click={toggleShowCalendar}>
 						{#if date}
 							<span class="test text-base font-normal">{displayDate}</span>
 						{:else}
-							<span class="text-base font-normal text-grey-disabled">DD/MM/YYYY</span>
+							<span class="text-base font-normal text-disabled">DD/MM/YYYY</span>
 						{/if}
 						<CalendarIcon class="mb-1 ml-auto" />
 					</div>

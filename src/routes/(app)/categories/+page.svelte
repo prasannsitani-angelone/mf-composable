@@ -71,13 +71,11 @@
 	/>
 	<Breadcrumbs items={breadCrumbs} class="mb-4 hidden items-center justify-start md:flex" />
 
-	<h1 class="hidden pb-6 text-lg font-normal text-black-title sm:mt-3 md:block">
-		Explore Mutual Funds
-	</h1>
+	<h1 class="hidden pb-6 text-lg font-normal text-title sm:mt-3 md:block">Explore Mutual Funds</h1>
 
 	<section class="md:rounded-b-lg md:shadow-csm">
 		<section
-			class="ml-[calc(50%-50vw)] w-screen rounded-b-lg sm:ml-0 sm:w-full md:bg-white md:pt-3"
+			class="ml-[calc(50%-50vw)] w-screen rounded-b-lg sm:ml-0 sm:w-full md:bg-background-alt md:pt-3"
 		>
 			<section>
 				{#await getFilterAndSchemes(data?.api?.searchOption)}
@@ -92,7 +90,7 @@
 					<section class="flex flex-col flex-wrap items-center px-2 md:flex-row md:px-6 md:pb-1">
 						{#each schemes || [] as scheme}
 							<SchemeCardExt
-								class="mb-2 w-full rounded-lg bg-white p-3 md:mb-4 md:mr-4 md:w-[336px]"
+								class="mb-2 w-full rounded-lg bg-background-alt p-3 md:mb-4 md:mr-4 md:w-[336px]"
 								schemes={scheme}
 								on:onCardClick={() => handleFundCardClick(scheme)}
 							/>

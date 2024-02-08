@@ -51,7 +51,7 @@
 		<div
 			in:fly={{ y: 100, duration: 1000 }}
 			out:fade
-			class="fixed bottom-0 left-0 right-0 z-100 mx-2 mb-20 flex w-fit max-w-[100vw] items-center justify-around rounded bg-red-light px-3 py-2 text-sm font-normal text-black-key sm:p-4 md:mx-auto {statusToast?.class ||
+			class="fixed bottom-0 left-0 right-0 z-100 mx-2 mb-20 flex w-fit max-w-[100vw] items-center justify-around rounded bg-tint12-sell px-3 py-2 text-sm font-normal text-title sm:p-4 md:mx-auto {statusToast?.class ||
 				''}"
 		>
 			<WMSIcon name="red-exclamation" width={36} height={36} />
@@ -63,10 +63,10 @@
 		<div
 			in:fly={{ y: 100, duration: 1000 }}
 			out:fade
-			class=" fixed left-0 right-0 mx-auto flex w-fit max-w-[95vw] items-center justify-around rounded-md px-4 py-6 text-white max-sm:w-full sm:p-4 {toast.type ===
+			class=" fixed left-0 right-0 mx-auto flex w-fit max-w-[95vw] items-center justify-around rounded-md px-4 py-6 text-background-alt max-sm:w-full sm:p-4 {toast.type ===
 			'ERROR'
-				? 'bg-red-errorDark'
-				: ''} {toast.type === 'SUCCESS' ? 'bg-black-title' : ''} {toast.class || ''}"
+				? 'bg-sell '
+				: ''} {toast.type === 'SUCCESS' ? 'bg-title' : ''} {toast.class || ''}"
 			style={getComputedBottom(index)}
 		>
 			<div class="sm:pr-10">{toast.message}</div>

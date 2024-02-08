@@ -34,13 +34,13 @@
 
 <div class={classes.parent}>
 	<div
-		class={`flex w-full flex-row rounded border-2 border-grey-line px-4 py-3 shadow-csm focus-within:border-blue-primary ${
+		class={`flex w-full flex-row rounded border-2 px-4 py-3 shadow-csm focus-within:border-primary ${
 			classes.container
 		} ${!pattern.test(value.toString()) || error ? classes.error : ''}`}
 	>
 		<slot name="preinput" />
 		<div class="flex w-full flex-col justify-center">
-			<label class={`mb-0.5 text-sm font-normal text-black-title ${classes.label}`} for={id}
+			<label class={`mb-0.5 text-sm font-normal text-title ${classes.label}`} for={id}
 				>{heading}
 			</label>
 			<input
@@ -50,7 +50,7 @@
 				{placeholder}
 				{type}
 				maxlength={maxLength}
-				class={`outline w-full border-0 text-center text-base font-normal text-black-title outline-none ${classes.input}`}
+				class={`outline w-full border-0 text-center text-base font-normal text-title outline-none ${classes.input}`}
 				on:input={onInput}
 				on:keyup={handleEnter}
 				on:click={onClick}

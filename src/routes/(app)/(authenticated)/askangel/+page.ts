@@ -6,7 +6,7 @@ export const load = (async () => {
 			title: 'Ask Angel',
 			showBackIcon: true,
 			layoutType: 'DEFAULT',
-			layoutClass: 'bg-white',
+			layoutClass: 'bg-background-alt',
 			headerClass: 'hidden'
 		}
 	};

@@ -163,11 +163,11 @@
 
 <div class="flex w-full flex-col items-center lg:w-120">
 	<div class="mb-6 w-full md:mb-12">
-		<div class="text-xl font-normal text-black-neutral">
+		<div class="text-xl font-normal text-title">
 			{heading}
 		</div>
 		{#if subHeading}
-			<div class="mt-2 text-base text-grey-dark">
+			<div class="mt-2 text-base text-body">
 				{subHeading}
 			</div>
 		{/if}
@@ -186,7 +186,7 @@
 					parent: 'w-full',
 					input: '!text-base !text-start placeholder:text-sm',
 					container: '!border !shadow-none h-16 !py-0 mb-2',
-					label: '!text-grey-dark !text-xs mb-0 !font-normal'
+					label: '!text-body !text-xs mb-0 !font-normal'
 				}}
 				filterChar={filterNumber}
 				error={Boolean(error)}
@@ -203,7 +203,7 @@
 				<div class="text-xs text-red-500" />
 				<div>
 					{#if otpTimerInSec}
-						<div class="text-sm text-grey-body">
+						<div class="text-sm text-body">
 							{otpTimerDisplay}
 						</div>
 					{:else}

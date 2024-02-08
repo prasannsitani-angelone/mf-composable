@@ -43,7 +43,7 @@
 
 {#if visible}
 	<div
-		class={`flex w-full flex-col rounded-b-none rounded-t-2xl bg-white shadow-clg sm:rounded-lg ${$$props?.class}`}
+		class={`flex w-full flex-col rounded-b-none rounded-t-2xl bg-background-alt shadow-clg sm:rounded-lg ${$$props?.class}`}
 	>
 		<div
 			class={`flex flex-row justify-center px-8 py-6 pb-0 md:pb-6 ${classes?.header} ${
@@ -51,7 +51,7 @@
 			}`}
 		>
 			<span
-				class={`text-sm font-medium text-grey-body sm:text-xl sm:font-normal sm:text-black-title ${classes?.title}`}
+				class={`text-sm font-medium text-body sm:text-xl sm:font-normal sm:text-title ${classes?.title}`}
 			>
 				{title}
 			</span>
@@ -68,7 +68,7 @@
 			{/if}
 		</div>
 
-		<div class={`hidden border-t border-grey-line sm:block ${classes?.midBorder}`} />
+		<div class={`hidden border-t sm:block ${classes?.midBorder}`} />
 		<div
 			class={`grid grid-cols-7 justify-items-center px-2 py-4 sm:px-6 sm:py-8 ${classes?.content}`}
 		>

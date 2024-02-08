@@ -45,8 +45,8 @@
 		<div class="flex w-full justify-between">
 			<SchemeLogo src={schemeDetails?.logoUrl} size="xs" class="!mr-1" />
 			{#if isPrimary}
-				<div class="mr-auto self-start rounded-full bg-red-errorDark px-[6px] py-[2px]">
-					<p class="text-[10px] font-medium text-white">This Fund</p>
+				<div class="mr-auto self-start rounded-full bg-sell px-[6px] py-[2px]">
+					<p class="text-[10px] font-medium text-background-alt">This Fund</p>
 				</div>
 			{/if}
 			{#if isRemovable}
@@ -61,23 +61,23 @@
 			{/if}
 		</div>
 		<p
-			class="my-3 flex w-full flex-1 truncate text-xs font-medium text-black-key md:text-sm"
+			class="my-3 flex w-full flex-1 truncate text-xs font-medium text-title md:text-sm"
 			id="title-truncate"
 		>
 			{schemeDetails?.schemeName}
 		</p>
 		{#if !showCompact}
 			<div class="pb-3">
-				<p class="text-[11px] font-normal text-black-bolder">3Y Returns</p>
-				<p class="text-xs font-normal text-black-key">{schemeDetails?.returns3yr?.toFixed(2)}%</p>
+				<p class="text-[11px] font-normal text-body">3Y Returns</p>
+				<p class="text-xs font-normal text-title">{schemeDetails?.returns3yr?.toFixed(2)}%</p>
 			</div>
 			<div class="pb-3">
-				<p class="text-[11px] font-normal text-black-bolder">Min. SIP</p>
-				<p class="text-xs font-normal text-black-key">₹{schemeDetails?.minSipAmount || '0'}</p>
+				<p class="text-[11px] font-normal text-body">Min. SIP</p>
+				<p class="text-xs font-normal text-title">₹{schemeDetails?.minSipAmount || '0'}</p>
 			</div>
 			<div class="pb-3">
-				<p class="text-[11px] font-normal text-black-bolder">No. of Investors</p>
-				<p class="text-xs font-normal text-black-key">
+				<p class="text-[11px] font-normal text-body">No. of Investors</p>
+				<p class="text-xs font-normal text-title">
 					{addCommasToAmountString(schemeDetails?.noOfClientInvested)}
 				</p>
 			</div>
@@ -95,7 +95,7 @@
 			on:click={onAddFundClick}
 		>
 			<WMSIcon name="add-outline" height={20} width={20} />
-			<p class="text-center text-xs font-medium text-black-key">Add Fund <br /> to Compare</p>
+			<p class="text-center text-xs font-medium text-title">Add Fund <br /> to Compare</p>
 		</secton>
 	{/if}
 </article>

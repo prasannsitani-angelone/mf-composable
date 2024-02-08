@@ -30,7 +30,9 @@
 	export { isGuest };
 </script>
 
-<article class="item grid grid-cols-1 justify-between sm:grid-rows-1 {$$props.class} divide-y">
+<article
+	class="item grid grid-cols-1 justify-between sm:grid-rows-1 {$$props.class} divide-y divide-border"
+>
 	<QuickEntryPointsCard
 		title="New Fund Offerings"
 		subtitle={`Explore ${openNfo} NFOs currently live`}
@@ -50,10 +52,7 @@
 		to="/investments?type=all"
 		preloadData={isGuest ? 'off' : 'hover'}
 	>
-		<div
-			slot="icon"
-			class="mt-1 flex h-9 w-9 items-center justify-center rounded-full bg-green-amount"
-		>
+		<div slot="icon" class="mt-1 flex h-9 w-9 items-center justify-center rounded-full bg-buy">
 			<WMSIcon name="external-funds" />
 		</div>
 	</QuickEntryPointsCard>
@@ -64,7 +63,7 @@
 	>
 		<div
 			slot="icon"
-			class="mt-1 flex h-9 w-9 items-center justify-center rounded-full bg-yellow-primary"
+			class="mt-1 flex h-9 w-9 items-center justify-center rounded-full bg-secondary"
 		>
 			<WMSIcon name="compare-funds" />
 		</div>
@@ -76,10 +75,7 @@
 		to="/sipCalculator"
 		class="rounded-b-lg"
 	>
-		<div
-			slot="icon"
-			class="mt-1 flex h-9 w-9 items-center justify-center rounded-full bg-red-errorDark"
-		>
+		<div slot="icon" class="mt-1 flex h-9 w-9 items-center justify-center rounded-full bg-sell">
 			<WMSIcon name="calculator" />
 		</div>
 	</QuickEntryPointsCard>

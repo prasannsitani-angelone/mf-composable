@@ -36,10 +36,10 @@
 	</div>
 	<div class="z-0 flex w-full flex-row items-center justify-between p-3">
 		<div class="mr-2 flex flex-1 items-center">
-			<div class="mr-1 flex h-9 w-9 items-center justify-center rounded-full bg-white p-2">
+			<div class="mr-1 flex h-9 w-9 items-center justify-center rounded-full bg-background-alt p-2">
 				<WMSIcon name="angel" />
 			</div>
-			<p class="pl-1 text-sm text-black-key">Start your first SIP with Angel One today!</p>
+			<p class="pl-1 text-sm text-title">Start your first SIP with Angel One today!</p>
 		</div>
 
 		<ButtonMedium

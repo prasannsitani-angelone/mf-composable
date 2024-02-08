@@ -126,7 +126,7 @@
 			inputmode="numeric"
 			value={`${calendarDate}${dateSuperscript}`}
 			readonly
-			class="w-3/4 rounded bg-white px-3 py-2 text-base font-normal leading-none text-black-title outline-none"
+			class="w-3/4 rounded bg-background-alt px-3 py-2 text-base font-normal leading-none text-title outline-none"
 		/>
 		<section class="border-l p-2.5">
 			<CalendarSmallIcon />

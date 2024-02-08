@@ -18,10 +18,10 @@
 	};
 </script>
 
-<article class="bg-white p-3">
+<article class="bg-background-alt p-3">
 	<section class={`flex items-center`}>
 		<Button
-			class={`!disabled:text-grey-disabled w-full rounded disabled:!bg-grey-line`}
+			class={`!disabled:text-disabled w-full rounded disabled:!bg-border`}
 			disabled={false}
 			onClick={() => handleButtonsClick()}
 		>
@@ -30,7 +30,7 @@
 	</section>
 
 	{#if isMappingSchemeAvailable}
-		<section class="mx-3 flex justify-center text-1xs font-normal text-black-title">
+		<section class="mx-3 flex justify-center text-1xs font-normal text-title">
 			<article class="flex items-center justify-center px-6 pt-2.5">
 				<WMSIcon class="mr-1" width={12} height={12} name="info-in-circle-dark" />
 				You will be investing with Angel One

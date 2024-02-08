@@ -9,8 +9,8 @@
 
 	let categoryFilterOptions: CategoryNavItem[];
 	let pageID: string;
-	const activeLink = 'text-white bg-blue-primary';
-	const inActiveLink = 'border-grey-line  text-grey-body bg-white';
+	const activeLink = 'text-background-alt bg-primary';
+	const inActiveLink = ' text-body bg-background-alt';
 	let categoryDetails: CategoryDetailsModalData;
 
 	const setScrollPosition = () => {
@@ -58,10 +58,10 @@
 	{/each}
 </section>
 {#if categoryDetails?.shortDescription}
-	<p class="mx-3 my-3 text-sm font-normal text-black">{categoryDetails?.shortDescription}</p>
+	<p class="mx-3 my-3 text-sm font-normal text-title">{categoryDetails?.shortDescription}</p>
 	<ul class="mx-6">
 		{#each categoryDetails?.detailedDescription || [] as description}
-			<li class="mb-1 list-disc text-xs font-normal text-black-title">
+			<li class="mb-1 list-disc text-xs font-normal text-title">
 				{description}
 			</li>
 		{/each}

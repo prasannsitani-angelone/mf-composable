@@ -4,11 +4,11 @@
 </script>
 
 <div
-	class={`flex h-4 w-4 items-center justify-center rounded-full bg-grey-line ${
-		selected ? 'border-[1.5px] border-blue-primary' : ''
+	class={`flex h-4 w-4 items-center justify-center rounded-full bg-border ${
+		selected ? 'border-[1.5px] border-primary' : ''
 	} ${clazz}`}
 >
 	{#if selected}
-		<div class="h-2 w-2 rounded-full bg-blue-primary" />
+		<div class="h-2 w-2 rounded-full bg-primary" />
 	{/if}
 </div>

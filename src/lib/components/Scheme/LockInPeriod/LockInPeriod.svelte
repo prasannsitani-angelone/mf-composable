@@ -9,21 +9,19 @@
 	export { schemeDetails };
 </script>
 
-<article class="max-w-4xl rounded-lg bg-white pb-0 text-sm sm:w-full sm:pb-0">
+<article class="max-w-4xl rounded-lg bg-background-alt pb-0 text-sm sm:w-full sm:pb-0">
 	<section class="origin-top transition duration-100">
 		<div class="flex flex-col">
 			<div class="flex gap-2">
-				<div class="flex flex-row rounded-lg bg-grey py-3 pl-3 sm:grow sm:basis-0">
+				<div class="flex flex-row rounded-lg bg-background py-3 pl-3 sm:grow sm:basis-0">
 					<div class="flex">
 						{#if schemeDetails?.isSipAllowed === 'Y'}
 							<PiggyBankIcon class="h-9 w-9" />
 							<div class="ml-2">
-								<div class="text-xs font-medium text-black-title">
+								<div class="text-xs font-medium text-title">
 									<AmountText amount={schemeDetails?.minSipAmount} />
 								</div>
-								<div class="text-xs font-normal text-grey-body sm:text-sm">
-									Minimum SIP investment
-								</div>
+								<div class="text-xs font-normal text-body sm:text-sm">Minimum SIP investment</div>
 							</div>
 						{:else}
 							<PiggyBankIcon disabled={true} />
@@ -35,15 +33,15 @@
 						{/if}
 					</div>
 				</div>
-				<div class="flex flex-row rounded-lg bg-grey py-3 pl-3 sm:grow sm:basis-0">
+				<div class="flex flex-row rounded-lg bg-background py-3 pl-3 sm:grow sm:basis-0">
 					<div class="flex">
 						{#if schemeDetails?.isLumpsumAllowed === 'Y'}
 							<MinLumpSumIcon class="h-9 w-9" />
 							<div class="ml-2">
-								<div class="text-xs font-medium text-black-title">
+								<div class="text-xs font-medium text-title">
 									<AmountText amount={schemeDetails?.minLumpsumAmount} />
 								</div>
-								<div class="text-xs font-normal text-grey-body sm:text-sm">
+								<div class="text-xs font-normal text-body sm:text-sm">
 									Minimum one time investment
 								</div>
 							</div>

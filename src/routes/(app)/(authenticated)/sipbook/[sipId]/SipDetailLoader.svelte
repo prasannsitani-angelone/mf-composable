@@ -9,7 +9,7 @@
 	<SkeletonRectangle class="mb-2 mt-2 !h-40 w-full rounded-lg" />
 	<SkeletonRectangle class="m-4 !h-12" />
 	<article class="mx-3 mt-4 block md:hidden">
-		<section class="fixed inset-0 top-auto bg-white px-4 py-3">
+		<section class="fixed inset-0 top-auto bg-background-alt px-4 py-3">
 			<SkeletonRectangle class="!h-12" />
 		</section>
 	</article>

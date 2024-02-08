@@ -318,30 +318,34 @@
 </script>
 
 <div
-	class="h-screen w-full origin-top border bg-grey pb-4 transition duration-100 md:h-fit md:rounded-md md:border-grey-line lg:overflow-hidden"
+	class="h-screen w-full origin-top border bg-background pb-4 transition duration-100 md:h-fit md:rounded-md md:lg:overflow-hidden"
 >
-	<header class="z-[70] flex-shrink-0 bg-white">
-		<section class="flex items-center justify-start bg-white px-3 py-4 text-center shadow-csm">
+	<header class="z-[70] flex-shrink-0 bg-background-alt">
+		<section
+			class="flex items-center justify-start bg-background-alt px-3 py-4 text-center shadow-csm"
+		>
 			<LeftArrowIcon class="md:hidden" onClick={editSipShowModal} />
-			<h1 class="ml-4 text-lg font-normal text-black-title">
+			<h1 class="ml-4 text-lg font-normal text-title">
 				<div class="w-80 truncate text-left">Edit SIP</div>
 			</h1>
 		</section>
 	</header>
 	{#if isMobile || isTablet}
-		<div class="mx-2 mt-3 origin-top rounded-md bg-white px-3 py-3 transition duration-100">
+		<div
+			class="mx-2 mt-3 origin-top rounded-md bg-background-alt px-3 py-3 transition duration-100"
+		>
 			<div class="flex flex-row justify-between p-2">
 				<div class="flex flex-row items-center">
 					<SchemeLogo size="xs" src={logoUrl} alt="schemelogo" />
-					<div class="mr-3 text-sm font-normal text-black-title">{schemeName}</div>
+					<div class="mr-3 text-sm font-normal text-title">{schemeName}</div>
 				</div>
 			</div>
 		</div>
 	{/if}
-	<div class="mx-2 mt-3 origin-top rounded-md bg-white px-3 py-3 transition duration-100">
-		<article class="flex flex-col items-center rounded border border-grey-line py-2.5">
+	<div class="mx-2 mt-3 origin-top rounded-md bg-background-alt px-3 py-3 transition duration-100">
+		<article class="flex flex-col items-center rounded border py-2.5">
 			<!-- svelte-ignore a11y-label-has-associated-control -->
-			<label class="mb-2 text-xs font-normal text-grey-body">ENTER AMOUNT</label>
+			<label class="mb-2 text-xs font-normal text-body">ENTER AMOUNT</label>
 			<button
 				class="flex w-full cursor-text items-center justify-start"
 				on:click={handleAmountInputFocus}
@@ -352,7 +356,7 @@
 					maxlength="13"
 					placeholder="₹"
 					value={amountVal}
-					class="w-full bg-white text-center text-2xl font-medium leading-none text-black-title outline-none"
+					class="w-full bg-background-alt text-center text-2xl font-medium leading-none text-title outline-none"
 					on:input={onInputChange}
 					on:focus={handleAmountInputBlur}
 				/>
@@ -360,18 +364,18 @@
 		</article>
 		{#if errorMessage?.length}
 			<article class="flex justify-center pb-1">
-				<p class="text-xs font-light text-red-sell">
+				<p class="text-xs font-light text-sell">
 					{errorMessage}
 				</p>
 			</article>
 		{/if}
 		<article class="mt-3 flex w-full flex-row items-center justify-between">
 			<!-- svelte-ignore a11y-label-has-associated-control -->
-			<label class="text-xs font-normal text-black-title">Monthly SIP Date</label>
+			<label class="text-xs font-normal text-title">Monthly SIP Date</label>
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<!-- svelte-ignore a11y-no-static-element-interactions -->
 			<section class="flex items-center md:cursor-pointer" on:click={toggleCalendar}>
-				<div class="text-xs font-normal text-black-title">
+				<div class="text-xs font-normal text-title">
 					{`${calendarDate}${dateSuperscript}`}
 				</div>
 				<section class="pl-1">
@@ -382,15 +386,15 @@
 		<article class="mx-3 md:mx-0">
 			<section class="fixed inset-0 top-auto md:hidden">
 				<!-- Submit Button -->
-				<div class="flex flex-1 bg-white">
+				<div class="flex flex-1 bg-background-alt">
 					<Button
 						class={`m-3 flex h-12 flex-1 rounded ${
 							!amount?.length ||
 							!!errorMessage?.length ||
 							(stringToFloat(amount) === installmentAmount &&
 								calendarDate === new Date(nextSipDueDate)?.getDate())
-								? 'cursor-default !bg-grey-line !text-grey-disabled active:opacity-100'
-								: 'bg-blue-primary'
+								? 'cursor-default !bg-border !text-disabled active:opacity-100'
+								: 'bg-primary'
 						}`}
 						disabled={!amount?.length ||
 							!!errorMessage?.length ||
@@ -410,15 +414,15 @@
 		</article>
 		<section class="fixed inset-0 top-auto hidden md:relative md:inset-auto md:block">
 			<!-- Submit Button -->
-			<div class="flex flex-1 bg-white">
+			<div class="flex flex-1 bg-background-alt">
 				<Button
 					class={`my-3 flex h-12 flex-1 rounded ${
 						!amount?.length ||
 						!!errorMessage?.length ||
 						(stringToFloat(amount) === installmentAmount &&
 							calendarDate === new Date(nextSipDueDate)?.getDate())
-							? 'cursor-default !bg-grey-line !text-grey-disabled active:opacity-100'
-							: 'bg-blue-primary'
+							? 'cursor-default !bg-border !text-disabled active:opacity-100'
+							: 'bg-primary'
 					}`}
 					disabled={!amount?.length ||
 						!!errorMessage?.length ||
@@ -452,7 +456,7 @@
 								calendarYear={tempCalendarYear}
 							>
 								<svelte:fragment slot="content">
-									<span class="font-normal text-grey-body">Next SIP payment will be on</span>
+									<span class="font-normal text-body">Next SIP payment will be on</span>
 								</svelte:fragment>
 							</NextSipDate>
 						</svelte:fragment>
@@ -461,7 +465,7 @@
 							<section
 								class="hidden flex-row justify-center rounded-b-lg bg-gray-50 px-8 py-4 md:flex"
 							>
-								<p class="text-center text-sm font-light text-grey-body">
+								<p class="text-center text-sm font-light text-body">
 									It is the day on which the amount payable towards your SIP order becomes due. The
 									day on which SIP instalments are paid is called SIP day.
 								</p>
@@ -471,27 +475,29 @@
 				</Modal>
 			{/if}
 		</article>
-		<Modal isModalOpen={showConfirmationPopup} closeModal={onToggleConfirmation} class="bg-white">
+		<Modal
+			isModalOpen={showConfirmationPopup}
+			closeModal={onToggleConfirmation}
+			class="bg-background-alt"
+		>
 			<div
-				class="flex w-full flex-col overflow-y-auto rounded-b-none rounded-t-2xl bg-white pt-2 text-sm shadow-clg sm:w-120 sm:rounded-lg md:rounded-lg md:p-4"
+				class="flex w-full flex-col overflow-y-auto rounded-b-none rounded-t-2xl bg-background-alt pt-2 text-sm shadow-clg sm:w-120 sm:rounded-lg md:rounded-lg md:p-4"
 			>
-				<p class="px-4 pb-4 pt-4 text-base font-medium text-black-key">Confirm SIP Changes</p>
+				<p class="px-4 pb-4 pt-4 text-base font-medium text-title">Confirm SIP Changes</p>
 				<div class="flex justify-between px-4 pb-2 pt-4">
-					<div class="text-black-bolder">Updated Instalment Amount</div>
-					<div class="font-medium text-black-key">
+					<div class="text-body">Updated Instalment Amount</div>
+					<div class="font-medium text-title">
 						{amountVal}
 					</div>
 				</div>
 				<div class="flex justify-between p-4">
-					<div class="text-black-bolder">Updated SIP Date</div>
-					<div class="font-medium text-black-key">
+					<div class="text-body">Updated SIP Date</div>
+					<div class="font-medium text-title">
 						{calendarDate}{dateSuperscript} of every month
 					</div>
 				</div>
 				<div class="flex justify-between px-4 pb-4">
-					<Button
-						class="mt-3 flex h-12 flex-1 rounded bg-blue-primary"
-						onClick={() => onFinalConfirm()}
+					<Button class="mt-3 flex h-12 flex-1 rounded bg-primary" onClick={() => onFinalConfirm()}
 						>CONFIRM
 					</Button>
 				</div>
@@ -503,28 +509,28 @@
 			popupType={STATUS_ARR.SUCCESS}
 			buttonTitle="DONE"
 			class="w-full rounded-b-none rounded-t-2xl p-4 pb-9 sm:px-8 sm:py-8 md:rounded-lg"
-			buttonClass="mt-8 w-full rounded !bg-blue-primary !text-white cursor-default md:cursor-pointer"
+			buttonClass="mt-8 w-full rounded !bg-primary !text-background-alt cursor-default md:cursor-pointer"
 			handleButtonClick={() => {
 				navigateToSipDashboardUrl();
 			}}
 		>
 			<svelte:fragment slot="popupBody">
-				<div class="pt-4 text-lg font-medium text-black-key">SIP Updated</div>
+				<div class="pt-4 text-lg font-medium text-title">SIP Updated</div>
 				<article class="border-gray-line mt-4 w-full rounded-md border text-center">
 					<div class="flex flex-row items-center p-3">
 						<SchemeLogo size="xs" src={logoUrl} alt="schemelogo" />
-						<div class="mr-3 text-left text-sm font-normal text-black-title">{schemeName}</div>
+						<div class="mr-3 text-left text-sm font-normal text-title">{schemeName}</div>
 					</div>
-					<div class="flex flex-col bg-blue-background p-2 text-sm">
+					<div class="flex flex-col bg-background p-2 text-sm">
 						<div class="flex items-center justify-between px-2 pt-2">
-							<div class="text-black-bolder">Instalment Amount</div>
-							<div class="text-base font-medium text-black-key">
+							<div class="text-body">Instalment Amount</div>
+							<div class="text-base font-medium text-title">
 								{amountVal}
 							</div>
 						</div>
 						<div class="flex items-center justify-between p-2">
-							<div class="text-black-bolder">Next SIP Payment</div>
-							<div class="text-base font-medium text-black-key">
+							<div class="text-body">Next SIP Payment</div>
+							<div class="text-base font-medium text-title">
 								{getSIPDate().getDate()}
 								{getSIPDate().toLocaleString('default', { month: 'short' })}
 								{getSIPDate().getFullYear()}
@@ -545,7 +551,7 @@
 			text={editFailureMsg}
 			buttonTitle="RETRY"
 			class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-8 sm:py-8 md:rounded-lg"
-			buttonClass="mt-8 w-40 border border-blue-primary rounded !bg-white !text-blue-primary cursor-default md:cursor-pointer"
+			buttonClass="mt-8 w-40 border border-primary rounded !bg-background-alt !text-primary cursor-default md:cursor-pointer"
 			handleButtonClick={() => {
 				editFailure = false;
 				showConfirmationPopup = false;

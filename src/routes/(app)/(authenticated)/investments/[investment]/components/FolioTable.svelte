@@ -21,10 +21,8 @@
 		{#each data.rows as rowData}
 			<tr class="[&>td]:border-b-0">
 				{#each data.columns as eachCol}
-					<Td
-						class={`border-b border-grey-line py-4 pl-5 pr-6 text-center text-grey-body ${eachCol.tdClass}`}
-					>
-						<div class={`text-black-title`}>
+					<Td class={`border-b py-4 pl-5 pr-6 text-center text-body ${eachCol.tdClass}`}>
+						<div class={`text-title`}>
 							{eachCol.tdRender ? eachCol.tdRender(rowData) : rowData[eachCol.field]}
 						</div>
 					</Td>

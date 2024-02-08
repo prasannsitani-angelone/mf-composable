@@ -5,7 +5,7 @@
 
 <SkeletonWrapper>
 	<div class="flex flex-col">
-		<div class=" mb-2 bg-white p-3 sm:mx-3 sm:mb-0">
+		<div class=" mb-2 bg-background-alt p-3 sm:mx-3 sm:mb-0">
 			<SkeletonRectangle class="mb-4 !h-5 w-full" />
 			<div class="mb-4 flex flex-row gap-x-2">
 				{#each Array(3) as _}

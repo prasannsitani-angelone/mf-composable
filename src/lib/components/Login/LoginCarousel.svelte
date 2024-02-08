@@ -33,10 +33,10 @@
 					alt={item.heading}
 				/>
 				<div class="flex w-11/12 flex-col text-center">
-					<div class="mb-2 text-xl font-medium text-black-title">
+					<div class="mb-2 text-xl font-medium text-title">
 						{item.heading}
 					</div>
-					<div class="text-sm text-grey-body">
+					<div class="text-sm text-body">
 						{item.subHeading}
 					</div>
 				</div>

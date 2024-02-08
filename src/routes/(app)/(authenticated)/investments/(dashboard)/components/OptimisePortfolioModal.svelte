@@ -133,7 +133,7 @@
 </script>
 
 <Modal isModalOpen {isMobile} on:backdropclicked={() => toggleOptimisePorfolioCard(false)}>
-	<div class="w-full rounded-t-2xl bg-white px-5 py-4 sm:w-120 sm:!rounded-lg">
+	<div class="w-full rounded-t-2xl bg-background-alt px-5 py-4 sm:w-120 sm:!rounded-lg">
 		<div class="mb-4">
 			<div class="flex items-center text-lg font-normal">
 				<div class="flex-1">Optimise Your Portfolio</div>
@@ -195,7 +195,7 @@
 							<SkeletonRectangle class="!h-40" />
 						</SkeletonWrapper>
 					{/if}
-					<p class="text-1xs text-grey-body">
+					<p class="text-1xs text-body">
 						Disclaimer: Projected values are based on fund’s last 3 years CAGR with a monthly SIP of
 						₹{addCommasToAmountString(
 							schemeDetails?.minSipAmount < 500 ? '500' : schemeDetails?.minSipAmount?.toString()
@@ -212,7 +212,7 @@
 
 {#if showFundModal}
 	<Modal {isMobile} isModalOpen on:backdropclicked={() => toggleFundModal(false)}>
-		<div class="w-full rounded-t-2xl bg-white px-4 sm:w-120 sm:!rounded-lg">
+		<div class="w-full rounded-t-2xl bg-background-alt px-4 sm:w-120 sm:!rounded-lg">
 			<div class="flex items-center py-6 text-lg font-normal">
 				<div class="flex-1">Why this fund?</div>
 				<WMSIcon
@@ -223,7 +223,7 @@
 					height={24}
 				/>
 			</div>
-			<div class="pb-6 text-sm text-grey-body">
+			<div class="pb-6 text-sm text-body">
 				<p>
 					Based on your asset allocation, investing in {schemeDetails?.subcategoryName?.toLowerCase() ===
 					'small cap fund'

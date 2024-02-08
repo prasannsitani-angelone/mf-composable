@@ -5,7 +5,7 @@ export const load = (() => {
 		layoutConfig: {
 			title: 'Family Portfolio',
 			layoutType: 'DEFAULT',
-			layoutClass: 'bg-white md:bg-grey',
+			layoutClass: 'bg-background-alt md:bg-background',
 			titleClass: '!text-xl',
 			headerClass: ' !py-2.5 !px-4 ',
 			showBackIcon: true

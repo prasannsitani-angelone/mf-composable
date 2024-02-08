@@ -7,7 +7,7 @@
 	import { SIP_HEALTH_SCORE_LIMIT_AVERAGE, SIP_HEALTH_SCORE_LIMIT_GOOD } from '../constants';
 
 	export let score = 0;
-	let scoreClass = 'text-green-buy';
+	let scoreClass = 'text-buy';
 	let firstName = ($page.data?.profile?.clientDetails?.firstName || '')?.toLowerCase() || '';
 
 	$: scoreCardTitle =
@@ -19,11 +19,11 @@
 
 	$: {
 		if (score >= SIP_HEALTH_SCORE_LIMIT_GOOD) {
-			scoreClass = 'text-green-amount';
+			scoreClass = 'text-buy';
 		} else if (score >= SIP_HEALTH_SCORE_LIMIT_AVERAGE) {
-			scoreClass = 'text-yellow-primary';
+			scoreClass = 'text-secondary';
 		} else {
-			scoreClass = 'text-red-errorDark';
+			scoreClass = 'text-sell ';
 		}
 	}
 
@@ -40,14 +40,14 @@
 <section class="px-4 pb-4 md:px-6 {$$props?.class}">
 	<article class="flex items-center justify-between">
 		<div>
-			<div>
+			<div class="text-title">
 				{scoreCardTitle}, <span class="font-medium capitalize">{firstName}</span>
 			</div>
 			<div class="mt-2 text-lg font-medium {scoreClass}">
 				SIP Health Score: {score}
 			</div>
 
-			<p class="mt-4 hidden text-xs font-normal leading-5 text-black-bolder md:block">
+			<p class="mt-4 hidden text-xs font-normal leading-5 text-body md:block">
 				Your SIP health score provides insight in to your investing habits. Use this report to
 				understand your investing discipline, consistency, and overall portfolio growth
 			</p>
@@ -62,7 +62,7 @@
 		/>
 	</article>
 
-	<p class="mt-2 block text-xs font-normal leading-5 text-black-bolder md:hidden">
+	<p class="mt-2 block text-xs font-normal leading-5 text-body md:hidden">
 		Your SIP health score provides insight in to your investing habits. Use this report to
 		understand your investing discipline, consistency, and overall portfolio growth
 	</p>

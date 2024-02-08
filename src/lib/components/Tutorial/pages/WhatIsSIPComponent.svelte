@@ -56,19 +56,19 @@
 </script>
 
 <div bind:clientHeight class="h-screen bg-[#80E0EA] p-5 {$$props.class}">
-	<p class="mb-3 mt-10 text-2xl font-medium text-black-key">What is an SIP?</p>
+	<p class="mb-3 mt-10 text-2xl font-medium text-title">What is an SIP?</p>
 	{#if clientHeight > HEIGHT_OFFSET}
 		<Icon2 class="mx-auto mb-3" />
 	{/if}
 	<ul class="mb-4 ml-3">
 		{#each options as option}
-			<li class="mb-2 list-disc text-sm font-normal leading-6 text-black-key">
+			<li class="mb-2 list-disc text-sm font-normal leading-6 text-title">
 				{option}
 			</li>
 		{/each}
 	</ul>
 
-	<p class="mb-3 text-lg font-medium text-black-key">Calculate SIP Returns</p>
+	<p class="mb-3 text-lg font-medium text-title">Calculate SIP Returns</p>
 
 	<div class="slider flex items-center" id="disable-swipe">
 		<Slider
@@ -81,21 +81,21 @@
 		>
 			<div class="p-6">
 				<div
-					class="flex h-[22px] w-[22px] items-center justify-center rounded-full border border-blue-primary bg-white shadow-csm md:cursor-pointer"
+					class="flex h-[22px] w-[22px] items-center justify-center rounded-full border border-primary bg-background-alt shadow-csm md:cursor-pointer"
 				>
-					<div class="h-3 w-3 rounded-full bg-blue-primary" />
+					<div class="h-3 w-3 rounded-full bg-primary" />
 				</div>
 			</div>
 		</Slider>
 		<div
-			class="min-w-28 max-w-28 my-auto ml-3 w-28 rounded-md border border-blue-primary bg-white p-2.5 text-center text-sm font-medium text-black-title"
+			class="min-w-28 max-w-28 my-auto ml-3 w-28 rounded-md border border-primary bg-background-alt p-2.5 text-center text-sm font-medium text-title"
 		>
 			<AmountText amount={amountReturnSlider[0]} />
 		</div>
 	</div>
 
 	<div class="relative mx-6 mt-5">
-		<p class="ml-auto w-fit text-sm font-normal text-black-key">
+		<p class="ml-auto w-fit text-sm font-normal text-title">
 			Projected Value
 			<span class="text-[#0099A8]">- - - - - - - - - - - - - -</span>
 			<br />
@@ -105,12 +105,12 @@
 		</p>
 		<Graph class="-mt-10" />
 	</div>
-	<div class="mb-4 flex flex-row justify-between text-xs font-normal text-black-title">
+	<div class="mb-4 flex flex-row justify-between text-xs font-normal text-title">
 		<p>Today</p>
 		<p>After 10 years</p>
 	</div>
 
-	<p class="mx-auto w-fit text-[11px] font-medium text-black-title">
+	<p class="mx-auto w-fit text-[11px] font-medium text-title">
 		Projected value for your SIP in {duration} years at {returnsPercentage}% returns annually
 	</p>
 </div>

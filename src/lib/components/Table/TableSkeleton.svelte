@@ -17,9 +17,9 @@
 	export { rowLength, columnLength };
 </script>
 
-<SkeletonWrapper class="w-full bg-white ">
+<SkeletonWrapper class="w-full bg-background-alt ">
 	<Table>
-		<THead slot="thead" class="border-t border-grey-line">
+		<THead slot="thead" class="border-t">
 			<Th class=" w-8/12 !pr-0 sm:w-5/12">
 				<SkeletonRectangle class="w-20" />
 			</Th>

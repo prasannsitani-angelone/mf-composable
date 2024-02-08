@@ -8,7 +8,7 @@
 
 <Overlay on:backdropclicked={onBackDropClicked}>
 	<div
-		class={`fixed bottom-0 left-0 right-0 z-100 flex max-h-full max-w-full flex-col items-center justify-end rounded-t-3xl bg-white px-2  py-2 sm:justify-center ${clazz}`}
+		class={`fixed bottom-0 left-0 right-0 z-100 flex max-h-full max-w-full flex-col items-center justify-end rounded-t-3xl bg-background-alt px-2  py-2 sm:justify-center ${clazz}`}
 		in:fly={{ y: 1000, duration: 500 }}
 	>
 		<slot name="header" />

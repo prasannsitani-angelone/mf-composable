@@ -1,8 +1,8 @@
 export interface IBottomNavItem {
 	label: string;
 	path: string;
-	icon: string;
-	activeIcon: string;
+	icon: never;
+	activeIcon: never;
 	isInternalNavigation?: boolean;
 	width: number;
 	height: number;

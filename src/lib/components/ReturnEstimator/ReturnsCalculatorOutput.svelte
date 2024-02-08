@@ -3,6 +3,7 @@
 	import type { CalculatedValue } from '$lib/types/IStandaloneCalculator';
 	import DoughnutChart from '$components/Charts/DoughnutChart.svelte';
 	import { onMount } from 'svelte';
+	import { customCanvasBackgroundColorPlugin } from '$components/Charts/utils';
 
 	export let outputData: CalculatedValue = {};
 	let chartId = 'doughnut-chart';
@@ -14,19 +15,6 @@
 	onMount(() => {
 		outputDataProps = outputData;
 	});
-
-	const plugin = {
-		id: 'customCanvasBackgroundColor',
-		beforeDraw: (chart, args, options) => {
-			const { ctx } = chart;
-			const radius = chart._metasets[0].controller.innerRadius;
-			const x = chart.getDatasetMeta(0).data[0].x;
-			const y = chart.getDatasetMeta(0).data[0].y;
-			ctx.arc(x, y, radius, 0, 2 * Math.PI);
-			ctx.fillStyle = options.fill;
-			ctx.fill();
-		}
-	};
 
 	$: doughnutData = {
 		datasets: [
@@ -51,7 +39,7 @@
 		},
 		plugins: {
 			customCanvasBackgroundColor: {
-				fill: 'white'
+				fill: 'transparent'
 			},
 			tooltip: {
 				enabled: false,
@@ -150,7 +138,7 @@
 		<article>
 			<div class="mx-auto flex justify-center md:mx-0">
 				<DoughnutChart
-					chartPlugins={[plugin]}
+					chartPlugins={[customCanvasBackgroundColorPlugin]}
 					data={doughnutData}
 					chartOptions={doughnutChartOptions}
 					tooltipLength={0}
@@ -162,18 +150,18 @@
 
 			<section class="mt-3 flex items-center justify-center">
 				<article class="flex items-center">
-					<div class="h-2 w-2 rounded-full bg-blue-primary" />
-					<div class="ml-1 text-xs font-normal text-black-title">Invested</div>
+					<div class="h-2 w-2 rounded-full bg-primary" />
+					<div class="ml-1 text-xs font-normal text-title">Invested</div>
 				</article>
 				<article class="ml-3 flex items-center">
 					<div class="h-2 w-2 rounded-full bg-[#94A7FF]" />
-					<div class="ml-1 text-xs font-normal text-black-title">Gains</div>
+					<div class="ml-1 text-xs font-normal text-title">Gains</div>
 				</article>
 			</section>
 		</article>
 
 		<section class="mt-4 md:ml-16">
-			<article class="text-xs font-normal text-grey-body">
+			<article class="text-xs font-normal text-body">
 				<span>If you invest </span>
 				<span>
 					<AmountText amount={outputData?.investedAmount || 0} />
@@ -194,13 +182,13 @@
 			</article>
 
 			<article class="mt-1 text-sm font-medium md:w-64">
-				<span class="text-black-title"> Total Value: </span>
+				<span class="text-title"> Total Value: </span>
 
-				<span class="text-lg">
+				<span class="text-lg text-title">
 					<AmountText amount={outputData?.matuarityAmount || 0} />
 				</span>
 
-				<span class="text-green-amount">
+				<span class="text-buy">
 					(+{outputData?.gainLossPercentage?.toFixed(2)}%)
 				</span>
 			</article>

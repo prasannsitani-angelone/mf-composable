@@ -44,7 +44,7 @@
 
 				<!-- Switch Order Details Card -->
 				<AccordianCardComponent
-					class="!mt-0 !max-w-8xl !rounded-none border-t border-grey-line bg-white text-sm shadow-csm md:!mt-4 md:mb-2 md:!rounded-lg md:border-none"
+					class="!mt-0 !max-w-8xl !rounded-none border-t bg-background-alt text-sm shadow-csm md:!mt-4 md:mb-2 md:!rounded-lg md:border-none"
 					data={{
 						title: ''
 					}}
@@ -56,14 +56,14 @@
 
 					<svelte:fragment slot="accordionBody">
 						<section class="px-5 py-2 sm:pb-6 sm:pt-5">
-							<div class="mb-4 mt-2 text-lg font-normal text-black-title">Switch Details</div>
+							<div class="mb-4 mt-2 text-lg font-normal text-title">Switch Details</div>
 							<SwitchOrderTitleCard class="!mb-0">
 								<svelte:fragment slot="switchOut">
 									<SwitchOrderTile
 										logoUrl={ordersDetails?.ordersData?.logoUrl}
 										schemeName={ordersDetails?.ordersData?.schemeName}
 										orderTypeText="SWITCH OUT"
-										orderTypeBgColor="bg-yellow-primary"
+										orderTypeBgColor="bg-secondary"
 										schemeNameClass="!text-base"
 									/>
 								</svelte:fragment>
@@ -72,33 +72,29 @@
 										logoUrl={ordersDetails?.ordersData?.toSchemeLogoUrl}
 										schemeName={ordersDetails?.ordersData?.toSchemeName}
 										orderTypeText="SWITCH IN"
-										orderTypeBgColor="bg-purple-primary"
+										orderTypeBgColor="bg-secondary-alt"
 										schemeNameClass="!text-base"
 									/>
 								</svelte:fragment>
 							</SwitchOrderTitleCard>
 							<div
-								class="flex flex-col justify-between py-2 sm:mx-0 sm:mt-4 sm:flex-row sm:rounded-lg sm:border sm:border-grey-line sm:bg-grey sm:py-6 md:px-4"
+								class="flex flex-col justify-between py-2 sm:mx-0 sm:mt-4 sm:flex-row sm:rounded-lg sm:border sm:border-border sm:bg-background sm:py-6 md:px-4"
 							>
 								<div
-									class="flex flex-row items-center justify-between border-b border-grey-line py-3 sm:flex-col sm:border-none sm:py-0"
+									class="flex flex-row items-center justify-between border-b py-3 sm:flex-col sm:border-none sm:py-0"
 								>
-									<span
-										class="text-sm font-normal text-grey-body sm:mb-1 sm:text-xs sm:font-normal"
-									>
+									<span class="text-sm font-normal text-body sm:mb-1 sm:text-xs sm:font-normal">
 										Amount</span
 									>
-									<span class="text-base font-normal text-black-title">
+									<span class="text-base font-normal text-title">
 										₹{addCommasToAmountString(ordersDetails?.ordersData?.amount)}
 									</span>
 								</div>
 								<div class="flex flex-row items-center justify-between py-3 sm:flex-col sm:py-0">
-									<span
-										class="text-sm font-normal text-grey-body sm:mb-1 sm:text-xs sm:font-normal"
-									>
+									<span class="text-sm font-normal text-body sm:mb-1 sm:text-xs sm:font-normal">
 										Estimated By</span
 									>
-									<span class="text-base font-normal text-black-title">
+									<span class="text-base font-normal text-title">
 										{ordersDetails?.estimatedETA}
 									</span>
 								</div>
@@ -108,8 +104,8 @@
 				</AccordianCardComponent>
 
 				<!-- Order Timeline -->
-				<div class="bg-white p-4 !pt-2 md:mx-0 md:mt-4 md:rounded-lg md:p-6 md:!pt-4">
-					<div class="mb-5 text-lg font-normal text-black-title">Order Status</div>
+				<div class="bg-background-alt p-4 !pt-2 md:mx-0 md:mt-4 md:rounded-lg md:p-6 md:!pt-4">
+					<div class="mb-5 text-lg font-normal text-title">Order Status</div>
 					<OrderTimeLine
 						items={ordersDetails?.orderStatusItems || []}
 						titleClass="!font-normal"
@@ -119,7 +115,7 @@
 
 				<!-- Mobile view footer button -->
 				<article class="mx-3 mt-4 block md:hidden">
-					<section class="fixed inset-0 top-auto bg-white px-4 py-2 {$$props?.class}">
+					<section class="fixed inset-0 top-auto bg-background-alt px-4 py-2 {$$props?.class}">
 						<ButtonMedium class="w-full" on:click={handleCtaRedirection}>GO TO ORDERS</ButtonMedium>
 					</section>
 				</article>

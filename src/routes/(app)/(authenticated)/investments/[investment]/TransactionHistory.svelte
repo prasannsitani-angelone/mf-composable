@@ -37,16 +37,14 @@
 		{#if transactionList?.length > 0}
 			<TransactionHistorytable {modifiedTransactionList} />
 		{:else}
-			<div class="flex items-end justify-center border-t border-grey-line py-5">
-				No Data Available!
-			</div>
+			<div class="flex items-end justify-center border-t py-5">No Data Available!</div>
 		{/if}
 
 		{#if transactionList?.length && transactionList?.length > 5 && !isExternal}
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<!-- svelte-ignore a11y-no-static-element-interactions -->
 			<div
-				class="flex cursor-pointer items-center justify-center py-5 text-sm font-medium text-blue-primary"
+				class="flex cursor-pointer items-center justify-center py-5 text-sm font-medium text-primary"
 				on:click={toggleShowFullTransactionList}
 			>
 				{#if !showFullTransactionList}
@@ -61,7 +59,7 @@
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<!-- svelte-ignore a11y-no-static-element-interactions -->
 			<div
-				class="flex cursor-pointer items-center justify-center py-5 text-sm font-medium text-blue-primary"
+				class="flex cursor-pointer items-center justify-center py-5 text-sm font-medium text-primary"
 				on:click={toggleShowFullTransactionList}
 			>
 				{#if !showFullTransactionList}

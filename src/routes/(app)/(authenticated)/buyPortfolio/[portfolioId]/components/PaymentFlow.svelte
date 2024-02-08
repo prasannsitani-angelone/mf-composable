@@ -269,7 +269,7 @@
 			{#await assignPreviousPaymentDetails(previousPaymentDetails)}
 				<div />
 			{:then}
-				<section class="flex w-full flex-row bg-white px-4 py-3">
+				<section class="flex w-full flex-row bg-background-alt px-4 py-3">
 					<PaymentSleeveWithState
 						amount={amount.toString()}
 						{paymentHandler}
@@ -301,7 +301,7 @@
 			class="h-screen w-full md:h-[840px] md:w-[400px]"
 		>
 			<div slot="schemeTile" class="flex flex-col">
-				<div class="flex w-full flex-col bg-white px-3 py-4">
+				<div class="flex w-full flex-col bg-background-alt px-3 py-4">
 					<div class="flex flex-row">
 						<div class="mr-2 flex max-w-[56px] flex-row">
 							<SchemeLogo
@@ -312,7 +312,7 @@
 							/>
 							{#if portfolioPack.schemes?.length > 1}
 								<div
-									class="relative left-[-16px] flex h-9 w-9 min-w-[36px] flex-row items-center justify-center rounded-full border border-grey-line bg-white text-xs shadow-csm"
+									class="relative left-[-16px] flex h-9 w-9 min-w-[36px] flex-row items-center justify-center rounded-full border bg-background-alt text-xs shadow-csm"
 								>
 									+ {portfolioPack.schemes?.length - 1}
 								</div>
@@ -323,17 +323,17 @@
 							<div>₹{addCommasToAmountString(amount)}</div>
 						</div>
 					</div>
-					<div class="mt-2 text-xs text-black-title">
+					<div class="mt-2 text-xs text-title">
 						Monthly SIP Date: {date}{getDateSuperscript(date)}
 					</div>
 				</div>
-				<div class="bg-grey pb-2" />
+				<div class="bg-background pb-2" />
 			</div>
 		</ChangePaymentContainerWithState>
 	{/if}
 {:catch}
 	<div class="flex h-full flex-col items-center self-center px-4 py-4">
-		<div class="mb-4 text-center text-base font-normal text-black-title">
+		<div class="mb-4 text-center text-base font-normal text-title">
 			We are facing some issue at our end. Please try again or contact field support
 		</div>
 		<Button variant="transparent" class="mt-6 w-max self-center" onClick={navigateToOrders}>

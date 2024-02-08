@@ -444,7 +444,7 @@
 			<PageTitle
 				title="SIP Details"
 				source="sipBook"
-				class="mb-4 flex bg-white"
+				class="mb-4 flex bg-background-alt"
 				on:onHeaderButtonClick={updateSipBookStore}
 			/>
 		</header>
@@ -467,7 +467,7 @@
 				</ModalWithAnimation>
 				{#if $sipBookStore.showdropdown && !isMobile && !isTablet}
 					<div
-						class="relative flex flex-col rounded-lg border-grey-line bg-white shadow-csm"
+						class="relative flex flex-col rounded-lg bg-background-alt shadow-csm"
 						use:clickOutside
 						on:outclick={updateSipBookStore}
 					>
@@ -515,7 +515,7 @@
 						isin={sipData?.isin}
 						schemeCode={sipData?.schemeCode}
 					/>
-					<section class="rounded-lg bg-white pb-4 shadow-csm">
+					<section class="rounded-lg bg-background-alt pb-4 shadow-csm">
 						<SipSchedule
 							amount={sipData?.installmentAmount}
 							nextSipDateTs={sipData?.nextSipDueDate}
@@ -539,7 +539,7 @@
 											bgStroke="#008F75"
 											class="mr-0.5 min-w-[12px]"
 										/>
-										<div class="text-xs font-normal text-grey-body">Autopay Enabled</div>
+										<div class="text-xs font-normal text-body">Autopay Enabled</div>
 									</section>
 								</svelte:fragment>
 								<svelte:fragment slot="footer">
@@ -557,7 +557,7 @@
 													}}
 													variant="transparent"
 													size="xs"
-													class="!h-auto min-h-fit !px-0 text-xs font-medium text-blue-primary"
+													class="!h-auto min-h-fit !px-0 text-xs font-medium text-primary"
 													>SWITCH AUTOPAY</Button
 												>
 											</div>
@@ -622,8 +622,8 @@
 						confirmButtonDisable={disableConfirmSkipSip}
 					>
 						<svelte:fragment slot="body">
-							<p class="font-normal text-grey-body">
-								Your SIP instalment <span class="font-normal text-black-title"
+							<p class="font-normal text-body">
+								Your SIP instalment <span class="font-normal text-title"
 									>for {getDateTimeProperties(sipData?.nextSipDueDate).month}
 									{getDateTimeProperties(sipData?.nextSipDueDate).year}</span
 								> will be skipped. Skip instalment?
@@ -640,7 +640,7 @@
 						text={`You have cancelled your SIP for ${sipData?.schemeName}`}
 						buttonTitle="DONE"
 						class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-10 sm:py-6 md:!w-96 md:rounded-lg"
-						buttonClass="mt-8 w-40 border border-blue-primary rounded !bg-white !text-blue-primary cursor-default md:cursor-pointer"
+						buttonClass="mt-8 w-40 border border-primary rounded !bg-background-alt !text-primary cursor-default md:cursor-pointer"
 						handleButtonClick={handleSuccessModalCta}
 					/>
 
@@ -652,7 +652,7 @@
 						text="We could not cancel your SIP due to a tecnhical error. Please try again"
 						buttonTitle="RETRY"
 						class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-10 sm:py-6 md:!w-96 md:rounded-lg"
-						buttonClass="mt-8 w-40 border border-blue-primary rounded !bg-white !text-blue-primary cursor-default md:cursor-pointer"
+						buttonClass="mt-8 w-40 border border-primary rounded !bg-background-alt !text-primary cursor-default md:cursor-pointer"
 						handleButtonClick={handleFailureModalCta}
 					/>
 
@@ -663,7 +663,7 @@
 						popupType={STATUS_ARR.SUCCESS}
 						buttonTitle="DONE"
 						class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
-						buttonClass="mt-8 w-40 border border-blue-primary rounded !bg-white !text-blue-primary cursor-default md:cursor-pointer"
+						buttonClass="mt-8 w-40 border border-primary rounded !bg-background-alt !text-primary cursor-default md:cursor-pointer"
 						handleButtonClick={() => {
 							invalidate('skipsip');
 							showSkipSuccessModal = false;
@@ -672,11 +672,11 @@
 					>
 						<svelte:fragment slot="popupBody">
 							<article class="mt-6 text-center">
-								<div class={`text-2xl font-normal text-black-title`}>SIP Instalment Skipped</div>
+								<div class={`text-2xl font-normal text-title`}>SIP Instalment Skipped</div>
 
-								<div class={`mt-3 text-sm font-normal text-grey-body`}>
+								<div class={`mt-3 text-sm font-normal text-body`}>
 									Your SIP instalment for {sipData?.schemeName}
-									<span class="font-normal text-black-title"
+									<span class="font-normal text-title"
 										>for {getDateTimeProperties(sipData?.nextSipDueDate).month}
 										{getDateTimeProperties(sipData?.nextSipDueDate).year}</span
 									>
@@ -696,13 +696,13 @@
 						text="We could not process your skip request due to a technical error. Please try again"
 						buttonTitle="RETRY"
 						class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
-						buttonClass="mt-8 w-40 border border-blue-primary rounded !bg-white !text-blue-primary cursor-default md:cursor-pointer"
+						buttonClass="mt-8 w-40 border border-primary rounded !bg-background-alt !text-primary cursor-default md:cursor-pointer"
 						handleButtonClick={toggleSkipFailureModal}
 					/>
 
 					<!--SIP Cancel Reason Modal-->
 					<Modal closeModal={toggleShowCancelSipModal} isModalOpen={showCancelSipModal}>
-						<div class="overflow-auto rounded-lg bg-white p-8 md:!h-[737px] md:!w-[436px]">
+						<div class="overflow-auto rounded-lg bg-background-alt p-8 md:!h-[737px] md:!w-[436px]">
 							<CancelSip
 								class="!m-0"
 								instalmentAmount={sipData?.installmentAmount}

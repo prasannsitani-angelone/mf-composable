@@ -58,8 +58,8 @@
 				indicatorClass="sm:!justify-center sm:mx-0 !justify-start !mx-2"
 				on:onIndexChange={handleOnIndexChange}
 			>
-				<div slot="activeIndicator" class="h-2 w-8 rounded bg-white" />
-				<div slot="inActiveIndicator" class="h-2 w-2 rounded bg-grey-disabled sm:cursor-pointer" />
+				<div slot="activeIndicator" class="h-2 w-8 rounded bg-background-alt" />
+				<div slot="inActiveIndicator" class="h-2 w-2 rounded bg-disabled sm:cursor-pointer" />
 				{#each carouselItems as { component, props }, index}
 					<CarouselItem {index} class="mb-2">
 						<svelte:component this={component} {...props} />

@@ -27,6 +27,7 @@
 	import { onLCP, onTTFB, onFCP, onINP, onCLS } from 'web-vitals/attribution';
 	import { logWebVitals } from '$lib/utils/webVitals';
 	import { registerRefreshTokenCallback } from '$lib/utils/nativeCallbacks';
+	import { getThemeObject } from '$lib/stores/ThemeStore';
 
 	function logDelta(metric) {
 		logWebVitals(metric?.name, metric);
@@ -180,6 +181,8 @@
 	};
 
 	$: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : '';
+
+	const theme = getThemeObject(sparkHeaders.theme);
 </script>
 
 <svelte:head>
@@ -310,7 +313,10 @@
 	{/if}
 </svelte:head>
 <svelte:window on:visibilitychange={onVisibilityChange} />
-<slot />
+
+<div id="theme-layout" class={theme.name}>
+	<slot />
+</div>
 
 <LazyComponent
 	when={!($appStore.isSparkIOSUser || $appStore.isWebView || browserDetails?.isSupported)}

@@ -14,10 +14,12 @@
 		dispatch('onHeaderButtonClick', buttonType);
 	};
 
-	const inactiveButtonClass = 'font-normal !bg-white !text-black-title/80 !border border-grey-line';
+	const inactiveButtonClass = 'font-normal !bg-background-alt !text-title/80 !border';
 </script>
 
-<article class="flex justify-center rounded-t-lg border-b bg-white px-3 py-4 {$$props?.class}">
+<article
+	class="flex justify-center rounded-t-lg border-b bg-background-alt px-3 py-4 {$$props?.class}"
+>
 	<Button
 		class="flex-auto rounded-r-none py-3 {orderPadActiveTab !== 'INVEST'
 			? inactiveButtonClass
@@ -35,7 +37,7 @@
 		WITHDRAW
 	</Button>
 	<Button
-		class="rounded border-none !bg-grey px-6"
+		class="rounded border-none !bg-background px-6"
 		onClick={() => onButtonClick(investmentDetailsFooterEvents?.MORE_OPTIONS)}
 	>
 		<WMSIcon name="three-vertical-dots-icon" height={15} width={4} />

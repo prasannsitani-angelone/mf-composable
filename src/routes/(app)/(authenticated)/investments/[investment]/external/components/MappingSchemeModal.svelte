@@ -34,16 +34,16 @@
 
 <Overlay containerClass="justify-end sm:!justify-center" on:backdropclicked>
 	<article
-		class="flex w-full flex-col items-center rounded-t-2xl bg-white px-4 pt-6 sm:w-120 sm:rounded-lg sm:p-8"
+		class="flex w-full flex-col items-center rounded-t-2xl bg-background-alt px-4 pt-6 sm:w-120 sm:rounded-lg sm:p-8"
 	>
-		<p class="w-full text-center text-base font-normal text-black-title">
+		<p class="w-full text-center text-base font-normal text-title">
 			{#if 'direct' === schemePlan.toLowerCase()}
 				Earn more returns with Angel One
 			{:else}
 				Invest with Angel One
 			{/if}
 		</p>
-		<p class="mb-6 text-center text-sm font-normal text-black-title">
+		<p class="mb-6 text-center text-sm font-normal text-title">
 			{#if 'direct' === schemePlan.toLowerCase()}
 				Zero-commission plan is available<span><br /></span>for this mutual fund
 			{:else}
@@ -58,7 +58,7 @@
 		/>
 
 		<TrendingCarouselItems
-			clazz="p-3 bg-white shadow-csm mb-4"
+			clazz="p-3 bg-background-alt shadow-csm mb-4"
 			schemes={mappingScheme}
 			index={0}
 			disableRedirection
@@ -66,15 +66,15 @@
 			<svelte:fragment slot="topRightSection">
 				<section class="ml-1 flex flex-col items-end">
 					{#if mappingScheme?.returns3yr > 0}
-						<div class="w-20 text-right text-xs font-normal text-black-bolder">Returns p.a</div>
+						<div class="w-20 text-right text-xs font-normal text-body">Returns p.a</div>
 						<article class="mt-0.5 flex items-center">
 							<WMSIcon class="mr-1 mt-1 h-4 w-3" name="green-uparrow-trending-fund" />
-							<div class="text-base font-bold text-black-title">
+							<div class="text-base font-bold text-title">
 								{mappingScheme?.returns3yr?.toFixed(2)}%
 							</div>
 						</article>
 					{:else}
-						<div class="w-20 text-right text-xs font-normal text-black-bolder" />
+						<div class="w-20 text-right text-xs font-normal text-body" />
 					{/if}
 				</section>
 			</svelte:fragment>
@@ -93,13 +93,13 @@
 			</svelte:fragment>
 		</TrendingCarouselItems>
 		<ButtonMedium
-			class={`!disabled:text-grey-disabled w-full rounded disabled:!bg-grey-line`}
+			class={`!disabled:text-disabled w-full rounded disabled:!bg-border`}
 			onClick={onInvestMoreClicked}
 		>
 			INVEST MORE
 		</ButtonMedium>
 
-		<section class="mx-3 mb-3 flex justify-center text-1xs font-normal text-black-title sm:mb-0">
+		<section class="mx-3 mb-3 flex justify-center text-1xs font-normal text-title sm:mb-0">
 			<article class="flex items-center justify-center px-6 pt-2.5">
 				<WMSIcon class="mr-1" width={12} height={12} name="info-in-circle-dark" />
 				You will be investing with Angel One

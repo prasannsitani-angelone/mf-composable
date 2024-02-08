@@ -43,7 +43,7 @@
 {#if asModal}
 	<ModalWithAnimation isModalOpen={true} {isModalClosed}>
 		<div
-			class="flex h-full w-full flex-col overflow-y-scroll bg-white shadow-csm sm:h-max sm:max-h-[640px] sm:w-max sm:min-w-[490px]"
+			class="flex h-full w-full flex-col overflow-y-scroll bg-background-alt shadow-csm sm:h-max sm:max-h-[640px] sm:w-max sm:min-w-[490px]"
 		>
 			<PaymentMethodHeader {onBackClick} isPartOfModal />
 			<slot name="schemeTile" />
@@ -69,7 +69,7 @@
 		</div>
 	</ModalWithAnimation>
 {:else}
-	<section class={`h-fit w-full bg-white ${$$props?.class} !flex flex-col`}>
+	<section class={`h-fit w-full bg-background-alt ${$$props?.class} !flex flex-col`}>
 		<PaymentMethodHeader {onBackClick} />
 		<slot name="schemeTile" />
 		<slot name="autopayMethods" />

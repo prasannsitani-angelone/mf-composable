@@ -70,12 +70,12 @@
 </script>
 
 <article class={$$props?.class}>
-	<div class="flex flex-wrap items-center justify-evenly bg-white">
+	<div class="flex flex-wrap items-center justify-evenly bg-background-alt">
 		{#each keys as key, index}
 			<button
 				type="button"
 				on:click={() => handleKeyClick(key.value)}
-				class={`my-[1px] flex w-[30%] touch-manipulation justify-center rounded py-2 text-xl font-normal text-black-key ${
+				class={`my-[1px] flex w-[30%] touch-manipulation justify-center rounded py-2 text-xl font-normal text-title ${
 					typeof key.value === 'number' ? 'active:bg-gray-100' : ''
 				}`}
 			>

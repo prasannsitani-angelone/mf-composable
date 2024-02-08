@@ -38,21 +38,21 @@
 				headingSecondary={schemes?.subcategoryName}
 			/>
 		</slot>
-		<h3 class={`whitespace-normal text-sm font-normal text-black-title md:text-sm ${titleClass}`}>
+		<h3 class={`whitespace-normal text-sm font-normal text-title md:text-sm ${titleClass}`}>
 			{schemes?.schemeName}
 		</h3>
 		<slot name="rating">
 			<div class="mt-1 flex">
 				{#if schemes?.sortBy2 > 0 && schemes?.sortBy2 < 3}
-					<div class="mr-1 rounded bg-green-amount p-1 text-xs font-normal text-white">
+					<div class="mr-1 rounded bg-buy p-1 text-xs font-normal text-background-alt">
 						Recommended
 					</div>
 				{/if}
 
 				<div
-					class="mr-1 rounded bg-grey px-1 group-hover:border group-hover:border-grey-line group-hover:bg-white"
+					class="mr-1 rounded bg-background px-1 group-hover:border group-hover:border-border group-hover:bg-background-alt"
 				>
-					<span class="text-xs text-grey-body">{schemes?.reInvestmentPlan}</span>
+					<span class="text-xs text-body">{schemes?.reInvestmentPlan}</span>
 				</div>
 				<slot name="arqRating">
 					<ChipArqRating arqRating={schemes?.arqRating} />

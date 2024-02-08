@@ -24,13 +24,15 @@
 		.reduce((acc, curr) => acc + curr.amount, 0);
 </script>
 
-<section class="absolute bottom-0 left-0 right-0 bg-white px-3 py-4 max-sm:shadow-top sm:static">
+<section
+	class="absolute bottom-0 left-0 right-0 bg-background-alt px-3 py-4 max-sm:shadow-top sm:static"
+>
 	<div class="grid grid-cols-1 gap-y-4 sm:grid-cols-[1fr_2fr]">
 		<div class="col-span-1 col-start-1 row-span-1 row-start-1">
 			<div class="flex justify-between">
 				<div class=" text-left">
-					<div class="text-sm font-normal text-black-bolder">Funds selected</div>
-					<div class="font-sm flex items-center font-normal text-black-key">
+					<div class="text-sm font-normal text-body">Funds selected</div>
+					<div class="font-sm flex items-center font-normal text-title">
 						{#if selectedFunds?.length > maxCheckoutItems}
 							<div>
 								<WMSIcon name="polygon-yellow-warning" width={16} height={16} class="mr-1" />
@@ -40,8 +42,8 @@
 					</div>
 				</div>
 				<div class=" text-right">
-					<div class="text-sm font-normal text-black-bolder">Total Amount</div>
-					<div class="font-sm font-normal text-black-key">
+					<div class="text-sm font-normal text-body">Total Amount</div>
+					<div class="font-sm font-normal text-title">
 						₹ {addCommasToAmountString(totalSelectedAmount) || '0'}
 					</div>
 				</div>
@@ -53,7 +55,7 @@
 			{#if hydrate}
 				<Button
 					disabled={notAllowedToProceed(selectedFunds)}
-					class="w-full !font-normal disabled:bg-grey-line disabled:text-grey-disabled sm:max-w-fit sm:px-16 "
+					class="w-full !font-normal disabled:bg-border disabled:text-disabled sm:max-w-fit sm:px-16 "
 					onClick={onProceedButtonClick}>CONTINUE TO PAYMENT</Button
 				>
 			{:else}

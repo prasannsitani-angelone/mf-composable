@@ -1,3 +1,7 @@
+<script>
+	export let stroke = '#425061';
+</script>
+
 <svg
 	width="12"
 	height="7"
@@ -8,7 +12,7 @@
 >
 	<path
 		d="M1 1L6 6L11 0.999998"
-		stroke="#425061"
+		{stroke}
 		stroke-width="1.5"
 		stroke-miterlimit="10"
 		stroke-linecap="round"

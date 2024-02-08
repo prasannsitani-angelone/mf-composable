@@ -15,39 +15,39 @@
 >
 	<section class="hidden md:block">
 		<h4 class="text-left font-normal">
-			<span class="text-lg text-black-title">Folio Summary</span>
+			<span class="text-lg text-title">Folio Summary</span>
 		</h4>
 	</section>
 	<section class="flex items-center justify-between py-1 md:mt-5 md:py-0">
 		<article
-			class="mr-3 flex flex-1 items-center justify-center rounded bg-grey px-4 py-3 md:justify-start"
+			class="mr-3 flex flex-1 items-center justify-center rounded bg-background px-4 py-3 md:justify-start"
 		>
 			<UnitsAllocatedIcon class="mr-2" />
 			<div class="flex flex-col">
-				<span class="text-xs font-normal text-black-title/70"> Units </span>
-				<span class="text-sm font-normal text-black-title">
+				<span class="text-title/70 text-xs font-normal"> Units </span>
+				<span class="text-sm font-normal text-title">
 					{data?.totalUnitsAllocated?.toFixed(3)}
 				</span>
 			</div>
 		</article>
 		<article
-			class="flex flex-1 items-center justify-center rounded bg-grey px-4 py-3 md:justify-start"
+			class="flex flex-1 items-center justify-center rounded bg-background px-4 py-3 md:justify-start"
 		>
 			<CurrentNavIcon class="mr-2" />
 			<div class="flex flex-col">
-				<span class="text-xs font-normal text-black-title/70"> Current NAV </span>
-				<span class="text-sm font-normal text-black-title">
+				<span class="text-title/70 text-xs font-normal"> Current NAV </span>
+				<span class="text-sm font-normal text-title">
 					₹{addCommasToAmountString(data?.currentNav?.toFixed(2))}
 				</span>
 			</div>
 		</article>
 		<article
-			class="ml-3 hidden flex-1 items-center justify-center rounded bg-grey px-4 py-3 md:justify-start lg:flex"
+			class="ml-3 hidden flex-1 items-center justify-center rounded bg-background px-4 py-3 md:justify-start lg:flex"
 		>
 			<AverageNavIcon class="mr-2" />
 			<div class="flex flex-col">
-				<span class="text-xs font-normal text-black-title/70"> Your Average NAV </span>
-				<span class="text-sm font-normal text-black-title">
+				<span class="text-title/70 text-xs font-normal"> Your Average NAV </span>
+				<span class="text-sm font-normal text-title">
 					₹{addCommasToAmountString(data?.averageNav?.toFixed(2))}
 				</span>
 			</div>

@@ -18,7 +18,7 @@
 	export { items, hideFooter, maxTxnShowCount, dynamicHeight, handleFooterClick };
 </script>
 
-<section class={`flex flex-col bg-white ${$$props.class}`}>
+<section class={`flex flex-col bg-background-alt ${$$props.class}`}>
 	<section class:overflow-auto={dynamicHeight} class:dynamicHeightClass={dynamicHeight}>
 		{#each items?.slice(0, maxTxnShowCount || items?.length) as item, index (index)}
 			<div class="flex-1 px-3">
@@ -33,10 +33,10 @@
 						{:else if item.status === STATUS_ARR.EDITED}
 							<EditSipIcon />
 						{:else}
-							<div class="h-4 w-4 rounded-lg bg-grey" />
+							<div class="h-4 w-4 rounded-lg bg-background" />
 						{/if}
 						{#if index !== items?.slice(0, maxTxnShowCount || items?.length).length - 1}
-							<div class="flex flex-1 border-l border-grey-line" />
+							<div class="flex flex-1 border-l" />
 						{/if}
 					</div>
 
@@ -44,11 +44,11 @@
 						class="pb-5 text-sm"
 						class:pb-2.5={index === items?.slice(0, maxTxnShowCount || items?.length).length - 1}
 					>
-						<div class="mb-1.5 font-normal text-black-title">
+						<div class="mb-1.5 font-normal text-title">
 							{item.title}
 						</div>
 
-						<div class="font-normal text-grey-body">
+						<div class="font-normal text-body">
 							{item.subTitle}
 						</div>
 					</div>
@@ -59,7 +59,7 @@
 
 	<!-- Footer section -->
 	{#if !hideFooter && items?.length > maxTxnShowCount}
-		<section class="border-t bg-white">
+		<section class="border-t bg-background-alt">
 			<Button variant="transparent" class="w-full" onClick={handleFooterClick}>VIEW MORE</Button>
 		</section>
 	{/if}

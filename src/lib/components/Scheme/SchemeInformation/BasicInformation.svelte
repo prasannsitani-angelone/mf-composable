@@ -69,8 +69,8 @@
 			<div class="flex flex-grow basis-0 items-start border-b pb-3 sm:border-none sm:pb-0">
 				<ExitLoadIcon />
 				<div class="ml-1 flex w-full flex-col sm:flex-col">
-					<span class="mb-2 text-grey-body">Exit Load</span>
-					<span class="text-black-title"
+					<span class="mb-2 text-body">Exit Load</span>
+					<span class="text-title"
 						>{schemeDetails?.exitLoadFlag === 'Y' ? schemeDetails?.exitLoadValue : 'Nil'}</span
 					>
 				</div>
@@ -78,15 +78,15 @@
 			<div class="flex flex-grow basis-0 items-start py-3 sm:border-none sm:py-0">
 				<TaxImplecationIcon />
 				<div class="ml-1 flex w-full flex-col sm:flex-col">
-					<span class="mb-2 text-grey-body">Tax Implications</span>
+					<span class="mb-2 text-body">Tax Implications</span>
 
 					<div class="text-xs">
 						{#each schemeDetails?.taxImplications || [] as taxImplications}
 							<div class="mb-1 flex flex-col">
-								<span class="text-grey-body">
+								<span class="text-body">
 									{taxImplications?.header}
 								</span>
-								<span class="text-black-title">
+								<span class="text-title">
 									{taxImplications?.value}
 								</span>
 							</div>

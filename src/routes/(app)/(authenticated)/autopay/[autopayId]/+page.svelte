@@ -93,11 +93,11 @@
 					cardBodyClass="pb-4 border-b"
 					bankDetailsClass="ml-2"
 					bankAccNoClass="mt-1.5"
-					bankLogoClass="-mt-1 !px-2 !py-1 h-9 w-9 flex items-center justify-center rounded-full border border-grey bg-white"
+					bankLogoClass="-mt-1 !px-2 !py-1 h-9 w-9 flex items-center justify-center rounded-full border border-background bg-background-alt"
 				>
 					<svelte:fragment slot="header">
 						{#if !response?.data?.inProgress}
-							<div class="-mt-4 mb-2 text-[10px] font-normal uppercase text-grey-body">
+							<div class="-mt-4 mb-2 text-[10px] font-normal uppercase text-body">
 								{response?.data?.authenticationMode}
 							</div>
 						{:else}
@@ -122,7 +122,7 @@
 	{:then response}
 		<section>
 			{#if response?.status === 'success' && response?.data?.sips?.length}
-				<article class="mt-2 rounded-lg bg-white p-3 text-black-title shadow-csm">
+				<article class="mt-2 rounded-lg bg-background-alt p-3 text-title shadow-csm">
 					<div class="text-sm font-normal">SIPs Linked</div>
 					<section class="mt-4">
 						{#each response?.data?.sips as sip, index (sip?.sipId)}
@@ -137,14 +137,14 @@
 								<LinkedSipCard
 									name={sip?.schemeName}
 									logoUrl={sip?.logoUrl}
-									class={`${index > 0 ? 'border-t border-grey pt-4' : ''} ${
+									class={`${index > 0 ? 'border-t border-background pt-4' : ''} ${
 										index < response?.data?.sips?.length - 1 ? 'mb-3' : ''
 									}`}
 								>
 									<svelte:fragment slot="subtextSlot">
-										<div class="mt-1 text-xs font-normal text-grey-body">
+										<div class="mt-1 text-xs font-normal text-body">
 											SIP Amount
-											<span class="text-black-key">
+											<span class="text-title">
 												<AmountText amount={sip?.installmentAmount} />
 											</span>
 										</div>

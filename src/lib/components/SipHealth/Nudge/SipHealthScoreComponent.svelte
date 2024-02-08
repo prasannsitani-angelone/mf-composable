@@ -1,6 +1,7 @@
 <script lang="ts">
 	import DoughnutChart from '$components/Charts/DoughnutChart.svelte';
 	import { getColorSchemeForScore } from '$components/SipHealth/utils.js';
+	import { customCanvasBackgroundColorPlugin } from '$components/Charts/utils.js';
 
 	export let score: number;
 	export let scoreNumberClass = '';
@@ -20,19 +21,6 @@
 			selectedColorClass = 'green-amount';
 		}
 	}
-
-	const plugin = {
-		id: 'customCanvasBackgroundColor',
-		beforeDraw: (chart, args, options) => {
-			const { ctx } = chart;
-			const radius = chart._metasets[0].controller.innerRadius;
-			const x = chart.getDatasetMeta(0).data[0].x;
-			const y = chart.getDatasetMeta(0).data[0].y;
-			ctx.arc(x, y, radius, 0, 2 * Math.PI);
-			ctx.fillStyle = options.fill;
-			ctx.fill();
-		}
-	};
 
 	$: doughnutData = {
 		datasets: [
@@ -69,7 +57,7 @@
 
 <div class={`relative h-[${chartWidth}px] w-[${chartWidth}px] ${$$props.class}`}>
 	<DoughnutChart
-		chartPlugins={[plugin]}
+		chartPlugins={[customCanvasBackgroundColorPlugin]}
 		data={doughnutData}
 		chartOptions={doughnutChartOptions}
 		tooltipLength={0}

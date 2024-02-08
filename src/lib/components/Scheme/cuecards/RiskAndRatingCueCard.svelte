@@ -28,7 +28,7 @@
 		<div class="mx-4 mt-auto border-t py-1 text-center">
 			<ButtonMedium
 				on:click={gotoSchemeDetails}
-				class="text-sm font-semibold uppercase text-blue-primary"
+				class="text-sm font-semibold uppercase text-primary"
 				variant="transparent"
 			>
 				View fund details

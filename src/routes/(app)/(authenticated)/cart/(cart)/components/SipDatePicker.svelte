@@ -92,14 +92,14 @@
 <div class="relative flex items-center max-sm:justify-end sm:h-full">
 	<Button
 		variant="transparent"
-		class="relative flex !h-auto !w-full !max-w-fit flex-nowrap items-center justify-between rounded-sm !bg-purple-background !p-1"
+		class="relative flex !h-auto !w-full !max-w-fit flex-nowrap items-center justify-between rounded-sm !bg-tint12-primary !p-1"
 		size="xs"
 		onClick={toggleCalendar}
 	>
-		<span class="mr-1 text-left text-1xs font-normal leading-3 text-black-title"
+		<span class="mr-1 text-left text-1xs font-normal leading-3 text-title"
 			>SIP Date : {calanderDisplayDate}</span
 		>
-		<WMSIcon name="calander-icon" width={10} height={10} />
+		<WMSIcon name="calander-icon" stroke="var(--PRIMARY)" width={10} height={10} />
 	</Button>
 	{#if showCalendar}
 		<Modal isModalOpen={showCalendar} on:backdropclicked={toggleCalendar}>
@@ -126,7 +126,7 @@
 
 				<svelte:fragment slot="footer">
 					<section class="hidden flex-row justify-center rounded-b-lg bg-gray-50 px-8 py-4 md:flex">
-						<p class="text-center text-sm font-light text-grey-body">
+						<p class="text-center text-sm font-light text-body">
 							It is the day on which the amount payable towards your SIP order becomes due. The day
 							on which SIP instalments are paid is called SIP day.
 						</p>

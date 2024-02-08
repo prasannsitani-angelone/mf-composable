@@ -42,14 +42,14 @@
 				onClickShareIcon={pageMetaData?.onClickShareIcon}
 				onThreeDotsClick={pageMetaData?.onThreeDotsClick}
 				onClickFaqsIcon={pageMetaData?.onClickFaqsIcon}
-				class="bg-white {pageMetaData?.headerClass || ''}"
+				class={pageMetaData?.headerClass || ''}
 			>
 				<svelte:fragment slot="title">
-					<h1 class="text-lg font-medium text-black-title {pageMetaData?.titleClass || ''}">
+					<h1 class="text-lg font-medium text-title {pageMetaData?.titleClass || ''}">
 						{#if userType === 'B2C' && pageMetaData?.title === 'Mutual Funds'}
 							<span class="ml-1 flex flex-col">
 								<span class="flex"> Direct Mutual Funds</span>
-								<span class="text-left text-xs font-normal text-grey-body"
+								<span class="text-left text-xs font-normal text-body"
 									>Zero commission | Zero fees</span
 								>
 							</span>
@@ -83,12 +83,12 @@
 	<svelte:component this={pageMetaData.component} />
 {/if}
 {#if !cookieEnabled}
-	<div class="bg-yellow-secondary px-4 py-2 text-lg font-normal text-black-title">
+	<div class="bg-secondary px-4 py-2 text-lg font-normal text-title">
 		Enable your browser cookies to enjoy a seamless experience in investing in Mutual Funds.
 	</div>
 {/if}
 <noscript>
-	<div class="bg-yellow-secondary px-4 py-2 text-lg font-normal text-black-title">
+	<div class="bg-secondary px-4 py-2 text-lg font-normal text-title">
 		Enable Javascript in your Chrome Settings to enjoy a seamless experience in investing in Mutual
 		Funds.
 	</div>

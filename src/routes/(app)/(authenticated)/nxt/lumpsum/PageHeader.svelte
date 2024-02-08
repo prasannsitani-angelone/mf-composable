@@ -6,11 +6,11 @@
 	export let partnerId: string = $profileStore?.clientDetails?.subBroker || '';
 </script>
 
-<div class="bg-grey">
-	<div class="my-2 rounded-lg bg-white">
-		<p class="p-4 text-base font-normal text-black-neutral">
-			Good evening, <span class="text-blue-primary">{userName}</span>! Your Authorised Partner,
-			<span class="text-blue-primary"
+<div class="bg-background">
+	<div class="my-2 rounded-lg bg-background-alt">
+		<p class="p-4 text-base font-normal text-title">
+			Good evening, <span class="text-primary">{userName}</span>! Your Authorised Partner,
+			<span class="text-primary"
 				>{partnerName}
 				{#if partnerId?.length} ({partnerId}) {/if}</span
 			> have placed a one-time mutual fund order. Please verify the details and complete OTP verification

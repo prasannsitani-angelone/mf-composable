@@ -149,7 +149,7 @@
 </script>
 
 <section>
-	<div class="pb-3 font-medium text-black-key">Portfolio Allocation</div>
+	<div class="pb-3 font-medium text-title">Portfolio Allocation</div>
 	{#if showWeightage}
 		<LinearChart chartInput={linearChartInput}>
 			<svelte:fragment slot="weightage" let:inputVar>
@@ -160,9 +160,9 @@
 			</svelte:fragment>
 		</LinearChart>
 	{:else}
-		<div class="pb-3 text-xs text-black-bolder">No. of SIPs - {portfolioPack.schemes.length}</div>
+		<div class="pb-3 text-xs text-body">No. of SIPs - {portfolioPack.schemes.length}</div>
 	{/if}
-	<div class="flex justify-between border-b pb-2 text-xs text-grey-body">
+	<div class="flex justify-between border-b pb-2 text-xs text-body">
 		<p>Fund</p>
 		<p>{showWeightage ? 'Weightage (%)' : 'Amount'}</p>
 	</div>
@@ -170,7 +170,7 @@
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div
-			class="mt-2 flex items-start justify-between py-2 text-black-key"
+			class="mt-2 flex items-start justify-between py-2 text-title"
 			on:click={() => {
 				goToFundDetailsPage(scheme.isin, scheme.schemeCode, i, scheme.wieightPercentage);
 			}}
@@ -179,7 +179,7 @@
 				<SchemeLogo size="xs2" src={scheme.logoUrl} alt={scheme.schemeName} />
 				<div class="flex flex-col self-center text-sm font-normal">
 					<p>{scheme.schemeName}</p>
-					<p class="text-grey-body">3Y Returns: {scheme?.returns3yr?.toFixed(2)}%</p>
+					<p class="text-body">3Y Returns: {scheme?.returns3yr?.toFixed(2)}%</p>
 				</div>
 			</div>
 			<div class="flex items-start text-sm font-medium">

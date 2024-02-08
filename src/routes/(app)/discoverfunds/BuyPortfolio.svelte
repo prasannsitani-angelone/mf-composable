@@ -11,12 +11,12 @@
 	};
 </script>
 
-<div class="relative flex items-center rounded-lg {$$props.class}">
+<div class="light relative flex items-center rounded-lg {$$props.class}">
 	<div class="z-2 absolute h-full w-full"><BuyPortfolioBg class="absolute h-full w-full" /></div>
 	<div class="z-0 flex items-center p-4">
 		<div class="flex flex-col">
-			<p class="text-sm font-medium text-black-key">Invest in a Ready Made Portfolio</p>
-			<p class="py-1 pr-28 text-xs text-black-key">
+			<p class="text-sm font-medium text-title">Invest in a Ready Made Portfolio</p>
+			<p class="py-1 pr-28 text-xs text-body">
 				Select a portfolio based on expected returns and maximise performance
 			</p>
 			<Button size="xs" onClick={goToBuyPortfolio} class="mr-4 mt-1 w-fit px-2 text-xs">

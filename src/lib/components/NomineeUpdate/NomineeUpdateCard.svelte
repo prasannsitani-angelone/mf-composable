@@ -9,18 +9,18 @@
 </script>
 
 <section
-	class="via-yellow mx-3 mt-2 flex items-center justify-center rounded-lg border-l-2 border-yellow-400 bg-gradient-to-r from-white to-yellow-50 px-4 shadow-csm {$$props.class}"
+	class="via-yellow mx-3 mt-2 flex items-center justify-center rounded-lg border-l-2 border-yellow-400 bg-gradient-to-r from-background-alt to-yellow-50 px-4 shadow-csm {$$props.class}"
 >
 	<slot name="icon" />
 
 	<slot name="content">
 		{#if rta === 'CAMS'}
-			<div class="mb-4 mt-2 pl-3 text-left text-xs font-normal text-black-title">
+			<div class="mb-4 mt-2 pl-3 text-left text-xs font-normal text-title">
 				<b>To avoid order failure,</b><br /> please update nominee status for this folio on CAMS. Proceed
 				if already updated
 			</div>
 		{:else if rta === 'KARVY'}
-			<div class="mb-4 mt-2 pl-3 text-left text-xs font-normal text-black-title">
+			<div class="mb-4 mt-2 pl-3 text-left text-xs font-normal text-title">
 				<b>To avoid order failure,</b><br /> please update nominee status for this folio on KFintech.
 				Proceed if already updated
 			</div>
@@ -32,7 +32,7 @@
 			to={os !== 'Android'
 				? redirectLink
 				: `intent://${redirectLink.split('//', 2)[1]}#Intent;scheme=https;end`}
-			class="inline-flex flex-shrink-0 text-xs font-medium text-blue-primary {buttonClass}"
+			class="inline-flex flex-shrink-0 text-xs font-medium text-primary {buttonClass}"
 		>
 			{textForButton}
 		</Link>

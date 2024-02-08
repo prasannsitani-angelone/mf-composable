@@ -23,12 +23,11 @@
 		{#each breadCrumbsList as crumb, index (crumb.text)}
 			<li class="mr-1 flex items-center justify-center" class:pointer-events-none={crumb.disabled}>
 				{#if crumb.text?.toLowerCase() === 'home'}
-					<Link
-						to="/discoverfunds"
-						class="text-sm text-grey-body {crumb.isLast ? 'font-normal' : ''}">{crumb.text}</Link
+					<Link to="/discoverfunds" class="text-sm text-body {crumb.isLast ? 'font-normal' : ''}"
+						>{crumb.text}</Link
 					>
 				{:else}
-					<Link to={crumb.href} class="text-sm text-grey-body {crumb.isLast ? 'font-normal' : ''}">
+					<Link to={crumb.href} class="text-sm text-body {crumb.isLast ? 'font-normal' : ''}">
 						{crumb.text}
 					</Link>
 				{/if}

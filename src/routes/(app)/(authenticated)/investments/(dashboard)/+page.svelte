@@ -331,9 +331,8 @@
 				},
 				styles: {
 					default:
-						'h-16 !text-grey-body !text-sm !font-normal rounded-none normal-case pt-4 pb-4 w-1/2 !border-b-[3px] border-grey-line border-b-[3px] hover:border-grey-line',
-					active:
-						'!border-b-[3px] !text-primary !pb-4 !border-blue-primary hover:!border-blue-primary'
+						'h-16 !text-body !text-sm !font-normal rounded-none normal-case pt-4 pb-4 w-1/2 hover:border-border bg-background',
+					active: '!border-b-[3px] !text-primary !pb-4 !border-primary hover:!border-primary'
 				},
 				content: {
 					component: InternalInvestmentsTab,
@@ -354,9 +353,8 @@
 				},
 				styles: {
 					default:
-						'h-16 !text-grey-body !text-sm !font-normal rounded-none normal-case pt-4 pb-4 w-1/2 !border-b-[3px] border-grey-line border-b-[3px] hover:border-grey-line',
-					active:
-						'!border-b-[3px] !text-primary !pb-4 !border-blue-primary hover:!border-blue-primary'
+						'h-16 !text-body !text-sm !font-normal rounded-none normal-case pt-4 pb-4 w-1/2 hover:border-border',
+					active: '!border-b-[3px] !text-primary !pb-4 !border-primary hover:!border-primary'
 				},
 				content: {
 					component: ExternalInvestments,
@@ -374,7 +372,7 @@
 		]}
 		classes={{
 			tabsContainer:
-				'scroll-lock overflow-auto sticky md:static top-0 z-60 !border-b-0 bg-white !shadow-csm rounded-t-lg'
+				'scroll-lock overflow-auto sticky md:static top-0 z-60 !border-b-0 !bg-background-alt !shadow-csm rounded-t-lg'
 		}}
 		onChange={switchTabs}
 	/>

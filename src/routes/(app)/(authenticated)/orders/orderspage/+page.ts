@@ -85,7 +85,7 @@ export const load = (async ({ fetch }) => {
 		layoutConfig: {
 			title: 'All Orders',
 			titleClass: '!text-xl',
-			headerClass: '!bg-grey !py-2.5 !px-4',
+			headerClass: '!bg-background !py-2.5 !px-4',
 			component: OrderTabSelection,
 			showBottomNavigation: true,
 			layoutType: 'TWO_COLUMN_RIGHT_LARGE',

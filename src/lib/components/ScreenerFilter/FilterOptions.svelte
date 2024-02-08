@@ -5,7 +5,6 @@
 	import FilterOptions from '$components/ScreenerFilter/FilterOptions.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import RangeSelector from './RangeSelector.svelte';
-	import SearchIcon from '$lib/images/icons/SearchIcon.svelte';
 
 	export let selectedFilter: FilterOption[] = [];
 	export let filterType = '';
@@ -66,13 +65,13 @@
 				on:click={handleFilterQueryInputFocus}
 			>
 				<div class="m-1 flex w-full items-center rounded-3xl border px-4 py-1">
-					<SearchIcon />
+					<WMSIcon name="search-dark" stroke="var(--BODY)" class="h-6 w-6" />
 					<input
 						id={`filterInput-${filterLabel}`}
 						inputmode="text"
 						placeholder={`Search ${filterLabel}`}
 						bind:value={filterSearchQuery}
-						class="ml-2 w-full text-xs font-normal leading-none text-black-title outline-none"
+						class="ml-2 w-full bg-background-alt text-xs font-normal leading-none text-title outline-none"
 						on:input={onFilterQueryInputChange}
 					/>
 				</div>
@@ -86,14 +85,14 @@
 				return filter[section];
 			})}
 			{#if list?.length > 0}
-				<div class="pt-3 text-sm text-black-bolder">{section}</div>
+				<div class="pt-3 text-sm text-body">{section}</div>
 				{#each list as filter (filter?.label)}
 					{#if filter[section]}
 						<article class="mb-3 ml-1">
 							<AccordianCardComponent
 								data={{ title: '' }}
 								titleFontSize="text-base"
-								class="rounded-lg bg-white text-sm font-normal text-black-title !shadow-none"
+								class="rounded-lg bg-background-alt text-sm font-normal text-title !shadow-none"
 								headerClass="!p-0 !md:px-0 !md:py-0"
 							>
 								<svelte:fragment slot="accordionTitle">
@@ -109,13 +108,13 @@
 											<!-- svelte-ignore a11y-no-static-element-interactions -->
 											<div
 												on:click={(e) => handleOptionTextClick(filter, e)}
-												class="p-2 px-1 text-xs font-normal text-black-key md:cursor-pointer"
+												class="p-2 px-1 text-xs font-normal text-title md:cursor-pointer"
 											>
 												<span>
 													{filter?.label}
 												</span>
 												{#if filter?.count}
-													<span class="ml-1 rounded bg-purple-background px-1 text-xs font-medium"
+													<span class="ml-1 rounded bg-tint12-primary px-1 text-xs font-medium"
 														>{filter?.count || ''}</span
 													>
 												{/if}
@@ -161,7 +160,7 @@
 					<AccordianCardComponent
 						data={{ title: '' }}
 						titleFontSize="text-base"
-						class="rounded-lg bg-white text-sm font-normal text-black-title !shadow-none"
+						class="rounded-lg bg-background-alt text-sm font-normal text-title !shadow-none"
 						headerClass="!p-0 !md:px-0 !md:py-0"
 					>
 						<svelte:fragment slot="accordionTitle">
@@ -177,13 +176,13 @@
 									<!-- svelte-ignore a11y-no-static-element-interactions -->
 									<div
 										on:click={(e) => handleOptionTextClick(filter, e)}
-										class="p-2 px-1 text-xs font-normal text-black-key md:cursor-pointer"
+										class="p-2 px-1 text-xs font-normal text-title md:cursor-pointer"
 									>
 										<span>
 											{filter?.label}
 										</span>
 										{#if filter?.count}
-											<span class="ml-1 rounded bg-purple-background px-1 text-xs font-medium"
+											<span class="ml-1 rounded bg-tint12-primary px-1 text-xs font-medium"
 												>{filter?.count || ''}</span
 											>
 										{/if}
@@ -226,7 +225,7 @@
 				<AccordianCardComponent
 					data={{ title: '' }}
 					titleFontSize="text-base"
-					class="!mt-0 rounded-none border-b border-grey-line bg-white px-5 py-3 text-sm font-medium text-black-title !shadow-none"
+					class="!mt-0 rounded-none border-b bg-background-alt px-5 py-3 text-sm font-medium text-title !shadow-none"
 					headerClass="!p-0 !md:px-0 !md:py-0"
 				>
 					<svelte:fragment slot="accordionTitle">
@@ -236,13 +235,13 @@
 								<!-- svelte-ignore a11y-no-static-element-interactions -->
 								<div
 									on:click={(e) => handleOptionTextClick(filter, e)}
-									class="p-2 px-1 text-xs font-normal text-black-bolder md:cursor-pointer"
+									class="p-2 px-1 text-xs font-normal text-body md:cursor-pointer"
 								>
 									<span>
 										{filter?.label}
 									</span>
 									{#if filter?.count}
-										<div class="ml-0.5 inline-flex h-1.5 w-1.5 rounded-full bg-blue-primary" />
+										<div class="ml-0.5 inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
 									{/if}
 								</div>
 							</div>

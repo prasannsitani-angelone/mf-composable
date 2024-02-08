@@ -61,12 +61,12 @@
 {#await data.api.regularSchemes}
 	<SkeletonWrapper class="px-2 py-2.5">
 		<SkeletonRectangle class="mb-2 flex h-80 w-full flex-col rounded-lg p-3 shadow-csm" />
-		<div class="flex flex-col rounded-lg bg-white pt-4 shadow-csm">
-			<div class="flex flex-row items-center border-b border-grey-line px-3 py-4">
+		<div class="flex flex-col rounded-lg bg-background-alt pt-4 shadow-csm">
+			<div class="flex flex-row items-center border-b px-3 py-4">
 				<SkeletonRectangle class="mr-1 h-9 w-9" />
 				<SkeletonRectangle class="h-8 w-40" />
 			</div>
-			<div class="flex flex-row items-center border-b border-grey-line px-3 py-4">
+			<div class="flex flex-row items-center border-b px-3 py-4">
 				<SkeletonRectangle class="mr-1 h-9 w-9" />
 				<SkeletonRectangle class="h-8 w-40" />
 			</div>
@@ -75,59 +75,59 @@
 {:then regularSchemes}
 	<article class="grid grid-cols-[100%] gap-2 px-2 py-2.5 sm:grid-cols-[65%_35%] sm:gap-5">
 		<section
-			class="flex h-max flex-col rounded-lg bg-white p-3 shadow-csm sm:col-start-2 sm:row-start-1"
+			class="flex h-max flex-col rounded-lg bg-background-alt p-3 shadow-csm sm:col-start-2 sm:row-start-1"
 		>
-			<div class="mb-2 text-center text-base font-normal text-black-title">
+			<div class="mb-2 text-center text-base font-normal text-title">
 				Earn up to 1.5% more returns with your existing investments!
 			</div>
-			<div class="flex flex-row items-center bg-purple-light px-4 py-3">
+			<div class="flex flex-row items-center bg-tint12-secondary-alt px-4 py-3">
 				<WMSIcon name="announcement-purple" class="mr-3 h-6 w-6 min-w-[24px]" />
-				<div class="text-xs text-black-title">
+				<div class="text-xs text-title">
 					Direct plans for mutual funds do not charge any commission/fees. These savings add up to
 					more returns for you over time.
 				</div>
 			</div>
 			<div class="mb-5 mt-10 flex w-full flex-row items-end">
 				<div class="flex flex-1 flex-col items-center">
-					<div class="mb-3 text-sm font-normal text-black-title">
+					<div class="mb-3 text-sm font-normal text-title">
 						₹{addCommasToAmountString(regularSchemes.regularCumullativeAmount?.toString())}
 					</div>
-					<div class="h-12 w-8 bg-red-sell" />
-					<div class="w-full border-b border-grey-line" />
-					<div class="mt-3 text-xs text-grey-body">Regular Funds</div>
+					<div class="h-12 w-8 bg-sell" />
+					<div class="w-full border-b" />
+					<div class="mt-3 text-xs text-body">Regular Funds</div>
 				</div>
 				<div class="flex flex-1 flex-col items-center">
-					<div class="mb-3 text-sm font-normal text-black-title">
+					<div class="mb-3 text-sm font-normal text-title">
 						₹{addCommasToAmountString(regularSchemes.directCumullativeAmount?.toString())}
 					</div>
-					<div class="h-28 w-8 bg-blue-sell" />
-					<div class="w-full border-b border-grey-line" />
-					<div class="mt-3 text-xs text-grey-body">Direct Funds</div>
+					<div class="h-28 w-8 bg-primary" />
+					<div class="w-full border-b" />
+					<div class="mt-3 text-xs text-body">Direct Funds</div>
 				</div>
 			</div>
-			<div class="text-center text-xs text-grey-body">
+			<div class="text-center text-xs text-body">
 				Disclaimer: Projected values are based considering standard 10% CAGR of your funds, and an
 				additional 1.5% returns for direct funds compounded for 10 years. Your actual returns may
 				vary.
 			</div>
 		</section>
-		<section class="h-max rounded-lg bg-white pt-4 shadow-csm sm:col-start-1 sm:row-start-1">
-			<div class="px-3 text-base font-normal text-black-title">
-				Funds with Available Direct Plans
-			</div>
+		<section
+			class="h-max rounded-lg bg-background-alt pt-4 shadow-csm sm:col-start-1 sm:row-start-1"
+		>
+			<div class="px-3 text-base font-normal text-title">Funds with Available Direct Plans</div>
 
 			<!-- svelte-ignore a11y-no-static-element-interactions -->
 			{#each regularSchemes.schemes as scheme, index (index)}
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<div
-					class="flex flex-row items-center justify-between border-b border-grey-line px-3 py-4 active:opacity-75"
+					class="flex flex-row items-center justify-between border-b px-3 py-4 active:opacity-75"
 					on:click={() => switchFund(scheme)}
 				>
 					<div class="flex flex-row items-center">
 						<SchemeLogo size="xs" src={scheme.logoUrl} alt="Scheme Logo" />
-						<div class="mr-1 text-sm font-normal text-black-title">{scheme.schemeName}</div>
+						<div class="mr-1 text-sm font-normal text-title">{scheme.schemeName}</div>
 					</div>
-					<div class="flex flex-row items-center text-sm font-medium text-blue-primary">
+					<div class="flex flex-row items-center text-sm font-medium text-primary">
 						<span>SWITCH</span>
 						<WMSIcon name="right-arrow" class="h-6 w-6 min-w-[24px]" stroke="#3F5BD9" />
 					</div>

@@ -1873,11 +1873,13 @@
 {#if !showChangePayment}
 	<section
 		class="mb-[294px] mt-14 h-fit w-full rounded-lg shadow-csm md:mb-0 md:mt-[52px] {$$props?.class} {!investmentNotAllowedText?.length
-			? 'bg-grey'
-			: 'bg-white'}"
+			? 'bg-background'
+			: 'bg-background-alt'}"
 	>
 		<slot name="header">
-			<section class="hidden rounded-t-lg bg-white px-3 py-5 font-normal text-black-title md:block">
+			<section
+				class="hidden rounded-t-lg bg-background-alt px-3 py-5 font-normal text-title md:block"
+			>
 				{activeTab === 'SIP' ? 'Start SIP' : 'One Time Investment'}
 			</section>
 		</slot>
@@ -1888,7 +1890,7 @@
 					showSearchIcon={false}
 					showBackIcon={true}
 					showCloseIcon={false}
-					class="fixed left-0 right-0 top-0 bg-white"
+					class="fixed left-0 right-0 top-0 bg-background-alt"
 				/>
 			</slot>
 		{/if}
@@ -1896,25 +1898,25 @@
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 			<article
-				class="mb-2 rounded-lg bg-white p-3 shadow-csm md:hidden"
+				class="mb-2 rounded-lg bg-background-alt p-3 shadow-csm md:hidden"
 				on:click={goToFundDetailsPage}
 			>
 				<div class="flex flex-row justify-between">
 					<div class="flex flex-row">
 						<SchemeLogo size="xs" src={schemeData?.logoUrl} alt="schemelogo" />
-						<div class="mr-3 text-sm font-normal text-black-title">{schemeData.schemeName}</div>
+						<div class="mr-3 text-sm font-normal text-title">{schemeData.schemeName}</div>
 					</div>
 					{#if schemeData?.returns3yr > 0}
 						<div class="whitespace-nowrap">
-							<div class="text-xs font-normal text-grey-body">Returns p.a</div>
-							<div class="text-right text-base font-normal text-black-title">
+							<div class="text-xs font-normal text-body">Returns p.a</div>
+							<div class="text-right text-base font-normal text-title">
 								{schemeData?.returns3yr?.toFixed(1)}%
 							</div>
 						</div>
 					{/if}
 				</div>
 				{#if schemeData?.noOfClientInvested}
-					<div class="mt-3 flex flex-row items-center rounded bg-purple-glow px-3 py-2">
+					<div class="mt-3 flex flex-row items-center rounded bg-tint12-secondary-alt px-3 py-2">
 						<img
 							src={PeopleIcon}
 							class="mr-2 p-1"
@@ -1923,7 +1925,7 @@
 							width="24"
 							height="24"
 						/>
-						<div class="text-xs text-black-title">
+						<div class="text-xs text-title">
 							<span class="font-medium"
 								>{addCommasToAmountString(schemeData?.noOfClientInvested)}</span
 							> people have invested in this fund
@@ -1932,7 +1934,7 @@
 				{/if}
 			</article>
 
-			<article class="rounded-lg bg-white text-black-title md:mx-3 md:mb-4 md:mt-2">
+			<article class="rounded-lg bg-background-alt text-title md:mx-3 md:mb-4 md:mt-2">
 				<!-- Tab Section (SIP | ONE TIME) -->
 				{#if isInvestTypeVisible() && !isAdditionalFlag}
 					<Tabs
@@ -1944,8 +1946,8 @@
 								},
 								styles: {
 									default:
-										'h-12 w-40 flex-1 cursor-default md:cursor-pointer !border-b-0 border-l border-t !border-grey-line !bg-grey !rounded-none !text-black-title !font-normal !text-base',
-									active: '!border-t-4 !border-t-green-buy !border-l-0 !bg-white'
+										'h-12 w-40 flex-1 cursor-default md:cursor-pointer !border-b-0 border-l border-t !border-border !bg-background !rounded-none !text-title !font-normal !text-base',
+									active: '!border-t-4 !border-t-buy !border-l-0 !bg-background-alt'
 								},
 								content: {
 									component: SipTab,
@@ -1981,8 +1983,8 @@
 								},
 								styles: {
 									default:
-										'h-12 w-40 flex-1 cursor-default md:cursor-pointer !border-b-0 border-r border-t !border-grey-line !bg-grey !rounded-none !text-black-title !font-normal !text-base',
-									active: '!border-t-4 !border-t-green-buy !border-b-0 !border-r-0 !bg-white'
+										'h-12 w-40 flex-1 cursor-default md:cursor-pointer !border-b-0 border-r border-t !border-border !bg-background !rounded-none !text-title !font-normal !text-base',
+									active: '!border-t-4 !border-t-buy !border-b-0 !border-r-0 !bg-background-alt'
 								},
 								content: {
 									component: LumpsumTab,
@@ -2053,12 +2055,12 @@
 					{#if activeTab === 'SIP' && !firstSipPayment}
 						<NextSipDate {calendarDate} {calendarMonth} {calendarYear} />
 					{/if}
-					<article class="rounded-b-lg bg-white px-4 py-3 md:px-3">
+					<article class="rounded-b-lg bg-background-alt px-4 py-3 md:px-3">
 						<!-- TnC Section -->
 						<article class="flex items-center justify-center">
-							<p class="text-center text-xs font-normal text-black-title">
+							<p class="text-center text-xs font-normal text-title">
 								By proceeding, you accept Angel One's
-								<button class="text-blue-primary md:cursor-pointer" on:click={toggleTncModal}>
+								<button class="text-primary md:cursor-pointer" on:click={toggleTncModal}>
 									Terms and Conditions
 								</button>
 							</p>
@@ -2088,8 +2090,8 @@
 										!!errorMessage?.length ||
 										showTabNotSupported ||
 										investmentNotAllowedText?.length
-											? 'cursor-default !bg-grey-line !text-grey-disabled active:opacity-100'
-											: 'bg-blue-primary'
+											? 'cursor-default !bg-border !text-disabled active:opacity-100'
+											: 'bg-primary'
 									}`}
 									disabled={!amount?.length ||
 										!!errorMessage?.length ||
@@ -2152,7 +2154,7 @@
 						<section
 							class="hidden flex-row justify-center rounded-b-lg bg-gray-50 px-8 py-4 md:flex"
 						>
-							<p class="text-center text-sm font-light text-grey-body">
+							<p class="text-center text-sm font-light text-body">
 								It is the day on which the amount payable towards your SIP order becomes due. The
 								day on which SIP instalments are paid is called SIP day.
 							</p>
@@ -2190,11 +2192,11 @@
 			: 'Pay With'}
 		on:backClick={hidePaymentMethodScreen}
 	>
-		<div slot="schemeTile" class="m-4 mb-0 rounded-lg border border-grey-line bg-white p-3">
-			<div class="mb-2 flex flex-row items-center rounded-full text-xs font-normal text-grey-body">
+		<div slot="schemeTile" class="m-4 mb-0 rounded-lg border bg-background-alt p-3">
+			<div class="mb-2 flex flex-row items-center rounded-full text-xs font-normal text-body">
 				<span>{activeTab === 'SIP' ? 'SIP' : 'ONE TIME INVESTMENT'}</span>
 				{#if activeTab === 'SIP'}
-					<div class="mx-1 h-1 w-1 min-w-[4px] rounded-full bg-grey-body" />
+					<div class="mx-1 h-1 w-1 min-w-[4px] rounded-full bg-body" />
 					<span>
 						{calendarDate}{dateSuperscript} of every month
 					</span>
@@ -2203,11 +2205,11 @@
 			<div class=" flex flex-row justify-between">
 				<div class="flex flex-row">
 					<SchemeLogo size="xs" src={schemeData?.logoUrl} alt="schemelogo" />
-					<div class="trucateTo2Line mr-2.5 text-sm font-normal text-black-title">
+					<div class="trucateTo2Line mr-2.5 text-sm font-normal text-title">
 						{schemeData?.schemeName}
 					</div>
 				</div>
-				<div class="whitespace-nowrap text-sm font-medium text-black-title">
+				<div class="whitespace-nowrap text-sm font-medium text-title">
 					₹{addCommasToAmountString(amount)}
 				</div>
 			</div>
@@ -2282,16 +2284,16 @@
 		</svelte:fragment>
 		<svelte:fragment slot="middleSection">
 			{#if error?.code === WRONG_BANK_ERROR_CODE}
-				<section class="item-center mt-2 flex rounded bg-grey p-2">
+				<section class="item-center mt-2 flex rounded bg-background p-2">
 					<div class="my-auto flex-1">
 						<WMSIcon name="info-in-circle-dark" class="p-1" stroke="#3F5BD9" />
 					</div>
-					<div class="ml-3 text-left text-sm font-normal text-grey-body">
+					<div class="ml-3 text-left text-sm font-normal text-body">
 						If any money has been debited from your account, it will be refunded automatically.
 					</div>
 				</section>
 			{:else}
-				<section class="mt-4 text-sm text-grey-body">
+				<section class="mt-4 text-sm text-body">
 					To complete your order, please retry payment
 				</section>
 			{/if}
@@ -2311,11 +2313,11 @@
 		buttonVariant="contained"
 	>
 		<svelte:fragment slot="middleSection">
-			<section class="item-center mt-2 flex rounded bg-grey p-2">
+			<section class="item-center mt-2 flex rounded bg-background p-2">
 				<div class="my-auto flex-1">
 					<WMSIcon name="info-in-circle-dark" class="p-1" stroke="#3F5BD9" />
 				</div>
-				<div class="ml-3 text-left text-sm font-normal text-grey-body">
+				<div class="ml-3 text-left text-sm font-normal text-body">
 					Please complete your first SIP payment for ₹{addCommasToAmountString(amount)} now. You can
 					set up autopay later
 				</div>
@@ -2343,14 +2345,16 @@
 		isModalOpen={showBeforePaymentAckModal}
 		on:backdropclicked={toggleShowBeforePaymentAckModal}
 	>
-		<section class="rounded-t-2xl bg-white px-4 py-6 shadow-clg sm:w-120 sm:rounded-lg sm:p-6">
+		<section
+			class="rounded-t-2xl bg-background-alt px-4 py-6 shadow-clg sm:w-120 sm:rounded-lg sm:p-6"
+		>
 			<section class="flex w-full flex-col items-start justify-center overflow-y-auto">
 				<div class="px-2">
-					<div class="text-left text-lg font-normal text-black-title">
+					<div class="text-left text-lg font-normal text-title">
 						Important: For Successful Payment
 					</div>
-					<div class="mt-2 text-sm font-normal text-grey-body">
-						Please complete the transaction in your UPI app with only <span class="text-black"
+					<div class="mt-2 text-sm font-normal text-body">
+						Please complete the transaction in your UPI app with only <span class="text-title"
 							>the registered bank account on Angel One</span
 						>
 					</div>
@@ -2360,11 +2364,11 @@
 						class="!mt-2 ml-3 flex justify-start"
 					/>
 
-					<section class="item-center mt-2 flex rounded bg-grey p-2">
+					<section class="item-center mt-2 flex rounded bg-background p-2">
 						<div class="my-auto flex-1">
 							<WMSIcon name="info-in-circle-dark" class="p-1" stroke="#3F5BD9" />
 						</div>
-						<div class="ml-3 text-left text-sm font-normal text-grey-body">
+						<div class="ml-3 text-left text-sm font-normal text-body">
 							Your last transaction failed as you selected a different bank account in your UPI app
 						</div>
 					</section>
@@ -2432,9 +2436,9 @@
 		<WMSIcon class="md:cursor-pointer" name="cross-circle" on:click={toggleShowAutopayPopup} />
 	</svelte:fragment>
 	<svelte:fragment slot="popupBody">
-		<div class="flex flex-col px-4 text-xs text-black-key">
+		<div class="flex flex-col px-4 text-xs text-title">
 			<div class="flex items-center py-2">
-				<div class="rounded-3xl bg-grey p-1">
+				<div class="rounded-3xl bg-background p-1">
 					<WMSIcon name="clock-bold" width={24} height={24} stroke="#3F5BD9" />
 				</div>
 				<span class="ml-2"
@@ -2444,7 +2448,7 @@
 				>
 			</div>
 			<div class="flex items-center py-2">
-				<div class="rounded-3xl bg-grey p-1">
+				<div class="rounded-3xl bg-background p-1">
 					<WMSIcon name="rupee-circle-blue" width={22} height={24} />
 				</div>
 				<span class="ml-2"

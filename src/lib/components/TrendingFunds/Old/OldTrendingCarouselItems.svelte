@@ -6,10 +6,10 @@
 	import { base } from '$app/paths';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import GreenUpArrowTrendingFund from '$lib/images/GreenUpArrowTrendingFund.svg';
-	import PeopleIcon from '$lib/images/PeopleIcon.svg';
 	import { createEventDispatcher } from 'svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { modifiedGoto } from '$lib/utils/goto';
+	import { WMSIcon } from 'svelte-components';
 
 	export let schemes: WeeklyTopSchemesEntity;
 	export let clazz = '';
@@ -46,7 +46,7 @@
 			lazy={index > 1 ? 'lazy' : 'eager'}
 		/>
 		<h3
-			class="line-clamp-2 self-center whitespace-normal text-sm font-normal text-black-title md:text-sm"
+			class="line-clamp-2 self-center whitespace-normal text-sm font-normal text-title md:text-sm"
 		>
 			{schemes?.schemeName}
 		</h3>
@@ -77,8 +77,8 @@
 				<div class="flex flex-row rounded-t-lg p-2 opacity-[.99]">
 					<slot name="detailsLeft">
 						<div class="flex flex-col items-start">
-							<p class="text-xs font-normal">Min. SIP Amount</p>
-							<p class="text-base font-medium">
+							<p class="text-xs font-normal text-body">Min. SIP Amount</p>
+							<p class="text-base font-medium text-title">
 								₹ {addCommasToAmountString(schemes?.minSipAmount?.toString()) ||
 									schemes?.minSipAmount}
 							</p>
@@ -87,7 +87,7 @@
 					<div class="flex-1" />
 					<slot name="detailsRight">
 						<div class="flex flex-col items-end">
-							<p class="text-xs font-normal">3 Year Returns</p>
+							<p class="text-xs font-normal text-body">3 Year Returns</p>
 							<div class="flex flex-row items-center">
 								<img
 									src={GreenUpArrowTrendingFund}
@@ -97,7 +97,7 @@
 									width="10"
 									height="12"
 								/>
-								<p class="text-xs font-normal">
+								<p class="text-xs font-normal text-title">
 									<span class="text-base font-medium">{schemes?.returns3yr?.toFixed(2)}%</span> p.a
 								</p>
 							</div>
@@ -108,20 +108,21 @@
 		</slot>
 		<slot name="detailsFooter">
 			{#if schemes?.noOfClientInvested}
-				<div class="flex flex-row items-center rounded-b bg-[#D1D8F6] p-2">
+				<div class="flex flex-row items-center rounded-b bg-tint24-primary p-2">
 					<slot name="detailsFooterIcon">
-						<img
-							src={PeopleIcon}
-							class="mr-2 p-1"
+						<WMSIcon
+							fill="var(--TITLE)"
+							name="people-icon"
+							class="mr-2 p-1 text-title"
 							decoding="async"
 							alt="Number of people invested"
-							width="24"
-							height="24"
+							width={24}
+							height={24}
 						/>
 					</slot>
 
 					<slot name="detailsFooterDescription">
-						<p class="text-xs">
+						<p class="text-xs text-title">
 							<span class=" font-medium">
 								{addCommasToAmountString(schemes?.noOfClientInvested)}
 							</span>

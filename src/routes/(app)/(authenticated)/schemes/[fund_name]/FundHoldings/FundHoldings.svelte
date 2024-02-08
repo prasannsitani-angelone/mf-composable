@@ -39,8 +39,8 @@
 			},
 			tabId: 'sector',
 			styles: {
-				active: '!border-b-2 !border-blue-primary !text-blue-primary !font-normal !normal-case',
-				default: '!text-black-title !font-normal !normal-case'
+				active: '!border-b-2 !border-primary !text-primary !font-normal !normal-case',
+				default: '!text-title !font-normal !normal-case'
 			}
 		},
 		{
@@ -49,8 +49,8 @@
 			},
 			tabId: 'holdingCompany',
 			styles: {
-				active: '!border-b-2 !border-blue-primary !text-blue-primary !font-normal !normal-case',
-				default: '!text-black-title !font-normal !normal-case'
+				active: '!border-b-2 !border-primary !text-primary !font-normal !normal-case',
+				default: '!text-title !font-normal !normal-case'
 			}
 		}
 	];
@@ -79,11 +79,11 @@
 	export { fundHoldingData, isin, schemeName, sectorData };
 </script>
 
-<article class="mt-4 max-w-4xl rounded-lg bg-white text-sm shadow-csm">
+<article class="mt-4 max-w-4xl rounded-lg bg-background-alt text-sm shadow-csm">
 	<header>
 		<section class="flex cursor-pointer items-center justify-between p-4 pb-3 pt-6 text-lg md:px-6">
 			<section class="flex items-center">
-				<h2 class="flex items-center text-left text-base font-medium text-black-title">
+				<h2 class="flex items-center text-left text-base font-medium text-title">
 					<span> Fund Holdings</span>
 				</h2>
 			</section>

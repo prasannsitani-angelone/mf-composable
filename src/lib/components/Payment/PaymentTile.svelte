@@ -70,7 +70,7 @@
 </script>
 
 <div
-	class={`flex flex-1 flex-col px-4 ${selected ? 'bg-blue-background' : 'bg-white'} ${
+	class={`flex flex-1 flex-col px-4 ${selected ? 'bg-background' : 'bg-background-alt'} ${
 		$$props.class
 	}`}
 >
@@ -79,11 +79,11 @@
 	<div class="flex flex-row items-center py-4" on:click={() => onSelect(identifier, subIdentifier)}>
 		<RadioButton {selected} clazz="mr-2" />
 		<div
-			class="mr-3 flex h-8 w-[46px] items-center justify-center rounded-sm border border-grey-line bg-white"
+			class="mr-3 flex h-8 w-[46px] items-center justify-center rounded-sm border bg-background-alt"
 		>
 			<slot name="icon" />
 		</div>
-		<div class="text-sm font-normal text-black-title">
+		<div class="text-sm font-normal text-title">
 			<slot name="content" />
 		</div>
 	</div>
@@ -93,7 +93,7 @@
 	<slot name="statusRemark">
 		{#if paymentModeStatus !== PAYMENT_MODE_STATUS?.enabled}
 			<section
-				class="-mt-2 mb-3 ml-6 text-[11px] font-normal text-red-errorDark"
+				class="-mt-2 mb-3 ml-6 text-[11px] font-normal text-sell"
 				on:click={() => onSelect(identifier, subIdentifier)}
 			>
 				{#if paymentModeStatus === PAYMENT_MODE_STATUS?.low_success_rate}
@@ -118,15 +118,15 @@
 				<div class="mb-4 mt-2 flex flex-row justify-between">
 					<div class="flex w-9/12 flex-row">
 						<div
-							class="ml-2 mr-3 flex h-5 w-[30px] items-center justify-center rounded-sm border border-grey-line bg-white"
+							class="ml-2 mr-3 flex h-5 w-[30px] items-center justify-center rounded-sm border bg-background-alt"
 						>
 							<img src={bankLogo} class="h-3 w-3" alt="bank logo" />
 						</div>
 						<div class="flex flex-col">
-							<div class="mb-1 text-sm text-grey-body">
+							<div class="mb-1 text-sm text-body">
 								{bankName} - *{bankAccount?.substring(bankAccount.length - 4)}
 							</div>
-							<div class="text-xs text-grey-body">
+							<div class="text-xs text-body">
 								Registered with Angel One. Use the same bank account to pay
 							</div>
 						</div>

@@ -15,7 +15,7 @@
 	export { schemeName, logoUrl, isin, schemeCode };
 </script>
 
-<section class="rounded-lg bg-white shadow-csm">
+<section class="rounded-lg bg-background-alt shadow-csm">
 	<ResultItem
 		data={{
 			schemeName: schemeName,

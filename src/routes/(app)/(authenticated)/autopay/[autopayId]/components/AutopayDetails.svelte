@@ -18,14 +18,14 @@
 <section class="p-4 px-1 pb-2 {$$props?.class}">
 	<article class="flex items-center">
 		<section class="flex-1 p-2">
-			<div class="text-[11px] font-normal text-grey-body">Autopay Type</div>
-			<div class="text-sm font-normal uppercase text-black-title">
+			<div class="text-[11px] font-normal text-body">Autopay Type</div>
+			<div class="text-sm font-normal uppercase text-title">
 				{autopay?.authenticationMode}
 			</div>
 		</section>
 
 		<section class="flex-1 p-2">
-			<div class="flex items-center text-[11px] font-normal text-grey-body">
+			<div class="flex items-center text-[11px] font-normal text-body">
 				<div>Max. Autopay Limit</div>
 				<!-- <WmsIcon
 					name="question-mark-circle"
@@ -35,7 +35,7 @@
 					on:click={toggleShowMaxAutopayLimitModal}
 				/> -->
 			</div>
-			<div class="text-sm font-normal uppercase text-black-title">
+			<div class="text-sm font-normal uppercase text-title">
 				<AmountText amount={autopay?.amount} />
 			</div>
 		</section>
@@ -43,8 +43,8 @@
 
 	<article class="mt-1 flex items-center">
 		<section class="flex-1 p-2">
-			<div class="text-[11px] font-normal text-grey-body">Autopay ID</div>
-			<div class="flex items-center text-sm font-normal text-black-title">
+			<div class="text-[11px] font-normal text-body">Autopay ID</div>
+			<div class="flex items-center text-sm font-normal text-title">
 				<div class="w-28 truncate uppercase">
 					{autopay?.mandateRefNo}
 				</div>
@@ -59,8 +59,8 @@
 		</section>
 
 		<section class="flex-1 p-2">
-			<div class="text-[11px] font-normal text-grey-body">Created On</div>
-			<div class="text-sm font-normal text-black-title">
+			<div class="text-[11px] font-normal text-body">Created On</div>
+			<div class="text-sm font-normal text-title">
 				{getDateTimeString(autopay?.createdOn, 'DATE', true)}
 			</div>
 		</section>
@@ -80,7 +80,7 @@
 
 		<svelte:fragment slot="bodySection">
 			<span />
-			<section class="px-4 pb-6 pt-0 text-sm font-normal text-grey-body md:px-8 md:pt-6">
+			<section class="px-4 pb-6 pt-0 text-sm font-normal text-body md:px-8 md:pt-6">
 				<p>
 					This is the maximum amount that can be deducted from your bank account if you had
 					cumulative SIPs of 1 lac to be deducted on a single day

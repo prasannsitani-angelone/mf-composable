@@ -13,7 +13,7 @@
 <section class="mt-3">
 	<article class="flex items-center justify-end border-t pt-4">
 		<button
-			class="flex items-center text-xs font-medium text-blue-primary md:text-sm"
+			class="flex items-center text-xs font-medium text-primary md:text-sm"
 			on:click={handleButtonClick}
 		>
 			{item?.investmentType === INVESTMENT_TYPE.SWITCH_IN ||

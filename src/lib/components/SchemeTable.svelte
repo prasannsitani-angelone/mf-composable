@@ -69,7 +69,7 @@
 </script>
 
 <Table class="overflow-hidden rounded-t {$$props.class}">
-	<THead slot="thead" class="rounded-t border-t border-grey-line">
+	<THead slot="thead" class="rounded-t border-t">
 		<Th class="w-8/12 !pr-0 normal-case sm:w-5/12">Funds</Th>
 		{#if $page?.data?.deviceType?.isBrowser}
 			<Th wrapperClass="justify-end sm:justify-center">3Y Return</Th>
@@ -105,10 +105,10 @@
 					</Td>
 					<Td class="text-center">
 						<div
-							class="flex flex-col justify-center text-center align-middle text-base font-normal text-black-title md:text-sm"
+							class="flex flex-col justify-center text-center align-middle text-base font-normal text-title md:text-sm"
 						>
 							<span>₹{scheme?.navValue?.toFixed(2)}</span>
-							<span class:text-green-buy={isNavTrendingUp} class:text-red-sell={!isNavTrendingUp}>
+							<span class:text-buy={isNavTrendingUp} class:text-sell={!isNavTrendingUp}>
 								{getNavDiffrence(scheme?.navValue, scheme?.previousNavValue)}%
 							</span>
 						</div>

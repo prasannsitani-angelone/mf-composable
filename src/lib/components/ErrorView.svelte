@@ -20,7 +20,7 @@
 </script>
 
 <section
-	class="cardHeight mt-2 flex flex-col items-center justify-center rounded-lg bg-white px-8 shadow-csm {$$props?.class ||
+	class="cardHeight mt-2 flex flex-col items-center justify-center rounded-lg bg-background-alt px-8 shadow-csm {$$props?.class ||
 		''}"
 >
 	<slot name="icon">
@@ -28,13 +28,13 @@
 	</slot>
 
 	<slot name="heading">
-		<div class="mt-4 text-center text-lg font-normal text-black-title">
+		<div class="mt-4 text-center text-lg font-normal text-title">
 			{heading}
 		</div>
 	</slot>
 
 	<slot name="content">
-		<div class="mb-4 mt-2 text-center text-sm font-normal text-grey-body">
+		<div class="mb-4 mt-2 text-center text-sm font-normal text-body">
 			{contentLine}
 		</div>
 	</slot>

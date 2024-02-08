@@ -58,25 +58,28 @@
 			label: '',
 			error: '',
 			container: 'px-3 py-3 shadow-none !rounded-none !border',
-			input: 'text-start',
-			parent: 'flex-1 bg-white'
+			input: 'text-start bg-background-alt',
+			parent: 'flex-1 bg-background-alt'
 		}}
 	/>
 	{#if filteredHandlers?.length > 0}
 		<div
-			class="absolute left-0 right-0 flex flex-1 flex-col gap-2 border border-t-0 bg-white p-2.5 text-sm font-medium text-black-title"
+			class="absolute left-0 right-0 flex flex-1 flex-col gap-2 border border-t-0 bg-background-alt p-2.5 text-sm font-medium text-title"
 		>
 			{#each filteredHandlers as item, index (index)}
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<!-- svelte-ignore a11y-no-static-element-interactions -->
-				<div class="w-full bg-white active:opacity-80" on:click={() => onItemDopDrownClick(item)}>
+				<div
+					class="w-full bg-background-alt active:opacity-80"
+					on:click={() => onItemDopDrownClick(item)}
+				>
 					{item}
 				</div>
 			{/each}
 		</div>
 	{/if}
 	{#if inputError}
-		<div class="text-xs font-normal text-red-sell">
+		<div class="text-xs font-normal text-sell">
 			{inputError}
 		</div>
 	{/if}

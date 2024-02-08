@@ -46,7 +46,7 @@
 <div
 	on:click={gotoSchemeDetails}
 	on:keydown={gotoSchemeDetails}
-	class={`flex cursor-pointer flex-col rounded-lg border border-grey-line p-3 shadow-csm ${$$props.class}`}
+	class={`flex cursor-pointer flex-col rounded-lg border p-3 shadow-csm ${$$props.class}`}
 >
 	<div class="mb-3 flex flex-row">
 		<div class="h-[20px] flex-1 p-[2px]">
@@ -66,7 +66,9 @@
 				{#if (schemes?.sortBy2 > 0 && schemes?.sortBy2 < 3) || showTopRated}
 					<div class="bottom absolute inset-0" />
 					<div class="top absolute inset-0" />
-					<div class="absolute right-1 flex h-[20px] items-center text-1xs font-normal text-white">
+					<div
+						class="absolute right-1 flex h-[20px] items-center text-1xs font-normal text-background-alt"
+					>
 						Top Rated
 					</div>
 				{/if}
@@ -78,7 +80,7 @@
 			{#if showLogo}
 				<SchemeLogo src={schemes?.logoUrl} alt={schemes?.schemeName} />
 			{/if}
-			<p class="line-clamp-2 whitespace-normal text-sm font-normal text-black-title md:text-sm">
+			<p class="line-clamp-2 whitespace-normal text-sm font-normal text-title md:text-sm">
 				{schemes?.schemeName}
 			</p>
 		</section>
@@ -137,7 +139,7 @@
 					</slot>
 
 					<slot name="detailsFooterDescription">
-						<p class="text-xs text-grey-body">
+						<p class="text-xs text-body">
 							<span class=" font-medium">
 								{addCommasToAmountString(schemes?.noOfClientInvested)}
 							</span>

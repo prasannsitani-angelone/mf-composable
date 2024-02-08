@@ -13,7 +13,7 @@
 	</div>
 	<div class="mt-4 flex w-11/12 flex-col items-center" slot="content">
 		<div class="mt-2 flex w-full flex-col items-center bg-[#F8F5F5] px-6 py-3 shadow-md">
-			<h5 class="text text-black-title">SGB Series 10-2021</h5>
+			<h5 class="text text-title">SGB Series 10-2021</h5>
 			<OrderSummary
 				investmentAmt="5000"
 				issuePrice="5000"
@@ -21,7 +21,7 @@
 				class="w-full"
 			/>
 		</div>
-		<h5 class="mt-4 text-center text-sm text-grey-body">
+		<h5 class="mt-4 text-center text-sm text-body">
 			After successful application, allotment will take upto 7 days
 		</h5>
 	</div>

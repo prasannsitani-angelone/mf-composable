@@ -14,7 +14,7 @@
 	};
 </script>
 
-<section class="rounded-lg bg-white px-4 py-6 text-center max-sm:shadow-csm sm:py-7">
+<section class="rounded-lg bg-background-alt px-4 py-6 text-center max-sm:shadow-csm sm:py-7">
 	<div class="m-auto max-w-[230px] text-center sm:max-w-[500px]">
 		<img
 			src={NoInvestments}
@@ -22,9 +22,9 @@
 			loading="lazy"
 			alt="Illustration shoeing first time import"
 		/>
-		<div class="mb-3 mt-5 text-base font-normal text-black-title sm:mt-8">No Investment Found</div>
-		<div class="mb-6 text-sm text-grey-body">
-			We could not find any investments linked to your <span class="font-normal text-black"
+		<div class="mb-3 mt-5 text-base font-normal text-title sm:mt-8">No Investment Found</div>
+		<div class="mb-6 text-sm text-body">
+			We could not find any investments linked to your <span class="font-normal text-title"
 				>PAN {getMaskedMobileNumber(data.profile.pan)}</span
 			>
 		</div>

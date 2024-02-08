@@ -121,7 +121,7 @@
 </script>
 
 <div class={`otp-box flex w-full justify-between ${$$props.class}`}>
-	<div class="w-[50%] text-left text-sm text-grey-body">Enter OTP</div>
+	<div class="w-[50%] text-left text-sm text-body">Enter OTP</div>
 	{#if !disableResend}
 		{#if countDisplayNum === 0}
 			<Button
@@ -151,7 +151,7 @@
 		{/each}
 	</div>
 	{#if errorMsg}
-		<div class="mt-1 text-xs text-red-sell">{errorMsg}</div>
+		<div class="mt-1 text-xs text-sell">{errorMsg}</div>
 	{/if}
 </div>
 

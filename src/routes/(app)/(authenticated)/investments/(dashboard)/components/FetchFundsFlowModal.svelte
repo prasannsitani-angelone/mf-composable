@@ -141,7 +141,7 @@
 
 <ModalWithAnimation closeModal={onModalClick} isModalOpen>
 	<div
-		class="w-screen rounded-b-none rounded-t-2xl bg-white px-4 pb-3 pt-6 sm:!w-[460px] sm:rounded-lg sm:p-0 sm:pb-6"
+		class="w-screen rounded-b-none rounded-t-2xl bg-background-alt px-4 pb-3 pt-6 sm:!w-[460px] sm:rounded-lg sm:p-0 sm:pb-6"
 	>
 		{#if step === 'GENERATE'}
 			<!-- Render Generate OTP contents -->
@@ -153,9 +153,9 @@
 			</div>
 			<div class="text-center sm:px-8">
 				<div
-					class="mb-10 mt-3 text-left text-sm font-normal text-grey-body sm:mb-11 sm:mt-5 sm:text-base"
+					class="mb-10 mt-3 text-left text-sm font-normal text-body sm:mb-11 sm:mt-5 sm:text-base"
 				>
-					You will receive an OTP from MFCentral on <span class="font-normal text-black-title"
+					You will receive an OTP from MFCentral on <span class="font-normal text-title"
 						>{getMaskedMobileNumber(data.profile.mobile)}</span
 					>. Please verify this OTP in the next step
 				</div>
@@ -179,10 +179,10 @@
 				}}
 			>
 				<div
-					class="mb-8 mt-3 text-left text-sm font-normal text-grey-body sm:mb-11 sm:mt-5 sm:text-base"
+					class="mb-8 mt-3 text-left text-sm font-normal text-body sm:mb-11 sm:mt-5 sm:text-base"
 				>
 					By verifying the OTP, you are allowing Angel One to fetch all mutual funds investment
-					information mapped to your <span class="font-normal text-black-title"
+					information mapped to your <span class="font-normal text-title"
 						>PAN {getMaskedMobileNumber(data.profile.pan)}</span
 					>
 				</div>
@@ -195,12 +195,12 @@
 				/>
 				<Button
 					type="submit"
-					class="w-full disabled:bg-grey-line disabled:text-grey-disabled"
+					class="w-full disabled:bg-border disabled:text-disabled"
 					disabled={isVerifyDisabled()}>VERIFY</Button
 				>
 			</form>
 			{#if loading}
-				<div class="absolute inset-0 flex items-center justify-center bg-black-title/80">
+				<div class="bg-title/80 absolute inset-0 flex items-center justify-center">
 					<LoadingIndicator svgClass={'!w-16 !h-16'} />
 				</div>
 			{/if}
@@ -210,14 +210,14 @@
 				{#if flow === 'REFRESH'}
 					<div class=""><WMSIcon width={92} height={92} name="clock-green" /></div>
 					<div class=" mt-6 text-xl">Refreshing Your Portfolio</div>
-					<div class="mb-8 mt-3 text-center text-sm font-normal text-grey-body sm:text-base">
+					<div class="mb-8 mt-3 text-center text-sm font-normal text-body sm:text-base">
 						Fetching the latest data for your external investments from MFCentral. We will notify
 						you once your portfolio has been updated
 					</div>
 				{:else}
 					<div class=""><WMSIcon width={92} height={92} name="success-tick-circle" /></div>
 					<div class=" mt-6 text-xl">Updating your portfolio</div>
-					<div class="mb-8 mt-3 text-center text-sm font-normal text-grey-body sm:text-base">
+					<div class="mb-8 mt-3 text-center text-sm font-normal text-body sm:text-base">
 						We are fetching your external investments from MFCentral. This could take some time. We
 						will notify you once your portfolio has been updated
 					</div>

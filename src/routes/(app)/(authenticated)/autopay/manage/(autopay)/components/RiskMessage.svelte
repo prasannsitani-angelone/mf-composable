@@ -6,7 +6,7 @@
 </script>
 
 <section
-	class="mx-5 flex justify-center rounded-full bg-red-light px-3 py-2 text-red-errorDark {$$props.class ||
+	class="mx-5 flex justify-center rounded-full bg-tint12-sell px-3 py-2 text-sell {$$props.class ||
 		''}"
 >
 	<div class=" text-base font-medium">

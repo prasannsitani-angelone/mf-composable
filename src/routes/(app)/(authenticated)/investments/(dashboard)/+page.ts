@@ -91,8 +91,8 @@ export const load = (async ({ fetch, url }) => {
 			showBottomNavigation: true,
 			layoutType: 'TWO_COLUMN_REVERSE',
 			layoutClass: '!m-0 !p-0 md:px-2 md:py-2',
-			titleClass: '!text-xl',
-			headerClass: '!bg-grey !py-2.5 !px-4 !shadow-none',
+			titleClass: '!text-xl !text-title',
+			headerClass: '!bg-background !py-2.5 !px-4 !shadow-none',
 			showFaqIcon: true,
 			faqParams,
 			onClickFaqsIcon

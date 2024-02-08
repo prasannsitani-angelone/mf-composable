@@ -12,10 +12,7 @@
 
 <section>
 	<article class="flex items-center justify-end border-t px-4 py-3">
-		<button
-			class="flex items-center text-sm font-medium text-blue-primary"
-			on:click={handleButtonClick}
-		>
+		<button class="flex items-center text-sm font-medium text-primary" on:click={handleButtonClick}>
 			{item?.transactionType === 'SWITCH' ? 'RETRY SWITCH' : 'RETRY PAYMENT'}
 			<RightIcon class="ml-2" stroke="#3F5BD9" />
 		</button>

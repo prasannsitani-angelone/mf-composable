@@ -10,11 +10,11 @@
 </script>
 
 <article
-	class="fixed inset-0 top-auto z-20 block bg-white p-2 px-4 pt-3 shadow-csm md:static md:inset-auto md:flex md:items-center md:rounded-b-xl md:pb-3"
+	class="fixed inset-0 top-auto z-20 block bg-background-alt p-2 px-4 pt-3 shadow-csm md:static md:inset-auto md:flex md:items-center md:rounded-b-xl md:pb-3"
 >
-	<section class="flex items-center rounded bg-grey p-2 md:h-12 md:flex-1">
-		<WMSIcon name="info-in-circle-dark" class="h-4 w-4" />
-		<div class="ml-2 text-xs font-normal text-black-key">
+	<section class="flex items-center rounded bg-background p-2 md:h-12 md:flex-1">
+		<WMSIcon name="info-in-circle-dark" stroke="var(--TITLE)" class="h-4 w-4" />
+		<div class="ml-2 text-xs font-normal text-title">
 			You will view holdings of the family members selected above
 		</div>
 	</section>

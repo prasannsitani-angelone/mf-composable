@@ -12,7 +12,7 @@
 	export let openWhyThisBank = (): void => undefined;
 </script>
 
-<section class="mb-2 flex justify-between rounded border border-grey-line py-2.5">
+<section class="mb-2 flex justify-between rounded border py-2.5">
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div on:click={showBankSelectionPopup} class="flex items-center">
@@ -21,7 +21,7 @@
 		</div>
 		<div class="ml-1">
 			<div class="flex flex-row items-start">
-				<div class="flex items-center text-sm font-normal text-black-title">
+				<div class="flex items-center text-sm font-normal text-title">
 					<div>{bankName}</div>
 					{#if bankAccounts > 1}
 						<slot name="dropdown-icon">
@@ -33,11 +33,11 @@
 				</div>
 			</div>
 
-			<div class="mt-1 flex flex-row items-center text-xs font-normal text-grey-body">
-				<div class="mr-1 h-1 w-1 rounded-full bg-grey-body" />
-				<div class="mr-1 h-1 w-1 rounded-full bg-grey-body" />
-				<div class="mr-1 h-1 w-1 rounded-full bg-grey-body" />
-				<div class="mr-1 h-1 w-1 rounded-full bg-grey-body" />
+			<div class="mt-1 flex flex-row items-center text-xs font-normal text-body">
+				<div class="mr-1 h-1 w-1 rounded-full bg-body" />
+				<div class="mr-1 h-1 w-1 rounded-full bg-body" />
+				<div class="mr-1 h-1 w-1 rounded-full bg-body" />
+				<div class="mr-1 h-1 w-1 rounded-full bg-body" />
 				{selectedBankAccount?.substring(selectedBankAccount.length - 4)}
 			</div>
 		</div>
@@ -45,7 +45,7 @@
 	<slot name="right-section">
 		{#if showWhyThisBank}
 			<ButtonMedium
-				class=" !text-xs !font-normal normal-case text-blue-primary"
+				class=" !text-xs !font-normal normal-case text-primary"
 				variant="transparent"
 				on:click={openWhyThisBank}>Why this bank?</ButtonMedium
 			>

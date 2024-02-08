@@ -2,7 +2,6 @@
 	import { page } from '$app/stores';
 	import { base } from '$app/paths';
 	import { appStore } from '$lib/stores/SparkStore';
-	import SearchDarkIcon from '$lib/images/icons/SearchDarkIcon.svelte';
 	import LeftArrowIcon from '$lib/images/icons/LeftArrowIcon.svelte';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
@@ -20,7 +19,6 @@
 	export let showShareIcon = false;
 	export let showCartIcon = false;
 	export let showFaqIcon = false;
-	export let faqIconStroke = '#2A394E';
 	export let showRightIcon = false;
 	export let faqParams = '';
 	export let titleClass = '';
@@ -52,7 +50,7 @@
 	const logoUrl = `${base}/images/mutual-fund-logo.webp`;
 </script>
 
-<section class={`p-2 pl-4 text-center shadow-csm md:p-5 ${$$props?.class}`}>
+<section class={`p-2 pl-4 text-center md:p-5 ${$$props?.class}`}>
 	<article
 		class="flex cursor-pointer flex-col items-center justify-around py-[6px] md:hidden {$$props?.class2}"
 	>
@@ -64,7 +62,7 @@
 							height={24}
 							width={24}
 							name="cross"
-							class="mr-4 cursor-pointer"
+							class="mr-4 cursor-pointer text-title"
 							on:click={handleCloseButtonClick}
 						/>
 					{:else if showBackIcon}
@@ -77,7 +75,7 @@
 				{/if}
 				<article class="flex items-center">
 					<slot name="title">
-						<h1 class="text-lg font-normal text-black-title {titleClass || ''}">
+						<h1 class="text-lg font-normal text-title {titleClass || ''}">
 							<div
 								class="truncate text-left"
 								class:w-80={!showSearchIcon && !showShareIcon && !showFaqIcon && !showRightIcon}
@@ -109,7 +107,13 @@
 				<slot name="shareIcon">
 					{#if showShareIcon}
 						<article id="share-icon" class="ml-3 flex">
-							<WMSIcon name="share" on:click={onClickShareIcon} height={24} width={24} />
+							<WMSIcon
+								name="share"
+								stroke="var(--TITLE)"
+								on:click={onClickShareIcon}
+								height={24}
+								width={24}
+							/>
 						</article>
 					{/if}
 				</slot>
@@ -117,7 +121,11 @@
 					{#if showSearchIcon}
 						<article class="flex pr-4">
 							<Link to={`/search`} ariaLabel="search">
-								<SearchDarkIcon class="ml-2 mt-1 h-6 w-6 cursor-pointer" />
+								<WMSIcon
+									name="search-dark"
+									class="ml-2 mt-1 h-6 w-6 cursor-pointer"
+									stroke="var(--TITLE)"
+								/>
 							</Link>
 						</article>
 					{/if}
@@ -128,7 +136,7 @@
 							<Link to={`/faqs?params=${faqParams}`} ariaLabel="search">
 								<WMSIcon
 									name="question-mark-point"
-									stroke={faqIconStroke}
+									stroke="var(--TITLE)"
 									height={24}
 									width={24}
 									class="p-0.5"
@@ -141,7 +149,7 @@
 				<slot>
 					{#if showThreeDotsIcon}
 						<article>
-							<Button class="border-none !bg-white px-3" onClick={onThreeDotsClick}>
+							<Button class="border-none !bg-background-alt px-3" onClick={onThreeDotsClick}>
 								<WMSIcon name="three-vertical-dots-icon" height={15} />
 							</Button>
 						</article>

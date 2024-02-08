@@ -39,9 +39,9 @@
 
 <button
 	{type}
-	class={`btn border-0 text-sm font-medium capitalize disabled:bg-grey-line ${BUTTON_STYLE?.get(
-		variant
-	)?.get(color)} ${clazz} ${sizeClass} rounded`}
+	class={`btn border-0 text-sm font-medium capitalize ${BUTTON_STYLE?.get(variant)?.get(
+		color
+	)} ${clazz} ${sizeClass} rounded`}
 	{style}
 	aria-label={ariaLabel}
 	{disabled}

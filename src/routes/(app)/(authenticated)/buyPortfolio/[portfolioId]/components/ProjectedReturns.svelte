@@ -34,9 +34,7 @@
 			class=""
 		/>
 	</div>
-	<div
-		class="ml-6 flex w-80 justify-between place-self-center pt-2 text-xs text-black-bolder sm:ml-40"
-	>
+	<div class="ml-6 flex w-80 justify-between place-self-center pt-2 text-xs text-body sm:ml-40">
 		<div>SIP of ₹1,000</div>
 		<div>After 5 years</div>
 	</div>

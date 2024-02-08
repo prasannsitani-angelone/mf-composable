@@ -91,10 +91,10 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <ModalWithAnimation closeModal={backdropClick} isModalOpen>
 	<div
-		class="w-screen items-stretch rounded-b-none rounded-t-2xl bg-white max-sm:!p-0 sm:!w-[460px] sm:rounded-lg"
+		class="w-screen items-stretch rounded-b-none rounded-t-2xl bg-background-alt max-sm:!p-0 sm:!w-[460px] sm:rounded-lg"
 	>
-		<div class="flex items-center justify-between border-b border-grey-line px-8">
-			<p class="py-6 text-xl font-normal text-black-title">
+		<div class="flex items-center justify-between border-b px-8">
+			<p class="py-6 text-xl font-normal text-title">
 				{heading}
 			</p>
 			{#if !isMobile}
@@ -104,28 +104,28 @@
 		<div class="mx-4 flex flex-col py-6 sm:mx-8">
 			<div class="mb-3 flex items-center justify-start gap-4">
 				<div class="w-1/2">
-					<p class="pb-4 text-sm font-normal text-grey-body">From</p>
+					<p class="pb-4 text-sm font-normal text-body">From</p>
 					<div
-						class="flex items-center justify-between border-b border-grey-line pb-2 md:cursor-pointer"
+						class="flex items-center justify-between border-b pb-2 md:cursor-pointer"
 						on:click={() => updateShowFromDateDatepicker('from')}
 					>
 						{#if fromDate}
-							<span class="text-base font-normal text-black-title">{displayFromDate}</span>
+							<span class="text-base font-normal text-title">{displayFromDate}</span>
 						{:else}
-							<span class="text-base font-normal text-grey-disabled">DD/MM/YYYY</span>{/if}
+							<span class="text-base font-normal text-disabled">DD/MM/YYYY</span>{/if}
 						<CalendarIcon class="mb-1 ml-auto" />
 					</div>
 				</div>
 				<div class="w-1/2">
-					<p class="pb-4 text-sm font-normal text-grey-body">To</p>
+					<p class="pb-4 text-sm font-normal text-body">To</p>
 					<div
-						class="flex items-center justify-between border-b border-grey-line pb-2 md:cursor-pointer"
+						class="flex items-center justify-between border-b pb-2 md:cursor-pointer"
 						on:click={() => updateShowFromDateDatepicker()}
 					>
 						{#if toDate}
-							<span class="tetx-black-title text-base font-normal">{displayToDate}</span>
+							<span class="tetx-title text-base font-normal">{displayToDate}</span>
 						{:else}
-							<span class="text-base font-normal text-grey-disabled">DD/MM/YYYY</span>
+							<span class="text-base font-normal text-disabled">DD/MM/YYYY</span>
 						{/if}
 						<CalendarIcon class="mb-1 ml-auto" />
 					</div>
@@ -153,7 +153,7 @@
 					{#if isDownloadEnabled}
 						<Button
 							disabled={buttonDisabled}
-							class={`w-full rounded ${buttonDisabled ? '!text-white' : ''}`}
+							class={`w-full rounded ${buttonDisabled ? '!text-background-alt' : ''}`}
 							onClick={applyDate}
 						>
 							<div class="flex items-center justify-center">APPLY</div>
@@ -169,9 +169,9 @@
 						variant={isDownloadEnabled ? 'outlined' : 'contained'}
 						class={`w-[49%] rounded ${
 							isDownloadEnabled && !buttonDisabled
-								? 'border border-blue-primary bg-white text-blue-primary'
+								? 'border border-primary bg-background-alt text-primary'
 								: ''
-						} ${buttonDisabled ? 'border !border-grey-line border-grey-disabled !bg-white' : ''} ${
+						} ${buttonDisabled ? 'border !border-border border-disabled !bg-background-alt' : ''} ${
 							!isDownloadEnabled ? 'flex-1' : ''
 						}`}
 						onClick={() =>
@@ -182,8 +182,8 @@
 					>
 						<div
 							class="flex items-center justify-center"
-							class:text-blue-primary={isDownloadEnabled && !buttonDisabled}
-							class:text-grey-disabled={buttonDisabled}
+							class:text-primary={isDownloadEnabled && !buttonDisabled}
+							class:text-disabled={buttonDisabled}
 						>
 							SEND EMAIL
 						</div>
@@ -191,7 +191,7 @@
 					{#if isDownloadEnabled}
 						<Button
 							disabled={buttonDisabled}
-							class={`w-[49%] rounded ${buttonDisabled ? '!text-white' : ''}`}
+							class={`w-[49%] rounded ${buttonDisabled ? '!text-background-alt' : ''}`}
 							onClick={() =>
 								downloadReport({
 									type: reportType.txn,

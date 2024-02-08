@@ -1,6 +1,6 @@
 <script>
 	let clazz = '';
-	let stroke = '#C2C6CC';
+	let stroke = 'var(--BODY)';
 	let height = '16';
 	let width = '17';
 	export { clazz as class, stroke, height, width };

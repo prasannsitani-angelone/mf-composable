@@ -8,8 +8,8 @@
 	export let selectedCategory: CategoryOptionsEntity;
 	export let mainCategory: string;
 
-	const activeLink = 'text-white ';
-	const inActiveLink = 'text-black-title ';
+	const activeLink = 'text-background-alt ';
+	const inActiveLink = 'text-title ';
 
 	const handleCategoryClick = (category: CategoryOptionsEntity) => {
 		selectedCategory = category;
@@ -30,7 +30,7 @@
 				}`
 			}}
 			size={BtnSize.SM}
-			class="!border-grey-line hover:border-grey-line"
+			class="!border-border hover:border-border"
 		/>
 	{/each}
 </section>

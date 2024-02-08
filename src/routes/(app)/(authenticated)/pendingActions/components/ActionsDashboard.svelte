@@ -125,7 +125,7 @@
 	});
 </script>
 
-<section class="flex flex-col rounded-md bg-white px-2 pb-2 sm:bg-grey">
+<section class="flex flex-col rounded-md bg-background-alt px-2 pb-2 sm:bg-background">
 	{#if actionsData?.instalmentPending?.length > 0}
 		<div class="py-2 font-medium">
 			{actionsData?.instalmentPending?.length} Pending SIP Payments
@@ -156,7 +156,7 @@
 				buttonText="PAY NOW"
 				message="Pay now to continue your SIP"
 				icon="filledInfo"
-				messageStyle="!text-red-card"
+				messageStyle="!text-sell"
 				onButtonClick={handleFailedSipPaymentClick}
 			/>
 		{/each}

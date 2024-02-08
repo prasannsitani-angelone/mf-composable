@@ -11,12 +11,12 @@
 </script>
 
 <Link {to} {preloadData} on:linkClicked={onLinkClicked}>
-	<div class="flex items-center justify-between bg-white p-4 {$$props.class}">
+	<div class="flex items-center justify-between bg-background-alt p-4 {$$props.class}">
 		<div class="flex pr-4">
 			<div class="flex justify-between">
 				<slot name="icon" />
 			</div>
-			<div class="mt-2 px-3 text-sm font-medium text-black-key">
+			<div class="mt-2 px-3 text-sm font-medium text-title">
 				<p>{title}</p>
 				<p class="font-normal">{subtitle}</p>
 			</div>
@@ -24,7 +24,7 @@
 		<div class="flex items-center">
 			{#if liveNFO}
 				<div
-					class="mr-1 h-4 w-12 items-center rounded-lg bg-red-card text-center text-[10px] text-white"
+					class="bg-red-card mr-1 h-4 w-12 items-center rounded-lg text-center text-[10px] text-background-alt"
 				>
 					Live ({liveNFO})
 				</div>

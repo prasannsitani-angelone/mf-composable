@@ -102,30 +102,30 @@
 
 <section class="-m-2 {$$props?.class || ''}">
 	<section class="hidden sm:block">
-		<div class="text-base font-medium text-black-key">Cancel SIP</div>
+		<div class="text-base font-medium text-title">Cancel SIP</div>
 	</section>
 	<!--Top Yellow Warning-->
-	<article class="flex items-center bg-yellow-background px-4 py-2 font-normal md:mt-4 md:rounded">
+	<article class="flex items-center bg-tint12-secondary px-4 py-2 font-normal md:mt-4 md:rounded">
 		<div>
 			<InfoDoubleIcon />
 		</div>
-		<div class="ml-2 text-xs text-black-key">
+		<div class="ml-2 text-xs text-title">
 			Cancelling an SIP early stops you from taking advantage of the compounding effect
 		</div>
 	</article>
 
 	<!--Body section-->
-	<section class="mb-20 bg-white md:mb-0">
+	<section class="mb-20 bg-background-alt md:mb-0">
 		<!--Graph Section-->
 		<article>
-			<div class="mx-5 pb-3 pt-6 text-sm font-medium text-black-key md:mx-0 md:pb-6 md:pt-3">
+			<div class="mx-5 pb-3 pt-6 text-sm font-medium text-title md:mx-0 md:pb-6 md:pt-3">
 				Projected value for your SIP is calculated based on fund asset type
 			</div>
 
 			<!--Graph-->
 			<CancelSipProjectedGraph {graphData} {tooltipData} />
 
-			<div class="mx-4 mt-3 text-[11px] font-normal text-black-bolder md:mx-0">
+			<div class="mx-4 mt-3 text-[11px] font-normal text-body md:mx-0">
 				Disclaimer: Projected value is calculated based on instalment amount only and does not
 				consider your current or future investment in this fund. Your actual returns may vary.
 			</div>
@@ -133,7 +133,7 @@
 
 		<!--Reason Selection-->
 		<section class="p-4 md:px-0">
-			<div class="text-sm font-medium text-black-key">
+			<div class="text-sm font-medium text-title">
 				<div class="md:hidden">We want to help you reach your financial goals!</div>
 				<div class="md:hidden">Please tell us why you want to cancel your SIP</div>
 				<div class="hidden md:inline-block">
@@ -149,11 +149,11 @@
 					class="mt-6 flex items-center justify-between md:cursor-pointer"
 					on:click={() => handleSelectedReasonChange(reason?.id)}
 				>
-					<div class="text-sm font-normal text-black-key">{reason?.text}</div>
+					<div class="text-sm font-normal text-title">{reason?.text}</div>
 
 					<RadioButton
-						class="scale-125 !border-[1px] !bg-white {selectedReason !== reason?.text
-							? '!border-black-bolder'
+						class="scale-125 !border-[1px] !bg-background-alt {selectedReason !== reason?.text
+							? '!border-body'
 							: ''}"
 						selected={selectedReason === reason?.text}
 					/>

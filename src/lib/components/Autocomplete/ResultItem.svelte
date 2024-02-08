@@ -57,14 +57,14 @@
 					-->
 				</div>
 			</slot>
-			<div class="text-sm font-normal text-black-title lg:text-base {titleStyle || ''}">
+			<div class="text-sm font-normal text-title lg:text-base {titleStyle || ''}">
 				{data?.schemeName || schemeName || '-'}
 			</div>
 			<slot name="ratingSection">
 				<div class="flex pt-1 text-xs text-gray-500">
 					{#if !!data?.arqRating}
 						<div
-							class="py-1/2 mr-1 flex max-w-fit items-center rounded-sm border border-white bg-gray-100 px-1 group-hover:border group-hover:border-gray-200 group-hover:bg-white"
+							class="py-1/2 mr-1 flex max-w-fit items-center rounded-sm border border-background-alt bg-gray-100 px-1 group-hover:border group-hover:border-gray-200 group-hover:bg-background-alt"
 						>
 							<span class="mr-1">
 								{data?.arqRating}
@@ -74,7 +74,7 @@
 					{/if}
 					{#if data?.reInvestmentPlan}
 						<div
-							class="py-1/2 rounded-sm border border-white bg-gray-100 px-1 group-hover:border group-hover:border-gray-200 group-hover:bg-white"
+							class="py-1/2 rounded-sm border border-background-alt bg-gray-100 px-1 group-hover:border group-hover:border-gray-200 group-hover:bg-background-alt"
 						>
 							{data?.reInvestmentPlan}
 						</div>

@@ -193,10 +193,8 @@
 		<section>
 			<Breadcrumb items={breadCrumbs} class="mb-4 hidden items-center justify-start md:flex" />
 
-			<section class="rounded-lg bg-white py-4 shadow-csm md:pt-5">
-				<section
-					class="hidden border-b px-4 pb-4 text-lg font-medium text-black-title md:block md:px-6"
-				>
+			<section class="rounded-lg bg-background-alt py-4 shadow-csm md:pt-5">
+				<section class="hidden border-b px-4 pb-4 text-lg font-medium text-title md:block md:px-6">
 					SIP Health Check
 				</section>
 
@@ -206,7 +204,7 @@
 					on:learnMoreClick={handleLearnMoreClick}
 				/>
 
-				<article class="mt-6 px-4 md:px-6">
+				<article class="light mt-6 px-4 md:px-6">
 					{#if sipHealth?.score >= SIP_HEALTH_SCORE_LIMIT_GOOD}
 						<HighScoreHealhScoreBanner
 							betterThanOthers={sipHealth?.betterThanOthers}
@@ -227,7 +225,7 @@
 					{/if}
 				</article>
 
-				<article class="mt-6 px-4 pb-4 text-black-key md:px-6">
+				<article class="mt-6 px-4 pb-4 text-title md:px-6">
 					<div class="text-sm">
 						{sipHealth?.score >= SIP_HEALTH_SCORE_LIMIT_GOOD
 							? 'Learn what makes your SIP health great'
@@ -257,7 +255,7 @@
 								<svelte:fragment slot="titleTag">
 									{#if detail?.titleTag?.length}
 										<div
-											class="my-auto ml-2 rounded-br-sm rounded-tl-sm bg-green-amount px-1 py-0.5 text-[8px] font-medium leading-3 text-white"
+											class="my-auto ml-2 rounded-br-sm rounded-tl-sm bg-buy px-1 py-0.5 text-[8px] font-medium leading-3 text-background-alt"
 										>
 											{detail?.titleTag}
 										</div>
@@ -294,6 +292,7 @@
 {/await}
 
 <CueCardCarouselComponent
+	class="light"
 	bind:isModalOpen={showCarousel}
 	{carouselItems}
 	on:cueCardLoad={handleCueCardLoad}

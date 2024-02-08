@@ -15,14 +15,14 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	class="relative cursor-pointer overflow-hidden rounded-lg bg-white shadow-csm {$$props.class}"
+	class="relative cursor-pointer overflow-hidden rounded-lg bg-background-alt shadow-csm {$$props.class}"
 	on:click={toGoToTutorialDetails}
 >
 	<div class="my-3 flex flex-1 flex-row items-center gap-3 px-3">
 		<NudgeIcon />
 		<div class="flex-1">
-			<p class="text-base font-semibold text-black-bolder">{title}</p>
-			<p class="text-sm font-normal text-black-bolder">{subTitle}</p>
+			<p class="text-base font-semibold text-body">{title}</p>
+			<p class="text-sm font-normal text-body">{subTitle}</p>
 		</div>
 		<WMSIcon name="arrow-collapse" width={20} height={20} class="rotate-90" />
 	</div>

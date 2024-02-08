@@ -84,7 +84,7 @@
 
 <section class="w-full" data-testid="mpin-setup">
 	<div class="flex w-full flex-col items-center lg:w-120">
-		<div class="mb-6 w-full text-xl font-normal text-black-neutral md:mb-12">Set Up PIN</div>
+		<div class="mb-6 w-full text-xl font-normal text-title md:mb-12">Set Up PIN</div>
 		<div class="flex w-full flex-col items-center">
 			<BaseInput
 				id="mpin"
@@ -97,7 +97,7 @@
 				classes={{
 					input: 'text-base text-start placeholder:text-sm',
 					container: 'border shadow-none h-16 py-0',
-					label: 'text-grey-dark text-xs mb-0 font-normal',
+					label: 'text-body text-xs mb-0 font-normal',
 					parent: 'w-full'
 				}}
 				filterChar={filterNumber}
@@ -122,7 +122,7 @@
 					classes={{
 						input: 'text-base text-start placeholder:text-sm',
 						container: 'border shadow-none h-16 py-0',
-						label: 'text-grey-dark text-xs mb-0 font-normal',
+						label: 'text-body text-xs mb-0 font-normal',
 						parent: 'mt-10 w-full',
 						error: ''
 					}}
@@ -147,7 +147,7 @@
 		</div>
 		<Button
 			class="mt-6 w-full rounded-lg !py-3 md:mt-12 {buttonDisabled
-				? '!bg-grey-light !text-grey-disabled'
+				? '!bg-background !text-disabled'
 				: ''}"
 			disabled={buttonDisabled}
 			{onClick}

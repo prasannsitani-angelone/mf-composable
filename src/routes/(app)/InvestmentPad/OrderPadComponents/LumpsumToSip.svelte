@@ -36,18 +36,18 @@
 </script>
 
 <article
-	class="flex w-full flex-col rounded-b-none rounded-t-2xl bg-white px-5 pb-4 pt-9 text-black-key shadow-clg md:rounded-lg {$$props?.class}"
+	class="flex w-full flex-col rounded-b-none rounded-t-2xl bg-background-alt px-5 pb-4 pt-9 text-title shadow-clg md:rounded-lg {$$props?.class}"
 >
 	<div class="text-center text-2xl font-normal">Invest with SIPs instead of OTI</div>
 
-	<div class="my-6 rounded bg-yellow-background px-2.5 py-2 text-center text-sm font-normal">
+	<div class="my-6 rounded bg-tint12-secondary px-2.5 py-2 text-center text-sm font-normal">
 		Invest with SIPs instead of a one-time investment
 	</div>
 
 	{#each pointsData as point, index (index)}
 		<article class="flex items-center justify-start py-4 {index > 0 ? 'border-t' : 'pt-0'}">
 			<WMSIcon width={36} height={36} class="mr-4" name={point?.iconName} />
-			<section class="flex flex-1 flex-col items-start justify-center text-black-key">
+			<section class="flex flex-1 flex-col items-start justify-center text-title">
 				<div class="text-sm font-normal">
 					{point?.title}
 				</div>

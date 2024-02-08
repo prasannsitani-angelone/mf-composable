@@ -16,22 +16,18 @@
 		{:else if item.status === STATUS_ARR.PENDING}
 			<WMSIcon name="status-in-progress" height={21} width={21} class="animate-pulse" />
 		{:else if item.status === STATUS_ARR.FAILED}
-			<WMSIcon name="status" class="bg-red-sell" />
+			<WMSIcon name="status" class="bg-sell" />
 		{:else}
-			<div class="m-0.5 h-4 w-4 rounded-full bg-grey-line" />
+			<div class="m-0.5 h-4 w-4 rounded-full bg-background" />
 		{/if}
-		<div
-			class={`flex flex-1 border-l border-grey-line ${
-				index === itemsCount - 1 ? 'border-transparent' : ''
-			}`}
-		/>
+		<div class={`flex flex-1 border-l ${index === itemsCount - 1 ? 'border-transparent' : ''}`} />
 	</div>
 	<div class="pb-4 text-start">
 		<div
-			class=" text-xs {item?.currentState ? 'font-medium' : 'font-normal'} text-black-key
-			{item.status === STATUS_ARR.NONE ? 'text-grey-body' : ''}
-			{item.status === STATUS_ARR.FAILED ? 'text-red-sell' : ''}
-			{item.status === STATUS_ARR.PAYMENT_PENDING ? 'text-yellow-primary' : ''}"
+			class=" text-xs {item?.currentState ? 'font-medium' : 'font-normal'} text-title
+			{item.status === STATUS_ARR.NONE ? 'text-body' : ''}
+			{item.status === STATUS_ARR.FAILED ? 'text-sell' : ''}
+			{item.status === STATUS_ARR.PAYMENT_PENDING ? 'text-secondary' : ''}"
 		>
 			{item.title}
 		</div>
@@ -41,7 +37,7 @@
 			</p>
 		{/if}
 		{#if headerContent.status !== STATUS_ARR.PENDING}
-			<div class="mt-1 text-[10px] font-normal text-grey-body">
+			<div class="mt-1 text-[10px] font-normal text-body">
 				{item.subTitle}
 			</div>
 		{/if}

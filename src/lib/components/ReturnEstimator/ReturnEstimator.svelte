@@ -64,10 +64,10 @@
 
 <article
 	id="returnEstimator"
-	class="mt-4 max-w-4xl rounded-lg bg-white px-4 py-6 text-sm shadow-csm md:px-6 {$$props?.class}"
+	class="mt-4 max-w-4xl rounded-lg bg-background-alt px-4 py-6 text-sm shadow-csm md:px-6 {$$props?.class}"
 >
 	<section class="origin-top">
-		<div class="text-base font-medium text-black-title">Calculate Your Returns</div>
+		<div class="text-base font-medium text-title">Calculate Your Returns</div>
 
 		<ReturnsCalculatorInput
 			{returns3yr}

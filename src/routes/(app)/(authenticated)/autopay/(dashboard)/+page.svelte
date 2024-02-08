@@ -103,23 +103,23 @@
 							cardBodyClass="pb-3 border-b"
 							bankDetailsClass="ml-2"
 							bankAccNoClass="mt-1.5"
-							bankLogoClass="-mt-1 !px-2 !py-1 h-9 w-9 flex items-center justify-center rounded-full border border-grey bg-white"
+							bankLogoClass="-mt-1 !px-2 !py-1 h-9 w-9 flex items-center justify-center rounded-full border border-background bg-background-alt"
 						>
 							<svelte:fragment slot="autopayStatusSlot">
 								{#if !mandate?.inProgress}
 									<section class="flex items-center">
 										<AutopayEnabledIcon class="mr-1" />
-										<div class="text-xs font-normal text-grey-body">Autopay Enabled</div>
+										<div class="text-xs font-normal text-body">Autopay Enabled</div>
 									</section>
 								{:else}
-									<div class="flex items-center bg-yellow-primary/10 p-1">
+									<div class="bg-secondary/10 flex items-center p-1">
 										<WmsIcon name="clock-yellow-bolder" height={16} width={16} class="mr-1" />
-										<div class="text-xs font-normal text-black-title">In Progress</div>
+										<div class="text-xs font-normal text-title">In Progress</div>
 									</div>
 								{/if}
 							</svelte:fragment>
 							<svelte:fragment slot="footer">
-								<section class="mt-3 flex items-center justify-between font-normal text-grey-body">
+								<section class="mt-3 flex items-center justify-between font-normal text-body">
 									<div class="flex-1 text-[10px] uppercase">
 										{mandate?.authenticationMode} AUTOPAY
 									</div>
@@ -139,7 +139,7 @@
 						bankLogo={getBankLogoUrl(bankDetails, bank?.accNO)}
 						class={`px-3 pl-3 ${response?.data?.length ? 'mt-2' : ''}`}
 						bankDetailsClass="ml-2"
-						bankLogoClass="-mt-1 !px-2 !py-1 h-9 w-9 flex items-center justify-center rounded-full border border-grey bg-white"
+						bankLogoClass="-mt-1 !px-2 !py-1 h-9 w-9 flex items-center justify-center rounded-full border border-background bg-background-alt"
 					>
 						<svelte:fragment slot="autopayStatusSlot">
 							<Button

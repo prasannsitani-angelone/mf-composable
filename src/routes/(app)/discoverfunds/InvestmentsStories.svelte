@@ -47,12 +47,12 @@
 	];
 </script>
 
-<article class="flex overflow-scroll bg-white px-4 py-3">
+<article class="flex overflow-scroll bg-background-alt px-4 py-3">
 	{#each stories || [] as story}
 		<div class="mr-8 flex flex-col">
 			<label for="story-modal">
 				<div
-					class="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full border border-r-2 border-blue-primary"
+					class="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full border border-r-2 border-primary"
 				>
 					<div class="flex h-14 w-14 overflow-hidden rounded-full">
 						<img
@@ -63,7 +63,7 @@
 					</div>
 				</div>
 			</label>
-			<div class="text-[10px] font-normal text-black-title">{story.title}</div>
+			<div class="text-[10px] font-normal text-title">{story.title}</div>
 		</div>
 	{/each}
 </article>

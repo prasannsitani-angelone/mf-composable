@@ -30,18 +30,18 @@
 </script>
 
 <section class="overflow-auto max-sm:h-[calc(100vh-150px)] max-sm:overflow-auto">
-	<div class="mx-2 mb-2 flex items-center justify-between rounded-lg bg-white px-4 py-3">
+	<div class="mx-2 mb-2 flex items-center justify-between rounded-lg bg-background-alt px-4 py-3">
 		<BasicDetails {portfolioPack} {showChevron} />
 	</div>
-	<div class="mx-2 mb-2 rounded-lg bg-white p-4">
+	<div class="mx-2 mb-2 rounded-lg bg-background-alt p-4">
 		<PortfolioAllocation {portfolioPack} {showWeightage} />
 	</div>
-	<div class="mx-2 mb-2 rounded-lg bg-white p-4">
+	<div class="mx-2 mb-2 rounded-lg bg-background-alt p-4">
 		<ProjectedReturns threeYearReturns={portfolioPack.threeYrReturnAvgPer} />
 	</div>
 	{#if !showInputPopup}
 		<div class="mx-2 rounded-lg">
-			<section class="fixed inset-0 top-auto rounded-lg bg-white px-4 py-5 md:relative">
+			<section class="fixed inset-0 top-auto rounded-lg bg-background-alt px-4 py-5 md:relative">
 				<Button onClick={toggleInput} class="w-full">PROCEED TO INVEST</Button>
 			</section>
 		</div>

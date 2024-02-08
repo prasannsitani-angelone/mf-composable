@@ -15,7 +15,7 @@
 >
 	<SchemeCard preloadData="off" class="pr-8" schemes={data} />
 	<slot name="returns">
-		<section class="text-base font-normal text-black-title sm:text-sm">
+		<section class="text-base font-normal text-title sm:text-sm">
 			{data?.returns3yr ? data?.returns3yr.toFixed(1) + '%' : '-'}
 		</section>
 	</slot>

@@ -25,7 +25,7 @@
 		<div class="my-16 flex justify-center">
 			<UPIMandateIcon class=" h-[200px] w-[265px]" />
 		</div>
-		<section class=" m-auto text-center text-2xl font-normal text-black-title">
+		<section class=" m-auto text-center text-2xl font-normal text-title">
 			<div>Automate your SIP</div>
 			<div>Payments with Autopay</div>
 		</section>
@@ -36,7 +36,7 @@
 		</article>
 	</Card>
 
-	<article class="fixed inset-0 top-auto z-20 block bg-white p-2 md:hidden">
+	<article class="fixed inset-0 top-auto z-20 block bg-background-alt p-2 md:hidden">
 		<BankDetails {totalAmount} />
 	</article>
 {/await}

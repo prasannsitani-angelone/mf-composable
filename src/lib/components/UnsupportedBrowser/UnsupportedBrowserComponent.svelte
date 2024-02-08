@@ -39,7 +39,7 @@
 
 <Overlay containerClass="justify-end sm:!justify-center">
 	<article
-		class="flex flex-col items-center justify-center rounded-t-lg bg-white p-4 sm:w-160 sm:rounded-lg sm:p-16"
+		class="flex flex-col items-center justify-center rounded-t-lg bg-background-alt p-4 sm:w-160 sm:rounded-lg sm:p-16"
 	>
 		<img
 			src={`${base}/images/unsupported-browser.png`}
@@ -49,10 +49,10 @@
 			class="mb-11 sm:h-40 sm:w-64"
 			alt="browser not supported"
 		/>
-		<h4 class="mb-3 text-xl font-normal text-black-title">
+		<h4 class="mb-3 text-xl font-normal text-title">
 			Update <span class="capitalize">{browserDetails.alias || browserDetails.browser}</span>
 		</h4>
-		<div class="mb-3 text-sm text-grey-body">
+		<div class="mb-3 text-sm text-body">
 			{#if browserDetails.fallback}
 				<div class="text-center">
 					This version of <span class="capitalize"

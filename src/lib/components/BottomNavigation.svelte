@@ -15,10 +15,10 @@
 </script>
 
 <section
-	class="inset-x-0 z-40 flex-shrink-0 border-t-2 bg-white shadow-lg lg:hidden {$$props?.class ||
+	class="inset-x-0 z-40 flex-shrink-0 border-t-2 bg-background-alt shadow-lg lg:hidden {$$props?.class ||
 		''}"
 >
-	<div id="tabs" class="flex items-baseline justify-between text-grey-disabled">
+	<div id="tabs" class="flex items-baseline justify-between text-disabled">
 		{#each navs as nav (nav.path)}
 			{@const isActive = $page.url.pathname === nav.path}
 			<Link
@@ -27,17 +27,15 @@
 				class="inline-block w-full justify-center py-3 text-center"
 				pathConversion={false}
 			>
-				<img
+				<svelte:component
+					this={isActive ? nav.activeIcon : nav.icon}
 					width={nav.width}
 					height={nav.height}
-					src={isActive ? nav.activeIcon : nav.icon}
-					class="m-auto mb-2"
-					alt="{nav.label} Navigation"
-					decoding="async"
+					class="m-auto mb-2 {isActive ? 'text-primary' : 'text-body'}"
 				/>
 				<span
 					class={`block text-[10px] font-medium uppercase ${
-						isActive ? 'text-blue-primary' : 'text-black-bolder'
+						isActive ? 'text-primary' : 'text-body'
 					}`}>{nav.label} {nav.label === 'Cart' ? '(' + $cartStore.count + ')' : ''}</span
 				>
 			</Link>

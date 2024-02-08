@@ -357,13 +357,13 @@
 				  } due`}
 		<div
 			class="row-start-{placementMapping?.actions?.rowStart} col-start-{placementMapping?.actions
-				?.columnStart} slide-down mx-1 mt-2 rounded-md bg-yellow-background p-2 shadow-lg"
+				?.columnStart} slide-down mx-1 mt-2 rounded-md bg-tint12-secondary p-2 shadow-lg"
 			in:slide={{ duration: 300 }}
 		>
 			<div class="flex items-center justify-between">
 				<div class="flex items-center">
 					<WMSIcon name="exclamation-circle-solid" height={31} width={31} />
-					<div class="pl-2 pr-4 text-black-key">
+					<div class="pl-2 pr-4 text-title">
 						<p class="text-sm font-medium">Action Required</p>
 						<p class="pt-1 text-xs">
 							{notifText}
@@ -518,7 +518,7 @@
 		>
 			<Button
 				variant="transparent"
-				class="mt-2 !w-min !bg-transparent !text-blue-primary"
+				class="mt-2 !w-min !bg-transparent !text-primary"
 				onClick={logoutAttemptStore.showLogoutConfirmationPopup}
 			>
 				LOGOUT

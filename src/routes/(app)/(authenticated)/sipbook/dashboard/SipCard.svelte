@@ -1,6 +1,5 @@
 <script lang="ts">
 	import ResultItem from '$components/Autocomplete/ResultItem.svelte';
-	import Button from '$components/Button.svelte';
 	import { getDateTimeString, getTimestampDaysDifference } from '$lib/utils/helpers/date';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import NudgeComponent from '$lib/components/Nudge/NudgeComponent.svelte';
@@ -14,7 +13,7 @@
 	import { onMount } from 'svelte';
 	import DateFns from '$lib/utils/asyncDateFns';
 	import { sipCardClickAnalytics } from '$lib/analytics/sipbook/sipbook';
-	import { WMSIcon } from 'svelte-components';
+	import { WMSIcon, Button } from 'svelte-components';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 
 	let sipCount = 0;
@@ -147,14 +146,14 @@
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <article
-	class="mb-2 rounded-lg bg-white py-3 shadow-csm {$$props.class}"
+	class="mb-2 rounded-lg bg-background-alt py-3 shadow-csm {$$props.class}"
 	on:click={handleClick}
 	on:keydown={handleClick}
 >
 	<!-- Header section -->
 	{#if sip?.isSipPaymentNudge && !sip?.installmentSkip}
 		<section
-			class="-mt-3 flex items-center justify-between rounded-t-lg border-l-4 border-yellow-primary bg-gradient-to-r from-white to-yellow-primary/10 px-3.5 py-2 font-normal text-black"
+			class="to-secondary/10 -mt-3 flex items-center justify-between rounded-t-lg border-l-4 border-secondary bg-gradient-to-r from-background-alt px-3.5 py-2 font-normal text-title"
 		>
 			<article class="flex items-center">
 				<OctagonalYellowWarningIcon class="mr-3.5" />
@@ -164,7 +163,7 @@
 						: 'SIP Payment Due'}
 				</div>
 			</article>
-			<article class="mr-3.5 text-[9px]" class:text-red-errorDark={isCurrentDateEqualToT3Date}>
+			<article class="mr-3.5 text-[9px]" class:text-sell={isCurrentDateEqualToT3Date}>
 				{alertSleeveText}
 			</article>
 		</section>
@@ -176,7 +175,7 @@
 		{#if sip?.packId}
 			<section class="mx-3 mb-2">
 				<div
-					class="flex h-5 max-w-fit rounded-sm bg-purple-background px-2 py-0.5 text-[10px] text-blue-primary"
+					class="flex h-5 max-w-fit rounded-sm bg-tint12-primary px-2 py-0.5 text-[10px] text-primary"
 				>
 					<div>
 						<WMSIcon name="open-folder-icon" height={15} width={15} />
@@ -200,7 +199,7 @@
 					{#if sipCount > 1}
 						<SchemeLogo size="sm" src={sip?.logoUrl} alt="logo" />
 						<div
-							class="-ml-7 mr-3 flex h-12 w-12 items-center justify-center rounded-full border bg-white object-cover p-0.5 text-xs font-normal opacity-100 shadow-csm group-hover:bg-white"
+							class="-ml-7 mr-3 flex h-12 w-12 items-center justify-center rounded-full border bg-background-alt object-cover p-0.5 text-xs font-normal opacity-100 shadow-csm group-hover:bg-background-alt"
 						>
 							+ {sipCount - 1}
 						</div>
@@ -214,26 +213,26 @@
 		</section>
 
 		<!-- SIP Details section -->
-		<section class="mx-3 flex items-center justify-between rounded bg-grey-light px-4 py-2">
+		<section class="mx-3 flex items-center justify-between rounded bg-background px-4 py-2">
 			<slot name="sipCardDetailsLeftSection">
 				<article class="flex-1">
-					<div class="text-[11px] font-normal text-grey-body">Amount</div>
-					<div class="text-base font-normal text-black-title">
+					<div class="text-[11px] font-normal text-body">Amount</div>
+					<div class="text-base font-normal text-title">
 						₹{addCommasToAmountString(sip?.installmentAmount?.toFixed(0))}
 					</div>
 				</article>
 			</slot>
 
 			<!-- Line Separator (mobile layout) -->
-			<div class="block h-7 border-r border-grey-line md:hidden" />
+			<div class="block h-7 border-r md:hidden" />
 
 			<slot name="sipCardDetailsRightSection">
 				{#if sip?.isSipPaymentNudge}
 					<article class="flex-1 text-right">
-						<div class="text-[11px] font-normal text-red-errorDark">
+						<div class="text-[11px] font-normal text-sell">
 							{sip?.sipPaymentMonthNudge ? 'Pay SIP by' : 'SIP Date'}
 						</div>
-						<div class="text-base font-normal text-black-title">
+						<div class="text-base font-normal text-title">
 							{getDateTimeString(
 								sip?.sipPaymentMonthNudge ? sip?.orderDate * 1000 : sip?.sipPaymentDate,
 								'DATE',
@@ -243,8 +242,8 @@
 					</article>
 				{:else}
 					<article class="flex-1 text-right">
-						<div class="text-[11px] font-normal text-grey-body">Next SIP Payment</div>
-						<div class="text-base font-normal text-black-title">
+						<div class="text-[11px] font-normal text-body">Next SIP Payment</div>
+						<div class="text-base font-normal text-title">
 							{getDateTimeString(sip?.nextSipDueDate, 'DATE', true)}
 						</div>
 					</article>
@@ -280,7 +279,7 @@
 						</div>
 					</NudgeComponent>
 				{:else}
-					<section class="flex items-center text-xs font-normal text-green-amount">
+					<section class="flex items-center text-xs font-normal text-buy">
 						<WMSIcon
 							name="tick-in-circle"
 							height={12}
@@ -293,7 +292,7 @@
 					</section>
 				{/if}
 			{:else}
-				<section class="flex items-center text-xs font-normal text-red-errorDark">
+				<section class="flex items-center text-xs font-normal text-sell">
 					<WMSIcon name="filledInfo" height={12} width={12} class="mr-0.5 min-w-[12px]" />
 					Autopay Pending
 				</section>

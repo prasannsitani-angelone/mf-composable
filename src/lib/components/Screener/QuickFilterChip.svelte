@@ -28,13 +28,13 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
-	class={`w-fit cursor-pointer whitespace-nowrap rounded-full border  bg-white px-3 py-1 ${
-		selected ? 'border-blue-primary' : 'border-grey-secondary'
+	class={`w-fit cursor-pointer whitespace-nowrap rounded-full border  bg-background-alt px-3 py-1 ${
+		selected ? 'border-primary' : 'border-disabled'
 	}`}
 	on:click
 	{id}
 >
-	<div class={`text-sm  ${selected ? 'text-blue-primary' : 'text-black-bolder'}`}>
+	<div class={`text-sm  ${selected ? 'text-primary' : 'text-body'}`}>
 		<slot />
 	</div>
 </div>

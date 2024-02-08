@@ -16,8 +16,8 @@
 <section
 	class="mt-1 w-[84%] rounded-lg rounded-br-none p-2 text-sm font-normal
     {owner === 'user'
-		? 'float-right rounded-br-none bg-blue-primary text-white'
-		: 'rounded-bl-none bg-purple-background text-black-title'}
+		? 'float-right rounded-br-none bg-primary text-background-alt'
+		: 'rounded-bl-none bg-tint12-primary text-title'}
     {$$props?.class}"
 >
 	{question}
@@ -25,7 +25,7 @@
 
 <slot name="choices">
 	{#if choiceList?.length}
-		<section class="w-[84%] rounded-br-lg border border-grey-line bg-white">
+		<section class="w-[84%] rounded-br-lg border bg-background-alt">
 			{#each choiceList as choice, index (index)}
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
@@ -36,13 +36,13 @@
 					on:click={() => handleChoiceClick(choice)}
 				>
 					{#if choice?.label?.length}
-						<div class="flex items-start justify-between text-sm font-normal text-black-title">
+						<div class="flex items-start justify-between text-sm font-normal text-title">
 							<div>
 								{choice?.label}
 							</div>
 							{#if choice?.mostChosen}
 								<div
-									class="ml-1 min-w-[60px] rounded-[100px] bg-grey px-2 text-center text-[10px] text-black-bolder"
+									class="ml-1 min-w-[60px] rounded-[100px] bg-background px-2 text-center text-[10px] text-body"
 								>
 									Top Pick
 								</div>
@@ -51,7 +51,7 @@
 					{/if}
 
 					{#if choice?.description?.length}
-						<div class="mt-1 text-xs font-normal text-grey-body">
+						<div class="mt-1 text-xs font-normal text-body">
 							{choice?.description}
 						</div>
 					{/if}

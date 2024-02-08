@@ -406,9 +406,9 @@
 	<article>
 		<MobileHeader
 			title="Ask Angel"
-			class="fixed left-0 right-0 top-0 z-10 bg-blue-primary lg:inset-auto lg:!h-14 lg:w-[360px] lg:rounded-t-lg"
+			class="fixed left-0 right-0 top-0 z-10 bg-primary lg:inset-auto lg:!h-14 lg:w-[360px] lg:rounded-t-lg"
 			class2="md:!block md:-mt-3 !cursor-default"
-			titleClass="text-base text-white"
+			titleClass="text-base text-background-alt"
 			showRightIcon={true}
 		>
 			<svelte:fragment slot="icon">
@@ -442,7 +442,7 @@
 
 	<!-- Chat Body -->
 	<article
-		class="mt-14 overflow-y-auto bg-white px-4 py-2 lg:mt-0 lg:h-120 lg:w-[360px] lg:px-5 {showError
+		class="mt-14 overflow-y-auto bg-background-alt px-4 py-2 lg:mt-0 lg:h-120 lg:w-[360px] lg:px-5 {showError
 			? 'pb-20'
 			: ''}"
 	>
@@ -471,13 +471,13 @@
 
 	{#if showError}
 		<article
-			class="fixed inset-0 top-auto z-10 mx-2 mb-3 flex !h-16 items-center justify-between rounded bg-red-errorDark p-4 text-white lg:left-auto lg:top-auto lg:w-[344px]"
+			class="fixed inset-0 top-auto z-10 mx-2 mb-3 flex !h-16 items-center justify-between rounded bg-sell p-4 text-background-alt lg:left-auto lg:top-auto lg:w-[344px]"
 		>
 			<div class="text-sm font-normal">Something went wrong. Please try again</div>
 
 			<ButtonMedium
 				variant="transparent"
-				class="text-sm font-normal text-white"
+				class="text-sm font-normal text-background-alt"
 				size="xs"
 				onClick={handleRetryButtonClick}>Retry</ButtonMedium
 			>

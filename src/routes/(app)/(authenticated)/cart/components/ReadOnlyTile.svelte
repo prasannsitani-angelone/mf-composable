@@ -17,22 +17,22 @@
 	export let showDelete = false;
 </script>
 
-<section class="flex items-stretch bg-white">
+<section class="flex items-stretch bg-background-alt">
 	<div
-		class="grid w-full grid-cols-[55%_45%] gap-y-2 border-b border-grey-line px-3 py-3 sm:grid-cols-[46%_18%_18%_18%] sm:items-center sm:px-6 sm:py-4"
+		class="grid w-full grid-cols-[55%_45%] gap-y-2 border-b px-3 py-3 sm:grid-cols-[46%_18%_18%_18%] sm:items-center sm:px-6 sm:py-4"
 	>
 		<div class="col-start-1 row-start-1 flex flex-row items-center">
 			<SchemeLogo size="xs" src={schemeLogo} alt="scheme logo" />
-			<div class="text-sm font-normal text-black-title">{schemeName}</div>
+			<div class="text-sm font-normal text-title">{schemeName}</div>
 		</div>
 		<div
-			class="col-start-1 row-start-2 ml-12 w-max rounded bg-grey p-1 text-xs font-normal text-black-title sm:col-start-2 sm:row-start-1 sm:ml-0 sm:rounded-none sm:bg-transparent sm:p-0"
+			class="col-start-1 row-start-2 ml-12 w-max rounded bg-background p-1 text-xs font-normal text-title sm:col-start-2 sm:row-start-1 sm:ml-0 sm:rounded-none sm:bg-transparent sm:p-0"
 		>
 			{isSip ? 'SIP' : 'ONE TIME'}
 		</div>
 		{#if isSip}
 			<div
-				class="col-start-2 row-start-2 flex justify-end text-xs font-normal text-black-title sm:col-start-3 sm:row-start-1 sm:justify-start"
+				class="col-start-2 row-start-2 flex justify-end text-xs font-normal text-title sm:col-start-3 sm:row-start-1 sm:justify-start"
 			>
 				SIP Date : {sipDate?.toString().padStart(2, '0')}{getDateSuperscript(sipDate)}
 			</div>
@@ -40,7 +40,7 @@
 			<div class="col-start-2 row-start-2 sm:col-start-3 sm:row-start-1" />
 		{/if}
 		<div
-			class="col-start-2 row-start-1 flex justify-end text-sm text-black sm:col-start-4 sm:justify-start"
+			class="col-start-2 row-start-1 flex justify-end text-sm text-title sm:col-start-4 sm:justify-start"
 		>
 			<span>₹{addCommasToAmountString(amount?.toString())}</span>
 		</div>

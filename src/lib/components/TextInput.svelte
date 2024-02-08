@@ -68,7 +68,7 @@
 				{type}
 				{autocomplete}
 				{placeholder}
-				class={`input input-bordered input-sm w-full max-w-xs ${classes.input}`}
+				class={`input input-bordered input-sm w-full max-w-xs bg-background-alt ${classes.input}`}
 				{name}
 				{value}
 				inputmode={inputMode}

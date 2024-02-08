@@ -15,14 +15,14 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-<section class="flex items-center text-xs font-normal text-black-title {$$props.class}">
+<section class="flex items-center text-xs font-normal text-title {$$props.class}">
 	<article
 		class="flex items-center md:cursor-pointer"
 		on:click={() => handleInvestmentTypeChange('SIP')}
 	>
 		<RadioButton
-			class="scale-125 !bg-white {selectedInvestmentType !== 'SIP'
-				? 'border-[1.5px] !border-black-bolder'
+			class="scale-125 !bg-background-alt {selectedInvestmentType !== 'SIP'
+				? 'border-[1.5px] !border-body'
 				: ''}"
 			selected={selectedInvestmentType === 'SIP'}
 		/>
@@ -36,8 +36,8 @@
 		on:click={() => handleInvestmentTypeChange('OneTime')}
 	>
 		<RadioButton
-			class="scale-125 !bg-white {selectedInvestmentType !== 'OneTime'
-				? 'border-[1.5px] !border-black-bolder'
+			class="scale-125 !bg-background-alt {selectedInvestmentType !== 'OneTime'
+				? 'border-[1.5px] !border-body'
 				: ''}"
 			selected={selectedInvestmentType === 'OneTime'}
 		/>

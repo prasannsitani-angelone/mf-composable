@@ -15,9 +15,7 @@
 	{#each filterList as item, index (index)}
 		<div
 			class={`ml-1 mt-1 cursor-pointer rounded-sm border px-4 py-2 text-xs font-normal lg:text-sm ${
-				selectedFilter === index
-					? 'border-blue-primary text-blue-primary lg:bg-blue-background'
-					: 'text-grey-body'
+				selectedFilter === index ? 'border-primary text-primary lg:bg-background' : 'text-body'
 			}`}
 			on:click={() => emitFilterChange(index)}
 		>

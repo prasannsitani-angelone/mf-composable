@@ -53,13 +53,13 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 {#if isLoaded && familyMembersList?.length > 1}
 	<section
-		class="flex items-center rounded-2xl bg-white px-2 py-1 text-sm font-normal text-black-key md:cursor-pointer {isFamilyPortfolio
+		class="flex items-center rounded-2xl bg-background-alt px-2 py-1 text-sm font-normal text-title md:cursor-pointer {isFamilyPortfolio
 			? 'md:w-[106px]'
 			: 'md:w-[90px]'} {$$props?.class || ''}"
 		on:click={redirectToFamilyPage}
 	>
-		<WMSIcon name={isFamilyPortfolio ? 'family' : 'profile'} />
-		<div class="ml-0.5">{isFamilyPortfolio ? 'Family' : 'You'}</div>
-		<DownArrowLargeIcon class="ml-1 w-5 px-1" />
+		<WMSIcon name={isFamilyPortfolio ? 'family' : 'profile'} stroke="var(--TITLE)" />
+		<div class="ml-0.5 text-title">{isFamilyPortfolio ? 'Family' : 'You'}</div>
+		<DownArrowLargeIcon class="ml-1 w-5 px-1" stroke="var(--TITLE)" />
 	</section>
 {/if}

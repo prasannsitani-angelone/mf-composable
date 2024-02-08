@@ -32,7 +32,7 @@
 <article>
 	<Card
 		class={`
-            border-0 border-grey-line px-0  pb-0
+            border-0 px-0  pb-0
             text-lg md:pt-5 `}
 	>
 		<div class="px-4 md:px-6 {folioSummary?.sipEnabled ? 'max-sm:pb-4' : ''}">
@@ -49,7 +49,7 @@
 								{isExternal}
 							/>
 						{:else}
-							<div class="pb-8 text-center text-sm text-grey-body">
+							<div class="pb-8 text-center text-sm text-body">
 								<img
 									src={ImportFunds}
 									class="mb-4 inline-block"
@@ -59,7 +59,7 @@
 								<div>Generating your investment value graph.</div>
 								{#if isExternal}
 									<div>
-										This can take up to <span class="font-normal text-black">24 hours</span>
+										This can take up to <span class="font-normal text-title">24 hours</span>
 									</div>
 								{/if}
 							</div>
@@ -70,7 +70,7 @@
 		</div>
 		{#if isExternal}
 			<section
-				class="flex items-center justify-center border-t py-3 text-xs font-normal text-black-title sm:mt-4 sm:text-sm lg:mx-0 lg:bg-inherit lg:py-5"
+				class="flex items-center justify-center border-t py-3 text-xs font-normal text-title sm:mt-4 sm:text-sm lg:mx-0 lg:bg-inherit lg:py-5"
 			>
 				<div class="mr-1">
 					<WMSIcon width={32} height={32} name="refresh-icon" />

@@ -18,10 +18,10 @@
 		<Button
 			variant="outlined"
 			color="secondary"
-			class={`w-36 rounded bg-white py-2 font-normal ${
+			class={`w-36 rounded bg-background-alt py-2 font-normal ${
 				item.title === selected?.title
-					? '!border !border-blue-primary !bg-grey !text-blue-primary'
-					: '!border !border-grey-line !bg-white !text-grey-body'
+					? '!border !border-primary !bg-background !text-primary'
+					: '!border !border-border !bg-background-alt !text-body'
 			}`}
 			onClick={() => selectOption(item.title)}
 		>

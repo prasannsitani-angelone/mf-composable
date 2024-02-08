@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Button from '$components/Button.svelte';
 	import { trackExternalInvestmentsClickAnalytics } from '../../analytics';
 	import FirstTimeImportSVG from '$lib/images/FirstTimeImport.svg';
+	import { Button } from 'svelte-components';
 	export let onConfirmation = () => '';
 
 	const onConfirmationClick = () => {
@@ -10,10 +10,10 @@
 	};
 </script>
 
-<section class="rounded-lg bg-white px-4 py-5 sm:py-14">
+<section class="rounded-lg bg-background-alt px-4 py-5 sm:py-14">
 	<div class="m-auto max-w-[350px] text-center">
-		<div class="mb-2 text-xl font-normal text-black-title sm:mb-3">Already Invested Somewhere?</div>
-		<div class="mb-10 text-base font-normal leading-5 text-grey-body">
+		<div class="mb-2 text-xl font-normal text-title sm:mb-3">Already Invested Somewhere?</div>
+		<div class="mb-10 text-base font-normal leading-5 text-body">
 			View your entire mutual fund portfolio in one place, including investments on other platforms
 		</div>
 		<img
@@ -26,7 +26,7 @@
 			>Track All Investments</Button
 		>
 
-		<div class="mt-2 text-xs text-black">
+		<div class="mt-2 text-xs text-title">
 			This will not affect your external investments in any way
 		</div>
 	</div>

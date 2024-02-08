@@ -344,32 +344,32 @@
 		</div>
 	</svelte:fragment>
 </SwitchOrderTitleCard>
-<section class="mt-3 rounded-lg bg-white px-4 py-6 font-normal shadow-csm">
-	<article class="pb-2 text-sm text-black-title">Switch Details</article>
+<section class="mt-3 rounded-lg bg-background-alt px-4 py-6 font-normal shadow-csm">
+	<article class="pb-2 text-sm text-title">Switch Details</article>
 	<article class="flex-col rounded-lg border">
 		{#if folioListLength > 1}
-			<article class="flex items-center justify-between border-b bg-grey p-2">
+			<article class="flex items-center justify-between border-b bg-background p-2">
 				<div class="flex items-center justify-start">
-					<span class="mr-1 text-xs text-grey-body"> Folio </span>
+					<span class="mr-1 text-xs text-body"> Folio </span>
 				</div>
-				<div class="text-sm text-black-title">
+				<div class="text-sm text-title">
 					#{selectedFolio?.folioNumber}
 				</div>
 			</article>
 		{/if}
 		<article class="flex items-center justify-between border-b p-2">
 			<div class="flex items-center justify-start">
-				<span class="mr-1 text-xs text-grey-body"> Amount (Approximate) </span>
+				<span class="mr-1 text-xs text-body"> Amount (Approximate) </span>
 			</div>
-			<div class="text-base text-black-title">
+			<div class="text-base text-title">
 				₹{addCommasToAmountString(amount || 0)}
 			</div>
 		</article>
 		<article class="flex items-center justify-between p-2">
 			<div>
-				<span class="mr-1 text-xs text-grey-body"> Units </span>
+				<span class="mr-1 text-xs text-body"> Units </span>
 			</div>
-			<div class="text-base text-black-title">
+			<div class="text-base text-title">
 				{numberOfUnits?.toFixed(3)}
 			</div>
 		</article>
@@ -446,7 +446,7 @@
 {#if interAmcFlag && showInterAmcPopup}
 	<ModalWithAnimation isModalOpen={showInterAmcPopup} closeModal={toggleInterAMCPopup}>
 		<div
-			class="flex w-screen flex-col items-center rounded-b-none rounded-t-2xl bg-white px-4 py-4 shadow-csm sm:!w-[875px] md:rounded-lg"
+			class="flex w-screen flex-col items-center rounded-b-none rounded-t-2xl bg-background-alt px-4 py-4 shadow-csm sm:!w-[875px] md:rounded-lg"
 		>
 			<InterAmcSwitchCue />
 			<div class="w-full pt-4 sm:w-[375px]">

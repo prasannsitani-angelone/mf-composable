@@ -98,24 +98,23 @@
 	{#if showAddFunds}
 		<!-- Add Similar Funds -->
 		<div
-			class="w-full origin-top rounded-lg bg-white transition duration-100 md:w-[460px] lg:overflow-hidden"
+			class="w-full origin-top rounded-lg bg-background-alt transition duration-100 md:w-[460px] lg:overflow-hidden"
 		>
-			<header class="z-[70] flex-shrink-0 bg-white shadow-clg">
-				<section class="flex items-center justify-start bg-white px-3 py-4 text-center shadow-csm">
+			<header class="z-[70] flex-shrink-0 bg-background-alt shadow-clg">
+				<section
+					class="flex items-center justify-start bg-background-alt px-3 py-4 text-center shadow-csm"
+				>
 					{#if firstFund}
-						<h1 class="text-lg font-medium text-black-key">Add Fund</h1>
+						<h1 class="text-lg font-medium text-title">Add Fund</h1>
 					{:else}
-						<h1 class="text-lg font-medium text-black-key">Add Fund to Compare</h1>
+						<h1 class="text-lg font-medium text-title">Add Fund to Compare</h1>
 					{/if}
 				</section>
 			</header>
-			<div class="origin-top rounded-t-md bg-white px-4 transition duration-100">
+			<div class="origin-top rounded-t-md bg-background-alt px-4 transition duration-100">
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<!-- svelte-ignore a11y-no-static-element-interactions -->
-				<div
-					class="flex rounded-lg border border-grey-line py-4 md:cursor-pointer"
-					on:click={toggleAddFunds}
-				>
+				<div class="flex rounded-lg border py-4 md:cursor-pointer" on:click={toggleAddFunds}>
 					<SearchIcon class="mx-4" />
 					<span class="">Search by fund name, type or AMC</span>
 				</div>
@@ -151,12 +150,14 @@
 	{:else if showSearch}
 		<!-- Search Funds -->
 		<div
-			class="h-full w-full origin-top rounded-lg bg-white transition duration-100 md:h-[530px] md:w-[460px] lg:overflow-hidden"
+			class="h-full w-full origin-top rounded-lg bg-background-alt transition duration-100 md:h-[530px] md:w-[460px] lg:overflow-hidden"
 		>
-			<header class="z-[70] flex-shrink-0 bg-white shadow-clg">
-				<section class="flex items-center justify-start bg-white px-3 py-4 text-center shadow-csm">
+			<header class="z-[70] flex-shrink-0 bg-background-alt shadow-clg">
+				<section
+					class="flex items-center justify-start bg-background-alt px-3 py-4 text-center shadow-csm"
+				>
 					<LeftArrowIcon class="mr-4 cursor-pointer" onClick={toggleAddFunds} />
-					<h1 class="text-lg font-medium text-black-key">Search Fund</h1>
+					<h1 class="text-lg font-medium text-title">Search Fund</h1>
 					<WMSIcon
 						name="cross-circle"
 						class="ml-auto hidden cursor-default md:block lg:cursor-pointer"
@@ -164,11 +165,11 @@
 					/>
 				</section>
 			</header>
-			<div class="origin-top rounded-t-md bg-white transition duration-100">
+			<div class="origin-top rounded-t-md bg-background-alt transition duration-100">
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 				<SearchComponent
-					class="rounded-t-md bg-white"
+					class="rounded-t-md bg-background-alt"
 					searchPageLoaded={true}
 					shouldFetchSearchDashboard={false}
 					initialSearchText="ALL"
@@ -180,13 +181,13 @@
 						<section
 							class="flex items-center justify-between px-3 py-2 pt-2 text-xs md:px-0 lg:pt-2"
 						>
-							<div class="font-normal text-grey-body">Fund Name</div>
+							<div class="font-normal text-body">Fund Name</div>
 							<div class="text-primary">3Y Returns</div>
 						</section>
 						<section class="absolute left-0 h-screen w-screen overflow-x-hidden md:w-full md:pb-20">
 							{#each resultsData || [] as scheme, idx (idx)}
 								<article
-									class="!m-3 flex cursor-pointer justify-between gap-2 !border-b border-grey-line p-0 pb-4 lg:!m-2 lg:!border-grey-line lg:p-2"
+									class="!m-3 flex cursor-pointer justify-between gap-2 !border-b border-border p-0 pb-4 lg:!m-2 lg:!border-border lg:p-2"
 									on:click|preventDefault={() => {
 										handleSchemeSelected(scheme, idx);
 									}}

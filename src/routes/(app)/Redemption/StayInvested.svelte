@@ -112,7 +112,7 @@
 </script>
 
 <article
-	class="flex w-full flex-col rounded-b-none rounded-t-2xl bg-white px-5 pb-3 pt-8 text-black-key shadow-clg md:rounded-lg {$$props?.class}"
+	class="flex w-full flex-col rounded-b-none rounded-t-2xl bg-background-alt px-5 pb-3 pt-8 text-title shadow-clg md:rounded-lg {$$props?.class}"
 >
 	<div class="text-center text-2xl font-normal">You are missing out on potential returns!</div>
 
@@ -134,11 +134,9 @@
 							{/if}
 						</div>
 						<div
-							class="w-10 h-{bar?.barHeight} {bar?.type !== 'CURRENT_VALUE'
-								? 'bg-green-amount'
-								: 'bg-black-bolder'}"
+							class="w-10 h-{bar?.barHeight} {bar?.type !== 'CURRENT_VALUE' ? 'bg-buy' : 'bg-body'}"
 						/>
-						<div class="h-[1px] w-[82px] bg-grey-line pt-[1px]" />
+						<div class="h-[1px] w-[82px] bg-border pt-[1px]" />
 						<article class="mt-2 flex w-11 flex-col items-center justify-center font-normal">
 							<div class="text-center">{bar?.xAxisTitle1}</div>
 							<div class="text-center">{bar?.xAxisTitle2}</div>
@@ -148,14 +146,14 @@
 			</section>
 
 			<div class="group mb-3">
-				<div class="flex items-center justify-center text-white group-hover:text-gray-300">
+				<div class="flex items-center justify-center text-background-alt group-hover:text-gray-300">
 					<WMSIcon width={16} height={16} name="info-in-circle-dark" />
 				</div>
 				<div
-					class="absolute z-10 -ml-[214px] mt-1 hidden transform rounded bg-black-title text-sm text-white shadow-lg group-hover:block"
+					class="absolute z-10 -ml-[214px] mt-1 hidden transform rounded bg-title text-sm text-background-alt shadow-lg group-hover:block"
 				>
 					<div class="absolute -top-1 right-3 -translate-x-0.5 transform">
-						<div class="h-2 w-2 rotate-45 transform bg-black-title" />
+						<div class="h-2 w-2 rotate-45 transform bg-title" />
 					</div>
 					<div class="relative w-60 px-4 py-3 text-xs font-normal">
 						{#each tooltipData as tip, index (index)}
@@ -168,14 +166,14 @@
 			</div>
 		</article>
 
-		<article class="mt-2 text-center text-[11px] text-black-bolder">
+		<article class="mt-2 text-center text-[11px] text-body">
 			Disclaimer: Projected value is based on standard returns of fund asset type. Your actual
 			returns may vary.
 		</article>
 
 		{#if exitLoadDetails?.length}
 			<!-- if condition is temporary (to be removed later in phase 2) -->
-			<section class="my-4 rounded bg-grey p-2">
+			<section class="my-4 rounded bg-background p-2">
 				<div class="text-xs font-normal">Additional Charges on Withdrawal (if applicable)</div>
 				{#each additionalChargesData as point, index (index)}
 					<article class="mt-3 text-[11px]">

@@ -80,13 +80,13 @@
 						subHeadingText={ordersData?.headerContent?.subHeadingText}
 						subHeaderClass={ordersData?.headerContent?.subHeaderClass}
 						status={ordersData?.headerContent?.status}
-						class="border-b border-grey-line sm:border-b-0"
+						class="border-b sm:border-b-0"
 					/>
 					<div class="mt-3 px-2 md:px-0">
 						<OrderCard orderDetails={ordersData.data} showStatusNote={ordersData.showStatusNote} />
-						<div class="mt-3 rounded-lg bg-white px-3 py-3">
+						<div class="mt-3 rounded-lg bg-background-alt px-3 py-3">
 							<div
-								class="mb-5 text-sm font-normal text-black-title"
+								class="mb-5 text-sm font-normal text-title"
 								class:!text-base={ordersData?.data?.investmentType?.toUpperCase() === 'REDEEM'}
 							>
 								{ordersData?.data?.investmentType?.toUpperCase() === 'REDEEM'
@@ -96,7 +96,7 @@
 							<OrderTimeLine items={ordersData?.orderStatusItems || []} />
 							{#if ordersData?.data?.transactionType?.toUpperCase() === TRANSACTION_TYPE.REDEEM && (ordersData?.headerContent?.status === STATUS_ARR.SUCCESS || ordersData?.headerContent?.status === STATUS_ARR.PENDING)}
 								<div
-									class="mt-3 flex items-center rounded-md bg-purple-background px-3 py-2 text-xs text-black-title md:text-base"
+									class="mt-3 flex items-center rounded-md bg-tint12-primary px-3 py-2 text-xs text-title md:text-base"
 								>
 									<div>
 										<WMSIcon name="time-pending-purple" />
@@ -111,16 +111,22 @@
 						</div>
 						{#if ordersData?.data?.transactionType?.toUpperCase() === TRANSACTION_TYPE.PURCHASE}
 							<ButtonMedium
-								color="white"
-								class="mt-2 !h-auto w-full !transform-none items-center justify-between !rounded-lg !px-3 !py-3 shadow-csm"
+								variant="transparent"
+								class="mt-2 !h-auto w-full !transform-none items-center justify-between !rounded-lg !bg-background-alt !px-3 !py-3 shadow-csm"
 								endAdornment={RightArrowIcon}
 								on:click={() => navigateToFAQ(ordersData?.tag, ordersData?.headerContent?.heading)}
 							>
 								<div class="flex items-center">
-									<WMSIcon name="question-mark-circle" class="mr-3" width={18} height={18} />
+									<WMSIcon
+										name="question-mark-circle"
+										stroke="var(--TITLE)"
+										class="mr-3"
+										width={18}
+										height={18}
+									/>
 									<div class="text-left">
-										<div class="font-normal capitalize">Need help ?</div>
-										<div class="text-xs font-normal capitalize text-grey-body">
+										<div class="font-normal capitalize text-title">Need help ?</div>
+										<div class="text-xs font-normal capitalize text-body">
 											Queries related to order status, charges and more
 										</div>
 									</div>

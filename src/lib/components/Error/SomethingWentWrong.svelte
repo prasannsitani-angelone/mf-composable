@@ -34,16 +34,16 @@
 </script>
 
 <article
-	class="-mx-2 flex items-center justify-center rounded-lg bg-white px-8 md:mx-0 {!showPageLayout &&
+	class="-mx-2 flex items-center justify-center rounded-lg bg-background-alt px-8 md:mx-0 {!showPageLayout &&
 		'cardHeight shadow-csm'} {$$props?.class || ''}"
 >
 	<section class="flex flex-col items-center justify-center">
 		<svelte:component this={SomethingWentWrongIllustration} />
 		<article>
-			<div class="text-normal mt-4 font-medium text-black-key">Something Went Wrong</div>
+			<div class="text-normal mt-4 font-medium text-title">Something Went Wrong</div>
 		</article>
 		<article>
-			<div class="mt-2 text-center text-sm font-normal text-black-bolder">
+			<div class="mt-2 text-center text-sm font-normal text-body">
 				Please try again in some time
 			</div>
 		</article>

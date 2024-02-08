@@ -30,24 +30,24 @@
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div class="sm:my-2 sm:py-2" on:click={() => selectReport({ ...item })}>
 			<div
-				class={`flex flex-row items-center py-4 hover:cursor-pointer hover:bg-grey sm:mx-2 sm:px-4 md:rounded-lg md:border-b-0 md:border-none 
-        ${index !== reportItemList?.length - 1 ? 'border-b border-grey-line' : ''}
-        ${selectedReport?.title === item?.title ? 'sm:bg-grey' : ''}
+				class={`flex flex-row items-center py-4 hover:cursor-pointer hover:bg-background sm:mx-2 sm:px-4 md:rounded-lg md:border-b-0 md:border-none
+        ${index !== reportItemList?.length - 1 ? 'border-b' : ''}
+        ${selectedReport?.title === item?.title ? 'sm:bg-background' : ''}
         `}
 				class:rounded-t-lg={index === 0}
 				class:rounded-b-lg={index === reportItemList?.length - 1}
 			>
 				<svelte:component this={item?.icon} class="mr-3" />
 				<div class="flex items-center">
-					<h2 class="mr-2 text-sm font-normal text-black-title">
+					<h2 class="mr-2 text-sm font-normal text-title">
 						{item?.title}
 					</h2>
 					{#if item?.postHeading}
 						<div
 							class={`rounded-sm p-0.5 ${
 								selectedReport?.title === item?.title
-									? 'bg-grey text-black-title sm:border sm:border-grey-line sm:bg-white sm:text-grey-body'
-									: 'bg-grey text-black-title'
+									? 'bg-background text-title sm:border sm:border-border sm:bg-background-alt sm:text-body'
+									: 'bg-background text-title'
 							}`}
 						>
 							<div class="text-[10px] font-normal">

@@ -10,7 +10,7 @@
 {#if orderDetails?.transactionType?.toUpperCase() !== 'SWITCH'}
 	<div class="flex items-center pb-3">
 		<SchemeLogo src={orderDetails?.logoUrl} alt="logo" />
-		<p class="text-sm text-black-title md:text-base">{orderDetails?.schemeName}</p>
+		<p class="text-sm text-title md:text-base">{orderDetails?.schemeName}</p>
 	</div>
 {:else}
 	<SwitchOrderTitleCard

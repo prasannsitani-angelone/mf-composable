@@ -256,7 +256,7 @@ export const load = (async ({ fetch, params, parent }) => {
 
 			statusItems[
 				ORDER_DATA.BANK_DETAILS
-			].value = `<div class="flex flex-col"><div>${bankName}</div><div class="text-sm text-grey-body">${
+			].value = `<div class="flex flex-col"><div>${bankName}</div><div class="text-sm text-body">${
 				bankAccountNumber?.length
 					? '****' + bankAccountNumber?.substring(bankAccountNumber?.length - 4)
 					: ''
@@ -438,7 +438,7 @@ export const load = (async ({ fetch, params, parent }) => {
 				};
 				autoPayDetails[ORDER_DATA.AUTO_PAY_BANK].value = `<div class="flex flex-col"><div>${
 					sipDetails?.bankName
-				}</div><div class="text-sm text-grey-body">${
+				}</div><div class="text-sm text-body">${
 					sipDetails?.accountNo?.length
 						? '****' + sipDetails?.accountNo?.substring(sipDetails?.accountNo?.length - 4)
 						: ''

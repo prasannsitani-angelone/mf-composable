@@ -10,30 +10,30 @@
 
 <Modal isModalOpen>
 	<div
-		class="flex w-full flex-col items-center justify-between overflow-y-auto rounded-t-lg bg-white shadow-clg sm:w-120 sm:rounded-lg"
+		class="flex w-full flex-col items-center justify-between overflow-y-auto rounded-t-lg bg-background-alt shadow-clg sm:w-120 sm:rounded-lg"
 	>
 		<div
-			class="mb-10 hidden w-full flex-row items-center justify-between border-b border-grey-line px-8 py-6 sm:flex"
+			class="mb-10 hidden w-full flex-row items-center justify-between border-b px-8 py-6 sm:flex"
 		>
-			<div class="text-xl font-normal text-black-title">Cancel UPI payment verification?</div>
+			<div class="text-xl font-normal text-title">Cancel UPI payment verification?</div>
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<div on:click={onClose} class="cursor-pointer">
 				<CrossInCircleIcon />
 			</div>
 		</div>
-		<div class="flex w-full px-4 py-4 text-lg font-normal text-black-title sm:hidden">
+		<div class="flex w-full px-4 py-4 text-lg font-normal text-title sm:hidden">
 			Close UPI payment verification?
 		</div>
 
 		<div class="mb-10 flex w-full flex-col px-4 sm:px-8">
-			<div class="mb-6 text-sm text-grey-body sm:text-base sm:text-black-title">
+			<div class="mb-6 text-sm text-body sm:text-base sm:text-title">
 				You can still complete this payment from your UPI application after closing this window.
 			</div>
-			<div class="flex flex-row items-center rounded bg-grey px-4 py-3">
+			<div class="flex flex-row items-center rounded bg-background px-4 py-3">
 				<!-- <MessageIcon /> -->
-				<div class="ml-4 text-xs font-normal text-grey-body sm:text-sm">
+				<div class="ml-4 text-xs font-normal text-body sm:text-sm">
 					You can always check the status in the
-					<span class="text-black-title">Transaction Details</span>
+					<span class="text-title">Transaction Details</span>
 					if you have approved payment
 				</div>
 			</div>

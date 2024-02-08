@@ -60,17 +60,17 @@
 	};
 </script>
 
-<section class="bg-white sm:m-2 sm:rounded-lg sm:py-5 sm:shadow-csm">
+<section class="bg-background-alt sm:m-2 sm:rounded-lg sm:py-5 sm:shadow-csm">
 	{#if info}
 		<div
-			class="mx-4 mb-[18px] rounded-lg bg-grey px-4 py-2 text-sm font-normal text-grey-body sm:mx-6 sm:mb-6"
+			class="mx-4 mb-[18px] rounded-lg bg-background px-4 py-2 text-sm font-normal text-body sm:mx-6 sm:mb-6"
 		>
 			{info}
 		</div>
 	{/if}
 	{#if subHeading}
 		<p
-			class={`px-4 pb-2 text-xs font-normal text-grey-body sm:border-b sm:border-grey-line sm:px-6 ${
+			class={`px-4 pb-2 text-xs font-normal text-body sm:border-b sm:border-border sm:px-6 ${
 				subHeadingClass || ''
 			}`}
 		>
@@ -91,17 +91,17 @@
 				variant={isDownloadEnabled ? 'outlined' : 'contained'}
 				class={`w-[49%] rounded ${
 					isDownloadEnabled && !buttonDisabled
-						? 'border border-blue-primary bg-white text-blue-primary'
+						? 'border border-primary bg-background-alt text-primary'
 						: ''
-				} ${buttonDisabled ? 'border border-grey-disabled bg-white' : ''} ${
+				} ${buttonDisabled ? 'border border-disabled bg-background-alt' : ''} ${
 					!isDownloadEnabled ? 'flex-1' : ''
 				}`}
 				onClick={() => downloadReport({ type: reportType, mode: reportMode.email })}
 			>
 				<div
 					class="flex items-center justify-center"
-					class:text-blue-primary={isDownloadEnabled && !buttonDisabled}
-					class:text-grey-disabled={buttonDisabled}
+					class:text-primary={isDownloadEnabled && !buttonDisabled}
+					class:text-disabled={buttonDisabled}
 				>
 					SEND EMAIL
 					{#if !deviceType?.isMobile && !buttonDisabled}

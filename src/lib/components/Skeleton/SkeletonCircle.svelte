@@ -1,1 +1,1 @@
-<div class={`rounded-full bg-grey-line ${$$props.class}`} />
+<div class={`rounded-full bg-border ${$$props.class}`} />

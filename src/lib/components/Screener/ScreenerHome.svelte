@@ -47,12 +47,12 @@
 			<p slot="heading">Explore Mutual Funds</p>
 			<div slot="right" class="ml-auto">
 				<Button variant="transparent" class="!pr-0" onClick={navigateToFilters}>
-					<WMSIcon name="filter-square" />
+					<WMSIcon name="filter-square" fill="var(--PRIMARY)" />
 				</Button>
 			</div>
 			<div slot="content" class="overflow-hidden">
 				<section class="flex flex-col">
-					<p class="mb-2 text-xs text-black-bolder">Select Quick Filters</p>
+					<p class="mb-2 text-xs text-body">Select Quick Filters</p>
 					<QuickFilter onQuickFilterSelect={navigateToFilteredItems} pageSource="Homepage" />
 				</section>
 				<section>

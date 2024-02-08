@@ -26,7 +26,7 @@
 		<!-- Show Message(s) -->
 		{#each chatItem?.texts || [] as text, index (index)}
 			{#if text?.type === 'emoji'}
-				<div class="mb-1 text-[10px] font-normal text-black-bolder">Angel</div>
+				<div class="mb-1 text-[10px] font-normal text-body">Angel</div>
 			{/if}
 			<Message
 				owner={chatItem?.owner}
@@ -60,7 +60,7 @@
 				<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 				<article class="mt-2" on:click={() => handleSchemeCardClick(scheme)}>
 					<TrendingCarouselItems
-						clazz="p-3 bg-white rounded-lg border w-[90%]"
+						clazz="p-3 bg-background-alt rounded-lg border w-[90%]"
 						schemes={scheme}
 						index={0}
 						disableRedirection

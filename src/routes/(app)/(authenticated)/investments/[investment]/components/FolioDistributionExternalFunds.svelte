@@ -7,23 +7,19 @@
 	<ul>
 		{#each distributorList as eachItem}
 			<li class="grid grid-cols-2 gap-y-px pb-3 last:pb-0">
-				<div
-					class=" col-span-1 col-start-1 row-span-1 row-start-1 text-sm font-normal text-grey-body"
-				>
+				<div class=" col-span-1 col-start-1 row-span-1 row-start-1 text-sm font-normal text-body">
 					Distributor
 				</div>
-				<div
-					class=" col-span-1 col-start-1 row-span-1 row-start-2 text-xs font-normal text-grey-body"
-				>
+				<div class=" col-span-1 col-start-1 row-span-1 row-start-2 text-xs font-normal text-body">
 					Folio Number
 				</div>
 				<div
-					class=" col-span-1 col-start-2 row-span-1 row-start-1 text-right text-sm font-normal text-black-title"
+					class=" col-span-1 col-start-2 row-span-1 row-start-1 text-right text-sm font-normal text-title"
 				>
 					{eachItem.distributor}
 				</div>
 				<div
-					class=" col-span-1 col-start-2 row-span-1 row-start-2 text-right text-xs font-normal text-grey-body"
+					class=" col-span-1 col-start-2 row-span-1 row-start-2 text-right text-xs font-normal text-body"
 				>
 					{eachItem.folio}
 				</div>

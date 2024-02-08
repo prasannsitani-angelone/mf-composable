@@ -23,8 +23,8 @@
 </script>
 
 <ModalWithAnimation on:backdropclicked={onClose} isModalOpen>
-	<div class="w-full rounded-t-3xl bg-white sm:w-120 sm:rounded-lg {$$props.class}">
-		<div class="ml-4 pb-4 pt-6 text-lg font-normal text-black-title">Select Autopay</div>
+	<div class="w-full rounded-t-3xl bg-background-alt sm:w-120 sm:rounded-lg {$$props.class}">
+		<div class="ml-4 pb-4 pt-6 text-lg font-normal text-title">Select Autopay</div>
 		<div class="flex flex-col pb-4">
 			{#each mandateList as mandate, index (mandate.mandateId)}
 				{@const logoIcon = profileStore.getBankDetailsByAccountNumber(mandate.accountNo)?.bankLogo}
@@ -38,17 +38,17 @@
 					<div slot="icon" class="flex h-8 w-11 items-center justify-center rounded-sm">
 						<img src={logoIcon} class="h-4 w-4" alt="bank logo" />
 					</div>
-					<div slot="content" class="mt-2 flex flex-col text-2xs font-normal text-grey-body">
+					<div slot="content" class="mt-2 flex flex-col text-2xs font-normal text-body">
 						<div class="flex">
 							<div class="mr-2 flex flex-row">
-								<div class="text-sm font-normal text-black-title">
+								<div class="text-sm font-normal text-title">
 									{mandate.bankName}
 								</div>
 							</div>
 
-							<div class="mt-1 flex flex-row items-center text-xs font-normal text-black-key">
+							<div class="mt-1 flex flex-row items-center text-xs font-normal text-title">
 								{#each Array(4) as i}
-									<div class="mr-1 h-1 w-1 rounded-full bg-black-key" />
+									<div class="mr-1 h-1 w-1 rounded-full bg-title" />
 								{/each}
 								{mandate.accountNo?.substring(mandate.accountNo.length - 4)}
 							</div>
@@ -60,7 +60,7 @@
 				</PaymentTile>
 			{/each}
 		</div>
-		<div class=" mx-4 flex items-center rounded bg-blue-background p-2">
+		<div class=" mx-4 flex items-center rounded bg-background p-2">
 			<div class="info-icon-container">
 				<WmsIcon
 					width={20}
@@ -70,7 +70,7 @@
 				/>
 			</div>
 			<slot name="infoText">
-				<div class="ml-3 text-sm font-normal text-grey-body">
+				<div class="ml-3 text-sm font-normal text-body">
 					If your order is already in progress, switched Autopay will be used from the next
 					instalment
 				</div>

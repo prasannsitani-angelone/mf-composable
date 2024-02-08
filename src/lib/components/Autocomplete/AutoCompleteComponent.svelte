@@ -79,7 +79,7 @@
 		container: 'py-3 mr-1 w-full border-none rounded-md',
 		label: '',
 		input:
-			'w-full !border-none focus:outline-none placeholder-grey-medium md:placeholder-grey-disabled !text-base !text-black-title font-normal lg:font-normal !input-xs !pl-0',
+			'w-full !border-none focus:outline-none placeholder-body md:placeholder-disabled !text-base !text-title font-normal lg:font-normal !input-xs !pl-0',
 		error: '',
 		parent: 'w-full'
 	};
@@ -112,7 +112,7 @@
 			<article class="flex w-full items-center">
 				<slot name="searchIcon">
 					{#if !deviceType?.isBrowser}
-						<SearchDarkIcon class="mx-4 h-6 w-6" />
+						<SearchDarkIcon class="mx-4 h-6 w-6 text-title" />
 					{:else}
 						<SearchIcon class="mx-4" />
 					{/if}

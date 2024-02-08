@@ -30,21 +30,23 @@
 	export { toggleModal, amccode, isin };
 </script>
 
-<div class="h-screen w-full origin-top bg-white transition duration-100 lg:overflow-hidden">
-	<header class="z-[70] flex-shrink-0 bg-white shadow-clg">
+<div
+	class="h-screen w-full origin-top bg-background-alt transition duration-100 lg:overflow-hidden"
+>
+	<header class="z-[70] flex-shrink-0 bg-background-alt shadow-clg">
 		<section
-			class="flex items-center justify-start bg-white px-3 py-4 text-center shadow-csm md:hidden"
+			class="flex items-center justify-start bg-background-alt px-3 py-4 text-center shadow-csm md:hidden"
 		>
 			<CrossIcon onClick={toggleModal} />
-			<h1 class="ml-4 text-lg font-normal text-black-title">
+			<h1 class="ml-4 text-lg font-normal text-title">
 				<div class="w-80 truncate text-left">Select Switch in Fund</div>
 			</h1>
 		</section>
 	</header>
-	<div class="origin-top rounded-t-md bg-white transition duration-100">
+	<div class="origin-top rounded-t-md bg-background-alt transition duration-100">
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<SearchComponent
-			class="rounded-t-md bg-white"
+			class="rounded-t-md bg-background-alt"
 			searchPageLoaded={true}
 			shouldFetchSearchDashboard={false}
 			initialSearchText="ALL"
@@ -56,14 +58,14 @@
 			<svelte:fragment slot="resultsData" let:resultsData>
 				<section class="flex items-center justify-between px-3 py-2 pt-2 text-xs md:px-0 lg:pt-2">
 					<article>
-						<span class="font-normal text-grey-body"> Available mutual funds from AMC </span>
+						<span class="font-normal text-body"> Available mutual funds from AMC </span>
 					</article>
-					<article><span class="text-grey-body"> 3Y Returns </span></article>
+					<article><span class="text-body"> 3Y Returns </span></article>
 				</section>
 				<section class="absolute left-0 h-screen w-screen overflow-x-hidden md:w-full md:pb-20">
 					{#each resultsData || [] as scheme}
 						<article
-							class="!m-3 flex cursor-pointer justify-between gap-2 !border-b border-grey-line p-0 pb-4 lg:!m-2 lg:!border-grey-line lg:p-2"
+							class="!m-3 flex cursor-pointer justify-between gap-2 !border-b border-border p-0 pb-4 lg:!m-2 lg:!border-border lg:p-2"
 							on:click|preventDefault={() => {
 								switchSchemeSelected(scheme);
 							}}

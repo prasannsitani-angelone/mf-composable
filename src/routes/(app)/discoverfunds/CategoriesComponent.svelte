@@ -7,7 +7,9 @@
 </script>
 
 {#each categories || [] as category}
-	<article class="mb-2 max-w-4xl rounded-lg bg-white text-sm shadow-csm last:mb-0 ${$$props.class}">
+	<article
+		class="mb-2 max-w-4xl rounded-lg bg-background-alt text-sm shadow-csm last:mb-0 ${$$props.class}"
+	>
 		{#if category.type === 'tab'}
 			<TabCategoryComponent {category} />
 		{:else if category.type === 'click'}

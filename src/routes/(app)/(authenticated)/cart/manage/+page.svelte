@@ -32,14 +32,14 @@
 		width={14}
 		height={14}
 		on:click={handleBackNavigation}
-	/> <span class="text-lg font-normal text-black-title">Manage Cart</span>
+	/> <span class="text-lg font-normal text-title">Manage Cart</span>
 </section>
 {#await data?.api?.cartItems}
 	<ManageCartSkeletanLoader />
 {:then cartItems}
-	<div class="hidden bg-white sm:flex">
+	<div class="hidden bg-background-alt sm:flex">
 		<div
-			class="w-full grid-cols-[55%_45%] items-center gap-y-2 rounded-t border-b border-t border-grey-line bg-white px-6 py-4 text-sm font-normal text-grey-dark sm:grid sm:grid-cols-[46%_18%_18%_18%] sm:items-center sm:px-6 sm:py-4"
+			class="w-full grid-cols-[55%_45%] items-center gap-y-2 rounded-t border-b border-t bg-background-alt px-6 py-4 text-sm font-normal text-body sm:grid sm:grid-cols-[46%_18%_18%_18%] sm:items-center sm:px-6 sm:py-4"
 		>
 			<div>Fund</div>
 			<div>Investment Type</div>

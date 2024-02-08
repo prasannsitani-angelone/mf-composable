@@ -9,6 +9,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { modifiedGoto } from '$lib/utils/goto';
+	import { WMSIcon } from 'svelte-components';
 
 	export let schemes: WeeklyTopSchemesEntity;
 	export let clazz = '';
@@ -45,7 +46,7 @@
 			lazy={index > 1 ? 'lazy' : 'eager'}
 		/>
 		<h3
-			class="line-clamp-2 self-center whitespace-normal text-sm font-normal text-black-title md:text-sm"
+			class="line-clamp-2 self-center whitespace-normal text-sm font-normal text-title md:text-sm"
 		>
 			{schemes?.schemeName}
 		</h3>
@@ -71,8 +72,8 @@
 				>
 					<slot name="detailsLeft">
 						<div class="flex flex-col items-start">
-							<p class="text-xs font-normal">Min. SIP Amount</p>
-							<p class="text-base font-medium">
+							<p class="text-xs font-normal text-body">Min. SIP Amount</p>
+							<p class="text-base font-medium text-title">
 								₹ {addCommasToAmountString(schemes?.minSipAmount?.toString()) ||
 									schemes?.minSipAmount}
 							</p>
@@ -80,12 +81,12 @@
 					</slot>
 					<slot name="detailsRight">
 						<div class="flex flex-col items-end">
-							<p class="text-xs font-normal">3 Year Returns</p>
+							<p class="text-xs font-normal text-body">3 Year Returns</p>
 							<div class="flex flex-row items-center">
-								<p class="text-xs font-normal">
+								<p class="text-xs font-normal text-title">
 									<span
 										class="text-base font-medium {schemes?.returns3yr > 0
-											? 'text-green-amount'
+											? 'text-buy'
 											: 'text-black-bolder'}">{schemes?.returns3yr?.toFixed(2)}%</span
 									>
 								</p>
@@ -97,20 +98,21 @@
 		</slot>
 		<slot name="detailsFooter">
 			{#if schemes?.noOfClientInvested}
-				<div class="flex flex-row items-center rounded-b bg-purple-background p-2">
+				<div class="flex flex-row items-center rounded-b bg-tint24-primary p-2">
 					<slot name="detailsFooterIcon">
-						<img
-							src={PeopleIcon}
-							class="mr-2 p-1"
+						<WMSIcon
+							fill="var(--TITLE)"
+							name="people-icon"
+							class="mr-2 p-1 text-title"
 							decoding="async"
 							alt="Number of people invested"
-							width="24"
-							height="24"
+							width={24}
+							height={24}
 						/>
 					</slot>
 
 					<slot name="detailsFooterDescription">
-						<p class="text-xs text-black-bolder">
+						<p class="text-xs text-title">
 							<span class=" font-medium">
 								{addCommasToAmountString(schemes?.noOfClientInvested)}
 							</span>

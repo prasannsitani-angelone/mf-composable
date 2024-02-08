@@ -28,7 +28,7 @@
 
 {#if LottiePlayer}
 	<section
-		class="flex h-screen w-full flex-col items-center justify-center md:h-[calc(100vh-148px)] {$$props?.class}"
+		class="flex h-screen w-full flex-col items-center justify-center bg-background-alt md:h-[calc(100vh-148px)] {$$props?.class}"
 	>
 		<LottiePlayer
 			src={AnimatedLottie}
@@ -41,7 +41,7 @@
 			width={100}
 			{controlsLayout}
 		/>
-		<div id="banner" class="fade-in-text mt-3 text-lg font-medium">{bannerText}</div>
+		<div id="banner" class="fade-in-text mt-3 text-lg font-medium text-title">{bannerText}</div>
 	</section>
 {/if}
 

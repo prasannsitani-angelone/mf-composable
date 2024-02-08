@@ -178,7 +178,7 @@
 <article class={`hidden rounded-t-lg px-5 py-4 text-center md:flex ${$$props?.class}`}>
 	<article class="flex w-full cursor-pointer items-center justify-start">
 		<LeftArrowIcon class="mr-4 cursor-pointer" onClick={handleBackNavigation} />
-		<h1 class="cursor-default text-base font-normal text-black-key">
+		<h1 class="cursor-default text-base font-normal text-title">
 			<div class="truncate text-left">Family Portfolio</div>
 		</h1>
 		<section class="ml-1">
@@ -187,7 +187,7 @@
 	</article>
 </article>
 
-<section class="mx-2 md:rounded-xl md:bg-white md:shadow-csm">
+<section class="mx-2 md:rounded-xl md:bg-background-alt md:shadow-csm">
 	{#if familyListReactive?.length}
 		<section class="mb-40 md:mb-0 md:p-6">
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -196,7 +196,7 @@
 				class="flex items-center justify-between border-b px-3 py-2 md:cursor-pointer"
 				on:click={setSelectAllMembers}
 			>
-				<div class="text-sm font-normal text-black-key">Select All</div>
+				<div class="text-sm font-normal text-title">Select All</div>
 
 				<Checkbox class="ml-[-4px]" checked={selectAllMembers} label="" />
 			</article>

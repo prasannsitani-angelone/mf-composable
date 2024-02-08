@@ -178,9 +178,11 @@
 </script>
 
 <CartTableHeader {isSelectAllChecked} handleCheckboxChange={toggleSelectAll} />
-<section class=" bg-white max-sm:h-[calc(100vh-330px)] max-sm:overflow-auto max-sm:pb-20 sm:mb-4">
+<section
+	class=" bg-background-alt max-sm:h-[calc(100vh-330px)] max-sm:overflow-auto max-sm:pb-20 sm:mb-4"
+>
 	<div id="cartGridTable">
-		<div id="cartGridTableHeader" class="text-xs font-normal text-grey-dark">
+		<div id="cartGridTableHeader" class="text-xs font-normal text-body">
 			<div
 				class="hidden grid-cols-[10%_1fr_28%] border-b px-6 py-3 sm:grid sm:grid-cols-[6%_43%_20%_20%_11%]"
 			>
@@ -208,16 +210,16 @@
 {#if showProceedNotAllowedModal}
 	<Modal closeModal={closeOrderLimitExceedModal} isModalOpen>
 		<div
-			class="flex w-screen flex-col items-center justify-between rounded-b-none rounded-t-2xl bg-white p-4 text-center sm:!w-[460px] sm:rounded-lg sm:px-20 sm:py-8"
+			class="flex w-screen flex-col items-center justify-between rounded-b-none rounded-t-2xl bg-background-alt p-4 text-center sm:!w-[460px] sm:rounded-lg sm:px-20 sm:py-8"
 		>
 			<div class=""><WMSIcon width={92} height={92} name="red-exclamation-thin" /></div>
-			<div class="mb-4 mt-6 text-2xl font-normal text-black-key">Order size limit exceeded</div>
+			<div class="mb-4 mt-6 text-2xl font-normal text-title">Order size limit exceeded</div>
 
-			<div class=" text-sm font-normal text-black-key">
+			<div class=" text-sm font-normal text-title">
 				{proceedNotAllowedMessage}
 			</div>
 
-			<section class="flex w-full flex-row gap-4 bg-white pb-2 pt-6 sm:pt-10">
+			<section class="flex w-full flex-row gap-4 bg-background-alt pb-2 pt-6 sm:pt-10">
 				<Button
 					variant="contained"
 					class="flex-1 rounded max-sm:w-full"
@@ -233,7 +235,7 @@
 {#if bulkUpdateModalType}
 	<Modal closeModal={closeBulkUpdateConfirmationModal} isModalOpen>
 		<div
-			class=" flex min-h-[40vh] w-screen flex-col items-center justify-center rounded-b-none rounded-t-2xl bg-white p-4 text-center sm:!w-[460px] sm:rounded-lg sm:px-20 sm:py-8"
+			class=" flex min-h-[40vh] w-screen flex-col items-center justify-center rounded-b-none rounded-t-2xl bg-background-alt p-4 text-center sm:!w-[460px] sm:rounded-lg sm:px-20 sm:py-8"
 		>
 			{#if bulkUpdateModalType === 'loading'}
 				<div class="flex h-full">
@@ -243,12 +245,10 @@
 				</div>
 			{:else if bulkUpdateModalType === 'failure'}
 				<div class=""><WMSIcon width={92} height={92} name="red-cross-circle" /></div>
-				<div class="mb-4 mt-6 text-2xl font-normal text-black-key">
-					Unable to process your request.
-				</div>
+				<div class="mb-4 mt-6 text-2xl font-normal text-title">Unable to process your request.</div>
 			{/if}
 			{#if bulkUpdateModalType === 'failure'}
-				<section class="flex w-full flex-row gap-4 bg-white pb-2 pt-6 sm:pt-10">
+				<section class="flex w-full flex-row gap-4 bg-background-alt pb-2 pt-6 sm:pt-10">
 					<Button
 						variant="outlined"
 						class="flex-1 rounded max-sm:w-full"

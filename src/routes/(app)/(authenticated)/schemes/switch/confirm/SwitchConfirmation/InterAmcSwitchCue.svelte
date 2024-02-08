@@ -1,9 +1,9 @@
 <div
-	class="w-screen justify-between rounded-b-none rounded-t-2xl bg-white text-left sm:!w-[800px] sm:rounded-lg sm:py-8"
+	class="w-screen justify-between rounded-b-none rounded-t-2xl bg-background-alt text-left sm:!w-[800px] sm:rounded-lg sm:py-8"
 >
-	<div class="px-2 pb-2 text-sm font-normal text-black-title">Disclaimer:</div>
+	<div class="px-2 pb-2 text-sm font-normal text-title">Disclaimer:</div>
 
-	<div class="px-6 text-sm font-normal text-grey-body">
+	<div class="px-6 text-sm font-normal text-body">
 		<ol class="list-decimal">
 			<li>
 				In Inter AMC switch, withdraw order and purchase order will take place separately. Purchase

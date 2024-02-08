@@ -15,12 +15,12 @@
 	export let iconWidth = 36;
 </script>
 
-<div class="flex w-72 flex-col gap-1 rounded-lg bg-white {$$props.class}">
+<div class="flex w-72 flex-col gap-1 rounded-lg bg-background-alt {$$props.class}">
 	{#each list as item, index (index)}
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
 			class="flex flex-row items-center px-4 py-3 active:opacity-50 {index !== list.length - 1
-				? 'border-b border-grey-line'
+				? 'border-b'
 				: ''} {listClass} {item.class || ''}"
 			on:click={item.action}
 		>
@@ -31,7 +31,7 @@
 					width={item?.iconWidth || iconWidth}
 				/>
 			</div>
-			<div class="text-base font-normal text-black-title">
+			<div class="text-base font-normal text-title">
 				{item.title}
 			</div>
 		</div>

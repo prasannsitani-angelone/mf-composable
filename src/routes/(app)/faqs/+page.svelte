@@ -153,12 +153,14 @@
 				{@const ordersList = ordersData?.data?.data?.orders?.splice(0, 2) || []}
 				<article class="col-start-1 row-start-1 md:col-start-2 md:row-span-3">
 					<section
-						class="mb-2 mt-2 rounded-b-lg rounded-t-lg bg-white px-3 shadow-csm md:mb-0 md:mt-0 md:px-4"
+						class="mb-2 mt-2 rounded-b-lg rounded-t-lg bg-background-alt px-3 shadow-csm md:mb-0 md:mt-0 md:px-4"
 					>
-						<div class="rounded-t-lg py-3 text-base font-normal md:py-4">Recent orders</div>
+						<div class="rounded-t-lg py-3 text-base font-normal text-title md:py-4">
+							Recent orders
+						</div>
 
 						{#each ordersList as item (item?.orderId)}
-							<article class="mb-3 rounded-lg bg-white px-2 py-4 shadow-csm md:px-4">
+							<article class="mb-3 rounded-lg bg-background-alt px-2 py-4 shadow-csm md:px-4">
 								<OrderCardHeader textString={getDateTimeString(item?.createdTs, 'DATE', true)} />
 								<OrderCardBody {item} />
 							</article>
@@ -193,12 +195,12 @@
 					/>
 				{/if}
 				<section
-					class="rounded-b-lg rounded-t-lg bg-white px-3 md:px-4 {!data?.showRecentOrders
+					class="rounded-b-lg rounded-t-lg bg-background-alt px-3 md:px-4 {!data?.showRecentOrders
 						? 'md:rounded-t-none'
 						: ''} shadow-csm"
 				>
 					{#if data?.showRecentOrders}
-						<div class="rounded-t-lg py-3 text-base font-normal md:py-4">
+						<div class="rounded-t-lg py-3 text-base font-normal text-title md:py-4">
 							<span class="capitalize">{data?.tag === 'sips' ? 'SIPs' : data?.tag}</span> FAQs
 						</div>
 					{/if}
@@ -206,7 +208,8 @@
 					{#each faqsArray as faq, index (index)}
 						<ButtonMedium
 							color="white"
-							class="flex !h-auto w-full !transform-none flex-nowrap justify-between rounded-none border-b-[1px] border-b-grey-line !px-0 !pb-2 !pt-3 text-left !font-normal !normal-case text-grey-body hover:!transform-none hover:!border-b-grey-line focus:!border-b-grey-line active:!transform-none md:!pb-5 md:!pt-5 {index ===
+							variant="transparent"
+							class="flex !h-auto w-full !transform-none flex-nowrap justify-between rounded-none border-b-[1px] border-b-border !px-0 !pb-2 !pt-3 text-left !font-normal !normal-case text-body hover:!transform-none hover:!border-b-border focus:!border-b-border active:!transform-none md:!pb-5 md:!pt-5 {index ===
 								faqData?.data?.faqs?.length - 1 && 'border-none !pb-4 md:!pb-5'}"
 							on:click={() => navigateToFAQDetails(faq, index)}
 						>
@@ -239,15 +242,15 @@
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<!-- svelte-ignore a11y-no-static-element-interactions -->
 				<div
-					class="w-full rounded-lg bg-white p-2 shadow-csm active:opacity-60"
+					class="w-full rounded-lg bg-background-alt p-2 shadow-csm active:opacity-60"
 					on:click={openTicketApplication}
 				>
-					<div class="flex flex-row items-center justify-between rounded bg-grey p-3">
+					<div class="flex flex-row items-center justify-between rounded bg-background p-3">
 						<div class="flex flex-row items-center">
 							<WMSIcon name="ticket" class="h-8 w-8" />
 							<div class="ml-2 flex flex-col">
-								<div class="text-sm font-normal text-black-title">Your Tickets</div>
-								<div class="text-xs font-normal text-grey-body">Create and track your Ticket</div>
+								<div class="text-sm font-normal text-title">Your Tickets</div>
+								<div class="text-xs font-normal text-body">Create and track your Ticket</div>
 							</div>
 						</div>
 						<WMSIcon name="right-arrow" />

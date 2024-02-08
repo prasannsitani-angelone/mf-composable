@@ -133,19 +133,19 @@
 	export { taxationData };
 </script>
 
-<article class="rounded bg-white">
-	<header class="flex border-b border-grey-line p-4">
-		<div class="mr-2 flex h-9 w-9 items-center justify-center rounded-full bg-blue-background">
+<article class="rounded bg-background-alt">
+	<header class="flex border-b p-4">
+		<div class="mr-2 flex h-9 w-9 items-center justify-center rounded-full bg-background">
 			<TaxationIcon />
 		</div>
 		<div class="flex flex-col">
-			<h2 class="text-base text-black-key">Tax Overview</h2>
-			<h3 class="text-xs text-black-bolder">Your short term and long term gains</h3>
+			<h2 class="text-base text-title">Tax Overview</h2>
+			<h3 class="text-xs text-body">Your short term and long term gains</h3>
 		</div>
 	</header>
-	<section class="flex flex-col border-b border-grey-line p-4">
-		<h4 class="mb-3 text-sm font-medium text-black-key">Capital Gains Tax Split</h4>
-		<p class="text-xs text-black-bolder">Applicable on your portfolio if you withdraw today</p>
+	<section class="flex flex-col border-b p-4">
+		<h4 class="mb-3 text-sm font-medium text-title">Capital Gains Tax Split</h4>
+		<p class="text-xs text-body">Applicable on your portfolio if you withdraw today</p>
 		<!-- For Graph -->
 		<div class="mt-3">
 			<LinearChart chartInput={taxGainGraph} />
@@ -156,7 +156,7 @@
 				<div
 					class={`flex items-center ${
 						investmentType.label === 'Short term investment'
-							? 'border-b border-grey-line pb-3'
+							? 'border-b border-border pb-3'
 							: 'pt-3'
 					}`}
 					on:click={() => {
@@ -167,15 +167,15 @@
 				>
 					<div class="flex items-center">
 						<div class="h-4 w-4 rounded-md" style={`background:${investmentType.fillColor}`} />
-						<p class="ml-2 text-sm text-black-key">{investmentType.label}</p>
+						<p class="ml-2 text-sm text-title">{investmentType.label}</p>
 					</div>
 
 					<div class="ml-auto flex">
 						<div class="mr-3 flex flex-col items-end">
-							<p class="text-sm font-medium text-black-key">
+							<p class="text-sm font-medium text-title">
 								{taxationData[investmentType.investmentPercentage]?.toFixed(2) || 0}%
 							</p>
-							<p class="mt-1 text-xs text-black-bolder">
+							<p class="mt-1 text-xs text-body">
 								<AmountText amount={taxationData[investmentType.investedAmount]?.toFixed(2)} />
 							</p>
 						</div>
@@ -189,9 +189,9 @@
 	</section>
 
 	<section class="flex flex-col p-4">
-		<h4 class="mb-3 text-sm font-medium text-black-key">Save Taxes with ELSS Funds</h4>
+		<h4 class="mb-3 text-sm font-medium text-title">Save Taxes with ELSS Funds</h4>
 
-		<p class="mb-4 text-xs text-black-bolder">
+		<p class="mb-4 text-xs text-body">
 			{#if taxationData?.totalElssInvestedFy >= taxationData?.elssInvestmentCap}
 				You have already invested
 				<AmountText amount={taxationData?.elssInvestmentCap?.toFixed()} />
@@ -209,14 +209,14 @@
 
 		<div class="flex">
 			<div class="flex flex-col">
-				<p class="text-xs text-black-bolder">Invested</p>
-				<p class="text-sm font-medium text-black-key">
+				<p class="text-xs text-body">Invested</p>
+				<p class="text-sm font-medium text-title">
 					<AmountText amount={taxationData?.totalElssInvestedFy?.toFixed()} />
 				</p>
 			</div>
 			<div class="ml-auto flex flex-col">
-				<p class="text-right text-xs text-black-bolder">Limit</p>
-				<p class="text-sm font-medium text-black-key">
+				<p class="text-right text-xs text-body">Limit</p>
+				<p class="text-sm font-medium text-title">
 					<AmountText amount={taxationData?.elssInvestmentCap?.toFixed()} />
 				</p>
 			</div>
@@ -226,7 +226,7 @@
 		</div>
 		{#if taxationData?.totalElssInvestedFy < taxationData?.elssInvestmentCap}
 			<div class="flex items-center justify-between md:my-2">
-				<h4 class="text-sm font-medium text-black-key">Explore Tax Saving Funds</h4>
+				<h4 class="text-sm font-medium text-title">Explore Tax Saving Funds</h4>
 				<Button
 					variant={BtnVariant.Contained}
 					size="sm"

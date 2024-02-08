@@ -4,15 +4,15 @@
 </script>
 
 <section
-	class="mx-2 mt-2 justify-center rounded-lg border border-grey-line bg-gradient-to-b from-[#F0F2FC] to-[#E7EBFA] p-4"
+	class="light mx-2 mt-2 justify-center rounded-lg border bg-gradient-to-b from-[#F0F2FC] to-[#E7EBFA] p-4"
 >
 	<article class="flex items-center justify-between">
-		<div class="justify-between pr-8 text-black-key">
+		<div class="justify-between pr-8 text-title">
 			<div class="flex flex-col text-base font-medium">What is a Portfolio?</div>
-			<div class="pt-2 text-[11px] text-black-bolder">
+			<div class="pt-2 text-[11px] text-body">
 				<div class="flex items-start">
 					<div
-						class="mr-2 mt-1 flex items-center justify-center rounded-full border-[2px] border-black-bolder"
+						class="mr-2 mt-1 flex items-center justify-center rounded-full border-[2px] border-body"
 					>
 						<WMSIcon name="eclipse" height={4} width={4} stroke="#E7EBFA" />
 					</div>
@@ -20,7 +20,7 @@
 				</div>
 				<div class="mt-2 flex items-start">
 					<div
-						class="mr-2 mt-1 flex items-center justify-center rounded-full border-[2px] border-black-bolder"
+						class="mr-2 mt-1 flex items-center justify-center rounded-full border-[2px] border-body"
 					>
 						<WMSIcon name="eclipse" height={4} width={4} stroke="#E7EBFA" />
 					</div>

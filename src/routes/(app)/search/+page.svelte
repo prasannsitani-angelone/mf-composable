@@ -12,7 +12,7 @@
 	<section>
 		<div class="w-full origin-top transition duration-100">
 			<SearchComponent
-				class="rounded-t-md bg-white"
+				class="rounded-t-md bg-background-alt"
 				searchPageLoaded={pageLoaded}
 				filter="divedendgrowthflag:GROWTH&recommendation=true"
 			/>

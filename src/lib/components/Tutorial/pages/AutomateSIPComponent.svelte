@@ -50,14 +50,14 @@
 	class="flex h-screen flex-col bg-[#FACE80] p-5 {$$props.class}"
 >
 	<section class="flex-1">
-		<p class="mb-3 mt-10 text-2xl font-medium text-black-key">Automating SIP Payments</p>
+		<p class="mb-3 mt-10 text-2xl font-medium text-title">Automating SIP Payments</p>
 		{#if clientHeight > HEIGHT_OFFSET}
 			<Icon4 class="mx-auto mb-3" />
 		{/if}
 
 		<ul class="ml-3">
 			{#each options as option}
-				<li class="mb-2 list-disc text-sm font-normal leading-6 text-black-key">
+				<li class="mb-2 list-disc text-sm font-normal leading-6 text-title">
 					{option}
 				</li>
 			{/each}
@@ -66,6 +66,6 @@
 
 	<section class="flex flex-col items-center justify-center">
 		<WMSIcon width={14} height={8} name="swipe-up" stroke="black" class="mb-1" />
-		<p class="text-sm font-medium text-black-key">Swipe up to explore UPI Autopay</p>
+		<p class="text-sm font-medium text-title">Swipe up to explore UPI Autopay</p>
 	</section>
 </div>

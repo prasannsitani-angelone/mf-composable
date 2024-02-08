@@ -49,10 +49,10 @@
 
 				<div class="flex flex-1 flex-col">
 					{#if data?.kv?.title}
-						<p class="mb-1 w-full text-sm font-medium text-black-title">{data?.kv?.title}</p>
+						<p class="mb-1 w-full text-sm font-medium text-title">{data?.kv?.title}</p>
 					{/if}
 					{#if data?.kv?.subtext}
-						<p class="w-full text-xs font-normal text-black-bolder">{data?.kv?.subtext}</p>
+						<p class="w-full text-xs font-normal text-body">{data?.kv?.subtext}</p>
 					{/if}
 				</div>
 
@@ -81,7 +81,7 @@
 							variant={BtnVariant.Transparent}
 							size={BtnSize.SM}
 							onClick={onCloseClicked}
-							class="!text-sm !uppercase !text-black-bolder"
+							class="!text-sm !uppercase !text-body"
 						>
 							{data?.kv?.secondarytext}
 						</ButtonMedium>

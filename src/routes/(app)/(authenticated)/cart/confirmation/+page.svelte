@@ -438,7 +438,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	class="text-title-black hidden flex-row items-center pb-6 pt-3 text-lg font-normal active:opacity-80 sm:flex"
+	class="text-title-title hidden flex-row items-center pb-6 pt-3 text-lg font-normal active:opacity-80 sm:flex"
 	on:click={goBack}
 >
 	<WMSIcon name="left-arrow" height={16} width={16} class="mr-4" />
@@ -453,7 +453,7 @@
 			<div class="flex h-full flex-col overflow-hidden sm:h-max sm:overflow-auto">
 				<div class="flex flex-1 flex-col overflow-auto sm:mb-3 sm:flex-initial sm:overflow-visible">
 					<div
-						class="hidden grid-cols-[46%_18%_18%_18%] items-center border-b border-t border-grey-line bg-white px-6 py-4 text-sm font-normal text-grey-dark sm:grid"
+						class="hidden grid-cols-[46%_18%_18%_18%] items-center border-b border-t bg-background-alt px-6 py-4 text-sm font-normal text-body sm:grid"
 					>
 						<div>Fund</div>
 						<div>Investment Type</div>
@@ -470,12 +470,10 @@
 						/>
 					{/each}
 					<div
-						class="grid grid-cols-[46%_18%_18%_18%] items-center bg-white px-3 py-3 sm:px-6 sm:py-4"
+						class="grid grid-cols-[46%_18%_18%_18%] items-center bg-background-alt px-3 py-3 sm:px-6 sm:py-4"
 					>
-						<div class="text-title-black text-sm font-bold">Total</div>
-						<div
-							class="text-title-black col-start-4 flex justify-end text-sm font-bold sm:justify-start"
-						>
+						<div class="text-sm font-bold text-title">Total</div>
+						<div class="col-start-4 flex justify-end text-sm font-bold text-title sm:justify-start">
 							₹{addCommasToAmountString(itemList?.totalAmount?.toString())}
 						</div>
 					</div>
@@ -484,16 +482,16 @@
 					<div />
 				{:then}
 					{#if isMobile}
-						<article class="flex items-center justify-center bg-white px-4 pt-2">
-							<p class="text-center text-xs font-normal text-black-title">
+						<article class="flex items-center justify-center bg-background-alt px-4 pt-2">
+							<p class="text-center text-xs font-normal text-title">
 								By proceeding, you accept Angel One's
-								<button class="text-blue-primary md:cursor-pointer" on:click={toggleTncModal}>
+								<button class="text-primary md:cursor-pointer" on:click={toggleTncModal}>
 									Terms and Conditions
 								</button>
 							</p>
 						</article>
 					{/if}
-					<div class="flex flex-row items-center justify-between bg-white px-4 py-3">
+					<div class="flex flex-row items-center justify-between bg-background-alt px-4 py-3">
 						{#if !firstTimeUser}
 							<div class="flex flex-1">
 								<PaymentSleeve
@@ -507,10 +505,10 @@
 						{/if}
 						<div class="flex flex-1 flex-col">
 							{#if !isMobile}
-								<article class="flex items-center justify-center bg-white px-4 py-2">
-									<p class="text-center text-xs font-normal text-black-title">
+								<article class="flex items-center justify-center bg-background-alt px-4 py-2">
+									<p class="text-center text-xs font-normal text-title">
 										By proceeding, you accept Angel One's
-										<button class="text-blue-primary md:cursor-pointer" on:click={toggleTncModal}>
+										<button class="text-primary md:cursor-pointer" on:click={toggleTncModal}>
 											Terms and Conditions
 										</button>
 									</p>
@@ -531,7 +529,7 @@
 			</div>
 		{:else}
 			<div class="flex h-full flex-col items-center self-center px-4 py-4">
-				<div class="mb-4 text-center text-base font-normal text-black-title">
+				<div class="mb-4 text-center text-base font-normal text-title">
 					We are facing some issue at our end. Please try again or contact field support
 				</div>
 				<Button variant="transparent" class="mt-6 w-max self-center" onClick={onRefresh}>
@@ -608,16 +606,16 @@
 				</svelte:fragment>
 				<svelte:fragment slot="middleSection">
 					{#if error?.code === WRONG_BANK_ERROR_CODE}
-						<section class="item-center mt-2 flex rounded bg-grey p-2">
+						<section class="item-center mt-2 flex rounded bg-background p-2">
 							<div class="my-auto flex-1">
 								<WMSIcon name="info-in-circle-dark" class="p-1" stroke="#3F5BD9" />
 							</div>
-							<div class="ml-3 text-left text-sm font-normal text-grey-body">
+							<div class="ml-3 text-left text-sm font-normal text-body">
 								If any money has been debited from your account, it will be refunded automatically.
 							</div>
 						</section>
 					{:else}
-						<section class="mt-4 text-sm text-grey-body">
+						<section class="mt-4 text-sm text-body">
 							To complete your order, please retry payment
 						</section>
 					{/if}
@@ -652,7 +650,7 @@
 		{/if}
 	{:catch}
 		<div class="flex h-full flex-col items-center self-center px-4 py-4">
-			<div class="mb-4 text-center text-base font-normal text-black-title">
+			<div class="mb-4 text-center text-base font-normal text-title">
 				We are facing some issue at our end. Please try again or contact field support
 			</div>
 			<Button variant="transparent" class="mt-6 w-max self-center" onClick={onRefresh}>

@@ -136,7 +136,7 @@
 					schemes?.isin,
 					schemes?.schemeCode
 				)}${isExternal ? '-rtaSchemeCode-' + schemes?.rtaSchemeCode + '/external' : ''}`}
-				class="mb-2 block rounded-lg bg-white p-4 px-3 pb-4 pt-2 text-sm shadow-csm last:border-none sm:mb-0 sm:rounded-none sm:border-b sm:px-6 sm:shadow-none {schemes?.sipEnabled
+				class="mb-2 block rounded-lg bg-background-alt p-4 px-3 pb-4 pt-2 text-sm shadow-csm last:border-none sm:mb-0 sm:rounded-none sm:border-b sm:px-6 sm:shadow-none {schemes?.sipEnabled
 					? 'pt-2 sm:pb-6'
 					: 'pt-4 sm:pb-4'}"
 				on:linkClicked={() => handleRowClick(schemes)}
@@ -165,14 +165,14 @@
 							<div class="flex w-[75%] items-center sm:w-[82%]">
 								<SchemeLogo size="sm" alt="bank logo" src={schemes.logoUrl} />
 								<h3
-									class="this-scheme-name line-clamp-2 whitespace-normal pr-3 text-sm font-normal text-black-title sm:pr-8 sm:text-base"
+									class="this-scheme-name line-clamp-2 whitespace-normal pr-3 text-sm font-normal text-title sm:pr-8 sm:text-base"
 								>
 									{schemes?.schemeName}
 								</h3>
 							</div>
 							<div class="flex w-[25%] flex-col text-right sm:w-[18%] sm:text-left">
-								<span class="text-xs font-normal text-grey-body sm:text-sm">Current</span><span
-									class="scheme-current-value text-sm font-medium text-black-title"
+								<span class="text-xs font-normal text-body sm:text-sm">Current</span><span
+									class="scheme-current-value text-sm font-medium text-title"
 									>₹{schemes?.currentValue?.toString()
 										? addCommasToAmountString(schemes?.currentValue?.toFixed(2)?.toString())
 										: '-'}</span
@@ -183,19 +183,19 @@
 							class="flex w-full justify-between border-t max-sm:pt-3 sm:w-[29%] sm:border-none sm:text-left"
 						>
 							<div class="flex flex-col max-sm:justify-center sm:items-start sm:pr-2">
-								<div class="mr-1 text-xs font-normal text-grey-body sm:hidden sm:text-sm">
+								<div class="mr-1 text-xs font-normal text-body sm:hidden sm:text-sm">
 									Invested Amount
 								</div>
-								<div class="mr-1 text-xs font-normal text-grey-body max-sm:hidden sm:text-sm">
+								<div class="mr-1 text-xs font-normal text-body max-sm:hidden sm:text-sm">
 									Invested
 								</div>
 								<div>
 									{#if isPartialImport(schemes)}
-										<article class="text-black-title lg:text-center">- -</article>
+										<article class="text-title lg:text-center">- -</article>
 									{:else}
 										<div
 											data-testid={'invested-' + schemes?.isin + index}
-											class="scheme-invested-value text-xs font-normal text-black-key max-sm:text-sm sm:text-sm sm:font-medium"
+											class="scheme-invested-value text-xs font-normal text-title max-sm:text-sm sm:text-sm sm:font-medium"
 										>
 											₹{schemes?.investedValue?.toString()
 												? addCommasToAmountString(schemes?.investedValue?.toFixed(2)?.toString())
@@ -207,21 +207,21 @@
 
 							<div class=" flex flex-col items-end max-sm:justify-center sm:text-left">
 								{#if activeFilter === 'absolute'}
-									<div class="text-xs font-normal text-grey-body sm:text-sm">Returns</div>
+									<div class="text-xs font-normal text-body sm:text-sm">Returns</div>
 								{:else}
-									<div class="text-xs font-normal text-grey-body sm:text-sm">XIRR</div>
+									<div class="text-xs font-normal text-body sm:text-sm">XIRR</div>
 								{/if}
 								<div>
 									{#if isPartialImport(schemes)}
-										<article class=" text-black-title lg:text-right">- -</article>
+										<article class=" text-title lg:text-right">- -</article>
 									{:else}
 										<article
-											class="flex flex-wrap items-center justify-end text-black-title sm:flex-col lg:text-right"
+											class="flex flex-wrap items-center justify-end text-title sm:flex-col lg:text-right"
 										>
 											{#if activeFilter === 'absolute'}
 												<span
 													data-testid={'returnsAmount-' + schemes?.isin + index}
-													class="scheme-returns-value text-sm font-normal text-black-key sm:font-medium"
+													class="scheme-returns-value text-sm font-normal text-title sm:font-medium"
 												>
 													{schemes?.returnsValue?.toString() && schemes?.returnsValue < 0
 														? '- '
@@ -236,8 +236,8 @@
 													data-testid={'returnsPercentage-' + schemes?.isin + index}
 													class="scheme-percentage-returns ml-1 font-normal sm:text-sm sm:font-medium {schemes?.returnsAbsolutePer <
 													0
-														? 'text-red-card'
-														: 'text-green-card'}"
+														? 'text-sell'
+														: 'text-buy'}"
 												>
 													({schemes?.returnsAbsolutePer > 0
 														? ''
@@ -250,9 +250,9 @@
 													data-testid={'xirr-' + schemes?.isin + index}
 													class="scheme-xirr-returns ml-1 font-normal sm:text-sm sm:font-medium {schemes?.xirrPer <
 													0
-														? 'text-red-card'
+														? 'text-sell'
 														: schemes?.xirrPer > 0
-														? 'text-green-card'
+														? 'text-buy'
 														: ''}"
 												>
 													{schemes?.xirrPer > 0 ? '' : ''}{schemes?.xirrPer
@@ -269,17 +269,17 @@
 					{#if (schemes?.xirrPer?.toString() === '0' && activeFilter === 'xirr') || isPartialImport(schemes)}
 						<div
 							data-testid={'partialImport-' + schemes?.isin + index}
-							class={`partial-import-message mt-3 flex items-center rounded-lg bg-blue-background px-2 py-1 sm:items-start sm:px-3`}
+							class={`partial-import-message mt-3 flex items-center rounded-lg bg-background px-2 py-1 sm:items-start sm:px-3`}
 						>
 							<div class="mr-3">
 								<WMSIcon name="polygon-red-warning" width={16} height={16} />
 							</div>
 							{#if isPartialImport(schemes)}
-								<div class="text-xs text-black-title">
+								<div class="text-xs text-title">
 									We are facing some technical issues identifying this investment
 								</div>
 							{:else if schemes?.xirrPer?.toString() === '0'}
-								<div class="text-xs text-black-title">
+								<div class="text-xs text-title">
 									We are facing some technical issue calculating the XIRR for this investment
 								</div>
 							{/if}
@@ -303,15 +303,15 @@
 		on:modalMounted={() => xirrFilterModalImpressionEvent()}
 	>
 		<div
-			class="w-screen rounded-b-none rounded-t-2xl bg-white px-4 py-6 sm:!w-[460px] sm:rounded-lg sm:p-8"
+			class="w-screen rounded-b-none rounded-t-2xl bg-background-alt px-4 py-6 sm:!w-[460px] sm:rounded-lg sm:p-8"
 		>
 			<div
 				data-testid="investmentXirrModal"
-				class=" pb-6 text-lg font-normal text-black-title sm:pb-3 sm:text-xl"
+				class=" pb-6 text-lg font-normal text-title sm:pb-3 sm:text-xl"
 			>
 				What is XIRR?
 			</div>
-			<div class=" text-sm font-normal text-grey-body">
+			<div class=" text-sm font-normal text-body">
 				XIRR stands for Extended Internal Rate of Return. XIRR helps calculate the annualized rate
 				of return of your mutual fund investment, considering the specific dates and amounts of your
 				purchases and withdrawal. XIRR gives you a more accurate picture of how well your investment

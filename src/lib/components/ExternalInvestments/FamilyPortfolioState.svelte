@@ -4,7 +4,7 @@
 
 <section class="cardHeight mx-6 flex flex-col items-center justify-center">
 	<FamilyPortfolioExternalIllustration />
-	<div class="mt-4 text-center text-base font-normal text-black-bolder">
+	<div class="mt-4 text-center text-base font-normal text-body">
 		External investment tracking is not available for family members. Please select 'YOU' to track
 		external investments
 	</div>

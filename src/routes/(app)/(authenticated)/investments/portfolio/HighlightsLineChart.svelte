@@ -64,7 +64,7 @@
 	{#if showGraphTags}
 		<section class="mt-1 flex justify-center">
 			<section
-				class="max-w-10 scrollbar-hide flex w-full flex-row gap-2 overflow-x-auto bg-white sm:gap-4 lg:max-w-fit"
+				class="max-w-10 scrollbar-hide flex w-full flex-row gap-2 overflow-x-auto bg-background-alt sm:gap-4 lg:max-w-fit"
 			>
 				{#each selectionTags as tag (tag.months)}
 					<Button variant="transparent" class="cursor-pointer !p-0" onClick={() => changeTag(tag)}>
@@ -72,8 +72,8 @@
 							<span
 								class={`pb-4 text-center text-sm md:pb-0 ${
 									selectedTag === tag.label
-										? 'border-b-2 border-blue-primary text-blue-primary md:border-b-0'
-										: 'text-grey-body'
+										? 'border-b-2 border-primary text-primary md:border-b-0'
+										: 'text-body'
 								}`}
 							>
 								{tag.label} Returns

@@ -19,7 +19,7 @@
 				<article class="flex items-center">
 					<slot name="searchHeaderIconSlot" />
 
-					<h4 class="text-sm font-normal">
+					<h4 class="text-sm font-normal text-body">
 						{data?.defaultTitle || ''}
 					</h4>
 				</article>
@@ -38,14 +38,14 @@
 		<section class="flex items-center justify-between px-4 py-2 pt-0 text-xs lg:pt-2">
 			<slot name="subtitleSlot">
 				<article>
-					<span class="font-normal text-grey-body">
+					<span class="font-normal text-body">
 						{data?.subtitle || ''}
 					</span>
 				</article>
 			</slot>
 			<slot name="subtitleRightSlot">
 				<article>
-					<span class="text-grey-body">
+					<span class="text-body">
 						{data?.subtitleRight || ''}
 					</span>
 				</article>

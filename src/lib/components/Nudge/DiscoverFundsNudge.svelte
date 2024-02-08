@@ -26,20 +26,20 @@
 
 <article
 	class={`flex flex-col justify-between rounded-lg shadow-csm sm:flex-row sm:px-6 sm:py-5 ${$$props.class}`}
-	class:bg-yellow-background={nudge?.type === 'warn'}
+	class:bg-tint12-secondary={nudge?.type === 'warn'}
 	class:bg-red-error={nudge?.type === 'error'}
 >
 	<div class="flex flex-row items-center p-4 sm:p-0">
 		<div
-			class="mr-2 flex h-12 w-12 flex-row items-center justify-center rounded-full bg-white p-1 sm:mr-4"
+			class="mr-2 flex h-12 w-12 flex-row items-center justify-center rounded-full bg-background-alt p-1 sm:mr-4"
 		>
 			<WarningIcon fill={nudge?.type === 'warn' ? '#F9BA4D' : '#F65E5A'} />
 		</div>
 		<div class="flex flex-col">
-			<div class="text-lg font-normal text-black-title">
+			<div class="text-lg font-normal text-title">
 				{nudge?.heading || ''}
 			</div>
-			<div class="whitespace-pre-line text-sm text-grey-body">
+			<div class="whitespace-pre-line text-sm text-body">
 				{nudge?.description || ''}
 			</div>
 		</div>
@@ -47,7 +47,7 @@
 	<div>
 		<Button
 			variant="transparent"
-			class="flex w-full cursor-pointer flex-row items-center justify-end whitespace-nowrap border-t border-grey-line px-4 py-4 text-sm font-medium text-blue-primary hover:border-grey-line active:opacity-75 sm:border-t-0 sm:px-0 sm:py-0"
+			class="flex w-full cursor-pointer flex-row items-center justify-end whitespace-nowrap border-t border-border px-4 py-4 text-sm font-medium text-primary hover:border-border active:opacity-75 sm:border-t-0 sm:px-0 sm:py-0"
 			onClick={navigateToPage}
 			ariaLabel={nudge?.linkHeading}
 		>

@@ -42,13 +42,13 @@
 		<section class=" h-full p-3">
 			<StartFirstSipStatic class="mb-6" />
 
-			<p class="mb-2 text-sm font-medium text-black-title">
+			<p class="mb-2 text-sm font-medium text-title">
 				Select a fund based on your goals and start an SIP
 			</p>
 
 			{#each schemePack as scheme, index}
 				<TrendingCarouselItems
-					clazz="rounded-lg border p-3 bg-white mb-2"
+					clazz="rounded-lg border p-3 bg-background-alt mb-2"
 					schemes={scheme}
 					index="1"
 					on:onCardClick={() => schemeCardClicked(scheme, index + 1)}
@@ -56,7 +56,7 @@
 					<div slot="topRightSection" />
 					<div slot="cardFooter">
 						{#if scheme.riskoMeterValue}
-							<div class="mt-2 text-xs font-medium text-grey-body">
+							<div class="mt-2 text-xs font-medium text-body">
 								{scheme.riskoMeterValue}
 							</div>
 						{/if}

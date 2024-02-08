@@ -37,7 +37,7 @@
 		<div class="flex flex-wrap px-5 pb-5 pt-1">
 			{#each Object.keys(statusItems) as key, index (index)}
 				<div class="mb-2 flex w-6/12 flex-col md:w-4/12 lg:w-3/12">
-					<div class="flex items-center text-1xs text-grey-body">
+					<div class="flex items-center text-1xs text-body">
 						{statusItems[key].title}
 						{#if statusItems[key].informationIcon}
 							<WMSIcon
@@ -54,7 +54,7 @@
 							>
 								<svelte:fragment slot="popupHeader">
 									<div class="flex items-center justify-between px-4 pb-3 pt-6 md:px-8 md:py-6">
-										<span class="text-lg font-normal text-black-title md:text-xl">
+										<span class="text-lg font-normal text-title md:text-xl">
 											{statusItems[key]?.informationHeading}
 										</span>
 									</div>
@@ -74,6 +74,7 @@
 								on:click={() => copyToClipboard(statusItems[key].value)}
 								height={16}
 								width={17}
+								stroke="var(--PRIMARY)"
 								name="copy"
 							/>
 						{/if}

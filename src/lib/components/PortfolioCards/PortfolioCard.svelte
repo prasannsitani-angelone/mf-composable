@@ -58,7 +58,7 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div on:click={navigateToInvestments} class="block cursor-pointer">
-	<PortfolioCard class="p-4 {$$props.class || ''}" variant="secondary">
+	<PortfolioCard class="dark p-4 {$$props.class || ''}" variant="secondary">
 		<section class="flex items-center justify-between sm:hidden lg:mx-0">
 			<article class="flex flex-col items-start">
 				<div class="text-xs md:text-sm">Current Value</div>
@@ -110,7 +110,7 @@
 			</section>
 		{:else if showInfo}
 			<section
-				class={`flex items-center justify-between rounded-lg bg-white bg-opacity-10 p-3 ${
+				class={`flex items-center justify-between rounded-lg bg-background-alt bg-opacity-10 p-3 ${
 					discoverPage ? 'max-sm:hidden' : ''
 				}`}
 			>
@@ -167,7 +167,7 @@
 						size="sm"
 						class="px-17 flex !h-auto !w-full cursor-pointer items-center justify-center pt-4 text-center text-sm font-medium"
 					>
-						<span class="text-white"> VIEW PORTFOLIO ANALYSIS </span>
+						<span class="text-title"> VIEW PORTFOLIO ANALYSIS </span>
 						<RightIcon class="ml-2" stroke="white" />
 					</Button>
 					<!-- </Button> -->

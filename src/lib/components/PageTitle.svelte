@@ -29,14 +29,14 @@
 			</slot>
 
 			<slot name="leftTitle">
-				<div class="text-lg font-normal text-black-title">{title}</div>
+				<div class="text-lg font-normal text-title">{title}</div>
 			</slot>
 		</div>
 	</slot>
 
 	<slot name="rightColumn">
 		{#if source === 'sipBook'}
-			<Button class="border-none !bg-white px-3" onClick={() => onThreeDotsClick()}>
+			<Button class="border-none !bg-background-alt px-3" onClick={() => onThreeDotsClick()}>
 				<WMSIcon name="three-vertical-dots-icon" height={15} />
 			</Button>
 		{/if}

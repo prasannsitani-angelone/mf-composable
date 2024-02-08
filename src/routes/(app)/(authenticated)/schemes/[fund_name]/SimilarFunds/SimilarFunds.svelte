@@ -62,11 +62,11 @@
 	export { similarFunds, isin, schemeName, returns3yr };
 </script>
 
-<article class="mt-4 max-w-4xl rounded-lg bg-white text-sm shadow-csm">
+<article class="mt-4 max-w-4xl rounded-lg bg-background-alt text-sm shadow-csm">
 	<header>
 		<section class="flex cursor-pointer items-center justify-between px-4 pt-6 text-lg">
 			<section class="flex items-center">
-				<h2 class="flex items-center text-left text-base font-medium text-black-title">
+				<h2 class="flex items-center text-left text-base font-medium text-title">
 					<span> Similar Funds</span>
 				</h2>
 			</section>
@@ -78,10 +78,11 @@
 				<Th class="h-3 w-9/12  !border-none  !pl-0 text-start !normal-case sm:w-2/3">Fund Name</Th>
 
 				<Th
-					class="flex  h-3 cursor-pointer justify-end border-b !border-none border-grey-line bg-white py-0 !pl-0 !pr-0 text-left font-normal text-grey-body sm:!pl-5 sm:text-center"
+					class="flex  h-3 cursor-pointer justify-end border-b !border-none bg-background-alt py-0 !pl-0 !pr-0 text-left font-normal text-body sm:!pl-5 sm:text-center"
 				>
 					<Button
-						class="flex justify-items-end bg-white !pl-0 !pr-0 align-middle !text-xs !font-normal !text-blue-primary hover:bg-white"
+						variant="transparent"
+						class="flex justify-items-end bg-background-alt !pl-0 !pr-0 align-middle !text-xs !font-normal !text-primary hover:bg-background-alt"
 						onClick={sortTable}
 					>
 						<span class="mr-1">{currentYearFilter.label}</span>
@@ -95,25 +96,23 @@
 			<TBody slot="tbody">
 				{#each similarFunds || [] as funds}
 					<Tr
-						class="border-b border-grey-line"
+						class="!border-b last:border-none"
 						on:click={() => {
 							onTableRowSelect(funds);
 						}}
 					>
-						<Td class="!px-0"
+						<Td class="border-none !px-0"
 							><a
 								class="flex w-full items-center overflow-hidden text-ellipsis whitespace-pre-wrap align-middle"
 								href={normalizeFundName(funds.schemeName, funds.isin, funds.schemeCode)}
 							>
 								<SchemeLogo src={funds?.logoUrl} class="h-8 w-8" />
-								<span class="line-clamp-2 text-sm font-normal text-black-title"
-									>{funds.schemeName}</span
-								>
+								<span class="line-clamp-2 text-sm font-normal text-title">{funds.schemeName}</span>
 							</a></Td
 						>
 
-						<Td class="!pr-0 text-right"
-							><span class="text-base font-normal text-black-title"
+						<Td class="border-none !pr-0 text-right"
+							><span class="text-base font-normal text-title"
 								>{funds[currentYearFilter.field]}%</span
 							></Td
 						>

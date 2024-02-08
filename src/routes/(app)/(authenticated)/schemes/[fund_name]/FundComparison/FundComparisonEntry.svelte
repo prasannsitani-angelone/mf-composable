@@ -59,16 +59,16 @@
 	export { firstSchemeDetails, similarFunds };
 </script>
 
-<article class="mt-4 max-w-4xl rounded-lg bg-white pb-3 text-sm shadow-csm">
+<article class="mt-4 max-w-4xl rounded-lg bg-background-alt pb-3 text-sm shadow-csm">
 	<header>
 		<section class="flex cursor-pointer items-center justify-between px-4 pt-6 text-lg">
-			<h2 class="flex items-center text-left text-base font-medium text-black-title">
+			<h2 class="flex items-center text-left text-base font-medium text-title">
 				<span>Compare with similar fund</span>
 			</h2>
 		</section>
 	</header>
 	<section class="flex justify-between px-4 pt-4">
-		<div class="w-1/2 border-r border-grey-line pr-3">
+		<div class="w-1/2 border-r pr-3">
 			<FundOverviewTile schemeDetails={firstSchemeDetails} isPrimary={true} />
 		</div>
 		<div class="w-1/2 pl-3">

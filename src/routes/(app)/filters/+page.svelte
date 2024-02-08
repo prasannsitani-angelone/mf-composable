@@ -95,29 +95,29 @@
 	$: currentFilterDataFromStore, updateFiltersDataFromStore();
 </script>
 
-<section class="-m-2 bg-white" data-testid="schemeFilters">
-	<div class="border-b px-3 py-4 text-xs font-normal text-black-key">
+<section class="-m-2 bg-background-alt" data-testid="schemeFilters">
+	<div class="border-b px-3 py-4 text-xs font-normal text-title">
 		Selected: {appliedFilterCount}
 	</div>
 	<section class="mb-[72px] flex">
 		<!-- left column -->
-		<section class="columnClass w-[35%] overflow-auto bg-grey">
+		<section class="columnClass w-[35%] overflow-auto bg-background">
 			{#each filterData?.filters || [] as filter, index}
 				<div class="mb-3">
 					<!-- svelte-ignore a11y-click-events-have-key-events -->
 					<!-- svelte-ignore a11y-no-static-element-interactions -->
 					<div
-						class="mb-9 mt-6 px-3 text-xs font-normal text-black-bolder md:cursor-pointer {selectedParentFilterName ===
+						class="mb-9 mt-6 px-3 text-xs font-normal text-body md:cursor-pointer {selectedParentFilterName ===
 						filter?.label
-							? 'border-r-2 border-blue-primary'
+							? 'border-r-2 border-primary'
 							: ''}"
 						on:click={() => handleParentFilterClick(filter, index)}
 					>
-						<span class={selectedParentFilterName === filter?.label ? 'text-blue-primary' : ''}>
+						<span class={selectedParentFilterName === filter?.label ? 'text-primary' : ''}>
 							{filter?.label}
 						</span>
 						{#if filter?.count}
-							<div class="ml-0.5 inline-flex h-1.5 w-1.5 rounded-full bg-blue-primary" />
+							<div class="ml-0.5 inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
 						{/if}
 					</div>
 				</div>

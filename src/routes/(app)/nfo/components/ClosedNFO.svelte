@@ -22,12 +22,12 @@
 <header class="mb-6 mt-1 flex hidden items-center sm:block">
 	<div class="flex items-center">
 		<LeftArrowIcon class="mr-3 cursor-pointer" onClick={handleBackNavigation} />
-		<h2 class="text-lg font-normal text-black-title">New Fund Offerings (NFO)</h2>
+		<h2 class="text-lg font-normal text-title">New Fund Offerings (NFO)</h2>
 	</div>
 </header>
-<div class="flex flex-col items-center justify-center gap-4 rounded-lg bg-white py-6">
+<div class="flex flex-col items-center justify-center gap-4 rounded-lg bg-background-alt py-6">
 	<NoNfo />
-	<p class="text-sm font-normal text-black-bolder">There are no NFOs open currently</p>
+	<p class="text-sm font-normal text-body">There are no NFOs open currently</p>
 </div>
-<h2 class="mb-4 mt-5 text-lg font-medium text-black-title">Recently Closed NFOs</h2>
+<h2 class="mb-4 mt-5 text-lg font-medium text-title">Recently Closed NFOs</h2>
 <NFOTable class="rounded-lg" searchOption={closedNfo} clickable={false} isClosedNFO />

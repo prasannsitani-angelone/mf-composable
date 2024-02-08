@@ -19,10 +19,10 @@
 </script>
 
 <div
-	class="flex h-[450px] w-fit flex-col items-start justify-self-center rounded-lg bg-white {$$props.class}"
+	class="flex h-[450px] w-fit flex-col items-start justify-self-center rounded-lg bg-background-alt {$$props.class}"
 >
 	<p class="mt-6 px-6 text-4xl font-medium text-[#008F75]">02</p>
-	<p class="mb-8 px-6 text-2xl font-medium text-black-title">Improve Your SIP Health</p>
+	<p class="mb-8 px-6 text-2xl font-medium text-title">Improve Your SIP Health</p>
 
 	{#each options as option}
 		<div class="mb-3 flex flex-row px-6">
@@ -30,10 +30,10 @@
 				<WMSIcon name="checkbox-checked-circle" />
 			</div>
 			<div class="flex flex-col">
-				<div class="mb-1 text-sm font-medium text-black-title">
+				<div class="mb-1 text-sm font-medium text-title">
 					{option.title}
 				</div>
-				<div class="text-xs font-normal text-grey-body">
+				<div class="text-xs font-normal text-body">
 					{option.description}
 				</div>
 			</div>

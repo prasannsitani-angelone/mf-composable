@@ -46,16 +46,16 @@
 </script>
 
 <article>
-	<div class="mt-1 text-xs font-normal text-black-bolder">Select Range</div>
-	<div class="mt-2 text-sm font-medium text-black-key">
+	<div class="mt-1 text-xs font-normal text-body">Select Range</div>
+	<div class="mt-2 text-sm font-medium text-title">
 		{rangeSelection[0]}% - {rangeSelection[1]}%
 	</div>
 	<div class="slider mt-6">
 		<Slider bind:value={rangeSelection} min={filter?.min} max={filter?.max} step={1} range order>
 			<div
-				class="flex h-[22px] w-[22px] items-center justify-center rounded-full border border-blue-primary bg-white shadow-csm md:cursor-pointer"
+				class="flex h-[22px] w-[22px] items-center justify-center rounded-full border border-primary bg-background-alt shadow-csm md:cursor-pointer"
 			>
-				<div class="h-3 w-3 rounded-full bg-blue-primary" />
+				<div class="h-3 w-3 rounded-full bg-primary" />
 			</div>
 		</Slider>
 	</div>

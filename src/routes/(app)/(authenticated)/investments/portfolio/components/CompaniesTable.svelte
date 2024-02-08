@@ -35,8 +35,7 @@
 				columnClasses: 'w-[40%] text-xs w-[40%]',
 				tdClass: '!text-left',
 				thWrapperClass: 'flex flex-row items-center justify-start',
-				tdWrapperClass:
-					'items-start justify-between mr-4 truncate text-sm font-normal text-black-title'
+				tdWrapperClass: 'items-start justify-between mr-4 truncate text-sm font-normal text-title'
 			},
 			{
 				label: '% Allocation',
@@ -67,7 +66,7 @@
 			order: 'id',
 			sort: 'asc'
 		},
-		columnClasses: 'border-b border-grey-line'
+		columnClasses: 'border-b'
 	};
 
 	const setTableData = (holdings: Array<TableDataTypes>) => {
@@ -138,7 +137,7 @@
 				sortable: true,
 				isHorizontalSort: true,
 				sortField: 'percentageHold',
-				thWrapperClass: 'max-sm:w-full max-sm:justify-end max-sm:text-blue-primary',
+				thWrapperClass: 'max-sm:w-full max-sm:justify-end max-sm:text-primary',
 				tdClass: 'text-right',
 				thStyle: 'color: "#3F5BD9"',
 				tdRender: (data) => {
@@ -173,11 +172,9 @@
 			{#each table.rows as rowData}
 				<tr class="[&>td]:border-b-0">
 					{#each table.columns as eachCol}
-						<Td
-							class={`border-b border-grey-line py-4 pl-5 pr-6 text-center text-grey-body ${eachCol.tdClass}`}
-						>
+						<Td class={`border-b py-4 pl-5 pr-6 text-center text-body ${eachCol.tdClass}`}>
 							<div
-								class={`text-sm font-normal text-black-title ${eachCol.tdWrapperClass || ''} ${
+								class={`text-sm font-normal text-title ${eachCol.tdWrapperClass || ''} ${
 									eachCol.field === 'name' ? 'flex items-center !justify-start' : ''
 								}`}
 							>
@@ -202,7 +199,7 @@
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
 			class={`flex cursor-pointer items-end justify-center border-t py-4
-      text-sm font-medium text-blue-primary ${isCompaniesTableVisible ? 'border-b' : 'rounded-b'}`}
+      text-sm font-medium text-primary ${isCompaniesTableVisible ? 'border-b' : 'rounded-b'}`}
 			on:click={emitToggleFilterTable}
 		>
 			{isCompaniesTableVisible ? 'Hide' : `Show ${footerText || 'Funds'}`}
@@ -212,7 +209,7 @@
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
 			class="flex cursor-pointer items-end justify-center rounded-b border-t py-4
-      text-sm font-medium uppercase text-blue-primary"
+      text-sm font-medium uppercase text-primary"
 			on:click={toggleTableData}
 		>
 			View {viewAllData ? 'Less' : 'All'}

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Button from '../Button.svelte';
 	import BaseInput from '../BaseInput.svelte';
 
 	import { filterNumber } from '$lib/utils/helpers/filters';
@@ -7,6 +6,7 @@
 	import { useFetch } from '$lib/utils/useFetch';
 	import { getCaptchaCode } from '$lib/utils/captcha';
 	import { PUBLIC_APP_CAPCHA_SITE_KEY } from '$env/static/public';
+	import { Button, WMSIcon } from 'svelte-components';
 
 	export let onSuccess: (mobileNumber: string, requestId: string) => void = () => undefined;
 
@@ -80,7 +80,7 @@
 </script>
 
 <div class="flex w-full flex-col items-center lg:w-120">
-	<div class="mb-6 w-full text-xl font-normal text-black-neutral md:mb-12">
+	<div class="mb-6 w-full text-xl font-normal text-title md:mb-12">
 		Login with your mobile number
 	</div>
 	<div class="flex w-full flex-col items-center">
@@ -94,9 +94,9 @@
 			onChange={onMobileNumberChange}
 			classes={{
 				parent: 'w-full',
-				input: '!text-base !text-start placeholder:text-sm',
+				input: '!text-base !text-start placeholder:text-sm bg-background-alt',
 				container: '!border !shadow-none h-16 !py-0',
-				label: '!text-grey-dark !text-xs mb-0 !font-normal'
+				label: '!text-body !text-xs mb-0 !font-normal'
 			}}
 			class="w-full"
 			filterChar={filterNumber}
@@ -104,7 +104,7 @@
 			{onSubmit}
 		>
 			<div slot="preinput" class="mr-4 flex flex-col justify-center">
-				<PhoneIcon />
+				<WMSIcon name="phone-dialer" width={20} height={20} stroke="var(--TITLE)" />
 			</div>
 			<div slot="error" class="mt-2 text-center text-xs text-red-500">
 				{error}
@@ -118,9 +118,9 @@
 	>
 		PROCEED
 	</Button>
-	<div class="mt-5 flex w-full flex-row justify-center text-sm text-grey-medium md:justify-start">
-		<span class="mr-2">Don't have an account?</span>
-		<a target="_blank" class="text-blue-primary" href="https://www.angelone.in/open-demat-account"
+	<div class="mt-5 flex w-full flex-row justify-center text-sm text-disabled md:justify-start">
+		<span class="mr-2 text-disabled">Don't have an account?</span>
+		<a target="_blank" class="text-primary" href="https://www.angelone.in/open-demat-account"
 			>Register now!</a
 		>
 	</div>

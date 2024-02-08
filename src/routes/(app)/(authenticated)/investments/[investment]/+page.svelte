@@ -353,7 +353,7 @@
 							on:moreOptionsButtonClick={handleMoreOptionsClick}
 						/>
 					{:else}
-						<article class="fixed inset-0 top-auto z-20 block bg-white p-2 md:hidden">
+						<article class="fixed inset-0 top-auto z-20 block bg-background-alt p-2 md:hidden">
 							<InvestmentDetailsFooterLoader />
 						</article>
 					{/if}
@@ -426,7 +426,7 @@
 					/>
 				</article>
 			{:else if orderPadActiveTab === investmentDetailsFooterEvents?.SWP}
-				<article class="sticky -top-2 mt-[52px] h-fit rounded-lg bg-white shadow-csm">
+				<article class="sticky -top-2 mt-[52px] h-fit rounded-lg bg-background-alt shadow-csm">
 					<SwpDetails
 						schemeData={res.schemeData}
 						holdingDetails={holdingsData}
@@ -434,7 +434,7 @@
 					/>
 				</article>
 			{:else if orderPadActiveTab === investmentDetailsFooterEvents?.MORE_OPTIONS}
-				<article class="sticky -top-2 mt-[52px] h-fit rounded-lg bg-white shadow-csm">
+				<article class="sticky -top-2 mt-[52px] h-fit rounded-lg bg-background-alt shadow-csm">
 					<SwitchOptions
 						isSwitch={queryParamsObj?.orderpad === 'MORE_OPTIONS'}
 						schemeData={res.schemeData}

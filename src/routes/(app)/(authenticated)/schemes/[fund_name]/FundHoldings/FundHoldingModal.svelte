@@ -33,9 +33,9 @@
 
 <ModalWithAnimation {isModalOpen} on:backdropclicked={toggleSchemeIformationModal}>
 	<article
-		class="h-[70vh] overflow-x-scroll rounded-t-2xl bg-white px-6 pb-8 pt-6 md:w-120 md:rounded-lg"
+		class="h-[70vh] overflow-x-scroll rounded-t-2xl bg-background-alt px-6 pb-8 pt-6 md:w-120 md:rounded-lg"
 	>
-		<header class="mb-3 flex align-middle text-lg font-medium text-black-title md:text-xl">
+		<header class="mb-3 flex align-middle text-lg font-medium text-title md:text-xl">
 			<span> Fund Holdings</span>
 			<WMSIcon
 				name="cross-circle"

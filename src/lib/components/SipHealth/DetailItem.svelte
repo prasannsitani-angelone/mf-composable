@@ -19,7 +19,7 @@
 				</div>
 				<slot name="titleTag" />
 			</article>
-			<div class="mt-2 text-black-bolder">
+			<div class="mt-2 text-body">
 				{sipHealthDetails?.description || ''}
 			</div>
 			<slot name="footer" />

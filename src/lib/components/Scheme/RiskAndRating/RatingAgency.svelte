@@ -6,6 +6,6 @@
 </script>
 
 <div class={`flex flex-grow basis-0 `}>
-	<div class="text-sm font-medium text-black-title">{name}</div>
+	<div class="text-sm font-medium text-title">{name}</div>
 	<div class="ml-auto"><RatingChip {rating} /></div>
 </div>

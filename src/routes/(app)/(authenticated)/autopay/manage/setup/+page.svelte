@@ -238,10 +238,10 @@
 				/>
 			{:else}
 				{@const bankAccountsLength = profileData?.bankDetails?.length}
-				<div class="rounded-lg bg-white px-2 py-12 shadow-csm">
+				<div class="rounded-lg bg-background-alt px-2 py-12 shadow-csm">
 					<WMSIcon name="red-exclamation-thin" height={92} width={92} class="mx-auto" />
 
-					<div class="mx-1 mt-6 text-center text-sm font-normal text-black-title">
+					<div class="mx-1 mt-6 text-center text-sm font-normal text-title">
 						{#if bankAccountsLength > 1}
 							<div>
 								Your bank does not support Autopay. Please set up autopay with a different bank
@@ -266,7 +266,7 @@
 
 									<svelte:fragment slot="right-section">
 										<ButtonMedium
-											class="mr-3 px-0 !text-xs !font-medium text-blue-primary"
+											class="mr-3 px-0 !text-xs !font-medium text-primary"
 											variant="transparent"
 											on:click={showBankSelectionPopup}>CHANGE</ButtonMedium
 										>
@@ -281,7 +281,7 @@
 
 							<article class="mt-6 text-center">
 								<ButtonMedium
-									class="mr-3 !h-0 !min-h-0 px-0 !text-sm !font-medium text-blue-primary"
+									class="mr-3 !h-0 !min-h-0 px-0 !text-sm !font-medium text-primary"
 									variant="transparent"
 									on:click={handleGoBackCtaClick}>GO BACK</ButtonMedium
 								>
@@ -300,8 +300,8 @@
 				{/if}
 			{/if}
 		{:else}
-			<div class="rounded-lg bg-white p-4 shadow-csm">
-				<div class="text-sm text-black-title">
+			<div class="rounded-lg bg-background-alt p-4 shadow-csm">
+				<div class="text-sm text-title">
 					A technical error occurred while setting up an AutoPay. Please try again later.
 				</div>
 			</div>

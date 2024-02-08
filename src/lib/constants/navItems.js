@@ -1,13 +1,13 @@
-import CartNavItem from '$lib/images/CartOutlined.svg';
-import CartNavItemActive from '$lib/images/CartFilled.svg';
-import DiscoverNav from '$lib/images/CompassBolderIcon.svg';
-import DiscoverNavFilled from '$lib/images/CompassActiveIcon.svg';
-import RupeeNav from '$lib/images/RupeeInCircleBolder.svg';
-import RupeeNavFilled from '$lib/images/RupeeCircleBlueFilled.svg';
-import PadNav from '$lib/images/PadBolder.svg';
-import PadNavFilled from '$lib/images/PadActive.svg';
-import SipsNav from '$lib/images/SipsNav.svg';
-import SipsNavFilled from '$lib/images/SipsNavFilled.svg';
+import CartNavItem from '$lib/images/CartOutlined.svelte';
+import CartNavItemActive from '$lib/images/CartFilled.svelte';
+import DiscoverNav from '$lib/images/CompassBolderIcon.svelte';
+import DiscoverNavFilled from '$lib/images/CompassActiveIcon.svelte';
+import RupeeNav from '$lib/images/RupeeInCircleBolder.svelte';
+import RupeeNavFilled from '$lib/images/RupeeCircleBlueFilled.svelte';
+import PadNav from '$lib/images/PadBolder.svelte';
+import PadNavFilled from '$lib/images/PadActive.svelte';
+import SipsNav from '$lib/images/SipsNav.svelte';
+import SipsNavFilled from '$lib/images/SipsNavFilled.svelte';
 import { base } from '$app/paths';
 
 export const BOTTOM_NAVBARS = (version) => [

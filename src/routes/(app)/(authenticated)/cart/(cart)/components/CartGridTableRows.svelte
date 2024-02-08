@@ -84,7 +84,7 @@
 	<div class="col-span-1 col-start-2 row-span-1 row-start-1">
 		<div class="flex sm:items-center">
 			<SchemeLogo size="xs" src={cartItem?.logoUrl} alt={cartItem?.schemeName} />
-			<h3 class={`whitespace-normal text-sm font-normal text-black-title`}>
+			<h3 class={`whitespace-normal text-sm font-normal text-title`}>
 				{cartItem?.schemeName}
 			</h3>
 		</div>
@@ -106,7 +106,7 @@
 	</div>
 	{#if inputError}
 		<span
-			class="col-span-3 col-start-1 row-span-1 row-start-3 mt-1 text-right text-xs font-normal text-red-sell sm:col-span-5 sm:row-start-2"
+			class="col-span-3 col-start-1 row-span-1 row-start-3 mt-1 text-right text-xs font-normal text-sell sm:col-span-5 sm:row-start-2"
 			>{inputError}</span
 		>
 	{/if}

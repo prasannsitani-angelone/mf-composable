@@ -134,7 +134,7 @@
 	<article>
 		{#if orders.length}
 			{#each orders as item (item?.orderId)}
-				<article class="mb-1 rounded-lg border bg-white px-2 py-4 md:px-4">
+				<article class="mb-1 rounded-lg border bg-background-alt px-2 py-4 md:px-4">
 					<OrderCardHeader textString={getDateTimeString(item?.createdTs, 'DATE', true)} />
 					<OrderCardBody {item} />
 					{#if isInvestmentAllowed(userType, item?.schemePlan) && item?.paymentStatus === 'failure' && item?.investmentType !== 'XSIP' && !item?.isNfoClosed}

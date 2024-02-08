@@ -9,11 +9,11 @@
 	export let loading = false;
 </script>
 
-<div class="bg-white">
+<div class="bg-background-alt">
 	<AccordianCardComponent
 		data={{ title }}
 		titleStyle="!ml-0 !font-medium"
-		titleFontSize="!text-xs !font-medium !text-black-bolder"
+		titleFontSize="!text-xs !font-medium !text-body"
 		headerClass="!p-4"
 		class="!mt-0 !max-w-none !rounded-none"
 		disableCollapse={false}

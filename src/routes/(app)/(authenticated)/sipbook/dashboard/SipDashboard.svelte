@@ -349,7 +349,7 @@
 				class="col-start-1 row-start-3 sm:row-start-2"
 			>
 				{#if showInactiveSipsCta}
-					<section class="mt-8 cursor-default text-center text-sm font-medium text-blue-primary">
+					<section class="mt-8 cursor-default text-center text-sm font-medium text-primary">
 						INACTIVE SIPs
 					</section>
 				{/if}
@@ -460,7 +460,7 @@
 			{/if}
 		</svelte:fragment>
 		<svelte:fragment slot="infoText">
-			<div class="ml-3 text-sm font-normal text-grey-body">
+			<div class="ml-3 text-sm font-normal text-body">
 				If your SIP order is already in progress, autopay will be used from the next instalment.
 				Only Autopays with limit above your SIP amount are listed here
 			</div>

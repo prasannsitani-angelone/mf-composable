@@ -10,5 +10,5 @@
 	{#if icon}
 		<svelte:component this={icon} />
 	{/if}
-	<span class="ml-2 text-xs text-black-title">{message}</span>
+	<span class="ml-2 text-xs text-title">{message}</span>
 </div>

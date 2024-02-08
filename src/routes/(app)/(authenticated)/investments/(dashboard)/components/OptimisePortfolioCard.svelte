@@ -13,7 +13,7 @@
 				<div class="mt-1 text-xs font-normal">
 					Take your portfolio to the next level by investing in this fund
 				</div>
-				<ButtonMedium size={BtnSize.SM} class="mt-3 !bg-white !text-1xs !text-green-amount" on:click
+				<ButtonMedium size={BtnSize.SM} class="mt-3 !bg-background-alt !text-1xs !text-buy" on:click
 					>GET STARTED</ButtonMedium
 				>
 			</article>

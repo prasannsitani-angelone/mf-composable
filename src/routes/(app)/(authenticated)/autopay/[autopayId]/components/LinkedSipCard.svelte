@@ -17,7 +17,7 @@
 						{name}
 					</div>
 					<slot name="subtextSlot">
-						<div class="mt-1 text-xs font-normal text-grey-body">
+						<div class="mt-1 text-xs font-normal text-body">
 							{subtext}
 						</div>
 					</slot>

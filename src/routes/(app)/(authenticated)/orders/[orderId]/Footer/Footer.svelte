@@ -76,7 +76,7 @@
 {#if deviceType?.isMobile}
 	<!-- Mobile view footer button -->
 	<article class="mx-3 mt-4 block md:hidden">
-		<section class="fixed inset-0 top-auto bg-white px-4 py-5">
+		<section class="fixed inset-0 top-auto bg-background-alt px-4 py-5">
 			<Button class="w-full" onClick={handleFooterCtaClick}>
 				{orderDetailsData?.investmentType === INVESTMENT_TYPE.REDEEM
 					? 'RETRY WITHDRAWAL'

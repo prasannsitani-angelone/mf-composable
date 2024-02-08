@@ -48,7 +48,7 @@
 
 <ModalWithAnimation {isModalOpen} {closeModal} {preventBackDropClick}>
 	<div
-		class={`flex flex-col items-center justify-between overflow-y-auto bg-white shadow-clg sm:w-120 sm:rounded-lg ${$$props.class}`}
+		class={`flex flex-col items-center justify-between overflow-y-auto bg-background-alt shadow-clg sm:w-120 sm:rounded-lg ${$$props.class}`}
 	>
 		<slot name="popupHeader">
 			{#if popupType?.toUpperCase() === STATUS_ARR?.SUCCESS}
@@ -64,11 +64,11 @@
 
 		<slot name="popupBody">
 			<article class="mt-6 text-center">
-				<div class={`text-2xl font-normal text-black-title ${titleClass}`}>
+				<div class={`text-2xl font-normal text-title ${titleClass}`}>
 					{title}
 				</div>
 
-				<div class={`mt-3 text-sm font-normal text-grey-body ${textClass}`}>
+				<div class={`mt-3 text-sm font-normal text-body ${textClass}`}>
 					{text}
 				</div>
 				<slot name="middleSection" />

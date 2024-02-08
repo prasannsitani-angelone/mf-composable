@@ -2,9 +2,9 @@ export const BUTTON_STYLE = new Map([
 	[
 		'contained',
 		new Map([
-			['primary', 'bg-blue-primary hover:bg-blue-primary text-white'],
-			['secondary', 'bg-cyan-500 hover:bg-cyan-500 text-white'],
-			['success', 'bg-green-buy hover:bg-green-buy text-white disabled:bg-opacity-50']
+			['primary', 'bg-primary hover:bg-primary text-background-alt'],
+			['secondary', 'bg-cyan-500 hover:bg-cyan-500 text-title'],
+			['success', 'bg-buy hover:bg-buy text-title disabled:bg-opacity-50']
 		])
 	],
 	[
@@ -12,20 +12,17 @@ export const BUTTON_STYLE = new Map([
 		new Map([
 			[
 				'primary',
-				'bg-white hover:bg-white !border border-blue-primary hover:border-blue-primary text-blue-primary'
+				'bg-background hover:bg-background !border border-primary hover:border-primary text-primary'
 			],
 			[
 				'secondary',
-				'bg-white hover:bg-white !border border-grey-line hover:border-grey-line text-grey-line'
+				'bg-background hover:bg-background !border border-border hover:border-border text-border'
 			],
-			[
-				'success',
-				'bg-white hover:bg-white !border border-green-buy hover:border-green-buy text-green-buy'
-			]
+			['success', 'bg-background hover:bg-background !border border-buy hover:border-buy text-buy']
 		])
 	],
 	[
 		'transparent',
-		new Map([['primary', 'bg-transparent hover:bg-transparent text-sm text-blue-primary']])
+		new Map([['primary', 'bg-transparent hover:bg-transparent text-sm text-primary']])
 	]
 ]);

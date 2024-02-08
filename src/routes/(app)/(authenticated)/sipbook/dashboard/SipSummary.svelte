@@ -10,6 +10,7 @@
 	import { deviceStore } from '$lib/stores/DeviceStore';
 	import type { ISipBookOverView } from '$lib/types/ISipType';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
+	import { PortfolioCard } from 'svelte-components';
 
 	let bookSummary: ISipBookOverView;
 	let automatedSipsCount = 0;
@@ -33,15 +34,12 @@
 	};
 </script>
 
-<section
-	class="relative -mt-2 mb-2 rounded-lg bg-gradient-to-r from-blue-gradient via-blue-gradient to-blue-primary pb-3 pt-6 text-white md:mt-0 {$$props.class} {os?.toLowerCase() ===
-		'ios' || userAgent?.includes('safari')
+<PortfolioCard
+	class="mb-2 pb-3 pt-6 {$$props.class} {os?.toLowerCase() === 'ios' ||
+	userAgent?.includes('safari')
 		? 'overflow-hidden'
 		: ''}"
 >
-	<div
-		class={`absolute -top-56 left-[34%] h-[26rem] w-20 rotate-[-30deg] rounded-lg bg-gradient-to-b opacity-20 bg-blend-screen mix-blend-screen`}
-	/>
 	<article class="flex items-center justify-between border-b border-white/10 pb-5">
 		<section class="flex-1 text-center">
 			<div class="text-xs font-normal">Active SIPs</div>
@@ -64,9 +62,9 @@
 		</section>
 	</article>
 
-	<article class="flex items-center justify-between px-4 pt-3">
+	<article class="light flex items-center justify-between px-4 pt-3">
 		<div class="text-xs font-normal">
-			Automated SIPs - <span class={automatedSipsCount ? 'text-white' : 'text-red-errorDark'}
+			Automated SIPs - <span class={automatedSipsCount ? 'text-background-alt' : 'text-sell'}
 				>{automatedSipsCount}</span
 			>
 		</div>
@@ -78,4 +76,4 @@
 			<RightIcon stroke="white" />
 		</button>
 	</article>
-</section>
+</PortfolioCard>

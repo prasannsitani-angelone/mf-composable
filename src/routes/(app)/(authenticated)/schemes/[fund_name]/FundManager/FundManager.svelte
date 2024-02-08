@@ -23,13 +23,13 @@
 	export { schemeDetails };
 </script>
 
-<article class="mt-4 max-w-4xl rounded-lg bg-white pb-4 text-sm shadow-csm">
+<article class="mt-4 max-w-4xl rounded-lg bg-background-alt pb-4 text-sm shadow-csm">
 	<header>
 		<section
 			class="flex cursor-pointer items-center justify-between p-4 pb-2 pt-6 text-lg hover:text-blue-800 sm:px-6"
 		>
 			<section class="flex items-center">
-				<h2 class="flex items-center text-left text-base font-medium text-black-title">
+				<h2 class="flex items-center text-left text-base font-medium text-title">
 					<span> Fund Manager</span>
 				</h2>
 			</section>
@@ -41,17 +41,17 @@
 				{@const fundManagerAge = calculateYearDiffrence(new Date(fundManager?.startDate))}
 				<section class="flex items-center rounded">
 					<div
-						class="mr-3 flex h-10 w-10 items-center justify-center rounded-full bg-blue-primary/[.12]"
+						class="bg-primary/[.12] mr-3 flex h-10 w-10 items-center justify-center rounded-full"
 					>
-						<span class="text-sm font-medium text-blue-primary">
+						<span class="text-sm font-medium text-primary">
 							{fundManagerInitials(fundManager?.name)}
 						</span>
 					</div>
 					<div>
-						<h3 class="text-sm font-medium text-black-title sm:text-base">
+						<h3 class="text-sm font-medium text-title sm:text-base">
 							{fundManager?.name}
 						</h3>
-						<h4 class="text-xs font-normal text-grey-body sm:text-sm">
+						<h4 class="text-xs font-normal text-body sm:text-sm">
 							{getStartDate(fundManager?.startDate)} - Present | {fundManagerAge} year{fundManagerAge >
 							1
 								? 's'

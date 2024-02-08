@@ -17,11 +17,11 @@
 </script>
 
 <article
-	class="mb-3 mt-1 flex flex-row items-center rounded-lg bg-white p-4 py-6 shadow-csm {$$props.class}"
+	class="mb-3 mt-1 flex flex-row items-center rounded-lg bg-background-alt p-4 py-6 shadow-csm {$$props.class}"
 >
 	<div class="flex flex-1 flex-col">
-		<p class="mb-2 text-sm font-medium text-black-title">{heading}</p>
-		<p class="mb-4 whitespace-pre-line text-xs text-black-title">{description}</p>
+		<p class="mb-2 text-sm font-medium text-title">{heading}</p>
+		<p class="mb-4 whitespace-pre-line text-xs text-title">{description}</p>
 
 		<ButtonMedium size={BtnSize.SM} onClick={autoPayClick} class="w-fit text-xs">
 			{#if amount <= UPI_MANDATE_MAX_AMOUNT}

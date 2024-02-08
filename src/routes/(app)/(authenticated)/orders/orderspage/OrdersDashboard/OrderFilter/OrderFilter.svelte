@@ -15,27 +15,30 @@
 </script>
 
 <section
-	class="flex flex-col rounded-t-xl border-none bg-white px-4 py-3 md:rounded-lg md:border md:px-5 md:pb-5 md:pt-4"
+	class="flex flex-col rounded-t-xl border-none bg-background-alt px-4 py-3 md:rounded-lg md:border md:px-5 md:pb-5 md:pt-4"
 >
-	<article class="mb-3 text-1xs text-grey-body md:mb-5 md:text-xs">FILTER BY</article>
+	<article class="mb-3 text-1xs text-body md:mb-5 md:text-xs">FILTER BY</article>
 	<article class="flex justify-between md:flex-col">
 		<Checkbox
 			on:click={() => handleChange('inprogress')}
 			class="ml-[-4px]"
 			checked={$filterStore.inprogress}
 			label={`In Progress (${ordersSummary.totalProcessingOrders})`}
+			labelCls="!text-body"
 		/>
 		<Checkbox
 			on:click={() => handleChange('completed')}
 			class="ml-[-4px] md:mt-6"
 			checked={$filterStore.completed}
 			label={`Completed (${ordersSummary.totalCompletedOrders})`}
+			labelCls="!text-body"
 		/>
 		<Checkbox
 			on:click={() => handleChange('failed')}
 			class="ml-[-4px] md:mt-6"
 			checked={$filterStore.failed}
 			label={`Failed (${ordersSummary.totalFailedOrders})`}
+			labelCls="!text-body"
 		/>
 	</article>
 </section>

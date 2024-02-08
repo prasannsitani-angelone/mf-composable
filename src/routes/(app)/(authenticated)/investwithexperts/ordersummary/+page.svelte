@@ -55,7 +55,7 @@
 			/>
 		</div>
 	{:else}
-		<div class="flex justify-center bg-white pb-4">
+		<div class="flex justify-center bg-background-alt pb-4">
 			<ButtonMedium variant="transparent" class="w-max" onClick={navigateToOrders}>
 				GO TO ORDERS
 			</ButtonMedium>

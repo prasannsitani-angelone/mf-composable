@@ -26,7 +26,9 @@
 
 <section>
 	{#each portfolioData as portfolioPack}
-		<section class="mx-2 mt-2 justify-center rounded-lg bg-white p-4 text-black-key shadow-csm">
+		<section
+			class="mx-2 mt-2 justify-center rounded-lg bg-background-alt p-4 text-title shadow-csm"
+		>
 			<!-- svelte-ignore a11y-no-static-element-interactions -->
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<div
@@ -37,7 +39,7 @@
 			>
 				<BasicDetails {showChevron} {portfolioPack} />
 			</div>
-			<div class="mt-3 flex flex-col text-black-bolder">
+			<div class="mt-3 flex flex-col text-body">
 				<div class="text-xs font-medium">Key Benefits:</div>
 				<div class="text-xs">
 					{#each portfolioPack.benefits as benefit}
@@ -51,7 +53,7 @@
 				</div>
 			</div>
 			{#if portfolioPack.totalUsersInvested > 1000}
-				<div class="mt-3 flex rounded-sm bg-[#E0F2EE] px-3 py-2 text-black-bolder">
+				<div class="mt-3 flex rounded-sm bg-[#E0F2EE] px-3 py-2 text-body">
 					<div class="flex items-center text-xs">
 						<WMSIcon name="people-icon" height={12} width={14} /><span class="pl-2 font-medium"
 							>{portfolioPack.totalUsersInvested}</span

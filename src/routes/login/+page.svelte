@@ -192,13 +192,13 @@
 		defer
 	></script>
 </svelte:head>
-<section class="min-h-full bg-white">
+<section class="min-h-full bg-background-alt">
 	{#if isLoading}
 		<OverlayLoading />
 	{:else}
 		<div class="flex min-h-screen w-full flex-1 flex-col md:flex-row">
 			<LoginCarousel />
-			<div class="border-b border-grey-line sm:border-l" />
+			<div class="border-b sm:border-l" />
 			<div class="flex w-full flex-col items-center px-4 py-8 md:w-1/2 md:py-32">
 				{#if screen === screen_enum.GENERATE_OTP}
 					<GenerateOTP onSuccess={onGenerateOTPSuccess} />
@@ -231,14 +231,14 @@
 					<MpinSetup token={userCookie?.NTAccessToken} on:onSuccess={onMpinSuccess} />
 				{/if}
 				<div
-					class="mt-4 w-full justify-center text-center text-sm md:justify-start md:text-start lg:w-120"
+					class="mt-4 w-full justify-center text-center text-sm text-disabled md:justify-start md:text-start lg:w-120"
 				>
 					This site is protected by reCAPTCHA and the Google
-					<a target="_blank" class="text-blue-primary" href="https://policies.google.com/privacy"
+					<a target="_blank" class="text-primary" href="https://policies.google.com/privacy"
 						>Privacy Policy</a
 					>
 					and
-					<a target="_blank" class="text-blue-primary" href="https://policies.google.com/terms"
+					<a target="_blank" class="text-primary" href="https://policies.google.com/terms"
 						>Terms of Service</a
 					> apply.
 				</div>
