@@ -8,6 +8,7 @@
 	import type { InvestmentSummary } from '$lib/types/IInvestments';
 	import { viewPortfolioAnalysisAnalytics } from '../../../routes/(app)/(authenticated)/investments/analytics';
 	import { modifiedGoto } from '$lib/utils/goto';
+	import { investmentCardClickAnalytics } from '$lib/analytics/DiscoverFunds';
 
 	let showInfo = true;
 
@@ -31,8 +32,23 @@
 		viewPortfolioAnalysisAnalyticsFunc();
 	};
 
+	const investmentCardClickAnalyticsFunc = () => {
+		const eventMetaData = {
+			CurrentValue: parseFloat(investmentSummary?.currentValue?.toFixed(2)),
+			TotalInvestment: parseFloat(investmentSummary?.investedValue?.toFixed(2)),
+			OverallReturn: `${investmentSummary?.returnsValue?.toFixed(
+				2
+			)} (${investmentSummary?.returnsAbsolutePer?.toFixed(2)}%)`,
+			TodaysReturn: `${investmentSummary?.previousDayReturns?.toFixed(
+				2
+			)} (${investmentSummary?.previousDayReturnPercentage?.toFixed(2)}%)`
+		};
+		investmentCardClickAnalytics(eventMetaData);
+	};
+
 	const navigateToInvestments = () => {
 		modifiedGoto(`${base}/investments`);
+		investmentCardClickAnalyticsFunc();
 	};
 
 	export let discoverPage = false;

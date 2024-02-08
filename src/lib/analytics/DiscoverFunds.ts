@@ -107,3 +107,20 @@ export const homepageExternalFundsClickAnalytics = () => {
 		event_id: '308.0.0.6.11'
 	});
 };
+
+export const investmentCardClickAnalytics = (eventMetaData: {
+	CurrentValue: number;
+	TotalInvestment: number;
+	OverallReturn: string;
+	TodaysReturn: string;
+}) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-Homepage',
+		event_type: 'click',
+		event_sub_type: 'card',
+		event_name: 'Investment',
+		event_property: null,
+		event_id: '308.0.0.1.11',
+		event_metadata: eventMetaData
+	});
+};
