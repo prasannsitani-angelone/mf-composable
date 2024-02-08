@@ -312,7 +312,7 @@
 						<!-- OTP Input section -->
 						<!-- svelte-ignore a11y-click-events-have-key-events -->
 						<article
-							class="mb-2 flex items-center justify-start rounded-lg border border-gray-200 px-4 py-3 {wrongOtpCount <
+							class="mb-2 flex items-center justify-start rounded-lg border border-border px-4 py-3 {wrongOtpCount <
 							wrongOtpLimit
 								? 'cursor-text'
 								: 'cursor-not-allowed'} {(isIncorrectOtp || wrongOtpCount >= wrongOtpLimit) &&

@@ -8,7 +8,7 @@
 	};
 </script>
 
-<section class="my-2 mt-3 rounded-lg bg-background-alt px-2 py-2 shadow-csm">
+<section class="my-2 mt-3 rounded-lg bg-background-alt px-2 py-2">
 	<Link
 		to={`/reports`}
 		class="flex flex-row items-center rounded-lg bg-background p-3"

@@ -192,6 +192,6 @@
 		ariaLabel="AddToCart"
 		onClick={handleCartIconClick}
 	>
-		<WMSIcon name="cart-plus" stroke={buttonImgUrl} height={24} width={24} />
+		<WMSIcon name="cart-plus" stroke="var(--TITLE)" height={24} width={24} />
 	</Button>
 {/if}

@@ -61,10 +61,10 @@
 				{data?.schemeName || schemeName || '-'}
 			</div>
 			<slot name="ratingSection">
-				<div class="flex pt-1 text-xs text-gray-500">
+				<div class="flex pt-1 text-xs text-body">
 					{#if !!data?.arqRating}
 						<div
-							class="py-1/2 mr-1 flex max-w-fit items-center rounded-sm border border-background-alt bg-gray-100 px-1 group-hover:border group-hover:border-gray-200 group-hover:bg-background-alt"
+							class="py-1/2 mr-1 flex max-w-fit items-center rounded-sm border bg-background px-1 group-hover:border group-hover:border-border group-hover:bg-background-alt"
 						>
 							<span class="mr-1">
 								{data?.arqRating}
@@ -74,7 +74,7 @@
 					{/if}
 					{#if data?.reInvestmentPlan}
 						<div
-							class="py-1/2 rounded-sm border border-background-alt bg-gray-100 px-1 group-hover:border group-hover:border-gray-200 group-hover:bg-background-alt"
+							class="py-1/2 rounded-sm border bg-background px-1 group-hover:border group-hover:border-border group-hover:bg-background-alt"
 						>
 							{data?.reInvestmentPlan}
 						</div>
@@ -84,7 +84,7 @@
 		</div>
 	</section>
 	<slot name="returns">
-		<section>
+		<section class="text-title">
 			{data?.returns3yr ? data?.returns3yr.toFixed(1) + '%' : '-'}
 		</section>
 	</slot>

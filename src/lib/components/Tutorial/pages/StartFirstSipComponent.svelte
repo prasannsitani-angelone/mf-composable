@@ -153,7 +153,7 @@
 						height="24"
 					/>
 
-					<p class="text-xs">
+					<p class="text-xs text-body">
 						<span class=" font-medium">
 							{addCommasToAmountString(schemeDetails?.noOfClientInvested)}
 						</span>

@@ -106,7 +106,7 @@
 	<section class={`flex flex-col items-center justify-center ${$$props.class}`}>
 		<!-- Search Input -->
 		<div
-			class="flex w-full cursor-text items-center rounded-md border border-gray-200 lg:w-[440px] {searchInputClass}"
+			class="flex w-full cursor-text items-center rounded-md border lg:w-[440px] {searchInputClass}"
 			class:rounded-b-none={showResults}
 		>
 			<article class="flex w-full items-center">
@@ -148,7 +148,7 @@
 							<section>
 								{#each results || [] as item, index (item)}
 									<div
-										class="cursor-pointer border-b border-gray-200 p-2 text-left"
+										class="cursor-pointer border-b border-border p-2 text-left"
 										class:border-none={index === results?.length - 1}
 										on:keydown={() => handleResultItemClick(item, index)}
 										on:click={() => handleResultItemClick(item, index)}

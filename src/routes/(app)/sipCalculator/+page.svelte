@@ -206,7 +206,7 @@
 		</header>
 
 		<div class="light relative mb-6 overflow-hidden rounded-lg">
-			<Background class="absolute h-full w-full" />
+			<Background class="absolute h-full w-full bg-background-alt" />
 
 			<div
 				class="flex h-full w-full flex-col items-center justify-center gap-3 px-1 py-4 opacity-[.99] sm:py-8"

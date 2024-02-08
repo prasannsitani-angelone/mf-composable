@@ -111,9 +111,9 @@
 				<div class="flex flex-row items-center rounded-b bg-tint24-primary p-2">
 					<slot name="detailsFooterIcon">
 						<WMSIcon
-							fill="var(--TITLE)"
+							fill="var(--BODY)"
 							name="people-icon"
-							class="mr-2 p-1 text-title"
+							class="mr-2 p-1"
 							decoding="async"
 							alt="Number of people invested"
 							width={24}
@@ -122,7 +122,7 @@
 					</slot>
 
 					<slot name="detailsFooterDescription">
-						<p class="text-xs text-title">
+						<p class="text-xs text-body">
 							<span class=" font-medium">
 								{addCommasToAmountString(schemes?.noOfClientInvested)}
 							</span>

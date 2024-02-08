@@ -20,11 +20,11 @@
 		<div class="overflow-scroll">
 			<table border="1" cellpadding="5" cellspacing="5" align="center" class="border shadow-sm">
 				<tbody>
-					<tr height="100px" style="background-color:#D3D3D3">
+					<tr height="100px" class="bg-background">
 						<th> Scheme Category </th>
 						<th colspan="5"> Scheme Cut-off Timing - 1st Feb 2021 </th>
 					</tr>
-					<tr style="background-color:#D3D3D3">
+					<tr class="bg-background">
 						<th> &nbsp; </th>
 						<th> Purchase </th>
 						<th> Redemption/SWP </th>

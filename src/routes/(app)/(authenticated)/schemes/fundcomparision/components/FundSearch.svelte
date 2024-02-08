@@ -111,11 +111,11 @@
 					{/if}
 				</section>
 			</header>
-			<div class="origin-top rounded-t-md bg-background-alt px-4 transition duration-100">
+			<div class="origin-top rounded-t-md bg-background-alt px-4 text-body transition duration-100">
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<!-- svelte-ignore a11y-no-static-element-interactions -->
 				<div class="flex rounded-lg border py-4 md:cursor-pointer" on:click={toggleAddFunds}>
-					<SearchIcon class="mx-4" />
+					<SearchIcon class="mx-4 text-title" />
 					<span class="">Search by fund name, type or AMC</span>
 				</div>
 				<p class="my-4 text-center">or</p>

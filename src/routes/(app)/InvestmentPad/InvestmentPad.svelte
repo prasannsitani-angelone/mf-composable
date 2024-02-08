@@ -1925,7 +1925,7 @@
 							width="24"
 							height="24"
 						/>
-						<div class="text-xs text-title">
+						<div class="text-xs text-body">
 							<span class="font-medium"
 								>{addCommasToAmountString(schemeData?.noOfClientInvested)}</span
 							> people have invested in this fund

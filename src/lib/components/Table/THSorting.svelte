@@ -24,24 +24,24 @@
 	.cm-table-up-icon {
 		border-left: 4px solid transparent;
 		border-right: 4px solid transparent;
-		border-bottom: 4px solid #2a394e;
+		border-bottom: 4px solid var(--PRIMARY);
 	}
 
 	.cm-table-down-icon {
 		border-left: 4px solid transparent;
 		border-right: 4px solid transparent;
-		border-top: 4px solid #2a394e;
+		border-top: 4px solid var(--PRIMARY);
 	}
 
 	.cm-table-left-icon {
 		border-top: 4px solid transparent;
 		border-bottom: 4px solid transparent;
-		border-right: 4px solid #2a394e;
+		border-right: 4px solid var(--PRIMARY);
 	}
 
 	.cm-table-right-icon {
 		border-top: 4px solid transparent;
 		border-bottom: 4px solid transparent;
-		border-left: 4px solid #2a394e;
+		border-left: 4px solid var(--PRIMARY);
 	}
 </style>

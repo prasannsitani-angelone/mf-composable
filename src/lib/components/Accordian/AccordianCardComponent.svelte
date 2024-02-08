@@ -123,7 +123,7 @@
 			<section>
 				<!-- Accordion Card Body -->
 				<p
-					class="border-t p-5 text-left font-light md:mx-6 md:rounded-lg md:border md:border-gray-200"
+					class="border-t p-5 text-left font-light md:mx-6 md:rounded-lg md:border md:border-border"
 					class:border-b={data.footerText}
 				>
 					{data.body}

@@ -48,8 +48,8 @@ dependencies:
     specifier: 3.1.2
     version: 3.1.2(chart.js@4.4.0)(svelte@4.2.1)
   svelte-components:
-    specifier: 0.255.0
-    version: 0.255.0(@sveltejs/kit@1.25.1)(autoprefixer@10.4.14)(svelte@4.2.1)
+    specifier: 0.256.0
+    version: 0.256.0(@sveltejs/kit@1.25.1)(autoprefixer@10.4.14)(svelte@4.2.1)
   svelte-device-detector:
     specifier: 0.2.2
     version: 0.2.2
@@ -4944,8 +4944,8 @@ packages:
       - sugarss
     dev: true
 
-  /svelte-components@0.255.0(@sveltejs/kit@1.25.1)(autoprefixer@10.4.14)(svelte@4.2.1):
-    resolution: {integrity: sha512-8YAtz1g6Tpny+2FAOi/wlI2/LC1UNJYkQVpeViF36EZY7/v4oz+W/ubNZTSsHtZ+fli4lPMFZN40tLaBAVMreQ==}
+  /svelte-components@0.256.0(@sveltejs/kit@1.25.1)(autoprefixer@10.4.14)(svelte@4.2.1):
+    resolution: {integrity: sha512-a2PGO69S9zNKSjF+dwDHsDvZWo/81ef8RUGY/vIQkj4Qsk13Ox17Pip7vLqTMgpmQw21luxwtrbxWYCZriUnLQ==}
     requiresBuild: true
     peerDependencies:
       '@sveltejs/kit': ^1.22.3

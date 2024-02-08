@@ -494,7 +494,7 @@
 					</div>
 					<article>
 						<div
-							class="mb-3 flex w-full cursor-text items-center justify-start rounded border border-gray-200 px-3 py-2"
+							class="mb-3 flex w-full cursor-text items-center justify-start rounded border border-border px-3 py-2"
 						>
 							<input
 								id="switchAmountInput"

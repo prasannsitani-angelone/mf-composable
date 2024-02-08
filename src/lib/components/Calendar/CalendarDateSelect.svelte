@@ -115,7 +115,7 @@
 <article class="flex w-5/12 flex-col items-start p-2" data-testid="calendarDateSelection">
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<section
-		class="flex items-center justify-between rounded border border-gray-200 md:cursor-pointer"
+		class="flex items-center justify-between rounded border border-border md:cursor-pointer"
 		on:click={toggleCalendar}
 		on:keypress={() => {
 			// add logic

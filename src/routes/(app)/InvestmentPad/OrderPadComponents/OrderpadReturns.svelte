@@ -50,6 +50,7 @@
 					width={12}
 					height={12}
 					name="info-in-circle-dark"
+					stroke="var(--TITLE)"
 					class="ml-1 mt-0.5 cursor-default lg:cursor-pointer"
 					on:click={toggleShowthreeYearReturnsInfoModal}
 				/>

@@ -192,12 +192,12 @@
 			<svelte:fragment slot="defaultResult">
 				<slot name="defaultResult">
 					<section
-						class="absolute z-60 w-full overflow-auto rounded-md rounded-t-none border border-t-0 border-gray-200 bg-background-alt lg:w-[440px]"
+						class="absolute z-60 w-full overflow-auto rounded-md rounded-t-none border border-t-0 border-border bg-background-alt lg:w-[440px]"
 						style={`${deviceType.isBrowser ? 'max-height: 80vh' : 'max-height: 75vh'}`}
 					>
 						<!-- header 1 -->
 						{#if dashboardData?.recentlyViewed?.length}
-							<article class="border-b border-gray-200">
+							<article class="border-b border-border">
 								<SearchHeader
 									data={{
 										defaultTitle: 'You Recently Viewed',
@@ -237,7 +237,7 @@
 
 						<!-- header 2 -->
 						{#if dashboardData?.topInvestSchemes?.length}
-							<article class="border-b border-gray-200">
+							<article class="border-b border-border">
 								<SearchHeader
 									data={{
 										defaultTitle: 'Popular With Other Investors',
@@ -281,7 +281,7 @@
 			<svelte:fragment slot="resultsData">
 				<slot name="resultsData" {resultsData}>
 					<section
-						class="absolute z-60 w-full overflow-auto rounded-md rounded-t-none border border-t-0 border-gray-200 bg-background-alt lg:w-[440px]"
+						class="absolute z-60 w-full overflow-auto rounded-md rounded-t-none border border-t-0 border-border bg-background-alt lg:w-[440px]"
 						style={`${deviceType.isBrowser ? 'max-height: 80vh' : 'max-height: 75vh'}`}
 					>
 						{#if searchResultDataFetchFailed && !resultsData?.length}
@@ -289,7 +289,7 @@
 						{:else if resultsData?.length}
 							<section>
 								<!-- header 1 -->
-								<article class="border-b border-gray-200">
+								<article class="border-b border-border">
 									<SearchHeader
 										data={{
 											defaultTitle: `Showing ${resultsData?.length} Results`,
@@ -325,9 +325,9 @@
 							<section>
 								<!-- No results found -->
 								<section>
-									<article class="border-b border-gray-200">
+									<article class="border-b border-border">
 										<section
-											class="m-4 flex items-center justify-center rounded-lg bg-gray-100 px-10 md:px-16"
+											class="m-4 flex items-center justify-center rounded-lg bg-background px-10 md:px-16"
 										>
 											<SearchResultImage />
 											<p class="pl-4 text-sm text-body">
@@ -340,7 +340,7 @@
 								<section>
 									<!-- header 2 -->
 									{#if dashboardData?.topInvestSchemes?.length}
-										<article class="border-b border-gray-200">
+										<article class="border-b border-border">
 											<SearchHeader
 												data={{
 													defaultTitle: 'Popular With Other Investors',

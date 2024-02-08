@@ -8,7 +8,7 @@
 </script>
 
 <div
-	class={`py-1/2 flex w-min items-center justify-end rounded border border-background-alt bg-gray-100 px-1 group-hover:border group-hover:border-gray-200 group-hover:bg-background-alt ${clazz}`}
+	class={`py-1/2 flex w-min items-center justify-end rounded border border-background-alt bg-background px-1 group-hover:border group-hover:border-border group-hover:bg-background-alt ${clazz}`}
 >
 	<span class={`mr-1 text-body ${headingClass}`}>
 		{arqRating}

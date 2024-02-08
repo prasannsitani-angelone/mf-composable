@@ -56,7 +56,7 @@
 				/>
 			</slot>
 		</div>
-		<div class="relative w-16">
+		<div class="light relative w-16">
 			<slot name="topRightSection">
 				{#if (schemes?.sortBy2 > 0 && schemes?.sortBy2 < 3) || showTopRated}
 					<div class="bottom absolute inset-0" />
@@ -90,18 +90,18 @@
 		</slot>
 	</div>
 	<div class="mt-3 flex flex-col">
-		<div class="flex flex-row divide-x divide-[#C7CDEB] rounded bg-[#F1F3FC] px-4 py-2">
+		<div class="flex flex-row divide-x divide-border rounded bg-background px-4 py-2">
 			<slot name="detailsLeft">
 				<div class="flex w-6/12 flex-col items-start">
-					<p class="text-xs text-[#515151]">Min. SIP Amount</p>
-					<p class="text-base font-medium">
+					<p class="text-xs text-body">Min. SIP Amount</p>
+					<p class="text-base font-medium text-title">
 						<AmountText amount={schemes?.minSipAmount || 0} />
 					</p>
 				</div>
 			</slot>
 			<slot name="detailsRight">
 				<div class="flex w-6/12 flex-col items-end">
-					<p class="text-xs text-[#515151]">Returns</p>
+					<p class="text-xs text-body">Returns</p>
 					<div class="flex flex-row items-center">
 						<img
 							src={GreenUpArrowTrendingFund}
@@ -111,7 +111,7 @@
 							width="10"
 							height="12"
 						/>
-						<p class="text-xs font-normal">
+						<p class="text-xs font-normal text-title">
 							<span class="text-base font-normal">{schemes?.returns3yr?.toFixed(2)}%</span> p.a
 						</p>
 					</div>

@@ -52,8 +52,10 @@
 				onClick={() => {
 					onFundDelete({ schemeName, cartItemId });
 				}}
-				variant="transparent"><WMSIcon name="trash-icon" width={14} height={14} /></Button
+				variant="transparent"
 			>
+				<WMSIcon name="trash-icon" stroke="var(--BODY)" width={14} height={14} />
+			</Button>
 		</div>
 	{/if}
 </section>

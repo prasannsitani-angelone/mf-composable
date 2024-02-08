@@ -62,7 +62,8 @@
 							height={24}
 							width={24}
 							name="cross"
-							class="mr-4 cursor-pointer text-title"
+							stroke="var(--TITLE)"
+							class="mr-4 cursor-pointer"
 							on:click={handleCloseButtonClick}
 						/>
 					{:else if showBackIcon}
@@ -136,7 +137,7 @@
 							<Link to={`/faqs?params=${faqParams}`} ariaLabel="search">
 								<WMSIcon
 									name="question-mark-point"
-									stroke="var(--TITLE)"
+									stroke="var(--PRIMARY)"
 									height={24}
 									width={24}
 									class="p-0.5"

@@ -543,7 +543,7 @@
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 				<article
-					class="mb-2 flex flex-col items-center rounded border border-gray-200 p-3 {isRedeemableAmountLessThanWithdrawableAmount
+					class="mb-2 flex flex-col items-center rounded border border-border p-3 {isRedeemableAmountLessThanWithdrawableAmount
 						? 'cursor-not-allowed'
 						: 'cursor-text'}"
 					on:click={handleAmountInputFocus}

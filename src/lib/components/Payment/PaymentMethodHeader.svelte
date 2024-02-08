@@ -23,7 +23,14 @@
 				on:click={onBackClick}
 			/>
 		{:else}
-			<WMSIcon class="mr-3" name="left-arrow" width={16} height={16} on:click={onBackClick} />
+			<WMSIcon
+				class="mr-3"
+				name="left-arrow"
+				stroke="var(--TITLE)"
+				width={16}
+				height={16}
+				on:click={onBackClick}
+			/>
 		{/if}
 		<div class="text-lg font-normal text-title sm:text-xl">{title}</div>
 	</div>
