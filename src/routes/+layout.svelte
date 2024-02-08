@@ -26,6 +26,7 @@
 	import { urlStore } from '$lib/stores/UrlStore';
 	import { onLCP, onTTFB, onFCP, onINP, onCLS } from 'web-vitals/attribution';
 	import { logWebVitals } from '$lib/utils/webVitals';
+	import { registerRefreshTokenCallback } from '$lib/utils/nativeCallbacks';
 
 	function logDelta(metric) {
 		logWebVitals(metric?.name, metric);
@@ -88,6 +89,7 @@
 
 	onMount(async () => {
 		update();
+		registerRefreshTokenCallback();
 		hydratedStore.set({ isHydrated: true });
 		Logger.info({
 			type: 'IS SW enabled',

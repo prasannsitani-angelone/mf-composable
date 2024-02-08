@@ -8,6 +8,37 @@ import { hydrate } from './helpers/hydrated';
 import Logger from '$lib/utils/logger';
 import type { FetchType } from '$lib/types/Fetch';
 import { removeAuthHeaders } from './helpers/logging';
+import { callNativeMethod, checkNativeMethodExist } from './callNativeMethod';
+import { isTokenUpdated, setUserTokenInCookie } from './helpers/token';
+
+let refreshingToken = false;
+
+const callRefreshTokenMethod = async (refreshToken: string) => {
+	const res = await useFetch('api/refreshToken', {
+		method: 'POST',
+		body: JSON.stringify({
+			refresh_token: refreshToken
+		}),
+		headers: {
+			'X-Source': 'mutualfund'
+		}
+	});
+	if (res?.ok) {
+		const userToken = {
+			NTAccessToken: res?.data?.data?.access_token,
+			NTRefreshToken: refreshToken
+		};
+		setUserTokenInCookie(userToken);
+		tokenStore.updateStore({
+			state: AUTH_STATE_ENUM.LOGGED_IN,
+			userToken
+		});
+	} else {
+		tokenStore.updateStore({
+			state: AUTH_STATE_ENUM.LOGGED_OUT
+		});
+	}
+};
 
 const getLogType = (method = '') => {
 	if (method === 'POST' || method === 'PATCH' || method === 'DELETE') {
@@ -116,10 +147,34 @@ export const useFetch = async (
 				type: 'Token Expired',
 				params
 			});
-			if (browser) {
+			if (browser && checkNativeMethodExist('refreshToken') && !refreshingToken) {
+				refreshingToken = true;
 				tokenStore.updateStore({
-					state: AUTH_STATE_ENUM.LOGGED_OUT
+					state: AUTH_STATE_ENUM.REFRESHING_TOKEN
 				});
+				callNativeMethod('refreshToken', '');
+				await isTokenUpdated();
+				refreshingToken = false;
+				if (tokenStore.state() === AUTH_STATE_ENUM.LOGGED_IN) {
+					return await useFetch(url, options, fetchServer, isNonJsonFetch, timeout);
+				}
+			} else if (browser && !checkNativeMethodExist('refreshToken') && !refreshingToken) {
+				refreshingToken = true;
+				tokenStore.updateStore({
+					state: AUTH_STATE_ENUM.REFRESHING_TOKEN
+				});
+				callRefreshTokenMethod(tokenStore.refreshToken());
+				await isTokenUpdated();
+				refreshingToken = false;
+				if (tokenStore.state() === AUTH_STATE_ENUM.LOGGED_IN) {
+					return await useFetch(url, options, fetchServer, isNonJsonFetch, timeout);
+				}
+			} else if (browser && refreshingToken) {
+				await isTokenUpdated();
+				refreshingToken = false;
+				if (tokenStore.state() === AUTH_STATE_ENUM.LOGGED_IN) {
+					return await useFetch(url, options, fetchServer, isNonJsonFetch, timeout);
+				}
 			}
 		} else {
 			Logger.error({

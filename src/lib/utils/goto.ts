@@ -11,24 +11,13 @@ interface GotoOptions {
 
 export const modifiedGoto = async (url: string, options?: GotoOptions): Promise<void> => {
 	if (appStore.isTabview()) {
-		// ios implementation
-		if (typeof window?.webkit?.messageHandlers?.openMF?.postMessage === 'function') {
-			window?.webkit?.messageHandlers?.openMF?.postMessage(
-				JSON.stringify({
-					url,
-					options
-				})
-			);
-		} else {
-			if (typeof window?.ShareDataHandler?.openMF === 'function') {
-				window?.ShareDataHandler?.openMF(
-					JSON.stringify({
-						url,
-						options
-					})
-				);
-			}
-		}
+		callNativeMethod(
+			'openMF',
+			JSON.stringify({
+				url,
+				options
+			})
+		);
 	} else {
 		await goto(url, options);
 	}

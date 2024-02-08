@@ -20,6 +20,7 @@
 	let secondaryButtonVariant: 'outlined' | 'contained' | 'transparent' = 'outlined';
 	let closeModal: (() => void) | null = null;
 	let handleButtonClick: () => void;
+	let preventBackDropClick = false;
 	export {
 		popupType,
 		title,
@@ -34,7 +35,8 @@
 		closeModal,
 		handleButtonClick,
 		buttonVariant,
-		secondaryButtonVariant
+		secondaryButtonVariant,
+		preventBackDropClick
 	};
 
 	const dispatch = createEventDispatcher();
@@ -44,7 +46,7 @@
 	};
 </script>
 
-<ModalWithAnimation {isModalOpen} {closeModal}>
+<ModalWithAnimation {isModalOpen} {closeModal} {preventBackDropClick}>
 	<div
 		class={`flex flex-col items-center justify-between overflow-y-auto bg-white shadow-clg sm:w-120 sm:rounded-lg ${$$props.class}`}
 	>

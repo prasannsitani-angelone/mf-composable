@@ -3,6 +3,7 @@ import { isDevMode } from './dev';
 import { setCookie } from './cookie';
 import { PUBLIC_ENV_NAME, PUBLIC_APP_USER_COOKIE } from '$env/static/public';
 import type { CookieParseOptions, CookieSerializeOptions } from 'cookie-es';
+import { AUTH_STATE_ENUM, tokenStore } from '$lib/stores/TokenStore';
 
 export const NON_LOGGED_IN_COOKIE = 'ABNonLoggedInCookie';
 
@@ -209,4 +210,18 @@ export const decryptRightUserCookie = (cookiesString: string) => {
 	} catch (e) {
 		return decryptedValue;
 	}
+};
+
+export const isTokenUpdated = () => {
+	return new Promise((resolve) => {
+		const interval = setInterval(() => {
+			if (
+				tokenStore.state() === AUTH_STATE_ENUM.LOGGED_IN ||
+				tokenStore.state() === AUTH_STATE_ENUM.LOGGED_OUT
+			) {
+				resolve('');
+				clearInterval(interval);
+			}
+		}, 300);
+	});
 };

@@ -176,6 +176,7 @@
 		text="Please close the app and open again."
 		class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
 		isModalOpen
+		preventBackDropClick
 	>
 		<div slot="popupFooter" />
 	</ResultPopup>
@@ -191,6 +192,17 @@
 		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
 		buttonVariant="contained"
 	/>
+{:else if $tokenStore.state === AUTH_STATE_ENUM.REFRESHING_TOKEN}
+	<ResultPopup
+		popupType="PENDING"
+		title="Your credentials are being refreshed"
+		text="Please wait for a while"
+		class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
+		isModalOpen
+		preventBackDropClick
+	>
+		<div slot="popupFooter" />
+	</ResultPopup>
 {/if}
 <LazyComponent
 	when={userDetails?.panSeeded === false}
