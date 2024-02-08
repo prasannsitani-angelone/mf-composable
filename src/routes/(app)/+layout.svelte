@@ -15,8 +15,7 @@
 	import { logout } from '$lib/utils/helpers/logout';
 	import { logoutAttemptStore } from '$lib/stores/LogoutAttemptStore';
 
-	import { goto } from '$app/navigation';
-	import { base } from '$app/paths';
+	import { onNavigate } from '$app/navigation';
 	import { cartStore } from '$lib/stores/CartStore';
 	import { shouldDisplayAngelBeeBanner } from '$lib/utils';
 	import LazyComponent from '$components/LazyComponent.svelte';
@@ -29,6 +28,7 @@
 	import { useFetch } from '$lib/utils/useFetch';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { ctNudgeStore } from '$lib/stores/CtNudgeStore';
+	import { browserHistoryStore } from '$lib/stores/BrowserHistoryStore';
 
 	$: pageMetaData = $page?.data?.layoutConfig;
 	let searchFocused = false;
@@ -86,7 +86,10 @@
 			});
 			ctNudgeStore.set(data);
 		});
-		handleBackHistoryForDeeplinks();
+
+		browserHistoryStore.updateStore({
+			historyLength: window.history.length
+		});
 	});
 	// initialising logging again with all new headers for routes of (app)
 
@@ -100,36 +103,11 @@
 		await logout($page.url.href, $page.url.origin);
 	};
 
-	/**
-	 * Handles direct deeplinks to the (app) route pages directly, and not from discoverfunds page.
-	 * adds the discoverfunds history entry and checks with the popstate event
-	 */
-	function handleBackHistoryForDeeplinks() {
-		let isDiscoverFundsPath = $page.url?.pathname?.includes('/discoverfunds');
-
-		const { platform } = data.sparkHeaders;
-		// if this page is directly invoked and is not discoverfunds page
-		if (
-			(platform?.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID ||
-				platform?.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) &&
-			history.length === 1 &&
-			!isDiscoverFundsPath
-		) {
-			// mutate history, add path to state object. will be used in popstate event
-			const discoverfundsUrl = `${base}/discoverfunds`;
-			history.replaceState({ path: discoverfundsUrl }, '', discoverfundsUrl);
-			history.pushState({ path: $page.url.href }, '', $page.url.href);
-
-			// when using replaceState/pushState popstate event needs to be handled
-			window.addEventListener('popstate', function (e) {
-				// if pop event state has path key, route to that path
-				if (e.state.path) {
-					e.preventDefault();
-					goto(e.state.path, { replaceState: true });
-				}
-			});
-		}
-	}
+	onNavigate(() => {
+		browserHistoryStore.updateStore({
+			historyLength: window.history.length
+		});
+	});
 </script>
 
 <noscript>

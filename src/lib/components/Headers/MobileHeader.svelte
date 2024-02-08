@@ -8,10 +8,10 @@
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import Link from '$components/Link.svelte';
 	import AddToCart from '$components/AddToCart.svelte';
-	import { goto } from '$app/navigation';
 	import { crossButtonClickEvent } from '$components/Headers/analytics';
 	import { createEventDispatcher } from 'svelte';
 	import Button from '$lib/components/Button.svelte';
+	import { browserHistoryStore } from '$lib/stores/BrowserHistoryStore';
 
 	export let title = '';
 	export let showSearchIcon = false;
@@ -41,11 +41,7 @@
 	};
 
 	const handleBackNavigation = async () => {
-		if (window.history.length === 1) {
-			await goto(`${base}/discoverfunds`);
-		} else {
-			history.back();
-		}
+		history.back();
 	};
 
 	const handleBackButtonClick = () => {
@@ -63,10 +59,7 @@
 		<article class="flex w-full items-center justify-between">
 			<article class="flex items-center justify-start">
 				<slot name="icon">
-					{#if showBackIcon}
-						<LeftArrowIcon class="mr-4 cursor-pointer" onClick={handleBackButtonClick} />
-					{/if}
-					{#if showCloseIcon && (($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID && $appStore.closecta) || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS)}
+					{#if (showCloseIcon || $browserHistoryStore.historyLength === 1) && (($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID && $appStore.closecta) || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS)}
 						<WMSIcon
 							height={24}
 							width={24}
@@ -74,6 +67,8 @@
 							class="mr-4 cursor-pointer"
 							on:click={handleCloseButtonClick}
 						/>
+					{:else if showBackIcon}
+						<LeftArrowIcon class="mr-4 cursor-pointer" onClick={handleBackButtonClick} />
 					{/if}
 				</slot>
 
