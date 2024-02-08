@@ -130,6 +130,7 @@
 		closeCueCardClickEvent,
 		fundOverviewCueCardImpressionEvent,
 		nfoCueCardImpressionEvent,
+		proceedToInvestCueCardClickEvent,
 		riskAndRatingCueCardImpressionEvent,
 		schemeInfoCueCardDetailsClickEvent,
 		schemeInfoCueCardImpressionEvent
@@ -2404,11 +2405,23 @@
 {/if}
 
 <CueCardCarouselComponent
+	preventBackDropClick={false}
 	bind:isModalOpen={showFundDetailCarousel}
 	carouselItems={fundDetailsCarouselItems}
 	on:cueCardLoad={handleCueCardLoad}
 	on:cueCardClose={handleCueCardClose}
-/>
+>
+	<Button
+		slot="bottomsticky"
+		onClick={() => {
+			showFundDetailCarousel = false;
+			proceedToInvestCueCardClickEvent({});
+		}}
+		class="fixed bottom-0 left-0 right-0 mx-4 my-3"
+	>
+		PROCEED TO INVEST
+	</Button>
+</CueCardCarouselComponent>
 
 <InfoPopup
 	isModalOpen={showAutopayPopup}

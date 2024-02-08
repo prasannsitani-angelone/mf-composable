@@ -71,3 +71,15 @@ export const schemeInfoCueCardDetailsClickEvent = (eventMetaData: unknown) => {
 		event_metadata: eventMetaData
 	});
 };
+
+export const proceedToInvestCueCardClickEvent = (eventMetaData: unknown) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-orderpad',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'Proceed_to_invest',
+		event_property: null,
+		event_id: '301.0.1.3.7',
+		event_metadata: eventMetaData
+	});
+};
