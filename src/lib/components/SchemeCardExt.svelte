@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { versionStore } from '$lib/stores/VersionStore';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import type { WeeklyTopSchemesEntity } from '$lib/types/IDiscoverFunds';
 	import type { ExploreFundsOptions } from '$lib/types/IExploreFunds';
@@ -20,17 +19,13 @@
 	let showLogo = true;
 	let disableRedirection = false;
 	let showTopRated = false;
-	let enableVariant = false;
 	let dispatch = createEventDispatcher();
 	function gotoSchemeDetails() {
 		if (disableRedirection) {
 			return;
 		}
 
-		const params =
-			enableVariant && $versionStore.version === 'B'
-				? { paymentMandatory: true }
-				: { investmentType: 'SIP', paymentMandatory: true };
+		const params = { paymentMandatory: true };
 		const schemeDetailsPath = `${base}/schemes/${normalizeFundName(
 			schemes?.schemeName,
 			schemes?.isin,
@@ -39,7 +34,7 @@
 		goto(schemeDetailsPath);
 		dispatch('onCardClick');
 	}
-	export { schemes, showLogo, disableRedirection, showTopRated, enableVariant };
+	export { schemes, showLogo, disableRedirection, showTopRated };
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->

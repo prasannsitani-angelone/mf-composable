@@ -46,8 +46,8 @@
 	let cleavertap;
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 
-	const showXirrModal = () => {
-		isXIRRModalOpen = true;
+	const toggleXirrModal = () => {
+		isXIRRModalOpen = !isXIRRModalOpen;
 	};
 	const toggleOptimisePorfolioCard = () => {
 		const investmentSummary = data?.investementSummary;
@@ -150,7 +150,7 @@
 				{#if isMobile}
 					<InternalRightSide
 						{data}
-						on:showXirr={showXirrModal}
+						on:showXirr={toggleXirrModal}
 						on:openOptimisePortfolio={toggleOptimisePorfolioCard}
 					/>
 				{/if}

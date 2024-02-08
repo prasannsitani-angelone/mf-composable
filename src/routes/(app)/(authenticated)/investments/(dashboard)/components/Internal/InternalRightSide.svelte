@@ -31,7 +31,7 @@
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 	let dispatch = createEventDispatcher();
 
-	const showXirrModal = () => {
+	const toggleXirrModal = () => {
 		dispatch('showXirr');
 	};
 	const toggleOptimisePorfolioCard = () => {
@@ -92,7 +92,7 @@
 				<PortfolioCardLoader hideBottomLoader={isFamilyPortfolio} />
 			{:else}
 				<PortfolioCardInvestment
-					onInfoClick={showXirrModal}
+					onInfoClick={toggleXirrModal}
 					investmentSummary={isFamilyPortfolio
 						? familyPortfolioSummary || {}
 						: data.investementSummary}

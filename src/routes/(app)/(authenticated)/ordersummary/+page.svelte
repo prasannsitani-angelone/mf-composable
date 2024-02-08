@@ -336,7 +336,7 @@
 								on:timelineToggle={handleTimelineToggle}
 							/>
 						{/if}
-						{#if orderSummaryData.emandateBankDetails && (isSIPOrder || isLumpsumViaMandate)}
+						{#if orderSummaryData.emandateBankDetails && (isSIPOrder || isLumpsumViaMandate || isBuyPortfolio || isCart)}
 							<AutopayTile
 								bankLogo={orderSummaryData.emandateBankDetails?.bankLogo}
 								bankName={orderSummaryData.emandateBankDetails?.bankName}
@@ -350,7 +350,7 @@
 					<section
 						class="sticky bottom-0 flex flex-col bg-background-alt shadow-top sm:shadow-none"
 					>
-						{#if !orderSummaryData.emandateBankDetails && isSIPOrder}
+						{#if !orderSummaryData.emandateBankDetails && (isSIPOrder || isBuyPortfolio || isCart)}
 							<AutopayTimeLineCard
 								autopayTimelineItems={orderSummaryData.autopayTimelineItems}
 								class="px-4 sm:px-0"
@@ -367,7 +367,7 @@
 								>
 									GO TO SIPS
 								</Button>
-							{:else if isSIPOrder && !orderSummaryData.emandateBankDetails}
+							{:else if (isSIPOrder || isBuyPortfolio || isCart) && !orderSummaryData.emandateBankDetails}
 								<Button
 									variant="contained"
 									onClick={navigateToEmandate}

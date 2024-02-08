@@ -20,19 +20,14 @@
 	import Card from '$components/Card.svelte';
 	import Link from '$components/Link.svelte';
 	import PageFilter from './components/PageFilter.svelte';
-	import Button from '$components/Button.svelte';
 	import type { ToggleButtonParam } from '$lib/types/IInvestments';
-	import {
-		filterToggleButtonClickEvent,
-		xirrFilterClickEvent,
-		xirrFilterModalImpressionEvent
-	} from './analytics';
+	import { filterToggleButtonClickEvent, xirrFilterClickEvent } from './analytics';
 	import OptimisePortfolioCard from './components/OptimisePortfolioCard.svelte';
 	import { WMSIcon } from 'svelte-components';
 	import OptimisePortfolioModal from './components/OptimisePortfolioModal.svelte';
-	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 	import { familyStore } from '$lib/stores/FamilyStore';
 	import { profileStore } from '$lib/stores/ProfileStore';
+	import XirrModal from './components/Internal/XirrModal.svelte';
 
 	const isFamilyPortfolio = familyStore?.isFamilyPortfolio($profileStore?.clientId);
 	$: isExternal = $page?.data?.isExternal;
@@ -99,8 +94,8 @@
 		return isExternal && partialImportCheck(scheme);
 	};
 
-	const onModalClick = () => {
-		isXIRRModalOpen = false;
+	const toggleXirrModal = () => {
+		isXIRRModalOpen = !isXIRRModalOpen;
 	};
 
 	const toggleOptimisePorfolioCard = (flag: boolean) => {
@@ -297,31 +292,8 @@
 	{/if}
 </section>
 {#if isXIRRModalOpen}
-	<ModalWithAnimation
-		closeModal={onModalClick}
-		isModalOpen
-		on:modalMounted={() => xirrFilterModalImpressionEvent()}
-	>
-		<div
-			class="w-screen rounded-b-none rounded-t-2xl bg-background-alt px-4 py-6 sm:!w-[460px] sm:rounded-lg sm:p-8"
-		>
-			<div
-				data-testid="investmentXirrModal"
-				class=" pb-6 text-lg font-normal text-title sm:pb-3 sm:text-xl"
-			>
-				What is XIRR?
-			</div>
-			<div class=" text-sm font-normal text-body">
-				XIRR stands for Extended Internal Rate of Return. XIRR helps calculate the annualized rate
-				of return of your mutual fund investment, considering the specific dates and amounts of your
-				purchases and withdrawal. XIRR gives you a more accurate picture of how well your investment
-				is doing compared to other measures.
-			</div>
-			<div data-testid="investmentXirrModalBtn" class="hidden pt-8 text-center sm:block">
-				<Button class="px-12" variant="outlined" onClick={onModalClick}>GOT IT</Button>
-			</div>
-		</div>
-	</ModalWithAnimation>
+	<!-- XIRR Modal -->
+	<XirrModal {isXIRRModalOpen} on:closeModal={toggleXirrModal} />
 {/if}
 
 {#if isOptimisePortfolioOpen}

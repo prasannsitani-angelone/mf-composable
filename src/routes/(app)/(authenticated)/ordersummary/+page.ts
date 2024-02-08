@@ -30,7 +30,8 @@ export const load = async ({ fetch, url, parent, depends }) => {
 		totalAmount: 0,
 		isMandateLinked: false,
 		schemeLogoUrl: '',
-		checkedOutItemsLength: 0
+		checkedOutItemsLength: 0,
+		mandateBankAccount: ''
 	};
 	let tag = 'orders';
 	let isInvestmentSipOrXsip = false;
@@ -189,14 +190,17 @@ export const load = async ({ fetch, url, parent, depends }) => {
 
 		cartData.checkedOutItemsLength = data?.checkedOutItems?.length;
 		data?.checkedOutItems.map((item) => {
-			cartData.totalAmount += item.amount;
-			cartData.isMandateLinked = cartData.isMandateLinked || item.isMandateLinked;
-			cartData.schemeLogoUrl = item.logoUrl;
+			cartData.totalAmount += item?.amount;
+			cartData.isMandateLinked = cartData.isMandateLinked || item?.isMandateLinked;
+			cartData.schemeLogoUrl = item?.logoUrl;
 			cartData.investmentType =
 				cartData.investmentType.toUpperCase() === 'SIP' ||
 				item?.investmentType?.toUpperCase() === 'SIP'
 					? 'SIP'
 					: 'LUMPSUM';
+			if (item?.isMandateLinked) {
+				cartData.mandateBankAccount = cartData.mandateBankAccount || item?.mandateBankAccount;
+			}
 		});
 
 		getAutopayTimelineItems(headerContent?.status, true);
@@ -209,14 +213,23 @@ export const load = async ({ fetch, url, parent, depends }) => {
 		const schemeCardItems: Array<SchemeCardItems> = [];
 		const schemeDetails: Record<string, string> = {};
 		const statusHistoryItems: Array<Record<string, any>> = [];
+		let emandateBankDetails = {};
 		let amount = '';
 		let statusCardHeading = '';
 
 		if (orderData?.ok) {
 			if (isBuyPortfolio) {
 				setBuyPortfolioData(orderData);
+				emandateBankDetails = getBankDetailsByAccountNumber(
+					profile?.bankDetails,
+					orderData?.data?.data?.mandateBankAccount
+				);
 			} else if (isCart) {
 				setCartData(orderData);
+				emandateBankDetails = getBankDetailsByAccountNumber(
+					profile?.bankDetails,
+					cartData?.mandateBankAccount
+				);
 			} else {
 				const data = orderData?.data?.data;
 				if (data?.statusHistory && data.statusHistory.length > 0) {
@@ -344,6 +357,11 @@ export const load = async ({ fetch, url, parent, depends }) => {
 				];
 			}
 
+			emandateBankDetails = getBankDetailsByAccountNumber(
+				profile?.bankDetails,
+				sipData?.data?.data?.accountNo
+			);
+
 			getAutopayTimelineItems(
 				headerContent?.status,
 				sipData?.data?.data?.firstOrderToday,
@@ -432,10 +450,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 				isBuyPortfolio ||
 				isCart,
 			paymentStatus: orderData?.data?.data?.paymentStatus,
-			emandateBankDetails: getBankDetailsByAccountNumber(
-				profile?.bankDetails,
-				sipData?.data?.data?.accountNo
-			),
+			emandateBankDetails,
 			orderData,
 			sipData,
 			cartData,

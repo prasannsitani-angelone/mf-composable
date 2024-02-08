@@ -41,6 +41,7 @@
 	import type { FamilyMemberTypes } from '$lib/types/IFamilyPortfolio';
 	import FamilyPortfolioEntryPoint from '$components/FamilyPortfolio/FamilyPortfolioEntryPoint.svelte';
 	import { getFamilyMembers } from '$lib/api/familyPortfolio';
+	import XirrModal from './components/Internal/XirrModal.svelte';
 
 	export let data: PageData;
 
@@ -65,8 +66,8 @@
 	$: isExternal = data?.isExternal;
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 
-	const showXirrModal = () => {
-		isXIRRModalOpen = true;
+	const toggleXirrModal = () => {
+		isXIRRModalOpen = !isXIRRModalOpen;
 	};
 
 	let cleavertap;
@@ -381,7 +382,7 @@
 {#if !isMobile && activeTab === INVESTMENT_TABS.ANGEL_ONE.value}
 	<InternalRightSide
 		{data}
-		on:showXirr={showXirrModal}
+		on:showXirr={toggleXirrModal}
 		on:openOptimisePortfolio={toggleOptimisePorfolioCard}
 	/>
 {/if}
@@ -406,6 +407,11 @@
 			{/if}
 		{/await}
 	{/await}
+{/if}
+
+{#if isXIRRModalOpen}
+	<!-- XIRR Modal -->
+	<XirrModal {isXIRRModalOpen} on:closeModal={toggleXirrModal} />
 {/if}
 
 {#if $ctNudgeStore?.kv?.topic === 'mf_trackext_invdash_type_a'}
