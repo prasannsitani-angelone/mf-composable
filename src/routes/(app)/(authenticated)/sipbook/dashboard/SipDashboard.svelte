@@ -399,7 +399,7 @@
 				</section>
 			{:else}
 				<NoSipScreen {data} />
-				<section class="-mx-2 mt-2 max-w-4xl bg-white px-2 !pt-0 pb-7 shadow-csm">
+				<section class="-mx-2 mt-2 max-w-4xl bg-background-alt px-2 !pt-0 pb-7 shadow-csm">
 					<TrendingFunds
 						class="col-start-6 row-start-1 !my-0 mx-2 !mt-2 pt-3 shadow-none"
 						tableData={data?.searchDashboardData?.weeklyTopSchemes}

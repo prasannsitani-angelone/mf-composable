@@ -11,7 +11,7 @@
 		: 'rounded-lg px-6 py-[52px]'}"
 >
 	<NoSipImage />
-	<div class="mt-2 text-center text-lg font-normal text-title">You do not have any active SIP</div>
+	<div class="mt-2 text-center text-lg font-medium text-title">You do not have any active SIP</div>
 
 	<div class="mt-2 text-center text-sm font-normal text-body">
 		Invest with SIPs to generate long term returns
