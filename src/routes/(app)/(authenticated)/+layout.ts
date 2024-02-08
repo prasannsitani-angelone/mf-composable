@@ -23,6 +23,6 @@ export const load = (async ({ url, parent }) => {
 		const redirectUrl = `${origin}${pathname}${search}`;
 		const logoutUrl = getLogoutUrl(redirectUrl, origin);
 		if (browser) return await goto(logoutUrl);
-		else throw redirect(302, logoutUrl);
+		else redirect(302, logoutUrl);
 	}
 }) satisfies LayoutData;

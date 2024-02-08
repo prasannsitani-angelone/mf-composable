@@ -36,7 +36,7 @@ export const load = (async ({ fetch, params, url, parent }) => {
 		if (browser) {
 			goto(`${base}/schemes/clientError`, { replaceState: true });
 		} else {
-			throw redirect(302, `${base}/schemes/clientError`);
+			redirect(302, `${base}/schemes/clientError`);
 		}
 	}
 
@@ -60,7 +60,7 @@ export const load = (async ({ fetch, params, url, parent }) => {
 			if (browser) {
 				goto(`${base}/schemes/error`, { replaceState: true });
 			} else {
-				throw redirect(302, `${base}/schemes/error`);
+				redirect(302, `${base}/schemes/error`);
 			}
 		} else {
 			return new Error('Something went wrong');

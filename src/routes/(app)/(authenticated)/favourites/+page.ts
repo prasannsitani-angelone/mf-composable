@@ -20,7 +20,7 @@ export const load = (async ({ fetch, depends }) => {
 				if (browser) {
 					await goto(`${base}/favourites/nofunds`, { replaceState: true });
 				} else {
-					throw redirect(302, `${base}/favourites/nofunds`);
+					redirect(302, `${base}/favourites/nofunds`);
 				}
 			}
 		}

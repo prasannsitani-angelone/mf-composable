@@ -10,6 +10,6 @@ export const load = (async ({ parent, url }) => {
 	const parentData = await parent();
 	if (parentData?.isGuest === false) {
 		if (browser) return await goto(redirectUrl);
-		else throw redirect(302, redirectUrl);
+		else redirect(302, redirectUrl);
 	}
 }) satisfies LayoutData;

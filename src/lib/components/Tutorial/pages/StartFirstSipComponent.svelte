@@ -75,7 +75,7 @@
 			if (browser) {
 				goto(`${base}/schemes/error`, { replaceState: true });
 			} else {
-				throw redirect(302, `${base}/schemes/error`);
+				redirect(302, `${base}/schemes/error`);
 			}
 		}
 

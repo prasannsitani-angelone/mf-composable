@@ -19,7 +19,7 @@ export const load = (async ({ url, parent }) => {
 		if (browser) {
 			goto(`${base}/schemes/clientError`, { replaceState: true });
 		} else {
-			throw redirect(302, `${base}/schemes/clientError`);
+			redirect(302, `${base}/schemes/clientError`);
 		}
 	}
 
