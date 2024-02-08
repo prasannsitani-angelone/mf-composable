@@ -131,10 +131,7 @@
 			url: PUBLIC_ANALYTICS_URL,
 			enabled: PUBLIC_ANALYTICS_ENABLED,
 			initialised: true,
-			NBULoggerUrl: PUBLIC_NBU_LOGGER_URL,
-			headers: {
-				accessToken: token
-			}
+			NBULoggerUrl: ''
 		});
 
 		// connection details
