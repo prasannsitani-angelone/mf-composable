@@ -39,7 +39,7 @@
 	<div class="border-b border-grey-line px-4 py-4 text-base text-black-neutral">
 		Mutual Fund Details
 	</div>
-	{#if schemeDetails?.totalInvesetment !== 0}
+	{#if schemeDetails?.noOfClientInvested !== 0}
 		<div class="flex border-b border-grey-line p-4">
 			<img
 				src={PeopleIcon}
@@ -51,7 +51,7 @@
 			/>
 			<div class="text-sm" style="color: #2a394e">
 				Over
-				<strong>{schemeDetails?.totalInvesetment}+</strong> users have invested in this fund
+				<strong>{schemeDetails?.noOfClientInvested}+</strong> users have invested in this fund
 			</div>
 		</div>
 	{/if}

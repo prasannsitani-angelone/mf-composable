@@ -20,7 +20,6 @@ export interface SchemeDetails {
 	returns5yr: number;
 	arqRating: number;
 	purchaseTxnMode: string;
-	totalInvesetment: number;
 	navDate: Date;
 	navValue: number;
 	returns1Month: number;
