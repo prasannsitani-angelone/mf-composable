@@ -2,6 +2,6 @@
 	import { Overlay } from 'svelte-components';
 </script>
 
-<Overlay>
+<Overlay {...$$props}>
 	<slot />
 </Overlay>

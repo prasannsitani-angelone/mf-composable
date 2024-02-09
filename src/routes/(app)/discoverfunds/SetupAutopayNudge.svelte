@@ -16,7 +16,7 @@
 	};
 </script>
 
-<div class="relative flex items-center rounded-lg {$$props.class}">
+<div class="light relative flex items-center rounded-lg {$$props.class}">
 	<div class="z-2 absolute h-full w-full"><SetupAutopayBg class="absolute h-full w-full" /></div>
 	<div class="z-0 flex items-center p-4">
 		<div class="flex flex-col">

@@ -162,7 +162,7 @@
 		{/each}
 	{/if}
 	{#if actionsData?.paymentFailedOrders?.length > 0}
-		<div class="py-2 font-medium">Recent Failed Orders</div>
+		<div class="py-2 font-medium text-title">Recent Failed Orders</div>
 		{#each actionsData?.paymentFailedOrders as order}
 			<ActionCard
 				{order}

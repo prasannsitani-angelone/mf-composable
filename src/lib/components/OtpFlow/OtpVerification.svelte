@@ -275,7 +275,7 @@
 				<slot name="heading">
 					<div class="flex items-center justify-between px-4 py-6 md:px-8">
 						<div class="flex items-center justify-start">
-							<span class="mr-1 text-lg md:text-xl"> Verify Order with OTP </span>
+							<span class="mr-1 text-lg text-title md:text-xl"> Verify Order with OTP </span>
 							<WMSIcon
 								width={16}
 								height={16}
@@ -320,10 +320,13 @@
 							on:click={focusOtpInput}
 						>
 							<label class="mb-0.5 mr-5 cursor-text text-xs text-title" for="otpInput">
-								<WMSIcon width={24} height={25} name="keypad" />
+								<WMSIcon width={24} height={25} name="keypad" fill="var(--TITLE)" />
 							</label>
 							<section class="flex flex-col items-start justify-start text-sm">
-								<label class={!otpValue?.length ? 'invisible mb-0' : 'mb-1'} for="otpInput">
+								<label
+									class="text-title {!otpValue?.length ? 'invisible mb-0' : 'mb-1'}"
+									for="otpInput"
+								>
 									OTP
 								</label>
 								<input
@@ -333,7 +336,7 @@
 									value={otpValue}
 									maxlength="6"
 									disabled={wrongOtpCount >= wrongOtpLimit}
-									class="border-none bg-background-alt text-base outline-none {wrongOtpCount <
+									class="border-none bg-background-alt text-title outline-none {wrongOtpCount <
 									wrongOtpLimit
 										? 'cursor-text'
 										: 'cursor-not-allowed'} {!otpValue?.length && '-mt-2 mb-3'}"
@@ -372,7 +375,12 @@
 						<!-- Footer CTA -->
 						<article class="flex justify-center">
 							<Button
-								class="mt-8 w-48 rounded"
+								class="mt-8 w-48 rounded {otpValue?.length < 6 ||
+								isIncorrectOtp ||
+								wrongOtpCount >= wrongOtpLimit ||
+								isSubmitClicked
+									? 'cursor-default !bg-border !text-disabled active:opacity-100'
+									: 'bg-primary'}"
 								disabled={otpValue?.length < 6 ||
 									isIncorrectOtp ||
 									wrongOtpCount >= wrongOtpLimit ||
