@@ -3,9 +3,16 @@
 	import Button from '$components/Button.svelte';
 	import { modifiedGoto } from '$lib/utils/goto';
 	import SetupAutopayBg from '$components/SetupAutopayBg.svelte';
+	import { profileStore } from '$lib/stores/ProfileStore';
+	import { encodeObject } from '$lib/utils/helpers/params';
+
+	$: bankDetails = $profileStore?.bankDetails;
 
 	const goToSetupAutopay = () => {
-		modifiedGoto(`${base}/autopay/manage`);
+		const params = encodeObject({
+			acc: bankDetails?.[0]?.accNO
+		});
+		modifiedGoto(`${base}/autopay/manage/setup?params=${params}`);
 	};
 </script>
 

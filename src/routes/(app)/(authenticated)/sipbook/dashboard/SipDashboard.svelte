@@ -185,9 +185,11 @@
 
 	export { sipBookData, data };
 
-	const navigateToEMandate = (amount) => {
-		const params = encodeObject({ amount: amount, showAlert: true });
-		goto(`${base}/autopay/manage?params=${params}`);
+	const navigateToEMandate = () => {
+		const params = encodeObject({
+			acc: bankDetails?.[0]?.accNO
+		});
+		goto(`${base}/autopay/manage/setup?params=${params}`);
 	};
 
 	const handleViewReportCtaClick = () => {
@@ -297,9 +299,7 @@
 										heading={nudge.heading}
 										description={nudge.description}
 										amount={nudge.amount}
-										on:autoPayClick={() => {
-											navigateToEMandate(nudge.amount);
-										}}
+										on:autoPayClick={navigateToEMandate}
 									/>
 								{:else if nudge?.nudgesType === 'link_mandate'}
 									<DiscoverFundsNudge
@@ -325,9 +325,7 @@
 										heading={nudge.heading}
 										description={nudge.description}
 										amount={nudge.amount}
-										on:autoPayClick={() => {
-											navigateToEMandate(nudge.amount);
-										}}
+										on:autoPayClick={navigateToEMandate}
 									/>
 								{:else if nudge?.nudgesType === 'link_mandate'}
 									<DiscoverFundsNudge

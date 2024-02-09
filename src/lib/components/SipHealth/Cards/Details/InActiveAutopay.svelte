@@ -4,12 +4,18 @@
 	import { goto } from '$app/navigation';
 	import ActiveAutopay from '$components/SipHealth/Cards/Details/ActiveAutopay.svelte';
 	import { sipHealthDetailsPageSetupAutopayCtaClickAnalytics } from '$lib/analytics/siphealth/siphealth';
+	import { encodeObject } from '$lib/utils/helpers/params';
+	import { profileStore } from '$lib/stores/ProfileStore';
+
+	$: bankDetails = $profileStore?.bankDetails;
 
 	let autoPayClick = () => {
 		sipHealthDetailsPageSetupAutopayCtaClickAnalytics({ Page: 'SipHealthMsgCard' });
 
-		const redirectPath = `${base}/autopay/manage`;
-		goto(redirectPath);
+		const params = encodeObject({
+			acc: bankDetails?.[0]?.accNO
+		});
+		goto(`${base}/autopay/manage/setup?params=${params}`);
 	};
 </script>
 

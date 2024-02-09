@@ -31,10 +31,12 @@
 	import SuccessAnimation from '$lib/images/SuccessLottie.json';
 	import { orderSummaryStore } from '$lib/stores/OrderSummaryStore';
 	import OrdersTile from '$components/OrderSummary/OrdersTile.svelte';
+	import { profileStore } from '$lib/stores/ProfileStore';
 	export let data: PageData;
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 	$: isTablet = $page?.data?.deviceType?.isTablet;
+	$: bankDetails = $profileStore?.bankDetails;
 
 	const params = $page.url.searchParams.get('params') || '';
 	const decodedParams = decodeToObject(params);
@@ -42,8 +44,6 @@
 		firstTimePayment,
 		orderID,
 		sipID,
-		amount,
-		date,
 		isIntegeratedFlow,
 		isRedeem,
 		isSwitch,
@@ -136,11 +136,9 @@
 		const eventMetaData = await getCommonEventMetaData();
 		setupAutopayOrderSummaryButtonClickAnalytics(eventMetaData);
 		const params = encodeObject({
-			amount: amount,
-			date: date,
-			sipID: sipID
+			acc: bankDetails?.[0]?.accNO
 		});
-		goto(`${base}/autopay/manage?params=${params}`);
+		goto(`${base}/autopay/manage/setup?params=${params}`);
 	};
 
 	const navigateToFAQ = async (tag: string) => {

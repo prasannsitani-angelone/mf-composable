@@ -378,9 +378,5 @@
 		buttonVariant="outlined"
 	/>
 {:else if isSuccess}
-	<SuccessPopup
-		mandateLimit={getMandateAmount(paymentHandler.emandateMode, amountInNumber)?.toString()}
-		buttonTitle="DONE"
-		onSubmit={onSuccessPopupClick}
-	/>
+	<SuccessPopup onSubmit={onSuccessPopupClick} />
 {/if}

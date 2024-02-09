@@ -213,11 +213,7 @@
 					response?.data,
 					data?.pageParam?.amount
 				)}
-				<TopCard
-					{totalAmount}
-					mandateLimit={getMandateAmount(mode, mandateAmount)}
-					paymentMode={mode}
-				/>
+				<TopCard {totalAmount} />
 				<div class="mb-2" />
 				<Mandate
 					onStart={intiateAutoPayProcess}

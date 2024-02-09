@@ -29,12 +29,15 @@
 		SIP_HEALTH_SCORE_LIMIT_AVERAGE,
 		SIP_HEALTH_SCORE_LIMIT_GOOD
 	} from '$components/SipHealth/constants.js';
+	import { encodeObject } from '$lib/utils/helpers/params.js';
+	import { profileStore } from '$lib/stores/ProfileStore.js';
 
 	export let data;
 
 	let sipHealthData: ISipHealth;
-
 	let sipHealthDetails: ISipHealthDetails[] = [];
+
+	$: bankDetails = $profileStore?.bankDetails;
 
 	$: {
 		if (sipHealthData?.score !== undefined) {
@@ -97,7 +100,10 @@
 	const redirectToAutopaySetup = () => {
 		sipHealthDetailsPageSetupAutopayCtaClickAnalytics({ Page: 'SipHealthCheck' });
 
-		goto(`${base}/autopay/manage`);
+		const params = encodeObject({
+			acc: bankDetails?.[0]?.accNO
+		});
+		goto(`${base}/autopay/manage/setup?params=${params}`);
 	};
 
 	let showCarousel = false;

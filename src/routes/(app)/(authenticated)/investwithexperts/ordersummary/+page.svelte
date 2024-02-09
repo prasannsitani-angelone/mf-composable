@@ -9,8 +9,11 @@
 	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import SkeletonLoader from './components/SkeletonLoader.svelte';
 	import OrdersAutoPayComponent from '$components/AutopaySetupTile/OrdersAutoPayComponent.svelte';
+	import { profileStore } from '$lib/stores/ProfileStore';
 
 	export let data: PageData;
+
+	$: bankDetails = $profileStore?.bankDetails;
 
 	const params = $page.url.searchParams.get('params') || '';
 	const decodedParams = decodeToObject(params);
@@ -24,13 +27,11 @@
 		await goto(`${base}/orders/orderspage`, { replaceState: true });
 	};
 
-	const navigateToEmandate = (amount, date) => {
+	const navigateToEmandate = () => {
 		const params = encodeObject({
-			amount: amount,
-			date: date,
-			sipID: sipID
+			acc: bankDetails?.[0]?.accNO
 		});
-		goto(`${base}/autopay/manage?params=${params}`);
+		goto(`${base}/autopay/manage/setup?params=${params}`);
 	};
 </script>
 
@@ -51,7 +52,7 @@
 				{sipID}
 				class="mb-2 mt-2"
 				amount={totalAmount}
-				on:autoPayClick={() => navigateToEmandate(totalAmount, nextSipDueDate)}
+				on:autoPayClick={navigateToEmandate}
 			/>
 		</div>
 	{:else}

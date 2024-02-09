@@ -47,6 +47,7 @@
 					class="first:rounded-t-lg last:rounded-b-lg"
 					innerClass="sm:w-max"
 					submitButtonText="PROCEED"
+					extraInfoText="Use the same bank account on your UPI app"
 				>
 					<svelte:component this={EMANDATE_MODE[emandateModeKey].logo} slot="icon" />
 					<div slot="content">

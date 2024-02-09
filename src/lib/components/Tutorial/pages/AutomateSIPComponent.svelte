@@ -4,6 +4,8 @@
 	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
 	import { HEIGHT_OFFSET } from '$components/Tutorial/pages/const';
+	import { encodeObject } from '$lib/utils/helpers/params';
+	import { profileStore } from '$lib/stores/ProfileStore';
 
 	let options = [
 		'Autopay helps you automate your SIP payments',
@@ -16,6 +18,8 @@
 	let touchEndX = 0;
 	let touchStartY = 0;
 	let touchEndY = 0;
+
+	$: bankDetails = $profileStore?.bankDetails;
 
 	const setStartTouchPoints = (e) => {
 		touchStartX = e?.changedTouches[0]?.screenX;
@@ -36,7 +40,10 @@
 	};
 
 	const navigateToAutoPay = async () => {
-		const path = `${base}/autopay/manage`;
+		const params = encodeObject({
+			acc: bankDetails?.[0]?.accNO
+		});
+		const path = `${base}/autopay/manage/setup?params=${params}`;
 		console.log(path);
 		await goto(path);
 	};

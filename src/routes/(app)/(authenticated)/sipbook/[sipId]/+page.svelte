@@ -97,6 +97,9 @@
 
 	const params = $page.url.searchParams.get('params') || '';
 	const { isExternal = false, showEditSip = false } = decodeToObject(params || '');
+	const autopayRedirectParams = encodeObject({
+		acc: bankDetails?.[0]?.accNO
+	});
 
 	const bankAccNumToLogoMap = () => {
 		const accNumToLogoMap = {};
@@ -402,12 +405,8 @@
 		sipBookStore.updateStore({ showdropdown: false });
 	});
 
-	const handleLinkAutopayCtaClick = (sipData: ISip) => {
-		const params = encodeObject({
-			amount: sipData.installmentAmount,
-			showAlert: true
-		});
-		goto(`${base}/autopay/manage?params=${params}`);
+	const handleLinkAutopayCtaClick = () => {
+		goto(`${base}/autopay/manage/setup?params=${autopayRedirectParams}`);
 	};
 	const onOptionSelect = (event: { detail: { key: any } }) => {
 		updateSipBookStore();
@@ -488,7 +487,7 @@
 								description:
 									mandateList.length > 0 ? linkSipNudgeDescription : setupNudgeDescription,
 								heading: 'Automate Future SIP Payments',
-								link: '/autopay/manage',
+								link: `/autopay/manage/setup?params=${autopayRedirectParams}`,
 								linkHeading: mandateList.length > 0 ? linkAutopayHeading : setupAutopayHeading,
 								type: 'warn'
 							}}
@@ -503,7 +502,7 @@
 							{:else}
 								<SipBookAutoPayNudge
 									amount={sipData.installmentAmount}
-									on:autoPayClick={() => handleLinkAutopayCtaClick(sipData)}
+									on:autoPayClick={handleLinkAutopayCtaClick}
 								/>
 							{/if}
 						{/await}

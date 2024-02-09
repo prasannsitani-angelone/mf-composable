@@ -8,13 +8,17 @@
 	} from '$lib/analytics/sipbook/sipbook';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import { deviceStore } from '$lib/stores/DeviceStore';
+	import { profileStore } from '$lib/stores/ProfileStore';
 	import type { ISipBookOverView } from '$lib/types/ISipType';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
+	import { encodeObject } from '$lib/utils/helpers/params';
 	import { PortfolioCard } from 'svelte-components';
 
 	let bookSummary: ISipBookOverView;
 	let automatedSipsCount = 0;
 	export { bookSummary, automatedSipsCount };
+
+	$: bankDetails = $profileStore?.bankDetails;
 
 	const os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
 	const userAgent = $deviceStore.userAgent?.toLowerCase();
@@ -28,8 +32,10 @@
 		} else {
 			clickSetupAutopayCtaAnalytics({ AutopayEnabledSips: automatedSipsCount });
 
-			const redirectPath = `${base}/autopay/manage`;
-			goto(redirectPath);
+			const params = encodeObject({
+				acc: bankDetails?.[0]?.accNO
+			});
+			goto(`${base}/autopay/manage/setup?params=${params}`);
 		}
 	};
 </script>

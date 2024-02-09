@@ -24,6 +24,7 @@
 	export let subIdentifier = '';
 	export let showExtraInfo = true;
 	export let showPayCta = true;
+	export let extraInfoText = 'Registered with Angel One. Use the same bank account to pay';
 
 	export let onSelect: (identifier: string, subIdentifier: string) => void = () => undefined;
 	export let onSubmit: (text: string, subIdentifier: string) => void = () => undefined;
@@ -116,7 +117,7 @@
 			{/if}
 			{#if showExtraInfo}
 				<div class="mb-4 mt-2 flex flex-row justify-between">
-					<div class="flex w-9/12 flex-row">
+					<div class="flex flex-row {showChangeBank ? 'w-9/12' : 'w-full'}">
 						<div
 							class="ml-2 mr-3 flex h-5 w-[30px] items-center justify-center rounded-sm border bg-background-alt"
 						>
@@ -127,7 +128,7 @@
 								{bankName} - *{bankAccount?.substring(bankAccount.length - 4)}
 							</div>
 							<div class="text-xs text-body">
-								Registered with Angel One. Use the same bank account to pay
+								{extraInfoText}
 							</div>
 						</div>
 					</div>
