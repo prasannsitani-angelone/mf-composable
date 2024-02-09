@@ -1,5 +1,6 @@
 import { AUTH_STATE_ENUM, tokenStore } from '$lib/stores/TokenStore';
 import { setUserTokenInCookie } from './helpers/token';
+import logger from './logger';
 
 export const registerRefreshTokenCallback = () => {
 	window.refreshTokenCallback = (token: string, refreshToken: string) => {
@@ -13,9 +14,15 @@ export const registerRefreshTokenCallback = () => {
 				state: AUTH_STATE_ENUM.LOGGED_IN,
 				userToken
 			});
+			logger.info({
+				type: 'Refreshing Token through spark successful'
+			});
 		} else {
 			tokenStore.updateStore({
 				state: AUTH_STATE_ENUM.LOGGED_OUT
+			});
+			logger.info({
+				type: 'Refreshing Token through spark failed'
 			});
 		}
 	};

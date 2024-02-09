@@ -12,8 +12,6 @@ export const load = (async ({ data, url }) => {
 			? isTokenExpired(tokenObj?.guestToken)
 				? AUTH_STATE_ENUM.GUEST_LOGGED_OUT
 				: AUTH_STATE_ENUM.GUEST_LOGGED_IN
-			: isTokenExpired(tokenObj?.userToken?.NTAccessToken)
-			? AUTH_STATE_ENUM.LOGGED_OUT
 			: AUTH_STATE_ENUM.LOGGED_IN;
 		tokenStore.updateStore({ ...tokenObj, state: authState });
 		userStore.updateStore({ ...userDetails });

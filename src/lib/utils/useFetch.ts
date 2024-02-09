@@ -14,6 +14,18 @@ import { isTokenUpdated, setUserTokenInCookie } from './helpers/token';
 let refreshingToken = false;
 
 const callRefreshTokenMethod = async (refreshToken: string) => {
+	if (!refreshToken) {
+		Logger.error({
+			type: 'Refresh Token Not present'
+		});
+		tokenStore.updateStore({
+			state: AUTH_STATE_ENUM.LOGGED_OUT
+		});
+		return;
+	}
+	Logger.info({
+		type: 'Refreshing Token through api'
+	});
 	const res = await useFetch('api/refreshToken', {
 		method: 'POST',
 		body: JSON.stringify({
@@ -33,9 +45,15 @@ const callRefreshTokenMethod = async (refreshToken: string) => {
 			state: AUTH_STATE_ENUM.LOGGED_IN,
 			userToken
 		});
+		Logger.info({
+			type: 'Refreshing Token through api successful'
+		});
 	} else {
 		tokenStore.updateStore({
 			state: AUTH_STATE_ENUM.LOGGED_OUT
+		});
+		Logger.info({
+			type: 'Refreshing Token through api failed'
 		});
 	}
 };
@@ -151,6 +169,9 @@ export const useFetch = async (
 				refreshingToken = true;
 				tokenStore.updateStore({
 					state: AUTH_STATE_ENUM.REFRESHING_TOKEN
+				});
+				Logger.info({
+					type: 'Refreshing Token through spark callback'
 				});
 				callNativeMethod('refreshToken', '');
 				await isTokenUpdated();
