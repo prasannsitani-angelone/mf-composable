@@ -59,7 +59,7 @@
 	export { firstSchemeDetails, similarFunds };
 </script>
 
-<article class="mt-4 max-w-4xl rounded-lg bg-background-alt pb-3 text-sm shadow-csm">
+<article class="mt-2 max-w-4xl rounded-lg bg-background-alt pb-3 text-sm shadow-csm md:mt-4">
 	<header>
 		<section class="flex cursor-pointer items-center justify-between px-4 pt-6 text-lg">
 			<h2 class="flex items-center text-left text-base font-medium text-title">

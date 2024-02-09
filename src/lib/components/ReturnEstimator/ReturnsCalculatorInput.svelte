@@ -6,53 +6,81 @@
 	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { debounce } from '$lib/utils/helpers/debounce';
-
-	export let returns3yr = 0;
-	export let returns5yr = 0;
-	export let categoryName = '';
-	export let minSipAmount = 100;
-	export let minLumpsumAmount = 500;
-	export let outputValues: CalculatedValue = {};
-
-	interface durationButtonsType {
-		title: string;
-		value: number;
-	}
-
-	const durationButtons: durationButtonsType[] = [
-		{
-			title: '1 Year',
-			value: 1
-		},
-		{
-			title: '3 Years',
-			value: 3
-		},
-		{
-			title: '5 Years',
-			value: 5
-		},
-		{
-			title: '10 Years',
-			value: 10
-		}
-	];
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	import { allDurationTags } from '$lib/constants/tags';
+	import { BtnVariant } from 'svelte-components';
+	import type { Tags } from '$lib/types/ITags';
 
 	const dispatch = createEventDispatcher();
 
+	let schemeDetails: SchemeDetails;
+	let outputValues: CalculatedValue = {};
+
 	let currentCalculatorMode = 'SIP';
-	let duration = 3;
-	let returnsTitleBasedOnDuration = `FUND'S ANNUAL RETURN`;
+	let filteredDurations: Tags[] = allDurationTags;
+	let selectedDuration = filteredDurations[5];
+	let isDefaultReturn = false;
+	const minLumpsumAmount = schemeDetails?.minLumpsumAmount || 500;
+	const fallbackReturnPercentage =
+		(schemeDetails?.categoryName || '')?.toLocaleLowerCase() === 'equity' ? 12 : 7;
 
-	const fallbackReturnPercentage = categoryName?.toLocaleLowerCase() === 'equity' ? 12 : 7;
+	const getFilteredDurations = () => {
+		if (schemeDetails?.returns10yr > 0) {
+			filteredDurations = allDurationTags?.filter(
+				(duration) =>
+					duration?.months === 12 ||
+					duration?.months === 36 ||
+					duration?.months === 60 ||
+					duration?.months === 120
+			);
+			selectedDuration = filteredDurations[1];
+		} else if (schemeDetails?.returns5yr > 0) {
+			filteredDurations = allDurationTags?.filter(
+				(duration) =>
+					duration?.months === 6 ||
+					duration?.months === 12 ||
+					duration?.months === 36 ||
+					duration?.months === 60
+			);
+			selectedDuration = filteredDurations[2];
+		} else if (schemeDetails?.returns3yr > 0) {
+			filteredDurations = allDurationTags?.filter(
+				(duration) =>
+					duration?.months === 3 ||
+					duration?.months === 6 ||
+					duration?.months === 12 ||
+					duration?.months === 36
+			);
+			selectedDuration = filteredDurations[3];
+		} else if (schemeDetails?.returns2yr > 0) {
+			filteredDurations = allDurationTags?.filter(
+				(duration) =>
+					duration?.months === 3 ||
+					duration?.months === 6 ||
+					duration?.months === 12 ||
+					duration?.months === 24
+			);
+			selectedDuration = filteredDurations[2];
+		} else {
+			filteredDurations = allDurationTags?.filter(
+				(duration) =>
+					duration?.months === 6 ||
+					duration?.months === 12 ||
+					duration?.months === 36 ||
+					duration?.months === 60
+			);
+			selectedDuration = filteredDurations[1];
+		}
+	};
 
+	getFilteredDurations();
 	const updateSelectedInvestmentTypeChange = (investmentType: 'SIP' | 'OneTime') => {
 		currentCalculatorMode = investmentType;
 	};
 
-	const updateDuration = (selectedValue: number) => {
-		if (duration !== selectedValue) {
-			duration = selectedValue;
+	const updateDuration = (selectedValue: Tags) => {
+		if (selectedDuration?.months !== selectedValue?.months) {
+			selectedDuration = selectedValue;
 		}
 		returnsPercentage = getReturnsPercentage();
 
@@ -68,23 +96,11 @@
 	};
 
 	const getReturnsPercentage = () => {
-		if (duration < 5) {
-			if (returns3yr > 0) {
-				returnsTitleBasedOnDuration = `FUND'S 3Y ANNUAL RETURN`;
-				return returns3yr;
-			} else {
-				returnsTitleBasedOnDuration = 'AVERAGE EQUITY RETURNS';
-				return fallbackReturnPercentage;
-			}
-		} else if (duration >= 5) {
-			if (returns5yr > 0) {
-				returnsTitleBasedOnDuration = `FUND'S 5Y ANNUAL RETURN`;
-				return returns5yr;
-			} else {
-				returnsTitleBasedOnDuration = 'AVERAGE NON-EQUITY RETURNS';
-				return fallbackReturnPercentage;
-			}
+		if (schemeDetails[selectedDuration?.returnPeriod] > 0) {
+			isDefaultReturn = false;
+			return schemeDetails[selectedDuration?.returnPeriod];
 		} else {
+			isDefaultReturn = true;
 			return fallbackReturnPercentage;
 		}
 	};
@@ -93,7 +109,9 @@
 
 	$: maxAmountSlider = currentCalculatorMode === 'SIP' ? 10_000 : 5_00_000;
 	$: minAmountSlider =
-		currentCalculatorMode === 'SIP' ? Math.max(100, minSipAmount) : Math.max(500, minLumpsumAmount);
+		currentCalculatorMode === 'SIP'
+			? Math.max(100, schemeDetails?.minSipAmount || 100)
+			: Math.max(500, schemeDetails?.minLumpsumAmount || 500);
 	$: amountReturnSlider =
 		currentCalculatorMode === 'SIP'
 			? [minAmountSlider, maxAmountSlider]
@@ -106,12 +124,11 @@
 	$: gainLossPercentage = 0;
 
 	$: matuarityAmount = function calculateReturn() {
-		const selectedYear = duration;
 		const investedAmount = amountReturnSlider[0];
 
 		const CAGR = returnsPercentage;
 		const effectiveCAGR = CAGR?.toFixed(2) / 100 / 12;
-		const totalMonths = selectedYear * 12;
+		const totalMonths = selectedDuration?.months;
 		let totalProfit = 0;
 
 		if (currentCalculatorMode === 'SIP') {
@@ -120,7 +137,7 @@
 				(((Math.pow(1 + effectiveCAGR, totalMonths) - 1) / effectiveCAGR) * (1 + effectiveCAGR));
 			totalInvestment = investedAmount * totalMonths;
 		} else {
-			totalProfit = investedAmount * Math.pow(1 + CAGR / 100, selectedYear);
+			totalProfit = investedAmount * Math.pow(1 + CAGR / 100, selectedDuration?.months / 12);
 			totalInvestment = investedAmount;
 		}
 
@@ -132,11 +149,13 @@
 			matuarityAmount: Math.floor(totalProfit) || 0,
 			totalInvestment: totalInvestment,
 			investedAmount: investedAmount,
-			selectedYear: selectedYear,
+			selectedDuration,
 			gainLossPercentage: gainLossPercentage,
 			capitalGain: capitalGain,
 			currentCalculatorMode: currentCalculatorMode,
-			selectedReturn: CAGR
+			selectedReturn: CAGR,
+			categoryName: schemeDetails?.categoryName,
+			isDefaultReturn
 		};
 
 		return Math.floor(totalProfit) || 0;
@@ -149,22 +168,31 @@
 	const handleAmountSliderInput = () => {
 		amountSliderChange();
 	};
+
+	export { schemeDetails, outputValues };
 </script>
 
-<article
-	class="mt-4 max-w-4xl rounded-lg bg-background-alt pb-4 text-sm md:mt-8 {$$props.class || ''}"
->
+<article class="mt-4 max-w-4xl rounded-lg bg-background-alt text-sm md:mt-8 {$$props.class || ''}">
 	<section class="origin-top">
 		<InvestmentTypeRadioSelection
 			selectedInvestmentType={currentCalculatorMode}
 			on:investmentTypeChange={(e) => updateSelectedInvestmentTypeChange(e?.detail)}
+			class="!items-start"
+			secondRadioClass="!ml-6"
 		/>
 
 		<section class="mt-4 md:mt-6">
-			<div class="text-xs font-normal text-body">
-				{currentCalculatorMode === 'SIP' ? 'Choose SIP Amount' : 'Choose One Time Amount'}
-			</div>
-			<div class="slider -ml-2 mt-2 flex items-center">
+			<article class="flex items-center justify-between">
+				<div class="text-xs font-normal text-body">
+					{currentCalculatorMode === 'SIP' ? 'Monthly Investment' : 'One Time Investment'}
+				</div>
+				<div
+					class="rounded-md bg-background px-2 py-1 text-center text-base font-medium text-title"
+				>
+					<AmountText amount={amountReturnSlider[0]} />
+				</div>
+			</article>
+			<div class="slider -mx-2">
 				<Slider
 					bind:value={amountReturnSlider}
 					class="h-[60px]"
@@ -175,55 +203,36 @@
 					on:input={handleAmountSliderInput}
 				>
 					<div
-						class="flex h-[22px] w-[22px] items-center justify-center rounded-full border border-primary bg-background-alt shadow-csm md:cursor-pointer"
+						class="flex h-[22px] w-[22px] items-center justify-center rounded-full border border-primary bg-primary shadow-csm md:cursor-pointer"
 					>
 						<div class="h-3 w-3 rounded-full bg-primary" />
 					</div>
 				</Slider>
-				<div
-					class="min-w-28 max-w-28 my-auto ml-3 w-28 rounded-md border border-primary p-2.5 text-center text-sm font-medium text-title"
-				>
-					<AmountText amount={amountReturnSlider[0]} />
-				</div>
 			</div>
 		</section>
 
 		<section class="flex flex-col justify-between md:flex-row md:items-end">
-			<section class="mt-4">
+			<section class="mt-0">
 				<div class="text-xs font-normal text-body">Select Duration</div>
 
 				<section class="mt-3 flex items-center justify-start">
-					{#each durationButtons as durationButton, index (durationButton.value)}
+					{#each filteredDurations as durationButton, index (durationButton.months)}
 						<ButtonMedium
 							onClick={() => {
-								updateDuration(durationButton?.value);
+								updateDuration(durationButton);
 							}}
-							class="!h-fit !min-h-fit !border-border px-3 py-2 text-xs font-medium !capitalize md:px-4 md:py-3 {duration ===
-							durationButton.value
+							class="!h-fit !min-h-fit !border-border px-3 py-2 text-xs font-medium !capitalize md:px-4 md:py-3 {selectedDuration?.months ===
+							durationButton.months
 								? ''
 								: '!text-body'} {index > 0 ? 'ml-2' : ''}"
-							variant={duration === durationButton.value ? 'contained' : 'outlined'}
+							variant={selectedDuration?.months === durationButton.months
+								? BtnVariant?.Contained
+								: BtnVariant?.Outlined}
 						>
-							{durationButton?.title}
+							{durationButton?.text}
 						</ButtonMedium>
 					{/each}
 				</section>
-			</section>
-
-			<section class="mt-6 flex items-center justify-between md:mt-0">
-				<article class="flex flex-col font-normal">
-					<div class="text-xs text-body">Expected Returns</div>
-
-					<div class="mt-1 text-[11px] uppercase text-body">
-						{returnsTitleBasedOnDuration}
-					</div>
-				</article>
-
-				<article class="md:ml-8">
-					<div class="text-base font-medium text-title">
-						{returnsPercentage?.toFixed(2)}% p.a.
-					</div>
-				</article>
 			</section>
 		</section>
 	</section>

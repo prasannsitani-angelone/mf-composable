@@ -1,14 +1,11 @@
 <script lang="ts">
 	import ReturnsCalculatorInput from '$components/ReturnEstimator/ReturnsCalculatorInput.svelte';
 	import ReturnsCalculatorOutput from '$components/ReturnEstimator/ReturnsCalculatorOutput.svelte';
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import type { CalculatedValue } from '$lib/types/IStandaloneCalculator';
 	import { createEventDispatcher, onMount } from 'svelte';
 
-	export let returns3yr: number;
-	export let returns5yr: number;
-	export let categoryName: string;
-	export let minSipAmount: number;
-	export let minLumpsumAmount: number;
+	let schemeDetails: SchemeDetails;
 	let calculatedOutput: CalculatedValue = {};
 
 	const dispatch = createEventDispatcher();
@@ -60,27 +57,24 @@
 	};
 
 	$: inViewport, returnEstimatorInViewPort();
+
+	export { schemeDetails };
 </script>
 
 <article
 	id="returnEstimator"
-	class="mt-4 max-w-4xl rounded-lg bg-background-alt px-4 py-6 text-sm shadow-csm md:px-6 {$$props?.class}"
+	class="max-w-4xl rounded-lg bg-background-alt px-4 py-6 text-sm shadow-csm md:px-6 {$$props?.class}"
 >
 	<section class="origin-top">
 		<div class="text-base font-medium text-title">Calculate Your Returns</div>
-
+		<ReturnsCalculatorOutput outputData={calculatedOutput} />
 		<ReturnsCalculatorInput
-			{returns3yr}
-			{returns5yr}
-			{categoryName}
-			{minSipAmount}
-			{minLumpsumAmount}
+			{schemeDetails}
 			bind:outputValues={calculatedOutput}
-			class="max-sm:pb-0"
 			on:amountSelectionChange={onAmountChange}
 			on:durationSelectionChanged={onYearChange}
 			on:amountSliderChange={handleAmountSliderChange}
+			class="max-sm:pb-0"
 		/>
-		<ReturnsCalculatorOutput outputData={calculatedOutput} class="pt-4" />
 	</section>
 </article>

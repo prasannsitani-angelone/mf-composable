@@ -179,11 +179,7 @@
 
 				{#if !isNFO}
 					<ReturnEstimator
-						returns3yr={schemedata?.returns3yr}
-						returns5yr={schemedata?.returns5yr}
-						categoryName={schemedata?.categoryName}
-						minSipAmount={schemedata?.minSipAmount}
-						minLumpsumAmount={schemedata?.minLumpsumAmount}
+						schemeDetails={schemedata}
 						class="mt-2 md:mt-4"
 						on:onYearChange={(e) => handleReturnCalculatorYearChange(e.detail)}
 						on:returnEstimatorInViewPort={(e) => returnCalculatorImpressionAnalyticsFunc(e?.detail)}

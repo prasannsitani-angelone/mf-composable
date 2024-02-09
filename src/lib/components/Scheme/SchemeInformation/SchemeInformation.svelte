@@ -12,7 +12,7 @@
 </script>
 
 <article
-	class="mt-4 max-w-4xl rounded-lg border border-b bg-background-alt text-sm shadow-csm {$$props.class}"
+	class="mt-2 max-w-4xl rounded-lg border border-b bg-background-alt text-sm shadow-csm md:mt-4 {$$props.class}"
 >
 	<SchemeInformationHeader />
 

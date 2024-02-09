@@ -63,7 +63,7 @@
 	export { sameAmcScheme, isin, schemeName, returns3yr };
 </script>
 
-<article class="mt-4 max-w-4xl rounded-lg bg-background-alt text-sm shadow-csm sm:pb-4">
+<article class="mt-2 max-w-4xl rounded-lg bg-background-alt text-sm shadow-csm sm:pb-4 md:mt-4">
 	<header class="">
 		<section
 			class="flex cursor-pointer items-center justify-between p-4 !pb-0 pt-6 text-lg md:px-6 md:py-5"

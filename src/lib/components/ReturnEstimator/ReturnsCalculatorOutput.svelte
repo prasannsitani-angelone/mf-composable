@@ -134,8 +134,34 @@
 </script>
 
 {#if outputDataProps}
-	<section class="items-center justify-center md:flex {$$props.class || ''}">
-		<article>
+	<section
+		class="mt-4 items-center justify-center md:flex md:justify-between {$$props.class || ''}"
+	>
+		<section>
+			<article>
+				<div class="text-xs font-normal text-body">Total Value</div>
+				<div class="mt-1 text-2xl font-medium text-title">
+					<AmountText amount={outputData?.matuarityAmount || 0} />
+				</div>
+			</article>
+
+			<article class="mt-2 text-xs font-normal text-body">
+				<span>When you invest </span>
+				<span>
+					<AmountText amount={outputData?.investedAmount || 0} />
+				</span>
+				<span> at {outputData?.selectedReturn?.toFixed(2)}% returns p.a.</span>
+				<span>
+					(based on {outputData?.isDefaultReturn
+						? `avg. ${
+								outputData?.categoryName?.toLocaleLowerCase() === 'equity' ? 'equity' : 'non-equity'
+						  } returns`
+						: `fund's ${outputData?.selectedDuration?.label} returns`})</span
+				>
+			</article>
+		</section>
+
+		<article class="mt-4 md:ml-16 md:mt-0">
 			<div class="mx-auto flex justify-center md:mx-0">
 				<DoughnutChart
 					chartPlugins={[customCanvasBackgroundColorPlugin]}
@@ -159,39 +185,5 @@
 				</article>
 			</section>
 		</article>
-
-		<section class="mt-4 md:ml-16">
-			<article class="text-xs font-normal text-body">
-				<span>If you invest </span>
-				<span>
-					<AmountText amount={outputData?.investedAmount || 0} />
-				</span>
-				{#if outputData?.currentCalculatorMode === 'SIP'}
-					<span> monthly for </span>
-				{:else}
-					<span>and hold it for</span>
-				{/if}
-				<span>
-					{outputData?.selectedYear}
-					{#if outputData?.selectedYear <= 1}
-						<span>year</span>
-					{:else}
-						<span>years</span>
-					{/if}
-				</span>
-			</article>
-
-			<article class="mt-1 text-sm font-medium md:w-64">
-				<span class="text-title"> Total Value: </span>
-
-				<span class="text-lg text-title">
-					<AmountText amount={outputData?.matuarityAmount || 0} />
-				</span>
-
-				<span class="text-buy">
-					(+{outputData?.gainLossPercentage?.toFixed(2)}%)
-				</span>
-			</article>
-		</section>
 	</section>
 {/if}

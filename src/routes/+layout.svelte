@@ -3,8 +3,7 @@
 		PUBLIC_LOG_LEVEL,
 		PUBLIC_LOG_ENABLED,
 		PUBLIC_ENV_NAME,
-		PUBLIC_ADD_VWO_SNIPPET,
-		PUBLIC_NBU_LOGGER_URL
+		PUBLIC_ADD_VWO_SNIPPET
 	} from '$env/static/public';
 	import { pwaInfo } from 'virtual:pwa-info';
 	import Logger from '$lib/utils/logger';
