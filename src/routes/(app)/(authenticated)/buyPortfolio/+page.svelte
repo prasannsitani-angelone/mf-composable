@@ -7,6 +7,7 @@
 	import PageTitle from '$components/PageTitle.svelte';
 	import { onMount } from 'svelte';
 	import { buildPortfolioScreenImpression } from '$lib/analytics/buyPortfolio/buyPortfolio';
+	import { versionStore } from '$lib/stores/VersionStore';
 
 	export let data: PageData;
 
@@ -29,11 +30,16 @@
 		{#await data.api.portfolioOptions}
 			<SkeletonLoader />
 		{:then portfolioOptions}
-			<div class="md:hidden"><Intro /></div>
+			{#if versionStore.getVersion() === 'B'}
+				<div class="md:hidden"><Intro /></div>
+			{/if}
 			<PortfolioList portfolioData={portfolioOptions} />
 		{/await}
 	</section>
 </article>
-<article class="mt-12">
-	<div class="hidden md:block"><Intro /></div>
-</article>
+
+{#if versionStore.getVersion() === 'B'}
+	<article class="mt-12">
+		<div class="hidden md:block"><Intro /></div>
+	</article>
+{/if}

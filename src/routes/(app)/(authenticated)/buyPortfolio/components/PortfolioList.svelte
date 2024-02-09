@@ -1,13 +1,23 @@
 <script lang="ts">
 	import type { PortfolioPack } from '$lib/types/IBuyPortfolio';
 	import { WMSIcon } from 'svelte-components';
+	import Modal from '$components/Modal.svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import BasicDetails from './BasicDetails.svelte';
-	import { portfolioClicked } from '$lib/analytics/buyPortfolio/buyPortfolio';
+	import { portfolioClicked, proceedToInvest } from '$lib/analytics/buyPortfolio/buyPortfolio';
+	import PortfolioInput from '../[portfolioId]/components/PortfolioInput.svelte';
+	import { versionStore } from '$lib/stores/VersionStore';
 
 	export let portfolioData: PortfolioPack[];
+	export let showInputPopup = false;
 	let showChevron = true;
+	let activePortfolioPack: PortfolioPack;
+
+	// default values for amount and date used in Portfolio Input popup
+	let amount = 500;
+	let date = 4;
+	let requestId = '';
 
 	function gotoPortfolioPackDetails(packId: string) {
 		goto(`${base}/buyPortfolio/${packId}`);
@@ -22,6 +32,25 @@
 		};
 		portfolioClicked(eventMetaData);
 	}
+
+	const toggleInput = (portfolioPack: PortfolioPack) => {
+		showInputPopup = !showInputPopup;
+		activePortfolioPack = portfolioPack;
+		if (showInputPopup) {
+			let funds = '';
+			portfolioPack?.schemes?.forEach((x) => {
+				funds = funds + x.schemeName + ',';
+			});
+			proceedToInvest({ SelectedFunds: funds });
+			const eventMetaData = {
+				Portfolio: portfolioPack?.packName,
+				MinSipAmount: portfolioPack?.minSipAmount,
+				'3yReturn': portfolioPack?.threeYrReturnAvgPer,
+				peopleinvetsed: portfolioPack?.totalUsersInvested
+			};
+			portfolioClicked(eventMetaData);
+		}
+	};
 </script>
 
 <section>
@@ -34,7 +63,9 @@
 			<div
 				class="flex w-full items-center"
 				on:click={() => {
-					gotoPortfolioPackDetails(portfolioPack.packId);
+					versionStore.getVersion() === 'B'
+						? gotoPortfolioPackDetails(portfolioPack.packId)
+						: toggleInput(portfolioPack);
 				}}
 			>
 				<BasicDetails {showChevron} {portfolioPack} />
@@ -63,4 +94,13 @@
 			{/if}
 		</section>
 	{/each}
+	<Modal isModalOpen={showInputPopup} on:backdropclicked={() => (showInputPopup = !showInputPopup)}>
+		<PortfolioInput
+			portfolioPack={activePortfolioPack}
+			{amount}
+			sipStartDate={date}
+			{requestId}
+			on:backButtonClicked={() => (showInputPopup = !showInputPopup)}
+		/>
+	</Modal>
 </section>

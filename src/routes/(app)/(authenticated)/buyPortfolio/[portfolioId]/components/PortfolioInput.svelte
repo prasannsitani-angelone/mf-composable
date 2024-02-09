@@ -18,8 +18,11 @@
 		orderPadImpression,
 		plusAmountClick,
 		popularAmountClick,
+		portfolioClicked,
 		sipDateClick
 	} from '$lib/analytics/buyPortfolio/buyPortfolio';
+	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 
 	export let portfolioPack: PortfolioPack;
 	export let amount = 500;
@@ -89,6 +92,17 @@
 	const toggleTncModal = () => {
 		showTncModal = !showTncModal;
 	};
+	function gotoPortfolioPackDetails() {
+		goto(`${base}/buyPortfolio/${portfolioPack?.packId}`);
+		const portfolio = portfolioPack;
+		const eventMetaData = {
+			Portfolio: portfolio?.packName,
+			MinSipAmount: portfolio?.minSipAmount,
+			'3yReturn': portfolio?.threeYrReturnAvgPer,
+			peopleinvetsed: portfolio?.totalUsersInvested
+		};
+		portfolioClicked(eventMetaData);
+	}
 </script>
 
 <section class="h-screen w-full bg-background max-sm:overflow-auto md:h-[860px] md:w-[500px]">
@@ -96,7 +110,14 @@
 		<LeftArrowIcon class="mr-4 cursor-pointer" onClick={handleBackButtonClick} />
 		Start SIP
 	</div>
-	<div class="mx-2 mb-2 flex items-center justify-between rounded-lg bg-background-alt px-4 py-3">
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<div
+		class="mx-2 mb-2 flex items-center justify-between rounded-lg bg-background-alt px-4 py-3"
+		on:click={() => {
+			gotoPortfolioPackDetails();
+		}}
+	>
 		<div class="flex items-center">
 			<SchemeLogo src={portfolioPack.packLogoUrl} />
 			<div class="text-xs">
