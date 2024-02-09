@@ -23,6 +23,7 @@ class BaseLogger {
 			baseUrl: '',
 			url: '',
 			NBULoggerUrl: '',
+			NBULoggeraccessToken: '',
 			headers: {
 				'content-type': 'application/json'
 			},
@@ -75,8 +76,8 @@ class BaseLogger {
 	}
 
 	sendNBUApiLog(logs: Record<string, unknown>) {
-		const { NBULoggerUrl } = this._state;
-		if (NBULoggerUrl) {
+		const { NBULoggerUrl, NBULoggeraccessToken } = this._state;
+		if (NBULoggerUrl && NBULoggeraccessToken) {
 			const logBody = [];
 			logBody.push(this._state.getLogsBody(logs));
 
@@ -84,7 +85,7 @@ class BaseLogger {
 				body: JSON.stringify(logBody),
 				method: 'POST',
 				headers: {
-					Authorization: `Bearer ${this._state.headers?.accessToken}`
+					Authorization: `Bearer ${this._state.NBULoggeraccessToken}`
 				}
 			};
 			try {

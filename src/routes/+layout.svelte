@@ -3,7 +3,8 @@
 		PUBLIC_LOG_LEVEL,
 		PUBLIC_LOG_ENABLED,
 		PUBLIC_ENV_NAME,
-		PUBLIC_ADD_VWO_SNIPPET
+		PUBLIC_ADD_VWO_SNIPPET,
+		PUBLIC_NBU_LOGGER_URL
 	} from '$env/static/public';
 	import { pwaInfo } from 'virtual:pwa-info';
 	import Logger from '$lib/utils/logger';
@@ -58,6 +59,7 @@
 		baseUrl: `${scheme}//${host}${base}/api`,
 		url: '/logging',
 		NBULoggerUrl: '',
+		NBULoggeraccessToken: '',
 		logLevel: PUBLIC_LOG_LEVEL,
 		enabled: PUBLIC_LOG_ENABLED === 'true',
 		initialised: true,
@@ -130,7 +132,8 @@
 			url: PUBLIC_ANALYTICS_URL,
 			enabled: PUBLIC_ANALYTICS_ENABLED,
 			initialised: true,
-			NBULoggerUrl: ''
+			NBULoggerUrl: PUBLIC_NBU_LOGGER_URL,
+			NBULoggeraccessToken: token
 		});
 
 		// connection details

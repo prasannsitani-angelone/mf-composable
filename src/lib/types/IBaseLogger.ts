@@ -24,6 +24,7 @@ export interface Config {
 	baseUrl?: string;
 	url?: string;
 	NBULoggerUrl?: string;
+	NBULoggeraccessToken?: string;
 	headers?: Record<string, any>;
 	getLogsBody?: (params: any) => any;
 	getLog?: (msgObj: any, logLevel?: string) => Record<string, any>;
@@ -40,6 +41,7 @@ export interface State {
 	baseUrl: string;
 	url: string;
 	NBULoggerUrl: string;
+	NBULoggeraccessToken?: string;
 	headers: Record<string, any>;
 	getLogsBody: (params: Record<string, any>) => any;
 	getLog: (msgObj: AnalyticMsgObj | LogMsgObj, logLevel?: string) => Record<string, any>;
