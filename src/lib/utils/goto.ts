@@ -1,5 +1,6 @@
 import { goto } from '$app/navigation';
 import { appStore } from '$lib/stores/SparkStore';
+import { callNativeMethod } from './callNativeMethod';
 
 interface GotoOptions {
 	replaceState?: boolean | undefined;
