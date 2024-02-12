@@ -578,7 +578,8 @@
 
 <style>
 	.slide-down {
+		will-change: transform;
 		transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-		transform: translateY(0%);
+		transform: translateY(0) translateZ(0);
 	}
 </style>

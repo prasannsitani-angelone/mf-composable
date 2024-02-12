@@ -60,12 +60,14 @@
 	};
 
 	onMount(() => {
-		let carouselItem = document?.querySelectorAll('.carousel-item');
-		let carouselNext = document.querySelector('.carousel-next');
-		let carouselPrev = document.querySelector('.carousel-prev');
-		let containerWidth = document?.querySelector('.carousel-container')?.clientWidth || 0;
+		let carouselContainer = document.querySelector('.carousel-container');
+		let carouselItem = carouselContainer?.querySelectorAll('.carousel-item');
+		let carouselNext = document?.querySelector('.carousel-next');
+		let carouselPrev = document?.querySelector('.carousel-prev');
+		let containerWidth = carouselContainer?.querySelector('.carousel-container')?.clientWidth || 0;
 		let nodes: Array<Element> = [];
-		childrens = document?.querySelectorAll('.carousel-item')?.length;
+		childrens = carouselItem?.length || 0;
+
 		carouselItem?.forEach((node) => {
 			node.addEventListener('touchstart', handleTouchStart, { passive: true });
 			node.addEventListener('touchmove', handleTouchMove, { passive: true });
@@ -73,12 +75,14 @@
 			node.addEventListener('mouseup', (e) => handleTouchMove(e, true), { passive: true });
 			nodes.push(node);
 		});
+
 		if (!fixedWidth && slidesPerView > 1) {
 			nodes?.forEach((node) => {
 				node.style.width = `${containerWidth / slidesPerView}px`;
 				node.style.marginRight = `${spaceBetween}px`;
 			});
 		}
+
 		carouselNext?.addEventListener('click', nextSlide);
 		carouselPrev?.addEventListener('click', prevSlide);
 		if (autoplay) {

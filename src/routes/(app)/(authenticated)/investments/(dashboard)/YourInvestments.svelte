@@ -186,7 +186,9 @@
 								class={` flex items-center rounded-lg bg-background px-2 py-1 sm:items-start sm:px-3`}
 							>
 								<div class="mr-3">
-									<WMSIcon name="polygon-red-warning" width={16} height={16} />
+									<div class="icon-container">
+										<WMSIcon name="polygon-red-warning" width={16} height={16} />
+									</div>
 								</div>
 
 								<div class="text-xs text-title">
@@ -200,3 +202,10 @@
 		</TBody>
 	</Table>
 </section>
+
+<style>
+	.icon-container {
+		width: 16px;
+		height: 16px;
+	}
+</style>

@@ -28,6 +28,8 @@
 				>
 					Live ({liveNFO})
 				</div>
+			{:else}
+				<div class="mr-1 h-4 w-12" />
 			{/if}
 			<WMSIcon name="right-arrow" stroke="#3F5BD9" />
 		</div>

@@ -9,8 +9,11 @@
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import QuickEntryPointsCard from './QuickEntryPointsCard.svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
+	import { slide } from 'svelte/transition';
+	import { page } from '$app/stores';
 
 	$: openNfo = 0;
+	$: deviceType = $page.data.deviceType;
 
 	let isGuest: boolean;
 	onMount(async () => {
@@ -31,7 +34,10 @@
 </script>
 
 <article
-	class="item grid grid-cols-1 justify-between sm:grid-rows-1 {$$props.class} divide-y divide-border"
+	class="item grid grid-cols-1 justify-between sm:grid-rows-1 {$$props.class} slide-down divide-y divide-border {deviceType.isMobile
+		? 'min-h-[403px]'
+		: ''}"
+	in:slide={{ duration: 300 }}
 >
 	<QuickEntryPointsCard
 		title="New Fund Offerings"
@@ -80,3 +86,11 @@
 		</div>
 	</QuickEntryPointsCard>
 </article>
+
+<style>
+	.slide-down {
+		will-change: transform;
+		transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		transform: translateY(0) translateZ(0);
+	}
+</style>

@@ -4,14 +4,21 @@
 	import Button from '$components/Button.svelte';
 	import { modifiedGoto } from '$lib/utils/goto';
 	import BuyPortfolioBg from '$components/BuyPortfolioBg.svelte';
+	import { page } from '$app/stores';
 
 	const goToBuyPortfolio = () => {
 		modifiedGoto(`${base}/buyPortfolio`);
 		buildPortfolioCardClicked();
 	};
+
+	$: deviceType = $page.data.deviceType;
 </script>
 
-<div class="light relative flex items-center rounded-lg {$$props.class}">
+<div
+	class="light relative flex items-center rounded-lg {deviceType.isMobile
+		? 'min-h-[120px]'
+		: ''} {$$props.class}"
+>
 	<div class="z-2 absolute h-full w-full"><BuyPortfolioBg class="absolute h-full w-full" /></div>
 	<div class="z-0 flex items-center p-4">
 		<div class="flex flex-col">
