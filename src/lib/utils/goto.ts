@@ -1,6 +1,7 @@
 import { goto } from '$app/navigation';
 import { appStore } from '$lib/stores/SparkStore';
 import { callNativeMethod } from './callNativeMethod';
+import { isAbsoluteUrl } from './helpers/url';
 
 interface GotoOptions {
 	replaceState?: boolean | undefined;
@@ -12,10 +13,11 @@ interface GotoOptions {
 
 export const modifiedGoto = async (url: string, options?: GotoOptions): Promise<void> => {
 	if (appStore.isTabview()) {
+		const newUrl = isAbsoluteUrl(url) ? url : `${window.location.origin}${url}`;
 		callNativeMethod(
 			'openMF',
 			JSON.stringify({
-				url,
+				url: newUrl,
 				options
 			})
 		);

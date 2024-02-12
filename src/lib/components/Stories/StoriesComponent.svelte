@@ -19,6 +19,7 @@
 	import VideoPlayer from './VideoPlayer.svelte';
 	import logger from '$lib/utils/logger';
 	import { modifiedGoto } from '$lib/utils/goto';
+	import { goto } from '$app/navigation';
 
 	export let stories: Array<Story>;
 	export let version: string;
@@ -51,7 +52,7 @@
 		const currentPath = window?.location?.pathname;
 		const redirectPath = `${currentPath}?storyPlayer=true`;
 
-		modifiedGoto(redirectPath);
+		goto(redirectPath);
 	};
 
 	const playStoryVideo = (
