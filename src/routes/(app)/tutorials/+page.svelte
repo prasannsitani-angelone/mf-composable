@@ -3,28 +3,10 @@
 	import StartFirstSipComponent from '$components/Tutorial/pages/StartFirstSipComponent.svelte';
 	import WhatIsMFComponent from '$components/Tutorial/pages/WhatIsMFComponent.svelte';
 	import WhatIsSIPComponent from '$components/Tutorial/pages/WhatIsSIPComponent.svelte';
-	import { onDestroy, onMount } from 'svelte';
-	import { headerStore } from '$lib/stores/HeaderStore.js';
-	import { page } from '$app/stores';
 	import CarouselNative from '$components/Carousel/CarouselNative.svelte';
 	import CarouselItem from '$components/Carousel/CarouselItem.svelte';
 	import { WMSIcon } from 'svelte-components';
 	import StartInvestmentComponent from '$components/Tutorial/pages/StartInvestmentComponent.svelte';
-
-	$: isMobile = $page?.data?.deviceType?.isMobile;
-	$: isTablet = $page?.data?.deviceType?.isTablet;
-
-	onMount(() => {
-		if (isMobile || isTablet) {
-			$headerStore.showMobileHeader = false;
-		}
-	});
-
-	onDestroy(() => {
-		if (isMobile || isTablet) {
-			$headerStore.showMobileHeader = true;
-		}
-	});
 
 	const carouselItems = [
 		{ component: WhatIsMFComponent, reference: {} },
@@ -51,7 +33,7 @@
 	};
 </script>
 
-<div class="h-full overflow-hidden">
+<div class="light h-full overflow-hidden">
 	<div class="absolute left-0 right-0 top-0 z-100 my-auto flex flex-row gap-5 p-5">
 		<WMSIcon
 			width={18}

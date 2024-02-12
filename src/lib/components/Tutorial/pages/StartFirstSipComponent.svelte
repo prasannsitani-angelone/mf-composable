@@ -3,7 +3,6 @@
 	import WMSIcon from '$components/WMSIcon.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import GreenUpArrowTrendingFund from '$lib/images/GreenUpArrowTrendingFund.svg';
-	import PeopleIcon from '$lib/images/PeopleIcon.svg';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import { goto } from '$app/navigation';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
@@ -144,13 +143,14 @@
 			</div>
 			{#if schemeDetails?.noOfClientInvested}
 				<div class="flex flex-row items-center rounded-b-lg bg-[#D1D8F6] p-2">
-					<img
-						src={PeopleIcon}
+					<WMSIcon
+						fill="var(--BODY)"
+						name="people-icon"
 						class="mr-2 p-1"
 						decoding="async"
 						alt="Number of people invested"
-						width="24"
-						height="24"
+						width={24}
+						height={24}
 					/>
 
 					<p class="text-xs text-body">

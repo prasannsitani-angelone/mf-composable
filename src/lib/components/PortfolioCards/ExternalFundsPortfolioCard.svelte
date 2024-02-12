@@ -34,7 +34,7 @@
 		</article>
 	</section>
 	<section
-		class={`dark my-4 flex items-center justify-around rounded-lg bg-background-alt bg-opacity-10 px-3 py-4 md:my-6 md:py-3.5 lg:mx-0`}
+		class={`light dark my-4 flex items-center justify-around rounded-lg bg-white bg-opacity-10 px-3 py-4 md:my-6 md:py-3.5 lg:mx-0`}
 	>
 		<article class="flex flex-1 flex-col items-center">
 			<div class="flex items-center justify-around text-xs">
@@ -89,7 +89,7 @@
 	</section>
 	{#if isPartialImport}
 		<section
-			class={`my-4 flex items-start justify-around rounded-lg bg-background-alt bg-opacity-10 px-3 py-4 md:my-6 md:py-3.5 lg:mx-0`}
+			class={`light my-4 flex items-start justify-around rounded-lg bg-white bg-opacity-10 px-3 py-4 md:my-6 md:py-3.5 lg:mx-0`}
 		>
 			<div class="mr-3 mt-1.5">
 				<WMSIcon name="polygon-red-warning" width={16} height={16} />

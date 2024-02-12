@@ -79,7 +79,7 @@
 	}
 </script>
 
-<PortfolioCard class="dark !px-3 !pt-4 {isFamilyPortfolio ? '!pb-1' : '!pb-3'}" variant="secondary">
+<PortfolioCard class="!px-3 !pt-4 {isFamilyPortfolio ? '!pb-1' : '!pb-3'}" variant="secondary">
 	<section class=" flex items-start justify-between lg:mx-0" data-testid="portfolioTopSection">
 		<article class="flex flex-col items-start">
 			<div class="text-xs">Current Value</div>
@@ -113,7 +113,7 @@
 		</section>
 	{:else}
 		<section
-			class="mb-3 mt-2 flex flex-col items-center justify-around rounded-lg bg-background-alt bg-opacity-10 px-2 py-4 md:py-3.5 lg:mx-0"
+			class="light mb-3 mt-2 flex flex-col items-center justify-around rounded-lg bg-white bg-opacity-10 px-2 py-4 md:py-3.5 lg:mx-0"
 		>
 			<div class="flex w-full">
 				<article class=" flex-1 border-r text-left">

@@ -14,7 +14,7 @@
 		dispatch('onHeaderButtonClick', buttonType);
 	};
 
-	const inactiveButtonClass = 'font-normal !bg-background-alt !text-title/80 !border';
+	const inactiveButtonClass = 'font-normal !bg-background-alt !text-disabled !border border-border';
 </script>
 
 <article
