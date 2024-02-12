@@ -959,8 +959,9 @@
 
 	const handleCueCardLoad = (e) => {
 		if (showFundDetailCarousel) {
-			currentVisibleCueCardIndex = e?.detail?.index || 0;
-			fundDetailsCarouselItems[currentVisibleCueCardIndex].analyticsFunction();
+			const index = e?.detail?.index;
+			currentVisibleCueCardIndex = index || index === 0 ? index : currentVisibleCueCardIndex;
+			fundDetailsCarouselItems[currentVisibleCueCardIndex]?.analyticsFunction();
 		}
 	};
 
@@ -972,6 +973,18 @@
 			isOpenNFO: isNFO,
 			cardrank: currentVisibleCueCardIndex + 1,
 			islastcard: isLast
+		});
+	};
+
+	const carouselBottomStickyButtonClick = () => {
+		showFundDetailCarousel = false;
+		const cardrank = currentVisibleCueCardIndex + 1;
+		const islastcard = currentVisibleCueCardIndex === fundDetailsCarouselItems.length - 1;
+		proceedToInvestCueCardClickEvent({
+			ISIN: schemeData.isin,
+			isOpenNFO: isNFO,
+			cardrank,
+			islastcard
 		});
 	};
 
@@ -2409,6 +2422,7 @@
 {/if}
 
 <CueCardCarouselComponent
+	adjustToSmallerDevices={true}
 	preventBackDropClick={false}
 	bind:isModalOpen={showFundDetailCarousel}
 	carouselItems={fundDetailsCarouselItems}
@@ -2417,10 +2431,7 @@
 >
 	<Button
 		slot="bottomsticky"
-		onClick={() => {
-			showFundDetailCarousel = false;
-			proceedToInvestCueCardClickEvent({});
-		}}
+		onClick={carouselBottomStickyButtonClick}
 		class="fixed bottom-0 left-0 right-0 mx-4 my-3"
 	>
 		PROCEED TO INVEST

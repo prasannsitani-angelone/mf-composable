@@ -18,7 +18,7 @@
 
 	export let carouselItems = [];
 
-	const handleCueCardLoad = (index = 0) => {
+	const handleCueCardLoad = (index) => {
 		dispatch('cueCardLoad', { index });
 	};
 
@@ -35,14 +35,27 @@
 			onBackDropClicked();
 		}
 	};
+
+	export let adjustToSmallerDevices = false;
+
+	let smallHeightDevices = false;
+	const smallDeviceMaxHeight = 750;
+
+	const adjustStyle = () =>
+		(smallHeightDevices = adjustToSmallerDevices && clientHeight < smallDeviceMaxHeight);
+
+	$: clientHeight = 0;
+	$: clientHeight, adjustStyle();
 </script>
 
 <Modal {isModalOpen}>
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
-	<div class="flex h-full w-full flex-col" on:click={handleBackDropClicked}>
+	<div bind:clientHeight class="flex h-full w-full flex-col" on:click={handleBackDropClicked}>
 		<div
-			class="my-auto flex w-full flex-col justify-center {$$props.class}"
+			class="my-auto flex w-full flex-col justify-center {smallHeightDevices
+				? 'mb-0 mt-5'
+				: ''} {$$props.class}"
 			on:click|stopPropagation
 		>
 			<WMSIcon
@@ -50,12 +63,16 @@
 				stroke="white"
 				width={24}
 				height={24}
-				class="mx-4 mb-4 p-1 sm:mr-[450px] sm:cursor-pointer sm:self-center"
+				class="mx-4 mb-4 p-1 sm:mr-[450px] sm:cursor-pointer sm:self-center {smallHeightDevices
+					? '!mb-0'
+					: ''}"
 				on:click={onBackDropClicked}
 			/>
 			<CarouselNative
 				class="w-full justify-center px-4"
-				indicatorClass="sm:!justify-center sm:mx-0 !justify-start !mx-2"
+				indicatorClass="sm:!justify-center sm:mx-0 !justify-start !mx-2 {smallHeightDevices
+					? '!mt-2 !my-0'
+					: ''}"
 				on:onIndexChange={handleOnIndexChange}
 			>
 				<div slot="activeIndicator" class="h-2 w-8 rounded bg-background-alt" />
