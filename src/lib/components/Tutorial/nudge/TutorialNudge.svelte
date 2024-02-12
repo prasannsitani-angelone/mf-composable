@@ -3,11 +3,16 @@
 	import NudgeIcon from '$components/Tutorial/nudge/NudgeIcon.svelte';
 	import { base } from '$app/paths';
 	import { modifiedGoto } from '$lib/utils/goto';
+	import { sipBookMutualfundsSIPsexplainedEvent } from '$lib/analytics/sipbook/sipbook';
 
 	export let title = 'Mutual Funds: Explained';
 	export let subTitle = 'Everything you need to know about mutual funds to start investing';
+	export let isSipBookPage = false;
 
 	const toGoToTutorialDetails = async () => {
+		if (isSipBookPage) {
+			sipBookMutualfundsSIPsexplainedEvent();
+		}
 		await modifiedGoto(`${base}/tutorials`);
 	};
 </script>

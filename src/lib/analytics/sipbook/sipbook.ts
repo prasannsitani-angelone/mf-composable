@@ -570,3 +570,63 @@ export const editSipDoneAnalytics = () => {
 		event_id: '309.0.0.1.82'
 	});
 };
+
+export const sipbookDashboardEmptyStateScreenOpenAnalytics = (
+	eventMetaData: Record<string, string>
+) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipbook',
+		event_type: 'impression',
+		event_sub_type: 'card',
+		event_name: 'emptystate',
+		event_property: null,
+		event_id: '309.0.0.1.24',
+		event_metadata: eventMetaData
+	});
+};
+
+export const sipBookTrendingCardImpressionEvent = (eventMetaData: Record<string, string>) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipbook',
+		event_type: 'impression',
+		event_sub_type: 'card',
+		event_name: 'emptystatemostboughtSIPs',
+		event_property: null,
+		event_id: '309.0.0.1.83',
+		event_metadata: eventMetaData
+	});
+};
+
+export const sipBookTrendingCardClickEvent = (eventMetaData: Record<string, string>) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipbook',
+		event_type: 'click',
+		event_sub_type: 'card',
+		event_name: 'emptystatemostboughtSIPs',
+		event_property: null,
+		event_id: '309.0.0.1.84',
+		event_metadata: eventMetaData
+	});
+};
+
+export const sipBookTrendingCartClickEvent = (eventMetaData: Record<string, string>) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipbook',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'AddtoCart',
+		event_property: null,
+		event_id: '309.0.0.1.85',
+		event_metadata: eventMetaData
+	});
+};
+export const sipBookMutualfundsSIPsexplainedEvent = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipbook',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'mutualfundsSIPsexplained',
+		event_property: null,
+		event_id: '309.0.0.1.86'
+	});
+};

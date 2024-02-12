@@ -13,6 +13,7 @@
 	import {
 		inactiveSipsButtonClickAnalytics,
 		sipPaymentDueNudgeImpressionAnalytics,
+		sipbookDashboardEmptyStateScreenOpenAnalytics,
 		sipbookDashboardScreenOpenAnalytics
 	} from '$lib/analytics/sipbook/sipbook';
 	import { getDateTimeString } from '$lib/utils/helpers/date';
@@ -163,17 +164,24 @@
 	};
 
 	const sipbookDashboardScreenOpenAnalyticsFunc = () => {
-		const eventMetaData = {
-			ActiveSIPs: sipBookData?.sips?.length,
-			MonthlySIPTotal: sipBookData?.bookOverView?.totalSipInstallmentAmount,
-			AutomatedSips: automatedSipsCount,
-			SipList: sipBookData?.sips?.map((sip) => ({
-				FundName: sip?.schemeName,
-				Amount: sip?.installmentAmount,
-				NextSIPDate: getDateTimeString(sip?.nextSipDueDate, 'DATE', true)
-			}))
-		};
-		sipbookDashboardScreenOpenAnalytics(eventMetaData);
+		if (sipBookData?.sips?.length) {
+			const eventMetaData = {
+				ActiveSIPs: sipBookData?.sips?.length,
+				MonthlySIPTotal: sipBookData?.bookOverView?.totalSipInstallmentAmount,
+				AutomatedSips: automatedSipsCount,
+				SipList: sipBookData?.sips?.map((sip) => ({
+					FundName: sip?.schemeName,
+					Amount: sip?.installmentAmount,
+					NextSIPDate: getDateTimeString(sip?.nextSipDueDate, 'DATE', true)
+				}))
+			};
+			sipbookDashboardScreenOpenAnalytics(eventMetaData);
+		} else {
+			const eventMetaData = {
+				InactiveSIPsCTA: showInactiveSipsCta ? 'Yes' : 'No'
+			};
+			sipbookDashboardEmptyStateScreenOpenAnalytics(eventMetaData);
+		}
 	};
 
 	onMount(() => {
@@ -361,73 +369,41 @@
 				on:onCTAClicked={(e) => goto(e.detail.url)}
 			/>
 		{/if}
-		<section class="mb-24 grid grid-cols-[100%] sm:grid-cols-[70%_30%] sm:gap-x-5">
-			{#if !isMobile}
-				<section class="col-start-1 row-start-2 sm:row-start-1">
-					<NoSipScreen {data} />
-					<TrendingFunds
-						class="!my-0 !mt-2"
-						tableData={data?.searchDashboardData?.weeklyTopSchemes}
-						version="A"
-						title="Most Bought SIPs"
+		<section class="-mt-4 mb-24">
+			<NoSipScreen {data} />
+			<section
+				class={isMobile ? '-mx-2 mt-2 max-w-4xl bg-background-alt px-2 !pt-0 pb-7 shadow-csm' : ''}
+			>
+				<TrendingFunds
+					class={isMobile
+						? 'col-start-6 row-start-1 !my-0 mx-2 !mt-2 pt-2 shadow-none'
+						: '!mt-2 mb-2 !max-w-[100%]'}
+					tableData={data?.searchDashboardData?.weeklyTopSchemes}
+					version="A"
+					title="Most Bought SIPs"
+					classes={isMobile ? classes : {}}
+				/>
+				{#if userEducationNudge}
+					<TutorialNudge
+						title={userEducationNudge.heading}
+						subTitle={userEducationNudge.description}
+						class="col-start-6 row-start-1 !mb-0 h-fit border shadow-none {isMobile ? 'mx-2' : ''}"
+						isSipBookPage={true}
 					/>
-				</section>
-				<section class="col-start-1 row-start-1 h-min sm:col-start-2">
-					{#if userEducationNudge}
-						<TutorialNudge
-							title={userEducationNudge.heading}
-							subTitle={userEducationNudge.description}
-							class="col-start-6 row-start-1 !mb-0 h-fit border shadow-none"
-						/>
+				{/if}
+				<!-- Inactive SIPs CTA section -->
+				<Link
+					to="/sipbook/inactivesips"
+					on:linkClicked={handleInactiveSipsClick}
+					class="col-start-1 row-start-3 sm:row-start-2"
+				>
+					{#if showInactiveSipsCta}
+						<section class="mt-8 cursor-default text-center text-sm font-medium text-blue-primary">
+							VIEW INACTIVE SIPs
+						</section>
 					{/if}
-					<!-- Inactive SIPs CTA section -->
-					<Link
-						to="/sipbook/inactivesips"
-						on:linkClicked={handleInactiveSipsClick}
-						class="col-start-1 row-start-3 sm:row-start-2"
-					>
-						{#if showInactiveSipsCta}
-							<section
-								class="mt-8 cursor-default text-center text-sm font-medium text-blue-primary"
-							>
-								VIEW INACTIVE SIPs
-							</section>
-						{/if}
-					</Link>
-				</section>
-			{:else}
-				<NoSipScreen {data} />
-				<section class="-mx-2 mt-2 max-w-4xl bg-background-alt px-2 !pt-0 pb-7 shadow-csm">
-					<TrendingFunds
-						class="col-start-6 row-start-1 !my-0 mx-2 !mt-2 pt-3 shadow-none"
-						tableData={data?.searchDashboardData?.weeklyTopSchemes}
-						version="A"
-						title="Most Bought SIPs"
-						{classes}
-					/>
-					{#if userEducationNudge}
-						<TutorialNudge
-							title={userEducationNudge.heading}
-							subTitle={userEducationNudge.description}
-							class="col-start-6 row-start-1 mx-2 !mb-0 mt-2 h-fit border shadow-none"
-						/>
-					{/if}
-					<!-- Inactive SIPs CTA section -->
-					<Link
-						to="/sipbook/inactivesips"
-						on:linkClicked={handleInactiveSipsClick}
-						class="col-start-1 row-start-3 sm:row-start-2"
-					>
-						{#if showInactiveSipsCta}
-							<section
-								class="mt-8 cursor-default text-center text-sm font-medium text-blue-primary"
-							>
-								VIEW INACTIVE SIPs
-							</section>
-						{/if}
-					</Link>
-				</section>
-			{/if}
+				</Link>
+			</section>
 		</section>
 	{/if}
 

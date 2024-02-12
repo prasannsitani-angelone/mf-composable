@@ -9,6 +9,7 @@
 	} from './analytics';
 	import CarouselNative from '$components/Carousel/CarouselNative.svelte';
 	import CarouselItem from '$components/Carousel/CarouselItem.svelte';
+	import { sipBookTrendingCardImpressionEvent } from '$lib/analytics/sipbook/sipbook';
 
 	let tableData: Array<WeeklyTopSchemesEntity>;
 
@@ -18,6 +19,7 @@
 	export let version: string;
 
 	$: isMobile = $page.data.deviceType.isMobile || false;
+	$: isSipBookPage = $page?.url?.pathname === '/mutual-funds/sipbook/dashboard' ? true : false;
 
 	function handleCardVisible(event: CustomEvent) {
 		let index = event.detail.index;
@@ -26,7 +28,10 @@
 			Fundname: scheme.schemeName,
 			Cardrank: (index + 1).toString()
 		};
-		trendingCardImpressionEvent(eventMetaData);
+		const analyticsFunc = isSipBookPage
+			? sipBookTrendingCardImpressionEvent
+			: trendingCardImpressionEvent;
+		analyticsFunc(eventMetaData);
 	}
 
 	function handleCardClick(event: CustomEvent, index: number) {
@@ -36,7 +41,10 @@
 			Cardrank: (index + 1).toString(),
 			version
 		};
-		trendingCardClickEvent(eventMetaData);
+		const analyticsFunc = isSipBookPage
+			? sipBookTrendingCardImpressionEvent
+			: trendingCardClickEvent;
+		analyticsFunc(eventMetaData);
 	}
 
 	function handleCartClick(event: CustomEvent, index: number) {
@@ -45,7 +53,10 @@
 			Fundname: schemes.schemeName,
 			Cardrank: (index + 1).toString()
 		};
-		trendingCartClickEvent(eventMetaData);
+		const analyticsFunc = isSipBookPage
+			? sipBookTrendingCardImpressionEvent
+			: trendingCartClickEvent;
+		analyticsFunc(eventMetaData);
 	}
 </script>
 

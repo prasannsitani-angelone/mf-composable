@@ -13,7 +13,7 @@
 	<NoSipImage />
 	<div class="mt-2 text-center text-lg font-medium text-title">You do not have any active SIP</div>
 
-	<div class="mt-2 text-center text-sm font-normal text-body">
+	<div class="mt-2 text-center text-sm font-normal text-grey-body">
 		Invest with SIPs to generate long term returns
 	</div>
 </section>
