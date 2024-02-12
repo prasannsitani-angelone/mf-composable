@@ -369,7 +369,7 @@
 				on:onCTAClicked={(e) => goto(e.detail.url)}
 			/>
 		{/if}
-		<section class="-mt-4 mb-24">
+		<section class=" mb-24 {isMobile ? '-mt-4' : ''}">
 			<NoSipScreen {data} />
 			<section
 				class={isMobile ? '-mx-2 mt-2 max-w-4xl bg-background-alt px-2 !pt-0 pb-7 shadow-csm' : ''}
@@ -383,7 +383,7 @@
 					title="Most Bought SIPs"
 					classes={isMobile ? classes : {}}
 				/>
-				{#if userEducationNudge}
+				{#if userEducationNudge && isMobile}
 					<TutorialNudge
 						title={userEducationNudge.heading}
 						subTitle={userEducationNudge.description}
