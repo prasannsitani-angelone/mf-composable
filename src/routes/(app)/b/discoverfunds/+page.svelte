@@ -59,10 +59,10 @@
 		actionCentreClick
 	} from '$lib/analytics/pendingActionCenter/analytics';
 	import { cohorts, cohorts_LF } from '$lib/constants/cohorts';
-	import SearchComponent from '$components/Search/SearchComponent.svelte';
 	import Link from '$components/Link.svelte';
 	import { modifiedGoto } from '$lib/utils/goto';
 	import { slide } from 'svelte/transition';
+	import SearchComponent from '../../discoverfunds/SearchComponent.svelte';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -339,9 +339,7 @@
 			class="row-start-{placementMapping?.search?.rowStart} col-start-{placementMapping?.search
 				?.columnStart}"
 		>
-			<SearchComponent class="mt-2 rounded-3xl bg-white" searchInputClass="!border-0">
-				<div slot="defaultResult" />
-			</SearchComponent>
+			<SearchComponent />
 		</Link>
 	{/if}
 
