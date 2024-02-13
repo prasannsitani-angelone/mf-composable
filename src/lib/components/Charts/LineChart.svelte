@@ -17,6 +17,7 @@
 		Filler
 	} from 'chart.js';
 	import merge from 'lodash.merge';
+	import { getRGBACssVar } from '$lib/utils/colors';
 
 	Chart.register(
 		LineElement,
@@ -119,6 +120,7 @@
 					position: 'left',
 					// grid line settings
 					grid: {
+						color: getRGBACssVar('--BORDER', 1),
 						display: false,
 						drawOnChartArea: false // only want the grid lines for one axis to show up
 					}

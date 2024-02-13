@@ -79,7 +79,7 @@
 									/>
 								</svelte:fragment>
 							</SchemeCard>
-							<div class="flex w-3/12 items-center justify-end text-center">
+							<div class="flex w-3/12 items-center justify-end text-center text-title">
 								{scheme?.returns3yr?.toFixed(2)} %
 							</div>
 						</article>

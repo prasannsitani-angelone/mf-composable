@@ -24,7 +24,7 @@
 		>
 			<UnitsAllocatedIcon class="mr-2" />
 			<div class="flex flex-col">
-				<span class="text-title/70 text-xs font-normal"> Units </span>
+				<span class="text-xs font-normal text-body"> Units </span>
 				<span class="text-sm font-normal text-title">
 					{data?.totalUnitsAllocated?.toFixed(3)}
 				</span>
@@ -35,7 +35,7 @@
 		>
 			<CurrentNavIcon class="mr-2" />
 			<div class="flex flex-col">
-				<span class="text-title/70 text-xs font-normal"> Current NAV </span>
+				<span class="text-xs font-normal text-body"> Current NAV </span>
 				<span class="text-sm font-normal text-title">
 					₹{addCommasToAmountString(data?.currentNav?.toFixed(2))}
 				</span>
@@ -46,7 +46,7 @@
 		>
 			<AverageNavIcon class="mr-2" />
 			<div class="flex flex-col">
-				<span class="text-title/70 text-xs font-normal"> Your Average NAV </span>
+				<span class="text-xs font-normal text-body"> Your Average NAV </span>
 				<span class="text-sm font-normal text-title">
 					₹{addCommasToAmountString(data?.averageNav?.toFixed(2))}
 				</span>

@@ -386,8 +386,8 @@
 				switchOutLogo={folioHolding?.logoUrl}
 				switchInLogo={folioHolding?.logoUrl}
 				switchInSchemeName={folioHolding?.schemeName}
-				class="md:flex-col"
-				orderTileClass="md:w-full"
+				class="!bg-background md:flex-col"
+				orderTileClass="md:w-full !bg-background-alt !border !border-border"
 			>
 				<div slot="switchOut">
 					<SwitchOrderTile
@@ -395,7 +395,7 @@
 						schemeName={folioHolding?.schemeName}
 						orderTypeText="SWITCH OUT"
 						orderTypeBgColor="bg-secondary"
-						schemeNameClass="!font-normal"
+						schemeNameClass="!font-normal !text-title"
 					>
 						<footer slot="footer" class="mb-6 flex justify-between bg-background px-4 py-2">
 							<div class="flex">
@@ -439,7 +439,7 @@
 							schemeName={switchInFund?.schemeName}
 							orderTypeText="SWITCH IN"
 							orderTypeBgColor="bg-secondary-alt"
-							schemeNameClass="!font-normal"
+							schemeNameClass="!font-normal !text-title"
 						>
 							<div class="flex items-center justify-center border-t" slot="footer">
 								<ButtonMedium
@@ -490,7 +490,7 @@
 							? 'text-gray-400'
 							: ''}"
 					>
-						<div>Enter Amount</div>
+						<div class="text-body">Enter Amount</div>
 					</div>
 					<article>
 						<div

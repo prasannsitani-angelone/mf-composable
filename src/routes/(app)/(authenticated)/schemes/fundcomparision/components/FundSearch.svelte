@@ -202,7 +202,7 @@
 										</svelte:fragment>
 										<div slot="rating" />
 									</SchemeCard>
-									<div class="flex w-3/12 items-center justify-end text-center">
+									<div class="flex w-3/12 items-center justify-end text-center text-title">
 										{scheme?.returns3yr ? `${scheme?.returns3yr.toFixed(1)}%` : '-'}
 									</div>
 								</article>

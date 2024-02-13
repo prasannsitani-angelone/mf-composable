@@ -37,7 +37,7 @@
 		{#if transactionList?.length > 0}
 			<TransactionHistorytable {modifiedTransactionList} />
 		{:else}
-			<div class="flex items-end justify-center border-t py-5">No Data Available!</div>
+			<div class="flex items-end justify-center border-t py-5 text-title">No Data Available!</div>
 		{/if}
 
 		{#if transactionList?.length && transactionList?.length > 5 && !isExternal}

@@ -26,7 +26,7 @@
 		>
 			<UnitsAllocatedIcon class="mr-2" />
 			<div class="flex flex-col">
-				<span class="text-title/70 text-xs font-normal"> Units </span>
+				<span class="text-xs font-normal text-body"> Units </span>
 				<span class="text-sm font-normal text-title">
 					{data?.totalUnitsAllocated?.toFixed(3)}
 				</span>
@@ -37,7 +37,7 @@
 		>
 			<CurrentNavIcon class="mr-2" />
 			<div class="flex flex-col">
-				<span class="text-title/70 text-xs font-normal">
+				<span class="text-xs font-normal text-body">
 					{#if isPartialImport}
 						<WMSIcon name="polygon-red-warning" class="inline-block" width={12} height={12} />
 					{/if}
@@ -57,7 +57,7 @@
 		>
 			<AverageNavIcon class="mr-2" />
 			<div class="flex flex-col">
-				<span class="text-title/70 text-xs font-normal">
+				<span class="text-xs font-normal text-body">
 					<span>Average NAV</span>
 				</span>
 				{#if data?.investedValue && data?.totalUnitsAllocated}
@@ -74,7 +74,7 @@
 		>
 			<WMSIcon width={35} height={35} class="mr-2" name="percentage-in-circle" />
 			<div class="flex flex-col">
-				<span class="text-title/70 text-xs font-normal">
+				<span class="text-xs font-normal text-body">
 					{#if isPartialImport}
 						<WMSIcon name="polygon-red-warning" class="inline-block" width={12} height={12} />
 					{/if}

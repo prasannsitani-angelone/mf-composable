@@ -312,13 +312,15 @@
 							/>
 							{#if portfolioPack.schemes?.length > 1}
 								<div
-									class="relative left-[-16px] flex h-9 w-9 min-w-[36px] flex-row items-center justify-center rounded-full border bg-background-alt text-xs shadow-csm"
+									class="relative left-[-16px] flex h-9 w-9 min-w-[36px] flex-row items-center justify-center rounded-full border bg-background-alt text-xs text-title shadow-csm"
 								>
 									+ {portfolioPack.schemes?.length - 1}
 								</div>
 							{/if}
 						</div>
-						<div class="flex w-full flex-row items-center justify-between text-sm font-normal">
+						<div
+							class="flex w-full flex-row items-center justify-between text-sm font-normal text-title"
+						>
 							<div>{portfolioPack.schemes?.length} Mutual Funds</div>
 							<div>₹{addCommasToAmountString(amount)}</div>
 						</div>

@@ -218,7 +218,7 @@
 						{#if dashboardData?.recentlyViewed?.length}
 							<section>
 								{#each dashboardData.recentlyViewed as item (`${item?.isin}-${item?.schemeCode}`)}
-									<div class="group cursor-pointer text-left hover:bg-gray-100">
+									<div class="group cursor-pointer text-left hover:bg-border">
 										<Link
 											to={`/schemes/${normalizeFundName(
 												item?.schemeName,
@@ -257,7 +257,7 @@
 						{#if dashboardData?.topInvestSchemes?.length}
 							<section>
 								{#each dashboardData.topInvestSchemes as item (`${item?.isin}-${item?.schemeCode}`)}
-									<div class="group cursor-pointer text-left hover:bg-gray-100">
+									<div class="group cursor-pointer text-left hover:bg-border">
 										<Link
 											to={`/schemes/${normalizeFundName(
 												item?.schemeName,
@@ -305,7 +305,7 @@
 								<!-- results data list -->
 								<section>
 									{#each resultsData as item (`${item?.isin}-${item?.schemeCode}`)}
-										<div class="group cursor-pointer text-left hover:bg-gray-100">
+										<div class="group cursor-pointer text-left hover:bg-border">
 											<Link
 												to={`/schemes/${normalizeFundName(
 													item?.schemeName,
@@ -360,7 +360,7 @@
 									{#if dashboardData?.topInvestSchemes?.length}
 										<section>
 											{#each dashboardData.topInvestSchemes as item (`${item?.isin}-${item?.schemeCode}`)}
-												<div class="group cursor-pointer text-left hover:bg-gray-100">
+												<div class="group cursor-pointer text-left hover:bg-border">
 													<Link
 														to={`/schemes/${normalizeFundName(
 															item?.schemeName,

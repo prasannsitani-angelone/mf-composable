@@ -3,7 +3,7 @@
 </script>
 
 <section
-	class="z-[70] flex flex-col justify-center rounded-lg !bg-secondary !bg-opacity-30 text-title shadow-csm"
+	class="light z-[70] flex flex-col justify-center rounded-lg !bg-secondary !bg-opacity-30 text-title shadow-csm"
 >
 	<div class="px-6 pt-6">
 		<div class="pb-2 text-2xl font-normal">Switch Funds</div>

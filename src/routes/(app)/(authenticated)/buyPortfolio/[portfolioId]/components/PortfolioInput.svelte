@@ -106,7 +106,9 @@
 </script>
 
 <section class="h-screen w-full bg-background max-sm:overflow-auto md:h-[860px] md:w-[500px]">
-	<div class="mb-2 flex items-center bg-background-alt px-4 pb-3 pt-4 text-lg font-medium">
+	<div
+		class="mb-2 flex items-center bg-background-alt px-4 pb-3 pt-4 text-lg font-medium text-title"
+	>
 		<LeftArrowIcon class="mr-4 cursor-pointer" onClick={handleBackButtonClick} />
 		Start SIP
 	</div>
@@ -121,12 +123,12 @@
 		<div class="flex items-center">
 			<SchemeLogo src={portfolioPack.packLogoUrl} />
 			<div class="text-xs">
-				<p class="text-base font-medium">{portfolioPack.packName}</p>
+				<p class="text-base font-medium text-title">{portfolioPack.packName}</p>
 			</div>
 		</div>
 		<div class="flex flex-col items-end">
 			<p class="text-xs text-body">Returns p.a</p>
-			<div class="flex flex-row items-center">
+			<div class="flex flex-row items-center text-title">
 				<p class="text-base font-medium">{portfolioPack.threeYrReturnAvgPer.toFixed(2)}%</p>
 			</div>
 		</div>

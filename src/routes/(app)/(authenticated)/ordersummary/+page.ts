@@ -127,7 +127,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			headerContent.heading = 'Basket Order Placed';
 			headerContent.subHeadingArr = [
 				{
-					html: `<p class="!text-black-title font-normal">Your orders can be tracked from <span class="font-medium">Orders</span></p>`
+					html: `<p class="!text-title font-normal">Your orders can be tracked from <span class="font-medium">Orders</span></p>`
 				}
 			];
 			headerContent.status = STATUS_ARR.SUCCESS;

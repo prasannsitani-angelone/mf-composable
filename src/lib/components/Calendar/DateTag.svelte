@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import type { DateTagClasses } from '$lib/types/Calendar/ICalendar';
+	import { getRGBACssVar } from '$lib/utils/colors';
 
 	const dispatch = createEventDispatcher();
 
@@ -9,7 +10,8 @@
 	export let selected: boolean;
 	export let classes: DateTagClasses | undefined;
 
-	$: selectedClass = selected ? `rounded bg-primary/25 ${classes?.selected}` : '';
+	$: selectedStyle = selected ? `background-color: ${getRGBACssVar('--PRIMARY', 0.25)}` : '';
+	$: selectedClass = selected ? `rounded bg-primary ${classes?.selected}` : '';
 	$: disabledClass = disabled
 		? `text-disabled sm:text-disabled cursor-not-allowed ${classes?.disabled}`
 		: '';
@@ -23,6 +25,7 @@
 </script>
 
 <div
+	style={selectedStyle}
 	class={`${DateTagClass} ${classes?.default} ${selectedClass} ${disabledClass}`}
 	on:click={onClick}
 	on:keydown={() => {

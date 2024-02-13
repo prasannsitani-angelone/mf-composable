@@ -381,7 +381,7 @@
 					<div class="flex items-center justify-between px-4 py-6 md:px-8">
 						<div class="flex items-center justify-start">
 							<slot name="tpinVerificationHeader">
-								<span class="mr-1 text-xl"> Verify Order with E-DIS </span>
+								<span class="mr-1 text-xl text-title"> Verify Order with E-DIS </span>
 							</slot>
 							<WMSIcon
 								width={16}

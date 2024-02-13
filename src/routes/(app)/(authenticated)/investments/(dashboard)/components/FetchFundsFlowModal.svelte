@@ -146,7 +146,7 @@
 		{#if step === 'GENERATE'}
 			<!-- Render Generate OTP contents -->
 			<div class="flex items-center justify-between p-0 sm:border-b sm:px-8 sm:py-6">
-				<div class="mr-1 text-xl font-normal">Generate OTP</div>
+				<div class="mr-1 text-xl font-normal text-title">Generate OTP</div>
 				<button class="hidden sm:block md:cursor-pointer" on:click={onModalClick}>
 					<WMSIcon name="cross-circle" />
 				</button>
@@ -166,7 +166,7 @@
 		{:else if step === 'VALIDATE' && stepIsValidate()}
 			<!-- Render Validate OTP contents -->
 			<div class="flex items-center justify-between p-0 sm:border-b sm:px-8 sm:py-6">
-				<div class="mr-1 text-lg font-normal">Verify OTP</div>
+				<div class="mr-1 text-lg font-normal text-title">Verify OTP</div>
 				<button class="hidden sm:block md:cursor-pointer" on:click={onModalClick}>
 					<WMSIcon name="cross-circle" />
 				</button>

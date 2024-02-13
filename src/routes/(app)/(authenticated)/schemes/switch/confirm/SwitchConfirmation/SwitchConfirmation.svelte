@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import SoSipContinuation from '$components/Switch/SOSipContinuation.svelte';
 	import { addCommasToAmountString, getCappedUnitString } from '$lib/utils/helpers/formatAmount';
-	import { SwitchOrderTitleCard } from 'svelte-components';
+	import { SwitchOrderTile, SwitchOrderTitleCard } from 'svelte-components';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
 	import ButtonMedium from '$components/ButtonMedium.svelte';
@@ -334,10 +334,29 @@
 	switchInSchemeName={switchInFund?.schemeName}
 	switchInLogo={switchInFund?.logoUrl}
 	class="md:flex-col"
-	orderTileClass="md:w-full"
-	switchInSchemeNameClass="!font-normal"
-	switchOutSchemeNameClass="!font-normal"
+	orderTileClass="md:w-full !bg-background-alt !border-border"
+	switchInSchemeNameClass="!font-normal !text-title"
+	switchOutSchemeNameClass="!font-normal !text-title"
 >
+	<svelte:fragment slot="switchOut">
+		<SwitchOrderTile
+			logoUrl={folioHolding?.logoUrl}
+			schemeName={folioHolding?.schemeName}
+			orderTypeText="SWITCH OUT"
+			orderTypeBgColor="bg-tint12-secondary !text-title"
+			schemeNameClass={'!font-normal !text-title'}
+		/>
+	</svelte:fragment>
+
+	<svelte:fragment slot="switchIn">
+		<SwitchOrderTile
+			logoUrl={switchInFund?.logoUrl}
+			schemeName={switchInFund?.schemeName}
+			orderTypeText="SWITCH IN"
+			orderTypeBgColor="bg-tint12-secondary-alt !text-title"
+			schemeNameClass={'!font-normal !text-title'}
+		/>
+	</svelte:fragment>
 	<svelte:fragment slot="switchIcon">
 		<div class="z-20 -my-1 flex max-h-0 items-center self-center">
 			<WMSIcon height={40} width={40} name="chevron-down" />
