@@ -11,7 +11,7 @@ export const getHoldingSummary = async (
 ) => {
 	const url = `${
 		internalBaseUrl && !dev ? internalBaseUrl : PUBLIC_MF_CORE_BASE_URL
-	}/portfolio/holdings?summary=true`;
+	}/portfolio/holdings/summary?xirr=true`;
 	let investmentSummary: InvestmentSummary;
 	try {
 		const res = await useFetch(
@@ -26,7 +26,7 @@ export const getHoldingSummary = async (
 
 		if (res?.ok) {
 			const summaryData = res.data;
-			investmentSummary = summaryData?.data?.summary || {};
+			investmentSummary = summaryData?.data || {};
 		} else {
 			investmentSummary = {};
 		}

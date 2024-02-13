@@ -6,7 +6,7 @@
 
 <FundOverview
 	{schemeDetails}
-	class="mx-2 mt-4 h-[500px] {$$props.class}"
+	class="mx-2 mt-2 h-[500px] {$$props.class}"
 	innerStyle="flex flex-col gap-1"
 	onMountEvent={false}
 />

@@ -60,7 +60,7 @@
 	const getFamilyPortfolioSummary = async () => {
 		isFamilyPortfolioDataFetched = false;
 		const query = appStore?.getSelectedLinkedMembersQuery();
-		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings?summary=true`;
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings/summary?xirr=true`;
 		const res = await useFetch(
 			url,
 			{
@@ -71,7 +71,7 @@
 			fetch
 		);
 		if (res?.ok) {
-			familyPortfolioSummary = res?.data?.data?.summary;
+			familyPortfolioSummary = res?.data?.data;
 		}
 		isFamilyPortfolioDataFetched = true;
 	};

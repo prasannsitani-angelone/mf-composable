@@ -54,7 +54,7 @@
 	<div bind:clientHeight class="flex h-full w-full flex-col" on:click={handleBackDropClicked}>
 		<div
 			class="my-auto flex w-full flex-col justify-center {smallHeightDevices
-				? 'mb-0 mt-5'
+				? 'mb-0 mt-3'
 				: ''} {$$props.class}"
 			on:click|stopPropagation
 		>
@@ -75,8 +75,8 @@
 					: ''}"
 				on:onIndexChange={handleOnIndexChange}
 			>
-				<div slot="activeIndicator" class="h-2 w-8 rounded bg-background-alt" />
-				<div slot="inActiveIndicator" class="h-2 w-2 rounded bg-disabled sm:cursor-pointer" />
+				<div slot="activeIndicator" class="light h-2 w-8 rounded bg-background-alt" />
+				<div slot="inActiveIndicator" class="light h-2 w-2 rounded bg-disabled sm:cursor-pointer" />
 				{#each carouselItems as { component, props }, index}
 					<CarouselItem {index} class="mb-2">
 						<svelte:component this={component} {...props} />

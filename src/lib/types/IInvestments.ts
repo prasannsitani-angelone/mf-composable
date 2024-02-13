@@ -138,20 +138,9 @@ export interface InvestmentSummary {
 	returnsValue?: number;
 	returnsAbsolutePer?: number;
 	xirr?: number;
-	returns1MonthPer?: number;
-	returns3MonthPer?: number;
-	returns6MonthPer?: number;
-	returns1YearPer?: number;
-	returns3YearPer?: number;
-	totalSips?: number;
-	totalLumpsums?: number;
 	previousDayReturns?: number;
 	previousDayReturnPercentage?: number;
-	shortTermGain?: number;
-	longTermGain?: number;
-	lastImportPending: boolean;
 	lastImportStatus: string;
-	lastImportTs: number;
 	lastSuccessfullImportTs: number;
 }
 

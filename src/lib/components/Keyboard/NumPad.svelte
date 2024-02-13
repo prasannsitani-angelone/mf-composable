@@ -76,7 +76,7 @@
 				type="button"
 				on:click={() => handleKeyClick(key.value)}
 				class={`my-[1px] flex w-[30%] touch-manipulation justify-center rounded py-2 text-xl font-normal text-title ${
-					typeof key.value === 'number' ? 'active:bg-gray-100' : ''
+					typeof key.value === 'number' ? 'active:bg-disabled' : ''
 				}`}
 			>
 				{#if key.value === -1}
