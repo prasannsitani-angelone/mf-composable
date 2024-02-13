@@ -29,6 +29,7 @@
 	let showSearch = false;
 	let firstFund = false;
 	let isin = '';
+	let schemeCode = '';
 	let suggestedSchemes: OtherSchemeEntityOrSchemeInfoEntity[] = [];
 
 	const toggleModal = () => {
@@ -91,7 +92,7 @@
 		addFundsScreenImpressionEvent();
 	});
 
-	export { showModal, firstFund, isin };
+	export { showModal, firstFund, isin, schemeCode };
 </script>
 
 <Modal isModalOpen={showModal} on:backdropclicked={toggleModal}>
@@ -186,26 +187,28 @@
 						</section>
 						<section class="absolute left-0 h-screen w-screen overflow-x-hidden md:w-full md:pb-20">
 							{#each resultsData || [] as scheme, idx (idx)}
-								<article
-									class="!m-3 flex cursor-pointer justify-between gap-2 !border-b border-border p-0 pb-4 lg:!m-2 lg:!border-border lg:p-2"
-									on:click|preventDefault={() => {
-										handleSchemeSelected(scheme, idx);
-									}}
-								>
-									<SchemeCard schemes={scheme} titleClass="lg:flex-wrap" class="w-9/12 pr-2">
-										<svelte:fragment slot="chip-overview">
-											<ChipOverview
-												headingPrimary={scheme?.categoryName}
-												headingSecondary={scheme?.subcategoryName}
-												class="lg:flex-wrap"
-											/>
-										</svelte:fragment>
-										<div slot="rating" />
-									</SchemeCard>
-									<div class="flex w-3/12 items-center justify-end text-center text-title">
-										{scheme?.returns3yr ? `${scheme?.returns3yr.toFixed(1)}%` : '-'}
-									</div>
-								</article>
+								{#if scheme?.isin !== isin && scheme?.schemeCode !== schemeCode}
+									<article
+										class="!m-3 flex cursor-pointer justify-between gap-2 !border-b border-border p-0 pb-4 lg:!m-2 lg:!border-border lg:p-2"
+										on:click|preventDefault={() => {
+											handleSchemeSelected(scheme, idx);
+										}}
+									>
+										<SchemeCard schemes={scheme} titleClass="lg:flex-wrap" class="w-9/12 pr-2">
+											<svelte:fragment slot="chip-overview">
+												<ChipOverview
+													headingPrimary={scheme?.categoryName}
+													headingSecondary={scheme?.subcategoryName}
+													class="lg:flex-wrap"
+												/>
+											</svelte:fragment>
+											<div slot="rating" />
+										</SchemeCard>
+										<div class="flex w-3/12 items-center justify-end text-center text-title">
+											{scheme?.returns3yr ? `${scheme?.returns3yr.toFixed(1)}%` : '-'}
+										</div>
+									</article>
+								{/if}
 							{/each}
 						</section>
 					</svelte:fragment>

@@ -32,6 +32,7 @@
 		comparefundInvestSelectClickEvent
 	} from './analytics';
 	import { browser } from '$app/environment';
+	import { format, parse, set } from 'date-fns';
 
 	export let data: PageData;
 
@@ -41,7 +42,7 @@
 	};
 	const chartDatasetConfig = [
 		{
-			label: 'Amount',
+			label: '',
 			backgroundColor: (context: { chart: { chartArea; ctx } }) => {
 				if (!context.chart.chartArea) {
 					return;
@@ -60,14 +61,14 @@
 			fill: true
 		},
 		{
-			label: 'Amount',
+			label: '',
 			borderColor: '#F9BA4D',
 			yAxisID: 'y',
 			fill: true,
 			backgroundColor: 'transparent'
 		},
 		{
-			label: 'Amount',
+			label: '',
 			borderColor: '#581DBE',
 			yAxisID: 'y',
 			fill: true,
@@ -85,14 +86,65 @@
 	let chartMetaData = [];
 	let chartNavData: Array<Array<NavDetails>> = [];
 	let lineData = {};
+	let chartId = 'fund-comparison-line-chart';
+	let tooltipLength = 10;
+
+	const formatDate = (navDate) => {
+		navDate = navDate.split(',');
+		navDate.pop();
+		navDate = navDate.join(',');
+		const date = new Date(navDate);
+		const day = date.getDate();
+		const month = date.toLocaleString('default', { month: 'short' });
+		const year = date.getFullYear()?.toString();
+
+		return `${day} ${month} ${year}`;
+	};
+
+	const getFormattedDate = (originalDateString: string) => {
+		let originalDate = parse(originalDateString, 'MMM dd, yyyy, h:mm:ss a', new Date());
+		originalDate = set(originalDate, { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 });
+		originalDate = set(originalDate, { timeZone: 'UTC' });
+		const iso8601Date = format(originalDate, "yyyy-MM-dd'T'HH:mm:ss");
+		return iso8601Date;
+	};
+
+	const getDataLabelIndex = (originalDateString) => {
+		const formattedDate = getFormattedDate(originalDateString);
+
+		const selectedIndex = lineData?.labels?.findIndex((label) => {
+			return (label || '')?.includes(formattedDate);
+		});
+		return selectedIndex;
+	};
+
+	const getNavDataList = (title: string) => {
+		const selectedIndex = getDataLabelIndex(title) || 0;
+		let navData = [];
+
+		lineData?.datasets?.forEach((data) => {
+			navData.push({
+				nav: data?.data[selectedIndex],
+				color: data?.pointHoverBackgroundColor
+			});
+		});
+
+		return navData;
+	};
+
 	const lineChartOptions = {
 		maintainAspectRatio: false,
 		elements: {
 			point: {
-				borderWidth: 6, // make responsive
-				pointRadius: 10, // make responsive
-				hoverRadius: 10, // make responsive
-				hoverBorderWidth: 6 // make responsive
+				borderWidth: 4,
+				pointRadius: 3,
+				hoverRadius: 3,
+				hoverBorderWidth: 4,
+				pointHoverBorderColor: '#3F5BD966',
+				pointHoverBackgroundColor: '#3F5BD9',
+				pointBackgroundColor: 'transparent',
+				pointBorderColor: 'transparent',
+				pointStyle: 'circle'
 			}
 		},
 		scales: {
@@ -127,6 +179,111 @@
 		layout: {
 			padding: {
 				left: 5
+			}
+		},
+		plugins: {
+			tooltip: {
+				enabled: false,
+				callbacks: {},
+				external: function (context) {
+					// Tooltip Element
+					let tooltipEl = document.getElementById(`${chartId}-tooltip`);
+
+					// const chartParent = document.getElementById(chartParentId);
+					const chartParent = document.getElementById(chartId)?.parentNode;
+
+					// Create element on first render
+					if (!tooltipEl) {
+						tooltipEl = document.createElement('div');
+						tooltipEl.id = `${chartId}-tooltip`;
+						tooltipEl.style =
+							'display: flex; flex-direction: column; align-items: flex-start; width: fit-content; padding: 8px; font-size: 10px; font-weight: 400; font-family: Roboto; color: #fff; background: #181F29; box-shadow: 0px 1px 4px 0px rgba(24, 31, 41, 0.08); border-radius: 4px;';
+						tooltipEl.innerHTML = '';
+						chartParent.appendChild(tooltipEl);
+					}
+
+					// Hide if no tooltip
+					const tooltipModel = context.tooltip;
+					if (tooltipModel.opacity === 0) {
+						tooltipEl.style.opacity = 0;
+						return;
+					}
+
+					// Set caret Position
+					tooltipEl.classList.remove('above', 'below', 'no-transform');
+					if (tooltipModel.yAlign) {
+						tooltipEl.classList.add(tooltipModel.yAlign);
+					} else {
+						tooltipEl.classList.add('no-transform');
+					}
+
+					const getBody = (bodyItem) => {
+						return bodyItem.lines;
+					};
+
+					// Set Tooltip Text
+					if (tooltipModel.body) {
+						const titleLines = tooltipModel.title || [];
+						const bodyLines = tooltipModel.body.map(getBody);
+
+						let innerHtml = '';
+
+						const title = titleLines?.[0];
+
+						if (title) {
+							const style = '';
+							innerHtml += `<span style="${style}">${formatDate(title)}</span>`;
+						}
+						innerHtml += '</div>';
+
+						const body = bodyLines?.[0];
+
+						const navDataList = getNavDataList(title);
+
+						if (body) {
+							const style = 'display: flex; align-items: center; margin-top: 4px; font-size: 12px';
+							navDataList?.forEach((nav) => {
+								const div = `<div style="${style}">
+									<div style="width: 8px; height: 8px; background: ${nav?.color}; border-radius: 100%;"></div>
+									<div style="margin-left: 4px">
+										${nav?.nav > 0 ? `₹${parseFloat(nav?.nav?.toFixed(2))}` : 'NA'}
+									</div>
+									<div style="margin-left: 4px; color: #008F75;">
+										${nav?.nav > 0 ? `+${parseFloat(((nav?.nav - 1000) / 10)?.toFixed(2))}%` : 'NA'}
+									</div>
+								</div>`;
+								innerHtml += div;
+							});
+						}
+						tooltipEl.innerHTML = innerHtml;
+					}
+
+					const canvas = context.chart.canvas;
+
+					// // Display, position, and set styles for font
+					tooltipEl.style.opacity = 1;
+					tooltipEl.style.position = 'absolute';
+					const centerX = tooltipModel._active[0].element.x;
+					if (centerX > tooltipModel.caretX) {
+						const xfromParent = canvas.offsetLeft + tooltipModel.caretX - tooltipLength;
+						let startPoint = 0;
+						if (xfromParent - tooltipEl.offsetWidth >= 0) {
+							startPoint = xfromParent - tooltipEl.offsetWidth;
+						}
+						tooltipEl.style.left = startPoint + 'px';
+					} else {
+						const parentWidth = chartParent.offsetWidth;
+						const xfromParent = canvas.offsetLeft + tooltipModel.caretX + tooltipLength;
+						let startPoint = parentWidth - tooltipEl.offsetWidth;
+						if (parentWidth - xfromParent - tooltipEl.offsetWidth >= 0) {
+							startPoint = xfromParent;
+						}
+						tooltipEl.style.left = startPoint + 'px';
+					}
+					tooltipEl.style.transform = 'translate(-50%, -110%)';
+					tooltipEl.style.top = canvas.offsetTop + tooltipModel.caretY + 'px';
+					tooltipEl.style.pointerEvents = 'none';
+				}
 			}
 		}
 	};
@@ -262,9 +419,30 @@
 		});
 
 		const datasets = lineChartData.navs.map((nav, index) => {
+			let pointHoverColor = '#3F5BD966';
+			let pointHoverBgColor = '#3F5BD9';
+			if (index === 0) {
+				pointHoverColor = '#1EC7B666';
+				pointHoverBgColor = '#1EC7B6';
+			} else if (index === 1) {
+				pointHoverColor = '#F9BA4D66';
+				pointHoverBgColor = '#F9BA4D';
+			} else if (index === 2) {
+				pointHoverColor = '#581DBE66';
+				pointHoverBgColor = '#581DBE';
+			}
 			return {
 				...(chartDatasetConfig[index] || {}),
-				data: nav
+				data: nav,
+				borderWidth: 1.5, // make responsive
+				pointRadius: 3, // make responsive
+				hoverRadius: 3, // make responsive
+				hoverBorderWidth: 6, // make responsive
+				pointHoverBorderColor: pointHoverColor,
+				pointHoverBackgroundColor: pointHoverBgColor,
+				pointBackgroundColor: 'transparent',
+				pointBorderColor: 'transparent',
+				pointStyle: 'circle'
 			};
 		});
 
@@ -596,15 +774,17 @@
 				title="If ₹1,000 invested 3 years ago"
 				cardToggled={chartMetaDataToggled}
 				loading={true}
+				isDefaultExpanded={true}
 			/>
 		{:else}
 			<TableWithAccordian
 				data={chartMetaData}
 				title="If ₹1,000 invested 3 years ago"
 				cardToggled={chartMetaDataToggled}
+				isDefaultExpanded={true}
 			>
 				<svelte:fragment slot="footer">
-					<Chart {lineData} {lineChartOptions} {tags} {onTagClick} {selectedTag} />
+					<Chart {lineData} {lineChartOptions} {tags} {onTagClick} {selectedTag} {chartId} />
 				</svelte:fragment>
 			</TableWithAccordian>
 		{/if}
@@ -620,6 +800,7 @@
 {#if showSearch}
 	<FundSearch
 		isin={schemesSelected >= 1 ? schemeDetailsList?.[schemesSelected - 1]?.isin : ''}
+		schemeCode={schemesSelected >= 1 ? schemeDetailsList?.[schemesSelected - 1]?.schemeCode : ''}
 		firstFund={schemesSelected === 0}
 		bind:showModal={showSearch}
 		on:close={toggleSearch}

@@ -7,6 +7,7 @@
 	export let title = '';
 	export let cardToggled = (): void => undefined;
 	export let loading = false;
+	export let isDefaultExpanded = false;
 </script>
 
 <div class="bg-background-alt">
@@ -17,6 +18,7 @@
 		headerClass="!p-4"
 		class="!mt-0 !max-w-none !rounded-none"
 		disableCollapse={false}
+		{isDefaultExpanded}
 		on:cardToggled={cardToggled}
 	>
 		<svelte:fragment slot="accordionBody">

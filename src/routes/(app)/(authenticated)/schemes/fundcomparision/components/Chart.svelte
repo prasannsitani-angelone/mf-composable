@@ -4,6 +4,7 @@
 
 	export let lineData;
 	export let lineChartOptions;
+	export let chartId = 'line-chart';
 	export let tags = [];
 	export let selectedTag: number;
 	export let onTagClick: (param: number) => undefined;
@@ -15,6 +16,7 @@
 		chartOptions={lineChartOptions}
 		chartClass="w-full h-64 relative"
 		tooltipSymbol="₹"
+		{chartId}
 	/>
 	<article class="mt-6 flex justify-center">
 		<section class="flex w-auto flex-row gap-2 bg-background-alt sm:gap-4">

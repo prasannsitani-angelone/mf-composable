@@ -20,6 +20,7 @@
 	let headerClass = '';
 	let titleStyle = '';
 	let data: accordionCardItem;
+	let isDefaultExpanded = false;
 
 	export {
 		disableCollapse,
@@ -29,9 +30,10 @@
 		footerFontSize,
 		headerClass,
 		data,
-		titleStyle
+		titleStyle,
+		isDefaultExpanded
 	};
-	$: showBody = disableCollapse;
+	$: showBody = isDefaultExpanded || disableCollapse;
 
 	/**
 	 * toggleAccordionCardContent: Function to toggle Accordion Card body

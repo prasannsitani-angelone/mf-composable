@@ -235,7 +235,11 @@
 					class="flex h-full flex-col overflow-hidden sm:h-full md:rounded-lg md:bg-background-alt md:p-2"
 				>
 					<!-- Mobile Header -->
-					<MobileHeader title={'Order Summary'} class="bg-background-alt" titleClass="!font-medium">
+					<MobileHeader
+						title={'Order Summary'}
+						class="bg-background-alt md:hidden"
+						titleClass="!font-medium"
+					>
 						<svelte:fragment slot="faqIcon">
 							{#if !(isBuyPortfolio || isCart)}
 								<WMSIcon
