@@ -283,7 +283,7 @@
 							dataArray[index].amountValue += item?.allocatedValue;
 						}
 					} else if (type === 'instrument' || type === 'rating') {
-						if (item.category === 'Debt') {
+						if (item.category === 'Non-Equity') {
 							dataArray[index].percentageHold += item?.allocatedPer;
 							dataArray[index].amountValue += item?.allocatedValue;
 						}
@@ -338,7 +338,7 @@
 			if (data?.name === 'Equity') {
 				equityTotalAmount = data?.amountValue;
 				equityTotalPercentage = data?.percentageHold;
-			} else if (data?.name === 'Debt') {
+			} else if (data?.name === 'Non-Equity') {
 				debtTotalAmount = data?.amountValue;
 				debtTotalPercentage = data?.percentageHold;
 			}
@@ -620,54 +620,56 @@
 				</article>
 			</article>
 
-			{#if deviceType?.isMobile}
-				<GraphTableChart
-					type={tableChartData[showEquityDebt][showIndexedChartForMobile].type}
-					parentId={tableChartData[showEquityDebt][showIndexedChartForMobile].parentId}
-					subLabel={tableChartData[showEquityDebt][showIndexedChartForMobile].subLabel}
-					nameColumnHeader={tableChartData[showEquityDebt][showIndexedChartForMobile]
-						.nameColumnHeader}
-					nameColumnHeaderForFunds={tableChartData[showEquityDebt][showIndexedChartForMobile]
-						.nameColumnHeaderForFunds}
-					footerText={tableChartData[showEquityDebt][showIndexedChartForMobile].footerText}
-					currentValue={tableChartData[showEquityDebt][showIndexedChartForMobile].currentValue}
-					chartsData={tableChartData[showEquityDebt][showIndexedChartForMobile].chartsData}
-					{graphColors}
-					filterTypes={tableChartData[showEquityDebt][showIndexedChartForMobile].filterTypes}
-					filteredData={tableChartData[showEquityDebt][showIndexedChartForMobile].filteredData}
-					selectedFilterIndex={tableChartData[showEquityDebt][showIndexedChartForMobile]
-						.selectedFilterIndex}
-					showColor={true}
-					showCompaniesFooter={true}
-					viewMoreFooter={true}
-					showFundsFilterTable={showFundsFilterTable ===
-						tableChartData[showEquityDebt][showIndexedChartForMobile].type}
-					on:filterChange={handleFilterChange}
-					on:toggleFilterTable={(type) => handleToggleFilterTable(type)}
-				/>
-			{:else if !deviceType?.isMobile}
-				{#each tableChartData[showEquityDebt] as targetData (targetData.type)}
+			{#if tableChartData?.[showEquityDebt]}
+				{#if deviceType?.isMobile}
 					<GraphTableChart
-						type={targetData.type}
-						parentId={targetData.parentId}
-						subLabel={targetData.subLabel}
-						nameColumnHeader={targetData.nameColumnHeader}
-						nameColumnHeaderForFunds={targetData.nameColumnHeaderForFunds}
-						footerText={targetData.footerText}
-						currentValue={targetData.currentValue}
-						chartsData={targetData.chartsData}
+						type={tableChartData[showEquityDebt][showIndexedChartForMobile].type}
+						parentId={tableChartData[showEquityDebt][showIndexedChartForMobile].parentId}
+						subLabel={tableChartData[showEquityDebt][showIndexedChartForMobile].subLabel}
+						nameColumnHeader={tableChartData[showEquityDebt][showIndexedChartForMobile]
+							.nameColumnHeader}
+						nameColumnHeaderForFunds={tableChartData[showEquityDebt][showIndexedChartForMobile]
+							.nameColumnHeaderForFunds}
+						footerText={tableChartData[showEquityDebt][showIndexedChartForMobile].footerText}
+						currentValue={tableChartData[showEquityDebt][showIndexedChartForMobile].currentValue}
+						chartsData={tableChartData[showEquityDebt][showIndexedChartForMobile].chartsData}
 						{graphColors}
-						filterTypes={targetData.filterTypes}
-						filteredData={targetData.filteredData}
-						selectedFilterIndex={targetData.selectedFilterIndex}
+						filterTypes={tableChartData[showEquityDebt][showIndexedChartForMobile].filterTypes}
+						filteredData={tableChartData[showEquityDebt][showIndexedChartForMobile].filteredData}
+						selectedFilterIndex={tableChartData[showEquityDebt][showIndexedChartForMobile]
+							.selectedFilterIndex}
 						showColor={true}
 						showCompaniesFooter={true}
 						viewMoreFooter={true}
-						showFundsFilterTable={showFundsFilterTable === targetData.type}
+						showFundsFilterTable={showFundsFilterTable ===
+							tableChartData[showEquityDebt][showIndexedChartForMobile].type}
 						on:filterChange={handleFilterChange}
 						on:toggleFilterTable={(type) => handleToggleFilterTable(type)}
 					/>
-				{/each}
+				{:else if !deviceType?.isMobile}
+					{#each tableChartData[showEquityDebt] || [] as targetData (targetData.type)}
+						<GraphTableChart
+							type={targetData.type}
+							parentId={targetData.parentId}
+							subLabel={targetData.subLabel}
+							nameColumnHeader={targetData.nameColumnHeader}
+							nameColumnHeaderForFunds={targetData.nameColumnHeaderForFunds}
+							footerText={targetData.footerText}
+							currentValue={targetData.currentValue}
+							chartsData={targetData.chartsData}
+							{graphColors}
+							filterTypes={targetData.filterTypes}
+							filteredData={targetData.filteredData}
+							selectedFilterIndex={targetData.selectedFilterIndex}
+							showColor={true}
+							showCompaniesFooter={true}
+							viewMoreFooter={true}
+							showFundsFilterTable={showFundsFilterTable === targetData.type}
+							on:filterChange={handleFilterChange}
+							on:toggleFilterTable={(type) => handleToggleFilterTable(type)}
+						/>
+					{/each}
+				{/if}
 			{/if}
 		</section>
 	</Card>
