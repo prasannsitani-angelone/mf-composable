@@ -3,7 +3,7 @@
 	import { goto } from '$app/navigation';
 	import type { PageData } from './$types';
 	import { format } from 'date-fns';
-	import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
+	import { encodeObject } from '$lib/utils/helpers/params';
 	import OrderSummaryHeader from '$components/OrderSummary/OrderSummaryHeader.svelte';
 	import OrderStatus from '$components/OrderSummary/OrderStatus.svelte';
 	import AutopayTile from './AutopayEnabledTile/AutopayEnabledTile.svelte';
@@ -38,8 +38,6 @@
 	$: isTablet = $page?.data?.deviceType?.isTablet;
 	$: bankDetails = $profileStore?.bankDetails;
 
-	const params = $page.url.searchParams.get('params') || '';
-	const decodedParams = decodeToObject(params);
 	const {
 		firstTimePayment,
 		orderID,
@@ -51,7 +49,7 @@
 		isLumpsumViaMandate,
 		isBuyPortfolio,
 		isCart
-	} = decodedParams;
+	} = $page.data.urlSource;
 
 	let orderStatusString = '';
 	let paymentStatusString = '';

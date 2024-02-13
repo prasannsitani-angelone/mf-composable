@@ -37,7 +37,6 @@
 		editSipConfirmScreenAnalytics
 	} from '$lib/analytics/sipbook/sipbook';
 	import { page } from '$app/stores';
-	import { decodeToObject } from '$lib/utils/helpers/params';
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import Physical2FAOtpVerificationComponent from '$components/Payment/Physical2FAOtpVerificationComponent.svelte';
 
@@ -89,13 +88,12 @@
 	let showOtpVerificationModal = false;
 	let isOtpVerificationDone = false;
 
-	const params = $page.url.searchParams.get('params') || '';
 	const {
 		isExternal = false,
 		sipAmount = '',
 		sipStartDate = '',
 		requestId = ''
-	} = decodeToObject(params || '');
+	} = $page.data.urlSource;
 
 	const uuid = uuidv4();
 	const navigateToSipDashboardUrl = async () => {

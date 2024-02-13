@@ -13,7 +13,8 @@
 	import SwitchHomePage from '../../../routes/(app)/(authenticated)/schemes/switch/[scheme_name]/SwitchHomePage/SwitchHomePage.svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
-	import { decodeToObject } from '$lib/utils/helpers/params';
+	import { encodeObject } from '$lib/utils/helpers/params';
+	import type { IUrlParams } from '$lib/types/IUrlParams';
 	$: isMobile = $page.data.deviceType.isMobile;
 
 	const dispatch = createEventDispatcher();
@@ -24,9 +25,9 @@
 	let activePage = '';
 	let isSwitch = false;
 
-	const queryParams = $page.url.searchParams.get('params');
-	const decodedParams = decodeToObject(queryParams || '');
-	const { isin: switchInIsin, schemeCode: switchInSchemeCode } = decodedParams;
+	const params: IUrlParams = $page.data.urlSource;
+	const queryParams = encodeObject(params);
+	const { isin: switchInIsin, schemeCode: switchInSchemeCode } = $page.data.urlSource;
 
 	const onSwitchNavigation = () => {
 		if (isMobile) {

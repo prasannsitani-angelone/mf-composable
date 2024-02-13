@@ -5,7 +5,6 @@
 	import AddToCart from '$components/AddToCart.svelte';
 	import { base } from '$app/paths';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
-	import PeopleIcon from '$lib/images/PeopleIcon.svg';
 	import { createEventDispatcher } from 'svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { modifiedGoto } from '$lib/utils/goto';

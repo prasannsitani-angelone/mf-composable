@@ -14,7 +14,7 @@
 	import { getFormattedSIPDate } from '$components/Payment/util';
 	import { getCompleteSIPDateBasedonDD, getDateSuperscript } from '$lib/utils/helpers/date';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
-	import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
+	import { encodeObject } from '$lib/utils/helpers/params';
 	import { onMount } from 'svelte';
 	import SkeletonLoader from './components/SkeletonLoader.svelte';
 	import WhyThisFundPopup from './components/WhyThisFundPopup.svelte';
@@ -34,8 +34,7 @@
 
 	$: userData = $page?.data?.userDetails;
 
-	const params = $page.url.searchParams.get('params');
-	const { amount = 0, date, requestId } = decodeToObject(params || '');
+	const { amount = 0, date, requestId } = $page.data.urlSource;
 	const profileData = $page.data?.profile;
 
 	const upiPaymentAmountLimit = 100000;

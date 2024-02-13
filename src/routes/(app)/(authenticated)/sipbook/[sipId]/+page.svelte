@@ -67,7 +67,6 @@
 	import { sipBookStore } from '$lib/stores/SipBookStore';
 	import clickOutside from '$lib/utils/useClickOutside';
 	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
-	import { decodeToObject } from '$lib/utils/helpers/params';
 
 	$: bankDetails = $profileStore?.bankDetails;
 	let showCancelSipModal = false;
@@ -95,8 +94,7 @@
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 	$: isTablet = $page?.data?.deviceType?.isTablet;
 
-	const params = $page.url.searchParams.get('params') || '';
-	const { isExternal = false, showEditSip = false } = decodeToObject(params || '');
+	const { isExternal = false, showEditSip = false } = $page.data.urlSource;
 	const autopayRedirectParams = encodeObject({
 		acc: bankDetails?.[0]?.accNO
 	});

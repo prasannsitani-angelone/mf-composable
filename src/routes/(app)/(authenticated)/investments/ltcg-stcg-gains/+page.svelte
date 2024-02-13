@@ -16,15 +16,13 @@
 		shortTermTabClickAnalytics
 	} from '../analytics';
 	import { page } from '$app/stores';
-	import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
+	import { encodeObject } from '$lib/utils/helpers/params';
 	import type { ITaxationDetails } from '$lib/types/IInvestments';
 	import { browser } from '$app/environment';
 
 	export let data: PageData;
 
-	const { investmentPercent = 0, investedAmt = 0 } = decodeToObject(
-		$page.url.searchParams.get('params') || ''
-	);
+	const { investmentPercent = 0, investedAmt = 0 } = $page.data.urlSource;
 
 	const encodedParams = encodeObject({
 		investmentPercent,

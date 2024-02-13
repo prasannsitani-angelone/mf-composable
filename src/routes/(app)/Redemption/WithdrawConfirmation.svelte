@@ -44,7 +44,7 @@
 		withdrawInfoAnalytics
 	} from '$lib/analytics/redemption/redemption';
 	import { page } from '$app/stores';
-	import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
+	import { encodeObject } from '$lib/utils/helpers/params';
 
 	export let holdingDetails: FolioHoldingType;
 	export let bankAccounts: Array<BankDetailsEntity>;
@@ -61,8 +61,7 @@
 		dispatch('closeWithdrawalConfirmationScreen');
 	};
 
-	const params = $page.url.searchParams.get('params') || '';
-	const { requestId = '', isExternal = false } = decodeToObject(params || '');
+	const { requestId = '', isExternal = false } = $page.data.urlSource;
 
 	let showBankDropdown = false;
 	let selectedBankAccount = bankAccounts[selectedAccount];

@@ -5,20 +5,13 @@
 	import PackDetails from './components/PackDetails.svelte';
 	import ErrorView from '$components/ErrorView.svelte';
 	import PageTitle from '$components/PageTitle.svelte';
-	import { decodeToObject } from '$lib/utils/helpers/params';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { portfolioImpression } from '$lib/analytics/buyPortfolio/buyPortfolio';
 
 	export let data: PageData;
 
-	const params = $page.url.searchParams.get('params');
-	const {
-		amount = 500,
-		date = 4,
-		requestId = '',
-		showInputPopup = false
-	} = decodeToObject(params || '');
+	const { amount = 500, date = 4, requestId = '', showInputPopup = false } = $page.data.urlSource;
 
 	const handleErrorNavigation = () => {
 		history?.back();

@@ -3,7 +3,7 @@
 	import { OrderSummaryStatus } from './components/OrderSummaryStatus';
 	import { goto } from '$app/navigation';
 	import type { PageData } from './$types';
-	import { decodeToObject, encodeObject } from '$lib/utils/helpers/params';
+	import { encodeObject } from '$lib/utils/helpers/params';
 	import { page } from '$app/stores';
 	import { base } from '$app/paths';
 	import ButtonMedium from '$components/ButtonMedium.svelte';
@@ -15,9 +15,7 @@
 
 	$: bankDetails = $profileStore?.bankDetails;
 
-	const params = $page.url.searchParams.get('params') || '';
-	const decodedParams = decodeToObject(params);
-	const { sipID } = decodedParams;
+	const { sipID } = $page.data.urlSource;
 
 	function getStatusEnum(paymentStatus: string) {
 		return OrderSummaryStatus[paymentStatus.toUpperCase()] ?? OrderSummaryStatus.PENDING;

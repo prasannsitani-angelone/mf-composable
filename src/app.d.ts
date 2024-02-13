@@ -3,6 +3,7 @@
 import type { DiscoverFund } from '$lib/types/IDiscoverFunds';
 import type { UserProfile } from '$lib/types/IUserProfile';
 import type { DevicePayload } from 'sveltekit-device-detector/dist/types';
+import type { IUrlParams } from '$lib/types/IUrlParams';
 import * as servertime from 'servertime';
 
 interface LayoutConfig {
@@ -59,6 +60,7 @@ declare global {
 			deviceType: DevicePayload;
 			searchDashboardData: DiscoverFund;
 			layoutConfig: LayoutConfig;
+			urlSource: IUrlParams;
 		}
 		// interface PageState {}
 		// interface Platform {}

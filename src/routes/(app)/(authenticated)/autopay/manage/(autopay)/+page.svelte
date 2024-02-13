@@ -6,12 +6,10 @@
 	import { getSipAmountWithoutMandate } from '../utils';
 	import ManageSkeletanLoader from './components/ManageSkeletanLoader.svelte';
 	import { page } from '$app/stores';
-	import { decodeToObject } from '$lib/utils/helpers/params';
 	import UPIMandateIcon from '$lib/images/icons/UPIMandateIcon.svelte';
 
 	export let data;
-	const params = $page.url.searchParams.get('params');
-	const { showAlert = false } = decodeToObject(params || '');
+	const { showAlert = false } = $page.data.urlSource;
 </script>
 
 {#await data.api.data}

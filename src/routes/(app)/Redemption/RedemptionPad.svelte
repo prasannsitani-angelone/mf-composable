@@ -25,7 +25,7 @@
 	import type { UtilsMetaData } from '$lib/types/IRedemption';
 	import WithdrawConfirmation from './WithdrawConfirmation.svelte';
 	import { profileStore } from '$lib/stores/ProfileStore';
-	import { decodeToObject, getQueryParamsObj } from '$lib/utils/helpers/params';
+	import { getQueryParamsObj } from '$lib/utils/helpers/params';
 	import type { OrderPadTypes } from '$lib/types/IOrderPad';
 	import DotIcon from '$lib/images/icons/DotIcon.svelte';
 	import {
@@ -43,14 +43,13 @@
 	export let redemptionNotAllowedText = '';
 	export let isInvestmentNotAllowed = false;
 
-	const params = $page.url.searchParams.get('params') || '';
 	const {
 		isExternal = false,
 		selectedAmount = '',
 		selectedUnits = 0,
 		isFullAmountSelected = false,
 		selectedFolioDetails = {}
-	} = decodeToObject(params || '');
+	} = $page.data.urlSource;
 
 	let bankDetails = $profileStore?.bankDetails;
 	let primaryBankAccountIndex = profileStore?.primaryBankAccountIndex();
