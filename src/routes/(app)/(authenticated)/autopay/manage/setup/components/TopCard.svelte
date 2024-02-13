@@ -84,8 +84,8 @@
 
 			<div class="text-sm font-normal text-body">
 				<p>
-					The maximum amount that can be deducted from your bank account on a single day for your
-					SIP payments is the <span class="font-medium">maximum autopay limit.</span>
+					The maximum amount that can be deducted from your bank account for a single
+					transaction/day for SIP payment is the <span class="font-medium"> autopay limit.</span>
 				</p>
 				<div class="mt-4">
 					Please Note:
