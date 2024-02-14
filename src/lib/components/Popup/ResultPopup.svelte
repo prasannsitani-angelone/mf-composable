@@ -41,6 +41,12 @@
 
 	const dispatch = createEventDispatcher();
 
+	const handlePrimaryButtonClick = (e) => {
+		e?.preventDefault();
+		e?.stopPropagation();
+		handleButtonClick();
+	};
+
 	const handleSecondaryButtonClick = () => {
 		dispatch('secondaryButtonClick');
 	};
@@ -76,7 +82,7 @@
 		</slot>
 
 		<slot name="popupFooter">
-			<Button variant={buttonVariant} class={buttonClass} onClick={handleButtonClick}>
+			<Button variant={buttonVariant} class={buttonClass} onClick={handlePrimaryButtonClick}>
 				{buttonTitle}
 			</Button>
 

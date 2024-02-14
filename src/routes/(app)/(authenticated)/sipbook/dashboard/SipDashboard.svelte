@@ -49,6 +49,7 @@
 	let nudgeData: INudge[];
 	let automatedSipsCount = 0;
 	let userEducationNudge: UserEducationNudgeType;
+	let sipHealthScore = 0;
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 
@@ -173,7 +174,8 @@
 					FundName: sip?.schemeName,
 					Amount: sip?.installmentAmount,
 					NextSIPDate: getDateTimeString(sip?.nextSipDueDate, 'DATE', true)
-				}))
+				})),
+				SipHealthScore: `${sipHealthScore}/100`
 			};
 			sipbookDashboardScreenOpenAnalytics(eventMetaData);
 		} else {
@@ -184,9 +186,6 @@
 		}
 	};
 
-	onMount(() => {
-		sipbookDashboardScreenOpenAnalyticsFunc();
-	});
 	$: if (paymentDueSips.length) {
 		sipPaymentDueNudgeImpressionAnalyticsFunc();
 	}
@@ -202,6 +201,11 @@
 
 	const handleViewReportCtaClick = () => {
 		sipScoreViewDetailsCtaClickAnalytics();
+	};
+
+	const setSipHealthScore = (score: number) => {
+		sipHealthScore = score;
+		sipbookDashboardScreenOpenAnalyticsFunc();
 	};
 
 	let mandateList: MandateWithBankDetails[] = [];
@@ -290,7 +294,11 @@
 					/>
 				{/if}
 
-				<SipHealthNudge class="mb-2" on:viewReport={handleViewReportCtaClick} />
+				<SipHealthNudge
+					class="mb-2"
+					on:viewReport={handleViewReportCtaClick}
+					on:sipHealthNudgeMounted={(e) => setSipHealthScore(e?.detail)}
+				/>
 			</div>
 
 			<!-- SIP Cards section -->

@@ -26,6 +26,7 @@ export const load = (async ({ fetch, params, depends }) => {
 				firstOrderToday,
 				createdTs,
 				schemeName,
+				isin,
 				installmentAmount,
 				nextSipDueDate,
 				bankName,
@@ -41,6 +42,7 @@ export const load = (async ({ fetch, params, depends }) => {
 			}
 			const eventMetaData = {
 				FundName: schemeName,
+				ISINCode: isin,
 				SIPSchedule: {
 					InstallmentAmount: installmentAmount,
 					NextSIPPayment: getDateTimeString(nextSipDueDate, 'DATE', true)

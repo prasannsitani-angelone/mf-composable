@@ -96,6 +96,7 @@
 	const sipCardClickAnalyticsFunc = () => {
 		const eventMetaData = {
 			FundName: sip?.schemeName,
+			ISINCode: sip?.isin,
 			SIPSchedule: {
 				InstallmentAmount: sip?.installmentAmount,
 				NextSIPPayment: getDateTimeString(sip?.nextSipDueDate, 'DATE', true)

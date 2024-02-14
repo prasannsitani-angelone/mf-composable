@@ -11,7 +11,9 @@ export const inactiveSipsButtonClickAnalytics = () => {
 	});
 };
 
-export const sipbookDashboardScreenOpenAnalytics = (eventMetaData: Record<string, string>) => {
+export const sipbookDashboardScreenOpenAnalytics = (
+	eventMetaData: Record<string, string | number | undefined | unknown>
+) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-sipbook',
 		event_type: 'impression',

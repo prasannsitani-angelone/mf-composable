@@ -19,7 +19,8 @@
 		dispatch('viewReport');
 	};
 
-	const getLabel = (score: number) => {
+	const getLabelAndEventDispatch = (score: number) => {
+		dispatch('sipHealthNudgeMounted', score);
 		if (score < SIP_HEALTH_SCORE_LIMIT_AVERAGE) {
 			return 'Learn how to improve your SIP health';
 		}
@@ -35,31 +36,41 @@
 	{:then result}
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
-		<div
-			on:click={onViewReportClicked}
-			class="light relative cursor-pointer overflow-hidden rounded-lg shadow-csm"
-		>
-			<div class="absolute h-full w-full">
-				<SIPHealthCardBG class="absolute h-full w-full" />
-			</div>
-
-			<div class="flex flex-row items-center opacity-[.99] {cardStyle} px-3.5 py-3">
-				<div class="flex flex-1 flex-col">
-					<p class="text-base font-medium text-title">Your SIP Health</p>
-					<p class="mb-3 text-xs font-normal text-title">{getLabel(result?.score)}</p>
-					<ButtonMedium
-						size={BtnSize.XS}
-						class="w-fit p-0 text-xs font-medium"
-						variant="transparent"
-					>
-						VIEW REPORT
-					</ButtonMedium>
+		{#if result?.score !== undefined}
+			<div
+				on:click={onViewReportClicked}
+				class="light relative cursor-pointer overflow-hidden rounded-lg shadow-csm"
+			>
+				<div class="absolute h-full w-full">
+					<SIPHealthCardBG class="absolute h-full w-full" />
 				</div>
 
-				<SipHealthScoreComponent score={result?.score} class="drop-shadow-xl" />
+				<div class="flex flex-row items-center opacity-[.99] {cardStyle} px-3.5 py-3">
+					<div class="flex flex-1 flex-col">
+						<p class="text-base font-medium text-title">Your SIP Health</p>
+						<p class="mb-3 text-xs font-normal text-title">
+							{getLabelAndEventDispatch(result?.score)}
+						</p>
+						<ButtonMedium
+							size={BtnSize.XS}
+							class="w-fit p-0 text-xs font-medium"
+							variant="transparent"
+						>
+							VIEW REPORT
+						</ButtonMedium>
+					</div>
+
+					<SipHealthScoreComponent score={result?.score} class="drop-shadow-xl" />
+				</div>
 			</div>
-		</div>
+		{:else}
+			<slot name="error">
+				<span class="hidden">{getLabelAndEventDispatch(0)}</span>
+			</slot>
+		{/if}
 	{:catch _}
-		<slot name="error" />
+		<slot name="error">
+			<span class="hidden">{getLabelAndEventDispatch(0)}</span>
+		</slot>
 	{/await}
 </div>
