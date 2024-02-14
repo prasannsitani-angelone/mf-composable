@@ -268,6 +268,11 @@
 		appStore?.updateStore({ linkedmembers: { selected: [] } });
 	};
 
+	const onActionCentreClick = (notifText: string) => {
+		actionCentreClick({ text: notifText });
+		modifiedGoto(`${base}/pendingActions`);
+	};
+
 	onMount(async () => {
 		await tick();
 		versionStore.setVersion('B');
@@ -368,9 +373,12 @@
 				: `${notifData?.summary[0].count} SIP payment${
 						notifData?.summary[0].count === 1 ? ' is' : 's are'
 				  } due`}
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div
 			class="row-start-{placementMapping?.actions?.rowStart} col-start-{placementMapping?.actions
-				?.columnStart} slide-down mx-1 mt-2 rounded-md bg-tint12-secondary p-2 shadow-lg"
+				?.columnStart} slide-down mx-1 mt-2 rounded-md bg-tint12-secondary p-2 shadow-lg hover:cursor-pointer"
+			on:click={() => onActionCentreClick(notifText)}
 			in:slide={{ duration: 400 }}
 		>
 			<div class="flex items-center justify-between">
@@ -384,13 +392,7 @@
 					</div>
 				</div>
 				<div>
-					<Button
-						size="sm"
-						onClick={() => {
-							modifiedGoto(`${base}/pendingActions`);
-							actionCentreClick({ text: notifText });
-						}}>ACT NOW</Button
-					>
+					<Button size="sm">ACT NOW</Button>
 				</div>
 			</div>
 		</div>

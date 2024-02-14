@@ -24,7 +24,12 @@
 	};
 </script>
 
-<div class="light relative flex items-center rounded-lg {$$props.class}">
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div
+	class="light relative flex items-center rounded-lg hover:cursor-pointer {$$props.class}"
+	on:click={handleAskAngelEntryPointClick}
+>
 	<div class="z-2 absolute h-full w-full"><AskAngelBg class="absolute h-full w-full" /></div>
 	<div class="z-0 flex items-center p-4">
 		<div class="flex flex-col">
@@ -32,11 +37,7 @@
 			<p class="text-black-body py-1 pr-28 text-xs">
 				Let us match you with the right investments based on your goals
 			</p>
-			<Button
-				class="mt-1 !w-fit !whitespace-nowrap !text-xs"
-				size="xs"
-				onClick={handleAskAngelEntryPointClick}>ASK ANGEL</Button
-			>
+			<Button class="mt-1 !w-fit !whitespace-nowrap !text-xs" size="xs">ASK ANGEL</Button>
 		</div>
 	</div>
 </div>

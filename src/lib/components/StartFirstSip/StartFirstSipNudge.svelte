@@ -26,10 +26,13 @@
 	});
 </script>
 
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <article
-	class="slide-down relative mt-2 flex {$$props.class}"
+	class="slide-down relative mt-2 flex hover:cursor-pointer {$$props.class}"
 	data-testid="startFirstSipNudge"
 	in:slide={{ duration: 300 }}
+	on:click={redirectToStartFirstSipLandingPage}
 >
 	<div class="z-2 absolute h-full w-full rounded-lg bg-yellow-background shadow-csm">
 		<StartFirstSipBg class="absolute h-full w-full" />
@@ -42,13 +45,7 @@
 			<p class="pl-1 text-sm text-title">Start your first SIP with Angel One today!</p>
 		</div>
 
-		<ButtonMedium
-			size={BtnSize.XS}
-			onClick={redirectToStartFirstSipLandingPage}
-			class="z-0 w-fit px-2 text-xs"
-		>
-			INVEST NOW
-		</ButtonMedium>
+		<ButtonMedium size={BtnSize.XS} class="z-0 w-fit px-2 text-xs">INVEST NOW</ButtonMedium>
 	</div>
 </article>
 

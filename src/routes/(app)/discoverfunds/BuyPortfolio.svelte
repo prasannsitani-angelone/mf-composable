@@ -7,17 +7,20 @@
 	import { page } from '$app/stores';
 
 	const goToBuyPortfolio = () => {
-		modifiedGoto(`${base}/buyPortfolio`);
 		buildPortfolioCardClicked();
+		modifiedGoto(`${base}/buyPortfolio`);
 	};
 
 	$: deviceType = $page.data.deviceType;
 </script>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	class="light relative flex items-center rounded-lg {deviceType.isMobile
+	class="light relative flex items-center rounded-lg hover:cursor-pointer {deviceType.isMobile
 		? 'min-h-[120px]'
 		: ''} {$$props.class}"
+	on:click={goToBuyPortfolio}
 >
 	<div class="z-2 absolute h-full w-full"><BuyPortfolioBg class="absolute h-full w-full" /></div>
 	<div class="z-0 flex items-center p-4">
@@ -26,9 +29,7 @@
 			<p class="py-1 pr-28 text-xs text-body">
 				Select a portfolio based on expected returns and maximise performance
 			</p>
-			<Button size="xs" onClick={goToBuyPortfolio} class="mr-4 mt-1 w-fit px-2 text-xs">
-				EXPLORE NOW
-			</Button>
+			<Button size="xs" class="mr-4 mt-1 w-fit px-2 text-xs">EXPLORE NOW</Button>
 		</div>
 	</div>
 </div>

@@ -16,7 +16,12 @@
 	};
 </script>
 
-<div class="light relative flex items-center rounded-lg {$$props.class}">
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<div
+	class="light relative flex items-center rounded-lg hover:cursor-pointer {$$props.class}"
+	on:click={goToSetupAutopay}
+>
 	<div class="z-2 absolute h-full w-full"><SetupAutopayBg class="absolute h-full w-full" /></div>
 	<div class="z-0 flex items-center p-4">
 		<div class="flex flex-col">
@@ -24,9 +29,7 @@
 			<p class="py-1 pr-28 text-xs text-black-key">
 				Automate all your SIP payments in 2 simple steps
 			</p>
-			<Button size="xs" onClick={goToSetupAutopay} class="mr-4 mt-1 w-fit px-2 text-xs">
-				SET UP AUTOPAY
-			</Button>
+			<Button size="xs" class="mr-4 mt-1 w-fit px-2 text-xs">SET UP AUTOPAY</Button>
 		</div>
 	</div>
 </div>
