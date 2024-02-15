@@ -131,7 +131,7 @@
 				onClick={resendButtonClicked}>RESEND OTP</Button
 			>
 		{:else}
-			<div>00: {countDisplayNum < 10 ? '0' : ''}{countDisplayNum}</div>
+			<div class="text-title">00: {countDisplayNum < 10 ? '0' : ''}{countDisplayNum}</div>
 		{/if}
 	{/if}
 	<div class="otp-input-container">

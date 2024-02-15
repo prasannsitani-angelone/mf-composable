@@ -350,7 +350,7 @@
 		</div>
 		<section class="mt-3 flex flex-col items-center justify-center">
 			<article class="mb-1 flex items-center justify-start text-xs font-normal text-body">
-				<WMSIcon width={16} height={16} name="clock-bold" class="mr-1" />
+				<WMSIcon width={16} height={16} name="clock-bold" stroke="var(--TITLE)" class="mr-1" />
 				<span> Estimated Credit Date </span>
 			</article>
 			<article class="text-base font-normal text-title">

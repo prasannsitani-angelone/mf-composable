@@ -19,7 +19,7 @@
 					{bankName}
 				</div>
 			</div>
-			<div class="ml-2 flex flex-row items-center text-xs font-normal text-black-bolder">
+			<div class="ml-2 flex flex-row items-center text-xs font-normal text-title">
 				<div class="mr-1 h-1 w-1 rounded-full bg-body" />
 				<div class="mr-1 h-1 w-1 rounded-full bg-body" />
 				<div class="mr-1 h-1 w-1 rounded-full bg-body" />

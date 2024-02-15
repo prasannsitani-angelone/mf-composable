@@ -394,7 +394,7 @@
 						logoUrl={folioHolding?.logoUrl}
 						schemeName={folioHolding?.schemeName}
 						orderTypeText="SWITCH OUT"
-						orderTypeBgColor="bg-secondary"
+						orderTypeBgColor="bg-tint12-secondary !text-title"
 						schemeNameClass="!font-normal !text-title"
 					>
 						<footer slot="footer" class="mb-6 flex justify-between bg-background px-4 py-2">
@@ -426,7 +426,14 @@
 
 				<svelte:fragment slot="switchIcon">
 					<div class="z-20 -my-1 flex max-h-0 items-center self-center">
-						<WMSIcon height={40} width={40} name="chevron-down" />
+						<WMSIcon
+							height={40}
+							width={40}
+							name="chevron-down"
+							background="var(--BACKGROUND-ALT)"
+							border="var(--BORDER)"
+							storke="var(--PRIMARY)"
+						/>
 					</div>
 				</svelte:fragment>
 
@@ -438,7 +445,7 @@
 							logoUrl={switchInFund?.logoUrl}
 							schemeName={switchInFund?.schemeName}
 							orderTypeText="SWITCH IN"
-							orderTypeBgColor="bg-secondary-alt"
+							orderTypeBgColor="bg-tint12-secondary-alt !text-title"
 							schemeNameClass="!font-normal !text-title"
 						>
 							<div class="flex items-center justify-center border-t" slot="footer">

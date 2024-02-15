@@ -2,9 +2,9 @@
 	import Button from '$components/Button.svelte';
 	import type { ITab } from '$lib/types/ITab';
 	const activeTabClass =
-		'border-b-[3px] rounded-none text-primary pb-4 border-primary hover:border-primary';
+		'border-b-[3px] rounded-none !text-primary pb-4 border-primary hover:border-primary';
 	const inactiveTabClass =
-		'text-body rounded-none  pb-4 border-b-[3px] border-b-[3px] hover:border-border';
+		'!text-body rounded-none border-border pb-4 border-b-[3px] border-b-[3px] hover:border-border';
 	let activeTab: string;
 	let tabs: ITab[];
 

@@ -86,7 +86,7 @@
 									<span
 										class="text-base font-medium {schemes?.returns3yr > 0
 											? 'text-buy'
-											: 'text-black-bolder'}">{schemes?.returns3yr?.toFixed(2)}%</span
+											: 'text-title'}">{schemes?.returns3yr?.toFixed(2)}%</span
 									>
 								</p>
 							</div>

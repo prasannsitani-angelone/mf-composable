@@ -2,6 +2,7 @@
 	import { Doughnut } from 'svelte-chartjs';
 	import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, CategoryScale } from 'chart.js';
 	import merge from 'lodash.merge';
+	import { getRGBACssVar } from '$lib/utils/colors';
 
 	ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale);
 
@@ -186,7 +187,7 @@
 					}
 					// text
 					ctx.font = headingStyle;
-					ctx.fillStyle = '#2A394E';
+					ctx.fillStyle = `${getRGBACssVar('--TITLE', 1)}`;
 					const metrics = ctx.measureText(heading);
 					ctx.fillText(heading, cx - metrics.width / 2, cy);
 					ctx.restore();

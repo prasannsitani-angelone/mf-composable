@@ -32,7 +32,7 @@
 	<hr />
 	<div class="flex items-center justify-between pt-2 text-body">
 		<div class="flex">
-			<div class="pr-1"><WMSIcon name={icon} height={16} width={16} stroke="#425061" /></div>
+			<div class="pr-1"><WMSIcon name={icon} height={16} width={16} stroke="var(--BODY)" /></div>
 			<div class={messageStyle}>{message}</div>
 		</div>
 		<div>

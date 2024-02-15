@@ -407,10 +407,9 @@
 		showIndexedChartForMobile = index;
 	};
 
-	const inactiveButtonClass =
-		'font-normal bg-background-alt !text-title/80 border hover:bg-inherit';
+	const inactiveButtonClass = 'font-normal bg-background-alt !text-body border hover:bg-inherit';
 	const inactiveMobileButtonClass =
-		'font-normal bg-background-alt text-title/80 border-0 border-background-alt';
+		'font-normal bg-background-alt text-title border-0 border-background-alt';
 	const disabledClass = '!border-border !bg-background-alt';
 
 	const equityDebtTabSwitchAnalyticsFunc = () => {

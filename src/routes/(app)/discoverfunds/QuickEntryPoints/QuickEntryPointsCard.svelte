@@ -24,7 +24,7 @@
 		<div class="flex items-center">
 			{#if liveNFO}
 				<div
-					class="bg-red-card mr-1 h-4 w-12 items-center rounded-lg text-center text-[10px] text-background-alt"
+					class="mr-1 h-4 w-12 items-center rounded-lg bg-sell text-center text-[10px] text-background-alt"
 				>
 					Live ({liveNFO})
 				</div>

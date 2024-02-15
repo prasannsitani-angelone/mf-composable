@@ -57,7 +57,7 @@
 		</article>
 		<article>
 			<div>
-				<VerticalLineSeparatorIcon />
+				<VerticalLineSeparatorIcon opacity={1} />
 			</div>
 		</article>
 		<article class="flex flex-1 flex-col items-center">

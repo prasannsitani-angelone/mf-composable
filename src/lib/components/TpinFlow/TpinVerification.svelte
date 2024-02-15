@@ -503,7 +503,7 @@
 				<slot name="heading">
 					<div class="flex items-center justify-between px-4 py-3 md:px-8 md:py-6">
 						<div>
-							<span class="mr-1 text-xl"> TPIN Verification </span>
+							<span class="mr-1 text-xl text-title"> TPIN Verification </span>
 						</div>
 						<WMSIcon
 							width={24}

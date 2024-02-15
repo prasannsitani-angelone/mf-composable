@@ -257,7 +257,7 @@
 					</div>
 				</div>
 			{:else}
-				<SkeletonRectangle class="h-20 w-full" />
+				<SkeletonRectangle class="h-20 w-full !bg-border" />
 			{/if}
 		</div>
 	</section>

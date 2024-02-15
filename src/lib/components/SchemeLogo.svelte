@@ -17,7 +17,7 @@
 </script>
 
 <div
-	class="mr-3 flex {iconSize} shrink-0 items-center justify-center rounded-full border object-cover group-hover:bg-background-alt {$$props.class}"
+	class="light mr-3 flex bg-background-alt {iconSize} shrink-0 items-center justify-center rounded-full border object-cover group-hover:bg-background-alt {$$props.class}"
 >
 	<img {src} loading={lazy} {alt} class=" aspect-square {imageClass}" width="100%" height="100%" />
 </div>

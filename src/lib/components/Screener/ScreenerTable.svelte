@@ -68,10 +68,7 @@
 				>
 
 				<Td class="border-none !pr-0 text-right align-top"
-					><span
-						class="text-base font-medium text-title {funds?.returns3yr > 0
-							? 'text-buy'
-							: 'text-black-bolder'}"
+					><span class="text-base font-medium {funds?.returns3yr > 0 ? 'text-buy' : 'text-title'}"
 						>{funds?.returns3yr > 0 ? `${funds?.returns3yr?.toFixed(2)}%` : '-'}</span
 					></Td
 				>

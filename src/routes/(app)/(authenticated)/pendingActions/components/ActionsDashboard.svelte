@@ -147,7 +147,7 @@
 		{/each}
 	{/if}
 	{#if actionsData?.instalmentFailedOrders?.length > 0}
-		<div class="py-2 font-medium">
+		<div class="py-2 font-medium text-title">
 			{actionsData?.instalmentFailedOrders?.length} SIP Payments Missed
 		</div>
 		{#each actionsData?.instalmentFailedOrders as order}

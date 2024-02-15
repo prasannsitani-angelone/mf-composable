@@ -11,7 +11,7 @@
 	class="mx-3 mt-2 flex flex-col items-center justify-center rounded-lg bg-background-alt px-8 pb-4"
 >
 	<div class="pb-4 pt-8">
-		<WMSIcon height={184} width={160} name="switch-in" />
+		<WMSIcon height={184} width={160} name="switch-in" fill="var(--BACKGROUND-ALT)" />
 	</div>
 
 	<div class="flex items-center justify-center">

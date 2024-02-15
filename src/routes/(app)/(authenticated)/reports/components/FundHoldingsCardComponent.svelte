@@ -112,10 +112,10 @@
 				<svelte:fragment slot="content">
 					<section class="px-4 text-sm md:px-8">
 						<article class="flex flex-col">
-							<p class="text-xs text-gray-500">Date</p>
+							<p class="text-xs text-body">Date</p>
 							<div class="mb-3 flex items-center border-b" on:click={toggleShowCalendar}>
 								{#if date}
-									<span class="test font-normal">{displayDate}</span>
+									<span class="test font-normal text-title">{displayDate}</span>
 								{:else}
 									<span class="text-base font-normal text-disabled">DD/MM/YYYY</span>
 								{/if}
