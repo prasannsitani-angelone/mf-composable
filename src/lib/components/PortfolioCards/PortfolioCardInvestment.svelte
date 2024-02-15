@@ -22,13 +22,13 @@
 
 	const viewPortfolioAnalysisAnalyticsFunc = () => {
 		const eventMetaData = {
-			CurrentValue: parseFloat(investmentSummary?.currentValue?.toFixed(2)),
-			TotalInvestment: parseFloat(investmentSummary?.investedValue?.toFixed(2)),
+			CurrentValue: parseFloat(investmentSummary?.currentValue?.toFixed(0)),
+			TotalInvestment: parseFloat(investmentSummary?.investedValue?.toFixed(0)),
 			OverallReturn: `${investmentSummary?.returnsValue?.toFixed(
-				2
+				0
 			)} (${investmentSummary?.returnsAbsolutePer?.toFixed(2)}%)`,
 			TodaysReturn: `${investmentSummary?.previousDayReturns?.toFixed(
-				2
+				0
 			)} (${investmentSummary?.previousDayReturnPercentage?.toFixed(2)}%)`
 		};
 		viewPortfolioAnalysisAnalytics(eventMetaData);
@@ -51,13 +51,13 @@
 
 	function logToggleClickEvent() {
 		const eventMetaData = {
-			CurrentValue: parseFloat(investmentSummary?.currentValue?.toFixed(2)),
-			TotalInvestment: parseFloat(investmentSummary?.investedValue?.toFixed(2)),
+			CurrentValue: parseFloat(investmentSummary?.currentValue?.toFixed(0)),
+			TotalInvestment: parseFloat(investmentSummary?.investedValue?.toFixed(0)),
 			OverallReturn: `${investmentSummary?.returnsValue?.toFixed(
-				2
+				0
 			)} (${investmentSummary?.returnsAbsolutePer?.toFixed(2)}%)`,
 			TodaysReturn: `${investmentSummary?.previousDayReturns?.toFixed(
-				2
+				0
 			)} (${investmentSummary?.previousDayReturnPercentage?.toFixed(2)}%)`
 		};
 		portfolioCardExpandClickEvent(eventMetaData);
@@ -65,13 +65,13 @@
 
 	function logToggleCardExpandedEvent() {
 		const eventMetaData = {
-			CurrentValue: parseFloat(investmentSummary?.currentValue?.toFixed(2)),
-			TotalInvestment: parseFloat(investmentSummary?.investedValue?.toFixed(2)),
+			CurrentValue: parseFloat(investmentSummary?.currentValue?.toFixed(0)),
+			TotalInvestment: parseFloat(investmentSummary?.investedValue?.toFixed(0)),
 			OverallReturn: `${investmentSummary?.returnsValue?.toFixed(
-				2
+				0
 			)} (${investmentSummary?.returnsAbsolutePer?.toFixed(2)}%)`,
 			TodaysReturn: `${investmentSummary?.previousDayReturns?.toFixed(
-				2
+				0
 			)} (${investmentSummary?.previousDayReturnPercentage?.toFixed(2)}%)`,
 			XIRR: `${investmentSummary.xirr?.toFixed(2)}%`
 		};
@@ -85,8 +85,8 @@
 			<div class="text-xs">Current Value</div>
 			<div data-testid="portfolioCurrentValue" class=" text-lg font-normal">
 				₹{investmentSummary?.currentValue
-					? addCommasToAmountString(investmentSummary?.currentValue?.toFixed(2))
-					: '0.00'}
+					? addCommasToAmountString(investmentSummary?.currentValue?.toFixed(0))
+					: '0'}
 			</div>
 		</article>
 		{#if investmentSummary && investmentSummary.investedValue && investmentSummary.investedValue !== 0 && !isFamilyPortfolio}
@@ -120,8 +120,8 @@
 					<div class=" text-xs font-normal">Total Invested</div>
 					<div class=" text-sm font-normal" data-testid="portfolioInvestedValue">
 						₹{investmentSummary?.investedValue
-							? addCommasToAmountString(investmentSummary?.investedValue?.toFixed(2))
-							: '0.00'}
+							? addCommasToAmountString(investmentSummary?.investedValue?.toFixed(0))
+							: '0'}
 					</div>
 				</article>
 				<article class=" flex-1 text-right">
@@ -142,8 +142,8 @@
 								>{investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
 									? '- '
 									: ''}₹{investmentSummary?.returnsValue
-									? addCommasToAmountString(Math.abs(investmentSummary?.returnsValue)?.toFixed(2))
-									: '0.00'}
+									? addCommasToAmountString(Math.abs(investmentSummary?.returnsValue)?.toFixed(0))
+									: '0'}
 							</span>
 						</div>
 
@@ -192,9 +192,9 @@
 									? '- '
 									: ''}₹{investmentSummary?.previousDayReturns
 									? addCommasToAmountString(
-											Math.abs(investmentSummary?.previousDayReturns)?.toFixed(2)
+											Math.abs(investmentSummary?.previousDayReturns)?.toFixed(0)
 									  )
-									: '0.00'}
+									: '0'}
 							</span>
 							<span
 								class="ml-1 font-normal {investmentSummary?.previousDayReturns &&

@@ -169,7 +169,7 @@
 								<span class="text-xs font-normal text-body sm:text-sm">Current</span><span
 									class="scheme-current-value text-sm font-medium text-title"
 									>₹{schemes?.currentValue?.toString()
-										? addCommasToAmountString(schemes?.currentValue?.toFixed(2)?.toString())
+										? addCommasToAmountString(schemes?.currentValue?.toFixed(0)?.toString())
 										: '-'}</span
 								>
 							</div>
@@ -193,7 +193,7 @@
 											class="scheme-invested-value text-xs font-normal text-title max-sm:text-sm sm:text-sm sm:font-medium"
 										>
 											₹{schemes?.investedValue?.toString()
-												? addCommasToAmountString(schemes?.investedValue?.toFixed(2)?.toString())
+												? addCommasToAmountString(schemes?.investedValue?.toFixed(0)?.toString())
 												: '-'}
 										</div>
 									{/if}
@@ -222,9 +222,9 @@
 														? '- '
 														: ''}₹{schemes?.returnsValue?.toString()
 														? addCommasToAmountString(
-																Math.abs(schemes?.returnsValue)?.toFixed(2)?.toString()
+																Math.abs(schemes?.returnsValue)?.toFixed(0)?.toString()
 														  )
-														: '0.00'}
+														: '0'}
 												</span>
 
 												<span

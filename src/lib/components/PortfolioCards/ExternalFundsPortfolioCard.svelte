@@ -19,8 +19,8 @@
 			<div class="text-xs md:text-sm">Total Invested</div>
 			<div class="text-[18px] font-normal md:text-xl">
 				₹{investmentSummary?.investedValue
-					? addCommasToAmountString(investmentSummary?.investedValue?.toFixed(2))
-					: '0.00'}
+					? addCommasToAmountString(investmentSummary?.investedValue?.toFixed(0))
+					: '0'}
 			</div>
 		</article>
 
@@ -28,8 +28,8 @@
 			<div class="text-xs md:text-sm">Current Value</div>
 			<div class="text-[18px] font-normal md:text-xl">
 				₹{investmentSummary?.currentValue
-					? addCommasToAmountString(investmentSummary?.currentValue?.toFixed(2))
-					: '0.00'}
+					? addCommasToAmountString(investmentSummary?.currentValue?.toFixed(0))
+					: '0'}
 			</div>
 		</article>
 	</section>
@@ -74,8 +74,8 @@
 					{investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
 						? '-'
 						: ''}₹{investmentSummary?.returnsValue
-						? addCommasToAmountString(Math.abs(investmentSummary?.returnsValue)?.toFixed(2))
-						: '0.00'}
+						? addCommasToAmountString(Math.abs(investmentSummary?.returnsValue)?.toFixed(0))
+						: '0'}
 				</span>
 				<span>
 					({investmentSummary?.returnsValue && investmentSummary.returnsValue < 0

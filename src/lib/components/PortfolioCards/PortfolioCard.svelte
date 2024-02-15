@@ -14,13 +14,13 @@
 
 	const viewPortfolioAnalysisAnalyticsFunc = () => {
 		const eventMetaData = {
-			CurrentValue: parseFloat(investmentSummary?.currentValue?.toFixed(2)),
-			TotalInvestment: parseFloat(investmentSummary?.investedValue?.toFixed(2)),
+			CurrentValue: parseFloat(investmentSummary?.currentValue?.toFixed(0)),
+			TotalInvestment: parseFloat(investmentSummary?.investedValue?.toFixed(0)),
 			OverallReturn: `${investmentSummary?.returnsValue?.toFixed(
-				2
+				0
 			)} (${investmentSummary?.returnsAbsolutePer?.toFixed(2)}%)`,
 			TodaysReturn: `${investmentSummary?.previousDayReturns?.toFixed(
-				2
+				0
 			)} (${investmentSummary?.previousDayReturnPercentage?.toFixed(2)}%)`
 		};
 		viewPortfolioAnalysisAnalytics(eventMetaData);
@@ -34,13 +34,13 @@
 
 	const investmentCardClickAnalyticsFunc = () => {
 		const eventMetaData = {
-			CurrentValue: parseFloat(investmentSummary?.currentValue?.toFixed(2)),
-			TotalInvestment: parseFloat(investmentSummary?.investedValue?.toFixed(2)),
+			CurrentValue: parseFloat(investmentSummary?.currentValue?.toFixed(0)),
+			TotalInvestment: parseFloat(investmentSummary?.investedValue?.toFixed(0)),
 			OverallReturn: `${investmentSummary?.returnsValue?.toFixed(
-				2
+				0
 			)} (${investmentSummary?.returnsAbsolutePer?.toFixed(2)}%)`,
 			TodaysReturn: `${investmentSummary?.previousDayReturns?.toFixed(
-				2
+				0
 			)} (${investmentSummary?.previousDayReturnPercentage?.toFixed(2)}%)`
 		};
 		investmentCardClickAnalytics(eventMetaData);
@@ -64,8 +64,8 @@
 				<div class="text-xs md:text-sm">Current Value</div>
 				<div class="font-normal md:text-xl">
 					₹{investmentSummary?.currentValue
-						? addCommasToAmountString(investmentSummary?.currentValue?.toFixed(2))
-						: '0.00'}
+						? addCommasToAmountString(investmentSummary?.currentValue?.toFixed(0))
+						: '0'}
 				</div>
 			</article>
 
@@ -75,8 +75,8 @@
 					{investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
 						? '-'
 						: ''}₹{investmentSummary?.returnsValue
-						? addCommasToAmountString(Math.abs(investmentSummary?.returnsValue)?.toFixed(2))
-						: '0.00'}
+						? addCommasToAmountString(Math.abs(investmentSummary?.returnsValue)?.toFixed(0))
+						: '0'}
 					<span
 						class={investmentSummary?.returnsValue && investmentSummary.returnsValue >= 0
 							? 'text-xs text-green-buy'
@@ -96,8 +96,8 @@
 				<div class="text-xs">Current Value</div>
 				<div class="text-lg font-normal">
 					₹{investmentSummary?.currentValue
-						? addCommasToAmountString(investmentSummary?.currentValue?.toFixed(2))
-						: '0.00'}
+						? addCommasToAmountString(investmentSummary?.currentValue?.toFixed(0))
+						: '0'}
 				</div>
 			</article>
 		</section>
@@ -121,8 +121,8 @@
 							{investmentSummary?.investedValue && investmentSummary.investedValue < 0
 								? '-'
 								: ''}₹{investmentSummary?.investedValue
-								? addCommasToAmountString(Math.abs(investmentSummary?.investedValue)?.toFixed(2))
-								: '0.00'}
+								? addCommasToAmountString(Math.abs(investmentSummary?.investedValue)?.toFixed(0))
+								: '0'}
 						</span>
 					</div>
 				</article>
@@ -137,8 +137,8 @@
 						{investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
 							? '-'
 							: ''}₹{investmentSummary?.returnsValue
-							? addCommasToAmountString(Math.abs(investmentSummary?.returnsValue)?.toFixed(2))
-							: '0.00'}
+							? addCommasToAmountString(Math.abs(investmentSummary?.returnsValue)?.toFixed(0))
+							: '0'}
 						<span
 							class={investmentSummary?.returnsValue && investmentSummary.returnsValue >= 0
 								? 'text-xs text-green-buy'
