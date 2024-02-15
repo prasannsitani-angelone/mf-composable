@@ -315,11 +315,11 @@
 
 <div id="theme-layout" class={theme.name}>
 	<slot />
-</div>
 
-<LazyComponent
-	when={!($appStore.isSparkIOSUser || $appStore.isWebView || browserDetails?.isSupported)}
-	component={async () =>
-		await import('$components/UnsupportedBrowser/UnsupportedBrowserComponent.svelte')}
-	{browserDetails}
-/>
+	<LazyComponent
+		when={!($appStore.isSparkIOSUser || $appStore.isWebView || browserDetails?.isSupported)}
+		component={async () =>
+			await import('$components/UnsupportedBrowser/UnsupportedBrowserComponent.svelte')}
+		{browserDetails}
+	/>
+</div>

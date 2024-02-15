@@ -144,6 +144,9 @@
 							family: 'Roboto',
 							weight: 400
 						}
+					},
+					border: {
+						color: getRGBACssVar('--BORDER', 1)
 					}
 				}
 			},

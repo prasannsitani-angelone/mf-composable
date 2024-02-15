@@ -209,14 +209,14 @@
 			<div class="flex flex-col items-center justify-between sm:px-16 sm:pb-4 sm:pt-10">
 				{#if flow === 'REFRESH'}
 					<div class=""><WMSIcon width={92} height={92} name="clock-green" /></div>
-					<div class=" mt-6 text-xl">Refreshing Your Portfolio</div>
+					<div class=" mt-6 text-xl text-title">Refreshing Your Portfolio</div>
 					<div class="mb-8 mt-3 text-center text-sm font-normal text-body sm:text-base">
 						Fetching the latest data for your external investments from MFCentral. We will notify
 						you once your portfolio has been updated
 					</div>
 				{:else}
 					<div class=""><WMSIcon width={92} height={92} name="success-tick-circle" /></div>
-					<div class=" mt-6 text-xl">Updating your portfolio</div>
+					<div class=" mt-6 text-xl text-title">Updating your portfolio</div>
 					<div class="mb-8 mt-3 text-center text-sm font-normal text-body sm:text-base">
 						We are fetching your external investments from MFCentral. This could take some time. We
 						will notify you once your portfolio has been updated

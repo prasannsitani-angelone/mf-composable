@@ -34,7 +34,7 @@
 
 {#if showCTNudge}
 	<aside
-		class="flex w-full flex-col px-3 pt-3 {$$props.class}"
+		class="light flex w-full flex-col px-3 pt-3 {$$props.class}"
 		style="background-color: {clevertapnudgetopic?.bgColor}"
 	>
 		<ClevertapNotificationViewed {data} />

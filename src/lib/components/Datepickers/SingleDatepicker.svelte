@@ -44,9 +44,9 @@
 		width: 100%;
 		margin: auto;
 		justify-content: center;
-		background: #f4f6fb;
+		background: var(--BACKGROUND);
 		border-radius: 0.25rem;
-		color: #3f5bd9;
+		color: var(--PRIMARY);
 		font-family: 'Roboto';
 		font-style: normal;
 		font-weight: 500;
@@ -72,7 +72,7 @@
 	}
 
 	.dp-con :global(.calendar-view-header > div.calendar-view-pagination-controls > button:disabled) {
-		opacity: 0.5;
+		opacity: 0.3;
 	}
 
 	.dp-con :global(.calendar-view-header > div.calendar-view-pagination-controls > button > svg) {
@@ -82,7 +82,7 @@
 	.dp-con :global(.calendar-view .calendar-view-item.selected) {
 		background: rgba(63, 91, 217, 0.24) !important;
 		border: none;
-		color: #2a394e;
+		color: var(--TITLE);
 	}
 
 	.dp-con :global(.calendar-view) {
@@ -99,33 +99,33 @@
 		border-radius: 0.25rem !important;
 		font-size: 1rem !important;
 		font-weight: 500;
-		color: #2a394e;
+		color: var(--TITLE);
 		font-family: 'Roboto' !important;
 	}
 
 	.dp-con :global(.calendar-view .calendar-view-item:hover) {
-		background: #f3f3f3;
-		color: #3f5bd9;
+		background: var(--BACKGROUND-ALT);
+		color: var(--PRIMARY);
 	}
 
 	.dp-con :global(.calendar-view .calendar-view-item.out-of-range) {
-		opacity: 0.4;
+		color: var(--DISABLED);
 		font-weight: 300;
 	}
 
 	.dp-con :global(.calendar-view .calendar-view-item.disabled) {
-		opacity: 0.4;
+		color: var(--DISABLED);
 		font-weight: 300;
 	}
 
 	.dp-con :global(.calendar-view .calendar-view-item.type-day.current) {
 		background-color: transparent;
-		border: 1px solid rgb(63, 91, 217);
-		color: #2a394e;
+		border: 1px solid var(--PRIMARY);
+		color: var(--TITLE);
 	}
 
 	.dp-con :global(.calendar-view .calendar-view-table.view-days th) {
-		color: #2a394e !important;
+		color: var(--TITLE) !important;
 		font-family: 'Roboto';
 		font-weight: 300;
 		font-size: 1rem;
