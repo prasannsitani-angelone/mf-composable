@@ -9,7 +9,11 @@
 	} from './analytics';
 	import CarouselNative from '$components/Carousel/CarouselNative.svelte';
 	import CarouselItem from '$components/Carousel/CarouselItem.svelte';
-	import { sipBookTrendingCardImpressionEvent } from '$lib/analytics/sipbook/sipbook';
+	import {
+		sipBookTrendingCardClickEvent,
+		sipBookTrendingCardImpressionEvent,
+		sipBookTrendingCartClickEvent
+	} from '$lib/analytics/sipbook/sipbook';
 
 	let tableData: Array<WeeklyTopSchemesEntity>;
 
@@ -41,9 +45,7 @@
 			Cardrank: (index + 1).toString(),
 			version
 		};
-		const analyticsFunc = isSipBookPage
-			? sipBookTrendingCardImpressionEvent
-			: trendingCardClickEvent;
+		const analyticsFunc = isSipBookPage ? sipBookTrendingCardClickEvent : trendingCardClickEvent;
 		analyticsFunc(eventMetaData);
 	}
 
@@ -53,9 +55,7 @@
 			Fundname: schemes.schemeName,
 			Cardrank: (index + 1).toString()
 		};
-		const analyticsFunc = isSipBookPage
-			? sipBookTrendingCardImpressionEvent
-			: trendingCartClickEvent;
+		const analyticsFunc = isSipBookPage ? sipBookTrendingCartClickEvent : trendingCartClickEvent;
 		analyticsFunc(eventMetaData);
 	}
 </script>
