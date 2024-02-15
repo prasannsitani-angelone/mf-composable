@@ -799,8 +799,8 @@
 
 {#if showSearch}
 	<FundSearch
+		selectedSchemesList={schemeDetailsList}
 		isin={schemesSelected >= 1 ? schemeDetailsList?.[schemesSelected - 1]?.isin : ''}
-		schemeCode={schemesSelected >= 1 ? schemeDetailsList?.[schemesSelected - 1]?.schemeCode : ''}
 		firstFund={schemesSelected === 0}
 		bind:showModal={showSearch}
 		on:close={toggleSearch}

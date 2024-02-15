@@ -21,6 +21,7 @@
 		suggestedFundnameClickEvent
 	} from '../analytics';
 	import SuggestedFundsLoader from './SuggestedFundsLoader.svelte';
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 
 	const dispatch = createEventDispatcher();
 
@@ -29,7 +30,7 @@
 	let showSearch = false;
 	let firstFund = false;
 	let isin = '';
-	let schemeCode = '';
+	let selectedSchemesList: SchemeDetails[] = [];
 	let suggestedSchemes: OtherSchemeEntityOrSchemeInfoEntity[] = [];
 
 	const toggleModal = () => {
@@ -92,7 +93,22 @@
 		addFundsScreenImpressionEvent();
 	});
 
-	export { showModal, firstFund, isin, schemeCode };
+	const checkSchemeAlreadySelected = (scheme: SchemeDetails) => {
+		let isSchemeAlreadySelected = false;
+
+		selectedSchemesList?.forEach((selectedScheme) => {
+			if (
+				selectedScheme?.isin === scheme?.isin &&
+				selectedScheme?.schemeCode === scheme?.schemeCode
+			) {
+				isSchemeAlreadySelected = true;
+			}
+		});
+
+		return isSchemeAlreadySelected;
+	};
+
+	export { showModal, firstFund, isin, selectedSchemesList };
 </script>
 
 <Modal isModalOpen={showModal} on:backdropclicked={toggleModal}>
@@ -133,16 +149,18 @@
 						{#each suggestedSchemes as scheme, idx (idx)}
 							<!-- svelte-ignore a11y-click-events-have-key-events -->
 							<!-- svelte-ignore a11y-no-static-element-interactions -->
-							<div
-								on:click|preventDefault={() => {
-									handleSchemeSelected(scheme, idx);
-								}}
-							>
-								<SchemeCard schemes={scheme} titleClass="lg:flex-wrap" class="my-4 w-full pr-2">
-									<div slot="chip-overview" />
-									<div slot="rating" />
-								</SchemeCard>
-							</div>
+							{#if !checkSchemeAlreadySelected(scheme)}
+								<div
+									on:click|preventDefault={() => {
+										handleSchemeSelected(scheme, idx);
+									}}
+								>
+									<SchemeCard schemes={scheme} titleClass="lg:flex-wrap" class="my-4 w-full pr-2">
+										<div slot="chip-overview" />
+										<div slot="rating" />
+									</SchemeCard>
+								</div>
+							{/if}
 						{/each}
 					{/if}
 				</div>
@@ -187,7 +205,7 @@
 						</section>
 						<section class="absolute left-0 h-screen w-screen overflow-x-hidden md:w-full md:pb-20">
 							{#each resultsData || [] as scheme, idx (idx)}
-								{#if scheme?.isin !== isin && scheme?.schemeCode !== schemeCode}
+								{#if !checkSchemeAlreadySelected(scheme)}
 									<article
 										class="!m-3 flex cursor-pointer justify-between gap-2 !border-b border-border p-0 pb-4 lg:!m-2 lg:!border-border lg:p-2"
 										on:click|preventDefault={() => {
