@@ -15,14 +15,13 @@
 	};
 
 	let cookieEnabled = true;
-	let isNxtPage = $page?.route?.id?.search('/nxt') !== -1;
 
 	onMount(() => {
 		cookieEnabled = navigator?.cookieEnabled;
 	});
 </script>
 
-{#if isNxtPage}
+{#if pageMetaData?.showNxtHeader}
 	<NxtHeader />
 {:else if $page?.data?.deviceType?.isMobile || $page?.data?.deviceType?.isTablet}
 	{#if !pageMetaData.hideMobileHeader}

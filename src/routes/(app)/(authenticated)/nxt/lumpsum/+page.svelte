@@ -19,6 +19,9 @@
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
 	import Button from '$components/Button.svelte';
 	import FundDetailsLoader from '../../../(authenticated)/schemes/[fund_name]/FundDetailsLoader/FundDetailsLoader.svelte';
+	import { onMount } from 'svelte';
+	import { redirect } from '@sveltejs/kit';
+	import { browser } from '$app/environment';
 
 	export let data: PageData;
 
@@ -131,6 +134,16 @@
 			stopLoading();
 		}
 	};
+
+	onMount(() => {
+		if (data.isDifferentUser) {
+			if (browser) {
+				goto(`${base}/schemes/clientError`, { replaceState: true });
+			} else {
+				redirect(302, `${base}/schemes/clientError`);
+			}
+		}
+	});
 </script>
 
 <div>

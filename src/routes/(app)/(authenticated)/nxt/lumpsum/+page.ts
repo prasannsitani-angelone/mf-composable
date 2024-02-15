@@ -9,16 +9,21 @@ import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
 export const load = (async ({ url, fetch, parent }) => {
-	const parentData = await parent();
-
 	const params = url.searchParams.get('params');
 	const requestId = url.searchParams.get('requestId');
 	const decodedParams = decodeToObject(params || undefined);
 	let { schemeDetails } = decodedParams;
 	const { mandateDetails, clientDetails, orderDetails } = decodedParams;
+	const { clientCode } = clientDetails;
+	const parentData = await parent();
+	let isDifferentUser = false;
+
+	if (clientCode && clientCode !== parentData?.profile?.clientId) {
+		isDifferentUser = true;
+	}
 
 	const accountType = () => {
-		if (!clientDetails?.clientCode) {
+		if (!clientCode) {
 			return 'D';
 		}
 		return parentData?.profile?.dpNumber ? 'D' : 'P';
@@ -53,12 +58,14 @@ export const load = (async ({ url, fetch, parent }) => {
 	return {
 		layoutConfig: {
 			layoutType: 'FULL_WIDTH',
-			layoutBodyClass: 'h-full !max-w-full'
+			layoutBodyClass: 'h-full !max-w-full',
+			showNxtHeader: true
 		},
 		clientDetails,
 		orderDetails,
 		mandateDetails,
 		requestId,
+		isDifferentUser,
 		api: {
 			schemeDetails: browser ? getSchemeData() : await getSchemeData()
 		}
