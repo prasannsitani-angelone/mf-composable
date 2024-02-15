@@ -40,7 +40,6 @@
 	import SwpDetails from './components/SwpDetails.svelte';
 	import type { MandateWithBankDetails } from '$lib/types/IEmandate';
 	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
-	import { versionStore } from '$lib/stores/VersionStore';
 
 	export let data: PageData;
 
@@ -366,8 +365,8 @@
 					{:then previousPaymentDetails}
 						<InvestmentPad
 							class="block md:hidden"
-							schemeData={res.schemeData}
-							mandateData={versionStore.getVersion() === 'B' ? res?.mandateData : []}
+							schemeData={res?.schemeData}
+							mandateData={res?.mandateData}
 							fromInvestmentDetailsPage
 							{previousPaymentDetails}
 						/>
@@ -393,9 +392,9 @@
 				{:then previousPaymentDetails}
 					<InvestmentPad
 						class="sticky -top-2 mt-[52px] hidden md:block"
-						schemeData={res.schemeData}
+						schemeData={res?.schemeData}
 						fromInvestmentDetailsPage
-						mandateData={versionStore.getVersion() === 'B' ? res?.mandateData : []}
+						mandateData={res?.mandateData}
 						investmentNotAllowedText={investDisableText}
 						{previousPaymentDetails}
 					>
