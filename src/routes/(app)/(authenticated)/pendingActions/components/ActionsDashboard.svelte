@@ -127,7 +127,7 @@
 
 <section class="flex flex-col rounded-md bg-background-alt px-2 pb-2 sm:bg-background">
 	{#if actionsData?.instalmentPending?.length > 0}
-		<div class="py-2 font-medium">
+		<div class="py-2 font-medium text-title">
 			{actionsData?.instalmentPending?.length} Pending SIP Payments
 		</div>
 		{#each actionsData?.instalmentPending as order}
