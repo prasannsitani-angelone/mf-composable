@@ -26,6 +26,7 @@
 				on:linkClicked={() => bottomNavClickAnalytics(nav.label)}
 				class="inline-block w-full justify-center py-3 text-center"
 				pathConversion={false}
+				disableRedirect={isActive}
 			>
 				<svelte:component
 					this={isActive ? nav.activeIcon : nav.icon}

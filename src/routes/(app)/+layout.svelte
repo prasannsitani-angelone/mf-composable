@@ -88,6 +88,7 @@
 		});
 
 		browserHistoryStore.updateStore({
+			initialUrl: $page.url.href,
 			historyLength: window.history.length
 		});
 	});

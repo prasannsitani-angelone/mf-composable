@@ -2,10 +2,12 @@ import { writable } from 'svelte/store';
 
 export interface BroswerHistory {
 	historyLength?: number | string;
+	initialUrl?: string;
 }
 
 const initalStore: BroswerHistory = {
-	historyLength: ''
+	historyLength: '',
+	initialUrl: ''
 };
 
 function CreateStore() {

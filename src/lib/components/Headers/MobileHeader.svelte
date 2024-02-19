@@ -57,7 +57,7 @@
 		<article class="flex w-full items-center justify-between">
 			<article class="flex items-center justify-start">
 				<slot name="icon">
-					{#if (showCloseIcon || $browserHistoryStore.historyLength === 1) && (($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID && $appStore.closecta) || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS)}
+					{#if (showCloseIcon || $browserHistoryStore.historyLength === 1 || $browserHistoryStore.initialUrl === $page.url.href) && (($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID && $appStore.closecta) || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS)}
 						<WMSIcon
 							height={24}
 							width={24}
