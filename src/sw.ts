@@ -65,7 +65,7 @@ registerRoute(
 			new CacheableResponsePlugin({ statuses: [200] }),
 			new ExpirationPlugin({
 				maxEntries: 500,
-				maxAgeSeconds: 60 * 60 * 12
+				maxAgeSeconds: 60 * 60 * 24 * 5 // 5 days cache
 			}),
 			new BroadcastUpdatePlugin({
 				headersToCheck: [swCacheHeader]
