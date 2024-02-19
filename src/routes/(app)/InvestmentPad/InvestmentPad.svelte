@@ -844,6 +844,7 @@
 
 	function getNFODetailsCueCard() {
 		return {
+			name: 'NFO',
 			component: NFODetailsCueCard,
 			props: {
 				schemeDetails: schemeData
@@ -866,6 +867,7 @@
 
 	function getFundOverviewCueCard() {
 		return {
+			name: 'Graph',
 			component: FundOverviewCueCard,
 			props: { schemeDetails: schemeData },
 			analyticsFunction: () => {
@@ -890,6 +892,7 @@
 
 	function getSchemeInformationCueCard() {
 		return {
+			name: 'Basic Info',
 			component: SchemeInformationCueCard,
 			props: {
 				schemeDetails: schemeData,
@@ -912,6 +915,7 @@
 
 	function getRiskAndRatingCueCard() {
 		return {
+			name: 'RatingRisk',
 			component: RiskAndRatingCueCard,
 			props: {
 				schemeDetails: schemeData,
@@ -980,11 +984,14 @@
 		showFundDetailCarousel = false;
 		const cardrank = currentVisibleCueCardIndex + 1;
 		const islastcard = currentVisibleCueCardIndex === fundDetailsCarouselItems.length - 1;
+		const cardName = fundDetailsCarouselItems[currentVisibleCueCardIndex]?.name;
+
 		proceedToInvestCueCardClickEvent({
 			ISIN: schemeData.isin,
 			isOpenNFO: isNFO,
 			cardrank,
-			islastcard
+			islastcard,
+			CardName: cardName
 		});
 	};
 

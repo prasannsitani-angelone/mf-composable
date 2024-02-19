@@ -68,7 +68,9 @@
 		{/each}
 	</ul>
 
-	<p class="mb-3 text-lg font-medium text-title">Calculate SIP Returns</p>
+	<p class="mb-4 text-lg font-medium text-title">Calculate SIP Returns</p>
+
+	<p class="text-xs font-normal text-title">Choose SIP Amount</p>
 
 	<div class="slider flex items-center" id="disable-swipe">
 		<Slider

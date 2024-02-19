@@ -41,7 +41,7 @@
 			<p class="pb-4 text-sm font-normal text-body">Date</p>
 			<div class="flex items-center justify-between border-b pb-3">
 				{#if date}
-					<span class="tetx-title text-base font-normal">{displayDate}</span>
+					<span class="text-base font-normal text-title">{displayDate}</span>
 				{:else}
 					<span class="text-base font-normal text-disabled">DD/MM/YYYY</span>{/if}
 				<CalendarIcon class="mb-1 ml-auto" />

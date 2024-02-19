@@ -123,7 +123,7 @@
 						on:click={() => updateShowFromDateDatepicker()}
 					>
 						{#if toDate}
-							<span class="tetx-title text-base font-normal">{displayToDate}</span>
+							<span class="text-base font-normal text-title">{displayToDate}</span>
 						{:else}
 							<span class="text-base font-normal text-disabled">DD/MM/YYYY</span>
 						{/if}
