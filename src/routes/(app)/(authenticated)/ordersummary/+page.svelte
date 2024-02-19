@@ -65,17 +65,13 @@
 			FundName: isSIPOrder ? sd?.schemeName : od?.schemeName,
 			Isin: isSIPOrder ? sd?.isin : od?.isin,
 			Amount: isSIPOrder ? sd?.installmentAmount : od?.amount,
-			InvestmentType: isSIPOrder
-				? orderData?.data?.data?.firstOrder === 'N'
-					? 'SIP-installment'
-					: 'SIP'
-				: 'OTI',
+			InvestmentType: isSIPOrder ? 'SIP' : 'OTI',
 			NextSIPPayment: isSIPOrder ? getNextSIPDate(sd) : null,
 			FirstSIPPayment: isSIPOrder ? firstTimePayment : null,
 			AutoPayBank: emandateBankDetails?.bankName,
 			AutopayCtaExist: !sd?.accountNo,
 			PaymentMethod: sd?.isFtpWithMandate ? 'autopay' : od?.paymentMode,
-			PaymentBank: isSIPOrder ? sd?.bankName : od?.bankName,
+			PaymentBank: od?.bankName,
 			Status: headerContent?.status,
 			Remarks: od?.remarks,
 			integratedUpiFlow: isIntegeratedFlow,
