@@ -141,10 +141,20 @@
 		});
 	};
 
+	const sipbookDashboardEmptyScreenOpenAnalyticsFunc = () => {
+		if (!sipBookData?.sips?.length) {
+			const eventMetaData = {
+				InactiveSIPsCTA: showInactiveSipsCta ? 'Yes' : 'No'
+			};
+			sipbookDashboardEmptyStateScreenOpenAnalytics(eventMetaData);
+		}
+	};
+
 	onMount(async () => {
 		await Promise.allSettled([getNudges(), getSipbookSummary()]);
 
 		await initializeClevertapData();
+		sipbookDashboardEmptyScreenOpenAnalyticsFunc();
 	});
 
 	const sipPaymentDueNudgeImpressionAnalyticsFunc = () => {
@@ -165,25 +175,18 @@
 	};
 
 	const sipbookDashboardScreenOpenAnalyticsFunc = () => {
-		if (sipBookData?.sips?.length) {
-			const eventMetaData = {
-				ActiveSIPs: sipBookData?.sips?.length,
-				MonthlySIPTotal: sipBookData?.bookOverView?.totalSipInstallmentAmount,
-				AutomatedSips: automatedSipsCount,
-				SipList: sipBookData?.sips?.map((sip) => ({
-					FundName: sip?.schemeName,
-					Amount: sip?.installmentAmount,
-					NextSIPDate: getDateTimeString(sip?.nextSipDueDate, 'DATE', true)
-				})),
-				SipHealthScore: `${sipHealthScore}/100`
-			};
-			sipbookDashboardScreenOpenAnalytics(eventMetaData);
-		} else {
-			const eventMetaData = {
-				InactiveSIPsCTA: showInactiveSipsCta ? 'Yes' : 'No'
-			};
-			sipbookDashboardEmptyStateScreenOpenAnalytics(eventMetaData);
-		}
+		const eventMetaData = {
+			ActiveSIPs: sipBookData?.sips?.length,
+			MonthlySIPTotal: sipBookData?.bookOverView?.totalSipInstallmentAmount,
+			AutomatedSips: automatedSipsCount,
+			SipList: sipBookData?.sips?.map((sip) => ({
+				FundName: sip?.schemeName,
+				Amount: sip?.installmentAmount,
+				NextSIPDate: getDateTimeString(sip?.nextSipDueDate, 'DATE', true)
+			})),
+			SipHealthScore: `${sipHealthScore}/100`
+		};
+		sipbookDashboardScreenOpenAnalytics(eventMetaData);
 	};
 
 	$: if (paymentDueSips.length) {
