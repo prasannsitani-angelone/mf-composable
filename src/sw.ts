@@ -57,7 +57,11 @@ cleanupOutdatedCaches();
 
 registerRoute(
 	({ request }) => {
-		return request.mode === 'navigate' && request.url.includes('/mutual-funds/discoverfunds');
+		return (
+			request.mode === 'navigate' &&
+			request.url.includes('/mutual-funds/discoverfunds') &&
+			request.headers.get('User-Agent')?.includes('wv')
+		); // enable cache only for Webview
 	},
 	new StaleWhileRevalidate({
 		cacheName: 'pages',
