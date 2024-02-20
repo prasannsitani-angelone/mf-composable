@@ -10,6 +10,7 @@ import type { FetchType } from '$lib/types/Fetch';
 import { removeAuthHeaders } from './helpers/logging';
 import { callNativeMethod, checkNativeMethodExist } from './callNativeMethod';
 import { isTokenUpdated, setUserTokenInCookie } from './helpers/token';
+import { base } from '$app/paths';
 
 let refreshingToken = false;
 
@@ -26,7 +27,7 @@ const callRefreshTokenMethod = async (refreshToken: string) => {
 	Logger.info({
 		type: 'Refreshing Token through api'
 	});
-	const res = await useFetch('api/refreshToken', {
+	const res = await useFetch(`${base}/api/refreshToken`, {
 		method: 'POST',
 		body: JSON.stringify({
 			refresh_token: refreshToken
@@ -159,7 +160,7 @@ export const useFetch = async (
 				type: 'Network Response Success',
 				params
 			});
-		} else if (res.status === 401) {
+		} else if (res.status === 401 && !url.includes('api/refreshToken')) {
 			Logger.error({
 				log_type: getLogType(opts.method),
 				type: 'Token Expired',
