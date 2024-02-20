@@ -13,7 +13,7 @@
 		<div class="flex items-center">
 			<SchemeLogo src={portfolioPack.packLogoUrl} />
 			<div class="text-xs">
-				<p class="text-base font-medium">{portfolioPack.packName}</p>
+				<p class="text-base font-medium text-title">{portfolioPack.packName}</p>
 				<p class="pt-1 text-xs text-body">
 					{portfolioPack.description}
 				</p>

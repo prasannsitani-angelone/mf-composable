@@ -20,7 +20,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	class="relative cursor-pointer overflow-hidden rounded-lg bg-background-alt shadow-csm {$$props.class}"
+	class="light relative cursor-pointer overflow-hidden rounded-lg bg-background-alt shadow-csm {$$props.class}"
 	on:click={toGoToTutorialDetails}
 >
 	<div class="my-3 flex flex-1 flex-row items-center gap-3 px-3">

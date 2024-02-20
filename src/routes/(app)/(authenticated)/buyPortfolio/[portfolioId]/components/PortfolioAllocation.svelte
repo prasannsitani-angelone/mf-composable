@@ -155,7 +155,7 @@
 			<svelte:fragment slot="weightage" let:inputVar>
 				<div class="flex items-center justify-center pt-2 text-center text-sm">
 					<WMSIcon name="eclipse" width={8} height={8} stroke={inputVar.color} />
-					<div class="pl-2">{inputVar.weightage}%</div>
+					<div class="pl-2 text-title">{inputVar.weightage}%</div>
 				</div>
 			</svelte:fragment>
 		</LinearChart>

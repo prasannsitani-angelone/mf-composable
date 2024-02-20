@@ -70,7 +70,7 @@
 						</svelte:fragment>
 
 						<svelte:fragment slot="detailsFooterDescription">
-							<p class="text-xs">
+							<p class="text-xs text-body">
 								<span class=" font-medium">
 									{addCommasToAmountString(scheme?.noOfClientInvested)}
 								</span>

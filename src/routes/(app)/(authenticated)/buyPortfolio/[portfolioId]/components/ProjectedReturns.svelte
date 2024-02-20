@@ -16,7 +16,7 @@
 </script>
 
 <section>
-	<div class="text-base font-medium">
+	<div class="text-base font-medium text-title">
 		Projected value for your Portfolio in 5 years at {threeYearReturns.toFixed(2)}% returns annually
 	</div>
 	<div

@@ -10,6 +10,7 @@
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { modifiedGoto } from '$lib/utils/goto';
 	import { WMSIcon } from 'svelte-components';
+	import { themeStore } from '$lib/stores/ThemeStore';
 
 	export let schemes: WeeklyTopSchemesEntity;
 	export let clazz = '';
@@ -68,7 +69,9 @@
 					: 'rounded-b'}"
 			>
 				<img
-					src="{base}/images/TrendingFundsBackground.svg"
+					src={$themeStore.name === 'dark'
+						? `${base}/images/TrendingFundsBackgroundDark.svg`
+						: `${base}/images/TrendingFundsBackground.svg`}
 					class="absolute h-full w-full"
 					decoding="sync"
 					alt="Trending Funds"

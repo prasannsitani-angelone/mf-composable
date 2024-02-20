@@ -29,7 +29,7 @@
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <article
-	class="slide-down relative mt-2 flex hover:cursor-pointer {$$props.class}"
+	class="light slide-down relative mt-2 flex hover:cursor-pointer {$$props.class}"
 	data-testid="startFirstSipNudge"
 	in:slide={{ duration: 300 }}
 	on:click={redirectToStartFirstSipLandingPage}

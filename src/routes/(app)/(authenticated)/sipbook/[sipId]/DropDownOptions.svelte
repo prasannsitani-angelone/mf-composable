@@ -83,7 +83,7 @@
 		{/if}
 	{/each}
 	{#if packId}
-		<div class="mx-6 mb-2 flex rounded-lg bg-[#FEEED4] p-4 text-title">
+		<div class="light mx-6 mb-2 flex rounded-lg bg-[#FEEED4] p-4 text-title">
 			<div>
 				<WMSIcon name="info-doughnut" fill="#FACE80" />
 			</div>
