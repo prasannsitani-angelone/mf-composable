@@ -156,7 +156,9 @@ export const load = (async ({ fetch, params, url, parent }) => {
 	const getMandateData = async () => {
 		const mandateResponse = await getEmandateDataFunc({
 			amount: 0,
-			sipDate: getCompleteSIPDateBasedonDD(4, new Date(), 30)
+			sipDate: getCompleteSIPDateBasedonDD(4, new Date(), 30),
+			mandateType: 'UPI,YES',
+			mandateFor: 'LUMPSUM'
 		});
 		const mandateData = getAllMandates(mandateResponse?.data);
 		return mandateData;
