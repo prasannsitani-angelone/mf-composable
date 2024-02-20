@@ -95,9 +95,11 @@
 	$: isTablet = $page?.data?.deviceType?.isTablet;
 
 	const { isExternal = false, showEditSip = false } = $page.data.urlSource;
-	const autopayRedirectParams = encodeObject({
-		acc: bankDetails?.[0]?.accNO
-	});
+
+	const autopayRedirectParams = () =>
+		encodeObject({
+			acc: bankDetails?.[0]?.accNO
+		});
 
 	const bankAccNumToLogoMap = () => {
 		const accNumToLogoMap = {};
@@ -404,7 +406,7 @@
 	});
 
 	const handleLinkAutopayCtaClick = () => {
-		goto(`${base}/autopay/manage/setup?params=${autopayRedirectParams}`);
+		goto(`${base}/autopay/manage/setup?params=${autopayRedirectParams()}`);
 	};
 	const onOptionSelect = (event: { detail: { key: any } }) => {
 		updateSipBookStore();
@@ -485,7 +487,7 @@
 								description:
 									mandateList.length > 0 ? linkSipNudgeDescription : setupNudgeDescription,
 								heading: 'Automate Future SIP Payments',
-								link: `/autopay/manage/setup?params=${autopayRedirectParams}`,
+								link: `/autopay/manage/setup?params=${autopayRedirectParams()}`,
 								linkHeading: mandateList.length > 0 ? linkAutopayHeading : setupAutopayHeading,
 								type: 'warn'
 							}}

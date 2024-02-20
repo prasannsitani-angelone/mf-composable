@@ -18,6 +18,7 @@
 	import { SEO } from 'svelte-components';
 	import SipHealthNudge from '$components/SipHealth/Nudge/SipHealthNudge.svelte';
 	import TaxAnalysis from './components/TaxAnalysis.svelte';
+	import { base } from '$app/paths';
 
 	const graphYearSelectAnalyticsFunc = (selectedTag) => {
 		let formattedSelectedTag = '';
@@ -52,7 +53,10 @@
 		portfolioAnalysisScreenOpenAnalytics(eventMetaData);
 	};
 
-	const handleErrorNavigation = () => goto('/');
+	const handleErrorNavigation = () => {
+		goto(`${base}/discoverfunds`);
+	};
+
 	const breadCrumbs = [
 		{
 			text: 'Your Investments',

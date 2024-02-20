@@ -44,7 +44,6 @@
 			acc: bankDetails?.[0]?.accNO
 		});
 		const path = `${base}/autopay/manage/setup?params=${params}`;
-		console.log(path);
 		await goto(path);
 	};
 	let clientHeight = 0;
