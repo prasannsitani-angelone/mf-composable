@@ -51,7 +51,7 @@
 			}`}
 			on:linkClicked={() => handleLinkClick(nav)}
 			id="filter-{nav.id}"
-			replaceState={true}
+			replaceState={false}
 		>
 			<h2 class="px-4 py-2 text-center text-xs font-normal">{nav.title}</h2>
 		</Link>
