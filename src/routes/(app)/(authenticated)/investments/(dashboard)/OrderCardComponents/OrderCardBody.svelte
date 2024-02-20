@@ -95,10 +95,10 @@
 		<svelte.fragment slot="returns">
 			<section class="flex flex-col items-end font-normal">
 				<article
-					class="rounded-sm bg-opacity-20 px-1 text-[10px]"
-					class:bg-buy={item?.transactionType === 'PURCHASE'}
-					class:bg-red-400={item?.transactionType === 'REDEEM'}
-					class:bg-blue-400={item?.transactionType === 'SWITCH'}
+					class="rounded-sm px-1 text-[10px]"
+					class:bg-tint12-buy={item?.transactionType === 'PURCHASE'}
+					class:bg-tint12-sell={item?.transactionType === 'REDEEM'}
+					class:bg-tint12-primary={item?.transactionType === 'SWITCH'}
 				>
 					{item?.transactionType && transactionTypeText
 						? transactionTypeText
