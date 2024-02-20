@@ -359,7 +359,14 @@
 	</svelte:fragment>
 	<svelte:fragment slot="switchIcon">
 		<div class="z-20 -my-1 flex max-h-0 items-center self-center">
-			<WMSIcon height={40} width={40} name="chevron-down" />
+			<WMSIcon
+				height={40}
+				width={40}
+				name="chevron-down"
+				background="var(--BACKGROUND-ALT)"
+				border="var(--BORDER)"
+				storke="var(--PRIMARY)"
+			/>
 		</div>
 	</svelte:fragment>
 </SwitchOrderTitleCard>

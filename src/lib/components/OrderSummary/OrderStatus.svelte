@@ -90,7 +90,7 @@
 				{#if isSwitch && switchData?.toSchemeName?.length}
 					<section class="mt-3">
 						<div
-							class="w-[68px] rounded-sm bg-yellow-background px-1 py-0.5 text-[10px] font-normal text-title"
+							class="w-[68px] rounded-sm bg-tint12-secondary px-1 py-0.5 text-[10px] font-normal text-title"
 						>
 							SWITCH OUT
 						</div>
@@ -103,7 +103,7 @@
 
 					<section class="mt-3">
 						<div
-							class="w-[60px] rounded-sm bg-purple-background px-1 py-0.5 text-[10px] font-normal text-title"
+							class="w-[60px] rounded-sm bg-tint12-secondary-alt px-1 py-0.5 text-[10px] font-normal text-title"
 						>
 							SWITCH IN
 						</div>

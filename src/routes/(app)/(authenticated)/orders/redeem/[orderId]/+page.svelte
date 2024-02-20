@@ -63,8 +63,8 @@
 										logoUrl={ordersDetails?.ordersData?.logoUrl}
 										schemeName={ordersDetails?.ordersData?.schemeName}
 										orderTypeText="SWITCH OUT"
-										orderTypeBgColor="bg-secondary"
-										schemeNameClass="!text-base"
+										orderTypeBgColor="bg-tint12-secondary !text-title"
+										schemeNameClass="!text-base !font-normal !text-title"
 									/>
 								</svelte:fragment>
 								<svelte:fragment slot="switchIn">
@@ -72,8 +72,8 @@
 										logoUrl={ordersDetails?.ordersData?.toSchemeLogoUrl}
 										schemeName={ordersDetails?.ordersData?.toSchemeName}
 										orderTypeText="SWITCH IN"
-										orderTypeBgColor="bg-secondary-alt"
-										schemeNameClass="!text-base"
+										orderTypeBgColor="bg-tint12-secondary-alt !text-title"
+										schemeNameClass="!text-base !font-normal !text-title"
 									/>
 								</svelte:fragment>
 							</SwitchOrderTitleCard>

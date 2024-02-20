@@ -1,7 +1,8 @@
 <script lang="ts">
 	import type { IOrderDetails } from '$lib/types/IOrderDetails';
-	import { SwitchOrderTitleCard } from 'svelte-components';
+	import { SwitchOrderTile, SwitchOrderTitleCard } from 'svelte-components';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
+	import WMSIcon from '$components/WMSIcon.svelte';
 	let orderDetails: IOrderDetails;
 
 	export { orderDetails };
@@ -14,9 +15,39 @@
 	</div>
 {:else}
 	<SwitchOrderTitleCard
-		switchOutLogo={orderDetails?.logoUrl}
-		switchOutSchemeName={orderDetails?.schemeName}
-		switchInLogo={orderDetails?.toSchemeLogoUrl}
-		switchInSchemeName={orderDetails?.toSchemeName}
-	/>
+		class="md:flex-col"
+		orderTileClass="md:w-full !bg-background-alt !border-border"
+	>
+		<svelte:fragment slot="switchOut">
+			<SwitchOrderTile
+				logoUrl={orderDetails?.logoUrl}
+				schemeName={orderDetails?.schemeName}
+				orderTypeText="SWITCH OUT"
+				orderTypeBgColor="bg-tint12-secondary !text-title"
+				schemeNameClass={'!font-normal !text-title'}
+			/>
+		</svelte:fragment>
+
+		<svelte:fragment slot="switchIn">
+			<SwitchOrderTile
+				logoUrl={orderDetails?.toSchemeLogoUrl}
+				schemeName={orderDetails?.toSchemeName}
+				orderTypeText="SWITCH IN"
+				orderTypeBgColor="bg-tint12-secondary-alt !text-title"
+				schemeNameClass={'!font-normal !text-title'}
+			/>
+		</svelte:fragment>
+		<svelte:fragment slot="switchIcon">
+			<div class="z-20 -my-1 flex max-h-0 items-center self-center">
+				<WMSIcon
+					height={40}
+					width={40}
+					name="chevron-down"
+					background="var(--BACKGROUND-ALT)"
+					border="var(--BORDER)"
+					storke="var(--PRIMARY)"
+				/>
+			</div>
+		</svelte:fragment>
+	</SwitchOrderTitleCard>
 {/if}

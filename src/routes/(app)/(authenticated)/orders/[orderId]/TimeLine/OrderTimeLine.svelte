@@ -103,7 +103,7 @@
 								<WMSIcon name="status" class="bg-sell" />
 							</div>
 						{:else}
-							<div class="h-4 w-4 rounded-full bg-background" />
+							<div class="h-4 w-4 rounded-full bg-border" />
 						{/if}
 
 						{#if index !== items.length - 1}
