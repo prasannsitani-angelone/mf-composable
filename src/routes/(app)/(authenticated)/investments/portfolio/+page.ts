@@ -29,7 +29,7 @@ export const load = (async ({ fetch }) => {
 	const getPortfolio = async () => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings`;
 
-		const summaryData = useFetch(url + '?summary=true', {}, fetch);
+		const summaryData = useFetch(url + '/summary?xirr=true', {}, fetch);
 
 		const chartData = useFetch(url + '?chart=true' + '&months=6', {}, fetch);
 
@@ -38,8 +38,7 @@ export const load = (async ({ fetch }) => {
 		const resData = await Promise.all([summaryData, chartData, distributionData]);
 
 		return {
-			summaryData:
-				resData[0].ok && resData[0].data?.status === 'success' ? resData[0].data?.data || {} : {},
+			summaryData: resData[0].ok ? resData[0].data?.data || {} : {},
 			chartData:
 				resData[1].ok && resData[1].data?.status === 'success' ? resData[1].data?.data || {} : {},
 			distributionData:

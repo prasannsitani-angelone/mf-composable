@@ -162,8 +162,7 @@
 		];
 	};
 
-	const buttonImgUrl =
-		color === 'blue' ? 'var(--PRIMARY)' : color === 'grey' ? 'var(--DISABLED)' : '';
+	const colorVar = color === 'blue' ? '--PRIMARY' : color === 'grey' ? '--BODY' : '';
 
 	$: showCartIcon = $page.data?.isGuest ? (showForAllUsers ? true : false) : true;
 
@@ -192,6 +191,6 @@
 		ariaLabel="AddToCart"
 		onClick={handleCartIconClick}
 	>
-		<WMSIcon name="cart-plus" stroke="var(--TITLE)" height={24} width={24} />
+		<WMSIcon name="cart-plus" stroke="var({colorVar})" height={24} width={24} />
 	</Button>
 {/if}

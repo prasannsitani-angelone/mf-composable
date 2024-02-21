@@ -12,8 +12,8 @@
 	import { goto } from '$app/navigation';
 	import ChipOverview from './ChipOverview.svelte';
 	import GreenUpArrowTrendingFund from '$lib/images/GreenUpArrowTrendingFund.svg';
-	import PeopleIconGrey from '$lib/images/PeopleIconGrey.svg';
 	import AmountText from './AmountText.svelte';
+	import { WMSIcon } from 'svelte-components';
 
 	let schemes: WeeklyTopSchemesEntity | ExploreFundsOptions | SchemeDetails;
 	let showLogo = true;
@@ -123,13 +123,14 @@
 			{#if schemes?.noOfClientInvested > 0}
 				<div class="mt-3 flex flex-row items-center">
 					<slot name="detailsFooterIcon">
-						<img
-							src={PeopleIconGrey}
+						<WMSIcon
+							fill="var(--BODY)"
+							name="people-icon"
 							class="mr-2 p-1"
 							decoding="async"
 							alt="Number of people invested"
-							width="24"
-							height="24"
+							width={24}
+							height={24}
 						/>
 					</slot>
 

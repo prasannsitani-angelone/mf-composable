@@ -103,7 +103,7 @@
 
 	onMount(() => {
 		allResponse.then((res) => {
-			portfolioAnalysisScreenOpenAnalyticsFunc(res?.summaryData?.summary || {});
+			portfolioAnalysisScreenOpenAnalyticsFunc(res?.summaryData || {});
 		});
 	});
 </script>
@@ -116,12 +116,12 @@
 {#await allResponse}
 	<InvestmentPortfolioLoader />
 {:then response}
-	{#if response.summaryData.summary}
+	{#if response.summaryData}
 		<section>
 			<Breadcrumbs items={breadCrumbs} class="my-4 hidden items-center justify-start md:flex" />
 			<PageTitle title="Portfolio Analysis" class="mb-0 lg:mb-4" />
 			<HoldingsOverview
-				folioSummary={response.summaryData.summary}
+				folioSummary={response.summaryData}
 				chartDataList={response.chartData.chart}
 				showGraphTags={true}
 				on:portfolioChartTagChange={updateLineChart}
@@ -136,7 +136,7 @@
 		<section>
 			{#if response.distributionData.distributions?.length}
 				<AssetAnalysis
-					summary={response.summaryData.summary}
+					summary={response.summaryData}
 					distributions={response.distributionData.distributions}
 				/>
 			{/if}
