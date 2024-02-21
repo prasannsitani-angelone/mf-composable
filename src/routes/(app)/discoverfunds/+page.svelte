@@ -1,5 +1,5 @@
 <script lang="ts">
-	import OldTrendingFunds from '$components/TrendingFunds/Old/OldTrendingFunds.svelte';
+	import OldTrendingFunds from '$components/MostBought/Old/OldTrendingFunds.svelte';
 	import PortfolioCard from '$components/PortfolioCards/PortfolioCard.svelte';
 	import { page } from '$app/stores';
 	import IntersectionObserver from 'svelte-intersection-observer';
@@ -420,10 +420,8 @@
 
 	<!-- 3. Most Bought Section -->
 	<OldTrendingFunds
-		class="row-start-{placementMapping?.trendingFunds?.rowStart} col-start-{placementMapping
-			?.trendingFunds?.columnStart} !my-0 {placementMapping?.trendingFunds?.rowStart > 1
-			? '!mt-2'
-			: ''}"
+		class="row-start-{placementMapping?.mostBought?.rowStart} col-start-{placementMapping
+			?.mostBought?.columnStart} !my-0 {placementMapping?.mostBought?.rowStart > 1 ? '!mt-2' : ''}"
 		tableData={data?.searchDashboardData?.weeklyTopSchemes}
 		version="A"
 	/>

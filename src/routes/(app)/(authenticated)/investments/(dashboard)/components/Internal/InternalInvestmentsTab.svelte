@@ -1,6 +1,6 @@
 <script lang="ts">
 	import NoOrders from '$components/NoOrders.svelte';
-	import TrendingFunds from '$components/TrendingFunds/TrendingFunds.svelte';
+	import MostBought from '$components/MostBought/MostBought.svelte';
 	import type { IOPtimsiePortfolioData, InvestmentEntity } from '$lib/types/IInvestments';
 	import type { PageData } from '../../$types';
 	import { fundForYouClickAnalytics, switchToDirectClickAnalytics } from '../../../analytics';
@@ -178,7 +178,7 @@
 					/>
 				</article>
 				{#if data?.searchDashboardData?.weeklyTopSchemes}
-					<TrendingFunds
+					<MostBought
 						tableData={data.searchDashboardData.weeklyTopSchemes}
 						title="Popular Funds"
 						classes={{ container: '!pb-0 mb-4', header: 'max-sm:pb-0' }}
@@ -195,7 +195,7 @@
 								</div>
 							</footer>
 						</svelte:fragment>
-					</TrendingFunds>
+					</MostBought>
 				{/if}
 			{/if}
 		{:catch error}

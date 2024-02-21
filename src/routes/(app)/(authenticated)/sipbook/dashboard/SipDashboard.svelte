@@ -35,7 +35,7 @@
 	import WmsIcon from '$components/WMSIcon.svelte';
 	import TutorialNudge from '$components/Tutorial/nudge/TutorialNudge.svelte';
 	import type { INudge, UserEducationNudgeType } from '$lib/types/INudge';
-	import TrendingFunds from '$components/TrendingFunds/TrendingFunds.svelte';
+	import MostBought from '$components/MostBought/MostBought.svelte';
 
 	const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips`;
 	let showInactiveSipsCta = false;
@@ -385,7 +385,7 @@
 			<section
 				class={isMobile ? '-mx-2 mt-2 max-w-4xl bg-background-alt px-2 !pt-0 pb-7 shadow-csm' : ''}
 			>
-				<TrendingFunds
+				<MostBought
 					class={isMobile
 						? 'col-start-6 row-start-1 !my-0 mx-2 !mt-2 pt-2 shadow-none'
 						: '!mt-2 mb-2 !max-w-[100%]'}

@@ -30,7 +30,7 @@
 	import { onMount, tick } from 'svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
-	import TrendingFunds from '$components/TrendingFunds/TrendingFunds.svelte';
+	import MostBought from '$components/MostBought/MostBought.svelte';
 	import QuickEntryPointsComponent from '../../discoverfunds/QuickEntryPoints/QuickEntryPointsComponent.svelte';
 	import { versionStore } from '$lib/stores/VersionStore';
 	import LazyComponent from '$components/LazyComponent.svelte';
@@ -419,11 +419,9 @@
 	{/if}
 
 	<!-- 4. Most Bought Section -->
-	<TrendingFunds
-		class="row-start-{placementMapping?.trendingFunds?.rowStart} col-start-{placementMapping
-			?.trendingFunds?.columnStart} !my-0 {placementMapping?.trendingFunds?.rowStart > 1
-			? '!mt-2'
-			: ''}"
+	<MostBought
+		class="row-start-{placementMapping?.mostBought?.rowStart} col-start-{placementMapping
+			?.mostBought?.columnStart} !my-0 {placementMapping?.mostBought?.rowStart > 1 ? '!mt-2' : ''}"
 		tableData={data?.searchDashboardData?.weeklyTopSchemes}
 		version="B"
 	/>

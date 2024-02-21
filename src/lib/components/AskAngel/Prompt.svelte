@@ -3,7 +3,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import Choices from './Choices.svelte';
 	import Message from './Message.svelte';
-	import TrendingCarouselItems from '$components/TrendingFunds/TrendingCarouselItems.svelte';
+	import TrendingCarouselItems from '$components/MostBought/TrendingCarouselItems.svelte';
 	import { addCommasToAmountString } from 'svelte-components';
 	import CuratedInvestmentCardComponent from '$components/InvestWithExperts/CuratedInvestmentCardComponent.svelte';
 

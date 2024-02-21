@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Overlay, WMSIcon } from 'svelte-components';
 	import ButtonMedium from '$components/ButtonMedium.svelte';
-	import TrendingCarouselItems from '$components/TrendingFunds/TrendingCarouselItems.svelte';
+	import TrendingCarouselItems from '$components/MostBought/TrendingCarouselItems.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails.js';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { goto } from '$app/navigation';

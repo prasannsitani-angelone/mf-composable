@@ -2,7 +2,7 @@
 	import Link from '$components/Link.svelte';
 	import NoOrders from '$components/NoOrders.svelte';
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
-	import TrendingFunds from '$components/TrendingFunds/TrendingFunds.svelte';
+	import MostBought from '$components/MostBought/MostBought.svelte';
 	import type { PageData } from '../../../../../$types';
 	let data: PageData;
 	const classes = {
@@ -18,7 +18,7 @@
 <article class="mt-2 {$$props.class}">
 	<NoOrders class="block md:hidden" title="You don't have any orders currently" />
 	{#if data?.searchDashboardData?.weeklyTopSchemes}
-		<TrendingFunds
+		<MostBought
 			tableData={data.searchDashboardData.weeklyTopSchemes}
 			{classes}
 			title="Popular Funds"
@@ -33,6 +33,6 @@
 					</Link>
 				</div>
 			</footer>
-		</TrendingFunds>
+		</MostBought>
 	{/if}
 </article>

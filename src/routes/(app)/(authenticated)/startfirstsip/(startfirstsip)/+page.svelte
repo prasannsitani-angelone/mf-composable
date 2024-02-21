@@ -6,7 +6,7 @@
 		startFirstSipSchemeClickAnalytics,
 		startFirstSipScreenImpressionAnalytics
 	} from '$lib/analytics/startFirstSip/startFirstSip';
-	import TrendingCarouselItems from '$components/TrendingFunds/TrendingCarouselItems.svelte';
+	import TrendingCarouselItems from '$components/MostBought/TrendingCarouselItems.svelte';
 	import StartFirstSipSkeleton from './StartFirstSipSkeleton.svelte';
 	import StartFirstSipStatic from './StartFirstSipStatic.svelte';
 	import { onMount } from 'svelte';
