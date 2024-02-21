@@ -105,7 +105,6 @@
 		checkPreviousWrongBankFailedPayment,
 		checkRequestIdExpired
 	} from '$lib/api/investmentPad';
-	import PeopleIcon from '$lib/images/PeopleIcon.svg';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import ChangePaymentContainer from '$components/Payment/ChangePaymentContainer.svelte';
 	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
@@ -1937,13 +1936,14 @@
 				</div>
 				{#if schemeData?.noOfClientInvested}
 					<div class="mt-3 flex flex-row items-center rounded bg-tint12-secondary-alt px-3 py-2">
-						<img
-							src={PeopleIcon}
+						<WMSIcon
+							fill="var(--BODY)"
+							name="people-icon"
 							class="mr-2 p-1"
 							decoding="async"
 							alt="Number of people invested"
-							width="24"
-							height="24"
+							width={24}
+							height={24}
 						/>
 						<div class="text-xs text-body">
 							<span class="font-medium"

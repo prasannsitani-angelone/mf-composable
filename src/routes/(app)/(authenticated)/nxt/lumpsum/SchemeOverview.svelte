@@ -6,11 +6,11 @@
 	import SchemeInformationModal from '$components/Scheme/SchemeInformation/SchemeInformationModal.svelte';
 	import TaxImplications from '$components/Scheme/SchemeInformation/TaxImplications.svelte';
 	import ExitLoadIcon from '$lib/images/icons/ExitLoadIcon.svelte';
-	import PeopleIcon from '$lib/images/PeopleIcon.svg';
 	import RocketIcon from '$lib/images/icons/RocketIcon.svelte';
 	import SchemeInformationIcon from '$lib/images/icons/SchemeInformationIcon.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
+	import { WMSIcon } from 'svelte-components';
 
 	export let schemeDetails: SchemeDetails;
 	let showSchemeInfoModal = false;
@@ -39,15 +39,16 @@
 	<div class="border-b px-4 py-4 text-base text-title">Mutual Fund Details</div>
 	{#if schemeDetails?.noOfClientInvested !== 0}
 		<div class="flex border-b p-4">
-			<img
-				src={PeopleIcon}
+			<WMSIcon
+				fill="var(--BODY)"
+				name="people-icon"
 				class="mr-2 p-1"
 				decoding="async"
 				alt="Number of people invested"
-				width="24"
-				height="24"
+				width={24}
+				height={24}
 			/>
-			<div class="text-sm" style="color: #2a394e">
+			<div class="text-sm text-body">
 				Over
 				<strong>{schemeDetails?.noOfClientInvested}+</strong> users have invested in this fund
 			</div>
@@ -60,7 +61,7 @@
 				<div class="text-sm uppercase text-body">
 					{schemeDetails?.categoryName} • {schemeDetails?.reInvestmentPlan}
 				</div>
-				<div class="text-lg font-normal">{schemeDetails?.schemeName}</div>
+				<div class="text-lg font-normal text-title">{schemeDetails?.schemeName}</div>
 			</div>
 		</div>
 
@@ -129,7 +130,7 @@
 						schemeDetails?.navValue &&
 						getDiffPercentage(schemeDetails?.previousNavValue, schemeDetails?.navValue)}%</span
 				>
-				<span class="diff-duration"
+				<span class="diff-duration text-title"
 					>{differenceInDays(navDate, new Date(schemeDetails?.previousNavDate))}
 					Day</span
 				>
@@ -178,7 +179,7 @@
 							₹
 						</div>
 						<h3 class="mb-1 text-xs font-normal text-body">Asset Under Management</h3>
-						<h4><AmountText amount={schemeDetails?.aum} /> <span>Cr.</span></h4>
+						<h4 class="text-title"><AmountText amount={schemeDetails?.aum} /> <span>Cr.</span></h4>
 					</article>
 				</section>
 			{/if}
@@ -194,7 +195,7 @@
 							%
 						</div>
 						<h3 class="mb-1 text-xs font-normal text-body">Expense Ratio</h3>
-						<h4>
+						<h4 class="text-title">
 							<span>{schemeDetails?.expenseRatio}%</span>
 							<span> (inclusive of GST)</span>
 						</h4>
@@ -209,7 +210,7 @@
 					>
 						<ExitLoadIcon />
 						<h3 class="mb-1 mt-3 text-xs font-normal text-body">Exit Load</h3>
-						<h4>{schemeDetails?.exitLoadValue}</h4>
+						<h4 class="text-title">{schemeDetails?.exitLoadValue}</h4>
 					</article>
 				</section>
 			{/if}
@@ -222,7 +223,7 @@
 		<section class="p-3">
 			<div class="pa-5 flex items-center justify-center">
 				<RocketIcon />
-				<div class="launch-text ml-2">
+				<div class="launch-text ml-2 text-title">
 					Launched on
 					{format(launchDate, 'MMM yyyy')}
 					<span class="launch-sub-text">
