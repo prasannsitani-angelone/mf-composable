@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+import { PUBLIC_MF_CORE_BASE_URL_V2 } from '$env/static/public';
 import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
 import type { ISipBookData } from '$lib/types/ISipType';
@@ -12,7 +12,7 @@ export const load = (async ({ fetch, depends }) => {
 	let sipBookData: ISipBookData | null = null;
 
 	const getSipBookData = async () => {
-		const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips`;
+		const sipUrl = `${PUBLIC_MF_CORE_BASE_URL_V2}/sips`;
 		const res = await useFetch(sipUrl + '?InvestmentType=SIP', {}, fetch);
 		if (res.ok) {
 			sipBookData = res?.data?.data || [];

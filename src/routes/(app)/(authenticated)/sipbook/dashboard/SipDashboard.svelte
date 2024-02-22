@@ -8,7 +8,7 @@
 	import SipCard from './SipCard.svelte';
 	import SipSummary from './SipSummary.svelte';
 	import { useFetch } from '$lib/utils/useFetch';
-	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+	import { PUBLIC_MF_CORE_BASE_URL, PUBLIC_MF_CORE_BASE_URL_V2 } from '$env/static/public';
 	import type { IDueSips, ISip, ISipBookData, ISipBookSummary } from '$lib/types/ISipType';
 	import {
 		inactiveSipsButtonClickAnalytics,
@@ -37,7 +37,7 @@
 	import type { INudge, UserEducationNudgeType } from '$lib/types/INudge';
 	import MostBought from '$components/MostBought/MostBought.svelte';
 
-	const sipUrl = `${PUBLIC_MF_CORE_BASE_URL}/sips`;
+	const sipUrl = `${PUBLIC_MF_CORE_BASE_URL_V2}/sips`;
 	let showInactiveSipsCta = false;
 	let sipbookSummary: ISipBookSummary;
 	let sipBookData: ISipBookData;
