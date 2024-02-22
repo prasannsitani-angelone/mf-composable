@@ -6,7 +6,7 @@ export const EMANDATE_MODE = {
 		...PAYMENT_MODE['PHONEPE'],
 		analytics: () => undefined,
 		enabled: (os: string) => {
-			if (os === 'Android') {
+			if (os === 'Android' || os === 'iOS') {
 				return true;
 			}
 			return false;

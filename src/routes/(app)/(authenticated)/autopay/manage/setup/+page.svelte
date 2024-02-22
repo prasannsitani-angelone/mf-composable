@@ -52,7 +52,7 @@
 		const os = deviceType?.osName || deviceType?.os;
 		if (paramMode && allowedPaymentMethods?.includes(paramMode)) {
 			mode = paramMode;
-		} else if (os === 'Android' && allowedPaymentMethods?.includes('PHONEPE')) {
+		} else if ((os === 'Android' || os === 'iOS') && allowedPaymentMethods?.includes('PHONEPE')) {
 			mode = 'PHONEPE';
 		} else if ((os === 'Android' || os === 'iOS') && allowedPaymentMethods?.includes('GOOGLEPAY')) {
 			mode = 'GOOGLEPAY';
