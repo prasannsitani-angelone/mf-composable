@@ -195,3 +195,15 @@ export const paymentModeChange = (eventMetaData: IFund[]) => {
 		event_metadata: eventMetaData
 	});
 };
+
+export const portfolioOrderSummary = (eventMetaData: object) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-ordersummary',
+		event_type: 'Impression',
+		event_sub_type: 'screen',
+		event_name: 'portfolioordersummary',
+		event_property: null,
+		event_id: '324.0.0.1.15',
+		event_metadata: eventMetaData
+	});
+};

@@ -32,6 +32,7 @@
 	import { orderSummaryStore } from '$lib/stores/OrderSummaryStore';
 	import OrdersTile from '$components/OrderSummary/OrdersTile.svelte';
 	import { profileStore } from '$lib/stores/ProfileStore';
+	import { portfolioOrderSummary } from '$lib/analytics/buyPortfolio/buyPortfolio';
 	export let data: PageData;
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
@@ -61,25 +62,39 @@
 		const { orderData, sipData, emandateBankDetails, headerContent } = await data.api.data;
 		const sd = sipData?.data?.data;
 		const od = orderData?.data?.data;
-		const eventMetaData = {
-			FundName: isSIPOrder ? sd?.schemeName : od?.schemeName,
-			Isin: isSIPOrder ? sd?.isin : od?.isin,
-			Amount: isSIPOrder ? sd?.installmentAmount : od?.amount,
-			InvestmentType: isSIPOrder ? 'SIP' : 'OTI',
-			NextSIPPayment: isSIPOrder ? getNextSIPDate(sd) : null,
-			FirstSIPPayment: isSIPOrder ? firstTimePayment : null,
-			AutoPayBank: emandateBankDetails?.bankName,
-			AutopayCtaExist: !sd?.accountNo,
-			PaymentMethod: sd?.isFtpWithMandate ? 'autopay' : od?.paymentMode,
-			PaymentBank: od?.bankName,
-			Status: headerContent?.status,
-			Remarks: od?.remarks,
-			integratedUpiFlow: isIntegeratedFlow,
-			OrderID: orderID,
-			SipId: sipID,
-			PaywithAutopay: sd?.isFtpWithMandate ? 'Yes' : 'No',
-			FAQsPresent: !(isBuyPortfolio || isCart) ? 'Yes' : 'No'
-		};
+		let eventMetaData = {};
+		if (!isBuyPortfolio) {
+			eventMetaData = {
+				FundName: isSIPOrder ? sd?.schemeName : od?.schemeName,
+				Isin: isSIPOrder ? sd?.isin : od?.isin,
+				Amount: isSIPOrder ? sd?.installmentAmount : od?.amount,
+				InvestmentType: isSIPOrder ? 'SIP' : 'OTI',
+				NextSIPPayment: isSIPOrder ? getNextSIPDate(sd) : null,
+				FirstSIPPayment: isSIPOrder ? firstTimePayment : null,
+				AutoPayBank: emandateBankDetails?.bankName,
+				AutopayCtaExist: !sd?.accountNo,
+				PaymentMethod: sd?.isFtpWithMandate ? 'autopay' : od?.paymentMode,
+				PaymentBank: od?.bankName,
+				Status: headerContent?.status,
+				Remarks: od?.remarks,
+				integratedUpiFlow: isIntegeratedFlow,
+				OrderID: orderID,
+				SipId: sipID,
+				PaywithAutopay: sd?.isFtpWithMandate ? 'Yes' : 'No',
+				FAQsPresent: !(isBuyPortfolio || isCart) ? 'Yes' : 'No'
+			};
+		} else {
+			eventMetaData = {
+				PortfolioName: od?.packName,
+				Status: headerContent?.status,
+				PortolioOrderAmount: od?.totalAmount,
+				InvestmentType: 'SIP',
+				OrderId: orderID,
+				AutopayCtaExist: !sd?.accountNo,
+				PaywithAutopay: sd?.isFtpWithMandate ? 'Yes' : 'No',
+				FAQsPresent: 'No'
+			};
+		}
 		return eventMetaData;
 	};
 
@@ -192,7 +207,11 @@
 
 	const onMountAnalytics = async () => {
 		const eventMetaData = await getCommonEventMetaData();
-		orderScreenOpenAnalytics(eventMetaData);
+		if (!isBuyPortfolio) {
+			orderScreenOpenAnalytics(eventMetaData);
+		} else {
+			portfolioOrderSummary(eventMetaData);
+		}
 	};
 
 	onMount(() => {
