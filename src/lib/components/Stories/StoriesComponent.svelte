@@ -20,6 +20,7 @@
 	import logger from '$lib/utils/logger';
 	import { modifiedGoto } from '$lib/utils/goto';
 	import { goto } from '$app/navigation';
+	import { appStore } from '$lib/stores/SparkStore';
 
 	export let stories: Array<Story>;
 	export let version: string;
@@ -170,7 +171,12 @@
 		ctaClickAnalyticsFunc();
 
 		if (selectedStory?.ctaUrl?.length) {
-			modifiedGoto(`${base}${selectedStory?.ctaUrl}`);
+			if ($appStore.isTabView) {
+				crossButtonClicked();
+			}
+			modifiedGoto(`${base}${selectedStory?.ctaUrl}`, {
+				replaceState: true
+			});
 		}
 	};
 

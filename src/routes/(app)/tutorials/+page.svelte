@@ -7,6 +7,11 @@
 	import CarouselItem from '$components/Carousel/CarouselItem.svelte';
 	import { WMSIcon } from 'svelte-components';
 	import StartInvestmentComponent from '$components/Tutorial/pages/StartInvestmentComponent.svelte';
+	import { PLATFORM_TYPE } from '$lib/constants/platform';
+	import { page } from '$app/stores';
+	import { appStore } from '$lib/stores/SparkStore';
+	import { browserHistoryStore } from '$lib/stores/BrowserHistoryStore';
+	import { goBackToSpark } from '$lib/utils';
 
 	const carouselItems = [
 		{ component: WhatIsMFComponent, reference: {} },
@@ -19,7 +24,16 @@
 	let currentIndex = 0;
 
 	const close = () => {
-		history.back();
+		if (
+			($browserHistoryStore.historyLength === 1 ||
+				$browserHistoryStore.initialUrl === `${$page.url.origin}${$page.url.pathname}`) &&
+			(($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID && $appStore.closecta) ||
+				$appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS)
+		) {
+			goBackToSpark();
+		} else {
+			history.back();
+		}
 	};
 
 	const handlePageChange = (index) => {
