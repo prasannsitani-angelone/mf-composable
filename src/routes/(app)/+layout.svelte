@@ -88,7 +88,7 @@
 		});
 
 		browserHistoryStore.updateStore({
-			initialUrl: $page.url.href,
+			initialUrl: `${$page.url.origin}${$page.url.pathname}`,
 			historyLength: window.history.length
 		});
 	});

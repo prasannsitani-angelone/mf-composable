@@ -57,7 +57,7 @@
 		<article class="flex w-full items-center justify-between">
 			<article class="flex items-center justify-start">
 				<slot name="icon">
-					{#if (showCloseIcon || $browserHistoryStore.historyLength === 1 || $browserHistoryStore.initialUrl === $page.url.href) && (($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID && $appStore.closecta) || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS)}
+					{#if showCloseIcon && (($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID && $appStore.closecta) || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS)}
 						<WMSIcon
 							height={24}
 							width={24}
@@ -67,7 +67,18 @@
 							on:click={handleCloseButtonClick}
 						/>
 					{:else if showBackIcon}
-						<LeftArrowIcon class="mr-4 cursor-pointer" onClick={handleBackButtonClick} />
+						{#if ($browserHistoryStore.historyLength === 1 || $browserHistoryStore.initialUrl === `${$page.url.origin}${$page.url.pathname}`) && (($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID && $appStore.closecta) || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS)}
+							<WMSIcon
+								height={24}
+								width={24}
+								name="cross"
+								stroke="var(--TITLE)"
+								class="mr-4 cursor-pointer"
+								on:click={handleCloseButtonClick}
+							/>
+						{:else}
+							<LeftArrowIcon class="mr-4 cursor-pointer" onClick={handleBackButtonClick} />
+						{/if}
 					{/if}
 				</slot>
 
