@@ -1,32 +1,33 @@
 export const cohorts: { [key: string]: { placementMapping: object } } = {
 	MF_NEW: {
 		placementMapping: {
-			stories: { rowStart: 1, columnStart: 1 },
-			search: { rowStart: 2, columnStart: 1 },
-			startFirstSip: { rowStart: 3, columnStart: 1 },
+			search: { rowStart: 1, columnStart: 1 },
+			stories: { rowStart: 2, columnStart: 1 },
+			startSip: { rowStart: 3, columnStart: 1 },
 			mostBought: { rowStart: 4, columnStart: 1 },
 			categories: { rowStart: 5, columnStart: 1 },
-			tutorials: { rowStart: 6, columnStart: 1 },
-			quickEntryPoints: { rowStart: 7, columnStart: 1 },
-			buyPortfolioCard: { rowStart: 8, columnStart: 1 },
-			screener: { rowStart: 9, columnStart: 1 },
-			askAngel: { rowStart: 10, columnStart: 1 },
+			videoReel: { rowStart: 6, columnStart: 1 },
+			topFundsList: { rowStart: 7, columnStart: 1 },
+			sipCalculator: { rowStart: 8, columnStart: 1 },
+			trackExtFunds: { rowStart: 9, columnStart: 1 },
+			screener: { rowStart: 10, columnStart: 1 },
 			logout: { rowStart: 11, columnStart: 1 }
 		}
 	},
 	MF_NEW_RETURNING: {
 		placementMapping: {
-			stories: { rowStart: 1, columnStart: 1 },
-			search: { rowStart: 2, columnStart: 1 },
-			startFirstSip: { rowStart: 3, columnStart: 1 },
+			search: { rowStart: 1, columnStart: 1 },
+			stories: { rowStart: 2, columnStart: 1 },
+			startSip: { rowStart: 3, columnStart: 1 },
 			mostBought: { rowStart: 4, columnStart: 1 },
-			buyPortfolioCard: { rowStart: 5, columnStart: 1 },
-			categories: { rowStart: 6, columnStart: 1 },
-			tutorials: { rowStart: 7, columnStart: 1 },
-			quickEntryPoints: { rowStart: 8, columnStart: 1 },
-			askAngel: { rowStart: 9, columnStart: 1 },
-			screener: { rowStart: 10, columnStart: 1 },
-			logout: { rowStart: 11, columnStart: 1 }
+			categories: { rowStart: 5, columnStart: 1 },
+			videoReel: { rowStart: 6, columnStart: 1 },
+			trendingFunds: { rowStart: 7, columnStart: 1 },
+			topFundsList: { rowStart: 8, columnStart: 1 },
+			sipCalculator: { rowStart: 9, columnStart: 1 },
+			trackExtFunds: { rowStart: 10, columnStart: 1 },
+			screener: { rowStart: 11, columnStart: 1 },
+			logout: { rowStart: 12, columnStart: 1 }
 		}
 	},
 	MF_WITH_SIP_N: {

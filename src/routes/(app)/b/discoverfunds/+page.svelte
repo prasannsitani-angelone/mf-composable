@@ -349,7 +349,7 @@
 	{/if}
 
 	<!-- 3. Stories section -->
-	{#if storiesData?.stories?.length}
+	{#if storiesData?.stories?.length && placementMapping?.stories}
 		<StoriesComponent
 			class="row-start-{placementMapping?.stories?.rowStart} col-start-{placementMapping?.stories
 				?.columnStart} !mb-0 {placementMapping?.stories?.rowStart > 1 ? 'mt-2' : ''}"
@@ -419,45 +419,54 @@
 	{/if}
 
 	<!-- 4. Most Bought Section -->
-	<MostBought
-		class="row-start-{placementMapping?.mostBought?.rowStart} col-start-{placementMapping
-			?.mostBought?.columnStart} !my-0 {placementMapping?.mostBought?.rowStart > 1 ? '!mt-2' : ''}"
-		tableData={data?.searchDashboardData?.weeklyTopSchemes}
-		version="B"
-	/>
+	{#if placementMapping?.mostBought}
+		<MostBought
+			class="row-start-{placementMapping?.mostBought?.rowStart} col-start-{placementMapping
+				?.mostBought?.columnStart} !my-0 {placementMapping?.mostBought?.rowStart > 1
+				? '!mt-2'
+				: ''}"
+			tableData={data?.searchDashboardData?.weeklyTopSchemes}
+			version="B"
+		/>
+	{/if}
 
 	<!-- 6. Category Section -->
-	<article
-		class="row-start-{placementMapping?.categories?.rowStart} col-start-{placementMapping
-			?.categories?.columnStart} mt-2"
-	>
-		<CategoriesComponent categories={data?.searchDashboardData?.categories} />
-	</article>
+	{#if placementMapping?.categories}
+		<article
+			class="row-start-{placementMapping?.categories?.rowStart} col-start-{placementMapping
+				?.categories?.columnStart} mt-2"
+		>
+			<CategoriesComponent categories={data?.searchDashboardData?.categories} />
+		</article>
+	{/if}
 
 	<!-- 8. Start 4 SIPs (curated) Section -->
-	<div
-		class="row-start-{placementMapping?.curatedInvestmentCard?.rowStart} col-start-{placementMapping
-			?.curatedInvestmentCard?.columnStart} {placementMapping?.curatedInvestmentCard?.rowStart > 1
-			? '!my-0'
-			: '!-my-2'}"
-	>
-		<LazyComponent
-			class="!mt-2"
-			when={isLoggedInUser && deviceType?.isMobile && start4SipsNudgeData}
-			nudgeData={start4SipsNudgeData}
-			component={async () =>
-				await import('$components/InvestWithExperts/CuratedInvestmentCardComponent.svelte')}
-		/>
-	</div>
+	{#if placementMapping?.curatedInvestmentCard}
+		<div
+			class="row-start-{placementMapping?.curatedInvestmentCard
+				?.rowStart} col-start-{placementMapping?.curatedInvestmentCard
+				?.columnStart} {placementMapping?.curatedInvestmentCard?.rowStart > 1 ? '!my-0' : '!-my-2'}"
+		>
+			<LazyComponent
+				class="!mt-2"
+				when={isLoggedInUser && deviceType?.isMobile && start4SipsNudgeData}
+				nudgeData={start4SipsNudgeData}
+				component={async () =>
+					await import('$components/InvestWithExperts/CuratedInvestmentCardComponent.svelte')}
+			/>
+		</div>
+	{/if}
 
 	<!-- 9. Quick Entry Points - External Funds, NFO, Calculator -->
-	<QuickEntryPointsComponent
-		class="row-start-{placementMapping?.quickEntryPoints?.rowStart} col-start-{placementMapping
-			?.quickEntryPoints?.columnStart} {placementMapping?.quickEntryPoints?.rowStart > 1
-			? 'mt-2'
-			: ''}"
-		{isGuest}
-	/>
+	{#if placementMapping?.quickEntryPoints}
+		<QuickEntryPointsComponent
+			class="row-start-{placementMapping?.quickEntryPoints?.rowStart} col-start-{placementMapping
+				?.quickEntryPoints?.columnStart} {placementMapping?.quickEntryPoints?.rowStart > 1
+				? 'mt-2'
+				: ''}"
+			{isGuest}
+		/>
+	{/if}
 
 	{#if !deviceType?.isBrowser && autopayNudge && placementMapping?.setupAutopay}
 		<SetupAutopayNudge
@@ -495,10 +504,12 @@
 		/>
 	{/if}
 
-	<Screener
-		class="row-start-{placementMapping?.screener?.rowStart} col-start-{placementMapping?.screener
-			?.columnStart}"
-	/>
+	{#if placementMapping?.screener}
+		<Screener
+			class="row-start-{placementMapping?.screener?.rowStart} col-start-{placementMapping?.screener
+				?.columnStart}"
+		/>
+	{/if}
 
 	<!-- 11. Logout -->
 	{#if !($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) && !isGuest}
