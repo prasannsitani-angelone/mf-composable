@@ -30,7 +30,8 @@ const hydrateSessionData = (sparkHeaders: SparkStore) => {
 		paymentapps: sparkHeaders?.paymentapps,
 		sessionId: sparkHeaders?.sessionId,
 		linkedmembers: sparkHeaders?.linkedmembers,
-		isTabView: sparkHeaders?.isTabView
+		isTabView: sparkHeaders?.isTabView,
+		openViaTabView: sparkHeaders?.openViaTabView
 	};
 
 	const setSessionIds = () => {

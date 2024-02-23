@@ -21,6 +21,7 @@ export interface SparkStore {
 	sessionId: string;
 	linkedmembers: LinkedMembersHeaderTypes;
 	isTabView: boolean;
+	openViaTabView: boolean;
 }
 
 export interface LinkedMembersHeaderTypes {
@@ -48,7 +49,8 @@ const initalStore: SparkStore = {
 	linkedmembers: {
 		selected: []
 	},
-	isTabView: false
+	isTabView: false,
+	openViaTabView: false
 };
 
 const parseLinkedMember = (linkedmembers: string) => {
@@ -91,6 +93,10 @@ function Store() {
 					typeof consolidated?.isTabView === 'boolean'
 						? consolidated?.isTabView
 						: consolidated?.isTabView === 'true';
+				const openViaTabView =
+					typeof consolidated?.openViaTabView === 'boolean'
+						? consolidated?.openViaTabView
+						: consolidated?.openViaTabView === 'true';
 				return {
 					...consolidated,
 					platform,
@@ -102,7 +108,8 @@ function Store() {
 					isTWA,
 					isWebView,
 					linkedmembers,
-					isTabView
+					isTabView,
+					openViaTabView
 				};
 			});
 		},
@@ -147,7 +154,8 @@ function Store() {
 
 			return query;
 		},
-		isTabview: () => sparkStore?.isTabView
+		isTabview: () => sparkStore?.isTabView,
+		openViaTabView: () => sparkStore?.openViaTabView
 	};
 }
 

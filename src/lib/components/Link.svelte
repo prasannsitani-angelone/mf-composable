@@ -10,6 +10,8 @@
 	let replaceState = false;
 	let ariaLabel = '';
 	let pathConversion = true;
+	let callMethod = false;
+	let method: () => void = () => undefined;
 	const dispatch = createEventDispatcher();
 	let preloadData: true | '' | 'hover' | 'tap' | 'off' | null | undefined = 'hover';
 	export {
@@ -19,7 +21,9 @@
 		replaceState,
 		ariaLabel,
 		preloadData,
-		pathConversion
+		pathConversion,
+		callMethod,
+		method
 	};
 	function onLinkClick(e: MouseEvent & { currentTarget: EventTarget & HTMLAnchorElement }) {
 		if (disableRedirect) {
@@ -27,6 +31,9 @@
 		} else if (appStore.isTabview()) {
 			e.preventDefault();
 			modifiedGoto(pathConversion ? (isAbsoluteUrl(to) ? to : `${base}${to}`) : to);
+		} else if (callMethod) {
+			e.preventDefault();
+			method();
 		}
 
 		dispatch('linkClicked');

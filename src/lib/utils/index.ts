@@ -10,6 +10,7 @@ import { appStore } from '$lib/stores/SparkStore';
 import type { LayoutData } from '../../../.svelte-kit/types/src/routes/(app)/$types';
 import type { AutopayTypes } from '$lib/types/IEmandate';
 import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
+import { base } from '$app/paths';
 
 export interface TableColumnToggle {
 	label: string;
@@ -221,4 +222,12 @@ export function calculateYearDiffrence(date: Date) {
 	const diffMs = Date.now() - date;
 	const actualDate = new Date(diffMs); // miliseconds from epoch
 	return Math.abs(actualDate.getUTCFullYear() - 1970);
+}
+
+export function goBackToSpark() {
+	if (appStore.platform().toLowerCase() === PLATFORM_TYPE.SPARK_IOS) {
+		window.location.href = `${window.location.origin}${base}/exit`;
+	} else {
+		window.open(appStore.closecta(), '_self');
+	}
 }

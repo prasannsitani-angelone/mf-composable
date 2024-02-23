@@ -14,7 +14,8 @@ const sparkHeadersList: Array<keyof SparkStore> = [
 	'paymentapps',
 	'sessionId',
 	'linkedmembers',
-	'isTabView'
+	'isTabView',
+	'openViaTabView'
 ];
 
 const getSparkHeaders = (headers: Headers) => {
@@ -33,7 +34,8 @@ const getSparkHeaders = (headers: Headers) => {
 		linkedmembers: {
 			selected: []
 		},
-		isTabView: false
+		isTabView: false,
+		openViaTabView: false
 	};
 
 	sparkHeadersList.forEach((list) => {

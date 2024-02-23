@@ -6,4 +6,6 @@ export interface IBottomNavItem {
 	isInternalNavigation?: boolean;
 	width: number;
 	height: number;
+	callMethod?: boolean;
+	method?: () => void;
 }

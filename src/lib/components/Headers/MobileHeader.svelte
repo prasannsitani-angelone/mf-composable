@@ -11,6 +11,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { browserHistoryStore } from '$lib/stores/BrowserHistoryStore';
+	import { goBackToSpark } from '$lib/utils';
 
 	export let title = '';
 	export let showSearchIcon = false;
@@ -31,11 +32,7 @@
 
 	const handleCloseButtonClick = () => {
 		crossButtonClickEvent();
-		if ($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) {
-			window.location.href = `${window.location.origin}${base}/exit`;
-		} else {
-			window.open($appStore.closecta, '_self');
-		}
+		goBackToSpark();
 	};
 
 	const handleBackNavigation = async () => {

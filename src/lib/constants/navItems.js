@@ -9,6 +9,7 @@ import PadNavFilled from '$lib/images/PadActive.svelte';
 import SipsNav from '$lib/images/SipsNav.svelte';
 import SipsNavFilled from '$lib/images/SipsNavFilled.svelte';
 import { base } from '$app/paths';
+import { goBackToSpark } from '$lib/utils';
 
 export const BOTTOM_NAVBARS = (version) => [
 	{
@@ -18,7 +19,9 @@ export const BOTTOM_NAVBARS = (version) => [
 		activeIcon: DiscoverNavFilled,
 		isInternalNavigation: true,
 		width: 24,
-		height: 24
+		height: 24,
+		callMethod: true,
+		method: goBackToSpark
 	},
 	{
 		label: 'Cart',

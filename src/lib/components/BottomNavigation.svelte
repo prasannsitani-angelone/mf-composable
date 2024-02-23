@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { tabClickNavigationAnalytics } from '$lib/analytics/DiscoverFunds';
 	import { cartStore } from '$lib/stores/CartStore';
+	import { appStore } from '$lib/stores/SparkStore';
 	import type { IBottomNavItem } from '$lib/types/IBottomNavItem';
 	import Link from './Link.svelte';
 	export let navs: IBottomNavItem[];
@@ -27,6 +28,8 @@
 				class="inline-block w-full justify-center py-3 text-center"
 				pathConversion={false}
 				disableRedirect={isActive}
+				callMethod={$appStore.openViaTabView && nav.callMethod}
+				method={nav.method}
 			>
 				<svelte:component
 					this={isActive ? nav.activeIcon : nav.icon}
