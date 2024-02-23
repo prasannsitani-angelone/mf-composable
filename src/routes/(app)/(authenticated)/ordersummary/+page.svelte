@@ -256,7 +256,7 @@
 						titleClass="!font-medium"
 					>
 						<svelte:fragment slot="faqIcon">
-							{#if !(isBuyPortfolio || isCart)}
+							{#if !(isBuyPortfolio || isCart || isRedeem || isSwitch)}
 								<WMSIcon
 									name="question-mark-point"
 									stroke="#3F5BD9"
@@ -279,7 +279,7 @@
 								<span />
 							</svelte:fragment>
 							<svelte:fragment slot="rightColumn">
-								{#if !(isBuyPortfolio || isCart)}
+								{#if !(isBuyPortfolio || isCart || isRedeem || isSwitch)}
 									<div class="mr-4 sm:cursor-pointer">
 										<WMSIcon
 											name="question-mark-point"

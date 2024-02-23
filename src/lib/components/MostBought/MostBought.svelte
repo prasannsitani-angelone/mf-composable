@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { WeeklyTopSchemesEntity } from '$lib/types/IDiscoverFunds';
 	import TrendingCarousel from './TrendingCarousel.svelte';
-	let title = 'Most Bought on Angel One';
+	let title = 'Most Bought SIPs';
 
 	let tableData: Array<WeeklyTopSchemesEntity>;
 	let classes = {

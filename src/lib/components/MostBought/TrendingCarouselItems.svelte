@@ -14,6 +14,9 @@
 	export let clazz = '';
 	export let index;
 	export let disableRedirection = false;
+	export let schemeLogoSize = 'sm';
+	export let schemeLogoClass = '';
+	export let headingClass = '';
 	let dispatch = createEventDispatcher();
 
 	function gotoSchemeDetails() {
@@ -37,18 +40,21 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div on:click={gotoSchemeDetails} class={`flex cursor-pointer flex-col ${clazz}`}>
-	<div class="mb-3 flex flex-row items-start px-2">
-		<SchemeLogo
-			size="sm"
-			src={schemes?.logoUrl}
-			alt={schemes?.schemeName}
-			lazy={index > 1 ? 'lazy' : 'eager'}
-		/>
-		<h3
-			class="line-clamp-2 self-center whitespace-normal text-sm font-normal text-title md:text-sm"
-		>
-			{schemes?.schemeName}
-		</h3>
+	<div class="mb-1 flex flex-row items-start px-2">
+		<slot name="topLeftSection">
+			<SchemeLogo
+				src={schemes?.logoUrl}
+				alt={schemes?.schemeName}
+				size={schemeLogoSize}
+				class={schemeLogoClass}
+				lazy={index > 1 ? 'lazy' : 'eager'}
+			/>
+			<h3
+				class="line-clamp-2 self-center whitespace-normal text-sm font-normal text-title md:text-sm {headingClass}"
+			>
+				{schemes?.schemeName}
+			</h3>
+		</slot>
 		<div class="flex-1" />
 		<slot name="topRightSection">
 			<AddToCart
@@ -66,25 +72,23 @@
 					? ''
 					: 'rounded-b'}"
 			>
-				<div
-					class="grid grid-cols-2 flex-row justify-between divide-x rounded-t-lg p-2 opacity-[.99]"
-				>
+				<div class="grid grid-cols-2 flex-row justify-between rounded-t-lg px-2 opacity-[.99]">
 					<slot name="detailsLeft">
 						<div class="flex flex-col items-start">
-							<p class="text-xs font-normal text-body">Min. SIP Amount</p>
-							<p class="text-base font-medium text-title">
-								₹ {addCommasToAmountString(schemes?.minSipAmount?.toString()) ||
+							<p class="mb-1 text-xs font-normal text-body">Min. SIP Amount</p>
+							<p class="text-sm font-medium text-title">
+								₹{addCommasToAmountString(schemes?.minSipAmount?.toString()) ||
 									schemes?.minSipAmount}
 							</p>
 						</div>
 					</slot>
 					<slot name="detailsRight">
 						<div class="flex flex-col items-end">
-							<p class="text-xs font-normal text-body">3 Year Returns</p>
+							<p class="mb-1 text-xs font-normal text-body">3Y Returns</p>
 							<div class="flex flex-row items-center">
 								<p class="text-xs font-normal text-title">
 									<span
-										class="text-base font-medium {schemes?.returns3yr > 0
+										class="text-sm font-medium {schemes?.returns3yr > 0
 											? 'text-buy'
 											: 'text-title'}">{schemes?.returns3yr?.toFixed(2)}%</span
 									>
@@ -97,7 +101,7 @@
 		</slot>
 		<slot name="detailsFooter">
 			{#if schemes?.noOfClientInvested}
-				<div class="flex flex-row items-center rounded-b bg-tint24-primary p-2">
+				<div class="flex flex-row items-center rounded-b px-3 py-2">
 					<slot name="detailsFooterIcon">
 						<WMSIcon
 							fill="var(--BODY)"
@@ -115,7 +119,7 @@
 							<span class=" font-medium">
 								{addCommasToAmountString(schemes?.noOfClientInvested)}
 							</span>
-							people have invested in this fund
+							people invested in this fund
 						</p>
 					</slot>
 				</div>

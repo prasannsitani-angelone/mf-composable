@@ -1,5 +1,4 @@
 <script lang="ts">
-	import OldTrendingFunds from '$components/MostBought/Old/OldTrendingFunds.svelte';
 	import PortfolioCard from '$components/PortfolioCards/PortfolioCard.svelte';
 	import { page } from '$app/stores';
 	import IntersectionObserver from 'svelte-intersection-observer';
@@ -37,6 +36,7 @@
 		storiesDataObjectWithoutUrls,
 		videoCtaList
 	} from '$components/Stories/utils';
+	import MostBought from '$components/MostBought/MostBought.svelte';
 	import QuickEntryPointsComponent from './QuickEntryPoints/QuickEntryPointsComponent.svelte';
 	import CategoriesComponent from './CategoriesComponent.svelte';
 	import { askAngelEntryImpressionAnalytics } from '$lib/analytics/askangel/askangel';
@@ -419,7 +419,7 @@
 	{/if}
 
 	<!-- 3. Most Bought Section -->
-	<OldTrendingFunds
+	<MostBought
 		class="row-start-{placementMapping?.mostBought?.rowStart} col-start-{placementMapping
 			?.mostBought?.columnStart} !my-0 {placementMapping?.mostBought?.rowStart > 1 ? '!mt-2' : ''}"
 		tableData={data?.searchDashboardData?.weeklyTopSchemes}

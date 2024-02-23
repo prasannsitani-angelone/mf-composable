@@ -79,7 +79,12 @@
 					clazz="ml-5 rounded-lg border pt-2 {$$props?.class}"
 					{schemes}
 					{index}
-				/>
+					schemeLogoSize="xs"
+					schemeLogoClass="border-none"
+					headingClass="!line-clamp-1"
+				>
+					<div slot="topRightSection" />
+				</TrendingCarouselItems>
 			</CarouselItem>
 		{/each}
 	</CarouselNative>
