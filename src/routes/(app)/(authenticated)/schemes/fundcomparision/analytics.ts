@@ -190,3 +190,28 @@ export const compareFundHoldingsToggleEvent = () => {
 		event_id: '325.0.0.1.17'
 	});
 };
+
+export const homepageFundCompareClickAnalytics = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-mfhomepage',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'comparefundscard',
+		event_property: null,
+		event_id: '325.0.0.1.20'
+	});
+};
+
+export const homepageFundCompareButtonImpressionAnalytics = (eventMetaData: {
+	comparefundsvisible: string;
+}) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-mfhomepage',
+		event_type: 'impression',
+		event_sub_type: 'button',
+		event_name: 'comparefundscardimpression',
+		event_property: null,
+		event_id: '325.0.0.1.1',
+		event_metadata: eventMetaData
+	});
+};

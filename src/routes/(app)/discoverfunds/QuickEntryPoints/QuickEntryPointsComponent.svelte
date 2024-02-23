@@ -11,15 +11,23 @@
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { slide } from 'svelte/transition';
 	import { page } from '$app/stores';
+	import {
+		homepageFundCompareClickAnalytics,
+		homepageFundCompareButtonImpressionAnalytics
+	} from '../../(authenticated)/schemes/fundcomparision/analytics';
+	import viewport from '$lib/utils/useViewPortAction';
 
 	$: openNfo = 0;
 	$: deviceType = $page.data.deviceType;
 
 	let isGuest: boolean;
+	let impressionEventSent = false;
+
 	onMount(async () => {
 		await tick();
 		const nfoList = await getactiveNfo();
 		openNfo = nfoList?.length;
+		handleFundCompareButtonAnanlytics('N');
 	});
 
 	const getParams = () => {
@@ -28,6 +36,20 @@
 			showSearch: true
 		};
 		return params;
+	};
+
+	const handleFundCompareButtonAnanlytics = (isVisible: string) => {
+		const metaData = {
+			comparefundsvisible: isVisible
+		};
+		homepageFundCompareButtonImpressionAnalytics(metaData);
+	};
+
+	const returnEstimatorInViewPort = () => {
+		if (!impressionEventSent) {
+			impressionEventSent = true;
+			handleFundCompareButtonAnanlytics('Y');
+		}
 	};
 
 	export { isGuest };
@@ -65,9 +87,12 @@
 	<QuickEntryPointsCard
 		title="Compare Mutual Funds"
 		subtitle="Compare performance of 8,000+ funds"
+		onLinkClicked={homepageFundCompareClickAnalytics}
 		to={`/schemes/fundcomparision?params=${encodeObject(getParams())}`}
 	>
 		<div
+			use:viewport
+			on:enterViewport={returnEstimatorInViewPort}
 			slot="icon"
 			class="mt-1 flex h-9 w-9 items-center justify-center rounded-full bg-secondary"
 		>

@@ -348,12 +348,16 @@
 		deleteFund(index);
 	};
 
-	const handleInvestClick = (index: number, schemeDetails: SchemeDetails) => {
+	const handleInvestClick = (index: number) => {
 		const eventMetaData = {
-			fundname: schemeDetails?.schemeName,
-			investMFIsin: schemeDetails?.isin,
 			investButtonRank: index + 1
 		};
+		(schemeDetailsList || []).forEach((item, index) => {
+			if (item) {
+				eventMetaData[`fundName${index + 1}`] = item?.schemeName;
+				eventMetaData[`investMFIsin${index + 1}`] = item?.isin;
+			}
+		});
 		comparefundInvestSelectClickEvent(eventMetaData);
 	};
 
@@ -759,7 +763,7 @@
 						showCTA={true}
 						on:addFund={() => handleAddFundClick(idx)}
 						on:removeFund={() => handleDeleteFund(idx, schemeDetails)}
-						on:invest={() => handleInvestClick(idx, schemeDetails)}
+						on:invest={() => handleInvestClick(idx)}
 					/>
 				</div>
 			{/each}
