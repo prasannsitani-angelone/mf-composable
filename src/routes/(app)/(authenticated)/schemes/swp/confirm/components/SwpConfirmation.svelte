@@ -283,6 +283,8 @@
 					SWP Amount <WMSIcon
 						width={16}
 						height={16}
+						fill="var(--BODY)"
+						stroke="var(--BODY)"
 						name="info-in-circle"
 						class="ml-1 cursor-default md:cursor-pointer"
 						on:click={toggleshowSWPAmountTooltip}
@@ -295,6 +297,8 @@
 						width={16}
 						height={16}
 						name="info-in-circle"
+						fill="var(--BODY)"
+						stroke="var(--BODY)"
 						class="ml-1 cursor-default md:cursor-pointer"
 						on:click={toggleshowSWPUnitTooltip}
 					/>
@@ -333,6 +337,8 @@
 						width={16}
 						class="ml-1 cursor-pointer"
 						name="info-in-circle"
+						fill="var(--BODY)"
+						stroke="var(--BODY)"
 						on:click={toggleExpectedNavDateModal}
 					/>
 				</div>

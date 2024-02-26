@@ -387,6 +387,8 @@
 								width={16}
 								height={16}
 								name="info-in-circle"
+								fill="var(--BODY)"
+								stroke="var(--BODY)"
 								class="ml-1 cursor-default md:cursor-pointer"
 								on:click={handleShowAboutEdisModal}
 							/>
@@ -482,7 +484,7 @@
 			on:crossClicked={() => handleShowTpinRegeneratedModal(true)}
 		>
 			<svelte:fragment slot="bodySection">
-				<section class="p-8">
+				<section class="p-8 text-title">
 					Your 6-digit CDSL PIN has been sent to the registered email address and mobile number {maskedMobileNumber}
 					<article class="mt-16 flex items-center justify-center">
 						<Button class="!w-48 rounded border border-primary" onClick={regenerateProceed}>

@@ -44,7 +44,7 @@
 									{#if subHeadingArr.length > 1}
 										<div class="mr-1.5 mt-2 h-1.5 w-1.5 rounded-full bg-black-title" />
 									{/if}
-									<div class={`flex ${subHeading?.class}`}>
+									<div class={`flex text-title ${subHeading?.class}`}>
 										{subHeading?.text}
 									</div>
 								</div>

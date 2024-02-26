@@ -20,6 +20,8 @@
 			<WMSIcon
 				height={16}
 				width={16}
+				fill="var(--BODY)"
+				stroke="var(--BODY)"
 				class="ml-1 cursor-pointer"
 				name="info-in-circle"
 				on:click={toggleSwitchCue}

@@ -48,7 +48,7 @@
 
 	<img src={getImagePath()} alt="Order Status" />
 
-	<div class="m-3 rounded-lg bg-gradient-to-l from-green p-3 text-sm font-normal">
+	<div class="m-3 rounded-lg bg-gradient-to-l from-green p-3 text-sm font-normal text-title">
 		{getStatusDescription()}
 	</div>
 

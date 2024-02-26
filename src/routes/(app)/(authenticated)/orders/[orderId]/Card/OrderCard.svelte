@@ -74,6 +74,8 @@
 							width={16}
 							class="ml-1 cursor-pointer"
 							name="info-in-circle"
+							fill="var(--BODY)"
+							stroke="var(--BODY)"
 							on:click={handleOpenExpectedNavDateModal}
 						/>
 						<InfoPopup

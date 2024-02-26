@@ -280,6 +280,8 @@
 								width={16}
 								height={16}
 								name="info-in-circle"
+								fill="var(--BODY)"
+								stroke="var(--BODY)"
 								class="cursor-default md:cursor-pointer"
 								on:click={handleShowAboutOrderVerificationModal}
 							/>
