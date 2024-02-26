@@ -13,6 +13,7 @@
 		type IFundSelect,
 		type ScreenerSource
 	} from '$lib/analytics/filters/filters';
+	import { SCREENER_SOURCE } from '$lib/constants/screener';
 	import type { ScreenedSchemes } from '$lib/types/Screener';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 
@@ -52,23 +53,38 @@
 					onTableRowSelect(funds, index);
 				}}
 			>
-				<Td class="border-none !px-0"
+				<Td class="border-none !px-0 {pageSource === SCREENER_SOURCE.HOMEPAGE ? '!py-3' : ''} "
 					><a
-						class="flex w-full items-start overflow-hidden text-ellipsis whitespace-pre-wrap align-middle"
+						class="flex w-full items-center overflow-hidden text-ellipsis whitespace-pre-wrap align-middle {pageSource ===
+						SCREENER_SOURCE.HOMEPAGE
+							? 'items-center'
+							: 'items-start'}"
 						href={normalizeFundName(funds?.schemeName, funds?.isin, funds?.schemeCode)}
 					>
-						<SchemeLogo src={funds?.logoUrl} class="h-12 w-12" />
+						{#if pageSource === SCREENER_SOURCE.HOMEPAGE}
+							<SchemeLogo src={funds?.logoUrl} size="xs" class="border-none" />
+						{:else}
+							<SchemeLogo src={funds?.logoUrl} class="h-12 w-12" />
+						{/if}
 						<div class="flex flex-col">
-							<span class="line-clamp-2 text-sm font-normal text-title">{funds?.schemeName}</span>
-							<span class="pt-2 text-xs text-body"
-								>Minimum SIP Investment ₹{funds?.minSipAmount || '-'}</span
-							>
+							<span class="line-clamp-1 text-sm font-normal text-title">{funds?.schemeName}</span>
+							{#if pageSource !== SCREENER_SOURCE.HOMEPAGE}
+								<span class="pt-2 text-xs text-body"
+									>Minimum SIP Investment ₹{funds?.minSipAmount || '-'}</span
+								>
+							{/if}
 						</div>
 					</a></Td
 				>
 
-				<Td class="border-none !pr-0 text-right align-top"
-					><span class="text-base font-medium {funds?.returns3yr > 0 ? 'text-buy' : 'text-title'}"
+				<Td
+					class="border-none text-right {pageSource === SCREENER_SOURCE.HOMEPAGE
+						? '!px-0'
+						: '!pr-0 align-top'}"
+					><span
+						class=" font-medium {pageSource === SCREENER_SOURCE.HOMEPAGE
+							? 'text-sm'
+							: 'text-base'} {funds?.returns3yr > 0 ? 'text-buy' : 'text-title'}"
 						>{funds?.returns3yr > 0 ? `${funds?.returns3yr?.toFixed(2)}%` : '-'}</span
 					></Td
 				>

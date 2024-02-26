@@ -66,6 +66,7 @@
 	import TrendingFunds from '$components/TrendingFunds/TrendingFunds.svelte';
 	import type { TrendingFund } from '$lib/types/ITrendingFunds';
 	import StartSipEntry from '$components/StartSip/StartSipEntry.svelte';
+	import TopFunds from '$components/TopFunds/TopFunds.svelte';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -470,6 +471,17 @@
 			fundList={trendingFundsData}
 			class="row-start-{placementMapping?.trendingFunds?.rowStart} col-start-{placementMapping
 				?.trendingFunds?.columnStart} !my-0 {placementMapping?.trendingFunds?.rowStart > 1
+				? '!mt-2'
+				: ''}"
+		/>
+	{/if}
+
+	<!-- Top Funds List -->
+	{#if placementMapping?.topFundsList}
+		<TopFunds
+			tableData={data?.searchDashboardData?.categories}
+			class="row-start-{placementMapping?.topFundsList?.rowStart} col-start-{placementMapping
+				?.topFundsList?.columnStart} !my-0 {placementMapping?.topFundsList?.rowStart > 1
 				? '!mt-2'
 				: ''}"
 		/>

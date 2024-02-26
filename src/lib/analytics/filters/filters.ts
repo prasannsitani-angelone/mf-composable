@@ -1,3 +1,4 @@
+import { SCREENER_SOURCE } from '$lib/constants/screener';
 import Analytics from '$lib/utils/analytics';
 
 export interface IExploreMF {
@@ -6,7 +7,7 @@ export interface IExploreMF {
 	topFilter: 'Y' | 'N';
 }
 
-export type ScreenerSource = 'Homepage' | 's_Eexploremutualfunds';
+export type ScreenerSource = SCREENER_SOURCE.HOMEPAGE | SCREENER_SOURCE.EXPLORE_MF;
 
 export interface ITryQuickFilter {
 	rank: number;
