@@ -28,7 +28,7 @@
 	import { SEO, WMSIcon } from 'svelte-components';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 	import { onMount, tick } from 'svelte';
-	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+	import { PUBLIC_MF_CORE_BASE_URL, PUBLIC_MF_CORE_BASE_URL_V2 } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import MostBought from '$components/MostBought/MostBought.svelte';
 	import QuickEntryPointsComponent from '../../discoverfunds/QuickEntryPoints/QuickEntryPointsComponent.svelte';
@@ -63,6 +63,8 @@
 	import { modifiedGoto } from '$lib/utils/goto';
 	import { slide } from 'svelte/transition';
 	import SearchComponent from '../../discoverfunds/SearchComponent.svelte';
+	import TrendingFunds from '$components/TrendingFunds/TrendingFunds.svelte';
+	import type { TrendingFund } from '$lib/types/ITrendingFunds';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -77,6 +79,7 @@
 	let start4SipsNudgeData: Start4SipsNudgeType;
 	let userEducationNudge: UserEducationNudgeType;
 	let notifData: INotificationSummary;
+	let trendingFundsData: TrendingFund[];
 	let autopayNudge: INudge;
 	let user_cohort =
 		$page?.data?.userDetails?.cohort?.length && $page?.data?.userDetails?.cohort[0]
@@ -122,6 +125,14 @@
 			return notifData;
 		}
 		return notifData;
+	};
+	const getTrendingFundsData = async () => {
+		trendingFundsData = [];
+		const url = `${PUBLIC_MF_CORE_BASE_URL_V2}/schemes?mostViewed=true`;
+		const res = await useFetch(url, {}, fetch);
+		if (res.ok) {
+			trendingFundsData = res?.data?.data;
+		}
 	};
 	const setSipNudgesData = (nudgeData: NudgeDataType) => {
 		sipPaymentNudges = [];
@@ -292,6 +303,10 @@
 			notifData = data;
 		});
 
+		if (placementMapping?.trendingFunds) {
+			getTrendingFundsData();
+		}
+
 		if (data?.layoutConfig?.showAskAngelEntry) {
 			askAngelEntryImpressionAnalytics();
 		}
@@ -438,6 +453,17 @@
 		>
 			<CategoriesComponent categories={data?.searchDashboardData?.categories} />
 		</article>
+	{/if}
+
+	<!-- Trending Funds -->
+	{#if placementMapping?.trendingFunds && trendingFundsData?.length}
+		<TrendingFunds
+			fundList={trendingFundsData}
+			class="row-start-{placementMapping?.trendingFunds?.rowStart} col-start-{placementMapping
+				?.trendingFunds?.columnStart} !my-0 {placementMapping?.trendingFunds?.rowStart > 1
+				? '!mt-2'
+				: ''}"
+		/>
 	{/if}
 
 	<!-- 8. Start 4 SIPs (curated) Section -->
