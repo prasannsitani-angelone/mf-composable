@@ -453,7 +453,7 @@
 		// decrease the min by 2.5% and increase max by 2.5% as directed by product for scales
 		minAmount = Math.round(0.975 * minAmount * 10) / 10;
 		maxAmount = Math.round(1.025 * maxAmount * 10) / 10;
-		let stepSize = Math.round(((minAmount + maxAmount) / 2) * 10) / 10;
+		let stepSize = Math.round((maxAmount - minAmount) / 2);
 		if (maxAmount - minAmount >= 10) {
 			maxAmount = Math.round(maxAmount);
 			minAmount = Math.round(minAmount);
