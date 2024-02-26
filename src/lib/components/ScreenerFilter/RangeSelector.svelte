@@ -71,10 +71,3 @@
 		</div>
 	{/if}
 </article>
-
-<style>
-	.slider {
-		--progress-bg: #3f5bd9;
-		--track-bg: #e6ebfe;
-	}
-</style>

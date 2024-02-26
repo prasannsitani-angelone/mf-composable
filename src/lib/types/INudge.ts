@@ -79,3 +79,14 @@ export type UserEducationNudgeType = {
 	id: string;
 	amount: number;
 };
+
+export type EcasImportNudgeType = {
+	type: string;
+	heading: string;
+	description: string;
+	link: string;
+	linkHeading: 'TRACK NOW';
+	nudgesType: 'ECAS_IMPORT';
+	id: string;
+	amount: number;
+};

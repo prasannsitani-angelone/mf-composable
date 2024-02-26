@@ -97,10 +97,3 @@
 		</div>
 	</div>
 </section>
-
-<style>
-	.slider {
-		--progress-bg: #3f5bd9;
-		--track-bg: #e8ebfa;
-	}
-</style>

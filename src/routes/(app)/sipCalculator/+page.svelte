@@ -4,7 +4,6 @@
 	import RightChevron from './icons/RightChevron.svelte';
 	import { debounce } from '$lib/utils/helpers/debounce';
 	import CalculatorInputComponent from './components/CalculatorInputComponent.svelte';
-	import LinearVerticalChart from '$components/Charts/LinearVerticalChart.svelte';
 	import { schemeScreenerStore } from '$lib/stores/SchemeScreenerStore';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
@@ -19,6 +18,8 @@
 	} from './analytics';
 	import { linearInterpolator } from './utils';
 	import Background from './icons/Background.svelte';
+	import BarChartGraphComponent from './components/BarChartGraphComponent.svelte';
+	import type { SipCalcBarType } from './components/types';
 
 	let currentInvestmentMode: 'SIP' | 'OTI' = 'SIP';
 	const updateSelectedInvestmentTypeChange = (investmentType: 'SIP' | 'OneTime') => {
@@ -81,7 +82,7 @@
 		gains: number;
 	};
 
-	let selectedDataSet = {
+	let selectedDataSet: SipCalcBarType = {
 		durationInYears: null,
 		investedAmount: 0,
 		gains: 0
@@ -259,39 +260,12 @@
 			</div>
 		</div>
 
-		<div class="mx-3 mb-6 flex flex-row justify-evenly sm:mx-6 {browser ? 'visible' : 'invisible'}">
-			{#each dataSet as item, index (index)}
-				{@const total = item.investedAmount + item.gains}
-				{@const investPercent = (item.investedAmount * 100) / total}
-				{@const gainsPercent = (item.gains * 100) / total}
-				{@const isSelected =
-					!selectedDataSet.durationInYears ||
-					item.durationInYears === selectedDataSet.durationInYears}
-				{@const height = Math.floor(90 * (1 + index / 2))}
-				<LinearVerticalChart
-					class="mt-auto flex-1"
-					style="height: {height}px; min-height: 8px"
-					chartInput={[
-						{
-							color: isSelected ? '#008F75' : '#E8EBF1',
-							weightage: gainsPercent
-						},
-						{
-							color: isSelected ? '#C2E4DE' : '#F4F6FB',
-							weightage: investPercent
-						}
-					]}
-					on:click={() => handleChartClick(item)}
-				>
-					<div class="mx-auto mb-2 w-fit text-xs font-normal text-title" slot="topLabel">
-						₹{getDisplayAmount(total)}
-					</div>
-					<div class="mx-auto mt-2 w-fit text-xs font-normal text-body" slot="bottomLabel">
-						{item.durationInYears}Y
-					</div>
-				</LinearVerticalChart>
-			{/each}
-		</div>
+		<BarChartGraphComponent
+			on:handleChartClick={(e) => handleChartClick(e.detail)}
+			class="sm:mx-6 {browser ? 'visible' : 'invisible'}"
+			bind:dataSet
+			bind:selectedDataSet
+		/>
 
 		<CalculatorInputComponent
 			bind:amountSlider

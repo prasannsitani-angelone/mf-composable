@@ -3,6 +3,7 @@
 	import { page } from '$app/stores';
 	import IntersectionObserver from 'svelte-intersection-observer';
 	import type {
+		EcasImportNudgeType,
 		INudge,
 		IRetryPaymentNudge,
 		NudgeDataType,
@@ -69,6 +70,8 @@
 	import TextInput from '$lib/components/TextInput.svelte';
 	import SearchIcon from '$lib/images/icons/SearchDarkIcon.svelte';
 	import { goto } from '$app/navigation';
+	import TrackExternalInvestment from './TrackExternalInvestment/TrackExternalInvestment.svelte';
+	import SipCalculatorComponent from './SipCalculator/SipCalculatorComponent.svelte';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -82,6 +85,7 @@
 	let formattedSipPaymentMonthNudgeData: IRetryPaymentNudge;
 	let startFirstSipNudgeData: StartFirstSipNudgeType;
 	let start4SipsNudgeData: Start4SipsNudgeType;
+	let ecasImportNudgeData: EcasImportNudgeType;
 	let userEducationNudge: UserEducationNudgeType;
 	let trendingFundsData: TrendingFund[];
 	let autopayNudge: INudge;
@@ -270,6 +274,8 @@
 				userEducationNudge = item;
 			} else if (item?.nudgesType === 'mandate') {
 				autopayNudge = item;
+			} else if (item?.nudgesType === 'ECAS_IMPORT') {
+				ecasImportNudgeData = item;
 			}
 		});
 	};
@@ -540,6 +546,25 @@
 				await import('$components/InvestWithExperts/CuratedInvestmentCardComponent.svelte')}
 		/>
 	</div>
+
+	{#if ecasImportNudgeData && placementMapping?.trackExtFunds}
+		<TrackExternalInvestment
+			class="row-start-{placementMapping?.trackExtFunds?.rowStart} col-start-{placementMapping
+				?.trackExtFunds?.columnStart} {placementMapping?.trackExtFunds?.rowStart > 1
+				? '!mt-2'
+				: ''}"
+			nudge={ecasImportNudgeData}
+		/>
+	{/if}
+
+	{#if placementMapping?.sipCalculator}
+		<SipCalculatorComponent
+			class="row-start-{placementMapping?.sipCalculator?.rowStart} col-start-{placementMapping
+				?.sipCalculator?.columnStart} {placementMapping?.sipCalculator?.rowStart > 1
+				? '!mt-2'
+				: ''}"
+		/>
+	{/if}
 
 	{#if !deviceType?.isBrowser && autopayNudge && placementMapping?.setupAutopay}
 		<SetupAutopayNudge

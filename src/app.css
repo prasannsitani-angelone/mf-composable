@@ -125,3 +125,8 @@ input:focus {
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 }
+
+.slider {
+	--progress-bg: var(--PRIMARY);
+	--track-bg: var(--TINT12-PRIMARY);
+}

@@ -6,7 +6,8 @@
 		IRetryPaymentNudge,
 		NudgeDataType,
 		StartFirstSipNudgeType,
-		Start4SipsNudgeType
+		Start4SipsNudgeType,
+		EcasImportNudgeType
 	} from '$lib/types/INudge';
 	import { format } from 'date-fns';
 	import type { IDueSips, ISip } from '$lib/types/ISipType';
@@ -73,6 +74,8 @@
 	import type { TrendingFund } from '$lib/types/ITrendingFunds';
 	import StartSipEntry from '$components/StartSip/StartSipEntry.svelte';
 	import TopFunds from '$components/TopFunds/TopFunds.svelte';
+	import TrackExternalInvestment from '../../discoverfunds/TrackExternalInvestment/TrackExternalInvestment.svelte';
+	import SipCalculatorComponent from '../../discoverfunds/SipCalculator/SipCalculatorComponent.svelte';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -85,6 +88,7 @@
 	let nudgesData: NudgeDataType;
 	let startFirstSipNudgeData: StartFirstSipNudgeType;
 	let start4SipsNudgeData: Start4SipsNudgeType;
+	let ecasImportNudgeData: EcasImportNudgeType;
 	let userEducationNudge: UserEducationNudgeType;
 	let notifData: INotificationSummary;
 	let trendingFundsData: TrendingFund[];
@@ -262,6 +266,8 @@
 				userEducationNudge = item;
 			} else if (item?.nudgesType === 'mandate') {
 				autopayNudge = item;
+			} else if (item?.nudgesType === 'ECAS_IMPORT') {
+				ecasImportNudgeData = item;
 			}
 		});
 	};
@@ -569,6 +575,25 @@
 					await import('$components/InvestWithExperts/CuratedInvestmentCardComponent.svelte')}
 			/>
 		</div>
+	{/if}
+
+	{#if ecasImportNudgeData && placementMapping?.trackExtFunds}
+		<TrackExternalInvestment
+			class="row-start-{placementMapping?.trackExtFunds?.rowStart} col-start-{placementMapping
+				?.trackExtFunds?.columnStart} {placementMapping?.trackExtFunds?.rowStart > 1
+				? '!mt-2'
+				: ''}"
+			nudge={ecasImportNudgeData}
+		/>
+	{/if}
+
+	{#if placementMapping?.sipCalculator}
+		<SipCalculatorComponent
+			class="row-start-{placementMapping?.sipCalculator?.rowStart} col-start-{placementMapping
+				?.sipCalculator?.columnStart} {placementMapping?.sipCalculator?.rowStart > 1
+				? '!mt-2'
+				: ''}"
+		/>
 	{/if}
 
 	<!-- Video component -->

@@ -11,7 +11,8 @@ export const cohorts: { [key: string]: { placementMapping: object } } = {
 			sipCalculator: { rowStart: 8, columnStart: 1 },
 			trackExtFunds: { rowStart: 9, columnStart: 1 },
 			screener: { rowStart: 10, columnStart: 1 },
-			logout: { rowStart: 11, columnStart: 1 }
+			askAngel: { rowStart: 11, columnStart: 1 },
+			logout: { rowStart: 12, columnStart: 1 }
 		}
 	},
 	MF_NEW_RETURNING: {

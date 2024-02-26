@@ -21,7 +21,7 @@ const hexToRgb = (hexColor: string): { r: number; g: number; b: number } => {
 	return { r, g, b };
 };
 
-const getCssVar = (varName: string) => {
+export const getCssVar = (varName: string) => {
 	const elementById = browser ? document?.getElementById('theme-layout') : null;
 	if (!elementById) {
 		return '';

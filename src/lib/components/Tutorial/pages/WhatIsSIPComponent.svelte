@@ -116,10 +116,3 @@
 		Projected value for your SIP in {duration} years at {returnsPercentage}% returns annually
 	</p>
 </div>
-
-<style>
-	.slider {
-		--progress-bg: #3f5bd9;
-		--track-bg: #f4f6fb;
-	}
-</style>

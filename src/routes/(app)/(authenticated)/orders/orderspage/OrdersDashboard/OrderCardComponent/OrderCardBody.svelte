@@ -9,7 +9,6 @@
 	import { orderDashboardCardClickAnalytics } from '$lib/analytics/orders/orders';
 	import { INVESTMENT_TYPE } from '$lib/constants/transactionType';
 	import { ORDER_STATUS } from '$lib/constants/orderFlowStatuses';
-	import { getRGBACssVar } from '$lib/utils/colors';
 
 	export let item: orderItem;
 	let investmentTypeText = '';
@@ -65,16 +64,6 @@
 			goto(`${base}/orders/${item?.orderId}`);
 		}
 	};
-
-	function getBGColor(status: string | undefined) {
-		if (status === 'COMPLETED') {
-			return getRGBACssVar('--BUY', 0.12);
-		} else if (status === 'FAILED') {
-			return getRGBACssVar('--SELL', 0.12);
-		} else if (status === 'IN PROGRESS') {
-			return getRGBACssVar('--SECONDARY', 0.12);
-		}
-	}
 </script>
 
 <section
@@ -116,11 +105,10 @@
 				</article>
 				<article class="mt-1 flex w-full justify-end">
 					<span
-						style="background-color: {getBGColor(item?.status?.toUpperCase())}"
-						class="flex items-center justify-end rounded-sm bg-opacity-12 p-1 text-3xs text-title"
-						class:bg-buy={item?.status?.toUpperCase() === 'COMPLETED'}
-						class:bg-sell={item?.status?.toUpperCase() === 'FAILED'}
-						class:bg-secondary={item?.status?.toUpperCase() === 'IN PROGRESS'}
+						class="flex items-center justify-end rounded-sm p-1 text-3xs text-title"
+						class:bg-tint12-buy={item?.status?.toUpperCase() === 'COMPLETED'}
+						class:bg-tint12-sell={item?.status?.toUpperCase() === 'FAILED'}
+						class:bg-tint12-secondary={item?.status?.toUpperCase() === 'IN PROGRESS'}
 					>
 						{#if item?.status?.toUpperCase() === 'FAILED'}
 							<WMSIcon name="red-exclamation" height={12} width={12} class="mr-1" />

@@ -41,7 +41,7 @@
 				{@const fundManagerAge = calculateYearDiffrence(new Date(fundManager?.startDate))}
 				<section class="flex items-center rounded">
 					<div
-						class="bg-primary/[.12] mr-3 flex h-10 w-10 items-center justify-center rounded-full"
+						class="mr-3 flex h-10 w-10 items-center justify-center rounded-full bg-tint12-primary"
 					>
 						<span class="text-sm font-medium text-primary">
 							{fundManagerInitials(fundManager?.name)}
