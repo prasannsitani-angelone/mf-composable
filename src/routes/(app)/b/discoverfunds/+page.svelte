@@ -63,6 +63,12 @@
 	import { modifiedGoto } from '$lib/utils/goto';
 	import { slide } from 'svelte/transition';
 	import SearchComponent from '../../discoverfunds/SearchComponent.svelte';
+	import TextInput from '$lib/components/TextInput.svelte';
+	import SearchDarkIcon from '$lib/images/icons/SearchDarkIcon.svelte';
+	import SearchIcon from '$lib/images/icons/SearchDarkIcon.svelte';
+	import HomePageVideoPlayer from '../../VideoPlayer/videoPlayer.svelte';
+	import Modal from '$components/Modal.svelte';
+	import { goto } from '$app/navigation';
 	import TrendingFunds from '$components/TrendingFunds/TrendingFunds.svelte';
 	import type { TrendingFund } from '$lib/types/ITrendingFunds';
 	import StartSipEntry from '$components/StartSip/StartSipEntry.svelte';
@@ -88,6 +94,9 @@
 			? $page?.data?.userDetails?.cohort[0]
 			: 'Fallback';
 	let placementMapping = {};
+	let videoData;
+	let showVideoReelModal = false;
+	let shouldShowStories = false;
 	if ($page.data.deviceType?.isMobile || $page.data.deviceType?.isTablet) {
 		placementMapping = cohorts[user_cohort].placementMapping;
 	} else {
@@ -286,6 +295,23 @@
 		modifiedGoto(`${base}/pendingActions`);
 	};
 
+	const getHomePageVideoData = async () => {
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/packs?packId=BALANCED_GROWTH`;
+		const res = await useFetch(url, {}, fetch);
+		if (res.ok) {
+			videoData = res.data;
+		}
+	};
+
+	const handleVideoClickForDesktop = (e) => {
+		const showModal = e.detail;
+		showVideoReelModal = showModal;
+	};
+
+	const closeVideoReelModal = () => {
+		showVideoReelModal = false;
+	};
+
 	onMount(async () => {
 		await tick();
 		versionStore.setVersion('B');
@@ -293,6 +319,8 @@
 		storiesData = setStoriesData(setStoryCtaUrl);
 
 		resetSelectedLinkedFamilyMembers();
+
+		await getHomePageVideoData();
 
 		getNudgeData().then((nudgeData) => {
 			setNudgeData(nudgeData);
@@ -331,6 +359,19 @@
 		});
 	};
 
+	let searchInputClasses = {
+		container: 'py-3 mr-1 w-full border-none rounded-md',
+		label: '',
+		input:
+			'w-full !border-none focus:outline-none placeholder-body md:placeholder-disabled !text-base !text-title font-normal lg:font-normal !input-xs !pl-0',
+		error: '',
+		parent: 'w-full'
+	};
+
+	const navigateToSearch = () => {
+		goto(`${base}/search`);
+	};
+
 	export let data: PageData;
 </script>
 
@@ -365,8 +406,34 @@
 		</Link>
 	{/if}
 
+	{#if deviceType.isMobile}
+		<section class="mt-2">
+			<div
+				class="flex w-full cursor-text items-center rounded-lg border-none bg-background-alt shadow-csm"
+			>
+				<article class="flex w-full items-center">
+					<slot name="searchIcon">
+						{#if !deviceType?.isBrowser}
+							<SearchDarkIcon class="mx-4 mt-1 h-6 w-6" />
+						{:else}
+							<SearchIcon class="mx-4 mt-1" />
+						{/if}
+					</slot>
+
+					<TextInput
+						name="search-funds"
+						id="search-funds"
+						placeholder="Search by fund name, type or AMC"
+						classes={searchInputClasses}
+						on:click={navigateToSearch}
+					/>
+				</article>
+			</div>
+		</section>
+	{/if}
+
 	<!-- 3. Stories section -->
-	{#if storiesData?.stories?.length && placementMapping?.stories}
+	{#if storiesData?.stories?.length && placementMapping?.stories && shouldShowStories}
 		<StoriesComponent
 			class="row-start-{placementMapping?.stories?.rowStart} col-start-{placementMapping?.stories
 				?.columnStart} !mb-0 {placementMapping?.stories?.rowStart > 1 ? 'mt-2' : ''}"
@@ -504,6 +571,17 @@
 		</div>
 	{/if}
 
+	<!-- Video component -->
+
+	{#if videoData?.packs?.length && deviceType?.isMobile}
+		<div
+			class="row-start-{placementMapping?.videoReel?.rowStart} col-start-{placementMapping
+				?.videoReel?.columnStart} mt-2"
+		>
+			<HomePageVideoPlayer videoData={videoData.packs[0]} source="Normal" />
+		</div>
+	{/if}
+
 	<!-- 9. Quick Entry Points - External Funds, NFO, Calculator -->
 	{#if placementMapping?.quickEntryPoints}
 		<QuickEntryPointsComponent
@@ -585,6 +663,20 @@
 </article>
 
 <article class="sticky -top-2 hidden grid-cols-[100%] sm:grid" style="height:min-content">
+	{#if videoData?.packs?.length && !deviceType?.isMobile}
+		<div
+			class="p-1 row-start-{placementMapping?.videoReel?.rowStart} {placementMapping?.videoReel
+				?.rowStart > 1
+				? 'mt-2'
+				: ''}"
+		>
+			<HomePageVideoPlayer
+				videoData={videoData.packs[0]}
+				on:reel-click={handleVideoClickForDesktop}
+				source="Normal"
+			/>
+		</div>
+	{/if}
 	<div class="row-start-{placementMapping.investments?.rowStart} col-start-1">
 		{#if isLoggedInUser && data.investementSummary?.currentValue && placementMapping?.investments}
 			<div class="block overflow-hidden">
@@ -631,6 +723,13 @@
 		<AskAngel class="row-start-{placementMapping.askAngel?.rowStart}" />
 	{/if}
 </article>
+<Modal isModalOpen={showVideoReelModal} on:backdropclicked={closeVideoReelModal}>
+	<HomePageVideoPlayer
+		videoData={videoData.packs[0]}
+		source="Modal"
+		on:reel-click={handleVideoClickForDesktop}
+	/>
+</Modal>
 
 <style>
 	.slide-down {

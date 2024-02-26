@@ -104,7 +104,8 @@ export const cohorts_LF: { [key: string]: { placementMapping: object } } = {
 			quickEntryPoints: { rowStart: 5, columnStart: 1 },
 			screener: { rowStart: 6, columnStart: 1 },
 			buyPortfolioCard: { rowStart: 1, columnStart: 2 },
-			askAngel: { rowStart: 2, columnStart: 2 }
+			askAngel: { rowStart: 2, columnStart: 2 },
+			videoReel: { rowStart: 4, columnStart: 2 }
 		}
 	},
 	MF_NEW_RETURNING: {
@@ -116,7 +117,8 @@ export const cohorts_LF: { [key: string]: { placementMapping: object } } = {
 			quickEntryPoints: { rowStart: 5, columnStart: 1 },
 			screener: { rowStart: 6, columnStart: 1 },
 			buyPortfolioCard: { rowStart: 1, columnStart: 2 },
-			askAngel: { rowStart: 2, columnStart: 2 }
+			askAngel: { rowStart: 2, columnStart: 2 },
+			videoReel: { rowStart: 4, columnStart: 2 }
 		}
 	},
 	MF_WITH_SIP_N: {

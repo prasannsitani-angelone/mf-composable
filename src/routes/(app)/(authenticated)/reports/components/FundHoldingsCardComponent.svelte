@@ -113,6 +113,7 @@
 					<section class="px-4 text-sm md:px-8">
 						<article class="flex flex-col">
 							<p class="text-xs text-body">Date</p>
+							<!-- svelte-ignore a11y-no-static-element-interactions -->
 							<div class="mb-3 flex items-center border-b" on:click={toggleShowCalendar}>
 								{#if date}
 									<span class="test font-normal text-title">{displayDate}</span>
@@ -148,6 +149,7 @@
 			<svelte:fragment slot="content">
 				<section class="px-6 py-6">
 					<p class="pb-[14px] text-xs font-normal text-body">Date</p>
+					<!-- svelte-ignore a11y-no-static-element-interactions -->
 					<div class="mb-32 flex w-1/2 items-center border-b" on:click={toggleShowCalendar}>
 						{#if date}
 							<span class="test text-base font-normal">{displayDate}</span>

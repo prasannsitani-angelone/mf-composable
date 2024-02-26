@@ -79,6 +79,7 @@
 				use:useActions={actions}
 				on:focus
 				on:blur
+				on:click
 			/>
 			<slot name="posticon" />
 		</div>

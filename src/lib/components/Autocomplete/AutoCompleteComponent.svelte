@@ -112,9 +112,9 @@
 			<article class="flex w-full items-center">
 				<slot name="searchIcon">
 					{#if !deviceType?.isBrowser}
-						<SearchDarkIcon class="mx-4 h-6 w-6 text-title" />
+						<SearchDarkIcon class="mx-4 mt-1 h-6 w-6" />
 					{:else}
-						<SearchIcon class="mx-4" />
+						<SearchIcon class="mx-4 text-disabled" />
 					{/if}
 				</slot>
 

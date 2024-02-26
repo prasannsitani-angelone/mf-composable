@@ -1,0 +1,1 @@
+export const VIDEO_AUTOPLAY_THRESHOLD = 0.6;
