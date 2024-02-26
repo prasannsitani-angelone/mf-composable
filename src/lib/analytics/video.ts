@@ -1,11 +1,18 @@
-import { versionStore } from '$lib/stores/VersionStore';
-import type { ScreenedSchemes } from '$lib/types/Screener';
 import Analytics from '$lib/utils/analytics';
+
+interface VideoAnalyticsMetaData {
+	version?: string;
+	VideoTitle?: string;
+	FundName?: string;
+	FundIndex?: string;
+	Isin?: string;
+	mute?: boolean;
+}
 
 export type VideoAnalyticsCallbacks = {
 	videoImpression?: () => void;
-	muteUnmute?: (title: string | undefined, isMuted: boolean) => void;
-	bottomDrawerItemClick?: (title: string, scheme: ScreenedSchemes, index: number) => void;
+	muteUnmute?: (eventMetaData: VideoAnalyticsMetaData) => void;
+	bottomDrawerItemClick?: (eventMetaData: VideoAnalyticsMetaData) => void;
 };
 
 export const handleVideoImpressionEvent = () => {
@@ -19,7 +26,7 @@ export const handleVideoImpressionEvent = () => {
 	});
 };
 
-export const handleVideoCardClickAnalytics = (title: string) => {
+export const handleVideoCardClickAnalytics = (eventMetaData: VideoAnalyticsMetaData) => {
 	Analytics.logAnalyticEvent({
 		event_type: 'click',
 		event_sub_type: 'card',
@@ -27,15 +34,11 @@ export const handleVideoCardClickAnalytics = (title: string) => {
 		event_id: '308.0.0.10.5',
 		screen_name: 's-Homepage',
 		event_property: null,
-		event_metadata: {
-			VideoIndex: '1',
-			version: versionStore.getVersion(),
-			VideoTitle: title
-		}
+		event_metadata: eventMetaData
 	});
 };
 
-export const handleMuteUnMuteAnalytics = (title: string | undefined, isMuted: boolean) => {
+export const handleMuteUnMuteAnalytics = (eventMetaData: VideoAnalyticsMetaData) => {
 	Analytics.logAnalyticEvent({
 		event_type: 'click',
 		event_sub_type: 'card',
@@ -43,19 +46,11 @@ export const handleMuteUnMuteAnalytics = (title: string | undefined, isMuted: bo
 		event_id: '308.0.0.10.6',
 		screen_name: 's-Homepage',
 		event_property: null,
-		event_metadata: {
-			version: versionStore.getVersion(),
-			VideoTitle: title,
-			mute: isMuted ? 'Yes' : 'No'
-		}
+		event_metadata: eventMetaData
 	});
 };
 
-export const handleFundSelectAnalytics = (
-	title: string | undefined,
-	{ schemeName, isin }: ScreenedSchemes,
-	index: number
-) => {
+export const handleFundSelectAnalytics = (eventMetaData: VideoAnalyticsMetaData) => {
 	Analytics.logAnalyticEvent({
 		event_type: 'click',
 		event_sub_type: 'text',
@@ -63,17 +58,11 @@ export const handleFundSelectAnalytics = (
 		event_id: '308.0.0.10.8',
 		screen_name: 's-Videopage',
 		event_property: null,
-		event_metadata: {
-			version: versionStore.getVersion(),
-			VideoTitle: title,
-			FundIndex: index,
-			FundName: schemeName,
-			Isin: isin
-		}
+		event_metadata: eventMetaData
 	});
 };
 
-export const handleCrossButtonAnalytics = (title: string | undefined) => {
+export const handleCrossButtonAnalytics = (eventMetaData: VideoAnalyticsMetaData) => {
 	Analytics.logAnalyticEvent({
 		event_type: 'click',
 		event_sub_type: 'button',
@@ -81,9 +70,6 @@ export const handleCrossButtonAnalytics = (title: string | undefined) => {
 		event_id: '308.0.0.10.9',
 		screen_name: 's-Videopage',
 		event_property: null,
-		event_metadata: {
-			version: versionStore.getVersion(),
-			VideoTitle: title
-		}
+		event_metadata: eventMetaData
 	});
 };

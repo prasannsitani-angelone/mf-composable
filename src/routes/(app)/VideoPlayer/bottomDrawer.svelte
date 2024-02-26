@@ -17,6 +17,7 @@
 	import type { ScreenedSchemes } from '$lib/types/Screener';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { WMSIcon } from 'svelte-components';
+	import DragDownIcon from './icons/dragDownIcon.svelte';
 
 	let pageSource: ScreenerSource;
 
@@ -35,7 +36,13 @@
 		};
 
 		fundSelectClick(fundSelectMetaData);
-		analyticsCallbacks?.bottomDrawerItemClick?.(videoTitle, scheme, index + 1);
+		analyticsCallbacks?.bottomDrawerItemClick?.({
+			version: 'B',
+			VideoTitle: videoTitle,
+			FundIndex: index + 1,
+			FundName: schemeName,
+			Isin: isin
+		});
 		await goto(
 			`${base}/${normalizeFundName(schemeName, isin, schemeCode, 'schemes')}?orderpad=INVEST`
 		);
@@ -44,15 +51,7 @@
 
 <div class="flex items-center justify-center">
 	{#if !isDrawerMaxHeight}
-		<svg xmlns="http://www.w3.org/2000/svg" width="18" height="7" viewBox="0 0 18 7" fill="none">
-			<path
-				d="M1.25 5.5L9.25 1L16.75 5.5"
-				stroke="var(--DISABLED)"
-				stroke-width="2"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-			/>
-		</svg>
+		<DragDownIcon />
 	{:else}
 		<div class="h-[2px] w-[20px]" style="background-color: var(--DISABLED)" />
 	{/if}

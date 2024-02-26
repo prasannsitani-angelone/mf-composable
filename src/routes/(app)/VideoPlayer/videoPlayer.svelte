@@ -44,7 +44,10 @@
 			props.showBottomDrawer = true;
 			props.type = VideoPlayerMode.ProgressBarOverlay;
 		}
-		handleVideoCardClickAnalytics(props?.header || '');
+		handleVideoCardClickAnalytics({
+			version: 'B',
+			VideoTitle: props.header
+		});
 	};
 
 	const handleVideoClose = () => {
@@ -56,7 +59,10 @@
 			props.fullScreen = false;
 			props.showBottomDrawer = false;
 		}
-		handleCrossButtonAnalytics(props?.header || '');
+		handleCrossButtonAnalytics({
+			version: 'B',
+			VideoTitle: props.header
+		});
 	};
 
 	const playAllVideos = () => {

@@ -15,7 +15,6 @@
 	let intersectionObserver: IntersectionObserver | null = null;
 	let videoElement: HTMLVideoElement | null = null;
 	let progressBarPercentage = 0;
-	let paused = false;
 	let initialY = 0;
 	let mouseButtonPressed = false;
 	let initialHeight = 22;
@@ -88,7 +87,11 @@
 		if (videoElement) {
 			isMuted.update((currentValue) => !currentValue);
 			videoElement.muted = $isMuted;
-			analyticsCallbacks?.muteUnmute?.(props?.header, $isMuted);
+			analyticsCallbacks?.muteUnmute?.({
+				version: 'B',
+				VideoTitle: props.header,
+				mute: $isMuted ? 'Yes' : 'No'
+			});
 		}
 	};
 
@@ -96,7 +99,6 @@
 		const deltaY = clientY - initialY;
 		const element = document.getElementById(`footer-${props?.source}`);
 		const parentElement = document.getElementById(`container-${props?.source}`);
-		const videoBottom = parentElement?.getBoundingClientRect().bottom;
 
 		dispatch('drawer-max-height', false);
 
@@ -220,23 +222,6 @@
 				</button>
 				<div class="ml-4 text-sm text-white">{props?.header}</div>
 			</div>
-		</div>
-	{/if}
-	{#if paused && props?.type === VideoPlayerMode.ProgressBarOverlay}
-		<div class="absolute" style="left: 50%; bottom: 50%; transform: translate(-50%, -50%)">
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				width="48"
-				height="48"
-				viewBox="0 0 48 48"
-				fill="none"
-			>
-				<circle opacity="0.7" cx="24" cy="24" r="24" fill="#181F29" />
-				<path
-					d="M22.6688 13.5013C22.0252 12.9223 21 13.3791 21 14.2447V31.354C21 32.2199 22.0256 32.6765 22.6691 32.0972L32.1743 23.539C32.6156 23.1416 32.6154 22.4495 32.174 22.0524L22.6688 13.5013Z"
-					fill="white"
-				/>
-			</svg>
 		</div>
 	{/if}
 	{#if !props?.controls}

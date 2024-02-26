@@ -65,6 +65,10 @@
 	import type { TrendingFund } from '$lib/types/ITrendingFunds';
 	import StartSipEntry from '$components/StartSip/StartSipEntry.svelte';
 	import TopFunds from '$components/TopFunds/TopFunds.svelte';
+	import SearchDarkIcon from '$lib/images/icons/SearchDarkIcon.svelte';
+	import TextInput from '$lib/components/TextInput.svelte';
+	import SearchIcon from '$lib/images/icons/SearchDarkIcon.svelte';
+	import { goto } from '$app/navigation';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -86,6 +90,15 @@
 	let notifData: INotificationSummary;
 	let user_cohort = 'Fallback';
 	let placementMapping = {};
+	let searchInputClasses = {
+		container: 'py-3 mr-1 w-full border-none rounded-md',
+		label: '',
+		input:
+			'w-full !border-none focus:outline-none placeholder-body md:placeholder-disabled !text-base !text-title font-normal lg:font-normal !input-xs !pl-0',
+		error: '',
+		parent: 'w-full'
+	};
+
 	if ($page.data.deviceType?.isMobile || $page.data.deviceType?.isTablet) {
 		placementMapping = cohorts[user_cohort].placementMapping;
 	} else {
@@ -108,6 +121,11 @@
 		}
 		return nudgesData;
 	};
+
+	const navigateToSearch = () => {
+		goto(`${base}/search`);
+	};
+
 	const getAllNotificationsData = async () => {
 		notifData = {
 			summary: [],
@@ -358,6 +376,32 @@
 		>
 			<SearchComponent />
 		</Link>
+	{/if}
+
+	{#if deviceType.isMobile}
+		<section class="mt-2">
+			<div
+				class="flex w-full cursor-text items-center rounded-lg border-none bg-background-alt shadow-csm"
+			>
+				<article class="flex w-full items-center">
+					<slot name="searchIcon">
+						{#if !deviceType?.isBrowser}
+							<SearchDarkIcon class="mx-4 mt-1 h-6 w-6" />
+						{:else}
+							<SearchIcon class="mx-4 mt-1" />
+						{/if}
+					</slot>
+
+					<TextInput
+						name="search-funds"
+						id="search-funds"
+						placeholder="Search by fund name, type or AMC"
+						classes={searchInputClasses}
+						on:click={navigateToSearch}
+					/>
+				</article>
+			</div>
+		</section>
 	{/if}
 
 	<!-- svelte-ignore a11y-no-static-element-interactions -->

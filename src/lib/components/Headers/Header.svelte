@@ -15,6 +15,7 @@
 	};
 
 	let cookieEnabled = true;
+	let isSearchBarPresentOnHomeScreen = true;
 
 	onMount(() => {
 		cookieEnabled = navigator?.cookieEnabled;
@@ -29,7 +30,7 @@
 			<MobileHeader
 				title={pageMetaData?.title}
 				titleClass={pageMetaData?.titleClass}
-				showSearchIcon={pageMetaData?.showSearchIcon}
+				showSearchIcon={pageMetaData?.showSearchIcon && !isSearchBarPresentOnHomeScreen}
 				showBackIcon={pageMetaData?.showBackIcon}
 				showCloseIcon={pageMetaData?.showCloseIcon}
 				showShareIcon={pageMetaData?.showShareIcon}
