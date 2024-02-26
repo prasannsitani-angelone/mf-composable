@@ -65,6 +65,7 @@
 	import SearchComponent from '../../discoverfunds/SearchComponent.svelte';
 	import TrendingFunds from '$components/TrendingFunds/TrendingFunds.svelte';
 	import type { TrendingFund } from '$lib/types/ITrendingFunds';
+	import StartSipEntry from '$components/StartSip/StartSipEntry.svelte';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -431,6 +432,14 @@
 				on:onCTAClicked={(e) => modifiedGoto(e.detail.url)}
 			/>
 		{/if}
+	{/if}
+
+	<!-- Start SIP -->
+	{#if placementMapping?.startSip}
+		<StartSipEntry
+			class="row-start-{placementMapping?.startSip?.rowStart} col-start-{placementMapping?.startSip
+				?.columnStart} !my-0 {placementMapping?.startSip?.rowStart > 1 ? '!mt-2' : ''}"
+		/>
 	{/if}
 
 	<!-- 4. Most Bought Section -->
