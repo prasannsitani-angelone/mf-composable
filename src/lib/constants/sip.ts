@@ -4,3 +4,8 @@ export const SIP_CANCEL_REASONS = [
 	{ text: 'Waiting for right market conditions', id: 3 },
 	{ text: 'Want to invest with another app/platform', id: 4 }
 ];
+
+export const SIP_TYPE = {
+	SIP_TWENTY_DAY_NUDGE: 'SIP_TWENTY_DAY_NUDGE',
+	SIP_INSTALLMENT: 'SIP_INSTALLMENT'
+};

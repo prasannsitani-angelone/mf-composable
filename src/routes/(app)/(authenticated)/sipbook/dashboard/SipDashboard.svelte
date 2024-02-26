@@ -36,12 +36,13 @@
 	import TutorialNudge from '$components/Tutorial/nudge/TutorialNudge.svelte';
 	import type { INudge, UserEducationNudgeType } from '$lib/types/INudge';
 	import MostBought from '$components/MostBought/MostBought.svelte';
+	import { SIP_TYPE } from '$lib/constants/sip';
 
 	const sipUrl = `${PUBLIC_MF_CORE_BASE_URL_V2}/sips`;
 	let showInactiveSipsCta = false;
 	let sipbookSummary: ISipBookSummary;
 	let sipBookData: ISipBookData;
-	let updatedSipList: ISip = sipBookData?.sips || [];
+	let updatedSipList: ISip[] = sipBookData?.sips || [];
 	let normalSipsArray: ISip[] = [];
 	let paymentSipsArray: ISip[] = [];
 	let bankDetails = profileStore?.bankAccounts();
@@ -109,12 +110,21 @@
 	const setSipCardNudges = () => {
 		updatedSipList = sipBookData?.sips;
 		sipBookData?.sips?.forEach((sip, index) => {
-			nudgeData?.forEach((nudge) => {
-				if (nudge?.nudgesType === 'SIP_TWENTY_DAY_NUDGE' && sip?.sipId === nudge?.data?.sipId) {
+			nudgeData?.forEach((nudge: INudge) => {
+				if (
+					nudge?.nudgesType === SIP_TYPE.SIP_TWENTY_DAY_NUDGE &&
+					sip?.sipId === nudge?.data?.sipId
+				) {
 					updatedSipList[index].isSipPaymentNudge = true;
 					updatedSipList[index].sipPaymentMonthNudge = true;
 					updatedSipList[index].sipInstalmentId = (nudge?.data?.orderID || '')?.toString();
 					updatedSipList[index].orderDate = nudge?.data?.orderDate;
+					updatedSipList[index].sipPaymentDate = nudge?.data?.sipPaymentDate;
+					updatedSipList[index].sipAmountPayTillDate = nudge?.data?.sipAmountPayTillDate;
+				}
+				if (nudge?.nudgesType === SIP_TYPE.SIP_INSTALLMENT && sip?.sipId === nudge?.data?.sipId) {
+					updatedSipList[index].sipRegistrationNo = nudge?.data?.sipRegistrationNo;
+					updatedSipList[index].schemePlan = nudge?.data?.schemePlan;
 				}
 			});
 		});
