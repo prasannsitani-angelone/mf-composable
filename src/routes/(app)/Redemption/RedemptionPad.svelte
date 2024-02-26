@@ -37,11 +37,17 @@
 		withdrawableAmountModalCloseButtonAnalytics,
 		withdrawableAmountModalOpenAnalytics
 	} from '$lib/analytics/redemption/redemption';
+	import TaxOptimisedHighlight from '$components/Withdraw/WithdrawTaxFlow/TaxOptimisedHighlight.svelte';
+	import HigherTaxHighlight from '$components/Withdraw/WithdrawTaxFlow/HigherTaxHighlight.svelte';
+	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
+	import TaxInfoModal from '$components/Withdraw/WithdrawTaxFlow/TaxInfoModal.svelte';
 
 	export let holdingDetails = <FolioHoldingType>{};
 	export let isRedemptionNotAllowed = false;
 	export let redemptionNotAllowedText = '';
 	export let isInvestmentNotAllowed = false;
+	export let isWithdrawalStcgLtcgEligible = false;
+	export let ltcgCurAmount = 0;
 
 	const {
 		isExternal = false,
@@ -74,6 +80,8 @@
 	let unitBlockedReasons = holdingDetails?.unitBlockedReason;
 	let utilsMetaData: UtilsMetaData;
 	let queryParamsObj = <OrderPadTypes>{};
+	let showTaxInfoModal = false;
+	let finalisedTaxType: 'LTCG' | 'STCG';
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 	$: amountVal = amount?.length ? `₹${addCommasToAmountString(amount)}` : '';
@@ -332,6 +340,13 @@
 				holdingDetails?.schemeCode
 			)}`
 		);
+	};
+
+	const toggleTaxInfoModal = (taxType: 'LTCG' | 'STCG') => {
+		if (isWithdrawalStcgLtcgEligible) {
+			finalisedTaxType = taxType;
+			showTaxInfoModal = !showTaxInfoModal;
+		}
 	};
 
 	const withdrawProceedCtaAnalytics = () => {
@@ -622,6 +637,23 @@
 					{/if}
 					<span class="text-title md:text-title"> Withdraw Full Amount </span>
 				</article>
+
+				{#if Number(amount) > 0 && isWithdrawalStcgLtcgEligible}
+					{#if Number(amount) < ltcgCurAmount || redemableAmount < ltcgCurAmount}
+						<TaxOptimisedHighlight
+							class="mt-3"
+							taxLimit={redemableAmount < ltcgCurAmount ? redemableAmount : ltcgCurAmount}
+							on:infoClick={() => toggleTaxInfoModal('LTCG')}
+						/>
+					{:else}
+						<HigherTaxHighlight
+							class="mt-3"
+							taxLimit={redemableAmount < ltcgCurAmount ? redemableAmount : ltcgCurAmount}
+							categoryName={holdingDetails?.schemePlan}
+							on:infoClick={() => toggleTaxInfoModal('STCG')}
+						/>
+					{/if}
+				{/if}
 			</section>
 
 			<!-- Update Nominee Card -->
@@ -806,5 +838,19 @@
 				</section>
 			</svelte:fragment>
 		</InfoModal>
+	{/if}
+
+	{#if showTaxInfoModal}
+		<ModalWithAnimation
+			isModalOpen={showTaxInfoModal}
+			on:backdropclicked={() => toggleTaxInfoModal(finalisedTaxType)}
+		>
+			<TaxInfoModal
+				taxType={finalisedTaxType}
+				taxLimit={redemableAmount < ltcgCurAmount ? redemableAmount : ltcgCurAmount}
+				categoryName={holdingDetails?.schemePlan}
+				class="z-60 sm:w-120"
+			/>
+		</ModalWithAnimation>
 	{/if}
 </section>

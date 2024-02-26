@@ -11,7 +11,12 @@
 	import InvestmentDetailsLoader from './components/InvestmentDetailsLoader.svelte';
 	import InvestmentPad from '../../../InvestmentPad/InvestmentPad.svelte';
 	import type { PageData } from './$types';
-	import type { FolioHoldingType, ChartData, OrdersData } from '$lib/types/IInvestments';
+	import type {
+		FolioHoldingType,
+		ChartData,
+		OrdersData,
+		IHoldingTaxationDetails
+	} from '$lib/types/IInvestments';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import { decodeToObject, getQueryParamsObj } from '$lib/utils/helpers/params';
 	import isInvestmentAllowed from '$lib/utils/isInvestmentAllowed';
@@ -40,6 +45,8 @@
 	import SwpDetails from './components/SwpDetails.svelte';
 	import type { MandateWithBankDetails } from '$lib/types/IEmandate';
 	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
+	import WithdrawStcgLtcg from '$components/Withdraw/WithdrawTaxFlow/WithdrawStcgLtcg.svelte';
+	import { base } from '$app/paths';
 
 	export let data: PageData;
 
@@ -63,7 +70,11 @@
 	let withdrawDisableText = '';
 	let isWithdrawDisableLockInCase = false;
 	let showStayInvestedModal = false;
+	let showWithdrawstcgltcg = false;
+	let isWithdrawalStcgLtcgEligible = true;
 	let decodedParams = {};
+	let taxationDetails: IHoldingTaxationDetails;
+	let subCategoryName = '';
 
 	async function setPageData(
 		data: Promise<{
@@ -101,13 +112,37 @@
 
 		setInvestDisableText();
 		setWithdrawDisableText();
+
+		subCategoryName = result?.schemeData?.subcategoryName || '';
+		setTaxationDetails();
 	}
 
 	$: {
 		setPageData(data.api?.allResponse);
 	}
 
-	const handleErrorNavigation = () => goto('/');
+	const setIsWithdrawalStcgLtcgEligible = () => {
+		const { ltcgInvAmount, ltcgCurAmount } = taxationDetails || {};
+
+		if (
+			ltcgInvAmount > 0 &&
+			ltcgCurAmount > ltcgInvAmount &&
+			subCategoryName?.toLowerCase() !== 'elss'
+		) {
+			isWithdrawalStcgLtcgEligible = true;
+		} else {
+			isWithdrawalStcgLtcgEligible = false;
+		}
+	};
+
+	const setTaxationDetails = async () => {
+		const taxationDetailsRes = await data?.api?.taxationDetails;
+		taxationDetails = taxationDetailsRes?.data?.data;
+
+		setIsWithdrawalStcgLtcgEligible();
+	};
+
+	const handleErrorNavigation = () => goto(`${base}/discoverfunds`);
 
 	const investmentHeaderButtonClick = (clickedButton: string) => {
 		if (clickedButton?.length) {
@@ -246,6 +281,13 @@
 		}
 	};
 
+	const redirectToRedemptionPad = () => {
+		const currentPath = window?.location?.pathname;
+		const redirectPath = `${currentPath}?orderpad=REDEEM`;
+
+		goto(redirectPath);
+	};
+
 	const handleWithdrawCtaClick = () => {
 		withdrawButtonClickAnalytics();
 
@@ -258,10 +300,7 @@
 			}
 		}
 
-		const currentPath = window?.location?.pathname;
-		const redirectPath = `${currentPath}?orderpad=REDEEM`;
-
-		goto(redirectPath);
+		redirectToRedemptionPad();
 	};
 
 	const toggleShowStayInvestedModal = (primaryCta?: boolean) => {
@@ -270,6 +309,29 @@
 		}
 
 		showStayInvestedModal = !showStayInvestedModal;
+	};
+
+	const toggleShowWithdrawstcgltcg = () => {
+		showWithdrawstcgltcg = !showWithdrawstcgltcg;
+	};
+
+	const checkWithdrawstcgltcg = () => {
+		if (isWithdrawalStcgLtcgEligible) {
+			toggleShowStayInvestedModal();
+			toggleShowWithdrawstcgltcg();
+		} else {
+			handleStayInvestedModalWithdrawClick();
+		}
+	};
+
+	const handleContinuestcgltcg = () => {
+		toggleShowWithdrawstcgltcg();
+
+		if (isMobile || isTablet) {
+			redirectToRedemptionPad();
+		} else {
+			orderPadActiveTab = 'WITHDRAW';
+		}
 	};
 
 	const toggleSwitch = () => {
@@ -378,6 +440,8 @@
 							!!withdrawDisableText?.length}
 						redemptionNotAllowedText={withdrawDisableText}
 						{isInvestmentNotAllowed}
+						{isWithdrawalStcgLtcgEligible}
+						ltcgCurAmount={isWithdrawalStcgLtcgEligible ? taxationDetails?.ltcgCurAmount : 0}
 					/>
 				{/if}
 			{/if}
@@ -422,6 +486,8 @@
 							!!withdrawDisableText?.length}
 						redemptionNotAllowedText={withdrawDisableText}
 						{isInvestmentNotAllowed}
+						{isWithdrawalStcgLtcgEligible}
+						ltcgCurAmount={isWithdrawalStcgLtcgEligible ? taxationDetails?.ltcgCurAmount : 0}
 					/>
 				</article>
 			{:else if orderPadActiveTab === investmentDetailsFooterEvents?.SWP}
@@ -474,11 +540,25 @@
 			<StayInvested
 				class="z-60 sm:w-120"
 				on:primaryCtaClick={() => toggleShowStayInvestedModal(true)}
-				on:secondaryCtaClick={handleStayInvestedModalWithdrawClick}
+				on:secondaryCtaClick={checkWithdrawstcgltcg}
 				currentValue={holdingsData?.currentValue}
 				categoryName={res?.schemeData?.categoryName}
 				subCategoryName={res?.schemeData?.subCategoryName}
 				exitLoadDetails={res?.schemeData?.exitLoadValue || ''}
+			/>
+		</ModalWithAnimation>
+	{/if}
+
+	{#if showWithdrawstcgltcg}
+		<ModalWithAnimation
+			isModalOpen={showWithdrawstcgltcg}
+			on:backdropclicked={toggleShowWithdrawstcgltcg}
+		>
+			<WithdrawStcgLtcg
+				class="z-60 sm:w-120"
+				categoryName={res?.schemeData?.categoryName || ''}
+				{taxationDetails}
+				on:continueCtaClick={handleContinuestcgltcg}
 			/>
 		</ModalWithAnimation>
 	{/if}

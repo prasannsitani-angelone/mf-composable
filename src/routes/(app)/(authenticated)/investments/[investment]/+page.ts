@@ -80,12 +80,22 @@ export const load = (async ({ fetch, params }) => {
 		}
 	};
 
+	const getHoldingTaxationDetails = async () => {
+		try {
+			const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/taxations?isin=${isin}&schemeCode=${schemeCode}`;
+			return await useFetch(url, {}, fetch);
+		} catch (e) {
+			return {};
+		}
+	};
+
 	return {
 		api: {
 			allResponse: browser ? getPageData() : await getPageData(),
 			previousPaymentDetails: browser
 				? getPreviousPaymentDetails()
-				: await getPreviousPaymentDetails()
+				: await getPreviousPaymentDetails(),
+			taxationDetails: browser ? getHoldingTaxationDetails() : await getHoldingTaxationDetails()
 		},
 		layoutConfig: {
 			title: 'Investment Details',

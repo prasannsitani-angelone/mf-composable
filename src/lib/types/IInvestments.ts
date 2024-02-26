@@ -313,3 +313,18 @@ export interface ITaxationDetails {
 	schemeName?: string;
 	logoUrl?: string;
 }
+
+export interface IHoldingTaxationDetails {
+	stcgCurPercentage: number;
+	stcgCurAmount: number;
+	stcgInvUnits: number;
+	ltcgCurPercentage: number;
+	ltcgCurAmount: number;
+	ltcgInvUnits: number;
+	totalElssInvestedFy: number;
+	maxElssInvestAllowed: number;
+	elssInvestmentCap: number;
+	stcgInvAmount: number;
+	ltcgInvAmount: number;
+	taxationType: string;
+}
