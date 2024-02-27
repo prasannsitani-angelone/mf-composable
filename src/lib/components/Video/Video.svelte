@@ -6,6 +6,7 @@
 
 	import type { VideoPlayerProps } from './interfaces';
 
+	import { isHlsSupported, loadHlsPlayer } from './utils';
 	import { VideoPlayerMode } from './enums';
 	import { VIDEO_AUTOPLAY_THRESHOLD } from './constants';
 	import type { VideoAnalyticsCallbacks } from '$lib/analytics/video';
@@ -20,6 +21,7 @@
 	let initialHeight = 22;
 	let maxHeight = 50;
 	let isMuted = writable(true);
+	let hls;
 
 	const dispatch = createEventDispatcher();
 
@@ -169,9 +171,35 @@
 		});
 	};
 
+	const initiateVideoPlayback = () => {
+		if (!videoElement) return;
+
+		if (props.src.endsWith('.mp4')) {
+			videoElement.src = props.src;
+			return;
+		}
+
+		/* eslint-disable */
+		if (isHlsSupported()) {
+			hls?.loadSource(props.src);
+			hls?.attachMedia(videoElement);
+
+			/* eslint-enable */
+		} else {
+			logger.error({
+				type: 'Video Error',
+				params: {
+					message: 'Unable to play video in fallback mode. HLS is not supported.'
+				}
+			});
+		}
+	};
+
 	onMount(() => {
 		pauseInactiveVideos();
 		videoElement = document.getElementById(`video-${props?.source}`) as HTMLVideoElement | null;
+		hls = loadHlsPlayer();
+		initiateVideoPlayback();
 
 		if (!props?.autoplay) {
 			if (props?.type === VideoPlayerMode.Normal && props?.threshold) {
@@ -195,6 +223,7 @@
 		if (intersectionObserver) {
 			intersectionObserver.disconnect();
 		}
+		hls?.detachMedia();
 	});
 </script>
 
@@ -264,7 +293,6 @@
 		class="h-full w-full cursor-pointer justify-center object-cover {$$props.classes || ''}"
 		playsinline
 		controlslist="nodownload"
-		src={props?.src}
 		poster={props?.poster}
 		muted={props?.muted}
 		controls={props?.controls}
