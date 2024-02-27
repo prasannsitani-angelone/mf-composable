@@ -899,7 +899,7 @@
 			<TaxInfoModal
 				taxType={finalisedTaxType}
 				taxLimit={redemableAmount < ltcgCurAmount ? redemableAmount : ltcgCurAmount}
-				categoryName={holdingDetails?.schemePlan}
+				{categoryName}
 				class="z-60 sm:w-120"
 			/>
 		</ModalWithAnimation>

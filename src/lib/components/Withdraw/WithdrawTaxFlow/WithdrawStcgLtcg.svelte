@@ -15,16 +15,16 @@
 			title: `Withdraw up to ₹${taxationDetails?.ltcgCurAmount?.toFixed(2)}`,
 			description:
 				categoryName?.toLowerCase() === 'equity'
-					? '<div>Only <span style="font-weight: 500;">LTCG</span> (Long Term Capital Gains) tax applicable <span style="font-weight: 500;">at 10%</span></div>'
-					: '<div>Only <span style="font-weight: 500;">LTCG</span> (Long Term Capital Gains) tax applicable <span style="font-weight: 500;">at 20%</span></div>'
+					? '<div>Only <span class="text-title font-medium">LTCG</span> (Long Term Capital Gains) tax applicable <span class="text-title font-medium">at 10%</span></div>'
+					: '<div>Only <span class="text-title font-medium" class="text-title">LTCG</span> (Long Term Capital Gains) tax applicable <span class="text-title font-medium">at 20%</span></div>'
 		},
 		{
 			type: 'STCG',
 			title: `Withdraw more than ₹${taxationDetails?.ltcgCurAmount?.toFixed(2)}`,
 			description:
 				categoryName?.toLowerCase() === 'equity'
-					? '<div><span style="font-weight: 500;">STCG</span> (Short Term Capital Gains) tax applicable <span style="font-weight: 500;">at 15%</span> in addition to <span style="font-weight: 500;">10% LTCG</span> tax</div>'
-					: '<div><span style="font-weight: 500;">STCG</span> (Short Term Capital Gains) tax applicable <span style="font-weight: 500;">as per your tax slab rate</span> in addition to <span style="font-weight: 500;">20% LTCG</span> tax</div>'
+					? '<div><span class="text-title font-medium">STCG</span> (Short Term Capital Gains) tax applicable <span class="text-title font-medium">at 15%</span> in addition to <span class="text-title font-medium">10% LTCG</span> tax</div>'
+					: '<div><span class="text-title font-medium">STCG</span> (Short Term Capital Gains) tax applicable <span class="text-title font-medium">as per your tax slab rate</span> in addition to <span class="text-title font-medium">20% LTCG</span> tax</div>'
 		}
 	];
 
