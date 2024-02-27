@@ -136,7 +136,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			headerContent.subHeadingArr = [
 				{
 					text: 'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
-					class: 'text-red-sell'
+					class: '!text-red-sell'
 				}
 			];
 			headerContent.status = STATUS_ARR.FAILED;
@@ -145,7 +145,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			headerContent.subHeadingArr = [
 				{
 					text: 'We are confirming the status of your payment. This usually takes a few minutes.',
-					class: ''
+					class: '!text-title'
 				}
 			];
 			headerContent.status = STATUS_ARR.PENDING;
@@ -173,7 +173,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			headerContent.subHeadingArr = [
 				{
 					text: 'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
-					class: 'text-red-sell'
+					class: '!text-red-sell'
 				}
 			];
 			headerContent.status = STATUS_ARR.FAILED;
@@ -182,7 +182,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 			headerContent.subHeadingArr = [
 				{
 					text: 'We are confirming the status of your payment. This usually takes a few minutes.',
-					class: ''
+					class: '!text-title'
 				}
 			];
 			headerContent.status = STATUS_ARR.PENDING;
@@ -265,7 +265,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 								headerContent.subHeadingArr = [
 									{
 										text: 'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
-										class: 'text-sell'
+										class: '!text-sell'
 									}
 								];
 								headerContent.status = STATUS_ARR.FAILED;
@@ -277,7 +277,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 								headerContent.subHeadingArr = [
 									{
 										text: 'We are confirming the status of your payment. This usually takes a few minutes.',
-										class: ''
+										class: '!text-title'
 									}
 								];
 								headerContent.status = STATUS_ARR.PENDING;
@@ -299,7 +299,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 							headerContent.subHeadingArr = [
 								{
 									text: 'We are currently unable to process the mandate request to schedule automatic fund transfer from your bank account to trading account for SIP investments due to some technical issues. Please try again',
-									class: 'text-sell'
+									class: '!text-sell'
 								}
 							];
 							headerContent.status = STATUS_ARR.FAILED;
@@ -344,7 +344,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 				headerContent.subHeadingArr = [
 					{
 						text: `Your first SIP payment is on ${getNextSIPDate(data)}`,
-						class: ''
+						class: '!text-title'
 					}
 				];
 				headerContent.status = STATUS_ARR.SUCCESS;
@@ -352,7 +352,7 @@ export const load = async ({ fetch, url, parent, depends }) => {
 				headerContent.subHeadingArr = [
 					{
 						text: 'SIP amount will be debited from your Autopay bank account within 3 working days',
-						class: ''
+						class: '!text-title'
 					}
 				];
 			}

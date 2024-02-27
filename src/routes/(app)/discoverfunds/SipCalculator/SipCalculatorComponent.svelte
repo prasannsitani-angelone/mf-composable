@@ -122,7 +122,7 @@
 			Total Value: ₹{getDisplayAmount(maxData?.investedAmount + maxData?.gains)}
 		</div>
 		<div class="text-xs font-normal text-body">
-			When you invest ₹₹{addCommasToAmountString(selectedAmount)}/month over {maxData?.durationInYears}
+			When you invest ₹{addCommasToAmountString(selectedAmount)}/month over {maxData?.durationInYears}
 			years
 		</div>
 	</div>
