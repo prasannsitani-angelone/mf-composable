@@ -61,21 +61,21 @@
 		width: 100%;
 		overflow-x: auto;
 		white-space: nowrap;
-		border: 1px solid #425061;
+		border: 1px solid var(--BODY);
 	}
 	:global(.details-container table th) {
-		background-color: #c2c6cc;
+		background-color: var(--BORDER);
 	}
 	:global(.details-container table th, td) {
 		padding: 10px;
-		color: #2a394e;
+		color: var(--TITLE);
 	}
 	:global(.details-container table td) {
 		text-align: center;
 		font-weight: 500;
 	}
 	:global(.details-container a) {
-		color: #3f5bd9;
+		color: var(--PRIMARY);
 		font-weight: 600;
 	}
 </style>
