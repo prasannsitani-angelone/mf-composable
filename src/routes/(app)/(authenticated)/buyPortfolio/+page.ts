@@ -15,7 +15,7 @@ export const load = (async ({ fetch }) => {
 		}
 		// removing start_your_first_sip as temporary fix until final API changes from BE
 		portfolioOptions = portfolioOptions.filter((x) => {
-			return x.packId !== 'start_your_first_sip';
+			return x.packId !== 'start_your_first_sip' && x.packId !== 'BEST_FUNDS_FOR_SIP';
 		});
 		return portfolioOptions;
 	};
