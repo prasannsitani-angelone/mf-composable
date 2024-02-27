@@ -30,7 +30,7 @@
 	import { getThemeObject } from '$lib/stores/ThemeStore';
 
 	function logDelta(metric) {
-		logWebVitals(metric?.name, metric);
+		logWebVitals(metric?.name, metric, parent?.location?.pathname);
 	}
 	if (browser) {
 		onCLS(logDelta);

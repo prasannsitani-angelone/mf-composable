@@ -10,7 +10,6 @@
 	import QuickEntryPointsCard from './QuickEntryPointsCard.svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { slide } from 'svelte/transition';
-	import { page } from '$app/stores';
 	import {
 		homepageFundCompareClickAnalytics,
 		homepageFundCompareButtonImpressionAnalytics
@@ -18,7 +17,6 @@
 	import viewport from '$lib/utils/useViewPortAction';
 
 	$: openNfo = 0;
-	$: deviceType = $page.data.deviceType;
 
 	let isGuest: boolean;
 	let impressionEventSent = false;
@@ -56,9 +54,7 @@
 </script>
 
 <article
-	class="item grid grid-cols-1 justify-between sm:grid-rows-1 {$$props.class} slide-down divide-y divide-border {deviceType.isMobile
-		? 'min-h-[403px]'
-		: ''}"
+	class="item grid grid-cols-1 justify-between sm:grid-rows-1 {$$props.class} slide-down divide-y divide-border"
 	in:slide={{ duration: 300 }}
 >
 	<QuickEntryPointsCard
