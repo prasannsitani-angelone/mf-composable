@@ -299,7 +299,7 @@
 	};
 
 	const getHomePageVideoData = async () => {
-		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/packs?packId=BALANCED_GROWTH`;
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/packs?packId=BEST_FUNDS_FOR_SIP`;
 		const res = await useFetch(url, {}, fetch);
 		if (res.ok) {
 			videoData = res.data;
@@ -556,7 +556,7 @@
 
 	<!-- Video component -->
 
-	{#if videoData?.packs?.length && deviceType?.isMobile}
+	{#if placementMapping?.videoReel && videoData?.packs?.length && deviceType?.isMobile}
 		<div
 			class="row-start-{placementMapping?.videoReel?.rowStart} col-start-{placementMapping
 				?.videoReel?.columnStart} mt-2"
@@ -646,7 +646,7 @@
 </article>
 
 <article class="sticky -top-2 hidden grid-cols-[100%] sm:grid" style="height:min-content">
-	{#if videoData?.packs?.length && !deviceType?.isMobile}
+	{#if placementMapping?.videoReel && videoData?.packs?.length && !deviceType?.isMobile}
 		<div
 			class="p-1 row-start-{placementMapping?.videoReel?.rowStart} {placementMapping?.videoReel
 				?.rowStart > 1

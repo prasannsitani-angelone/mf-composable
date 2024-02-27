@@ -66,7 +66,6 @@
 	import type { TrendingFund } from '$lib/types/ITrendingFunds';
 	import StartSipEntry from '$components/StartSip/StartSipEntry.svelte';
 	import TopFunds from '$components/TopFunds/TopFunds.svelte';
-	import { goto } from '$app/navigation';
 	import TrackExternalInvestment from './TrackExternalInvestment/TrackExternalInvestment.svelte';
 	import SipCalculatorComponent from './SipCalculator/SipCalculatorComponent.svelte';
 

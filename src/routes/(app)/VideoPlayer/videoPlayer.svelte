@@ -103,10 +103,16 @@
 	onMount(() => {
 		setVideoProps();
 	});
+
+	let videoContainerHeight = source === VideoPlayerRenderView.Modal ? 760 : 440;
 </script>
 
 {#if props}
-	<div class="slide-down md:h-5/6 md:w-[360px]" in:slide={{ duration: 300 }}>
+	<div
+		class="slide-down md:w-[360px]"
+		style="height: {videoContainerHeight}px"
+		in:slide={{ duration: 300 }}
+	>
 		<Video
 			{props}
 			{analyticsCallbacks}
