@@ -29,6 +29,10 @@
 		askAngelRetryClickAnalytics,
 		askAngelStartAgainIconClickAnalytics
 	} from '$lib/analytics/askangel/askangel';
+	import { goBackToSpark } from '$lib/utils';
+	import { appStore } from '$lib/stores/SparkStore';
+	import { PLATFORM_TYPE } from '$lib/constants/platform';
+	import { browserHistoryStore } from '$lib/stores/BrowserHistoryStore';
 
 	const dispatch = createEventDispatcher();
 
@@ -38,7 +42,14 @@
 	const redirectToHomepage = () => {
 		askAngelCrossClickAnalytics();
 
-		if (isMobile || isTablet) {
+		if (
+			($browserHistoryStore.historyLength === 1 ||
+				$browserHistoryStore.initialUrl === `${$page.url.origin}${$page.url.pathname}`) &&
+			(($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID && $appStore.closecta) ||
+				$appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS)
+		) {
+			goBackToSpark();
+		} else if (isMobile || isTablet) {
 			history?.back();
 		} else {
 			dispatch('closeAskAngel');

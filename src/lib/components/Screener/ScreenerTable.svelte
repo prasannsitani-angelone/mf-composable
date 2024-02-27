@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import TBody from '$components/Table/TBody.svelte';
@@ -15,6 +14,7 @@
 	} from '$lib/analytics/filters/filters';
 	import { SCREENER_SOURCE } from '$lib/constants/screener';
 	import type { ScreenedSchemes } from '$lib/types/Screener';
+	import { modifiedGoto } from '$lib/utils/goto';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 
 	let screenedSchemes: ScreenedSchemes[];
@@ -29,7 +29,7 @@
 		};
 
 		fundSelectClick(fundSelectMetaData);
-		await goto(`${base}/${normalizeFundName(schemeName, isin, schemeCode, 'schemes')}`);
+		await modifiedGoto(`${base}/${normalizeFundName(schemeName, isin, schemeCode, 'schemes')}`);
 	};
 
 	export { screenedSchemes, pageSource };
