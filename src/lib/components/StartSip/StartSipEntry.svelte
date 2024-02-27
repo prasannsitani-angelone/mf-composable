@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { startSipEntryClickAnalytics } from '$lib/analytics/startSip/startSip';
 	import { versionStore } from '$lib/stores/VersionStore';
+	import { modifiedGoto } from '$lib/utils/goto';
 	import { WMSIcon } from 'svelte-components';
 
 	const navigate = () => {
@@ -12,9 +12,9 @@
 		startSipEntryClickAnalytics(eventMetaData);
 
 		if (versionStore.getVersion() === 'B') {
-			goto(`${base}/startSip`);
+			modifiedGoto(`${base}/startSip`);
 		} else {
-			goto(`${base}/startfirstsip`);
+			modifiedGoto(`${base}/startfirstsip`);
 		}
 	};
 </script>
