@@ -29,7 +29,7 @@ export const load = (async ({ fetch }) => {
 
 	return {
 		layoutConfig: {
-			title: 'Start SIP',
+			title: 'Select Fund',
 			showBackIcon: true,
 			layoutType: 'DEFAULT',
 			layoutClass: 'bg-background-alt'

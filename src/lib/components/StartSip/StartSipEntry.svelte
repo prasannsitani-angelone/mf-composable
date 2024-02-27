@@ -1,10 +1,16 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
+	import { startSipEntryClickAnalytics } from '$lib/analytics/startSip/startSip';
 	import { versionStore } from '$lib/stores/VersionStore';
 	import { WMSIcon } from 'svelte-components';
 
 	const navigate = () => {
+		const eventMetaData = {
+			text: 'Begin investing with just ₹100'
+		};
+		startSipEntryClickAnalytics(eventMetaData);
+
 		if (versionStore.getVersion() === 'B') {
 			goto(`${base}/startSip`);
 		} else {

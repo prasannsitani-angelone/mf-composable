@@ -22,7 +22,7 @@
 			paymentMandatory: true
 		})}`;
 		modifiedGoto(schemeDetailsPath);
-		dispatch('onCardClick');
+		dispatch('cardClick');
 	};
 </script>
 

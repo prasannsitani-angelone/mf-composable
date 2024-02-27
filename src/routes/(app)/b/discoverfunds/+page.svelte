@@ -517,7 +517,7 @@
 	{/if}
 
 	<!-- 4. Most Bought Section -->
-	{#if placementMapping?.mostBought}
+	{#if placementMapping?.mostBought && data?.searchDashboardData?.weeklyTopSchemes?.length}
 		<MostBought
 			class="row-start-{placementMapping?.mostBought?.rowStart} col-start-{placementMapping
 				?.mostBought?.columnStart} !my-0 {placementMapping?.mostBought?.rowStart > 1

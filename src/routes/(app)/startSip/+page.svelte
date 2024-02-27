@@ -4,8 +4,28 @@
 	import FundOverviewTile from './components/FundOverviewTile.svelte';
 	import StartSipLoader from './components/StartSipLoader.svelte';
 	import PageTitle from '$components/PageTitle.svelte';
+	import { onMount } from 'svelte';
+	import {
+		startSipFundSelectAnalytics,
+		startSipPageOpenAnalytics
+	} from '$lib/analytics/startSip/startSip';
+	import type { SchemePack } from '$lib/types/IStartSip';
 
 	export let data: PageData;
+
+	onMount(() => {
+		startSipPageOpenAnalytics();
+	});
+
+	const handleFundClick = (scheme: SchemePack, index: number) => {
+		const eventMetaData = {
+			Fundname: scheme.schemeName,
+			Isin: scheme.isin,
+			FundRank: index + 1,
+			Category: scheme?.subCategory
+		};
+		startSipFundSelectAnalytics(eventMetaData);
+	};
 </script>
 
 {#await data?.api?.schemePack}
@@ -25,6 +45,7 @@
 					schemeLogoSize="xs"
 					schemeLogoClass="border-none !mr-2"
 					showBadge={index === 0}
+					on:onCardClick={() => handleFundClick(scheme, index)}
 				/>
 			{/each}
 		</section>
