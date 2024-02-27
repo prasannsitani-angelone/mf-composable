@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import TBody from '$components/Table/TBody.svelte';
@@ -18,6 +17,7 @@
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { WMSIcon } from 'svelte-components';
 	import DragDownIcon from './icons/dragDownIcon.svelte';
+	import { modifiedGoto } from '$lib/utils/goto';
 
 	let pageSource: ScreenerSource;
 
@@ -43,7 +43,7 @@
 			FundName: schemeName,
 			Isin: isin
 		});
-		await goto(
+		await modifiedGoto(
 			`${base}/${normalizeFundName(schemeName, isin, schemeCode, 'schemes')}?orderpad=INVEST`
 		);
 	};

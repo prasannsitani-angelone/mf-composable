@@ -4,7 +4,7 @@ interface VideoAnalyticsMetaData {
 	version?: string;
 	VideoTitle?: string;
 	FundName?: string;
-	FundIndex?: string;
+	FundIndex?: number;
 	Isin?: string;
 	mute?: boolean;
 }
