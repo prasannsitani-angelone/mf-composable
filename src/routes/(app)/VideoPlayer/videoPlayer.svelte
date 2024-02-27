@@ -70,7 +70,7 @@
 		Array.from(videoNodes).forEach((node) => node.play());
 	};
 
-	const { packVideoUrl, packLogoUrl, packName, schemes } = videoData;
+	const { packVideoUrl, packLogoUrl, packName, schemes, description } = videoData;
 
 	const setVideoProps = () => {
 		props = {
@@ -87,7 +87,7 @@
 			onClose: handleVideoClose,
 			onClick: handleVideoClick,
 			header: packName,
-			footer: 'Funds in this video',
+			footer: description,
 			playInLoop: true,
 			autoplay: source === VideoPlayerRenderView.Modal,
 			showBottomDrawer: source === VideoPlayerRenderView.Modal,

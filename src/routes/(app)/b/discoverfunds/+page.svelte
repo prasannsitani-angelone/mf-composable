@@ -322,7 +322,9 @@
 
 		resetSelectedLinkedFamilyMembers();
 
-		await getHomePageVideoData();
+		if (placementMapping?.videoReel) {
+			getHomePageVideoData();
+		}
 
 		getNudgeData().then((nudgeData) => {
 			setNudgeData(nudgeData);
