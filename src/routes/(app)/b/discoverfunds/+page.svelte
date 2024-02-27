@@ -64,9 +64,6 @@
 	import { modifiedGoto } from '$lib/utils/goto';
 	import { slide } from 'svelte/transition';
 	import SearchComponent from '../../discoverfunds/SearchComponent.svelte';
-	import TextInput from '$lib/components/TextInput.svelte';
-	import SearchDarkIcon from '$lib/images/icons/SearchDarkIcon.svelte';
-	import SearchIcon from '$lib/images/icons/SearchDarkIcon.svelte';
 	import HomePageVideoPlayer from '../../VideoPlayer/videoPlayer.svelte';
 	import Modal from '$components/Modal.svelte';
 	import { goto } from '$app/navigation';
@@ -365,19 +362,6 @@
 		});
 	};
 
-	let searchInputClasses = {
-		container: 'py-3 mr-1 w-full border-none rounded-md',
-		label: '',
-		input:
-			'w-full !border-none focus:outline-none placeholder-body md:placeholder-disabled !text-base !text-title font-normal lg:font-normal !input-xs !pl-0',
-		error: '',
-		parent: 'w-full'
-	};
-
-	const navigateToSearch = () => {
-		goto(`${base}/search`);
-	};
-
 	export let data: PageData;
 </script>
 
@@ -410,32 +394,6 @@
 		>
 			<SearchComponent />
 		</Link>
-	{/if}
-
-	{#if deviceType.isMobile}
-		<section class="mt-2">
-			<div
-				class="flex w-full cursor-text items-center rounded-lg border-none bg-background-alt shadow-csm"
-			>
-				<article class="flex w-full items-center">
-					<slot name="searchIcon">
-						{#if !deviceType?.isBrowser}
-							<SearchDarkIcon class="mx-4 mt-1 h-6 w-6" />
-						{:else}
-							<SearchIcon class="mx-4 mt-1" />
-						{/if}
-					</slot>
-
-					<TextInput
-						name="search-funds"
-						id="search-funds"
-						placeholder="Search by fund name, type or AMC"
-						classes={searchInputClasses}
-						on:click={navigateToSearch}
-					/>
-				</article>
-			</div>
-		</section>
 	{/if}
 
 	<!-- 3. Stories section -->
