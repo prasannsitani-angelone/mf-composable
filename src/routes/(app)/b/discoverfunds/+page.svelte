@@ -66,7 +66,6 @@
 	import SearchComponent from '../../discoverfunds/SearchComponent.svelte';
 	import HomePageVideoPlayer from '../../VideoPlayer/videoPlayer.svelte';
 	import Modal from '$components/Modal.svelte';
-	import { goto } from '$app/navigation';
 	import TrendingFunds from '$components/TrendingFunds/TrendingFunds.svelte';
 	import type { TrendingFund } from '$lib/types/ITrendingFunds';
 	import StartSipEntry from '$components/StartSip/StartSipEntry.svelte';

@@ -31,7 +31,9 @@
 	import {
 		stayInvestedPrimaryCtaClickAnalytics,
 		stayInvestedSecondaryCtaClickAnalytics,
-		withdrawFlowStartClickAnalytics
+		withdrawFlowStartClickAnalytics,
+		withdrawalTaxesModalCtaClickAnalytics,
+		withdrawalTaxesModalImpressionAnalytics
 	} from '$lib/analytics/redemption/redemption';
 	import {
 		switchHamburgerIconClickAnalytics,
@@ -70,10 +72,11 @@
 	let withdrawDisableText = '';
 	let isWithdrawDisableLockInCase = false;
 	let showStayInvestedModal = false;
-	let showWithdrawstcgltcg = false;
+	let showWithdrawStcgLtcg = false;
 	let isWithdrawalStcgLtcgEligible = true;
 	let decodedParams = {};
 	let taxationDetails: IHoldingTaxationDetails;
+	let categoryName = '';
 	let subCategoryName = '';
 
 	async function setPageData(
@@ -113,6 +116,7 @@
 		setInvestDisableText();
 		setWithdrawDisableText();
 
+		categoryName = result?.schemeData?.categoryName || '';
 		subCategoryName = result?.schemeData?.subcategoryName || '';
 		setTaxationDetails();
 	}
@@ -311,27 +315,33 @@
 		showStayInvestedModal = !showStayInvestedModal;
 	};
 
-	const toggleShowWithdrawstcgltcg = () => {
-		showWithdrawstcgltcg = !showWithdrawstcgltcg;
+	const toggleShowWithdrawStcgLtcg = () => {
+		showWithdrawStcgLtcg = !showWithdrawStcgLtcg;
+
+		if (showWithdrawStcgLtcg) {
+			withdrawalTaxesModalImpressionAnalyticsFunc();
+		}
 	};
 
-	const checkWithdrawstcgltcg = () => {
+	const checkWithdrawStcgLtcg = () => {
 		if (isWithdrawalStcgLtcgEligible) {
 			toggleShowStayInvestedModal();
-			toggleShowWithdrawstcgltcg();
+			toggleShowWithdrawStcgLtcg();
 		} else {
 			handleStayInvestedModalWithdrawClick();
 		}
 	};
 
-	const handleContinuestcgltcg = () => {
-		toggleShowWithdrawstcgltcg();
+	const handleContinueStcgLtcg = () => {
+		toggleShowWithdrawStcgLtcg();
 
 		if (isMobile || isTablet) {
 			redirectToRedemptionPad();
 		} else {
 			orderPadActiveTab = 'WITHDRAW';
 		}
+
+		withdrawalTaxesModalCtaClickAnalyticsFunc();
 	};
 
 	const toggleSwitch = () => {
@@ -372,6 +382,32 @@
 		}
 
 		withdrawFlowStartClickAnalytics(eventMetadata);
+	};
+
+	const withdrawalTaxesModalImpressionAnalyticsFunc = () => {
+		const eventMetadata = {
+			Fundname: holdingsData?.schemeName,
+			FundCategory: categoryName,
+			ISIN: holdingsData?.isin,
+			WithdrawalOptimizedAmount: taxationDetails?.ltcgCurAmount,
+			CurrentAmount: holdingsData?.currentValue,
+			ShortTermInvestment: taxationDetails?.stcgInvAmount
+		};
+
+		withdrawalTaxesModalImpressionAnalytics(eventMetadata);
+	};
+
+	const withdrawalTaxesModalCtaClickAnalyticsFunc = () => {
+		const eventMetadata = {
+			Fundname: holdingsData?.schemeName,
+			FundCategory: categoryName,
+			ISIN: holdingsData?.isin,
+			WithdrawalOptimizedAmount: taxationDetails?.ltcgCurAmount,
+			CurrentAmount: holdingsData?.currentValue,
+			ShortTermInvestment: taxationDetails?.stcgInvAmount
+		};
+
+		withdrawalTaxesModalCtaClickAnalytics(eventMetadata);
 	};
 </script>
 
@@ -441,6 +477,8 @@
 						redemptionNotAllowedText={withdrawDisableText}
 						{isInvestmentNotAllowed}
 						{isWithdrawalStcgLtcgEligible}
+						{categoryName}
+						{taxationDetails}
 						ltcgCurAmount={isWithdrawalStcgLtcgEligible ? taxationDetails?.ltcgCurAmount : 0}
 					/>
 				{/if}
@@ -540,7 +578,7 @@
 			<StayInvested
 				class="z-60 sm:w-120"
 				on:primaryCtaClick={() => toggleShowStayInvestedModal(true)}
-				on:secondaryCtaClick={checkWithdrawstcgltcg}
+				on:secondaryCtaClick={checkWithdrawStcgLtcg}
 				currentValue={holdingsData?.currentValue}
 				categoryName={res?.schemeData?.categoryName}
 				subCategoryName={res?.schemeData?.subCategoryName}
@@ -549,16 +587,16 @@
 		</ModalWithAnimation>
 	{/if}
 
-	{#if showWithdrawstcgltcg}
+	{#if showWithdrawStcgLtcg}
 		<ModalWithAnimation
-			isModalOpen={showWithdrawstcgltcg}
-			on:backdropclicked={toggleShowWithdrawstcgltcg}
+			isModalOpen={showWithdrawStcgLtcg}
+			on:backdropclicked={toggleShowWithdrawStcgLtcg}
 		>
 			<WithdrawStcgLtcg
 				class="z-60 sm:w-120"
 				categoryName={res?.schemeData?.categoryName || ''}
 				{taxationDetails}
-				on:continueCtaClick={handleContinuestcgltcg}
+				on:continueCtaClick={handleContinueStcgLtcg}
 			/>
 		</ModalWithAnimation>
 	{/if}

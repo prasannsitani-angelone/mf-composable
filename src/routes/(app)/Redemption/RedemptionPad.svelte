@@ -4,7 +4,7 @@
 	import CheckboxUncheckedIcon from '$lib/images/icons/CheckboxUncheckedIcon.svelte';
 	import DownArrowIcon from '$lib/images/icons/DownArrowIcon.svelte';
 	import { headerStore } from '$lib/stores/HeaderStore';
-	import type { FolioHoldingType } from '$lib/types/IInvestments';
+	import type { FolioHoldingType, IHoldingTaxationDetails } from '$lib/types/IInvestments';
 	import { addCommasToAmountString, formatAmount } from '$lib/utils/helpers/formatAmount';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import NotAllowed from '../InvestmentPad/OrderPadComponents/NotAllowed.svelte';
@@ -31,6 +31,8 @@
 	import {
 		changeFolioAnalytics,
 		confirmChangeFolioAnalytics,
+		redemptionOrderpadTaxDetailsModalImpressionAnalytics,
+		redemptionOrderpadTaxInfoIconClickAnalytics,
 		withdrawFullAmountCheckboxAnalytics,
 		withdrawProceedButtonClickAnalytics,
 		withdrawableAmountLessThanMinimumLimitAnalytics,
@@ -46,8 +48,10 @@
 	export let isRedemptionNotAllowed = false;
 	export let redemptionNotAllowedText = '';
 	export let isInvestmentNotAllowed = false;
+	export let taxationDetails: IHoldingTaxationDetails;
 	export let isWithdrawalStcgLtcgEligible = false;
 	export let ltcgCurAmount = 0;
+	export let categoryName = '';
 
 	const {
 		isExternal = false,
@@ -346,6 +350,12 @@
 		if (isWithdrawalStcgLtcgEligible) {
 			finalisedTaxType = taxType;
 			showTaxInfoModal = !showTaxInfoModal;
+
+			redemptionOrderpadTaxInfoIconClickAnalyticsFunc();
+
+			if (showTaxInfoModal) {
+				redemptionOrderpadTaxDetailsModalImpressionAnalyticsFunc();
+			}
 		}
 	};
 
@@ -418,6 +428,43 @@
 		};
 
 		withdrawableAmountModalOpenAnalytics(eventMetadata);
+	};
+
+	const redemptionOrderpadTaxInfoIconClickAnalyticsFunc = () => {
+		const eventMetaData = {
+			Fundname: holdingDetails?.schemeName,
+			FundCategory: categoryName,
+			ISIN: holdingDetails?.isin,
+			WithdrawalOptimizedAmount: taxationDetails?.ltcgCurAmount,
+			CurrentAmount: holdingDetails?.currentValue,
+			ShortTermInvestment: taxationDetails?.stcgInvAmount,
+			AmountEntered: amount,
+			Messaging:
+				finalisedTaxType === 'LTCG'
+					? 'Tax optimzed'
+					: `Higher taxes may apply. Reduce amount below ${
+							redemableAmount < ltcgCurAmount
+								? redemableAmount?.toFixed(2)
+								: ltcgCurAmount?.toFixed(2)
+					  }`
+		};
+
+		redemptionOrderpadTaxInfoIconClickAnalytics(eventMetaData);
+	};
+
+	const redemptionOrderpadTaxDetailsModalImpressionAnalyticsFunc = () => {
+		const eventMetaData = {
+			Fundname: holdingDetails?.schemeName,
+			FundCategory: categoryName,
+			ISIN: holdingDetails?.isin,
+			WithdrawalOptimizedAmount: taxationDetails?.ltcgCurAmount,
+			CurrentAmount: holdingDetails?.currentValue,
+			ShortTermInvestment: taxationDetails?.stcgInvAmount,
+			AmountEntered: amount,
+			Messaging: finalisedTaxType === 'LTCG' ? 'Tax optimzed' : 'Tax not optimzed'
+		};
+
+		redemptionOrderpadTaxDetailsModalImpressionAnalytics(eventMetaData);
 	};
 </script>
 
