@@ -16,7 +16,6 @@
 		type VideoAnalyticsCallbacks
 	} from '$lib/analytics/video';
 	import { slide } from 'svelte/transition';
-	import { modifiedGoto } from '$lib/utils/goto';
 
 	export let videoData;
 	export let source: VideoPlayerRenderView;
@@ -35,9 +34,6 @@
 	const dispatch = createEventDispatcher();
 
 	const handleVideoClick = () => {
-		const currentPath = window?.location?.pathname;
-		const redirectPath = `${currentPath}?videoPlayer=true`;
-		modifiedGoto(redirectPath);
 		if (deviceType.isBrowser) {
 			dispatch('reel-click', true);
 			if (props.source === VideoPlayerRenderView.Modal) {
@@ -55,7 +51,6 @@
 	};
 
 	const handleVideoClose = () => {
-		history?.back();
 		if (deviceType.isBrowser) {
 			dispatch('reel-click', false);
 			playAllVideos();
