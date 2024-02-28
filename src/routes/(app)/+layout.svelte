@@ -73,10 +73,12 @@
 			version = value.version;
 		});
 
-		if ('requestIdleCallback' in window) {
-			requestIdleCallback(initClevertap, { timeout: 5000 });
-		} else {
-			initClevertap();
+		if (!isGuest) {
+			if ('requestIdleCallback' in window) {
+				requestIdleCallback(initClevertap, { timeout: 5000 });
+			} else {
+				initClevertap();
+			}
 		}
 		document.addEventListener('CT_web_native_display', function (event) {
 			const data = event.detail;
