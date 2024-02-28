@@ -113,9 +113,10 @@
 				dispatch('drawer-max-height', true);
 				return;
 			}
+			maxHeight = bottomDrawerHeight;
 			const heightPercentage = (newHeight / parentElement.clientHeight) * 100;
 			if (heightPercentage <= maxHeight && heightPercentage >= initialHeight) {
-				element.style.height = newHeight + 'px';
+				element.style.height = heightPercentage + '%';
 			}
 		}
 	};
@@ -127,6 +128,8 @@
 
 		if (element && parentElement) {
 			const heightPercentage = (element.clientHeight / parentElement.clientHeight) * 100;
+			const bottomDrawerHeight = document.getElementById('bottom-drawer')?.clientHeight || 0;
+			maxHeight = (bottomDrawerHeight / parentElement.clientHeight) * 100;
 			if (heightPercentage >= (maxHeight + initialHeight) / 2) {
 				return;
 			} else {
