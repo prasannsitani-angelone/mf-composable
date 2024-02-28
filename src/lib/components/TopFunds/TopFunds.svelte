@@ -48,7 +48,6 @@
 			fund?.isin,
 			fund?.schemeCode
 		)}?orderpad=INVEST&params=${encodeObject({
-			investmentType: 'SIP',
 			paymentMandatory: true
 		})}`;
 		modifiedGoto(schemeDetailsPath);
