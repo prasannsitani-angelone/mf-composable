@@ -5,7 +5,7 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import BasicDetails from './BasicDetails.svelte';
-	import { portfolioClicked, proceedToInvest } from '$lib/analytics/buyPortfolio/buyPortfolio';
+	import { portfolioClicked } from '$lib/analytics/buyPortfolio/buyPortfolio';
 	import PortfolioInput from '../[portfolioId]/components/PortfolioInput.svelte';
 	import { versionStore } from '$lib/stores/VersionStore';
 
@@ -37,11 +37,6 @@
 		showInputPopup = !showInputPopup;
 		activePortfolioPack = portfolioPack;
 		if (showInputPopup) {
-			let funds = '';
-			portfolioPack?.schemes?.forEach((x) => {
-				funds = funds + x.schemeName + ',';
-			});
-			proceedToInvest({ SelectedFunds: funds });
 			const eventMetaData = {
 				Portfolio: portfolioPack?.packName,
 				MinSipAmount: portfolioPack?.minSipAmount,
