@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { WMSIcon } from 'svelte-components';
+	import { WMSIcon, addCommasToAmountString } from 'svelte-components';
 
 	const dispatch = createEventDispatcher();
 
@@ -13,8 +13,8 @@
 
 	const getCategoryBasedHtmlText = () => {
 		if (categoryName?.toLowerCase() !== 'equity') {
-			return `<div><div style="font-weight: 500;">Higher taxes may apply (STCG tax at 15%)</div><div>Withdraw less than ₹${taxLimit?.toFixed(
-				2
+			return `<div><div style="font-weight: 500;">Higher taxes may apply (STCG tax at 15%)</div><div>Withdraw less than ₹${addCommasToAmountString(
+				taxLimit?.toFixed(2)
 			)} to optimise taxes</div></div>`;
 		} else {
 			return `<div><div style="font-weight: 500;">Higher taxes may apply (STCG tax as per your tax slab)</div><div>Withdraw less than ₹${taxLimit?.toFixed(

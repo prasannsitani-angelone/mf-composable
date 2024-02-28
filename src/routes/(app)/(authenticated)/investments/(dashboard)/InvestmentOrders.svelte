@@ -38,7 +38,8 @@
 	const handleFooterClick = async (e: { detail: OrdersEntity }) => {
 		failedOrdersRetryCtaClickAnalytics();
 		const orderItem = e.detail || {};
-		const schemeUrl = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${orderItem?.isin}`;
+		const schemeCode = orderItem?.schemeCode?.length ? orderItem?.schemeCode : '';
+		const schemeUrl = `${PUBLIC_MF_CORE_BASE_URL}/schemes/${orderItem?.isin}/${schemeCode}`;
 		const res = await useFetch(schemeUrl, {}, fetch);
 		let schemeDetails = res.data;
 

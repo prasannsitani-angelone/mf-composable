@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { WMSIcon } from 'svelte-components';
+	import { WMSIcon, addCommasToAmountString } from 'svelte-components';
 	import TaxOption from './TaxOption.svelte';
 
 	let taxType: 'LTCG' | 'STCG';
@@ -16,7 +16,7 @@
 
 	const taxOptionsDataLtcg: ITaxOptionDataTypes = {
 		type: 'LTCG',
-		title: `Withdrawing up to ₹${taxLimit?.toFixed(2)}`,
+		title: `Withdrawing up to ₹${addCommasToAmountString(taxLimit?.toFixed(2))}`,
 		description:
 			categoryName?.toLowerCase() === 'equity'
 				? '<div>Only <span class="text-title font-medium">LTCG</span> (Long Term Capital Gains) tax applicable <span class="text-title font-medium">at 10%</span></div>'
@@ -25,7 +25,7 @@
 
 	const taxOptionsDataStcg: ITaxOptionDataTypes = {
 		type: 'STCG',
-		title: `Withdrawing more than ₹${taxLimit?.toFixed(2)}`,
+		title: `Withdrawing more than ₹${addCommasToAmountString(taxLimit?.toFixed(2))}`,
 		description:
 			categoryName?.toLowerCase() === 'equity'
 				? '<div><span class="text-title font-medium">STCG</span> (Short Term Capital Gains) tax applicable <span class="text-title font-medium">at 15%</span> in addition to <span class="text-title font-medium">10% LTCG</span> tax</div>'

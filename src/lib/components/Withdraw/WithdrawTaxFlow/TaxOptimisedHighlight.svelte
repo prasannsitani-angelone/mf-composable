@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { WMSIcon } from 'svelte-components';
+	import { WMSIcon, addCommasToAmountString } from 'svelte-components';
 
 	const dispatch = createEventDispatcher();
 
@@ -27,7 +27,9 @@
 	</article>
 
 	<article class="flex items-center">
-		<div class="text-xs font-medium text-body">up to ₹{taxLimit?.toFixed(2)}</div>
+		<div class="text-xs font-medium text-body">
+			up to ₹{addCommasToAmountString(taxLimit?.toFixed(2))}
+		</div>
 		<WMSIcon
 			name="info-in-circle-dark"
 			height={16}
