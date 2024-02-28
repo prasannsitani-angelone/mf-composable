@@ -11,7 +11,6 @@
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount.js';
 	import type { SipCalcBarType } from '../../sipCalculator/components/types.js';
 	import { schemeScreenerStore } from '$lib/stores/SchemeScreenerStore';
-	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { onMount } from 'svelte';
 	import {
@@ -20,6 +19,7 @@
 		sipCalculatorNudgeImpressionAnalytics,
 		sipCalculatorReturnsSliderAnalytics
 	} from './analytics';
+	import { modifiedGoto } from '$lib/utils/goto';
 
 	export let MinRoiSlider = 1;
 	export let MaxRoiSlider = 40;
@@ -87,7 +87,7 @@
 		await schemeScreenerStore?.getFiltersResponse(
 			`investmentType=${investmentType}&schemeType=Growth&threeYearReturn=${returnRangeStart}_${returnRangeEnd}`
 		);
-		await goto(`${base}/filters/items`);
+		await modifiedGoto(`${base}/filters/items`);
 
 		sipCalculatorInvestButtonClickAnalytics({
 			InvType: 'SIP',

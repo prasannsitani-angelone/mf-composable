@@ -14,7 +14,7 @@
 	<section
 		class="font-sm mb-4 mt-3 items-center rounded-t-lg bg-background-alt p-4 text-sm shadow-csm"
 	>
-		<div class="pb-4">Switch Details</div>
+		<div class="pb-4 text-title">Switch Details</div>
 		<article class="flex-col items-center rounded-lg bg-background p-3">
 			<section class="flex items-center justify-between border-b pb-2">
 				<div class="text-sm text-body">Selected Folio</div>

@@ -9,7 +9,7 @@
 </script>
 
 <section
-	class="via-yellow mx-3 mt-2 flex items-center justify-center rounded-lg border-l-2 border-yellow-400 bg-gradient-to-r from-background-alt to-yellow-50 px-4 shadow-csm {$$props.class}"
+	class="light via-yellow mx-3 mt-2 flex items-center justify-center rounded-lg border-l-2 border-yellow-400 bg-gradient-to-r from-background-alt to-yellow-50 px-4 shadow-csm {$$props.class}"
 >
 	<slot name="icon" />
 
