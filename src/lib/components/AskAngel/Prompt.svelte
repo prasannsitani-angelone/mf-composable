@@ -5,10 +5,8 @@
 	import Message from './Message.svelte';
 	import TrendingCarouselItems from '$components/MostBought/TrendingCarouselItems.svelte';
 	import { addCommasToAmountString } from 'svelte-components';
-	import CuratedInvestmentCardComponent from '$components/InvestWithExperts/CuratedInvestmentCardComponent.svelte';
 
 	export let chatItem: ChatItem;
-	export let isMobileOrTablet: boolean;
 
 	const dispatch = createEventDispatcher();
 
@@ -78,17 +76,6 @@
 							</p>
 						</svelte:fragment>
 					</TrendingCarouselItems>
-				</article>
-			{/each}
-		</section>
-	{:else if chatItem?.type === 'nudges' && chatItem?.data?.nudges?.length}
-		<section>
-			<!-- Nudges List -->
-			{#each chatItem?.data?.nudges || [] as nudge, index (index)}
-				<article class="mt-5">
-					{#if nudge}
-						<CuratedInvestmentCardComponent nudgeData={nudge} stopRedirection={!isMobileOrTablet} />
-					{/if}
 				</article>
 			{/each}
 		</section>

@@ -519,23 +519,6 @@
 		/>
 	{/if}
 
-	<!-- 8. Start 4 SIPs (curated) Section -->
-	{#if placementMapping?.curatedInvestmentCard}
-		<div
-			class="row-start-{placementMapping?.curatedInvestmentCard
-				?.rowStart} col-start-{placementMapping?.curatedInvestmentCard
-				?.columnStart} {placementMapping?.curatedInvestmentCard?.rowStart > 1 ? '!my-0' : '!-my-2'}"
-		>
-			<LazyComponent
-				class="!mt-2"
-				when={isLoggedInUser && deviceType?.isMobile && start4SipsNudgeData}
-				nudgeData={start4SipsNudgeData}
-				component={async () =>
-					await import('$components/InvestWithExperts/CuratedInvestmentCardComponent.svelte')}
-			/>
-		</div>
-	{/if}
-
 	{#if ecasImportNudgeData && placementMapping?.trackExtFunds}
 		<TrackExternalInvestment
 			class="row-start-{placementMapping?.trackExtFunds?.rowStart} col-start-{placementMapping
