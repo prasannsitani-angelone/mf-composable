@@ -351,7 +351,9 @@
 	{#each stories as story, index (story?.storyId)}
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<article
-			class="mr-8 w-16 text-[10px] font-normal md:cursor-pointer"
+			class="{index === stories.length - 1
+				? ''
+				: 'mr-8'} w-16 text-[10px] font-normal md:cursor-pointer"
 			on:click={() => playStoryVideo(story, true, index, true)}
 		>
 			<img
