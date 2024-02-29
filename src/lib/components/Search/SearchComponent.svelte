@@ -82,7 +82,7 @@
 		});
 	};
 	const getSearchDashboardData = async () => {
-		if (!shouldFetchSearchDashboard) return;
+		if (!shouldFetchSearchDashboard || dashboardData) return;
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/searchDashboard`;
 		const res = await useFetch(url);
 		if (res?.ok) {
