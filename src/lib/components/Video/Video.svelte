@@ -198,6 +198,16 @@
 		}
 	};
 
+	const playVideoOnFocus = () => {
+		if (props.fullScreen || isVisible) {
+			videoElement?.play();
+		}
+	};
+
+	const pauseVideoOnBlur = () => {
+		videoElement?.pause();
+	};
+
 	onMount(() => {
 		pauseInactiveVideos();
 		videoElement = document.getElementById(`video-${props?.source}`) as HTMLVideoElement | null;
@@ -220,6 +230,9 @@
 			videoElement?.play();
 			handleToggleMute();
 		}
+
+		window.addEventListener('blur', pauseVideoOnBlur);
+		window.addEventListener('focus', playVideoOnFocus);
 	});
 
 	onDestroy(() => {
@@ -227,6 +240,11 @@
 			intersectionObserver.disconnect();
 		}
 		hls?.detachMedia();
+
+		videoElement = null;
+
+		window.removeEventListener('blur', pauseVideoOnBlur);
+		window.removeEventListener('focus', playVideoOnFocus);
 	});
 </script>
 

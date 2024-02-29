@@ -96,7 +96,6 @@
 	let placementMapping = {};
 	let videoData;
 	let showVideoReelModal = false;
-	let shouldShowStories = false;
 	if ($page.data.deviceType?.isMobile || $page.data.deviceType?.isTablet) {
 		placementMapping = cohorts[user_cohort].placementMapping;
 	} else {
@@ -398,7 +397,7 @@
 	{/if}
 
 	<!-- 3. Stories section -->
-	{#if storiesData?.stories?.length && placementMapping?.stories && shouldShowStories}
+	{#if storiesData?.stories?.length && placementMapping?.stories && !placementMapping?.videoReel}
 		<StoriesComponent
 			class="row-start-{placementMapping?.stories?.rowStart} col-start-{placementMapping?.stories
 				?.columnStart} !mb-0 {placementMapping?.stories?.rowStart > 1 ? 'mt-2' : ''}"

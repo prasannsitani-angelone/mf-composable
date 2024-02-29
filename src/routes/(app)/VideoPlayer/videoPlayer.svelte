@@ -135,6 +135,7 @@
 						{schemes}
 						{analyticsCallbacks}
 						videoTitle={props?.header || ''}
+						videoDescription={props.footer || ''}
 						{isDrawerMaxHeight}
 					/>
 				</div>
@@ -157,7 +158,7 @@
 							{/each}
 							<!-- svelte-ignore a11y-no-static-element-interactions -->
 							<div
-								class="flex h-6 w-6 cursor-pointer items-center"
+								class="mt-[-4px] flex h-8 w-8 cursor-pointer items-center"
 								on:click={handleVideoClick}
 								on:keypress={handleVideoClick}
 							>

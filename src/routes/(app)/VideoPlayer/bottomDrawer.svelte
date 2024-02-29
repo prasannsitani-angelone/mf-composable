@@ -25,6 +25,7 @@
 	export let analyticsCallbacks: VideoAnalyticsCallbacks;
 	export let videoTitle: string;
 	export let isDrawerMaxHeight: boolean;
+	export let videoDescription: string;
 
 	const onTableRowSelect = async (scheme: ScreenedSchemes, index: number) => {
 		const { schemeName, isin, schemeCode } = scheme;
@@ -57,7 +58,9 @@
 	{/if}
 </div>
 
-<Table class="{$$props.class} mt-5">
+<h2 style="color: var(--TITLE)" class="mt-4 text-[12px]">{videoDescription}</h2>
+
+<Table class="{$$props.class} mt-2 !table-auto">
 	<THead slot="thead">
 		<Th class="h-3 w-9/12 !border-none  !pl-0 text-start !normal-case sm:w-2/3">Funds</Th>
 
