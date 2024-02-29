@@ -1,11 +1,13 @@
 import { writable } from 'svelte/store';
 
 export interface BroswerHistory {
+	isLoaded?: boolean;
 	historyLength?: number | string;
 	initialUrl?: string;
 }
 
 const initalStore: BroswerHistory = {
+	isLoaded: false,
 	historyLength: '',
 	initialUrl: ''
 };

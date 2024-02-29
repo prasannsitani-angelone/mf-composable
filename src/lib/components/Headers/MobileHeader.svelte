@@ -12,7 +12,6 @@
 	import Button from '$lib/components/Button.svelte';
 	import { browserHistoryStore } from '$lib/stores/BrowserHistoryStore';
 	import { goBackToSpark } from '$lib/utils';
-	import { browser } from '$app/environment';
 
 	export let title = '';
 	export let showSearchIcon = false;
@@ -64,7 +63,7 @@
 							class="mr-4 cursor-pointer"
 							on:click={handleCloseButtonClick}
 						/>
-					{:else if showBackIcon && browser}
+					{:else if showBackIcon && $browserHistoryStore.isLoaded}
 						{#if ($browserHistoryStore.historyLength === 1 || $browserHistoryStore.initialUrl === `${$page.url.origin}${$page.url.pathname}`) && (($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID && $appStore.closecta) || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS)}
 							<WMSIcon
 								height={24}

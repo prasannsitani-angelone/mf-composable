@@ -90,6 +90,7 @@
 		});
 
 		browserHistoryStore.updateStore({
+			isLoaded: true,
 			initialUrl: `${$page.url.origin}${$page.url.pathname}`,
 			historyLength: window.history.length
 		});

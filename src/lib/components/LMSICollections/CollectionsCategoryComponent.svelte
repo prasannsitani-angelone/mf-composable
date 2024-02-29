@@ -14,7 +14,7 @@
 <section class="flex flex-wrap px-4 py-3 sm:px-6 lg:items-center lg:justify-center">
 	{#each category.data || [] as option}
 		<article
-			class="group mr-0 flex basis-1/4 cursor-pointer items-center justify-center rounded-lg bg-background-alt hover:bg-background sm:justify-start sm:pl-6"
+			class="group mr-0 flex basis-1/4 cursor-pointer items-center justify-center rounded-lg bg-background-alt active:bg-background sm:justify-start sm:pl-6"
 		>
 			<Link
 				to={getCategoriesFundsNavigationPath(option.id)}
