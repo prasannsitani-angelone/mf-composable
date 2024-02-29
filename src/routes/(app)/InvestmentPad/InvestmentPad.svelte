@@ -1420,7 +1420,7 @@
 			}
 
 			const paymentModesStatus: PaymentMethodsStatusTypes =
-				$paymentMethodStatusStore?.payment_modes[
+				$paymentMethodStatusStore?.payment_modes?.[
 					`${bankDetails[paymentHandler?.selectedAccount]?.ifscCode}`
 				] || {};
 

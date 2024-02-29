@@ -71,7 +71,8 @@
 					skipOrderPad: true,
 					sipInstalmentId: sip?.sipInstalmentId,
 					isAdditionalFlag: true,
-					require2FA: false
+					require2FA: false,
+					redirectedFrom: 'MONTHLY_PAYMENT_NUDGE'
 				});
 			} else {
 				params = encodeObject({

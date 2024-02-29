@@ -47,7 +47,8 @@ export const load = (async ({ fetch, params, url, parent }) => {
 			{
 				headers: {
 					'X-LRU': 'true',
-					'X-Skip-Validation': redirectedFrom === 'SIP_PAYMENTS' || false
+					'X-Skip-Validation':
+						redirectedFrom === 'SIP_PAYMENTS' || redirectedFrom === 'MONTHLY_PAYMENT_NUDGE' || false
 				}
 			},
 			fetch
