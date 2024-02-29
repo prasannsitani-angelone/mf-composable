@@ -50,7 +50,7 @@ export const load = (async ({ request, locals }) => {
 	const sparkHeaders = getSparkHeaders(request.headers);
 
 	const { scheme, host, deviceType, token, isMissingHeaders, isGuest, sparkQuery, urlSource } =
-		locals;
+		locals || {};
 
 	console.log(
 		JSON.stringify({
