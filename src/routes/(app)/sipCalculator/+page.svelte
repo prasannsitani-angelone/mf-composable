@@ -16,7 +16,7 @@
 		sipCalculatorReturnsSliderAnalytics,
 		sipCalculatorScreenOpenAnalytics
 	} from './analytics';
-	import { linearInterpolator } from './utils';
+	import { getDisplayAmount, linearInterpolator } from './utils';
 	import Background from './icons/Background.svelte';
 	import BarChartGraphComponent from './components/BarChartGraphComponent.svelte';
 	import type { SipCalcBarType } from './components/types';
@@ -116,22 +116,6 @@
 			}
 		});
 		maxData = dataSet[dataSet.length - 1];
-	};
-
-	const getDisplayAmount = (amount: number) => {
-		if (amount > 1000000000) {
-			return (amount / 1000000000).toFixed(1) + 'Bn';
-		}
-		if (amount > 10000000) {
-			return (amount / 10000000).toFixed(1) + 'Cr';
-		}
-		if (amount > 100000) {
-			return (amount / 100000).toFixed(1) + 'L';
-		}
-		if (amount > 1000) {
-			return (amount / 1000).toFixed(1) + 'K';
-		}
-		return amount;
 	};
 
 	const getExploreFundsPath = async () => {

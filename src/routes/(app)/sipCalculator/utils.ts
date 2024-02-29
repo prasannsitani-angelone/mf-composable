@@ -30,10 +30,10 @@ export function linearInterpolator(
 
 export const getDisplayAmount = (amount: number) => {
 	if (amount > 1000000000) {
-		return (amount / 1000000000).toFixed(1) + 'Bn';
+		return (amount / 1000000000).toFixed(2) + 'Bn';
 	}
 	if (amount > 10000000) {
-		return (amount / 10000000).toFixed(1) + 'Cr';
+		return (amount / 10000000).toFixed(2) + 'Cr';
 	}
 	if (amount > 100000) {
 		return (amount / 100000).toFixed(1) + 'L';
