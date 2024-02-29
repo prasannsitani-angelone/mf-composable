@@ -31,8 +31,8 @@
 	import {
 		changeFolioAnalytics,
 		confirmChangeFolioAnalytics,
-		redemptionOrderpadTaxDetailsModalImpressionAnalytics,
-		redemptionOrderpadTaxInfoIconClickAnalytics,
+		redemptionOrderpadImpressionAnalytics,
+		redemptionAmountInputClickAnalytics,
 		withdrawFullAmountCheckboxAnalytics,
 		withdrawProceedButtonClickAnalytics,
 		withdrawableAmountLessThanMinimumLimitAnalytics,
@@ -93,6 +93,8 @@
 	const handleAmountInputFocus = () => {
 		const amountInputElement = document?.getElementById('amountInput');
 		amountInputElement?.focus();
+
+		redemptionAmountInputClickAnalytics();
 	};
 
 	const setSelectedFolio = (folioNumber: string) => {
@@ -324,6 +326,8 @@
 			fullAmountSelected = isFullAmountSelected;
 			selectedFolio = selectedFolioDetails;
 		}
+
+		redemptionOrderpadImpressionAnalyticsFunc();
 	});
 
 	onDestroy(() => {
@@ -350,12 +354,6 @@
 		if (isWithdrawalStcgLtcgEligible) {
 			finalisedTaxType = taxType;
 			showTaxInfoModal = !showTaxInfoModal;
-
-			redemptionOrderpadTaxInfoIconClickAnalyticsFunc();
-
-			if (showTaxInfoModal) {
-				redemptionOrderpadTaxDetailsModalImpressionAnalyticsFunc();
-			}
 		}
 	};
 
@@ -371,7 +369,20 @@
 			Value: parseFloat(
 				(selectedFolio?.redemableAmount + selectedFolio?.blockedAmount)?.toFixed(2)
 			),
-			Units: parseFloat((selectedFolio?.redemableUnits + selectedFolio?.blockedunits)?.toFixed(3))
+			Units: parseFloat((selectedFolio?.redemableUnits + selectedFolio?.blockedunits)?.toFixed(3)),
+			FundCategory: categoryName,
+			ISIN: holdingDetails?.isin,
+			WithdrawalOptimizedAmount: parseFloat(taxationDetails?.ltcgCurAmount?.toFixed(2)) || 'NA',
+			ShortTermInvestment: parseFloat(taxationDetails?.stcgInvAmount?.toFixed(2)),
+			Messaging: isWithdrawalStcgLtcgEligible
+				? finalisedTaxType === 'LTCG'
+					? 'Tax optimzed'
+					: `Higher taxes may apply. Reduce amount below ${
+							redemableAmount < ltcgCurAmount
+								? redemableAmount?.toFixed(2)
+								: ltcgCurAmount?.toFixed(2)
+					  }`
+				: ''
 		};
 
 		withdrawProceedButtonClickAnalytics(eventMetadata);
@@ -430,41 +441,17 @@
 		withdrawableAmountModalOpenAnalytics(eventMetadata);
 	};
 
-	const redemptionOrderpadTaxInfoIconClickAnalyticsFunc = () => {
+	const redemptionOrderpadImpressionAnalyticsFunc = () => {
 		const eventMetaData = {
 			Fundname: holdingDetails?.schemeName,
 			FundCategory: categoryName,
 			ISIN: holdingDetails?.isin,
-			WithdrawalOptimizedAmount: taxationDetails?.ltcgCurAmount,
+			WithdrawalOptimizedAmount: taxationDetails?.ltcgCurAmount || 'NA',
 			CurrentAmount: holdingDetails?.currentValue,
-			ShortTermInvestment: taxationDetails?.stcgInvAmount,
-			AmountEntered: amount,
-			Messaging:
-				finalisedTaxType === 'LTCG'
-					? 'Tax optimzed'
-					: `Higher taxes may apply. Reduce amount below ${
-							redemableAmount < ltcgCurAmount
-								? redemableAmount?.toFixed(2)
-								: ltcgCurAmount?.toFixed(2)
-					  }`
+			ShortTermInvestment: taxationDetails?.stcgInvAmount
 		};
 
-		redemptionOrderpadTaxInfoIconClickAnalytics(eventMetaData);
-	};
-
-	const redemptionOrderpadTaxDetailsModalImpressionAnalyticsFunc = () => {
-		const eventMetaData = {
-			Fundname: holdingDetails?.schemeName,
-			FundCategory: categoryName,
-			ISIN: holdingDetails?.isin,
-			WithdrawalOptimizedAmount: taxationDetails?.ltcgCurAmount,
-			CurrentAmount: holdingDetails?.currentValue,
-			ShortTermInvestment: taxationDetails?.stcgInvAmount,
-			AmountEntered: amount,
-			Messaging: finalisedTaxType === 'LTCG' ? 'Tax optimzed' : 'Tax not optimzed'
-		};
-
-		redemptionOrderpadTaxDetailsModalImpressionAnalytics(eventMetaData);
+		redemptionOrderpadImpressionAnalytics(eventMetaData);
 	};
 </script>
 

@@ -373,8 +373,8 @@ export const withdrawalTaxesModalImpressionAnalytics = (
 	Analytics.logAnalyticEvent({
 		screen_name: 'bs-TaxesonWithdrawal',
 		event_type: 'impression',
-		event_sub_type: 'screen',
-		event_name: 'bs-TaxesonWithdrawal',
+		event_sub_type: 'popup',
+		event_name: 'ConfirmAndWithdraw',
 		event_property: null,
 		event_id: '307.0.0.1.39',
 		event_metadata: eventMetaData
@@ -395,30 +395,27 @@ export const withdrawalTaxesModalCtaClickAnalytics = (
 	});
 };
 
-export const redemptionOrderpadTaxInfoIconClickAnalytics = (
+export const redemptionOrderpadImpressionAnalytics = (
 	eventMetaData: Record<string, string | number | undefined>
 ) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-WithdrawOrderPad',
-		event_type: 'click',
-		event_sub_type: 'button',
-		event_name: 'iicon',
+		event_type: 'Impression',
+		event_sub_type: 'screen',
+		event_name: 'Withdraw',
 		event_property: null,
 		event_id: '307.0.0.1.41',
 		event_metadata: eventMetaData
 	});
 };
 
-export const redemptionOrderpadTaxDetailsModalImpressionAnalytics = (
-	eventMetaData: Record<string, string | number | undefined>
-) => {
+export const redemptionAmountInputClickAnalytics = () => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-WithdrawOrderPad',
-		event_type: 'Impression',
-		event_sub_type: 'pop-up',
-		event_name: 'iicon',
+		event_type: 'click',
+		event_sub_type: 'textbox',
+		event_name: 'enteramount',
 		event_property: null,
-		event_id: '307.0.0.1.42',
-		event_metadata: eventMetaData
+		event_id: '307.0.0.1.42'
 	});
 };
