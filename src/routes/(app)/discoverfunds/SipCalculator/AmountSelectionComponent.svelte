@@ -14,13 +14,17 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div class="flex justify-start gap-2">
 	{#each inputAmountArray as item, index}
+		{@const isSelected = selectedIndex === index}
 		<div
 			on:click={() => onAmountSelected(index)}
-			class="rounded-3xl border bg-background-alt px-3 {selectedIndex === index
+			class="rounded-3xl border bg-background-alt px-3 {isSelected
 				? 'border-primary'
 				: 'border-border'}"
 		>
-			<AmountText class="text-center text-sm font-normal text-title" amount={item} />
+			<AmountText
+				class="text-center text-sm font-normal {isSelected ? 'text-primary' : 'text-title'}"
+				amount={item}
+			/>
 		</div>
 	{/each}
 </div>

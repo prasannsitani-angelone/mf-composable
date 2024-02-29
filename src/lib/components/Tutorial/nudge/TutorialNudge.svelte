@@ -29,6 +29,12 @@
 			<p class="text-base font-semibold text-body">{title}</p>
 			<p class="text-sm font-normal text-body">{subTitle}</p>
 		</div>
-		<WMSIcon name="arrow-collapse" width={20} height={20} class="rotate-90" />
+		<WMSIcon
+			name="arrow-collapse"
+			stroke="var(--PRIMARY)"
+			width={20}
+			height={20}
+			class="rotate-90"
+		/>
 	</div>
 </div>
