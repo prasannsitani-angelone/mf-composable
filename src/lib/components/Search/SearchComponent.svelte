@@ -21,6 +21,7 @@
 	import SearchCard from './SearchCard.svelte';
 	import SomethingWentWrong from '$components/Error/SomethingWentWrong.svelte';
 	import SomethingWentWrongSmall from '$components/Error/SomethingWentWrongSmall.svelte';
+	import { appStore } from '$lib/stores/SparkStore';
 	const queryLengthThreshold = 2;
 	const dispatch = createEventDispatcher();
 	$: deviceType = $page?.data?.deviceType;
@@ -143,7 +144,8 @@
 			SubAssetType: item?.subcategoryName,
 			Rating: item?.arqRating,
 			ReturnYear: 3,
-			ReturnsValue: item?.returns3yr
+			ReturnsValue: item?.returns3yr,
+			SearchType: $appStore.isTabView ? 'SearchBar' : 'SearchIcon'
 		};
 
 		const eventProperty = type;

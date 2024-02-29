@@ -111,6 +111,10 @@
 
 			if (newHeight >= bottomDrawerHeight - 10) {
 				dispatch('drawer-max-height', true);
+				analyticsCallbacks?.bottomDrawerDrag?.({
+					version: 'B',
+					VideoTitle: props.header
+				});
 				return;
 			}
 			maxHeight = bottomDrawerHeight;

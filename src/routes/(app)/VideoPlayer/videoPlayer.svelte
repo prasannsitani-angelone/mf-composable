@@ -13,6 +13,7 @@
 		handleMuteUnMuteAnalytics,
 		handleVideoCardClickAnalytics,
 		handleVideoImpressionEvent,
+		handleFundSliderAnalytics,
 		type VideoAnalyticsCallbacks
 	} from '$lib/analytics/video';
 	import { slide } from 'svelte/transition';
@@ -26,7 +27,8 @@
 	let analyticsCallbacks: VideoAnalyticsCallbacks = {
 		videoImpression: handleVideoImpressionEvent,
 		muteUnmute: handleMuteUnMuteAnalytics,
-		bottomDrawerItemClick: handleFundSelectAnalytics
+		bottomDrawerItemClick: handleFundSelectAnalytics,
+		bottomDrawerDrag: handleFundSliderAnalytics
 	};
 
 	$: deviceType = $page.data.deviceType;
@@ -44,6 +46,10 @@
 			props.showBottomDrawer = true;
 			props.type = VideoPlayerMode.ProgressBarOverlay;
 		}
+		analyticsCallbacks?.videoImpression?.(false, {
+			version: 'B',
+			VideoTitle: props.header
+		});
 		handleVideoCardClickAnalytics({
 			version: 'B',
 			VideoTitle: props.header
