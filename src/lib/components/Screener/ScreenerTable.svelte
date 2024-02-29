@@ -55,10 +55,7 @@
 			>
 				<Td class="border-none !px-0 {pageSource === SCREENER_SOURCE.HOMEPAGE ? '!py-3' : ''} "
 					><a
-						class="flex w-full items-center overflow-hidden text-ellipsis whitespace-pre-wrap align-middle {pageSource ===
-						SCREENER_SOURCE.HOMEPAGE
-							? 'items-center'
-							: 'items-start'}"
+						class="flex w-full items-start overflow-hidden text-ellipsis whitespace-pre-wrap align-middle"
 						href={normalizeFundName(funds?.schemeName, funds?.isin, funds?.schemeCode)}
 					>
 						{#if pageSource === SCREENER_SOURCE.HOMEPAGE}
@@ -67,7 +64,7 @@
 							<SchemeLogo src={funds?.logoUrl} class="h-12 w-12" />
 						{/if}
 						<div class="flex flex-col">
-							<span class="line-clamp-1 text-sm font-normal text-title">{funds?.schemeName}</span>
+							<span class="line-clamp-2 text-sm font-normal text-title">{funds?.schemeName}</span>
 							{#if pageSource !== SCREENER_SOURCE.HOMEPAGE}
 								<span class="pt-2 text-xs text-body"
 									>Minimum SIP Investment ₹{funds?.minSipAmount || '-'}</span
@@ -78,9 +75,9 @@
 				>
 
 				<Td
-					class="border-none text-right {pageSource === SCREENER_SOURCE.HOMEPAGE
+					class="border-none text-right align-top {pageSource === SCREENER_SOURCE.HOMEPAGE
 						? '!px-0'
-						: '!pr-0 align-top'}"
+						: '!pr-0'}"
 					><span
 						class=" font-medium {pageSource === SCREENER_SOURCE.HOMEPAGE
 							? 'text-sm'

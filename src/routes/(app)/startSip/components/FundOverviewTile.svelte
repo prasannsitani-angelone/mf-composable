@@ -47,12 +47,13 @@
 		<div class="mb-1 flex w-full flex-row items-center justify-between">
 			<div>
 				<h3
-					class="line-clamp-1 self-center whitespace-normal text-sm font-normal text-title md:text-sm {headingClass}"
+					class="line-clamp-1 self-center whitespace-normal text-sm font-medium text-title md:text-sm {headingClass}"
 				>
 					{schemes?.schemeName}
 				</h3>
 				{#if showBadge}
-					<span class="rounded bg-tint12-secondary-alt p-1 text-xs font-normal text-secondary-alt"
+					<span
+						class="rounded bg-tint12-secondary-alt p-1 text-[10px] font-normal text-secondary-alt"
 						>Top Rated</span
 					>
 				{/if}
