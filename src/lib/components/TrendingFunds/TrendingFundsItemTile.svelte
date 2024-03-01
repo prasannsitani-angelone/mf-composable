@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import type { TrendingFund } from '$lib/types/ITrendingFunds';
+	import { modifiedGoto } from '$lib/utils/goto';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { createEventDispatcher } from 'svelte';
@@ -20,7 +20,7 @@
 		)}?orderpad=INVEST&params=${encodeObject({
 			paymentMandatory: true
 		})}`;
-		goto(schemeDetailsPath);
+		modifiedGoto(schemeDetailsPath);
 		dispatch('cardClick');
 	};
 </script>

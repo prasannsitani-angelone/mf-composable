@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import {
@@ -10,6 +9,7 @@
 		CategorySubOptionsEntity,
 		DashboardCategoryEntity
 	} from '$lib/types/IDiscoverFunds';
+	import { modifiedGoto } from '$lib/utils/goto';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import viewport from '$lib/utils/useViewPortAction';
@@ -48,7 +48,7 @@
 		)}?orderpad=INVEST&params=${encodeObject({
 			paymentMandatory: true
 		})}`;
-		goto(schemeDetailsPath);
+		modifiedGoto(schemeDetailsPath);
 	};
 
 	const handleFundClick = (fund: CategorySubOptionsEntity, index: number) => {
