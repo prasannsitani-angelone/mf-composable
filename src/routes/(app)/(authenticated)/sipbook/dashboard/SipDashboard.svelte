@@ -123,8 +123,11 @@
 					updatedSipList[index].sipAmountPayTillDate = nudge?.data?.sipAmountPayTillDate;
 				}
 				if (nudge?.nudgesType === SIP_TYPE.SIP_INSTALLMENT && sip?.sipId === nudge?.data?.sipId) {
+					updatedSipList[index].isSipPaymentNudge = true;
 					updatedSipList[index].sipRegistrationNo = nudge?.data?.sipRegistrationNo;
 					updatedSipList[index].schemePlan = nudge?.data?.schemePlan;
+					updatedSipList[index].sipPaymentDate = nudge?.data?.sipPaymentDate;
+					updatedSipList[index].sipAmountPayTillDate = nudge?.data?.sipAmountPayTillDate;
 				}
 			});
 		});

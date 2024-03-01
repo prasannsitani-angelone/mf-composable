@@ -165,9 +165,11 @@
 						: 'SIP Payment Due'}
 				</div>
 			</article>
-			<article class="mr-3.5 text-[9px]" class:text-sell={isCurrentDateEqualToT3Date}>
-				{alertSleeveText}
-			</article>
+			{#if !sip?.sipPaymentMonthNudge}
+				<article class="mr-3.5 text-[9px]" class:text-sell={isCurrentDateEqualToT3Date}>
+					{alertSleeveText}
+				</article>
+			{/if}
 		</section>
 	{/if}
 
