@@ -525,6 +525,8 @@
 						redemptionNotAllowedText={withdrawDisableText}
 						{isInvestmentNotAllowed}
 						{isWithdrawalStcgLtcgEligible}
+						{categoryName}
+						{taxationDetails}
 						ltcgCurAmount={isWithdrawalStcgLtcgEligible ? taxationDetails?.ltcgCurAmount : 0}
 					/>
 				</article>
