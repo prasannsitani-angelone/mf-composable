@@ -8,6 +8,7 @@
 	} from '$lib/utils/helpers/formatAmount';
 	import { getResponsiveFontSize } from '$lib/utils/helpers/charts';
 	import type { TableDataTypes } from '$lib/types/IPortfolioDetails';
+	import { getRGBACssVar } from '$lib/utils/colors';
 
 	export let parentId: string;
 	export let holding: TableDataTypes[];
@@ -31,7 +32,7 @@
 				borderRadius: 0,
 				borderWidth: doughnutBorderWidth,
 				borderAlign: 'inner',
-				borderColor: '#F4F6FB',
+				borderColor: getRGBACssVar('--BACKGROUND', 1),
 				offset: 0,
 				hoverOffset: 3,
 				borderJoinStyle: 'round',
