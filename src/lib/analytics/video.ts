@@ -46,7 +46,7 @@ export const handleVideoCardClickAnalytics = (eventMetaData: VideoAnalyticsMetaD
 export const handleMuteUnMuteAnalytics = (eventMetaData: VideoAnalyticsMetaData) => {
 	Analytics.logAnalyticEvent({
 		event_type: 'click',
-		event_sub_type: 'card',
+		event_sub_type: 'icon',
 		event_name: 'videomute',
 		event_id: '308.0.0.10.6',
 		screen_name: 's-Homepage',
@@ -59,7 +59,7 @@ export const handleFundSelectAnalytics = (eventMetaData: VideoAnalyticsMetaData)
 	Analytics.logAnalyticEvent({
 		event_type: 'click',
 		event_sub_type: 'text',
-		event_name: 'videomute',
+		event_name: 'FundSelect',
 		event_id: '308.0.0.10.8',
 		screen_name: 's-Videopage',
 		event_property: null,
@@ -71,7 +71,7 @@ export const handleCrossButtonAnalytics = (eventMetaData: VideoAnalyticsMetaData
 	Analytics.logAnalyticEvent({
 		event_type: 'click',
 		event_sub_type: 'button',
-		event_name: 'videomute',
+		event_name: 'cross',
 		event_id: '308.0.0.10.9',
 		screen_name: 's-Videopage',
 		event_property: null,
@@ -82,9 +82,9 @@ export const handleCrossButtonAnalytics = (eventMetaData: VideoAnalyticsMetaData
 export const handleFundSliderAnalytics = (eventMetaData: VideoAnalyticsMetaData) => {
 	Analytics.logAnalyticEvent({
 		event_type: 'Slider',
-		event_sub_type: 'button',
-		event_name: 'videomute',
-		event_id: '308.0.0.10.9',
+		event_sub_type: 'screen',
+		event_name: 'FundSlider',
+		event_id: '308.0.0.10.10',
 		screen_name: 's-Videopage',
 		event_property: null,
 		event_metadata: eventMetaData

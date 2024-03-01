@@ -15,9 +15,9 @@
 	import type { VideoAnalyticsCallbacks } from '$lib/analytics/video';
 	import type { ScreenedSchemes } from '$lib/types/Screener';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
-	import { WMSIcon } from 'svelte-components';
 	import DragDownIcon from './icons/dragDownIcon.svelte';
 	import { modifiedGoto } from '$lib/utils/goto';
+	import { WMSIcon } from 'svelte-components';
 
 	let pageSource: ScreenerSource;
 
@@ -83,7 +83,7 @@
 						class="flex w-full items-start overflow-hidden text-ellipsis whitespace-pre-wrap align-middle"
 						href={normalizeFundName(scheme?.schemeName, scheme?.isin, scheme?.schemeCode)}
 					>
-						<SchemeLogo src={scheme?.logoUrl} class="h-12 w-12" />
+						<SchemeLogo src={scheme?.logoUrl} class="h-12 w-12 border-none" />
 						<div class="flex flex-col">
 							<span class="line-clamp-2 text-sm font-normal text-title">{scheme?.schemeName}</span>
 						</div>
@@ -98,13 +98,7 @@
 					>
 						{scheme?.returns3yr > 0 ? `${scheme?.returns3yr?.toFixed(2)}%` : '-'}
 						<span class="ml-1">
-							<WMSIcon
-								name="arrow-collapse"
-								width={24}
-								height={24}
-								class="mr-2 rotate-90 p-1"
-								stroke="var(--BODY)"
-							/>
+							<WMSIcon name="right-arrow" stroke="var(--BODY)" width={24} height={24} />
 						</span>
 					</span>
 				</Td>
