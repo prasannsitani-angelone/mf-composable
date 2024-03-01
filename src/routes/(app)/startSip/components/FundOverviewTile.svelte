@@ -6,8 +6,8 @@
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { createEventDispatcher } from 'svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
-	import { modifiedGoto } from '$lib/utils/goto';
 	import { WMSIcon } from 'svelte-components';
+	import { goto } from '$app/navigation';
 
 	export let schemes: WeeklyTopSchemesEntity;
 	export let clazz = '';
@@ -26,7 +26,7 @@
 		)}?orderpad=INVEST&params=${encodeObject({
 			paymentMandatory: true
 		})}`;
-		modifiedGoto(schemeDetailsPath);
+		goto(schemeDetailsPath);
 		dispatch('onCardClick');
 	}
 </script>
@@ -34,7 +34,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <section on:click={gotoSchemeDetails} class={`flex cursor-pointer flex-col px-1 py-2 ${clazz}`}>
-	<div class="flex w-full items-center">
+	<div class="flex w-full items-start">
 		<div>
 			<SchemeLogo
 				src={schemes?.logoUrl}
@@ -44,10 +44,14 @@
 				lazy={index > 1 ? 'lazy' : 'eager'}
 			/>
 		</div>
-		<div class="mb-1 flex w-full flex-row items-center justify-between">
+		<div
+			class="flex w-full flex-row justify-between {showBadge
+				? 'items-start'
+				: 'items-center self-center'}"
+		>
 			<div>
 				<h3
-					class="line-clamp-1 self-center whitespace-normal text-sm font-medium text-title md:text-sm {headingClass}"
+					class="line-clamp-2 whitespace-normal text-sm font-medium text-title md:text-sm {headingClass}"
 				>
 					{schemes?.schemeName}
 				</h3>
@@ -70,7 +74,7 @@
 		</div>
 	</div>
 
-	<div class="mx-11 mt-2 flex flex-col">
+	<div class="mx-11 mt-2 flex w-[204px] flex-col">
 		<div
 			class="grid grid-cols-2 flex-row justify-between rounded-t-lg opacity-[.99] md:max-w-[204px]"
 		>

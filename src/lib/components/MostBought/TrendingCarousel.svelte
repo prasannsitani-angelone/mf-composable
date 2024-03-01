@@ -66,22 +66,21 @@
 		totalElements={tableData?.length}
 		on:onIndexChange={handleCardVisible}
 		fixedWidth={true}
-		slidesPerView={isMobile ? 1.1 : 2}
+		slidesPerView={isMobile ? 1.3 : 2}
 	>
 		{#each tableData || [] as schemes, index}
 			<CarouselItem
-				class="!w-[calc(100vw/1.2)] sm:!w-[calc(100vw/2.3)] lg:!w-[calc(100vw/3.6)]  xl:!w-[calc(100vw/4.8)] 2xl:!w-[calc(100vw/5.4)]"
+				class="!w-[calc(100vw/1.3)] sm:!w-[calc(100vw/2.3)] lg:!w-[calc(100vw/3.6)]  xl:!w-[calc(100vw/4.8)] 2xl:!w-[calc(100vw/5.4)]"
 				{index}
 			>
 				<TrendingCarouselItems
 					on:onCartClick={(e) => handleCartClick(e, index)}
 					on:onCardClick={(e) => handleCardClick(e, index)}
-					clazz="ml-5 rounded-lg border pt-2 {$$props?.class}"
+					clazz="ml-3 rounded-lg border pt-2 {$$props?.class}"
 					{schemes}
 					{index}
 					schemeLogoSize="xs"
 					schemeLogoClass="border-none"
-					headingClass="!line-clamp-1"
 				>
 					<div slot="topRightSection" />
 				</TrendingCarouselItems>

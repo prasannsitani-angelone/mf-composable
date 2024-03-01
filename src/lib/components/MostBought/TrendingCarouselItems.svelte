@@ -7,8 +7,8 @@
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { createEventDispatcher } from 'svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
-	import { modifiedGoto } from '$lib/utils/goto';
 	import { WMSIcon } from 'svelte-components';
+	import { goto } from '$app/navigation';
 
 	export let schemes: WeeklyTopSchemesEntity;
 	export let clazz = '';
@@ -31,7 +31,7 @@
 		)}?orderpad=INVEST&params=${encodeObject({
 			paymentMandatory: true
 		})}`;
-		modifiedGoto(schemeDetailsPath);
+		goto(schemeDetailsPath);
 		dispatch('onCardClick');
 	}
 </script>

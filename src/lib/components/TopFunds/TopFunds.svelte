@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import {
@@ -9,7 +10,6 @@
 		CategorySubOptionsEntity,
 		DashboardCategoryEntity
 	} from '$lib/types/IDiscoverFunds';
-	import { modifiedGoto } from '$lib/utils/goto';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import viewport from '$lib/utils/useViewPortAction';
@@ -17,7 +17,7 @@
 	export let tableData: DashboardCategoryEntity[];
 
 	let topFundsInfo = tableData?.filter(
-		(item) => item.type === 'tab' && item.name === 'Top Picks'
+		(item) => item.type === 'tab' && item.name === 'Collections'
 	)[0];
 	let topFundsCategoryName = topFundsInfo?.data?.[0]?.name;
 	let topFundsList = topFundsInfo?.data?.[0]?.data;
@@ -36,8 +36,6 @@
 				Type: topFundsCategoryName,
 				FundName: funds
 			};
-			console.log('eventMetaData', eventMetaData);
-
 			topFundsImpressionAnalytics(eventMetaData);
 		}
 	};
@@ -50,7 +48,7 @@
 		)}?orderpad=INVEST&params=${encodeObject({
 			paymentMandatory: true
 		})}`;
-		modifiedGoto(schemeDetailsPath);
+		goto(schemeDetailsPath);
 	};
 
 	const handleFundClick = (fund: CategorySubOptionsEntity, index: number) => {
@@ -60,7 +58,6 @@
 			FundRank: index + 1,
 			Category: topFundsCategoryName
 		};
-		console.log('eventMetaData', eventMetaData);
 		topFundsSelectFundAnalytics(eventMetaData);
 		gotoSchemeDetails(fund);
 	};
