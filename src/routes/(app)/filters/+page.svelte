@@ -18,9 +18,6 @@
 	$: isTablet = $page?.data?.deviceType?.isTablet;
 
 	let currentFilterDataFromStore: FilterData = schemeScreenerStore?.getData();
-	schemeScreenerStore.subscribe(() => {
-		currentFilterDataFromStore = schemeScreenerStore.getData() || [];
-	});
 
 	let filterData: FilterData = schemeScreenerStore?.getData();
 	let selectedParentFilterIndex = 0;
@@ -50,6 +47,9 @@
 	};
 
 	onMount(async () => {
+		schemeScreenerStore.subscribe(() => {
+			currentFilterDataFromStore = schemeScreenerStore.getData() || [];
+		});
 		if (!isMobile && !isTablet) {
 			goto(`${base}/filters/items`, { replaceState: true });
 		} else {
@@ -127,7 +127,7 @@
 		<!-- right column -->
 		<section class="columnClass mx-1 w-[65%] overflow-auto pb-3 pt-2">
 			<FilterOptions
-				selectedFilter={filterData?.filters[selectedParentFilterIndex]?.options}
+				selectedFilter={filterData?.filters[selectedParentFilterIndex]?.options || []}
 				filterType={filterData?.filters[selectedParentFilterIndex]?.type}
 				filterLabel={filterData?.filters[selectedParentFilterIndex]?.label}
 				showSearch={filterData?.filters[selectedParentFilterIndex]?.search}
