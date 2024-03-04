@@ -9,7 +9,7 @@ export const topFundsImpressionAnalytics = (
 		event_sub_type: 'screen',
 		event_name: 'TopCategory',
 		event_property: null,
-		event_id: '318.0.0.10.12',
+		event_id: '308.0.0.10.12',
 		event_metadata: eventMetaData
 	});
 };
@@ -20,7 +20,7 @@ export const topFundsSelectFundAnalytics = (eventMetaData: Record<string, string
 		event_sub_type: 'text',
 		event_name: 'TopCategoryFund',
 		event_property: null,
-		event_id: '318.0.0.10.13',
+		event_id: '308.0.0.10.13',
 		event_metadata: eventMetaData
 	});
 };

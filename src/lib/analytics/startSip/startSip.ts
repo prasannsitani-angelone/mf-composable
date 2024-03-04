@@ -7,7 +7,7 @@ export const startSipEntryClickAnalytics = (eventMetaData: Record<string, string
 		event_sub_type: 'icon',
 		event_name: 'StartSIP',
 		event_property: null,
-		event_id: '318.0.0.10.1',
+		event_id: '308.0.0.10.1',
 		event_metadata: eventMetaData
 	});
 };
@@ -18,7 +18,7 @@ export const startSipPageOpenAnalytics = () => {
 		event_sub_type: 'screen',
 		event_name: 'StartSIP',
 		event_property: null,
-		event_id: '318.0.0.10.2'
+		event_id: '308.0.0.10.2'
 	});
 };
 export const startSipFundSelectAnalytics = (eventMetaData: Record<string, string | number>) => {
@@ -28,7 +28,7 @@ export const startSipFundSelectAnalytics = (eventMetaData: Record<string, string
 		event_sub_type: 'text',
 		event_name: 'FundSelect',
 		event_property: null,
-		event_id: '318.0.0.10.3',
+		event_id: '308.0.0.10.3',
 		event_metadata: eventMetaData
 	});
 };
