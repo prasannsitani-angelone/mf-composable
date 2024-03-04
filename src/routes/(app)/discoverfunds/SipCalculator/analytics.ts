@@ -39,7 +39,7 @@ export const sipCalculatorInvestButtonClickAnalytics = (eventMetaData) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-Homepage',
 		event_type: 'click',
-		event_sub_type: 'button',
+		event_sub_type: 'text',
 		event_name: 'ChooseFunds',
 		event_property: null,
 		event_id: '308.0.0.10.19',

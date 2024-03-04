@@ -11,8 +11,7 @@ export const cohorts: { [key: string]: { placementMapping: object } } = {
 			sipCalculator: { rowStart: 8, columnStart: 1 },
 			trackExtFunds: { rowStart: 9, columnStart: 1 },
 			screener: { rowStart: 10, columnStart: 1 },
-			askAngel: { rowStart: 11, columnStart: 1 },
-			logout: { rowStart: 12, columnStart: 1 }
+			logout: { rowStart: 11, columnStart: 1 }
 		}
 	},
 	MF_NEW_RETURNING: {
@@ -80,17 +79,21 @@ export const cohorts: { [key: string]: { placementMapping: object } } = {
 	},
 	Fallback: {
 		placementMapping: {
-			stories: { rowStart: 1, columnStart: 1 },
-			search: { rowStart: 2, columnStart: 1 },
+			search: { rowStart: 1, columnStart: 1 },
+			stories: { rowStart: 2, columnStart: 1 },
 			investments: { rowStart: 3, columnStart: 1 },
 			actions: { rowStart: 4, columnStart: 1 },
-			mostBought: { rowStart: 5, columnStart: 1 },
-			setupAutopay: { rowStart: 6, columnStart: 1 },
+			startSip: { rowStart: 5, columnStart: 1 },
+			mostBought: { rowStart: 6, columnStart: 1 },
 			categories: { rowStart: 7, columnStart: 1 },
-			quickEntryPoints: { rowStart: 8, columnStart: 1 },
-			buyPortfolioCard: { rowStart: 9, columnStart: 1 },
-			screener: { rowStart: 10, columnStart: 1 },
-			logout: { rowStart: 11, columnStart: 1 }
+			videoReel: { rowStart: 8, columnStart: 1 },
+			trendingFunds: { rowStart: 9, columnStart: 1 },
+			buyPortfolioCard: { rowStart: 10, columnStart: 1 },
+			topFundsList: { rowStart: 11, columnStart: 1 },
+			sipCalculator: { rowStart: 12, columnStart: 1 },
+			trackExtFunds: { rowStart: 13, columnStart: 1 },
+			screener: { rowStart: 14, columnStart: 1 },
+			logout: { rowStart: 15, columnStart: 1 }
 		}
 	}
 };
@@ -99,27 +102,28 @@ export const cohorts_LF: { [key: string]: { placementMapping: object } } = {
 	MF_NEW: {
 		placementMapping: {
 			stories: { rowStart: 1, columnStart: 1 },
-			startFirstSip: { rowStart: 2, columnStart: 1 },
+			startSip: { rowStart: 2, columnStart: 1 },
 			mostBought: { rowStart: 3, columnStart: 1 },
 			categories: { rowStart: 4, columnStart: 1 },
-			quickEntryPoints: { rowStart: 5, columnStart: 1 },
-			screener: { rowStart: 6, columnStart: 1 },
-			buyPortfolioCard: { rowStart: 1, columnStart: 2 },
-			askAngel: { rowStart: 2, columnStart: 2 },
-			videoReel: { rowStart: 4, columnStart: 2 }
+			topFundsList: { rowStart: 5, columnStart: 1 },
+			sipCalculator: { rowStart: 6, columnStart: 1 },
+			trackExtFunds: { rowStart: 7, columnStart: 1 },
+			screener: { rowStart: 8, columnStart: 1 },
+			videoReel: { rowStart: 1, columnStart: 2 }
 		}
 	},
 	MF_NEW_RETURNING: {
 		placementMapping: {
 			stories: { rowStart: 1, columnStart: 1 },
-			startFirstSip: { rowStart: 2, columnStart: 1 },
+			startSip: { rowStart: 2, columnStart: 1 },
 			mostBought: { rowStart: 3, columnStart: 1 },
 			categories: { rowStart: 4, columnStart: 1 },
-			quickEntryPoints: { rowStart: 5, columnStart: 1 },
-			screener: { rowStart: 6, columnStart: 1 },
-			buyPortfolioCard: { rowStart: 1, columnStart: 2 },
-			askAngel: { rowStart: 2, columnStart: 2 },
-			videoReel: { rowStart: 4, columnStart: 2 }
+			topFundsList: { rowStart: 5, columnStart: 1 },
+			trendingFunds: { rowStart: 6, columnStart: 1 },
+			sipCalculator: { rowStart: 7, columnStart: 1 },
+			trackExtFunds: { rowStart: 8, columnStart: 1 },
+			screener: { rowStart: 8, columnStart: 1 },
+			videoReel: { rowStart: 1, columnStart: 2 }
 		}
 	},
 	MF_WITH_SIP_N: {
@@ -166,13 +170,18 @@ export const cohorts_LF: { [key: string]: { placementMapping: object } } = {
 		placementMapping: {
 			stories: { rowStart: 1, columnStart: 1 },
 			actions: { rowStart: 2, columnStart: 1 },
-			mostBought: { rowStart: 3, columnStart: 1 },
-			categories: { rowStart: 4, columnStart: 1 },
-			quickEntryPoints: { rowStart: 5, columnStart: 1 },
-			screener: { rowStart: 6, columnStart: 1 },
+			startSip: { rowStart: 3, columnStart: 1 },
+			mostBought: { rowStart: 4, columnStart: 1 },
+			categories: { rowStart: 5, columnStart: 1 },
+			trendingFunds: { rowStart: 6, columnStart: 1 },
+			sipCalculator: { rowStart: 7, columnStart: 1 },
+			trackExtFunds: { rowStart: 8, columnStart: 1 },
+			quickEntryPoints: { rowStart: 9, columnStart: 1 },
+			screener: { rowStart: 10, columnStart: 1 },
 			investments: { rowStart: 1, columnStart: 2 },
 			setupAutopay: { rowStart: 2, columnStart: 2 },
-			buyPortfolioCard: { rowStart: 3, columnStart: 2 }
+			videoReel: { rowStart: 3, columnStart: 2 },
+			buyPortfolioCard: { rowStart: 4, columnStart: 2 }
 		}
 	}
 };

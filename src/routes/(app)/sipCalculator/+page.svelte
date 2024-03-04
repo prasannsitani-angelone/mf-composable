@@ -231,13 +231,13 @@
 
 		<div class="inline-flex w-full flex-col items-start justify-start gap-2 sm:flex-row sm:gap-8">
 			<div class="inline-flex items-center justify-start gap-2 sm:min-w-[130px]">
-				<div class="h-2 w-3.5 rounded bg-[#C2E4DE]" />
+				<div class="h-2 w-3.5 rounded bg-tint24-buy" />
 				<div class="text-xs font-normal text-body">
 					Investment - ₹{getDisplayAmount(selectedDataSet.investedAmount || maxData.investedAmount)}
 				</div>
 			</div>
 			<div class="inline-flex items-center justify-start gap-2 sm:min-w-[130px]">
-				<div class="h-2 w-3.5 rounded bg-[#008F75]" />
+				<div class="h-2 w-3.5 rounded bg-buy" />
 				<div class="text-xs font-normal text-body">
 					Gains - ₹{getDisplayAmount(selectedDataSet.gains || maxData.gains)}
 				</div>
