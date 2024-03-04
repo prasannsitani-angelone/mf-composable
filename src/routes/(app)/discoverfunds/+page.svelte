@@ -353,12 +353,10 @@
 
 	export let data: PageData;
 
-	const onVisibilityChange = (e: Event) => {
-		if (e?.target?.visibilityState === 'visible') {
-			setAllNudgesData();
-			setNotificationData();
-			schemeScreenerStore?.reinitializeStore();
-		}
+	const onVisibilityChange = () => {
+		setAllNudgesData();
+		setNotificationData();
+		schemeScreenerStore?.reinitializeStore();
 	};
 </script>
 
@@ -367,7 +365,7 @@
 	seoDescription="Set your Goals and find the right Mutual Funds to achieve your goal. Explore mutual funds by performance and start your investment journey with Angel One."
 />
 
-<svelte:window on:visibilitychange={onVisibilityChange} />
+<svelte:window on:focus={onVisibilityChange} on:blur={onVisibilityChange} />
 <article class="grid grid-cols-[100%]">
 	<!-- 1. Stories section -->
 	{#if storiesData?.stories?.length}
