@@ -303,6 +303,12 @@
 		});
 	};
 
+	const setNotificationData = () => {
+		getAllNotificationsData().then((data) => {
+			notifData = data;
+		});
+	};
+
 	onMount(async () => {
 		await tick();
 
@@ -312,9 +318,7 @@
 
 		setAllNudgesData();
 
-		getAllNotificationsData().then((data) => {
-			notifData = data;
-		});
+		setNotificationData();
 
 		if (placementMapping?.trendingFunds) {
 			getTrendingFundsData();
@@ -347,6 +351,8 @@
 	const onVisibilityChange = (e: Event) => {
 		if (e?.target?.visibilityState === 'visible') {
 			setAllNudgesData();
+			setNotificationData();
+			schemeScreenerStore?.reinitializeStore();
 		}
 	};
 </script>
