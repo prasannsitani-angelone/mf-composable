@@ -2,7 +2,6 @@
 	import BaseInput from '../BaseInput.svelte';
 
 	import { filterNumber } from '$lib/utils/helpers/filters';
-	import PhoneIcon from '$lib/images/icons/PhoneIcon.svelte';
 	import { useFetch } from '$lib/utils/useFetch';
 	import { getCaptchaCode } from '$lib/utils/captcha';
 	import { PUBLIC_APP_CAPCHA_SITE_KEY } from '$env/static/public';
