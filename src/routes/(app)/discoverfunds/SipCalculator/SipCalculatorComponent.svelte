@@ -53,8 +53,7 @@
 		sipCalculatorReturnsSliderAnalytics({
 			InvType: 'SIP',
 			amount: selectedAmount,
-			returnabs: maxData?.investedAmount + maxData?.gains,
-			appliedrange: `${roiSlider[0]}%`
+			returnabs: roiSlider[0]
 		});
 	}
 
@@ -92,8 +91,7 @@
 		sipCalculatorInvestButtonClickAnalytics({
 			InvType: 'SIP',
 			amount: selectedAmount,
-			returnabs: maxData?.investedAmount + maxData?.gains,
-			appliedrange: `${roiSlider[0]}%`
+			returnabs: roiSlider[0]
 		});
 	};
 
@@ -101,8 +99,7 @@
 		sipCalculatorNudgeImpressionAnalytics({
 			InvType: 'SIP',
 			amount: selectedAmount,
-			returnabs: maxData?.investedAmount + maxData?.gains,
-			appliedrange: `${roiSlider[0]}%`
+			returnabs: roiSlider[0]
 		});
 	});
 </script>
