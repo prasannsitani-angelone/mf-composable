@@ -59,6 +59,9 @@
 				<article class="mt-2" on:click={() => handleSchemeCardClick(scheme)}>
 					<TrendingCarouselItems
 						clazz="p-3 bg-background-alt rounded-lg border w-[90%]"
+						footerClass="bg-tint24-primary"
+						topSectionClass="mb-3"
+						detailsClass="divide-x p-2"
 						schemes={scheme}
 						index={0}
 						disableRedirection

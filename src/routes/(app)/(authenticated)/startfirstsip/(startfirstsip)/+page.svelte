@@ -49,6 +49,9 @@
 			{#each schemePack as scheme, index}
 				<TrendingCarouselItems
 					clazz="rounded-lg border p-3 bg-background-alt mb-2"
+					footerClass="bg-tint24-primary"
+					topSectionClass="mb-3"
+					detailsClass="divide-x p-2"
 					schemes={scheme}
 					index="1"
 					on:onCardClick={() => schemeCardClicked(scheme, index + 1)}

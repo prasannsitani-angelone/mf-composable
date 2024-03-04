@@ -17,6 +17,9 @@
 	export let schemeLogoSize = 'sm';
 	export let schemeLogoClass = '';
 	export let headingClass = '';
+	export let footerClass = '';
+	export let detailsClass = '';
+	export let topSectionClass = '';
 	let dispatch = createEventDispatcher();
 
 	function gotoSchemeDetails() {
@@ -39,7 +42,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div on:click={gotoSchemeDetails} class={`flex cursor-pointer flex-col ${clazz}`}>
-	<div class="mb-1 flex flex-row items-start px-2">
+	<div class="mb-1 flex flex-row items-start px-2 {topSectionClass}">
 		<slot name="topLeftSection">
 			<SchemeLogo
 				src={schemes?.logoUrl}
@@ -71,7 +74,9 @@
 					? ''
 					: 'rounded-b'}"
 			>
-				<div class="grid grid-cols-2 flex-row justify-between rounded-t-lg px-2 opacity-[.99]">
+				<div
+					class="grid grid-cols-2 flex-row justify-between rounded-t-lg px-2 opacity-[.99] {detailsClass}"
+				>
 					<slot name="detailsLeft">
 						<div class="flex flex-col items-start">
 							<p class="mb-1 text-xs font-normal text-body">Min. SIP Amount</p>
@@ -100,7 +105,7 @@
 		</slot>
 		<slot name="detailsFooter">
 			{#if schemes?.noOfClientInvested}
-				<div class="flex flex-row items-center rounded-b px-3 py-2">
+				<div class="flex flex-row items-center rounded-b px-3 py-2 {footerClass}">
 					<slot name="detailsFooterIcon">
 						<WMSIcon
 							fill="var(--BODY)"
