@@ -16,7 +16,6 @@
 		handleFundSliderAnalytics,
 		type VideoAnalyticsCallbacks
 	} from '$lib/analytics/video';
-	import { slide } from 'svelte/transition';
 
 	export let videoData;
 	export let source: VideoPlayerRenderView;
@@ -114,11 +113,7 @@
 </script>
 
 {#if props}
-	<div
-		class="slide-down md:w-[360px]"
-		style="height: {videoContainerHeight}px"
-		in:slide={{ duration: 300 }}
-	>
+	<div class="md:w-[360px]" style="height: {videoContainerHeight}px">
 		<Video
 			{props}
 			{analyticsCallbacks}

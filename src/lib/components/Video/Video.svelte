@@ -212,9 +212,22 @@
 		videoElement?.pause();
 	};
 
+	const hideThumbnailAndShowVideo = () => {
+		const thumbnail = document.getElementById('thumbnail');
+		if (thumbnail) {
+			thumbnail.style.display = 'none';
+		}
+		if (videoElement) {
+			videoElement.style.display = 'block';
+		}
+	};
+
 	onMount(() => {
 		pauseInactiveVideos();
 		videoElement = document.getElementById(`video-${props?.source}`) as HTMLVideoElement | null;
+
+		videoElement?.addEventListener('loadedmetadata', hideThumbnailAndShowVideo);
+
 		hls = loadHlsPlayer();
 		initiateVideoPlayback();
 
@@ -244,6 +257,7 @@
 			intersectionObserver.disconnect();
 		}
 		hls?.detachMedia();
+		videoElement?.removeEventListener('loadedmetadata', hideThumbnailAndShowVideo);
 
 		videoElement = null;
 
@@ -313,19 +327,28 @@
 			</div>
 		</section>
 	{/if}
-	<video
-		id={`video-${props?.source}`}
-		class="h-full w-full cursor-pointer justify-center object-cover {$$props.classes || ''}"
-		playsinline
-		controlslist="nodownload"
-		poster={props?.poster}
-		muted={props?.muted}
-		controls={props?.controls}
-		on:ended
-		on:click={props?.onClick}
-		on:ended={onVideoEnded}
-		on:timeupdate={onTimeUpdate}
-	/>
+	<div class="">
+		<img
+			id="thumbnail"
+			class="absolute left-0 top-0 h-full w-full"
+			style="object-fit: cover"
+			src={props.poster}
+			alt="Video Thumbnail"
+		/>
+		<video
+			id={`video-${props?.source}`}
+			class="h-full w-full cursor-pointer justify-center object-cover {$$props.classes || ''}"
+			playsinline
+			controlslist="nodownload"
+			poster={props?.poster}
+			muted={props?.muted}
+			controls={props?.controls}
+			on:ended
+			on:click={props?.onClick}
+			on:ended={onVideoEnded}
+			on:timeupdate={onTimeUpdate}
+		/>
+	</div>
 	{#if props?.type === VideoPlayerMode.Normal}
 		<slot name="footer" />
 	{/if}
