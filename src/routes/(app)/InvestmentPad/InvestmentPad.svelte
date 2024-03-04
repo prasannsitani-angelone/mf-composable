@@ -143,6 +143,8 @@
 	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 	import Physical2FAOtpVerificationComponent from '$components/Payment/Physical2FAOtpVerificationComponent.svelte';
 	import { paymentMethodStatusStore } from '$lib/stores/PaymentMethodStatusStore';
+	import { appStore } from '$lib/stores/SparkStore';
+	import { goBackToSpark } from '$lib/utils';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -2409,7 +2411,13 @@
 		text={'The link you clicked has expired. You can search for the same Mutual Fund from the homepage.'}
 		class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
 		isModalOpen={true}
-		handleButtonClick={() => goto(`${base}/discoverfunds`, { replaceState: true })}
+		handleButtonClick={() => {
+			if ($appStore.openViaTabView) {
+				goBackToSpark();
+			} else {
+				goto(`${base}/discoverfunds`, { replaceState: true });
+			}
+		}}
 		buttonTitle="GO TO HOMEPAGE"
 		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
 		buttonVariant="contained"

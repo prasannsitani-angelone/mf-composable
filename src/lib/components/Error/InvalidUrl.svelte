@@ -3,8 +3,14 @@
 	import { goto } from '$app/navigation';
 	import UrlExpiredIcon from '$lib/images/icons/UrlExpiredIcon.svelte';
 	import { base } from '$app/paths';
+	import { appStore } from '$lib/stores/SparkStore';
+	import { goBackToSpark } from '$lib/utils';
 	const navigateToDiscoverFunds = () => {
-		goto(`${base}/discoverfunds`);
+		if ($appStore.openViaTabView) {
+			goBackToSpark();
+		} else {
+			goto(`${base}/discoverfunds`);
+		}
 	};
 </script>
 

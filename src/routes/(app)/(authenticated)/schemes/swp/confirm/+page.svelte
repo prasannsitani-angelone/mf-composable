@@ -9,6 +9,8 @@
 	import MobileHeader from '$components/Headers/MobileHeader.svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
+	import { appStore } from '$lib/stores/SparkStore';
+	import { goBackToSpark } from '$lib/utils';
 
 	export let data: PageData;
 
@@ -16,7 +18,11 @@
 	$: isTablet = $page?.data?.deviceType?.isTablet;
 
 	const handleBackNavigation = () => {
-		goto(`${base}/discoverfunds`);
+		if ($appStore.openViaTabView) {
+			goBackToSpark();
+		} else {
+			goto(`${base}/discoverfunds`);
+		}
 	};
 
 	onMount(() => {

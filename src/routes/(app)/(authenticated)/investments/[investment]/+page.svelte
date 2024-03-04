@@ -49,6 +49,8 @@
 	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 	import WithdrawStcgLtcg from '$components/Withdraw/WithdrawTaxFlow/WithdrawStcgLtcg.svelte';
 	import { base } from '$app/paths';
+	import { appStore } from '$lib/stores/SparkStore';
+	import { goBackToSpark } from '$lib/utils';
 
 	export let data: PageData;
 
@@ -146,7 +148,13 @@
 		setIsWithdrawalStcgLtcgEligible();
 	};
 
-	const handleErrorNavigation = () => goto(`${base}/discoverfunds`);
+	const handleErrorNavigation = () => {
+		if ($appStore.openViaTabView) {
+			goBackToSpark();
+		} else {
+			goto(`${base}/discoverfunds`);
+		}
+	};
 
 	const investmentHeaderButtonClick = (clickedButton: string) => {
 		if (clickedButton?.length) {

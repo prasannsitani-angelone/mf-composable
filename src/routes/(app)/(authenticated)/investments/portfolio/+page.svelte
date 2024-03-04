@@ -19,6 +19,8 @@
 	import SipHealthNudge from '$components/SipHealth/Nudge/SipHealthNudge.svelte';
 	import TaxAnalysis from './components/TaxAnalysis.svelte';
 	import { base } from '$app/paths';
+	import { appStore } from '$lib/stores/SparkStore';
+	import { goBackToSpark } from '$lib/utils';
 
 	const graphYearSelectAnalyticsFunc = (selectedTag) => {
 		let formattedSelectedTag = '';
@@ -54,7 +56,11 @@
 	};
 
 	const handleErrorNavigation = () => {
-		goto(`${base}/discoverfunds`);
+		if ($appStore.openViaTabView) {
+			goBackToSpark();
+		} else {
+			goto(`${base}/discoverfunds`);
+		}
 	};
 
 	const breadCrumbs = [

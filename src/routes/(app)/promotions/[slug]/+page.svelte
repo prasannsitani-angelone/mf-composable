@@ -10,6 +10,8 @@
 
 	import type { PageData } from './$types';
 	import { invalidate } from '$app/navigation';
+	import { appStore } from '$lib/stores/SparkStore';
+	import { goBackToSpark } from '$lib/utils';
 
 	const invalidateFavourites = (event) => {
 		const { isFavourite } = event.detail;
@@ -18,7 +20,13 @@
 		}
 	};
 
-	const handleErrorNavigation = () => goto(`${base}/discoverfunds`);
+	const handleErrorNavigation = () => {
+		if ($appStore.openViaTabView) {
+			goBackToSpark();
+		} else {
+			goto(`${base}/discoverfunds`);
+		}
+	};
 
 	export let data: PageData;
 </script>

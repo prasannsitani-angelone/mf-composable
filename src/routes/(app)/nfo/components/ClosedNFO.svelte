@@ -5,12 +5,18 @@
 	import type { NFOList } from '$lib/types/INFOList';
 	import NFOTable from './NFOTable.svelte';
 	import NoNfo from '$lib/images/icons/NoNFO.svelte';
+	import { appStore } from '$lib/stores/SparkStore';
+	import { goBackToSpark } from '$lib/utils';
 
 	let closedNfo: NFOList[] = [];
 
 	const handleBackNavigation = async () => {
 		if (window.history.length === 1) {
-			await goto(`${base}/discoverfunds`);
+			if ($appStore.openViaTabView) {
+				goBackToSpark();
+			} else {
+				await goto(`${base}/discoverfunds`);
+			}
 		} else {
 			history.back();
 		}
