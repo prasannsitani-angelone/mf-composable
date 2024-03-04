@@ -53,7 +53,7 @@
 			>
 				<svelte:fragment slot="tag">
 					{#if option?.type === 'LTCG'}
-						<section class="flex w-28 items-center rounded bg-green px-2 py-1">
+						<section class="flex w-28 items-center rounded bg-tint12-buy px-2 py-1">
 							<WMSIcon
 								name="tick-in-circle-extended"
 								height={12}

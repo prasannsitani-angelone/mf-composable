@@ -27,7 +27,7 @@
 </script>
 
 <section
-	class="flex items-center justify-between rounded bg-yellow-background px-3 py-2 {$$props?.class}"
+	class="flex items-center justify-between rounded bg-tint12-secondary px-3 py-2 {$$props?.class}"
 >
 	<div class="text-xs text-body">{@html getCategoryBasedHtmlText()}</div>
 	<WMSIcon

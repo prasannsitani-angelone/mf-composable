@@ -13,7 +13,7 @@
 	export { taxLimit };
 </script>
 
-<section class="flex items-center justify-between rounded bg-green px-3 py-2 {$$props?.class}">
+<section class="flex items-center justify-between rounded bg-tint12-buy px-3 py-2 {$$props?.class}">
 	<article class="flex items-center">
 		<WMSIcon
 			name="tick-in-circle-extended"
