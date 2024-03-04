@@ -82,8 +82,8 @@
 				: 'No Result'
 		});
 	};
-	const getSearchDashboardData = async () => {
-		if (!shouldFetchSearchDashboard || dashboardData) return;
+	const getSearchDashboardData = async (isClearAll = false) => {
+		if (!shouldFetchSearchDashboard || (!isClearAll && dashboardData)) return;
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/searchDashboard`;
 		const res = await useFetch(url);
 		if (res?.ok) {
@@ -113,7 +113,7 @@
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/recentSearch`;
 		await useFetch(url, {
 			method: 'DELETE'
-		}).then(() => getSearchDashboardData());
+		}).then(() => getSearchDashboardData(true));
 	};
 
 	const handleSearchInput = (e: unknown) => {
