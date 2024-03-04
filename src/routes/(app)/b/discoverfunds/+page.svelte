@@ -313,6 +313,16 @@
 		showVideoReelModal = false;
 	};
 
+	const setAllNudgesData = () => {
+		getNudgeData().then((nudgeData) => {
+			setNudgeData(nudgeData);
+			setSipNudgesData(nudgeData);
+			setSipPaymentMonthNudgeData(nudgeData);
+			setRetryPaymentNudgesData(nudgeData);
+			setOtherNudgeDataTypes();
+		});
+	};
+
 	onMount(async () => {
 		await tick();
 		versionStore.setVersion('B');
@@ -321,17 +331,12 @@
 
 		resetSelectedLinkedFamilyMembers();
 
+		setAllNudgesData();
+
 		if (placementMapping?.videoReel) {
 			getHomePageVideoData();
 		}
 
-		getNudgeData().then((nudgeData) => {
-			setNudgeData(nudgeData);
-			setSipNudgesData(nudgeData);
-			setSipPaymentMonthNudgeData(nudgeData);
-			setRetryPaymentNudgesData(nudgeData);
-			setOtherNudgeDataTypes();
-		});
 		getAllNotificationsData().then((data) => {
 			notifData = data;
 		});
@@ -363,6 +368,12 @@
 	};
 
 	export let data: PageData;
+
+	const onVisibilityChange = (e: Event) => {
+		if (e?.target?.visibilityState === 'visible') {
+			setAllNudgesData();
+		}
+	};
 </script>
 
 <SEO
@@ -370,6 +381,7 @@
 	seoDescription="Set your Goals and find the right Mutual Funds to achieve your goal. Explore mutual funds by performance and start your investment journey with Angel One."
 />
 
+<svelte:window on:visibilitychange={onVisibilityChange} />
 <article class="grid grid-cols-[100%]">
 	<!-- 1. Portfolio Card  -->
 	<div class="row-start-{placementMapping.investments?.rowStart} col-start-1 sm:hidden">

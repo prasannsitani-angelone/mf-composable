@@ -293,13 +293,7 @@
 		modifiedGoto(`${base}/pendingActions`);
 	};
 
-	onMount(async () => {
-		await tick();
-
-		storiesData = setStoriesData(setStoryCtaUrl);
-
-		resetSelectedLinkedFamilyMembers();
-
+	const setAllNudgesData = () => {
 		getNudgeData().then((nudgeData) => {
 			setNudgeData(nudgeData);
 			setSipNudgesData(nudgeData);
@@ -307,6 +301,17 @@
 			setRetryPaymentNudgesData(nudgeData);
 			setOtherNudgeDataTypes();
 		});
+	};
+
+	onMount(async () => {
+		await tick();
+
+		storiesData = setStoriesData(setStoryCtaUrl);
+
+		resetSelectedLinkedFamilyMembers();
+
+		setAllNudgesData();
+
 		getAllNotificationsData().then((data) => {
 			notifData = data;
 		});
@@ -338,6 +343,12 @@
 	};
 
 	export let data: PageData;
+
+	const onVisibilityChange = (e: Event) => {
+		if (e?.target?.visibilityState === 'visible') {
+			setAllNudgesData();
+		}
+	};
 </script>
 
 <SEO
@@ -345,6 +356,7 @@
 	seoDescription="Set your Goals and find the right Mutual Funds to achieve your goal. Explore mutual funds by performance and start your investment journey with Angel One."
 />
 
+<svelte:window on:visibilitychange={onVisibilityChange} />
 <article class="grid grid-cols-[100%]">
 	<!-- 1. Stories section -->
 	{#if storiesData?.stories?.length}
