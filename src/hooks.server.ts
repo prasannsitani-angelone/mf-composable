@@ -40,7 +40,7 @@ const deviceDetector = handleDeviecDetector({});
 const addPreloadLinkHeaders = (linkHeader = '', url: string) => {
 	linkHeader = `</mutual-funds/fonts/Roboto-Regular.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin,</mutual-funds/fonts/Roboto-Medium.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin,${linkHeader}`;
 	if (url.includes('/discoverfunds')) {
-		linkHeader = `<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail1c3.jpg>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail2c3.png>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail3c3.jpg>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail4c2.webp>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail5c1.png>;rel="preload";as="image";nopush,${linkHeader}`;
+		linkHeader = `<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail1c3.jpg>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail2c3.png>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail4c2.webp>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail5c1.png>;rel="preload";as="image";nopush,${linkHeader}`;
 	}
 	return linkHeader;
 };
