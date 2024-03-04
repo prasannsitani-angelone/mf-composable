@@ -24,7 +24,7 @@
 {#if pageMetaData?.showNxtHeader}
 	<NxtHeader />
 {:else if $page?.data?.deviceType?.isMobile || $page?.data?.deviceType?.isTablet}
-	{#if !pageMetaData.hideMobileHeader}
+	{#if !pageMetaData?.hideMobileHeader}
 		{#if $headerStore?.showMobileHeader}
 			<MobileHeader
 				title={pageMetaData?.title}

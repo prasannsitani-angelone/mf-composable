@@ -470,20 +470,26 @@
 	{/if}
 
 	<!-- 3. Most Bought Section -->
-	<MostBought
-		class="row-start-{placementMapping?.mostBought?.rowStart} col-start-{placementMapping
-			?.mostBought?.columnStart} !my-0 {placementMapping?.mostBought?.rowStart > 1 ? '!mt-2' : ''}"
-		tableData={data?.searchDashboardData?.weeklyTopSchemes}
-		version="A"
-	/>
+	{#if placementMapping?.mostBought}
+		<MostBought
+			class="row-start-{placementMapping?.mostBought?.rowStart} col-start-{placementMapping
+				?.mostBought?.columnStart} !my-0 {placementMapping?.mostBought?.rowStart > 1
+				? '!mt-2'
+				: ''}"
+			tableData={data?.searchDashboardData?.weeklyTopSchemes}
+			version="A"
+		/>
+	{/if}
 
 	<!-- 4. Category Section -->
-	<article
-		class="row-start-{placementMapping?.categories?.rowStart} col-start-{placementMapping
-			?.categories?.columnStart} mt-2"
-	>
-		<CategoriesComponent categories={data?.searchDashboardData?.categories} />
-	</article>
+	{#if placementMapping?.categories}
+		<article
+			class="row-start-{placementMapping?.categories?.rowStart} col-start-{placementMapping
+				?.categories?.columnStart} mt-2"
+		>
+			<CategoriesComponent categories={data?.searchDashboardData?.categories} />
+		</article>
+	{/if}
 
 	<!-- Trending Funds -->
 	{#if placementMapping?.trendingFunds && trendingFundsData?.length}
@@ -550,13 +556,15 @@
 	{/if}
 
 	<!-- 9. Quick Entry Points - External Funds, NFO, Calculator -->
-	<QuickEntryPointsComponent
-		class="row-start-{placementMapping?.quickEntryPoints?.rowStart} col-start-{placementMapping
-			?.quickEntryPoints?.columnStart} {placementMapping?.quickEntryPoints?.rowStart > 1
-			? 'mt-2'
-			: ''}"
-		{isGuest}
-	/>
+	{#if placementMapping?.quickEntryPoints}
+		<QuickEntryPointsComponent
+			class="row-start-{placementMapping?.quickEntryPoints?.rowStart} col-start-{placementMapping
+				?.quickEntryPoints?.columnStart} {placementMapping?.quickEntryPoints?.rowStart > 1
+				? 'mt-2'
+				: ''}"
+			{isGuest}
+		/>
+	{/if}
 	<!-- 10. PromotionCard -->
 	{#if data?.searchDashboardData?.amcAd && !deviceType?.isBrowser && placementMapping?.promotionCard}
 		<div
@@ -579,10 +587,12 @@
 		</div>
 	{/if}
 
-	<Screener
-		class="row-start-{placementMapping?.screener?.rowStart} col-start-{placementMapping?.screener
-			?.columnStart}"
-	/>
+	{#if placementMapping?.screener}
+		<Screener
+			class="row-start-{placementMapping?.screener?.rowStart} col-start-{placementMapping?.screener
+				?.columnStart}"
+		/>
+	{/if}
 
 	<!-- 11. Logout -->
 	{#if !($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) && deviceType?.isMobile && !isGuest}
