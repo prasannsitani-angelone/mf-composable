@@ -52,7 +52,7 @@ export type StartFirstSipNudgeType = {
 		};
 	};
 	id: string;
-};
+} | null;
 
 export type Start4SipsNudgeType = {
 	type: string;
@@ -65,7 +65,7 @@ export type Start4SipsNudgeType = {
 	};
 	id: string;
 	amount: number;
-};
+} | null;
 
 export type UserEducationNudgeType = {
 	type: string;
@@ -78,7 +78,7 @@ export type UserEducationNudgeType = {
 	};
 	id: string;
 	amount: number;
-};
+} | null;
 
 export type EcasImportNudgeType = {
 	type: string;
@@ -89,4 +89,4 @@ export type EcasImportNudgeType = {
 	nudgesType: 'ECAS_IMPORT';
 	id: string;
 	amount: number;
-};
+} | null;

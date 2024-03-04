@@ -84,7 +84,7 @@
 	let ecasImportNudgeData: EcasImportNudgeType;
 	let userEducationNudge: UserEducationNudgeType;
 	let trendingFundsData: TrendingFund[];
-	let autopayNudge: INudge;
+	let autopayNudge: INudge | null;
 	let elementOnce: HTMLElement;
 	let intersectOnce: boolean;
 	let notifData: INotificationSummary;
@@ -249,6 +249,11 @@
 	};
 
 	const setOtherNudgeDataTypes = () => {
+		startFirstSipNudgeData = null;
+		start4SipsNudgeData = null;
+		userEducationNudge = null;
+		autopayNudge = null;
+		ecasImportNudgeData = null;
 		(nudgesData?.nudges || [])?.forEach((item) => {
 			if (item?.nudgesType === 'CREATE_YOUR_FIRST_SIP') {
 				startFirstSipNudgeData = item;

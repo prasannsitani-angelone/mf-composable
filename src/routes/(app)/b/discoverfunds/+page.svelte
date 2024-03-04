@@ -88,7 +88,7 @@
 	let userEducationNudge: UserEducationNudgeType;
 	let notifData: INotificationSummary;
 	let trendingFundsData: TrendingFund[];
-	let autopayNudge: INudge;
+	let autopayNudge: INudge | null;
 	let user_cohort =
 		$page?.data?.userDetails?.cohort?.length && $page?.data?.userDetails?.cohort[0]
 			? $page?.data?.userDetails?.cohort[0]
@@ -252,6 +252,11 @@
 	};
 
 	const setOtherNudgeDataTypes = () => {
+		startFirstSipNudgeData = null;
+		start4SipsNudgeData = null;
+		userEducationNudge = null;
+		autopayNudge = null;
+		ecasImportNudgeData = null;
 		(nudgesData?.nudges || [])?.forEach((item) => {
 			if (item?.nudgesType === 'CREATE_YOUR_FIRST_SIP') {
 				startFirstSipNudgeData = item;

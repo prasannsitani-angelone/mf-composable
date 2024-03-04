@@ -24,6 +24,8 @@
 	import { WMSIcon } from 'svelte-components';
 	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
+	import { appStore } from '$lib/stores/SparkStore';
+	import { goBackToSpark } from '$lib/utils';
 
 	export let data;
 	let selectedAccount: number;
@@ -166,7 +168,11 @@
 
 	const onSuccessPopupClick = async () => {
 		doneClickAfterAutopayRegisteredAnalytics();
-		await goto(`${base}/discoverfunds`, { replaceState: true });
+		if ($appStore.openViaTabView) {
+			goBackToSpark();
+		} else {
+			await goto(`${base}/discoverfunds`, { replaceState: true });
+		}
 	};
 
 	const updateMode = (val: string) => {
