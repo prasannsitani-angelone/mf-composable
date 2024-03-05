@@ -72,6 +72,7 @@
 	import TopFunds from '$components/TopFunds/TopFunds.svelte';
 	import TrackExternalInvestment from '../../discoverfunds/TrackExternalInvestment/TrackExternalInvestment.svelte';
 	import SipCalculatorComponent from '../../discoverfunds/SipCalculator/SipCalculatorComponent.svelte';
+	import { registerNativeResumeCallback } from '$lib/utils/nativeCallbacks';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -367,6 +368,8 @@
 		});
 		await initializeClevertapData();
 		actionCentreEntryImpression();
+
+		registerNativeResumeCallback(onVisibilityChange);
 	});
 
 	const initializeClevertapData = async () => {
@@ -390,7 +393,6 @@
 	seoDescription="Set your Goals and find the right Mutual Funds to achieve your goal. Explore mutual funds by performance and start your investment journey with Angel One."
 />
 
-<svelte:window on:focus={onVisibilityChange} on:blur={onVisibilityChange} />
 <article class="grid grid-cols-[100%]">
 	<!-- 1. Portfolio Card  -->
 	<div class="row-start-{placementMapping.investments?.rowStart} col-start-1 sm:hidden">

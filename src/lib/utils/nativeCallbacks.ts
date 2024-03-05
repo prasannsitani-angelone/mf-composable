@@ -27,3 +27,11 @@ export const registerRefreshTokenCallback = () => {
 		}
 	};
 };
+
+export const registerNativeResumeCallback = (callback: () => void) => {
+	window.onWebViewCallback = (payload: string) => {
+		if (payload?.['type']?.toUpperCase() === 'RESUME') {
+			callback();
+		}
+	};
+};

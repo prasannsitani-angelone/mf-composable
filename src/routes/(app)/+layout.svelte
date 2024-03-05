@@ -31,6 +31,7 @@
 	import { browserHistoryStore } from '$lib/stores/BrowserHistoryStore';
 
 	$: pageMetaData = $page?.data?.layoutConfig;
+	const versionViaQuery = $page.url.searchParams.get('version');
 	let searchFocused = false;
 	const handleSearchFocus = (e: { detail: boolean }) => {
 		searchFocused = e.detail;
@@ -57,6 +58,9 @@
 		Clevertap.setProfile(profile);
 	};
 	onMount(async () => {
+		if (versionViaQuery) {
+			versionStore.setVersion(versionViaQuery);
+		}
 		versionStore.subscribe((value) => {
 			version = value.version;
 		});
@@ -68,10 +72,6 @@
 		cartStore.updateCartData(isGuest);
 
 		showAngelBeeBanner = shouldDisplayAngelBeeBanner(data);
-
-		versionStore.subscribe((value) => {
-			version = value.version;
-		});
 
 		if (!isGuest) {
 			if ('requestIdleCallback' in window) {
