@@ -34,6 +34,7 @@
 			name="info-in-circle-dark"
 			height={16}
 			width={16}
+			stroke="var(--BODY)"
 			class="ml-1 md:cursor-pointer"
 			on:click={handleInfoIconClick}
 		/>
