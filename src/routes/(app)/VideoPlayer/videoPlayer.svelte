@@ -148,7 +148,7 @@
 			</div>
 
 			<div slot="footer">
-				<div class="z-1 video-footer-container absolute bottom-0 h-12 w-full rounded-[6px] p-3">
+				<div class="z-1 video-footer-container absolute bottom-0 w-full rounded-[6px] p-4">
 					<div class="flex flex-row justify-between">
 						<h2 class="text-[14px] text-white">{props?.footer}</h2>
 						<div class="flex gap-1">
@@ -163,19 +163,15 @@
 								</div>
 							{/each}
 							<!-- svelte-ignore a11y-no-static-element-interactions -->
-							<div
-								class="mt-[-4px] flex h-8 w-8 cursor-pointer items-center"
+							<WMSIcon
 								on:click={handleVideoClick}
 								on:keypress={handleVideoClick}
-							>
-								<WMSIcon
-									name="arrow-collapse"
-									width={24}
-									height={24}
-									stroke="white"
-									class="mr-2 rotate-90 p-1 text-white"
-								/>
-							</div>
+								name="arrow-collapse"
+								width={24}
+								height={24}
+								stroke="white"
+								class="rotate-90 cursor-pointer p-1 text-white"
+							/>
 						</div>
 					</div>
 				</div>

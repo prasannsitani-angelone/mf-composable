@@ -80,17 +80,17 @@
 			>
 				<Td class="border-none !px-0"
 					><a
-						class="flex w-full items-start overflow-hidden text-ellipsis whitespace-pre-wrap align-middle"
+						class="flex w-full items-center overflow-hidden text-ellipsis whitespace-pre-wrap align-middle"
 						href={normalizeFundName(scheme?.schemeName, scheme?.isin, scheme?.schemeCode)}
 					>
-						<SchemeLogo src={scheme?.logoUrl} class="h-12 w-12 border-none" />
+						<SchemeLogo src={scheme?.logoUrl} class="h-9 w-9 border-none" />
 						<div class="flex flex-col">
 							<span class="line-clamp-2 text-sm font-normal text-title">{scheme?.schemeName}</span>
 						</div>
 					</a></Td
 				>
 
-				<Td class="flex border-none !pr-0 align-top">
+				<Td class="border-none !pr-0 align-middle">
 					<span
 						class="flex items-center text-base font-medium {scheme?.returns3yr > 0
 							? 'text-buy'
