@@ -1394,7 +1394,12 @@
 			paymentHandler.upiId = data?.upiId;
 			paymentHandler.selectedAccount = index;
 			const paymentMode = data?.paymentMode;
-			if (mandateData?.length && activeTab === 'SIP' && redirectedFrom !== 'SIP_PAYMENTS') {
+			if (
+				mandateData?.length &&
+				activeTab === 'SIP' &&
+				redirectedFrom !== 'SIP_PAYMENTS' &&
+				redirectedFrom !== 'NXT'
+			) {
 				mandateData.every((mandate) => {
 					if (mandate.availableAmount > parseInt(amount)) {
 						paymentHandler.paymentMode = 'AUTOPAY';
@@ -2209,7 +2214,7 @@
 		isLoading={loadingState.isLoading || validateUPILoading}
 		isSchemeDisabled={!isSelectedInvestmentTypeAllowed()}
 		asModal={isMobile ? true : false}
-		paymentOptionsHeading={mandateData?.length && activeTab === 'SIP'
+		paymentOptionsHeading={mandateData?.length && activeTab === 'SIP' && !hideAutopayMethod
 			? 'Pay With Other Payment Methods'
 			: 'Pay With'}
 		on:backClick={hidePaymentMethodScreen}
