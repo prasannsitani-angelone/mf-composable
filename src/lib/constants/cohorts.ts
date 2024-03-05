@@ -87,7 +87,7 @@ export const cohorts: { [key: string]: { placementMapping: object } } = {
 			mostBought: { rowStart: 6, columnStart: 1 },
 			categories: { rowStart: 7, columnStart: 1 },
 			videoReel: { rowStart: 8, columnStart: 1 },
-			setupAutopay: { rowStart: 9, columnStart: 2 },
+			setupAutopay: { rowStart: 9, columnStart: 1 },
 			trendingFunds: { rowStart: 10, columnStart: 1 },
 			buyPortfolioCard: { rowStart: 11, columnStart: 1 },
 			topFundsList: { rowStart: 12, columnStart: 1 },
