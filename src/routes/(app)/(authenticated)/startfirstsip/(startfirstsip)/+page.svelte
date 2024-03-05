@@ -6,11 +6,11 @@
 		startFirstSipSchemeClickAnalytics,
 		startFirstSipScreenImpressionAnalytics
 	} from '$lib/analytics/startFirstSip/startFirstSip';
-	import TrendingCarouselItems from '$components/MostBought/TrendingCarouselItems.svelte';
 	import StartFirstSipSkeleton from './StartFirstSipSkeleton.svelte';
 	import StartFirstSipStatic from './StartFirstSipStatic.svelte';
 	import { onMount } from 'svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
+	import OldTrendingCarouselItems from '$components/MostBought/Old/OldTrendingCarouselItems.svelte';
 
 	export let data: PageData;
 
@@ -47,7 +47,7 @@
 			</p>
 
 			{#each schemePack as scheme, index}
-				<TrendingCarouselItems
+				<OldTrendingCarouselItems
 					clazz="rounded-lg border p-3 bg-background-alt mb-2"
 					footerClass="bg-tint24-primary"
 					topSectionClass="mb-3"
@@ -64,7 +64,7 @@
 							</div>
 						{/if}
 					</div>
-				</TrendingCarouselItems>
+				</OldTrendingCarouselItems>
 			{/each}
 		</section>
 	</article>

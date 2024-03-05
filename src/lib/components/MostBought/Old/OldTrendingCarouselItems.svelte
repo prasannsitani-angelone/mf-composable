@@ -5,7 +5,6 @@
 	import AddToCart from '$components/AddToCart.svelte';
 	import { base } from '$app/paths';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
-	import GreenUpArrowTrendingFund from '$lib/images/GreenUpArrowTrendingFund.svg';
 	import { createEventDispatcher } from 'svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { modifiedGoto } from '$lib/utils/goto';
@@ -82,7 +81,7 @@
 						<div class="flex flex-col items-start">
 							<p class="text-xs font-normal text-body">Min. SIP Amount</p>
 							<p class="text-base font-medium text-title">
-								₹ {addCommasToAmountString(schemes?.minSipAmount?.toString()) ||
+								₹{addCommasToAmountString(schemes?.minSipAmount?.toString()) ||
 									schemes?.minSipAmount}
 							</p>
 						</div>
@@ -90,16 +89,8 @@
 					<div class="flex-1" />
 					<slot name="detailsRight">
 						<div class="flex flex-col items-end">
-							<p class="text-xs font-normal text-body">3 Year Returns</p>
+							<p class="text-xs font-normal text-body">3Y Returns</p>
 							<div class="flex flex-row items-center">
-								<img
-									src={GreenUpArrowTrendingFund}
-									class="mr-1 h-3 w-2.5"
-									decoding="async"
-									alt="Trending Funds Up Arrow"
-									width="10"
-									height="12"
-								/>
 								<p class="text-xs font-normal text-title">
 									<span class="text-base font-medium">{schemes?.returns3yr?.toFixed(2)}%</span> p.a
 								</p>
@@ -126,7 +117,7 @@
 
 					<slot name="detailsFooterDescription">
 						<p class="text-xs text-body">
-							<span class=" font-medium">
+							<span class="font-medium">
 								{addCommasToAmountString(schemes?.noOfClientInvested)}
 							</span>
 							people have invested in this fund
