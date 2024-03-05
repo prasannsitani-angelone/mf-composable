@@ -87,13 +87,14 @@ export const cohorts: { [key: string]: { placementMapping: object } } = {
 			mostBought: { rowStart: 6, columnStart: 1 },
 			categories: { rowStart: 7, columnStart: 1 },
 			videoReel: { rowStart: 8, columnStart: 1 },
-			trendingFunds: { rowStart: 9, columnStart: 1 },
-			buyPortfolioCard: { rowStart: 10, columnStart: 1 },
-			topFundsList: { rowStart: 11, columnStart: 1 },
-			sipCalculator: { rowStart: 12, columnStart: 1 },
-			trackExtFunds: { rowStart: 13, columnStart: 1 },
-			screener: { rowStart: 14, columnStart: 1 },
-			logout: { rowStart: 15, columnStart: 1 }
+			setupAutopay: { rowStart: 9, columnStart: 2 },
+			trendingFunds: { rowStart: 10, columnStart: 1 },
+			buyPortfolioCard: { rowStart: 11, columnStart: 1 },
+			topFundsList: { rowStart: 12, columnStart: 1 },
+			sipCalculator: { rowStart: 13, columnStart: 1 },
+			trackExtFunds: { rowStart: 14, columnStart: 1 },
+			screener: { rowStart: 15, columnStart: 1 },
+			logout: { rowStart: 16, columnStart: 1 }
 		}
 	}
 };
