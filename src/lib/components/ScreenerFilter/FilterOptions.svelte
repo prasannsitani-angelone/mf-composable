@@ -142,7 +142,7 @@
 									<div>
 										{#if filter?.options?.length}
 											<div class="px-3">
-												<WMSIcon class="h-2.5 w-2.5" name="arrow-expand" stroke={'#181F29A0'} />
+												<WMSIcon class="h-2.5 w-2.5" name="arrow-expand" stroke="var(--BODY)" />
 											</div>
 										{/if}
 									</div>
@@ -210,7 +210,7 @@
 							<div>
 								{#if filter?.options?.length}
 									<div class="px-3">
-										<WMSIcon class="h-2.5 w-2.5" name="arrow-expand" stroke={'#181F29A0'} />
+										<WMSIcon class="h-2.5 w-2.5" name="arrow-expand" stroke="var(--BODY)" />
 									</div>
 								{/if}
 							</div>
@@ -266,7 +266,7 @@
 						<div>
 							{#if filter?.options?.length}
 								<div class="px-3">
-									<WMSIcon class="h-2.5 w-2.5" name="arrow-expand" stroke={'#181F29A0'} />
+									<WMSIcon class="h-2.5 w-2.5" name="arrow-expand" stroke="var(--BODY)" />
 								</div>
 							{/if}
 						</div>

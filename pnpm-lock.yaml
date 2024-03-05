@@ -48,8 +48,8 @@ dependencies:
     specifier: 3.1.2
     version: 3.1.2(chart.js@4.4.0)(svelte@4.2.1)
   svelte-components:
-    specifier: 0.273.0
-    version: 0.273.0(@sveltejs/kit@2.5.0)(autoprefixer@10.4.14)(svelte@4.2.1)
+    specifier: 0.287.0
+    version: 0.287.0(@sveltejs/kit@2.5.0)(autoprefixer@10.4.14)(svelte@4.2.1)
   svelte-device-detector:
     specifier: 0.2.2
     version: 0.2.2
@@ -4587,6 +4587,10 @@ packages:
       rimraf: 2.7.1
     dev: true
 
+  /seamless-scroll-polyfill@2.3.4:
+    resolution: {integrity: sha512-Biobd4LDoeFODX1bfiru84GveSajzFELFB3ejMZsRR2TpD73W46uEZYAEqSx5RtKpN2umhGWaoSRivs0ZcHp9g==}
+    dev: false
+
   /semver@6.3.1:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
     hasBin: true
@@ -4908,8 +4912,8 @@ packages:
       - sugarss
     dev: true
 
-  /svelte-components@0.273.0(@sveltejs/kit@2.5.0)(autoprefixer@10.4.14)(svelte@4.2.1):
-    resolution: {integrity: sha512-0fHUafqH1wuEq0kjjaEjWYcuwGCDaXkQ2itv1w3tXaSpP26kAZtSm4gqJ1KH0KRGw6jAOcZR8Zqt1mqnriNXuA==}
+  /svelte-components@0.287.0(@sveltejs/kit@2.5.0)(autoprefixer@10.4.14)(svelte@4.2.1):
+    resolution: {integrity: sha512-LQmuuePyJdOjbc62auw/Y61/MpBU8bsCKC/VOdCgXETf2rFbdUMwqfqiJwFtCki/CEVFQjz2kMb9tO/FZoLfRA==}
     requiresBuild: true
     peerDependencies:
       '@sveltejs/kit': ^1.22.3
@@ -4925,6 +4929,7 @@ packages:
       postcss-import: 15.1.0(postcss@8.4.25)
       postcss-nested: 6.0.1(postcss@8.4.25)
       postcss-nesting: 12.0.1(postcss@8.4.25)
+      seamless-scroll-polyfill: 2.3.4
       svelte: 4.2.1
     transitivePeerDependencies:
       - autoprefixer

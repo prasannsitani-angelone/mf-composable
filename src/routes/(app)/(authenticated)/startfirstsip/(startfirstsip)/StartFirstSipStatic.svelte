@@ -27,7 +27,7 @@
 		{#each description || [] as option, index}
 			<article class="flex h-full flex-1 flex-col">
 				<div class="mb-2 self-center">
-					<WMSIcon height={40} width={40} name={option.icon} />
+					<WMSIcon height={40} width={40} name={option.icon} fill="var(--BACKGROUND-ALT)" />
 				</div>
 				<h2 class="px-1 text-center text-sm font-medium text-title">
 					{option.label}
