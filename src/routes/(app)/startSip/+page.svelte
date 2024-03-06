@@ -32,7 +32,7 @@
 	<StartSipLoader />
 {:then schemePack}
 	<SEO seoTitle="Start SIP | Angel One" seoDescription="Start SIP" />
-	<article class="bg-background-alt" data-testid="startSipPage">
+	<article class="bg-background-alt px-2" data-testid="startSipPage">
 		<header class="hidden sm:block">
 			<PageTitle title="Start SIP" class="mb-0 sm:mb-4 sm:flex" />
 		</header>
