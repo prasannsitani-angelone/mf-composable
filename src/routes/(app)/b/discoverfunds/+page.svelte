@@ -73,6 +73,7 @@
 	import TrackExternalInvestment from '../../discoverfunds/TrackExternalInvestment/TrackExternalInvestment.svelte';
 	import SipCalculatorComponent from '../../discoverfunds/SipCalculator/SipCalculatorComponent.svelte';
 	import { registerNativeResumeCallback } from '$lib/utils/nativeCallbacks';
+	import { cartStore } from '$lib/stores/CartStore';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -385,6 +386,7 @@
 		setAllNudgesData();
 		setNotificationData();
 		schemeScreenerStore?.reinitializeStore();
+		cartStore.updateCartData(isGuest);
 	};
 </script>
 
