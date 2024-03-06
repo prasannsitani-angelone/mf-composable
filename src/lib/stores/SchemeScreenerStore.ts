@@ -349,6 +349,15 @@ function CreateStore() {
 		subscribe,
 		populateFiltersData: function (data, queryPath: string) {
 			restructureData(data);
+
+			const applyDefaultFilters = () => {
+				data.filtersCount = updateQuickFilters(initialFilter, data.filters);
+				data.queryPath = generateQuery(data.filters, '', '');
+				data.partiallySelectedTopLevelNodes = getCountOfTopLevelNodesPartiallySelected(
+					data.filters
+				);
+			};
+
 			// need to apply query to filters
 			if (queryPath) {
 				updateFiltersFromQuery(queryPath, data);
@@ -356,13 +365,13 @@ function CreateStore() {
 				data.partiallySelectedTopLevelNodes = getCountOfTopLevelNodesPartiallySelected(
 					data.filters
 				);
+				if (data.partiallySelectedTopLevelNodes == 0) {
+					// apply filters in case no top level queries
+					applyDefaultFilters();
+				}
 			} else {
 				// initial filters in case query params didn't come
-				data.filtersCount = updateQuickFilters(initialFilter, data.filters);
-				data.queryPath = generateQuery(data.filters, '', '');
-				data.partiallySelectedTopLevelNodes = getCountOfTopLevelNodesPartiallySelected(
-					data.filters
-				);
+				applyDefaultFilters();
 			}
 			updateStore({
 				isLoading: false,
