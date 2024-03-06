@@ -69,8 +69,7 @@
 							<div class="flex pt-2 text-xs">
 								{option.shortName} SIP is not available. Your SIP order is already in progress.
 							</div>
-						{/if}
-						{#if option.key === 'skipSip' && (installmentSkip || isSipPaymentNudge)}
+						{:else if option.key === 'skipSip' && (installmentSkip || isSipPaymentNudge)}
 							<div class="flex pt-2 text-xs">
 								Skip SIP is not available. {installmentSkip
 									? 'You have already skipped your next SIP instalment.'
