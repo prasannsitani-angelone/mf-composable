@@ -16,12 +16,17 @@ import { dev } from '$app/environment';
 import { getHoldingSummary } from '$lib/api/holdings';
 import type { InvestmentSummary } from '$lib/types/IInvestments';
 import { getsearchDashboardData } from '$lib/api/getSearchDashboard';
+import cacheInmemory from '$lib/server/cache.inmemory';
 
 // import { accountType } from '$lib/utils/getAccountType';
 // import { getHashKey } from '$lib/server/getHashKey';
 
 const deviceDetector = handleDeviecDetector({});
 
+cacheInmemory.init({
+	max: 500,
+	ttl: 1000 * 60 * 10 // 10 minutes
+});
 // const swCacheHeader = 'X-Sw-Cache';
 
 // const generateCacheHeader = (
