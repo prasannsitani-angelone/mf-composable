@@ -123,9 +123,11 @@
 		}
 	};
 
-	onMount(() => {
+	onMount(async () => {
 		handleFamilyPortfolioData();
 		initializeClevertapData();
+		let optimizedData = await data?.api?.getOptimisePortfolioData;
+		optimisePorfolioData = optimizedData?.recommendedScheme?.[0];
 
 		return () => {
 			if (selfClientIdInterval !== undefined) {

@@ -8,8 +8,6 @@
 	import { SEO, Tabs } from 'svelte-components';
 	import { tabs } from '../constants';
 	import { onDestroy, onMount, tick } from 'svelte';
-	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
-	import { useFetch } from '$lib/utils/useFetch';
 	import type {
 		HoldingsPromise,
 		IOPtimsiePortfolioData,
@@ -232,17 +230,14 @@
 		investmentDashboardImpressionAnalyticsFunc(investmentSummary);
 		switchToDirectFundsImpression();
 
-		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/recommendation/sip`;
-		const res = await useFetch(url, {}, fetch);
-		if (res?.ok && res?.status === 200) {
-			optimisePorfolioData = res?.data?.recommendedScheme?.[0] || {};
-			if (
-				optimisePorfolioData?.schemeCode &&
-				optimisePorfolioData?.schemeName &&
-				optimisePorfolioData?.isin
-			) {
-				fundForYouImpressionAnalyticsFunc(investmentSummary);
-			}
+		let optimizedData = await data?.api?.getOptimisePortfolioData;
+		optimisePorfolioData = optimizedData?.recommendedScheme?.[0];
+		if (
+			optimisePorfolioData?.schemeCode &&
+			optimisePorfolioData?.schemeName &&
+			optimisePorfolioData?.isin
+		) {
+			fundForYouImpressionAnalyticsFunc(investmentSummary);
 		}
 
 		return () => {

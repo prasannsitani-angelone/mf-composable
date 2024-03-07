@@ -20,6 +20,7 @@
 	export let data: PageData;
 	let familyPortfolioSummary;
 	let isFamilyPortfolio = false;
+	let logoUrl = '';
 
 	let optimisePorfolioData: IOPtimsiePortfolioData = {
 		isin: '',
@@ -76,7 +77,11 @@
 		isFamilyPortfolioDataFetched = true;
 	};
 
-	onMount(() => {
+	onMount(async () => {
+		let optimizedData = await data?.api?.getOptimisePortfolioData;
+		optimisePorfolioData = optimizedData?.recommendedScheme?.[0];
+		let investmentData = await data?.api?.investment;
+		logoUrl = investmentData?.data?.holdings?.[0]?.logoUrl;
 		if (isFamilyPortfolio) {
 			getFamilyPortfolioSummary();
 		}
@@ -108,7 +113,11 @@
 		</article>
 		{#if optimisePorfolioData?.schemeCode && optimisePorfolioData?.schemeName && optimisePorfolioData?.isin}
 			<article class="mt-2 hidden sm:block">
-				<OptimisePortfolioCard on:click={toggleOptimisePorfolioCard} />
+				<OptimisePortfolioCard
+					currentSchemeLogo={logoUrl || ''}
+					peopleInvested={optimisePorfolioData?.clientWithMultipleSips}
+					on:click={toggleOptimisePorfolioCard}
+				/>
 			</article>
 		{/if}
 		<!-- Order cards: Visible only in desktop and tablet -->
