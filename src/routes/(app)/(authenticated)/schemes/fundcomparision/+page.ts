@@ -36,13 +36,16 @@ export const load = (async ({ fetch, url }) => {
 
 	const getCompleteData = async (comparisionArr) => {
 		const result = [];
+		const promisesToAwait = [];
 		for (let i = 0; i < comparisionArr.length; i++) {
 			const { isin, schemeCode } = comparisionArr[i];
-			const response = await Promise.all([
-				getSchemeData(isin, schemeCode),
-				getFundHoldings(isin),
-				getSectorData(isin)
-			]);
+			promisesToAwait.push(
+				Promise.all([getSchemeData(isin, schemeCode), getFundHoldings(isin), getSectorData(isin)])
+			);
+		}
+		const promisesToAwaitResponse = await Promise.all(promisesToAwait);
+		for (let i = 0; i < comparisionArr.length; i++) {
+			const response = promisesToAwaitResponse[i];
 			result.push({
 				schemeData: response[0].ok ? response[0].data || {} : {},
 				holdingsData: response[1].ok ? response[1].data || [] : [],

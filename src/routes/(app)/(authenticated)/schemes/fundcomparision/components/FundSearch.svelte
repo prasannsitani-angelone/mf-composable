@@ -45,7 +45,10 @@
 	};
 
 	const schemeSelected = (scheme: WeeklyTopSchemesEntity | OtherSchemeEntityOrSchemeInfoEntity) => {
-		dispatch('schemeSelect', { schemeCode: scheme?.schemeCode, isin: scheme?.isin });
+		dispatch('schemeSelect', {
+			schemeCode: scheme?.schemeCode,
+			isin: scheme?.isin
+		});
 		toggleModal();
 	};
 
@@ -155,7 +158,12 @@
 										handleSchemeSelected(scheme, idx);
 									}}
 								>
-									<SchemeCard schemes={scheme} titleClass="lg:flex-wrap" class="my-4 w-full pr-2">
+									<SchemeCard
+										preloadData="off"
+										schemes={scheme}
+										titleClass="lg:flex-wrap"
+										class="my-4 w-full pr-2"
+									>
 										<div slot="chip-overview" />
 										<div slot="rating" />
 									</SchemeCard>
@@ -212,7 +220,12 @@
 											handleSchemeSelected(scheme, idx);
 										}}
 									>
-										<SchemeCard schemes={scheme} titleClass="lg:flex-wrap" class="w-9/12 pr-2">
+										<SchemeCard
+											preloadData="off"
+											schemes={scheme}
+											titleClass="lg:flex-wrap"
+											class="w-9/12 pr-2"
+										>
 											<svelte:fragment slot="chip-overview">
 												<ChipOverview
 													headingPrimary={scheme?.categoryName}
