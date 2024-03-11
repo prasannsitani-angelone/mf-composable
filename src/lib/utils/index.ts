@@ -172,11 +172,11 @@ export const getBankNameUsingAccountNumber = (
 };
 
 export const getExploreFundsNavigationPath = (option: SearchOptionsEntity) => {
-	return `/explorefunds/${option.name?.split(' ').join('-').toLowerCase()}?id=${option.id}`;
+	return `/categories?id=${option.id}`;
 };
 
 export const getCategoriesFundsNavigationPath = (optionId: string) => {
-	return `/categories?id=${optionId}`;
+	return `/categories?id=${optionId}&type=categories`;
 };
 
 export const getPromotionsNavigationPath = (option: PromotionsEntity) => {

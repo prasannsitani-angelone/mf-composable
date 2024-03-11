@@ -12,7 +12,7 @@
 <ErrorPage
 	heading="Your cart is empty"
 	contentLine="Add funds to your cart to invest in multiple funds at the same time"
-	redirectUrl="/explorefunds/sip-with-100?id=101"
+	redirectUrl="/categories?id=101"
 	textForButton="EXPLORE MUTUAL FUNDS"
 	class=" !justify-center !p-8"
 >

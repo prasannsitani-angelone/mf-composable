@@ -20,7 +20,7 @@
 	<ErrorPage
 		heading="Fund Not Available"
 		contentLine="Please explore other mutual funds on Angel one to continue investing"
-		redirectUrl="/explorefunds/sip-with-100?id=101"
+		redirectUrl="/categories?id=101"
 		textForButton="EXPLORE MUTUAL FUNDS"
 	>
 		<div slot="icon">

@@ -48,7 +48,7 @@
 				<div
 					class=" flex cursor-pointer items-center justify-center text-sm font-medium uppercase text-primary"
 				>
-					<Link to={`/explorefunds/high-returns?id=19`} class="flex items-center">
+					<Link to={`/categories?id=19`} class="flex items-center">
 						<span class="uppercase">explore funds</span>
 						<RightIcon class="ml-2" stroke="#3F5BD9" />
 					</Link>

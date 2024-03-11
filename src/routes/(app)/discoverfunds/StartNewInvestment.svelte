@@ -4,7 +4,7 @@
 	import { goto } from '$app/navigation';
 
 	const navigateToExploreFunds = () => {
-		goto(`${base}/explorefunds/high-returns?id=19`);
+		goto(`${base}/categories?id=19`);
 	};
 </script>
 

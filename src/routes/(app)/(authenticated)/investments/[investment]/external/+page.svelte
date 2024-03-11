@@ -94,7 +94,7 @@
 	let showMappingSchemeModal = false;
 
 	const onExploreFundsClicked = () => {
-		goto(`${base}/explorefunds/sip-with-100?id=101`);
+		goto(`${base}/categories?id=101`);
 
 		externalInvestmentInvestMoreClickEvent({
 			isin: holdingsData?.isin,

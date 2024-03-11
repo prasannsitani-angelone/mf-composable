@@ -43,7 +43,8 @@
 <section class="scrollbar-hide flex w-full gap-2 overflow-x-scroll px-3 pt-3 md:px-0">
 	{#each categoryFilterOptions as nav (nav?.id)}
 		{@const isActive =
-			`${$page.url.pathname}?id=${$page.url.searchParams.get('id')}` === `${base}${nav.href}`}
+			`${$page.url.pathname}?id=${$page.url.searchParams.get('id')}&type=categories` ===
+			`${base}${nav.href}`}
 		<Link
 			to={nav.href}
 			class={`cursor-pointer whitespace-nowrap rounded border ${

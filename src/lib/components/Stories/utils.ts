@@ -4,13 +4,13 @@ export const videoCtaList: Array<videoCtaUrls> = [
 	{
 		videoId: 1,
 		ctaList: {
-			genericUrl: '/categories?id=106'
+			genericUrl: '/categories?id=106&type=categories'
 		}
 	},
 	{
 		videoId: 2,
 		ctaList: {
-			genericUrl: '/explorefunds/index-funds?id=103'
+			genericUrl: '/categories?id=103'
 		}
 	},
 	{
