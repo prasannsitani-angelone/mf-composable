@@ -139,6 +139,7 @@
 			</slot>
 		</div>
 		<!-- Results Section -->
+		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		{#if showResults}
 			<slot name="resultSection">
 				<section class="w-full lg:w-[440px] {parentResultClass}">

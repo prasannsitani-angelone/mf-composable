@@ -1,4 +1,4 @@
-import { PUBLIC_MF_CORE_BASE_URL, PUBLIC_MF_CORE_BASE_URL_V2 } from '$env/static/public';
+import { PUBLIC_MF_CORE_BASE_URL_V2 } from '$env/static/public';
 import type { ExploreFundsOptions } from '$lib/types/IExploreFunds';
 import { hydrate } from '$lib/utils/helpers/hydrated';
 import { useFetch } from '$lib/utils/useFetch';
@@ -9,6 +9,7 @@ import { EXPLORE_FUND_PAGE_TYPE } from '$lib/constants/exploreFunds';
 export const load = (async ({ fetch, url }) => {
 	const pageID = url.searchParams.get('id');
 	const pageType = url.searchParams.get('type');
+	let filter = {};
 	const getSearchOption = async () => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL_V2}/schemes?id=${pageID}`;
 		let schemes: ExploreFundsOptions[] = [];
@@ -23,24 +24,11 @@ export const load = (async ({ fetch, url }) => {
 			if (pageType === EXPLORE_FUND_PAGE_TYPE.CATEGORIES) {
 				filterCategories = res?.data?.data?.categories;
 			}
+			filter = responseData?.categories?.[0];
 		}
 
 		return { schemes, filterCategories };
 	};
-
-	const filterOptions = async () => {
-		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/searchDashboard`;
-		const res = await useFetch(url, {}, fetch);
-		let dashboardData: { searchOptions: SearchOptionsEntity[] } = { searchOptions: [] };
-		if (res.ok) {
-			dashboardData = res.data;
-		}
-		const title = dashboardData.searchOptions?.filter(({ id }) => id === pageID) || [];
-		return title[0];
-	};
-
-	let filter = [];
-	if (pageType !== EXPLORE_FUND_PAGE_TYPE.CATEGORIES) filter = await filterOptions();
 
 	return {
 		api: {
