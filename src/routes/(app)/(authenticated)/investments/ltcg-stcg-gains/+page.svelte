@@ -155,13 +155,19 @@
 				class="flex w-full flex-col items-center justify-center rounded bg-background-alt pb-6 pt-8"
 			>
 				<img src={NoFilterResult} width="110" height="110" loading="lazy" alt="No scheme found" />
-				<div class="mt-3 w-64 text-center text-base text-body">
+				<div class="pt-4 font-medium text-black-key">
+					No {data?.taxType === 'STCG' ? 'Short Term' : 'Long Term'}
+					{activeTab === 'Equity' ? activeTab : 'Non Equity'} Investments
+				</div>
+				<div class="mt-2 px-4 text-center text-sm text-body">
 					{#if data?.taxType === 'STCG'}
-						You do not have any short term {activeTab} investments
+						You do not have any short term {activeTab === 'Equity' ? 'equity' : 'non equity'} investments
 					{:else}
-						You do not have any long term
-						{activeTab} investments yet. Your short term investments will appear here if you stay invested
-						long enough
+						Hold <span class="lowercase">{activeTab === 'Equity' ? 'equity' : 'non equity'}</span>
+						investments for
+						<span class="font-medium text-black-key"
+							>more than {activeTab === 'equity' ? '3 years' : '1 year'}</span
+						> to track them as long term investments
 					{/if}
 				</div>
 			</section>

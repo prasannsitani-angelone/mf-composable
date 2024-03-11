@@ -84,13 +84,14 @@
 		</section>
 	{:else}
 		<section
-			class="flex w-full flex-col items-center justify-center rounded bg-background-alt py-3"
+			class="flex w-full flex-col items-center justify-center rounded-lg bg-background-alt py-4 shadow-sm"
 		>
-			<img src={NoFilterResult} width="60" height="60" loading="lazy" alt="No scheme found" />
-			<div class="mt-3 w-64 text-center text-xs text-body">
+			<img src={NoFilterResult} width="60" height="60" loading="lazy" alt="No Results Found" />
+			<div class="mt-3 font-medium text-black-key">No Results Found</div>
+			<div class="mt-1 w-72 text-center text-sm text-body">
 				No mutual funds found for selected filters. Please change filters or use quick filters
 			</div>
-			<Button class="!min-h-8 mt-5 !h-9" on:click={resetStore}>Reset Filters</Button>
+			<Button class="!min-h-8 mt-4 !h-9" on:click={resetStore}>Reset Filters</Button>
 		</section>
 	{/if}
 	<section
