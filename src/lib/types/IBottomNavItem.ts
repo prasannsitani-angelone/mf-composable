@@ -7,5 +7,6 @@ export interface IBottomNavItem {
 	width: number;
 	height: number;
 	callMethod?: boolean;
+	type?: string;
 	method?: () => void;
 }

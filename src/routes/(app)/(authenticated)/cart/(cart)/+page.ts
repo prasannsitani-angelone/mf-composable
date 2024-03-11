@@ -30,7 +30,7 @@ export const load = (async ({ fetch }) => {
 			layoutClass: 'pt-0 md:pt-2 relative',
 			titleClass: '!text-xl',
 			headerClass: '!bg-background !py-2.5 !px-4 !shadow-none',
-			showBottomNavigation: true
+			showBackIcon: true
 		}
 	};
 }) satisfies PageLoad;

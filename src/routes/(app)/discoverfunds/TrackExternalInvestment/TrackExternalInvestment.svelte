@@ -23,7 +23,7 @@
 
 	<div class="mb-2 text-sm font-medium capitalize leading-none text-title">{nudge?.heading}</div>
 
-	<div class="max-w-[212px] text-center text-xs font-normal text-body sm:mb-3">
+	<div class="text-center text-xs font-normal text-body sm:mb-3">
 		{nudge?.description}
 	</div>
 

@@ -1,5 +1,3 @@
-import CartNavItem from '$lib/images/CartOutlined.svelte';
-import CartNavItemActive from '$lib/images/CartFilled.svelte';
 import DiscoverNav from '$lib/images/CompassBolderIcon.svelte';
 import DiscoverNavFilled from '$lib/images/CompassActiveIcon.svelte';
 import RupeeNav from '$lib/images/RupeeInCircleBolder.svelte';
@@ -10,6 +8,7 @@ import SipsNav from '$lib/images/SipsNav.svelte';
 import SipsNavFilled from '$lib/images/SipsNavFilled.svelte';
 import { base } from '$app/paths';
 import { goBackToSpark } from '$lib/utils';
+import ActionCenterEntryIcon from '$lib/images/icons/ActionCenterEntryIcon.svelte';
 
 export const BOTTOM_NAVBARS = (version) => [
 	{
@@ -24,15 +23,6 @@ export const BOTTOM_NAVBARS = (version) => [
 		method: goBackToSpark
 	},
 	{
-		label: 'Cart',
-		path: `${base}/cart`,
-		icon: CartNavItem,
-		activeIcon: CartNavItemActive,
-		isInternalNavigation: true,
-		width: 24,
-		height: 24
-	},
-	{
 		label: 'Portfolio',
 		path: `${base}/investments`,
 		icon: RupeeNav,
@@ -40,6 +30,16 @@ export const BOTTOM_NAVBARS = (version) => [
 		isInternalNavigation: true,
 		width: 24,
 		height: 24
+	},
+	{
+		label: '',
+		path: `${base}/pendingActions`,
+		icon: ActionCenterEntryIcon,
+		activeIcon: ActionCenterEntryIcon,
+		isInternalNavigation: true,
+		width: 36,
+		height: 36,
+		type: 'bigIconButton'
 	},
 	{
 		label: 'SIPs',

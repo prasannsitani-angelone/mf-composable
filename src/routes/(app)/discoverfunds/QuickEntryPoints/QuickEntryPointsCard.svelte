@@ -18,7 +18,7 @@
 			</div>
 			<div class="mt-2 px-3 text-sm font-medium text-title">
 				<p>{title}</p>
-				<p class="font-normal">{subtitle}</p>
+				<p class="font-normal {$$props?.subtitleClass}">{subtitle}</p>
 			</div>
 		</div>
 		<div class="flex items-center">

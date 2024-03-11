@@ -47,13 +47,13 @@
 	use:viewport
 	on:enterViewport={handleImpressionEvent}
 >
-	<header class="mb-2 flex justify-between" data-testid="trending-funds">
-		<h2 class="text-base font-medium text-title">Trending</h2>
+	<header class="mb-2" data-testid="trending-funds">
+		<h2 class="text-base font-medium text-title">Most Viewed Funds</h2>
 		<div
-			class="flex items-center rounded bg-tint12-secondary-alt p-1 text-xs font-normal text-secondary-alt"
+			class="mt-0.5 flex w-fit items-center rounded bg-tint12-secondary-alt p-1 text-xs font-normal text-secondary-alt"
 		>
-			<WMSIcon stroke="var(--SECONDARY-ALT)" name="graph-up" height={12} width{12} class="-ml-1" />
-			{addCommasToAmountString(viewCount)} people viewing
+			<WMSIcon stroke="var(--SECONDARY-ALT)" name="graph-up" height={12} width={12} />
+			{addCommasToAmountString(viewCount)} people viewed in the last 24 hours
 		</div>
 	</header>
 	<article class="mt-2 grid grid-cols-2 gap-3 md:grid-cols-4">

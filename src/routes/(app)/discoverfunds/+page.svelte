@@ -15,6 +15,7 @@
 	import type { IDueSips, ISip } from '$lib/types/ISipType';
 	import {
 		homepageMultipleSipPaymentDueNudgeImpressionAnalytics,
+		homepageNfoClickAnalytics,
 		homepageSipPaymentDueNudgeImpressionAnalytics,
 		sHomepage
 	} from '$lib/analytics/DiscoverFunds';
@@ -47,15 +48,15 @@
 	import { schemeScreenerStore } from '$lib/stores/SchemeScreenerStore';
 	import Screener from '$lib/components/Screener/ScreenerHome.svelte';
 	import TutorialNudge from '$components/Tutorial/nudge/TutorialNudge.svelte';
-	import type { INotificationSummary } from '$lib/types/INotifications';
+	import type { INotification, INotificationSummary, Notif } from '$lib/types/INotifications';
 	import { base } from '$app/paths';
 	import BuyPortfolio from './BuyPortfolio.svelte';
-	import SetupAutopayNudge from './SetupAutopayNudge.svelte';
 	import AskAngel from './AskAngel.svelte';
 	import { AUTH_STATE_ENUM, tokenStore } from '$lib/stores/TokenStore';
 	import {
 		actionCentreEntryImpression,
-		actionCentreClick
+		actionCentreClick,
+		actNowClick
 	} from '$lib/analytics/pendingActionCenter/analytics';
 	import { cohorts, cohorts_LF } from '$lib/constants/cohorts';
 	import SearchComponent from './SearchComponent.svelte';
@@ -70,6 +71,16 @@
 	import SipCalculatorComponent from './SipCalculator/SipCalculatorComponent.svelte';
 	import { registerNativeResumeCallback } from '$lib/utils/nativeCallbacks';
 	import { cartStore } from '$lib/stores/CartStore';
+	import SetupAutopayCard from '$components/Cohorts/SetupAutopayCard.svelte';
+	import QuickEntryPointsCard from './QuickEntryPoints/QuickEntryPointsCard.svelte';
+	import getactiveNfo from '$lib/api/nfo';
+	import CartEntry from '$components/Cart/CartEntry.svelte';
+	import PaymentOrderCard from '$components/Cohorts/PaymentOrderCard.svelte';
+	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
+	import DateFns from '$lib/utils/asyncDateFns';
+	import { encodeObject } from '$lib/utils/helpers/params';
+	import { SIP_ORDER_CARD_TYPES } from '$lib/constants/actions';
+	import { getPendingActionsData } from '$lib/api/actions';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -90,6 +101,9 @@
 	let elementOnce: HTMLElement;
 	let intersectOnce: boolean;
 	let notifData: INotificationSummary;
+	let actionsData:
+		| INotification
+		| { instalmentFailedOrders: []; paymentFailedOrders: []; instalmentPending: [] };
 	let user_cohort = 'Fallback';
 	let placementMapping = {};
 	let readyMadePortfolios;
@@ -134,6 +148,7 @@
 		}
 		return notifData;
 	};
+
 	const getTrendingFundsData = async () => {
 		trendingFundsData = [];
 		const url = `${PUBLIC_MF_CORE_BASE_URL_V2}/schemes?mostViewed=true`;
@@ -272,6 +287,70 @@
 		});
 	};
 
+	const handlePendingSipPaymentClick = (order: Notif) => {
+		if (order?.sipId) {
+			const reRouteUrl = 'schemes';
+			const path = `${reRouteUrl}/${normalizeFundName(
+				order?.schemeName,
+				order?.isin,
+				order?.schemeCode
+			)}`;
+			const { format } = DateFns.DateFns;
+
+			let params = null;
+			params = encodeObject({
+				investmentType: 'SIP',
+				investmentAmount: order?.installmentAmount,
+				sipDate: new Date(order?.sipPaymentDate)?.getDate(),
+				ftp: true,
+				skipOrderPad: true,
+				redirectedFrom: 'SIP_PAYMENTS',
+				sipId: order?.sipId,
+				sipRegistrationNumber: order?.sipRegistrationNo,
+				sipDueDate: format(new Date(order?.sipPaymentDate), 'yyyy-MM-dd')
+			});
+			modifiedGoto(`${base}/${path}?params=${params}&orderpad=INVEST`);
+		} else {
+			modifiedGoto(`${base}/sipbook/${order?.sipId}`);
+		}
+		actNowClick({
+			FundName: order?.schemeName,
+			Amount: order?.amount,
+			Heading: `${actionsData?.instalmentPending?.length} Pending SIP Payments`,
+			cta: 'paynow'
+		});
+	};
+
+	const handleFailedSipPaymentClick = (order: Notif) => {
+		if (order?.orderID) {
+			const reRouteUrl = 'schemes';
+			const path = `${reRouteUrl}/${normalizeFundName(
+				order?.schemeName,
+				order?.isin,
+				order?.schemeCode
+			)}`;
+
+			let params = null;
+			params = encodeObject({
+				investmentType: 'LUMPSUM',
+				investmentAmount: order?.amount,
+				skipOrderPad: true,
+				sipInstalmentId: order?.orderID.toString(),
+				isAdditionalFlag: true
+			});
+
+			modifiedGoto(`${base}/${path}?params=${params}&orderpad=INVEST`);
+		} else {
+			modifiedGoto(`${base}/sipbook/dashboard`);
+		}
+		actNowClick({
+			FundName: order?.schemeName,
+			Amount: order?.amount,
+			Heading: `${actionsData?.instalmentFailedOrders?.length} SIP Payments Missed`,
+			cta: 'paynow'
+		});
+	};
+
 	let storiesData: StoriesData = storiesDataObjectWithoutUrls;
 
 	const setStoryCtaUrl = (vidId: number) => {
@@ -315,7 +394,13 @@
 		getAllNotificationsData().then((data) => {
 			notifData = data;
 		});
+
+		getPendingActionsData().then((data) => {
+			actionsData = data;
+		});
 	};
+
+	$: openNfo = 0;
 
 	const getReadyMadePortfolios = async () => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/packs?packGroupId=READY_MADE_PORTFOLIO`;
@@ -359,6 +444,9 @@
 		actionCentreEntryImpression();
 
 		registerNativeResumeCallback(onVisibilityChange);
+
+		const nfoList = await getactiveNfo();
+		openNfo = nfoList?.length;
 	});
 
 	const initializeClevertapData = async () => {
@@ -553,9 +641,33 @@
 	{/if}
 
 	{#if !deviceType?.isBrowser && autopayNudge && placementMapping?.setupAutopay}
-		<SetupAutopayNudge
+		<SetupAutopayCard
+			sipPendingCount={autopayNudge?.data?.sipCount}
+			sipTotalAmount={autopayNudge?.amount}
 			class="row-start-{placementMapping?.setupAutopay?.rowStart} col-start-{placementMapping
 				?.setupAutopay?.columnStart} {placementMapping?.setupAutopay?.rowStart > 1 ? 'mt-2' : ''}"
+		/>
+	{/if}
+
+	{#if placementMapping?.sipPaymentDue}
+		<PaymentOrderCard
+			sipList={actionsData?.instalmentPending || []}
+			on:buttonClick={(e) => handlePendingSipPaymentClick(e?.detail)}
+			cardType={SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_DUE}
+			class="row-start-{placementMapping?.sipPaymentDue?.rowStart} col-start-{placementMapping
+				?.sipPaymentDue?.columnStart} {placementMapping?.sipPaymentDue?.rowStart > 1 ? 'mt-2' : ''}"
+		/>
+	{/if}
+
+	{#if placementMapping?.sipPaymentMissed}
+		<PaymentOrderCard
+			sipList={actionsData?.instalmentFailedOrders || []}
+			on:buttonClick={(e) => handleFailedSipPaymentClick(e?.detail)}
+			cardType={SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_MISSED}
+			class="row-start-{placementMapping?.sipPaymentMissed?.rowStart} col-start-{placementMapping
+				?.sipPaymentMissed?.columnStart} {placementMapping?.sipPaymentMissed?.rowStart > 1
+				? 'mt-2'
+				: ''}"
 		/>
 	{/if}
 
@@ -576,6 +688,9 @@
 		/>
 	{/if}
 
+	<!-- Cart New Entry Point -->
+	<CartEntry cartItemCount={$cartStore.count} />
+
 	<!-- 9. Quick Entry Points - External Funds, NFO, Calculator -->
 	{#if placementMapping?.quickEntryPoints}
 		<QuickEntryPointsComponent
@@ -586,6 +701,32 @@
 			{isGuest}
 		/>
 	{/if}
+
+	<!-- NFO Entry Point -->
+	{#if placementMapping?.nfoEntry}
+		<section
+			class="row-start-{placementMapping?.nfoEntry?.rowStart} col-start-{placementMapping?.nfoEntry
+				?.columnStart} {placementMapping?.nfoEntry?.rowStart > 1 ? 'mt-2' : ''}"
+		>
+			<QuickEntryPointsCard
+				title="New Fund Offerings"
+				subtitle={`Explore ${openNfo} NFOs currently live`}
+				liveNFO={openNfo}
+				onLinkClicked={() => homepageNfoClickAnalytics(openNfo)}
+				to="/nfo"
+				class="rounded-t-lg"
+				subtitleClass="text-xs font-normal text-body"
+			>
+				<div
+					slot="icon"
+					class="mt-1 flex h-9 w-9 items-center justify-center rounded-full bg-[var(--B-100)]"
+				>
+					<WMSIcon name="announcement-white" stroke="var(--PRIMARY)" />
+				</div>
+			</QuickEntryPointsCard>
+		</section>
+	{/if}
+
 	<!-- 10. PromotionCard -->
 	{#if data?.searchDashboardData?.amcAd && !deviceType?.isBrowser && placementMapping?.promotionCard}
 		<div
@@ -682,11 +823,35 @@
 				</IntersectionObserver>
 			{/if}
 			{#if autopayNudge && placementMapping?.setupAutopay}
-				<SetupAutopayNudge
+				<SetupAutopayCard
+					sipPendingCount={autopayNudge?.data?.sipCount}
+					sipTotalAmount={autopayNudge?.amount}
 					class="row-start-{placementMapping?.setupAutopay?.rowStart} col-start-{placementMapping
 						?.setupAutopay?.columnStart} {placementMapping?.setupAutopay?.rowStart > 1
 						? 'mt-2'
 						: ''}"
+				/>
+			{/if}
+			{#if placementMapping?.sipPaymentDue}
+				<PaymentOrderCard
+					sipList={actionsData?.instalmentPending || []}
+					on:buttonClick={(e) => handlePendingSipPaymentClick(e?.detail)}
+					cardType={SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_DUE}
+					class="row-start-{placementMapping?.sipPaymentDue?.rowStart} col-start-{placementMapping
+						?.sipPaymentDue?.columnStart} {placementMapping?.sipPaymentDue?.rowStart > 1
+						? 'mt-2'
+						: ''}"
+				/>
+			{/if}
+
+			{#if placementMapping?.sipPaymentMissed}
+				<PaymentOrderCard
+					sipList={actionsData?.instalmentFailedOrders || []}
+					on:buttonClick={(e) => handleFailedSipPaymentClick(e?.detail)}
+					cardType={SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_MISSED}
+					class="row-start-{placementMapping?.sipPaymentMissed
+						?.rowStart} col-start-{placementMapping?.sipPaymentMissed
+						?.columnStart} {placementMapping?.sipPaymentMissed?.rowStart > 1 ? 'mt-2' : ''}"
 				/>
 			{/if}
 			{#if data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN && placementMapping?.askAngel}

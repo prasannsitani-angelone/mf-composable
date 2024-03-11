@@ -19,9 +19,7 @@
 	import { getDateTimeString } from '$lib/utils/helpers/date';
 	import { format } from 'date-fns';
 	import { goto, invalidate } from '$app/navigation';
-	import { base } from '$app/paths';
-	import SipBookAutoPayNudge from '$components/AutopaySetupTile/SipBookAutoPayNudge.svelte';
-	import { encodeObject } from '$lib/utils/helpers/params';
+	import SetupAutopayCard from '$components/Cohorts/SetupAutopayCard.svelte';
 	import SipHealthNudge from '$components/SipHealth/Nudge/SipHealthNudge.svelte';
 	import { sipScoreViewDetailsCtaClickAnalytics } from '$lib/analytics/siphealth/siphealth';
 	import { ctNudgeStore } from '$lib/stores/CtNudgeStore';
@@ -208,13 +206,6 @@
 
 	export { sipBookData, data };
 
-	const navigateToEMandate = () => {
-		const params = encodeObject({
-			acc: bankDetails?.[0]?.accNO
-		});
-		goto(`${base}/autopay/manage/setup?params=${params}`);
-	};
-
 	const handleViewReportCtaClick = () => {
 		sipScoreViewDetailsCtaClickAnalytics();
 	};
@@ -327,11 +318,9 @@
 						<section class="mb-2">
 							{#each nudgeData || [] as nudge, idx (idx)}
 								{#if nudge?.nudgesType === 'mandate'}
-									<SipBookAutoPayNudge
-										heading={nudge.heading}
-										description={nudge.description}
-										amount={nudge.amount}
-										on:autoPayClick={navigateToEMandate}
+									<SetupAutopayCard
+										sipPendingCount={nudge?.data?.sipCount}
+										sipTotalAmount={nudge?.amount}
 									/>
 								{:else if nudge?.nudgesType === 'link_mandate'}
 									<DiscoverFundsNudge
@@ -353,11 +342,9 @@
 						<section class="mb-2">
 							{#each nudgeData || [] as nudge, idx (idx)}
 								{#if nudge?.nudgesType === 'mandate'}
-									<SipBookAutoPayNudge
-										heading={nudge.heading}
-										description={nudge.description}
-										amount={nudge.amount}
-										on:autoPayClick={navigateToEMandate}
+									<SetupAutopayCard
+										sipPendingCount={nudge?.data?.sipCount}
+										sipTotalAmount={nudge?.amount}
 									/>
 								{:else if nudge?.nudgesType === 'link_mandate'}
 									<DiscoverFundsNudge

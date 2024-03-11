@@ -2,10 +2,8 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import type { INotification, Notif } from '$lib/types/INotifications';
-	import { getDateTimeString } from '$lib/utils/helpers/date';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { encodeObject } from '$lib/utils/helpers/params';
-	import ActionCard from './ActionCard.svelte';
 	import DateFns from '$lib/utils/asyncDateFns';
 	import { onMount } from 'svelte';
 	import {
@@ -13,10 +11,13 @@
 		actionCentreImpression
 	} from '$lib/analytics/pendingActionCenter/analytics';
 	import type { IActionItem } from '$lib/analytics/pendingActionCenter/analytics';
+	import PaymentOrderCard from '$components/Cohorts/PaymentOrderCard.svelte';
+	import { SIP_ORDER_CARD_TYPES } from '$lib/constants/actions';
 
 	export let actionsData:
 		| INotification
 		| { instalmentFailedOrders: []; paymentFailedOrders: []; instalmentPending: [] };
+
 	const onOrderFailedButtonClick = (order: Notif) => {
 		goto(`${base}/orders/${order?.orderID}`);
 		actNowClick({
@@ -26,6 +27,7 @@
 			cta: 'retry'
 		});
 	};
+
 	const handleFailedSipPaymentClick = (order: Notif) => {
 		if (order?.orderID) {
 			const reRouteUrl = 'schemes';
@@ -55,6 +57,7 @@
 			cta: 'paynow'
 		});
 	};
+
 	const handlePendingSipPaymentClick = (order: Notif) => {
 		if (order?.sipId) {
 			const reRouteUrl = 'schemes';
@@ -125,52 +128,32 @@
 	});
 </script>
 
-<section class="flex flex-col rounded-md bg-background-alt px-2 pb-2 sm:bg-background">
+<section class="-md:mt-4 -mt-2 flex flex-col rounded-md pb-2">
 	{#if actionsData?.instalmentPending?.length > 0}
-		<div class="py-2 font-medium text-title">
-			{actionsData?.instalmentPending?.length} Pending SIP Payments
-		</div>
-		{#each actionsData?.instalmentPending as order}
-			{@const currentDate = new Date()}
-			{@const t3DayDate = new Date(order?.sipAmountPayTillDate)}
-			{@const message =
-				currentDate.getDate() === t3DayDate.getDate()
-					? `Last day for SIP payment`
-					: `Payment due by ${getDateTimeString(order?.sipAmountPayTillDate)}`}
-			<ActionCard
-				{order}
-				buttonText="PAY NOW"
-				{message}
-				icon="clock-bold"
-				onButtonClick={handlePendingSipPaymentClick}
+		<section class="mt-2 md:mt-4">
+			<PaymentOrderCard
+				sipList={actionsData?.instalmentPending || []}
+				on:buttonClick={(e) => handlePendingSipPaymentClick(e?.detail)}
+				cardType={SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_DUE}
 			/>
-		{/each}
+		</section>
 	{/if}
 	{#if actionsData?.instalmentFailedOrders?.length > 0}
-		<div class="py-2 font-medium text-title">
-			{actionsData?.instalmentFailedOrders?.length} SIP Payments Missed
-		</div>
-		{#each actionsData?.instalmentFailedOrders as order}
-			<ActionCard
-				{order}
-				buttonText="PAY NOW"
-				message="Pay now to continue your SIP"
-				icon="filledInfo"
-				messageStyle="!text-sell"
-				onButtonClick={handleFailedSipPaymentClick}
+		<section class="mt-2 md:mt-4">
+			<PaymentOrderCard
+				sipList={actionsData?.instalmentFailedOrders || []}
+				on:buttonClick={(e) => handleFailedSipPaymentClick(e?.detail)}
+				cardType={SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_MISSED}
 			/>
-		{/each}
+		</section>
 	{/if}
 	{#if actionsData?.paymentFailedOrders?.length > 0}
-		<div class="py-2 font-medium text-title">Recent Failed Orders</div>
-		{#each actionsData?.paymentFailedOrders as order}
-			<ActionCard
-				{order}
-				buttonText="RETRY"
-				message={getDateTimeString(order?.orderDate * 1000)}
-				icon="calander-icon"
-				onButtonClick={onOrderFailedButtonClick}
+		<section class="mt-2 md:mt-4">
+			<PaymentOrderCard
+				sipList={actionsData?.paymentFailedOrders || []}
+				on:buttonClick={(e) => onOrderFailedButtonClick(e?.detail)}
+				cardType={SIP_ORDER_CARD_TYPES?.FAILED_ORDER}
 			/>
-		{/each}
+		</section>
 	{/if}
 </section>

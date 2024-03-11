@@ -1,10 +1,8 @@
 <script lang="ts">
 	import {
 		homepageExternalFundsClickAnalytics,
-		homepageNfoClickAnalytics,
 		homepageSipCalculatorClickAnalytics
 	} from '$lib/analytics/DiscoverFunds';
-	import getactiveNfo from '$lib/api/nfo';
 	import { onMount, tick } from 'svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import QuickEntryPointsCard from './QuickEntryPointsCard.svelte';
@@ -16,15 +14,11 @@
 	} from '../../(authenticated)/schemes/fundcomparision/analytics';
 	import viewport from '$lib/utils/useViewPortAction';
 
-	$: openNfo = 0;
-
 	let isGuest: boolean;
 	let impressionEventSent = false;
 
 	onMount(async () => {
 		await tick();
-		const nfoList = await getactiveNfo();
-		openNfo = nfoList?.length;
 		handleFundCompareButtonAnanlytics('N');
 	});
 
@@ -57,18 +51,6 @@
 	class="item grid grid-cols-1 justify-between sm:grid-rows-1 {$$props.class} slide-down divide-y divide-border"
 	in:slide={{ duration: 300 }}
 >
-	<QuickEntryPointsCard
-		title="New Fund Offerings"
-		subtitle={`Explore ${openNfo} NFOs currently live`}
-		liveNFO={openNfo}
-		onLinkClicked={() => homepageNfoClickAnalytics(openNfo)}
-		to="/nfo"
-		class="rounded-t-lg"
-	>
-		<div slot="icon" class="mt-1 flex h-9 w-9 items-center justify-center rounded-full bg-primary">
-			<WMSIcon name="announcement-white" />
-		</div>
-	</QuickEntryPointsCard>
 	<QuickEntryPointsCard
 		title="Track External Investments"
 		subtitle="Monitor your entire portfolio, including investments outside Angel One"

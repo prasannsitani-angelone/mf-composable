@@ -220,7 +220,14 @@
 								/>
 							</slot>
 						{:else}
-							<div on:click={() => goToSlide(index)}>
+							<div
+								on:click={() => goToSlide(index)}
+								role="button"
+								tabindex={0}
+								on:keypress={() => {
+									//
+								}}
+							>
 								<slot name="inActiveIndicator">
 									<img
 										src={EclipseIcon}

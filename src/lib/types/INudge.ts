@@ -7,7 +7,12 @@ export interface INudge {
 	link: string;
 	linkHeading: string;
 	nudgesType?: string;
-	data?: ISip | IRetryPaymentNudge | StartFirstSipNudgeType | Start4SipsNudgeType;
+	data?:
+		| ISip
+		| IRetryPaymentNudge
+		| StartFirstSipNudgeType
+		| Start4SipsNudgeType
+		| mandateNudgeDataType;
 	id: string;
 	amount: number;
 }
@@ -90,3 +95,7 @@ export type EcasImportNudgeType = {
 	id: string;
 	amount: number;
 } | null;
+
+export type mandateNudgeDataType = {
+	sipCount: number;
+};
