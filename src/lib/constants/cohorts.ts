@@ -136,8 +136,7 @@ export const cohorts_LF: { [key: string]: { placementMapping: object } } = {
 			categories: { rowStart: 5, columnStart: 1 },
 			screener: { rowStart: 6, columnStart: 1 },
 			setupAutopay: { rowStart: 1, columnStart: 2 },
-			buyPortfolioCard: { rowStart: 2, columnStart: 2 },
-			askAngel: { rowStart: 3, columnStart: 2 }
+			askAngel: { rowStart: 2, columnStart: 2 }
 		}
 	},
 	MF_INVESTED_W_NO_SIPs: {
@@ -174,15 +173,15 @@ export const cohorts_LF: { [key: string]: { placementMapping: object } } = {
 			startSip: { rowStart: 3, columnStart: 1 },
 			mostBought: { rowStart: 4, columnStart: 1 },
 			categories: { rowStart: 5, columnStart: 1 },
-			trendingFunds: { rowStart: 6, columnStart: 1 },
-			sipCalculator: { rowStart: 7, columnStart: 1 },
-			trackExtFunds: { rowStart: 8, columnStart: 1 },
-			quickEntryPoints: { rowStart: 9, columnStart: 1 },
-			screener: { rowStart: 10, columnStart: 1 },
+			buyPortfolioCard: { rowStart: 6, columnStart: 1 },
+			trendingFunds: { rowStart: 7, columnStart: 1 },
+			sipCalculator: { rowStart: 8, columnStart: 1 },
+			trackExtFunds: { rowStart: 9, columnStart: 1 },
+			quickEntryPoints: { rowStart: 10, columnStart: 1 },
+			screener: { rowStart: 11, columnStart: 1 },
 			investments: { rowStart: 1, columnStart: 2 },
 			setupAutopay: { rowStart: 2, columnStart: 2 },
-			videoReel: { rowStart: 3, columnStart: 2 },
-			buyPortfolioCard: { rowStart: 4, columnStart: 2 }
+			videoReel: { rowStart: 3, columnStart: 2 }
 		}
 	}
 };

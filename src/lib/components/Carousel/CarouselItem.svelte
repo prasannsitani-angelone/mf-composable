@@ -1,10 +1,11 @@
 <script lang="ts">
 	let index: number;
-	export { index };
+	let id: string;
+	export { index, id };
 </script>
 
 <div
-	class="carousel-item w-full flex-shrink-0 transition-transform carousel-active-{index} {$$props.class}"
+	class="carousel-item-{id} w-full flex-shrink-0 transition-transform carousel-active-{index} {$$props.class}"
 >
 	<slot />
 </div>

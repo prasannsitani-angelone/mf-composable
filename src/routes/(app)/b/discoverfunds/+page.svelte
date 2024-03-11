@@ -98,6 +98,7 @@
 	let placementMapping = {};
 	let videoData;
 	let showVideoReelModal = false;
+	let readyMadePortfolios;
 	if ($page.data.deviceType?.isMobile || $page.data.deviceType?.isTablet) {
 		placementMapping = cohorts[user_cohort].placementMapping;
 	} else {
@@ -311,6 +312,14 @@
 		}
 	};
 
+	const getReadyMadePortfolios = async () => {
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/packs?packGroupId=READY_MADE_PORTFOLIO`;
+		const res = await useFetch(url, {}, fetch);
+		if (res.ok) {
+			readyMadePortfolios = res.data?.packs || [];
+		}
+	};
+
 	const handleVideoClickForDesktop = (e) => {
 		const showModal = e.detail;
 		showVideoReelModal = showModal;
@@ -348,6 +357,10 @@
 
 		if (placementMapping?.videoReel) {
 			getHomePageVideoData();
+		}
+
+		if (placementMapping?.buyPortfolioCard) {
+			getReadyMadePortfolios();
 		}
 
 		setNotificationData();
@@ -491,6 +504,16 @@
 		{/if}
 	{/if}
 
+	{#if placementMapping?.buyPortfolioCard && readyMadePortfolios?.length && deviceType.isBrowser}
+		<BuyPortfolio
+			class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
+				?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
+				? 'mt-2'
+				: ''}"
+			portfolios={readyMadePortfolios}
+		/>
+	{/if}
+
 	<!-- Start SIP -->
 	{#if placementMapping?.startSip}
 		<StartSipEntry
@@ -591,12 +614,13 @@
 		/>
 	{/if}
 
-	{#if !deviceType?.isBrowser && placementMapping?.buyPortfolioCard}
+	{#if !deviceType?.isBrowser && placementMapping?.buyPortfolioCard && readyMadePortfolios?.length}
 		<BuyPortfolio
 			class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
 				?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
 				? 'mt-2'
 				: ''}"
+			portfolios={readyMadePortfolios}
 		/>
 	{/if}
 
@@ -698,14 +722,6 @@
 		<SetupAutopayNudge
 			class="row-start-{placementMapping?.setupAutopay?.rowStart} {placementMapping?.setupAutopay
 				?.rowStart > 1
-				? 'mt-2'
-				: ''}"
-		/>
-	{/if}
-	{#if placementMapping?.buyPortfolioCard}
-		<BuyPortfolio
-			class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} {placementMapping
-				?.buyPortfolioCard?.rowStart > 1
 				? 'mt-2'
 				: ''}"
 		/>

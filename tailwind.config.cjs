@@ -148,6 +148,10 @@ module.exports = {
 			},
 			borderColor: {
 				DEFAULT: 'var(--BORDER)'
+			},
+			flex: {
+				0.7: '0.7',
+				0.3: '0.3'
 			}
 		}
 	},

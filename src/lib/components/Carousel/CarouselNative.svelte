@@ -19,6 +19,7 @@
 	let containerClass = '';
 	let touchPosition: number | null = null;
 	let indicatorClass = '';
+	let id = '';
 	let dispatch = createEventDispatcher();
 	$: childrens = totalElements;
 	$: nextButtonDisabled = false;
@@ -60,11 +61,12 @@
 	};
 
 	onMount(() => {
-		let carouselContainer = document.querySelector('.carousel-container');
-		let carouselItem = carouselContainer?.querySelectorAll('.carousel-item');
-		let carouselNext = document?.querySelector('.carousel-next');
-		let carouselPrev = document?.querySelector('.carousel-prev');
-		let containerWidth = carouselContainer?.querySelector('.carousel-container')?.clientWidth || 0;
+		let carouselContainer = document.querySelector(`.carousel-container-${id}`);
+		let carouselItem = carouselContainer?.querySelectorAll(`.carousel-item-${id}`);
+		let carouselNext = document?.querySelector(`.carousel-next-${id}`);
+		let carouselPrev = document?.querySelector(`.carousel-prev-${id}`);
+		let containerWidth =
+			carouselContainer?.querySelector(`.carousel-container-${id}`)?.clientWidth || 0;
 		let nodes: Array<Element> = [];
 		childrens = carouselItem?.length || 0;
 
@@ -176,14 +178,15 @@
 		autoplay,
 		autoPlayTime,
 		fixedWidth,
-		indicatorClass
+		indicatorClass,
+		id
 	};
 </script>
 
-<div class="flex w-full flex-row items-center {$$props?.class || ''}">
+<div {id} class="flex w-full flex-row items-center {$$props?.class || ''}">
 	{#if navigation}
 		<slot name="prev-arrow">
-			<div class="carousel-prev">
+			<div class="carousel-prev-{id}">
 				<WMSIcon
 					width={16}
 					name="arrow-expand"
@@ -193,7 +196,7 @@
 			</div>
 		</slot>
 	{/if}
-	<div class="carousel-container {containerClass} relative overflow-hidden">
+	<div class="carousel-container-{id} {containerClass} relative overflow-hidden">
 		<div
 			class="relative box-content flex h-full w-full transition-transform ease-in-out"
 			style="transform: translateX({translateX}px); transition-duration: 500ms;"
@@ -236,7 +239,7 @@
 	</div>
 	{#if navigation}
 		<slot name="next-arrow">
-			<div class="carousel-next">
+			<div class="carousel-next-{id}">
 				<WMSIcon
 					width={16}
 					name="arrow-collapse"

@@ -92,6 +92,7 @@
 	let notifData: INotificationSummary;
 	let user_cohort = 'Fallback';
 	let placementMapping = {};
+	let readyMadePortfolios;
 
 	if ($page.data.deviceType?.isMobile || $page.data.deviceType?.isTablet) {
 		placementMapping = cohorts[user_cohort].placementMapping;
@@ -316,6 +317,14 @@
 		});
 	};
 
+	const getReadyMadePortfolios = async () => {
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/packs?packGroupId=READY_MADE_PORTFOLIO`;
+		const res = await useFetch(url, {}, fetch);
+		if (res.ok) {
+			readyMadePortfolios = res.data?.packs || [];
+		}
+	};
+
 	onMount(async () => {
 		await tick();
 
@@ -329,6 +338,10 @@
 
 		if (placementMapping?.trendingFunds) {
 			getTrendingFundsData();
+		}
+
+		if (placementMapping?.buyPortfolioCard) {
+			getReadyMadePortfolios();
 		}
 
 		if (data?.layoutConfig?.showAskAngelEntry) {
@@ -546,12 +559,13 @@
 		/>
 	{/if}
 
-	{#if !deviceType?.isBrowser && placementMapping?.buyPortfolioCard}
+	{#if !deviceType?.isBrowser && placementMapping?.buyPortfolioCard && readyMadePortfolios?.length}
 		<BuyPortfolio
 			class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
 				?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
 				? 'mt-2'
 				: ''}"
+			portfolios={readyMadePortfolios}
 		/>
 	{/if}
 
@@ -598,6 +612,16 @@
 		<Screener
 			class="row-start-{placementMapping?.screener?.rowStart} col-start-{placementMapping?.screener
 				?.columnStart}"
+		/>
+	{/if}
+
+	{#if placementMapping?.buyPortfolioCard && readyMadePortfolios?.length && deviceType.isBrowser}
+		<BuyPortfolio
+			class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
+				?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
+				? 'mt-2'
+				: ''}"
+			portfolios={readyMadePortfolios}
 		/>
 	{/if}
 
@@ -663,13 +687,6 @@
 						?.setupAutopay?.columnStart} {placementMapping?.setupAutopay?.rowStart > 1
 						? 'mt-2'
 						: ''}"
-				/>
-			{/if}
-			{#if placementMapping?.buyPortfolioCard}
-				<BuyPortfolio
-					class="row-start-{placementMapping?.buyPortfolioCard
-						?.rowStart} col-start-{placementMapping?.buyPortfolioCard
-						?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1 ? 'mt-2' : ''}"
 				/>
 			{/if}
 			{#if data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN && placementMapping?.askAngel}

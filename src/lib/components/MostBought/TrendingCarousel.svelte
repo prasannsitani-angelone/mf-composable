@@ -62,6 +62,7 @@
 
 <section class={carouselInActive ? 'carousel-inactive' : 'carousel-active'}>
 	<CarouselNative
+		id="trending-funds"
 		navigation={!isMobile && tableData?.length > 0}
 		totalElements={tableData?.length}
 		on:onIndexChange={handleCardVisible}
@@ -72,6 +73,7 @@
 			<CarouselItem
 				class="!w-[calc(100vw/1.3)] sm:!w-[calc(100vw/2.3)] lg:!w-[calc(100vw/3.6)]  xl:!w-[calc(100vw/4.8)] 2xl:!w-[calc(100vw/5.4)]"
 				{index}
+				id="trending-funds"
 			>
 				<TrendingCarouselItems
 					on:onCartClick={(e) => handleCartClick(e, index)}
