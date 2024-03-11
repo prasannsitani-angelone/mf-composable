@@ -109,17 +109,19 @@
 					<BigDotIcon />
 				</span>
 				<span>
-					Short Term Capital Gain for <span class="font-medium">Equity</span> (less than 1Y) and
-					<span class="font-medium">Non-Equity</span> (less than 3Y) funds are taxed differently on withdrawal.
+					Short Term Capital Gains tax for <span class="font-medium">Equity</span> (less than 1
+					year) and
+					<span class="font-medium">Non-Equity</span> (less than 3 years) funds is calculated differently
+					on withdrawal
 				</span>
 			</p>
-			<p class="mt-[2px] flex">
+			<p class="mt-2 flex">
 				<span class="mr-2 mt-1">
 					<BigDotIcon />
 				</span>
 				<span>
 					STCG tax will be applicable if you withdraw these investments today. Stay invested to
-					convert these to long term investments.
+					avoid short term taxes
 				</span>
 			</p>
 		</div>
@@ -132,15 +134,17 @@
 					<BigDotIcon />
 				</span>
 				<span>
-					Long Term Capital Gain for <span class="font-medium">Equity</span> (more than 1Y) and
-					<span class="font-medium">Non-Equity</span> (more than 3Y) funds are taxed differently on withdrawal.
+					Long Term Capital Gains tax for <span class="font-medium">Equity</span> (more than 1 year)
+					and
+					<span class="font-medium">Non-Equity</span> (more than 3 years) funds is calculated differently
+					on withdrawal
 				</span>
 			</p>
-			<p class="mt-[2px] flex">
+			<p class="mt-2 flex">
 				<span class="mr-2 mt-1">
 					<BigDotIcon />
 				</span>
-				<span> LTCG tax will be applicable if you withdraw these investments today. </span>
+				<span>LTCG tax will be applicable if you withdraw these investments today </span>
 			</p>
 		</div>
 	{/if}
