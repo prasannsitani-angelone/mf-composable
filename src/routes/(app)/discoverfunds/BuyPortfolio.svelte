@@ -1,14 +1,18 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 
-	import { buildPortfolioCardClicked } from '$lib/analytics/buyPortfolio/buyPortfolio';
+	import {
+		buildPortfolioCardClicked,
+		handleCarouselImpressionAnalytics,
+		handleCarouselItemClickAnalytics
+	} from '$lib/analytics/buyPortfolio/buyPortfolio';
 	import CarouselNative from '$components/Carousel/CarouselNative.svelte';
 	import CarouselItem from '$components/Carousel/CarouselItem.svelte';
 
 	import RecommendedPortfolio from './RecommendedPortfolio/RecommendedPortfolio.svelte';
 	import Modal from '$components/Modal.svelte';
 	import PortfolioInput from '../(authenticated)/buyPortfolio/[portfolioId]/components/PortfolioInput.svelte';
-	import type { PortfolioPack } from '$lib/types/IBuyPortfolio';
+	import type { PortfolioPack, Scheme } from '$lib/types/IBuyPortfolio';
 
 	export let portfolios: PortfolioPack[];
 	let carouselInActive = false;
@@ -22,6 +26,36 @@
 		selectedPortfolio = portfolio;
 		showInputPopup = true;
 	};
+
+	const getEventMetaData = (portfolio: PortfolioPack, index: number) => {
+		const { packName, minSipAmount, threeYrReturnAvgPer, tags, schemes, totalUsersInvested } =
+			portfolio;
+		const eventMetaData = {
+			portfolio_name: packName,
+			min_sip_amount: minSipAmount.toString(),
+			'3_yr_returns': threeYrReturnAvgPer.toString(),
+			people_invested_in_portfolio: totalUsersInvested.toString(),
+			cardrank: (index + 1).toString(),
+			tag1: tags?.[0],
+			tag2: tags?.[1],
+			fundnames: schemes.map((scheme: Scheme) => scheme.schemeName),
+			all_isin: schemes.map((scheme: Scheme) => scheme.isin)
+		};
+
+		return eventMetaData;
+	};
+
+	const handleCardVisible = (event: CustomEvent) => {
+		let index = event.detail.index;
+		let portfolio = portfolios[index];
+
+		handleCarouselImpressionAnalytics(getEventMetaData(portfolio, index));
+	};
+
+	function handleCardClick(portfolio: PortfolioPack, index: number) {
+		handleCarouselItemClickAnalytics(getEventMetaData(portfolio, index));
+		goToBuyPortfolio(portfolio);
+	}
 </script>
 
 <section class="my-2 max-w-4xl rounded-lg bg-background-alt px-4 py-3 shadow-csm {$$props.class}">
@@ -39,6 +73,7 @@
 			totalElements={portfolios?.length}
 			fixedWidth={true}
 			slidesPerView={isMobile ? 1 : 2}
+			on:onIndexChange={handleCardVisible}
 		>
 			{#each portfolios || [] as portfolio, index}
 				<CarouselItem
@@ -48,7 +83,7 @@
 				>
 					<RecommendedPortfolio
 						{index}
-						on:onCardClick={() => goToBuyPortfolio(portfolio)}
+						on:onCardClick={() => handleCardClick(portfolio, index)}
 						{portfolio}
 					/>
 				</CarouselItem>

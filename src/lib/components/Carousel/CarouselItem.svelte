@@ -5,7 +5,7 @@
 </script>
 
 <div
-	class="carousel-item-{id} w-full flex-shrink-0 transition-transform carousel-active-{index} {$$props.class}"
+	class="carousel-item-{id} w-full flex-shrink-0 transition-transform carousel-active-{index}-{id} {$$props.class}"
 >
 	<slot />
 </div>

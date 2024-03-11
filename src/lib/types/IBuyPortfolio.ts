@@ -9,6 +9,7 @@ export interface PortfolioPack {
 	benefits: Benefit[];
 	features: Feature[];
 	schemes: Scheme[];
+	tags?: string[];
 }
 
 interface Benefit {
@@ -21,7 +22,7 @@ interface Feature {
 	highlight: string;
 }
 
-interface Scheme {
+export interface Scheme {
 	isin: string;
 	schemeCode: string;
 	schemeName: string;

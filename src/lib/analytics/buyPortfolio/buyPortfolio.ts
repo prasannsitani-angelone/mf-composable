@@ -207,3 +207,27 @@ export const portfolioOrderSummary = (eventMetaData: object) => {
 		event_metadata: eventMetaData
 	});
 };
+
+export const handleCarouselImpressionAnalytics = (eventMetaData: object) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-Homepage',
+		event_type: 'impression',
+		event_sub_type: 'card',
+		event_name: 'PortfolioForYou',
+		event_property: null,
+		event_id: '308.0.0.1.19',
+		event_metadata: eventMetaData
+	});
+};
+
+export const handleCarouselItemClickAnalytics = (eventMetaData: object) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-Homepage',
+		event_type: 'click',
+		event_sub_type: 'card',
+		event_name: 'PortfolioForYouClick',
+		event_property: null,
+		event_id: '308.0.0.1.20',
+		event_metadata: eventMetaData
+	});
+};

@@ -31,8 +31,8 @@
 		} else {
 			if (currentIndex < childrens - Math.round(slidesPerView)) {
 				translateX -=
-					document.querySelector(`.carousel-active-${currentIndex}`)?.offsetWidth + spaceBetween ||
-					0;
+					document.querySelector(`.carousel-active-${currentIndex}-${id}`)?.offsetWidth +
+						spaceBetween || 0;
 				currentIndex++;
 			}
 		}
@@ -45,14 +45,15 @@
 		if (currentIndex === 0 && loop) {
 			currentIndex = childrens - Math.round(slidesPerView);
 			translateX -=
-				(document.querySelector(`.carousel-active-${currentIndex}`)?.offsetWidth + spaceBetween) *
+				(document.querySelector(`.carousel-active-${currentIndex}-${id}`)?.offsetWidth +
+					spaceBetween) *
 					currentIndex || 0;
 		} else {
 			if (currentIndex > 0) {
 				currentIndex--;
 				translateX +=
-					document.querySelector(`.carousel-active-${currentIndex}`)?.offsetWidth + spaceBetween ||
-					0;
+					document.querySelector(`.carousel-active-${currentIndex}-${id}`)?.offsetWidth +
+						spaceBetween || 0;
 			}
 		}
 		checkNextButton(currentIndex);
@@ -108,13 +109,13 @@
 		const jumps = Math.abs(index - currentIndex) || 1;
 		if (index > currentIndex) {
 			translateX -=
-				(document.querySelector(`.carousel-active-${index}`)?.offsetWidth + spaceBetween) * jumps ||
-				0;
+				(document.querySelector(`.carousel-active-${index}-${id}`)?.offsetWidth + spaceBetween) *
+					jumps || 0;
 			currentIndex = index;
 		} else if (index < currentIndex) {
 			translateX +=
-				(document.querySelector(`.carousel-active-${index}`)?.offsetWidth + spaceBetween) * jumps ||
-				0;
+				(document.querySelector(`.carousel-active-${index}-${id}`)?.offsetWidth + spaceBetween) *
+					jumps || 0;
 			currentIndex = index;
 		}
 		checkNextButton(currentIndex);
