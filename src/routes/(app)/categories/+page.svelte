@@ -54,17 +54,19 @@
 
 	async function getFilterAndSchemes(searchOption: Promise) {
 		const response = await searchOption;
-		const { filterCategories, schemes } = response;
-		allFilterOptions = filterCategories.map((options) => {
-			return {
-				href: getCategoriesFundsNavigationPath(options.id),
-				title: options.name,
-				id: options.id,
-				shortDescription: options.shortDescription,
-				detailedDescription: options.detailedDescription
-			};
-		});
-		currentFilter = allFilterOptions.find(({ id }) => id === pageID) || {};
+		const { filterCategories = [], schemes = [] } = response;
+		if (pageType === EXPLORE_FUND_PAGE_TYPE.CATEGORIES) {
+			allFilterOptions = filterCategories.map((options) => {
+				return {
+					href: getCategoriesFundsNavigationPath(options.id),
+					title: options.name,
+					id: options.id,
+					shortDescription: options.shortDescription,
+					detailedDescription: options.detailedDescription
+				};
+			});
+			currentFilter = allFilterOptions.find(({ id }) => id === pageID) || {};
+		}
 		sendImpressionAnalyticEvent();
 		return { filterOptions: allFilterOptions, schemes };
 	}
@@ -81,58 +83,37 @@
 	<Breadcrumbs items={breadCrumbs} class="mb-4 hidden items-center justify-start md:flex" />
 
 	<h1 class="hidden pb-6 text-lg font-normal text-title sm:mt-3 md:block">
-		{pageType === EXPLORE_FUND_PAGE_TYPE.CATEGORIES ? 'Explore Mutual Funds' : modalList?.name}
+		{pageType === EXPLORE_FUND_PAGE_TYPE.CATEGORIES
+			? 'Explore Mutual Funds'
+			: modalList?.name || ''}
 	</h1>
 
-	{#if pageType === EXPLORE_FUND_PAGE_TYPE.CATEGORIES}
-		<section class="md:rounded-b-lg md:shadow-csm">
-			<section
-				class="ml-[calc(50%-50vw)] w-screen rounded-b-lg sm:ml-0 sm:w-full md:bg-background-alt md:pt-3"
-			>
-				<section>
-					{#await getFilterAndSchemes(data?.api?.searchOption)}
-						<CategoriesLoader />
-					{:then { filterOptions, schemes }}
+	<section class="md:rounded-b-lg md:shadow-csm">
+		<section
+			class="ml-[calc(50%-50vw)] w-screen rounded-b-lg sm:ml-0 sm:w-full md:bg-background-alt md:pt-3"
+		>
+			<section>
+				{#await getFilterAndSchemes(data?.api?.searchOption)}
+					<CategoriesLoader />
+				{:then { filterOptions, schemes }}
+					{#if pageType === EXPLORE_FUND_PAGE_TYPE.CATEGORIES}
 						<SearchOptionHeader
 							categoryDetails={currentFilter}
 							categoryFilterOptions={filterOptions}
 							{pageID}
 						/>
-
-						<section class="flex flex-col flex-wrap items-center px-2 md:flex-row md:px-6 md:pb-1">
-							{#each schemes || [] as scheme}
-								<SchemeCardExt
-									class="mb-2 w-full rounded-lg bg-background-alt p-3 md:mb-4 md:mr-4 md:w-[336px]"
-									schemes={scheme}
-									on:onCardClick={() => handleFundCardClick(scheme)}
-								/>
-							{/each}
-						</section>
-					{/await}
-				</section>
+					{/if}
+					<section class="flex flex-col flex-wrap items-center px-2 md:flex-row md:px-6 md:pb-1">
+						{#each schemes || [] as scheme}
+							<SchemeCardExt
+								class="mb-2 w-full rounded-lg bg-background-alt p-3 md:mb-4 md:mr-4 md:w-[336px]"
+								schemes={scheme}
+								on:onCardClick={() => handleFundCardClick(scheme)}
+							/>
+						{/each}
+					</section>
+				{/await}
 			</section>
 		</section>
-	{:else}
-		<section class="md:rounded-b-lg md:shadow-csm">
-			<section
-				class="ml-[calc(50%-50vw)] w-screen rounded-b-lg sm:ml-0 sm:w-full md:bg-background-alt md:pt-3"
-			>
-				<section>
-					{#await data?.api?.searchOption?.schemes}
-						<CategoriesLoader />
-					{:then searchOption}
-						<section class="flex flex-col flex-wrap items-center px-2 md:flex-row md:px-6 md:pb-1">
-							{#each searchOption || [] as schemes}
-								<SchemeCardExt
-									class="mb-2 w-full rounded-lg bg-background-alt p-3 md:mb-4 md:mr-4 md:w-[336px]"
-									{schemes}
-									on:onCardClick={() => handleFundCardClick(schemes)}
-								/>
-							{/each}
-						</section>
-					{/await}
-				</section>
-			</section>
-		</section>
-	{/if}
+	</section>
 </article>
