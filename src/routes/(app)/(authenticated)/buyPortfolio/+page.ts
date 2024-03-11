@@ -7,16 +7,12 @@ import type { PageLoad } from './$types';
 export const load = (async ({ fetch }) => {
 	const getPortfolioOptions = async () => {
 		let portfolioOptions: PortfolioPack[] = [];
-		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/packs`;
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/packs?packGroupId=READY_MADE_PORTFOLIO`;
 
 		const res = await useFetch(url, {}, fetch);
 		if (res.ok) {
 			portfolioOptions = res?.data?.packs;
 		}
-		// removing start_your_first_sip as temporary fix until final API changes from BE
-		portfolioOptions = portfolioOptions.filter((x) => {
-			return x.packId !== 'start_your_first_sip' && x.packId !== 'BEST_FUNDS_FOR_SIP';
-		});
 		return portfolioOptions;
 	};
 
