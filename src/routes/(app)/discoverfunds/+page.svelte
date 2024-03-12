@@ -395,9 +395,11 @@
 			notifData = data;
 		});
 
-		getPendingActionsData().then((data) => {
-			actionsData = data;
-		});
+		if (!$page.data.isGuest) {
+			getPendingActionsData().then((data) => {
+				actionsData = data;
+			});
+		}
 	};
 
 	$: openNfo = 0;
