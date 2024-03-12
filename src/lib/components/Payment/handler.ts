@@ -1,5 +1,9 @@
 import { orderDeletePatchFunc } from './api';
-import { intializeNetBankingState, isNetBakingPaymentWindowClosed } from './util';
+
+import {
+	intializeNetBankingState,
+	isNetBakingPaymentWindowClosed
+} from '$components/Payment/CommonHandling/netbanking';
 
 export const handleTransactionResponse = async (params) => {
 	const { transactionResponse, failureCallback, pendingCallback } = params;

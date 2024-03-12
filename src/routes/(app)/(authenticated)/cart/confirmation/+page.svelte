@@ -25,13 +25,6 @@
 	import { netBankingCartFlow, upiCartFlow, walletCartFlow } from '$components/Payment/flow';
 	import { onDestroy, onMount } from 'svelte';
 	import { browser } from '$app/environment';
-	import logger from '$lib/utils/logger';
-	import {
-		closeNetBankingPaymentWindow,
-		initializeGPayState,
-		initializeUPIState,
-		intializeNetBankingState
-	} from '$components/Payment/util';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import { cartStore } from '$lib/stores/CartStore';
 	import {
@@ -49,6 +42,16 @@
 	import KycProgressPopup from '$components/Payment/KYCProgressPopup.svelte';
 	import TncModal from '$components/TnC/TncModal.svelte';
 	import Physical2FAOtpVerificationComponent from '$components/Payment/Physical2FAOtpVerificationComponent.svelte';
+	import {
+		intializeNetBankingState,
+		listenerFunc,
+		type NetBankingStateType
+	} from '$components/Payment/CommonHandling/netbanking';
+	import { initializeUPIState, type UpiStateType } from '$components/Payment/CommonHandling/upi';
+	import {
+		initializeGPayState,
+		type WalletPaymentStateType
+	} from '$components/Payment/CommonHandling/wallet';
 
 	export let data: PageData;
 
@@ -85,39 +88,29 @@
 	const state = {
 		interval: null
 	};
-	const upiState = {
+	const upiState: UpiStateType = {
 		flow: 0,
 		timer: 0,
 		timerInterval: null,
 		paymentWindowInterval: null
 	};
-	const netBankingState = {
+	const netBankingState: NetBankingStateType = {
 		paymentWindow: null,
 		paymentWindowInterval: null
 	};
-	const gpayPaymentState = {
+	const gpayPaymentState: WalletPaymentStateType = {
 		paymentWindowInterval: null,
 		waitTime: 10
 	};
 
-	const listenerFunc = (event) => {
-		if (location.origin === event?.origin && event?.data?.source === 'paymentCallback') {
-			logger.debug({
-				type: 'Payment Redirection Response',
-				params: event?.data
-			});
-			closeNetBankingPaymentWindow(netBankingState);
-		}
-	};
-
 	onMount(() => {
-		window.addEventListener('message', listenerFunc);
+		window.addEventListener('message', (event) => listenerFunc(event, netBankingState));
 	});
 
 	onDestroy(() => {
 		resetState();
 		if (browser) {
-			window.removeEventListener('message', listenerFunc, false);
+			window.removeEventListener('message', (event) => listenerFunc(event, netBankingState), false);
 			mountAnalytics();
 		}
 	});

@@ -3,7 +3,7 @@ import type { ExploreFundsOptions } from '$lib/types/IExploreFunds';
 import { hydrate } from '$lib/utils/helpers/hydrated';
 import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
-import type { CategoryOptionsEntity, SearchOptionsEntity } from '$lib/types/IDiscoverFunds';
+import type { CategoryOptionsEntity } from '$lib/types/IDiscoverFunds';
 import { EXPLORE_FUND_PAGE_TYPE } from '$lib/constants/exploreFunds';
 
 export const load = (async ({ fetch, url }) => {

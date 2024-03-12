@@ -32,7 +32,6 @@
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
 	import { format } from 'date-fns';
 	import { base } from '$app/paths';
-	import logger from '$lib/utils/logger';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { browser } from '$app/environment';
 	import { profileStore } from '$lib/stores/ProfileStore';
@@ -84,12 +83,6 @@
 		walletLumpsumFlow,
 		walletSIPFlow
 	} from '$components/Payment/flow';
-	import {
-		closeNetBankingPaymentWindow,
-		initializeGPayState,
-		initializeUPIState,
-		intializeNetBankingState
-	} from '$components/Payment/util';
 	import UpiClosePopup from '$components/Payment/UPIClosePopup.svelte';
 	import UpiTransactionPopup from '$components/Payment/UPITransactionPopup.svelte';
 	import LoadingPopup from '$components/Payment/LoadingPopup.svelte';
@@ -145,6 +138,16 @@
 	import { paymentMethodStatusStore } from '$lib/stores/PaymentMethodStatusStore';
 	import { appStore } from '$lib/stores/SparkStore';
 	import { goBackToSpark } from '$lib/utils';
+	import {
+		intializeNetBankingState,
+		listenerFunc,
+		type NetBankingStateType
+	} from '$components/Payment/CommonHandling/netbanking';
+	import { initializeUPIState, type UpiStateType } from '$components/Payment/CommonHandling/upi';
+	import {
+		initializeGPayState,
+		type WalletPaymentStateType
+	} from '$components/Payment/CommonHandling/wallet';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -263,17 +266,17 @@
 	const state = {
 		interval: null
 	};
-	const upiState = {
+	const upiState: UpiStateType = {
 		flow: 0,
 		timer: 0,
 		timerInterval: null,
 		paymentWindowInterval: null
 	};
-	const netBankingState = {
+	const netBankingState: NetBankingStateType = {
 		paymentWindow: null,
 		paymentWindowInterval: null
 	};
-	const gpayPaymentState = {
+	const gpayPaymentState: WalletPaymentStateType = {
 		paymentWindowInterval: null,
 		waitTime: 10
 	};
@@ -768,16 +771,6 @@
 		}
 	};
 
-	const listenerFunc = (event) => {
-		if (location.origin === event?.origin && event?.data?.source === 'paymentCallback') {
-			logger.debug({
-				type: 'Payment Redirection Response',
-				params: event?.data
-			});
-			closeNetBankingPaymentWindow(netBankingState);
-		}
-	};
-
 	const investmentPadScreenOpenAnalyticsFunc = () => {
 		const eventMetaData = {
 			ISIN: schemeData?.isin,
@@ -818,7 +811,7 @@
 
 			investmentPadScreenOpenAnalyticsFunc();
 		}
-		window.addEventListener('message', listenerFunc);
+		window.addEventListener('message', (event) => listenerFunc(event, netBankingState));
 
 		await getPreviousWrongBankFailedPayment();
 
@@ -1002,7 +995,7 @@
 		}
 		resetState();
 		if (browser) {
-			window.removeEventListener('message', listenerFunc, false);
+			window.removeEventListener('message', (event) => listenerFunc(event, netBankingState), false);
 		}
 	});
 

@@ -29,21 +29,236 @@ import {
 import { getSipEndDate, transactionRetryLogic as mandateStatusRetryLogic } from '../mandate/utils';
 import { getPrimaryAccountMandateData } from '$lib/utils/helpers/emandate';
 import {
-	googlePayCloseLogic,
-	initializeGPayState,
-	intializeNetBankingState,
-	isNetBakingPaymentWindowClosed,
 	mandateTransactionRetryLogic,
-	netBankingWindowCloseLogic,
 	resetTransactionInterval,
-	transactionRetryLogic,
-	upiWindowCloseLogic
+	transactionRetryLogic
 } from './util';
 import { base } from '$app/paths';
-import { initializeUPIState } from './util';
 import { callMandateAPI } from '$components/mandate/api';
 import { PUBLIC_MANDATE_SOURCE } from '$env/static/public';
 import { addCommasToAmountString } from 'svelte-components';
+import {
+	intializeNetBankingState,
+	isNetBakingPaymentWindowClosed,
+	netBankingWindowCloseLogic
+} from '$components/Payment/CommonHandling/netbanking';
+import { initializeUPIState, upiWindowCloseLogic } from '$components/Payment/CommonHandling/upi';
+import {
+	googlePayCloseLogic,
+	initializeGPayState
+} from '$components/Payment/CommonHandling/wallet';
+
+const transactionFailureMessage =
+	'If money has been debited from your bank account, please do not worry. It will be refunded automatically';
+const transactionPendingMessage =
+	"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update.";
+const transactionCancelledMessage =
+	'You have cancelled your payment for this order. Please try again, or use another payment method';
+
+const getNetbankingResponse = async (params) => {
+	const {
+		amount,
+		accNO,
+		ifscCode,
+		bankName,
+		fullName,
+		xRequestId,
+		source = '',
+		netBankingState = {},
+		state = {},
+		showLoading = () => undefined,
+		stopLoading = () => undefined,
+		displayError = () => undefined
+	} = params || {};
+
+	const netBankingResponse = await initiateNetBankingPaymentFunc({
+		amount,
+		accNO,
+		ifscCode,
+		bankName,
+		fullName,
+		xRequestId,
+		source
+	});
+	handleNetBankingResponse({
+		netBankingResponse,
+		stopLoading,
+		displayError,
+		netBankingState
+	});
+	if (isNetBakingPaymentWindowClosed(netBankingState)) {
+		intializeNetBankingState(netBankingState);
+		stopLoading();
+		displayError({
+			heading: 'Payment Cancelled',
+			errorSubHeading: transactionCancelledMessage
+		});
+		throw new Error('');
+	}
+
+	netBankingState.paymentWindow.location.replace(netBankingResponse.data?.data?.redirect_url);
+	showLoading('Waiting for payment');
+	await netBankingWindowCloseLogic({
+		netBankingState,
+		resetState: () => intializeNetBankingState(netBankingState)
+	});
+	showLoading('Checking Payment status');
+	const transactionResponse = await transactionRetryLogic({
+		transactionID: netBankingResponse.data?.data?.transaction_id,
+		retryNumber: 0,
+		retries: 5,
+		retryDelay: 1,
+		xRequestId,
+		source,
+		resetState: () => {
+			resetTransactionInterval(state);
+			intializeNetBankingState(netBankingState);
+		},
+		state
+	});
+	return transactionResponse;
+};
+
+const getUpiResponse = async (params) => {
+	const {
+		upiResponse,
+		xRequestId,
+		source = '',
+		upiState = {},
+		state = {},
+		showLoading = () => undefined,
+		stopLoading = () => undefined,
+		displayError = () => undefined,
+		updateUPITimer = () => undefined
+	} = params || {};
+
+	handleUPIResponse({
+		upiResponse,
+		stopLoading,
+		displayError
+	});
+	stopLoading();
+	upiState.flow = 2;
+	upiState.timer = upiResponse.data?.data?.transaction_validity * 60;
+	upiState.timerInterval = setInterval(() => {
+		if (upiState.timer <= 0) {
+			clearInterval(upiState.timerInterval);
+		}
+		updateUPITimer(upiState.timer - 1);
+	}, 1000);
+	const promiseResponse = await Promise.any([
+		transactionRetryLogic({
+			transactionID: upiResponse.data?.data?.transaction_id,
+			retryNumber: 0,
+			retries: Math.ceil(upiState.timer / 3),
+			retryDelay: 3,
+			xRequestId,
+			source,
+			resetState: () => {
+				resetTransactionInterval(state);
+				initializeUPIState(upiState);
+			},
+			state
+		}),
+		upiWindowCloseLogic({
+			upiState,
+			resetState: () => {
+				resetTransactionInterval(state);
+				initializeUPIState(upiState);
+			}
+		})
+	]);
+	let transactionResponse = {};
+	if (promiseResponse === 'WINDOW_CLOSED') {
+		showLoading('Waiting for payment');
+		transactionResponse = await transactionRetryLogic({
+			transactionID: upiResponse.data?.data?.transaction_id,
+			retryNumber: 0,
+			retries: 5,
+			retryDelay: 1,
+			xRequestId,
+			source,
+			resetState: () => {
+				resetTransactionInterval(state);
+				initializeUPIState(upiState);
+			},
+			state
+		});
+	} else {
+		transactionResponse = promiseResponse;
+	}
+	return transactionResponse;
+};
+
+const getWalletResponse = async (params) => {
+	const {
+		walletResponse,
+		paymentModeName,
+		xRequestId,
+		source = '',
+		gpayPaymentState = {},
+		state = {},
+		showLoading = () => undefined,
+		stopLoading = () => undefined,
+		displayError = () => undefined
+	} = params || {};
+
+	handleUPIResponse({
+		upiResponse: walletResponse,
+		stopLoading,
+		displayError
+	});
+	const redirectUrl = walletResponse.data?.data?.ios_deeplink_url;
+	showLoading('Waiting for payment');
+	window.open(redirectUrl, '_self');
+	const promiseResponse = await Promise.any([
+		transactionRetryLogic({
+			transactionID: walletResponse.data?.data?.transaction_id,
+			retryNumber: 0,
+			retries: Math.ceil((walletResponse.data?.data?.transaction_validity * 60) / 3),
+			retryDelay: 3,
+			xRequestId,
+			source,
+			resetState: () => {
+				resetTransactionInterval(state);
+				initializeGPayState(gpayPaymentState);
+			},
+			state
+		}),
+		googlePayCloseLogic({
+			gpayPaymentState,
+			resetState: () => {
+				resetTransactionInterval(state);
+				initializeGPayState(gpayPaymentState);
+			},
+			paymentModeName,
+			transactionRefNumber: walletResponse.data?.data?.transaction_id,
+			xRequestId,
+			source,
+			showLoading
+		})
+	]);
+	let transactionResponse = {};
+	if (promiseResponse === 'WINDOW_CLOSED') {
+		showLoading('Waiting for payment');
+		transactionResponse = await transactionRetryLogic({
+			transactionID: walletResponse.data?.data?.transaction_id,
+			retryNumber: 0,
+			retries: 5,
+			retryDelay: 1,
+			xRequestId,
+			source,
+			resetState: () => {
+				resetTransactionInterval(state);
+				initializeGPayState(gpayPaymentState);
+			},
+			state
+		});
+	} else {
+		transactionResponse = promiseResponse;
+	}
+	return transactionResponse;
+};
 
 export const noPaymentFlow = async (params) => {
 	const {
@@ -116,9 +331,7 @@ export const netBankingCartFlow = async (params) => {
 	const {
 		amount,
 		accNO,
-		ifscCode,
 		bankName,
-		fullName,
 		cartItemIds = [],
 		paymentMode,
 		xRequestId,
@@ -126,7 +339,6 @@ export const netBankingCartFlow = async (params) => {
 		emailId,
 		mobileNo,
 		netBankingState = {},
-		state = {},
 		showLoading = () => undefined,
 		stopLoading = () => undefined,
 		displayPendingPopup = () => undefined,
@@ -158,51 +370,7 @@ export const netBankingCartFlow = async (params) => {
 			displayError
 		});
 		showLoading('Redirecting to your Bank');
-		const netBankingResponse = await initiateNetBankingPaymentFunc({
-			amount,
-			accNO,
-			ifscCode,
-			bankName,
-			fullName,
-			xRequestId,
-			source
-		});
-		handleNetBankingResponse({
-			netBankingResponse,
-			stopLoading,
-			displayError,
-			netBankingState
-		});
-		if (isNetBakingPaymentWindowClosed(netBankingState)) {
-			intializeNetBankingState(netBankingState);
-			stopLoading();
-			displayError({
-				heading: 'Payment Cancelled',
-				errorSubHeading:
-					'You have cancelled your payment for this order. Please try again, or use another payment method'
-			});
-			throw new Error('');
-		}
-		netBankingState.paymentWindow.location.replace(netBankingResponse.data?.data?.redirect_url);
-		showLoading('Waiting for payment');
-		await netBankingWindowCloseLogic({
-			netBankingState,
-			resetState: () => intializeNetBankingState(netBankingState)
-		});
-		showLoading('Checking Payment status');
-		const transactionResponse = await transactionRetryLogic({
-			transactionID: netBankingResponse.data?.data?.transaction_id,
-			retryNumber: 0,
-			retries: 5,
-			retryDelay: 1,
-			xRequestId,
-			source,
-			resetState: () => {
-				resetTransactionInterval(state);
-				intializeNetBankingState(netBankingState);
-			},
-			state
-		});
+		const transactionResponse = await getNetbankingResponse(params);
 		const orderPatch = () =>
 			cartPatchFunction({
 				accNO,
@@ -224,8 +392,7 @@ export const netBankingCartFlow = async (params) => {
 					orderId: orderPostResponse?.data?.orderId,
 					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+						transactionResponse?.data?.data?.response_description || transactionFailureMessage,
 					code:
 						transactionResponse?.data?.data?.response_code ||
 						transactionResponse?.data?.error_code ||
@@ -238,8 +405,7 @@ export const netBankingCartFlow = async (params) => {
 					orderId: orderPostResponse?.data?.orderId,
 					heading: 'Payment Pending',
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+						transactionResponse?.data?.data?.response_description || transactionPendingMessage
 				});
 			}
 		});
@@ -263,10 +429,8 @@ export const netBankingLumpsumFlow = async (params) => {
 	const {
 		amount,
 		accNO,
-		ifscCode,
 		bankName,
 		dpNumber,
-		fullName,
 		email,
 		subBroker,
 		mobile,
@@ -279,7 +443,6 @@ export const netBankingLumpsumFlow = async (params) => {
 		redirectedFrom, // for redirection
 		isAdditional,
 		netBankingState = {},
-		state = {},
 		showLoading = () => undefined,
 		stopLoading = () => undefined,
 		displayPendingPopup = () => undefined,
@@ -316,51 +479,7 @@ export const netBankingLumpsumFlow = async (params) => {
 			displayError
 		});
 		showLoading('Redirecting to your Bank');
-		const netBankingResponse = await initiateNetBankingPaymentFunc({
-			amount,
-			accNO,
-			ifscCode,
-			bankName,
-			fullName,
-			xRequestId,
-			source
-		});
-		handleNetBankingResponse({
-			netBankingResponse,
-			stopLoading,
-			displayError,
-			netBankingState
-		});
-		if (isNetBakingPaymentWindowClosed(netBankingState)) {
-			intializeNetBankingState(netBankingState);
-			stopLoading();
-			displayError({
-				heading: 'Payment Cancelled',
-				errorSubHeading:
-					'You have cancelled your payment for this order. Please try again, or use another payment method'
-			});
-			throw new Error('');
-		}
-		netBankingState.paymentWindow.location.replace(netBankingResponse.data?.data?.redirect_url);
-		showLoading('Waiting for payment');
-		await netBankingWindowCloseLogic({
-			netBankingState,
-			resetState: () => intializeNetBankingState(netBankingState)
-		});
-		showLoading('Checking Payment status');
-		const transactionResponse = await transactionRetryLogic({
-			transactionID: netBankingResponse.data?.data?.transaction_id,
-			retryNumber: 0,
-			retries: 5,
-			retryDelay: 1,
-			xRequestId,
-			source,
-			resetState: () => {
-				resetTransactionInterval(state);
-				intializeNetBankingState(netBankingState);
-			},
-			state
-		});
+		const transactionResponse = await getNetbankingResponse(params);
 		const orderPatch = () =>
 			lumpsumOrderPatchFunc({
 				reference_number: transactionResponse?.data?.data?.reference_number,
@@ -381,8 +500,7 @@ export const netBankingLumpsumFlow = async (params) => {
 					orderId: orderPostResponse?.data?.data?.orderId,
 					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+						transactionResponse?.data?.data?.response_description || transactionFailureMessage,
 					code:
 						transactionResponse?.data?.data?.response_code ||
 						transactionResponse?.data?.error_code ||
@@ -395,8 +513,7 @@ export const netBankingLumpsumFlow = async (params) => {
 					orderId: orderPostResponse?.data?.data?.orderId,
 					heading: 'Payment Pending',
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+						transactionResponse?.data?.data?.response_description || transactionPendingMessage
 				});
 			}
 		});
@@ -418,21 +535,16 @@ export const netBankingLumpsumFlow = async (params) => {
 export const netBankingSIPFlow = async (params) => {
 	const {
 		amount,
-		accNO,
 		sipFrequency,
 		sipMaxInstallmentNo,
 		sipDate,
-		ifscCode,
-		bankName,
 		dpNumber,
-		fullName,
 		schemeCode,
 		xRequestId,
 		source = '',
 		mandateId = '',
 		previousOrderId = '', // for previous order deletion
 		previousPGTxnId = '', // for previous order deletion
-		state = {},
 		emailId,
 		mobileNo,
 		netBankingState = {},
@@ -490,51 +602,7 @@ export const netBankingSIPFlow = async (params) => {
 			displayError
 		});
 		showLoading('Redirecting to your Bank');
-		const netBankingResponse = await initiateNetBankingPaymentFunc({
-			amount,
-			accNO,
-			ifscCode,
-			bankName,
-			fullName,
-			xRequestId,
-			source
-		});
-		handleNetBankingResponse({
-			netBankingResponse,
-			stopLoading,
-			displayError,
-			netBankingState
-		});
-		if (isNetBakingPaymentWindowClosed(netBankingState)) {
-			intializeNetBankingState(netBankingState);
-			stopLoading();
-			displayError({
-				heading: 'Payment Cancelled',
-				errorSubHeading:
-					'You have cancelled your payment for this order. Please try again, or use another payment method'
-			});
-			throw new Error('');
-		}
-		netBankingState.paymentWindow.location.replace(netBankingResponse.data?.data?.redirect_url);
-		showLoading('Waiting for payment');
-		await netBankingWindowCloseLogic({
-			netBankingState,
-			resetState: () => intializeNetBankingState(netBankingState)
-		});
-		showLoading('Checking Payment status');
-		const transactionResponse = await transactionRetryLogic({
-			transactionID: netBankingResponse.data?.data?.transaction_id,
-			retryNumber: 0,
-			retries: 5,
-			retryDelay: 1,
-			xRequestId,
-			source,
-			resetState: () => {
-				resetTransactionInterval(state);
-				intializeNetBankingState(netBankingState);
-			},
-			state
-		});
+		const transactionResponse = await getNetbankingResponse(params);
 		const orderPatch = () =>
 			sipOrderPatchFunc({
 				reference_number: transactionResponse?.data?.data?.reference_number,
@@ -556,8 +624,7 @@ export const netBankingSIPFlow = async (params) => {
 					sipId: orderPostResponse?.data?.data?.sipId,
 					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+						transactionResponse?.data?.data?.response_description || transactionFailureMessage,
 					code:
 						transactionResponse?.data?.data?.response_code ||
 						transactionResponse?.data?.error_code ||
@@ -571,8 +638,7 @@ export const netBankingSIPFlow = async (params) => {
 					sipId: orderPostResponse?.data?.data?.sipId,
 					heading: 'Payment Pending',
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+						transactionResponse?.data?.data?.response_description || transactionPendingMessage
 				});
 			}
 		});
@@ -595,21 +661,16 @@ export const netBankingSIPFlow = async (params) => {
 export const netBankingBulkSIPFlow = async (params) => {
 	const {
 		amount,
-		accNO,
 		orders,
 		packId,
 		sipDate,
-		ifscCode,
-		bankName,
 		dpNumber,
-		fullName,
 		xRequestId,
 		source = '',
 		emailId,
 		mobileNo,
 		previousOrderId = '', // for previous order deletion
 		previousPGTxnId = '', // for previous order deletion
-		state = {},
 		netBankingState = {},
 		showLoading = () => undefined,
 		stopLoading = () => undefined,
@@ -654,51 +715,7 @@ export const netBankingBulkSIPFlow = async (params) => {
 			displayError
 		});
 		showLoading('Redirecting to your Bank');
-		const netBankingResponse = await initiateNetBankingPaymentFunc({
-			amount,
-			accNO,
-			ifscCode,
-			bankName,
-			fullName,
-			xRequestId,
-			source
-		});
-		handleNetBankingResponse({
-			netBankingResponse,
-			stopLoading,
-			displayError,
-			netBankingState
-		});
-		if (isNetBakingPaymentWindowClosed(netBankingState)) {
-			intializeNetBankingState(netBankingState);
-			stopLoading();
-			displayError({
-				heading: 'Payment Cancelled',
-				errorSubHeading:
-					'You have cancelled your payment for this order. Please try again, or use another payment method'
-			});
-			throw new Error('');
-		}
-		netBankingState.paymentWindow.location.replace(netBankingResponse.data?.data?.redirect_url);
-		showLoading('Waiting for payment');
-		await netBankingWindowCloseLogic({
-			netBankingState,
-			resetState: () => intializeNetBankingState(netBankingState)
-		});
-		showLoading('Checking Payment status');
-		const transactionResponse = await transactionRetryLogic({
-			transactionID: netBankingResponse.data?.data?.transaction_id,
-			retryNumber: 0,
-			retries: 5,
-			retryDelay: 1,
-			xRequestId,
-			source,
-			resetState: () => {
-				resetTransactionInterval(state);
-				intializeNetBankingState(netBankingState);
-			},
-			state
-		});
+		const transactionResponse = await getNetbankingResponse(params);
 		const orderPatch = () =>
 			sipBulkPatchFunc({
 				reference_number: transactionResponse?.data?.data?.reference_number,
@@ -719,8 +736,7 @@ export const netBankingBulkSIPFlow = async (params) => {
 					bulkRequestId: orderPostResponse?.data?.data?.bulkRequestId,
 					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+						transactionResponse?.data?.data?.response_description || transactionFailureMessage,
 					code:
 						transactionResponse?.data?.data?.response_code ||
 						transactionResponse?.data?.error_code ||
@@ -733,8 +749,7 @@ export const netBankingBulkSIPFlow = async (params) => {
 					bulkRequestId: orderPostResponse?.data?.data?.bulkRequestId,
 					heading: 'Payment Pending',
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+						transactionResponse?.data?.data?.response_description || transactionPendingMessage
 				});
 			}
 		});
@@ -768,13 +783,11 @@ export const upiCartFlow = async (params) => {
 		emailId,
 		mobileNo,
 		upiState = {},
-		state = {},
 		showUPILoading = () => undefined,
 		stopUPILoading = () => undefined,
 		showLoading = () => undefined,
 		stopLoading = () => undefined,
 		displayError = () => undefined,
-		updateUPITimer = () => undefined,
 		onUPIValidationFailure = () => undefined,
 		displayPendingPopup = () => undefined,
 		onStart = () => undefined,
@@ -822,61 +835,7 @@ export const upiCartFlow = async (params) => {
 			xRequestId,
 			source
 		});
-		handleUPIResponse({
-			upiResponse,
-			stopLoading,
-			displayError
-		});
-		stopLoading();
-		upiState.flow = 2;
-		upiState.timer = upiResponse.data?.data?.transaction_validity * 60;
-		upiState.timerInterval = setInterval(() => {
-			if (upiState.timer <= 0) {
-				clearInterval(upiState.timerInterval);
-			}
-			updateUPITimer(upiState.timer - 1);
-		}, 1000);
-		const promiseResponse = await Promise.any([
-			transactionRetryLogic({
-				transactionID: upiResponse.data?.data?.transaction_id,
-				retryNumber: 0,
-				retries: Math.ceil(upiState.timer / 3),
-				retryDelay: 3,
-				xRequestId,
-				source,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeUPIState(upiState);
-				},
-				state
-			}),
-			upiWindowCloseLogic({
-				upiState,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeUPIState(upiState);
-				}
-			})
-		]);
-		let transactionResponse = {};
-		if (promiseResponse === 'WINDOW_CLOSED') {
-			showLoading('Waiting for payment');
-			transactionResponse = await transactionRetryLogic({
-				transactionID: upiResponse.data?.data?.transaction_id,
-				retryNumber: 0,
-				retries: 5,
-				retryDelay: 1,
-				xRequestId,
-				source,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeUPIState(upiState);
-				},
-				state
-			});
-		} else {
-			transactionResponse = promiseResponse;
-		}
+		const transactionResponse = await getUpiResponse({ ...params, upiResponse });
 		const orderPatch = () =>
 			cartPatchFunction({
 				orderId: orderPostResponse?.data?.orderId,
@@ -898,8 +857,7 @@ export const upiCartFlow = async (params) => {
 					orderId: orderPostResponse?.data?.orderId,
 					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+						transactionResponse?.data?.data?.response_description || transactionFailureMessage,
 					code:
 						transactionResponse?.data?.data?.response_code ||
 						transactionResponse?.data?.error_code ||
@@ -912,8 +870,7 @@ export const upiCartFlow = async (params) => {
 					orderId: orderPostResponse?.data?.orderId,
 					heading: 'Payment Pending',
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+						transactionResponse?.data?.data?.response_description || transactionPendingMessage
 				});
 			}
 		});
@@ -958,13 +915,11 @@ export const upiLumpsumFlow = async (params) => {
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
 		upiState = {},
-		state = {},
 		showUPILoading = () => undefined,
 		stopUPILoading = () => undefined,
 		showLoading = () => undefined,
 		stopLoading = () => undefined,
 		displayError = () => undefined,
-		updateUPITimer = () => undefined,
 		onUPIValidationFailure = () => undefined,
 		displayPendingPopup = () => undefined,
 		onSuccess = () => undefined
@@ -1022,61 +977,7 @@ export const upiLumpsumFlow = async (params) => {
 			xRequestId,
 			source
 		});
-		handleUPIResponse({
-			upiResponse,
-			stopLoading,
-			displayError
-		});
-		stopLoading();
-		upiState.flow = 2;
-		upiState.timer = upiResponse.data?.data?.transaction_validity * 60;
-		upiState.timerInterval = setInterval(() => {
-			if (upiState.timer <= 0) {
-				clearInterval(upiState.timerInterval);
-			}
-			updateUPITimer(upiState.timer - 1);
-		}, 1000);
-		const promiseResponse = await Promise.any([
-			transactionRetryLogic({
-				transactionID: upiResponse.data?.data?.transaction_id,
-				retryNumber: 0,
-				retries: Math.ceil(upiState.timer / 3),
-				retryDelay: 3,
-				xRequestId,
-				source,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeUPIState(upiState);
-				},
-				state
-			}),
-			upiWindowCloseLogic({
-				upiState,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeUPIState(upiState);
-				}
-			})
-		]);
-		let transactionResponse = {};
-		if (promiseResponse === 'WINDOW_CLOSED') {
-			showLoading('Waiting for payment');
-			transactionResponse = await transactionRetryLogic({
-				transactionID: upiResponse.data?.data?.transaction_id,
-				retryNumber: 0,
-				retries: 5,
-				retryDelay: 1,
-				xRequestId,
-				source,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeUPIState(upiState);
-				},
-				state
-			});
-		} else {
-			transactionResponse = promiseResponse;
-		}
+		const transactionResponse = await getUpiResponse({ ...params, upiResponse });
 		const orderPatch = () =>
 			lumpsumOrderPatchFunc({
 				reference_number: transactionResponse?.data?.data?.reference_number,
@@ -1097,8 +998,7 @@ export const upiLumpsumFlow = async (params) => {
 					orderId: orderPostResponse?.data?.data?.orderId,
 					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+						transactionResponse?.data?.data?.response_description || transactionFailureMessage,
 					code:
 						transactionResponse?.data?.data?.response_code ||
 						transactionResponse?.data?.error_code ||
@@ -1111,8 +1011,7 @@ export const upiLumpsumFlow = async (params) => {
 					orderId: orderPostResponse?.data?.data?.orderId,
 					heading: 'Payment Pending',
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+						transactionResponse?.data?.data?.response_description || transactionPendingMessage
 				});
 			}
 		});
@@ -1152,13 +1051,11 @@ export const upiSIPFlow = async (params) => {
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
 		upiState = {},
-		state = {},
 		showUPILoading = () => undefined,
 		stopUPILoading = () => undefined,
 		showLoading = () => undefined,
 		stopLoading = () => undefined,
 		displayError = () => undefined,
-		updateUPITimer = () => undefined,
 		onUPIValidationFailure = () => undefined,
 		displayPendingPopup = () => undefined,
 		onSuccess = () => undefined,
@@ -1242,61 +1139,7 @@ export const upiSIPFlow = async (params) => {
 			xRequestId,
 			source
 		});
-		handleUPIResponse({
-			upiResponse,
-			stopLoading,
-			displayError
-		});
-		stopLoading();
-		upiState.flow = 2;
-		upiState.timer = upiResponse.data?.data?.transaction_validity * 60;
-		upiState.timerInterval = setInterval(() => {
-			if (upiState.timer <= 0) {
-				clearInterval(upiState.timerInterval);
-			}
-			updateUPITimer(upiState.timer - 1);
-		}, 1000);
-		const promiseResponse = await Promise.any([
-			transactionRetryLogic({
-				transactionID: upiResponse.data?.data?.transaction_id,
-				retryNumber: 0,
-				retries: Math.ceil(upiState.timer / 3),
-				retryDelay: 3,
-				xRequestId,
-				source,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeUPIState(upiState);
-				},
-				state
-			}),
-			upiWindowCloseLogic({
-				upiState,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeUPIState(upiState);
-				}
-			})
-		]);
-		let transactionResponse = {};
-		if (promiseResponse === 'WINDOW_CLOSED') {
-			showLoading('Waiting for payment');
-			transactionResponse = await transactionRetryLogic({
-				transactionID: upiResponse.data?.data?.transaction_id,
-				retryNumber: 0,
-				retries: 5,
-				retryDelay: 1,
-				xRequestId,
-				source,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeUPIState(upiState);
-				},
-				state
-			});
-		} else {
-			transactionResponse = promiseResponse;
-		}
+		const transactionResponse = await getUpiResponse({ ...params, upiResponse });
 		const orderPatch = () =>
 			sipOrderPatchFunc({
 				reference_number: transactionResponse?.data?.data?.reference_number,
@@ -1318,8 +1161,7 @@ export const upiSIPFlow = async (params) => {
 					sipId: orderPostResponse?.data?.data?.sipId,
 					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+						transactionResponse?.data?.data?.response_description || transactionFailureMessage,
 					code:
 						transactionResponse?.data?.data?.response_code ||
 						transactionResponse?.data?.error_code ||
@@ -1333,8 +1175,7 @@ export const upiSIPFlow = async (params) => {
 					sipId: orderPostResponse?.data?.data?.sipId,
 					heading: 'Payment Pending',
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+						transactionResponse?.data?.data?.response_description || transactionPendingMessage
 				});
 			}
 		});
@@ -1560,8 +1401,7 @@ export const upiIntegeratedFlow = async (params) => {
 					sipId: orderPostResponse?.data?.data?.sipId,
 					heading: 'SIP Setup Pending',
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+						transactionResponse?.data?.data?.response_description || transactionPendingMessage
 				});
 			}
 		});
@@ -1612,13 +1452,11 @@ export const upiBulkSIPFlow = async (params) => {
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
 		upiState = {},
-		state = {},
 		showUPILoading = () => undefined,
 		stopUPILoading = () => undefined,
 		showLoading = () => undefined,
 		stopLoading = () => undefined,
 		displayError = () => undefined,
-		updateUPITimer = () => undefined,
 		onUPIValidationFailure = () => undefined,
 		displayPendingPopup = () => undefined,
 		onSuccess = () => undefined
@@ -1682,61 +1520,7 @@ export const upiBulkSIPFlow = async (params) => {
 			xRequestId,
 			source
 		});
-		handleUPIResponse({
-			upiResponse,
-			stopLoading,
-			displayError
-		});
-		stopLoading();
-		upiState.flow = 2;
-		upiState.timer = upiResponse.data?.data?.transaction_validity * 60;
-		upiState.timerInterval = setInterval(() => {
-			if (upiState.timer <= 0) {
-				clearInterval(upiState.timerInterval);
-			}
-			updateUPITimer(upiState.timer - 1);
-		}, 1000);
-		const promiseResponse = await Promise.any([
-			transactionRetryLogic({
-				transactionID: upiResponse.data?.data?.transaction_id,
-				retryNumber: 0,
-				retries: Math.ceil(upiState.timer / 3),
-				retryDelay: 3,
-				xRequestId,
-				source,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeUPIState(upiState);
-				},
-				state
-			}),
-			upiWindowCloseLogic({
-				upiState,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeUPIState(upiState);
-				}
-			})
-		]);
-		let transactionResponse = {};
-		if (promiseResponse === 'WINDOW_CLOSED') {
-			showLoading('Waiting for payment');
-			transactionResponse = await transactionRetryLogic({
-				transactionID: upiResponse.data?.data?.transaction_id,
-				retryNumber: 0,
-				retries: 5,
-				retryDelay: 1,
-				xRequestId,
-				source,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeUPIState(upiState);
-				},
-				state
-			});
-		} else {
-			transactionResponse = promiseResponse;
-		}
+		const transactionResponse = await getUpiResponse({ ...params, upiResponse });
 		const orderPatch = () =>
 			sipBulkPatchFunc({
 				reference_number: transactionResponse?.data?.data?.reference_number,
@@ -1757,8 +1541,7 @@ export const upiBulkSIPFlow = async (params) => {
 					bulkRequestId: orderPostResponse?.data?.data?.bulkRequestId,
 					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+						transactionResponse?.data?.data?.response_description || transactionFailureMessage,
 					code:
 						transactionResponse?.data?.data?.response_code ||
 						transactionResponse?.data?.error_code ||
@@ -1771,8 +1554,7 @@ export const upiBulkSIPFlow = async (params) => {
 					bulkRequestId: orderPostResponse?.data?.data?.bulkRequestId,
 					heading: 'Payment Pending',
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+						transactionResponse?.data?.data?.response_description || transactionPendingMessage
 				});
 			}
 		});
@@ -1807,7 +1589,6 @@ export const walletCartFlow = async (params) => {
 		emailId,
 		mobileNo,
 		gpayPaymentState = {},
-		state = {},
 		showLoading = () => undefined,
 		stopLoading = () => undefined,
 		displayError = () => undefined,
@@ -1845,60 +1626,7 @@ export const walletCartFlow = async (params) => {
 			source,
 			apiName: paymentModeAPIName
 		});
-		handleUPIResponse({
-			upiResponse: walletResponse,
-			stopLoading,
-			displayError
-		});
-		const redirectUrl = walletResponse.data?.data?.ios_deeplink_url;
-		showLoading('Waiting for payment');
-		window.open(redirectUrl, '_self');
-		const promiseResponse = await Promise.any([
-			transactionRetryLogic({
-				transactionID: walletResponse.data?.data?.transaction_id,
-				retryNumber: 0,
-				retries: Math.ceil((walletResponse.data?.data?.transaction_validity * 60) / 3),
-				retryDelay: 3,
-				xRequestId,
-				source,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeGPayState(gpayPaymentState);
-				},
-				state
-			}),
-			googlePayCloseLogic({
-				gpayPaymentState,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeGPayState(gpayPaymentState);
-				},
-				paymentModeName,
-				transactionRefNumber: walletResponse.data?.data?.transaction_id,
-				xRequestId,
-				source,
-				showLoading
-			})
-		]);
-		let transactionResponse = {};
-		if (promiseResponse === 'WINDOW_CLOSED') {
-			showLoading('Waiting for payment');
-			transactionResponse = await transactionRetryLogic({
-				transactionID: walletResponse.data?.data?.transaction_id,
-				retryNumber: 0,
-				retries: 5,
-				retryDelay: 1,
-				xRequestId,
-				source,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeGPayState(gpayPaymentState);
-				},
-				state
-			});
-		} else {
-			transactionResponse = promiseResponse;
-		}
+		const transactionResponse = await getWalletResponse({ ...params, walletResponse });
 		const orderPatch = () =>
 			cartPatchFunction({
 				orderId: orderPostResponse?.data?.orderId,
@@ -1920,8 +1648,7 @@ export const walletCartFlow = async (params) => {
 					orderId: orderPostResponse?.data?.orderId,
 					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+						transactionResponse?.data?.data?.response_description || transactionFailureMessage,
 					code:
 						transactionResponse?.data?.data?.response_code ||
 						transactionResponse?.data?.error_code ||
@@ -1934,8 +1661,7 @@ export const walletCartFlow = async (params) => {
 					orderId: orderPostResponse?.data?.orderId,
 					heading: 'Payment Pending',
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+						transactionResponse?.data?.data?.response_description || transactionPendingMessage
 				});
 			}
 		});
@@ -1981,7 +1707,6 @@ export const walletLumpsumFlow = async (params) => {
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
 		gpayPaymentState = {},
-		state = {},
 		showLoading = () => undefined,
 		stopLoading = () => undefined,
 		displayError = () => undefined,
@@ -2029,60 +1754,7 @@ export const walletLumpsumFlow = async (params) => {
 			source,
 			apiName: paymentModeAPIName
 		});
-		handleUPIResponse({
-			upiResponse: walletResponse,
-			stopLoading,
-			displayError
-		});
-		const redirectUrl = walletResponse.data?.data?.ios_deeplink_url;
-		showLoading('Waiting for payment');
-		window.open(redirectUrl, '_self');
-		const promiseResponse = await Promise.any([
-			transactionRetryLogic({
-				transactionID: walletResponse.data?.data?.transaction_id,
-				retryNumber: 0,
-				retries: Math.ceil((walletResponse.data?.data?.transaction_validity * 60) / 3),
-				retryDelay: 3,
-				xRequestId,
-				source,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeGPayState(gpayPaymentState);
-				},
-				state
-			}),
-			googlePayCloseLogic({
-				gpayPaymentState,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeGPayState(gpayPaymentState);
-				},
-				paymentModeName,
-				transactionRefNumber: walletResponse.data?.data?.transaction_id,
-				xRequestId,
-				source,
-				showLoading
-			})
-		]);
-		let transactionResponse = {};
-		if (promiseResponse === 'WINDOW_CLOSED') {
-			showLoading('Waiting for payment');
-			transactionResponse = await transactionRetryLogic({
-				transactionID: walletResponse.data?.data?.transaction_id,
-				retryNumber: 0,
-				retries: 5,
-				retryDelay: 1,
-				xRequestId,
-				source,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeGPayState(gpayPaymentState);
-				},
-				state
-			});
-		} else {
-			transactionResponse = promiseResponse;
-		}
+		const transactionResponse = await getWalletResponse({ ...params, walletResponse });
 		const orderPatch = () =>
 			lumpsumOrderPatchFunc({
 				reference_number: transactionResponse?.data?.data?.reference_number,
@@ -2103,8 +1775,7 @@ export const walletLumpsumFlow = async (params) => {
 					orderId: orderPostResponse?.data?.data?.orderId,
 					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+						transactionResponse?.data?.data?.response_description || transactionFailureMessage,
 					code:
 						transactionResponse?.data?.data?.response_code ||
 						transactionResponse?.data?.error_code ||
@@ -2117,8 +1788,7 @@ export const walletLumpsumFlow = async (params) => {
 					orderId: orderPostResponse?.data?.data?.orderId,
 					heading: 'Payment Pending',
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+						transactionResponse?.data?.data?.response_description || transactionPendingMessage
 				});
 			}
 		});
@@ -2159,7 +1829,6 @@ export const walletSIPFlow = async (params) => {
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
 		gpayPaymentState = {},
-		state = {},
 		showLoading = () => undefined,
 		stopLoading = () => undefined,
 		displayError = () => undefined,
@@ -2222,60 +1891,7 @@ export const walletSIPFlow = async (params) => {
 			source,
 			apiName: paymentModeAPIName
 		});
-		handleUPIResponse({
-			upiResponse: walletResponse,
-			stopLoading,
-			displayError
-		});
-		const redirectUrl = walletResponse.data?.data?.ios_deeplink_url;
-		showLoading('Waiting for payment');
-		window.open(redirectUrl, '_self');
-		const promiseResponse = await Promise.any([
-			transactionRetryLogic({
-				transactionID: walletResponse.data?.data?.transaction_id,
-				retryNumber: 0,
-				retries: Math.ceil((walletResponse.data?.data?.transaction_validity * 60) / 3),
-				retryDelay: 3,
-				xRequestId,
-				source,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeGPayState(gpayPaymentState);
-				},
-				state
-			}),
-			googlePayCloseLogic({
-				gpayPaymentState,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeGPayState(gpayPaymentState);
-				},
-				paymentModeName,
-				transactionRefNumber: walletResponse.data?.data?.transaction_id,
-				xRequestId,
-				source,
-				showLoading
-			})
-		]);
-		let transactionResponse = {};
-		if (promiseResponse === 'WINDOW_CLOSED') {
-			showLoading('Waiting for payment');
-			transactionResponse = await transactionRetryLogic({
-				transactionID: walletResponse.data?.data?.transaction_id,
-				retryNumber: 0,
-				retries: 5,
-				retryDelay: 1,
-				xRequestId,
-				source,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeGPayState(gpayPaymentState);
-				},
-				state
-			});
-		} else {
-			transactionResponse = promiseResponse;
-		}
+		const transactionResponse = await getWalletResponse({ ...params, walletResponse });
 		const orderPatch = () =>
 			sipOrderPatchFunc({
 				reference_number: transactionResponse?.data?.data?.reference_number,
@@ -2297,8 +1913,7 @@ export const walletSIPFlow = async (params) => {
 					sipId: orderPostResponse?.data?.data?.sipId,
 					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+						transactionResponse?.data?.data?.response_description || transactionFailureMessage,
 					code:
 						transactionResponse?.data?.data?.response_code ||
 						transactionResponse?.data?.error_code ||
@@ -2312,8 +1927,7 @@ export const walletSIPFlow = async (params) => {
 					sipId: orderPostResponse?.data?.data?.sipId,
 					heading: 'Payment Pending',
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+						transactionResponse?.data?.data?.response_description || transactionPendingMessage
 				});
 			}
 		});
@@ -2353,7 +1967,6 @@ export const walletBulkSIPFlow = async (params) => {
 		previousOrderId, // for previous order deletion
 		previousPGTxnId, // for previous order deletion
 		gpayPaymentState = {},
-		state = {},
 		showLoading = () => undefined,
 		stopLoading = () => undefined,
 		displayError = () => undefined,
@@ -2403,60 +2016,7 @@ export const walletBulkSIPFlow = async (params) => {
 			source,
 			apiName: paymentModeAPIName
 		});
-		handleUPIResponse({
-			upiResponse: walletResponse,
-			stopLoading,
-			displayError
-		});
-		const redirectUrl = walletResponse.data?.data?.ios_deeplink_url;
-		showLoading('Waiting for payment');
-		window.open(redirectUrl, '_self');
-		const promiseResponse = await Promise.any([
-			transactionRetryLogic({
-				transactionID: walletResponse.data?.data?.transaction_id,
-				retryNumber: 0,
-				retries: Math.ceil((walletResponse.data?.data?.transaction_validity * 60) / 3),
-				retryDelay: 3,
-				xRequestId,
-				source,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeGPayState(gpayPaymentState);
-				},
-				state
-			}),
-			googlePayCloseLogic({
-				gpayPaymentState,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeGPayState(gpayPaymentState);
-				},
-				paymentModeName,
-				transactionRefNumber: walletResponse.data?.data?.transaction_id,
-				xRequestId,
-				source,
-				showLoading
-			})
-		]);
-		let transactionResponse = {};
-		if (promiseResponse === 'WINDOW_CLOSED') {
-			showLoading('Waiting for payment');
-			transactionResponse = await transactionRetryLogic({
-				transactionID: walletResponse.data?.data?.transaction_id,
-				retryNumber: 0,
-				retries: 5,
-				retryDelay: 1,
-				xRequestId,
-				source,
-				resetState: () => {
-					resetTransactionInterval(state);
-					initializeGPayState(gpayPaymentState);
-				},
-				state
-			});
-		} else {
-			transactionResponse = promiseResponse;
-		}
+		const transactionResponse = await getWalletResponse({ ...params, walletResponse });
 		const orderPatch = () =>
 			sipBulkPatchFunc({
 				reference_number: transactionResponse?.data?.data?.reference_number,
@@ -2477,8 +2037,7 @@ export const walletBulkSIPFlow = async (params) => {
 					bulkRequestId: orderPostResponse?.data?.data?.bulkRequestId,
 					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+						transactionResponse?.data?.data?.response_description || transactionFailureMessage,
 					code:
 						transactionResponse?.data?.data?.response_code ||
 						transactionResponse?.data?.error_code ||
@@ -2491,8 +2050,7 @@ export const walletBulkSIPFlow = async (params) => {
 					bulkRequestId: orderPostResponse?.data?.data?.bulkRequestId,
 					heading: 'Payment Pending',
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+						transactionResponse?.data?.data?.response_description || transactionPendingMessage
 				});
 			}
 		});
@@ -2704,8 +2262,7 @@ export const walletIntegeratedFlow = async (params) => {
 					sipId: orderPostResponse?.data?.data?.sipId,
 					heading: `Payment of ₹${addCommasToAmountString(amount)} Failed`,
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						'If money has been debited from your bank account, please do not worry. It will be refunded automatically',
+						transactionResponse?.data?.data?.response_description || transactionFailureMessage,
 					code:
 						transactionResponse?.data?.data?.response_code ||
 						transactionResponse?.data?.error_code ||
@@ -2720,8 +2277,7 @@ export const walletIntegeratedFlow = async (params) => {
 					sipId: orderPostResponse?.data?.data?.sipId,
 					heading: 'Payment Pending',
 					errorSubHeading:
-						transactionResponse?.data?.data?.response_description ||
-						"We're confirming the status of your payment. This usually takes a few minutes. We will notify you once we have an update."
+						transactionResponse?.data?.data?.response_description || transactionPendingMessage
 				});
 			}
 		});

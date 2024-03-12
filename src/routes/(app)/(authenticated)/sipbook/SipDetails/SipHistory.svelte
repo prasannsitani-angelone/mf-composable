@@ -7,7 +7,6 @@
 	import { base } from '$app/paths';
 	import SipTransactions from './SipTransactions.svelte';
 	import WmsIcon from '$components/WMSIcon.svelte';
-	import { getRGBACssVar } from '$lib/utils/colors';
 	let sipId: number;
 	let sipOrderHistory: Array<ISipOrderHistory>;
 	let sipCreatedTs: number;
@@ -119,8 +118,7 @@
 				<article>
 					<div class="flex items-center font-normal">
 						<span
-							style="background-color: {getRGBACssVar('--BUY', 0.1)}"
-							class="mr-1 flex h-5 w-5 items-center justify-center rounded-full text-xs text-buy"
+							class="mr-1 flex h-5 w-5 items-center justify-center rounded-full bg-tint12-buy text-xs text-buy"
 							class:px-1.5={successfulTxns}
 						>
 							{successfulTxns}
@@ -145,8 +143,7 @@
 							<span class="mr-2 text-sm text-body"> Edited </span>
 						{/if}
 						<span
-							style="background-color: {getRGBACssVar('--SELL', 0.1)}"
-							class="mr-1 flex h-5 w-5 items-center justify-center rounded-full text-xs text-sell"
+							class="mr-1 flex h-5 w-5 items-center justify-center rounded-full bg-tint12-sell text-xs text-sell"
 							class:px-1.5={failedTxns}
 						>
 							{failedTxns}

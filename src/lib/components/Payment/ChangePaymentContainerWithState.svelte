@@ -12,15 +12,18 @@
 	import UpiTransactionPopup from './UPITransactionPopup.svelte';
 
 	import { browser } from '$app/environment';
-	import logger from '$lib/utils/logger';
 	import { v4 as uuidv4 } from 'uuid';
-	import {
-		closeNetBankingPaymentWindow,
-		initializeGPayState,
-		initializeUPIState,
-		intializeNetBankingState
-	} from './util';
 	import { WMSIcon } from 'svelte-components';
+	import {
+		intializeNetBankingState,
+		listenerFunc,
+		type NetBankingStateType
+	} from '$components/Payment/CommonHandling/netbanking';
+	import { initializeUPIState, type UpiStateType } from '$components/Payment/CommonHandling/upi';
+	import {
+		initializeGPayState,
+		type WalletPaymentStateType
+	} from '$components/Payment/CommonHandling/wallet';
 
 	export let amount: string;
 	export let requestId: string;
@@ -63,39 +66,29 @@
 	const state = {
 		interval: null
 	};
-	const upiState = {
+	const upiState: UpiStateType = {
 		flow: 0,
 		timer: 0,
 		timerInterval: null,
 		paymentWindowInterval: null
 	};
-	const netBankingState = {
+	const netBankingState: NetBankingStateType = {
 		paymentWindow: null,
 		paymentWindowInterval: null
 	};
-	const gpayPaymentState = {
+	const gpayPaymentState: WalletPaymentStateType = {
 		paymentWindowInterval: null,
 		waitTime: 10
 	};
 
-	const listenerFunc = (event) => {
-		if (location.origin === event?.origin && event?.data?.source === 'paymentCallback') {
-			logger.debug({
-				type: 'Payment Redirection Response',
-				params: event?.data
-			});
-			closeNetBankingPaymentWindow(netBankingState);
-		}
-	};
-
 	onMount(() => {
-		window.addEventListener('message', listenerFunc);
+		window.addEventListener('message', (event) => listenerFunc(event, netBankingState));
 	});
 
 	onDestroy(() => {
 		resetState();
 		if (browser) {
-			window.removeEventListener('message', listenerFunc, false);
+			window.removeEventListener('message', (event) => listenerFunc(event, netBankingState), false);
 		}
 		clearInputPaymentError();
 	});
