@@ -94,6 +94,7 @@
 			getWeeklyTopSchemes();
 		}
 		addFundsScreenImpressionEvent();
+		toggleAddFunds();
 	});
 
 	const checkSchemeAlreadySelected = (scheme: SchemeDetails) => {
