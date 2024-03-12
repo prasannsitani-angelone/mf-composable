@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { createEventDispatcher, onMount } from 'svelte';
 	import Link from '$components/Link.svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 
@@ -8,6 +9,12 @@
 	export let liveNFO = 0;
 	export let preloadData = 'hover';
 	export let onLinkClicked: () => void = () => undefined;
+
+	const dispatch = createEventDispatcher();
+
+	onMount(() => {
+		dispatch('entryCardMounted');
+	});
 </script>
 
 <Link {to} {preloadData} on:linkClicked={onLinkClicked}>

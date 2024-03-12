@@ -14,10 +14,21 @@
 	import { format } from 'date-fns';
 	import type { IDueSips, ISip } from '$lib/types/ISipType';
 	import {
+		cartEntryClickAnalytics,
+		cartEntryImpressionAnalytics,
 		homepageMultipleSipPaymentDueNudgeImpressionAnalytics,
 		homepageNfoClickAnalytics,
 		homepageSipPaymentDueNudgeImpressionAnalytics,
-		sHomepage
+		nfoEntryImpressionAnalytics,
+		sHomepage,
+		setupAutopayCardCtaClickAnalytics,
+		setupAutopayCardImpressionAnalytics,
+		sipDueCardCtaClickAnalytics,
+		sipDueCardImpressionAnalytics,
+		sipDueCardSlideAnalytics,
+		sipMissedCardCtaClickAnalytics,
+		sipMissedCardImpressionAnalytics,
+		sipMissedCardSlideAnalytics
 	} from '$lib/analytics/DiscoverFunds';
 	import type { PageData } from './$types';
 	import type { StoriesData } from '$lib/types/IStories';
@@ -73,6 +84,7 @@
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { SIP_ORDER_CARD_TYPES } from '$lib/constants/actions';
 	import { getPendingActionsData } from '$lib/api/actions';
+	import { getDateTimeString } from '$lib/utils/helpers/date';
 	import { getStoriesData } from '$lib/api/media';
 
 	$: isLoggedInUser = !data?.isGuest;
@@ -448,6 +460,95 @@
 		schemeScreenerStore?.reinitializeStore();
 		cartStore.updateCartData(isGuest);
 	};
+
+	const getSipDueDateMetadata = (orderDate: number) => {
+		const today = new Date();
+		const inputDate = new Date(orderDate * 1000);
+		if (today?.toDateString() === inputDate?.toDateString()) {
+			return 'Due Today';
+		} else {
+			return `Due on ${getDateTimeString(orderDate * 1000)}`;
+		}
+	};
+
+	const nfoEntryImpressionAnalyticsFunc = () => {
+		const eventMetaData = {
+			NumberOfNFO: openNfo || 0
+		};
+
+		nfoEntryImpressionAnalytics(eventMetaData);
+	};
+
+	const sipDueCardImpressionAnalyticsFunc = () => {
+		const sipListMetaData = (actionsData?.instalmentPending || [])?.map((item, index) => {
+			return {
+				FundIndex: index,
+				FundName: item?.schemeName,
+				Amount: item?.amount,
+				DueStatus: getSipDueDateMetadata(item?.orderDate)
+			};
+		});
+
+		const eventMetaData = {
+			SIPcount: (actionsData?.instalmentPending || [])?.length,
+			SIPs: sipListMetaData
+		};
+
+		sipDueCardImpressionAnalytics(eventMetaData);
+	};
+
+	const sipDueCardCtaClickAnalyticsFunc = (currentIndex: number) => {
+		const currentIndexSip = actionsData?.instalmentPending[currentIndex];
+
+		const eventMetaData = {
+			FundIndex: currentIndex,
+			FundName: currentIndexSip?.schemeName,
+			Amount: currentIndexSip?.amount,
+			DueStatus: getSipDueDateMetadata(currentIndexSip?.orderDate)
+		};
+
+		sipDueCardCtaClickAnalytics(eventMetaData);
+	};
+
+	const sipMissedCardImpressionAnalyticsFunc = () => {
+		const sipListMetaData = (actionsData?.instalmentFailedOrders || [])?.map((item, index) => {
+			return {
+				FundIndex: index,
+				FundName: item?.schemeName,
+				Amount: item?.amount,
+				DueStatus: `Overdue`
+			};
+		});
+
+		const eventMetaData = {
+			SIPcount: (actionsData?.instalmentPending || [])?.length,
+			SIPs: sipListMetaData
+		};
+
+		sipMissedCardImpressionAnalytics(eventMetaData);
+	};
+
+	const sipMissedCardCtaClickAnalyticsFunc = (currentIndex: number) => {
+		const currentIndexSip = actionsData?.instalmentFailedOrders[currentIndex];
+
+		const eventMetaData = {
+			FundIndex: currentIndex,
+			FundName: currentIndexSip?.schemeName,
+			Amount: currentIndexSip?.amount,
+			DueStatus: `Overdue`
+		};
+
+		sipMissedCardCtaClickAnalytics(eventMetaData);
+	};
+
+	const setupAutopayCardImpressionAnalyticsFunc = (heading: string) => {
+		const eventMetaData = {
+			Heading: heading || '',
+			Text: 'Your SIP Installments will not be autopaid'
+		};
+
+		setupAutopayCardImpressionAnalytics(eventMetaData);
+	};
 </script>
 
 <SEO
@@ -628,6 +729,8 @@
 		<SetupAutopayCard
 			sipPendingCount={autopayNudge?.data?.sipCount}
 			sipTotalAmount={autopayNudge?.amount}
+			on:autopayCardMount={(e) => setupAutopayCardImpressionAnalyticsFunc(e?.detail)}
+			on:autopayCardClick={setupAutopayCardCtaClickAnalytics}
 			class="row-start-{placementMapping?.setupAutopay?.rowStart} col-start-{placementMapping
 				?.setupAutopay?.columnStart} {placementMapping?.setupAutopay?.rowStart > 1 ? 'mt-2' : ''}"
 		/>
@@ -636,8 +739,11 @@
 	{#if placementMapping?.sipPaymentDue}
 		<PaymentOrderCard
 			sipList={actionsData?.instalmentPending || []}
-			on:buttonClick={(e) => handlePendingSipPaymentClick(e?.detail)}
 			cardType={SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_DUE}
+			on:buttonClick={(e) => handlePendingSipPaymentClick(e?.detail)}
+			on:paymentOrderCardMount={sipDueCardImpressionAnalyticsFunc}
+			on:paymentOrderCardSlide={sipDueCardSlideAnalytics}
+			on:paymentOrderCardItemClick={(e) => sipDueCardCtaClickAnalyticsFunc(e?.detail)}
 			class="row-start-{placementMapping?.sipPaymentDue?.rowStart} col-start-{placementMapping
 				?.sipPaymentDue?.columnStart} {placementMapping?.sipPaymentDue?.rowStart > 1 ? 'mt-2' : ''}"
 		/>
@@ -646,8 +752,11 @@
 	{#if placementMapping?.sipPaymentMissed}
 		<PaymentOrderCard
 			sipList={actionsData?.instalmentFailedOrders || []}
-			on:buttonClick={(e) => handleFailedSipPaymentClick(e?.detail)}
 			cardType={SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_MISSED}
+			on:buttonClick={(e) => handleFailedSipPaymentClick(e?.detail)}
+			on:paymentOrderCardMount={sipMissedCardImpressionAnalyticsFunc}
+			on:paymentOrderCardSlide={sipMissedCardSlideAnalytics}
+			on:paymentOrderCardItemClick={(e) => sipMissedCardCtaClickAnalyticsFunc(e?.detail)}
 			class="row-start-{placementMapping?.sipPaymentMissed?.rowStart} col-start-{placementMapping
 				?.sipPaymentMissed?.columnStart} {placementMapping?.sipPaymentMissed?.rowStart > 1
 				? 'mt-2'
@@ -673,7 +782,11 @@
 	{/if}
 
 	<!-- Cart New Entry Point -->
-	<CartEntry cartItemCount={$cartStore.count} />
+	<CartEntry
+		cartItemCount={$cartStore.count}
+		on:cartEntryMount={() => cartEntryImpressionAnalytics({ NoOfItems: $cartStore.count })}
+		on:cartEntryClick={() => cartEntryClickAnalytics({ NoOfItems: $cartStore.count })}
+	/>
 
 	<!-- 9. Quick Entry Points - External Funds, NFO, Calculator -->
 	{#if placementMapping?.quickEntryPoints}
@@ -700,6 +813,7 @@
 				to="/nfo"
 				class="rounded-t-lg"
 				subtitleClass="text-xs font-normal text-body"
+				on:entryCardMounted={nfoEntryImpressionAnalyticsFunc}
 			>
 				<div
 					slot="icon"
@@ -810,6 +924,8 @@
 				<SetupAutopayCard
 					sipPendingCount={autopayNudge?.data?.sipCount}
 					sipTotalAmount={autopayNudge?.amount}
+					on:autopayCardMount={(e) => setupAutopayCardImpressionAnalyticsFunc(e?.detail)}
+					on:autopayCardClick={setupAutopayCardCtaClickAnalytics}
 					class="row-start-{placementMapping?.setupAutopay?.rowStart} col-start-{placementMapping
 						?.setupAutopay?.columnStart} {placementMapping?.setupAutopay?.rowStart > 1
 						? 'mt-2'
@@ -819,8 +935,11 @@
 			{#if placementMapping?.sipPaymentDue}
 				<PaymentOrderCard
 					sipList={actionsData?.instalmentPending || []}
-					on:buttonClick={(e) => handlePendingSipPaymentClick(e?.detail)}
 					cardType={SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_DUE}
+					on:buttonClick={(e) => handlePendingSipPaymentClick(e?.detail)}
+					on:paymentOrderCardMount={sipDueCardImpressionAnalyticsFunc}
+					on:paymentOrderCardSlide={sipDueCardSlideAnalytics}
+					on:paymentOrderCardItemClick={(e) => sipDueCardCtaClickAnalyticsFunc(e?.detail)}
 					class="row-start-{placementMapping?.sipPaymentDue?.rowStart} col-start-{placementMapping
 						?.sipPaymentDue?.columnStart} {placementMapping?.sipPaymentDue?.rowStart > 1
 						? 'mt-2'
@@ -832,6 +951,9 @@
 				<PaymentOrderCard
 					sipList={actionsData?.instalmentFailedOrders || []}
 					on:buttonClick={(e) => handleFailedSipPaymentClick(e?.detail)}
+					on:paymentOrderCardMount={sipMissedCardImpressionAnalyticsFunc}
+					on:paymentOrderCardSlide={sipMissedCardSlideAnalytics}
+					on:paymentOrderCardItemClick={(e) => sipMissedCardCtaClickAnalyticsFunc(e?.detail)}
 					cardType={SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_MISSED}
 					class="row-start-{placementMapping?.sipPaymentMissed
 						?.rowStart} col-start-{placementMapping?.sipPaymentMissed

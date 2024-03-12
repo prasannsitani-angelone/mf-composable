@@ -6,6 +6,9 @@
 	import { base } from '$app/paths';
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import { encodeObject } from '$lib/utils/helpers/params';
+	import { createEventDispatcher, onMount } from 'svelte';
+
+	const dispatch = createEventDispatcher();
 
 	let sipPendingCount = 0;
 	let sipTotalAmount = 0;
@@ -13,12 +16,23 @@
 	$: bankDetails = $profileStore?.bankDetails;
 
 	const redirectToSetupAutopay = () => {
+		dispatch('autopayCardClick');
+
 		const params = encodeObject({
 			acc: bankDetails?.[0]?.accNO
 		});
 
 		modifiedGoto(`${base}/autopay/manage/setup?params=${params}`);
 	};
+
+	const getHeading = () =>
+		`${sipPendingCount} SIP${sipPendingCount > 1 ? 's' : ''} worth ₹${addCommasToAmountString(
+			sipTotalAmount?.toFixed(0)
+		)} at risk`;
+
+	onMount(() => {
+		dispatch('autopayCardMount', getHeading());
+	});
 
 	export { sipPendingCount, sipTotalAmount };
 </script>
@@ -33,9 +47,7 @@
 		<section class="flex items-center">
 			<WMSIcon name="exclamation-circle-solid" width={28} height={28} stroke="var(--SELL)" />
 			<div class="ml-1 text-base font-medium text-title">
-				{sipPendingCount} SIP{sipPendingCount > 1 ? 's' : ''} worth ₹{addCommasToAmountString(
-					sipTotalAmount?.toFixed(0)
-				)} at risk
+				{getHeading()}
 			</div>
 		</section>
 

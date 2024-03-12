@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import Button from '$components/Button.svelte';
 	import { BtnVariant, WMSIcon, addCommasToAmountString } from 'svelte-components';
@@ -57,7 +57,18 @@
 	const handleCardVisible = (event: CustomEvent) => {
 		currentIndex = event?.detail?.index || 0;
 		setTag();
+		dispatch('paymentOrderCardSlide', currentIndex);
 	};
+
+	const handleCarouselItemClick = (currentIndex: number) => {
+		dispatch('paymentOrderCardItemClick', currentIndex);
+	};
+
+	onMount(() => {
+		if (sipList?.length) {
+			dispatch('paymentOrderCardMount');
+		}
+	});
 
 	$: setTitle(), sipList;
 	$: setTag(), sipList;
@@ -96,7 +107,12 @@
 				id={cardType}
 			>
 				{#each sipList || [] as sip, index}
-					<CarouselItem class="max-h-14 max-w-full" {index} id={cardType}>
+					<CarouselItem
+						class="max-h-14 max-w-full"
+						{index}
+						id={cardType}
+						on:click={() => handleCarouselItemClick(index)}
+					>
 						<section class="mt-2">
 							<slot name="tag">
 								<div class={tagClass}>

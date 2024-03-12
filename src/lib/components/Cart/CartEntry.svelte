@@ -1,14 +1,22 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import { BtnVariant, WMSIcon } from 'svelte-components';
 	import { Button } from 'svelte-components';
+
+	const dispatch = createEventDispatcher();
 
 	let cartItemCount = 0;
 
 	const handleCartEntryClick = () => {
+		dispatch('cartEntryClick');
 		goto(`${base}/cart`);
 	};
+
+	onMount(() => {
+		dispatch('cartEntryMount');
+	});
 
 	export { cartItemCount };
 </script>
