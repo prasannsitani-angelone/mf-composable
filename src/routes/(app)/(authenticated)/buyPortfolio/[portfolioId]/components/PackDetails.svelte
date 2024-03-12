@@ -7,17 +7,23 @@
 	import PortfolioAllocation from './PortfolioAllocation.svelte';
 	import PortfolioInput from './PortfolioInput.svelte';
 	import ProjectedReturns from './ProjectedReturns.svelte';
+	import { modifiedGoto } from '$lib/utils/goto';
+	import { base } from '$app/paths';
 
 	export let portfolioPack: PortfolioPack;
 	export let amount: number;
 	export let date: number;
 	export let showInputPopup = false;
 	export let requestId = '';
+	export let fromHomePage = false;
 
 	let showChevron = false;
 	let showWeightage = true;
 
 	const toggleInput = () => {
+		if (fromHomePage) {
+			modifiedGoto(`${base}/discoverfunds`);
+		}
 		showInputPopup = !showInputPopup;
 		if (showInputPopup) {
 			let funds = '';

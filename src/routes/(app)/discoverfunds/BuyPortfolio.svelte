@@ -13,6 +13,10 @@
 	import Modal from '$components/Modal.svelte';
 	import PortfolioInput from '../(authenticated)/buyPortfolio/[portfolioId]/components/PortfolioInput.svelte';
 	import type { PortfolioPack, Scheme } from '$lib/types/IBuyPortfolio';
+	import { appStore } from '$lib/stores/SparkStore';
+	import { modifiedGoto } from '$lib/utils/goto';
+	import { base } from '$app/paths';
+	import { encodeObject } from '$lib/utils/helpers/params';
 
 	export let portfolios: PortfolioPack[];
 	let carouselInActive = false;
@@ -23,8 +27,13 @@
 
 	const goToBuyPortfolio = (portfolio: PortfolioPack) => {
 		buildPortfolioCardClicked();
-		selectedPortfolio = portfolio;
-		showInputPopup = true;
+		if (!appStore.isTabview()) {
+			selectedPortfolio = portfolio;
+			showInputPopup = true;
+		} else {
+			const params = { showInputPopup: true, fromHomePage: true, amount: portfolio?.minSipAmount };
+			modifiedGoto(`${base}/buyPortfolio/${portfolio?.packId}?params=${encodeObject(params)}`);
+		}
 	};
 
 	const getEventMetaData = (portfolio: PortfolioPack, index: number) => {
@@ -92,6 +101,7 @@
 	</section>
 	<Modal isModalOpen={showInputPopup} on:backdropclicked={() => (showInputPopup = !showInputPopup)}>
 		<PortfolioInput
+			amount={selectedPortfolio.minSipAmount}
 			portfolioPack={selectedPortfolio}
 			on:backButtonClicked={() => (showInputPopup = !showInputPopup)}
 		/>

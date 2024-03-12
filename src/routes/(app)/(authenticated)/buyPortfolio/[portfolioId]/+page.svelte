@@ -11,7 +11,13 @@
 
 	export let data: PageData;
 
-	const { amount = 500, date = 4, requestId = '', showInputPopup = false } = $page.data.urlSource;
+	const {
+		amount = 500,
+		date = 4,
+		requestId = '',
+		showInputPopup = false,
+		fromHomePage = false
+	} = $page.data.urlSource;
 
 	const handleErrorNavigation = () => {
 		history?.back();
@@ -41,7 +47,14 @@
 			<SkeletonLoader />
 		{:then portfolioOption}
 			{#if portfolioOption.packId !== ''}
-				<PackDetails portfolioPack={portfolioOption} {amount} {date} {showInputPopup} {requestId} />
+				<PackDetails
+					portfolioPack={portfolioOption}
+					{amount}
+					{date}
+					{showInputPopup}
+					{fromHomePage}
+					{requestId}
+				/>
 			{:else}
 				<ErrorView
 					heading="Something went wrong!"
