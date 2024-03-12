@@ -66,7 +66,10 @@
 				on:keydown|self={backDropClicked}
 				on:click|self={backDropClicked}
 			>
-				<slot />
+				<div class="flex flex-col">
+					<slot name="closingIcon" />
+					<slot />
+				</div>
 			</div>
 		{:else if visible}
 			<!-- svelte-ignore a11y-no-static-element-interactions -->

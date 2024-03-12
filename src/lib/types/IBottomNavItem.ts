@@ -1,4 +1,5 @@
 export interface IBottomNavItem {
+	name?: string;
 	label: string;
 	path: string;
 	icon: never;

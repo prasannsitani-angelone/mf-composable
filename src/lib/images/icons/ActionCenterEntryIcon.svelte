@@ -1,5 +1,5 @@
 <section
-	class="flex h-9 w-9 animate-bounce items-center justify-center rounded-full bg-[var(--B-100)] p-1.5"
+	class="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--B-100)] p-1.5 {$$props?.class}"
 >
 	<svg
 		width="24"

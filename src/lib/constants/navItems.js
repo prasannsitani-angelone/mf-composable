@@ -32,14 +32,14 @@ export const BOTTOM_NAVBARS = (version) => [
 		height: 24
 	},
 	{
+		name: 'Pending Action Center',
 		label: '',
-		path: `${base}/pendingActions`,
+		path: '',
 		icon: ActionCenterEntryIcon,
 		activeIcon: ActionCenterEntryIcon,
 		isInternalNavigation: true,
 		width: 36,
-		height: 36,
-		type: 'bigIconButton'
+		height: 36
 	},
 	{
 		label: 'SIPs',

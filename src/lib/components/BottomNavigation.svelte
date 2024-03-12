@@ -1,9 +1,17 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { tabClickNavigationAnalytics } from '$lib/analytics/DiscoverFunds';
 	import { appStore } from '$lib/stores/SparkStore';
 	import type { IBottomNavItem } from '$lib/types/IBottomNavItem';
+	import type { INotification } from '$lib/types/INotifications';
+	import type { INudge, NudgeDataType } from '$lib/types/INudge';
+	import { useFetch } from '$lib/utils/useFetch';
+	import { onMount } from 'svelte';
 	import Link from './Link.svelte';
+	import PendingActionCenterModal from './PendingActionCenter/PendingActionCenterModal.svelte';
+	import { getPendingActionsData } from '$lib/api/actions';
+
 	export let navs: IBottomNavItem[];
 
 	const bottomNavClickAnalytics = (label: string) => {
@@ -12,37 +20,107 @@
 		};
 		tabClickNavigationAnalytics(eventMetaData);
 	};
+
+	let nudgeDataLoading = false;
+	let autopayDataLoading = false;
+	let notifData: INotification;
+	let autopayNudge: INudge | null;
+	let showPendingActionCenter = false;
+
+	const toggleShowPendingActionCenter = () => {
+		bottomNavClickAnalytics('Action Center');
+		showPendingActionCenter = !showPendingActionCenter;
+	};
+
+	$: noOfPendingActions =
+		(notifData?.instalmentFailedOrders?.length ? 1 : 0) +
+		(notifData?.instalmentPending?.length ? 1 : 0) +
+		(notifData?.paymentFailedOrders?.length ? 1 : 0) +
+		(autopayNudge?.data?.sipCount || false ? 1 : 0);
+
+	const getNudgeData = async () => {
+		let nudgesData: NudgeDataType = {
+			nudges: []
+		};
+
+		if (!$page.data.isGuest) {
+			const url = `${PUBLIC_MF_CORE_BASE_URL}/nudges`;
+			const res = await useFetch(url, {}, fetch);
+			if (res.ok) {
+				nudgesData = res?.data;
+				return nudgesData;
+			}
+			return nudgesData;
+		}
+		return nudgesData;
+	};
+
+	const setAutopayNudge = (nudgeData: NudgeDataType) => {
+		autopayNudge = null;
+		(nudgeData?.nudges || [])?.forEach((item) => {
+			if (item?.nudgesType === 'mandate') {
+				autopayNudge = item;
+			}
+		});
+	};
+
+	const setAllNudgesData = () => {
+		nudgeDataLoading = true;
+		getNudgeData().then((nudgeData) => {
+			setAutopayNudge(nudgeData);
+		});
+		nudgeDataLoading = false;
+	};
+
+	const setActionCenterData = async () => {
+		setAllNudgesData();
+		autopayDataLoading = true;
+		await getPendingActionsData();
+		autopayDataLoading = false;
+	};
+
+	$: if (showPendingActionCenter) {
+		setActionCenterData();
+	}
+
+	onMount(async () => {
+		setActionCenterData();
+	});
 </script>
 
 <section
 	class="inset-x-0 z-40 flex-shrink-0 border-t-2 bg-background-alt shadow-lg lg:hidden {$$props?.class ||
 		''}"
 >
-	<div id="tabs" class="flex items-baseline justify-between text-disabled">
+	<div id="tabs" class="flex items-center justify-between text-disabled">
 		{#each navs as nav (nav.path)}
 			{@const isActive = $page.url.pathname === nav.path}
-			{#if nav?.type === 'bigIconButton'}
-				<Link
-					to={nav.path}
-					on:linkClicked={() => bottomNavClickAnalytics(nav.label || 'Action Center')}
-					class="flex h-full w-full items-start justify-center"
-					pathConversion={false}
-					disableRedirect={isActive}
-					callMethod={$appStore.openViaTabView && nav.callMethod}
-					method={nav.method}
+			{#if nav.name === 'Pending Action Center'}
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
+				<!-- svelte-ignore a11y-no-static-element-interactions -->
+				<div
+					class="relative flex h-full w-full items-start justify-center"
+					on:click={toggleShowPendingActionCenter}
 				>
 					<svelte:component
 						this={isActive ? nav.activeIcon : nav.icon}
 						width={nav.width}
 						height={nav.height}
-						class="m-auto mb-10 {isActive ? 'text-primary' : 'text-body'}"
+						class="m-auto {noOfPendingActions && 'animate-bounce'}"
 					/>
-				</Link>
+					{#if noOfPendingActions}
+						<span
+							class="absolute -top-2 right-3 inline-flex animate-bounce items-center rounded-full bg-sell px-[6px] py-[2px] text-[10px] font-medium text-white"
+						>
+							{noOfPendingActions}
+						</span>
+					{/if}
+				</div>
 			{:else}
 				<Link
 					to={nav.path}
 					on:linkClicked={() => bottomNavClickAnalytics(nav.label)}
-					class="inline-block w-full justify-center py-3 text-center"
+					class="inline-block w-full justify-center py-[9px] text-center"
 					pathConversion={false}
 					disableRedirect={isActive}
 					callMethod={$appStore.openViaTabView && nav.callMethod}
@@ -64,3 +142,13 @@
 		{/each}
 	</div>
 </section>
+
+{#if showPendingActionCenter}
+	<PendingActionCenterModal
+		on:backdropClick={toggleShowPendingActionCenter}
+		pendingActionsData={notifData}
+		{autopayNudge}
+		bind:nudgeDataLoading
+		bind:autopayDataLoading
+	/>
+{/if}
