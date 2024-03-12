@@ -17,6 +17,7 @@ import { getHoldingSummary } from '$lib/api/holdings';
 import type { InvestmentSummary } from '$lib/types/IInvestments';
 import { getsearchDashboardData } from '$lib/api/getSearchDashboard';
 import cacheInmemory from '$lib/server/cache.inmemory';
+import { getCohortMappingforUser } from '$lib/api/cohorts';
 
 // import { accountType } from '$lib/utils/getAccountType';
 // import { getHashKey } from '$lib/server/getHashKey';
@@ -92,6 +93,7 @@ const handler = (async ({ event, resolve }) => {
 		}
 		const isGuest = isAuthenticatedUser ? false : true;
 		let searchDashboardData;
+		let cohortConfig;
 
 		if (!event.request.url.includes('/api/')) {
 			const searchDashboardPromise = getsearchDashboardData(
@@ -119,6 +121,11 @@ const handler = (async ({ event, resolve }) => {
 				investementSummary = userData[2]?.value;
 				searchDashboardData = userData[3]?.value;
 			}
+			let user_cohort = 'Fallback';
+			if (userDetails?.cohort && userDetails?.cohort?.length) {
+				user_cohort = userDetails?.cohort?.[0];
+			}
+			cohortConfig = await getCohortMappingforUser(user_cohort, token, fetch);
 			if (userDetails?.userType === 'B2B') {
 				searchDashboardData = await getsearchDashboardData(
 					token,
@@ -149,7 +156,8 @@ const handler = (async ({ event, resolve }) => {
 			isMissingHeaders,
 			pageUrl: event.request.url,
 			investementSummary,
-			searchDashboardData
+			searchDashboardData,
+			cohortConfig
 		};
 
 		let response = await resolve(event);

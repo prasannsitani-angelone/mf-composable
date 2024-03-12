@@ -18,7 +18,8 @@ export const load = (async ({ request, parent }) => {
 		refreshToken: layoutData?.refreshToken ? 'xxxx' : '',
 		sparkHeaders: layoutData?.sparkHeaders,
 		tokenObj: {},
-		searchDashboardData: {}
+		searchDashboardData: {},
+		cohortConfig: {}
 	};
 	jsDisabled({
 		...jsDisabledLogs

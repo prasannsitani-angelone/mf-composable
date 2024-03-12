@@ -51,7 +51,6 @@
 		actionCentreClick,
 		actNowClick
 	} from '$lib/analytics/pendingActionCenter/analytics';
-	import { cohorts, cohorts_LF } from '$lib/constants/cohorts';
 	import SearchComponent from './SearchComponent.svelte';
 	import Link from '$components/Link.svelte';
 	import { modifiedGoto } from '$lib/utils/goto';
@@ -103,9 +102,9 @@
 	let readyMadePortfolios;
 
 	if ($page.data.deviceType?.isMobile || $page.data.deviceType?.isTablet) {
-		placementMapping = cohorts[user_cohort].placementMapping;
+		placementMapping = $page.data?.cohortConfig?.SF;
 	} else {
-		placementMapping = cohorts_LF[user_cohort].placementMapping;
+		placementMapping = $page.data?.cohortConfig?.LF;
 	}
 
 	const getNudgeData = async () => {
