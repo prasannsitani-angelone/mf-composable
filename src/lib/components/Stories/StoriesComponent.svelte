@@ -377,7 +377,7 @@
 									/>
 									<button
 										class="absolute right-0 top-5 pb-2 pl-2 pr-4 pt-3 md:cursor-pointer"
-										style="z-index: 71"
+										style="z-index: 72"
 										on:click={() => crossButtonClicked()}
 									>
 										<WMSIcon width={14} height={14} name="cross-close" />
@@ -387,6 +387,7 @@
 								<div slot="footer">
 									<section
 										class="absolute bottom-0 flex h-1/6 w-full flex-col items-center justify-center bg-title"
+										style="z-index: 72"
 									>
 										<button
 											class="absolute right-0 top-[-50px] p-2 pr-3 md:cursor-pointer"
