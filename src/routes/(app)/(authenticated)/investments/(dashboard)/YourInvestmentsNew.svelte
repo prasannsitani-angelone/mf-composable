@@ -54,6 +54,7 @@
 	holdings = tableData;
 	let tableDataToDisplay = [...tableData];
 	$: tableDataToDisplay = [...tableData];
+	const optimisedScheme = tableDataToDisplay?.find((x) => x.sipEnabled) || ({} as InvestmentEntity);
 
 	export { tableData, holdings };
 
@@ -300,7 +301,7 @@
 
 {#if isOptimisePortfolioOpen}
 	<OptimisePortfolioModal
-		currentScheme={tableDataToDisplay?.[0] || {}}
+		currentScheme={optimisedScheme}
 		{investmentSummary}
 		{toggleOptimisePorfolioCard}
 		{optimisePorfolioData}

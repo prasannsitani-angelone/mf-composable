@@ -11,7 +11,9 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div on:click on:keydown class={$$props.class}>
-	<section class="flex items-center justify-between rounded-lg bg-white shadow-lg lg:mx-0">
+	<section
+		class="flex items-center justify-between rounded-lg bg-white shadow-lg hover:cursor-pointer lg:mx-0"
+	>
 		<article class="flex flex-col items-start px-4 py-3">
 			<div class="text-sm font-medium">
 				{addCommasToAmountString(peopleInvested)} other investors started a 2nd SIP to maximise their

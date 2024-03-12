@@ -136,7 +136,7 @@
 	<div class="w-full rounded-t-2xl bg-background-alt px-5 py-4 sm:w-120 sm:!rounded-lg">
 		<div class="mb-4">
 			<div class="flex items-center text-lg font-normal">
-				<div class="flex-1">2nd SIP For Your Portfolio</div>
+				<div class="flex-1 font-medium">2nd SIP For Your Portfolio</div>
 				<WMSIcon
 					name="cross-circle"
 					class="hidden cursor-pointer sm:block"
@@ -145,7 +145,7 @@
 					height={24}
 				/>
 			</div>
-			<p class="mt-1 text-sm">Maximise your returns by investing in this fund</p>
+			<p class="mt-1 text-sm text-body">Maximise your returns by investing in this fund</p>
 		</div>
 		<section class="flex max-h-[65vh] flex-col overflow-auto">
 			{#if !isFetchingScheme}

@@ -40,6 +40,7 @@
 	import FamilyPortfolioEntryPoint from '$components/FamilyPortfolio/FamilyPortfolioEntryPoint.svelte';
 	import { getFamilyMembers } from '$lib/api/familyPortfolio';
 	import XirrModal from './components/Internal/XirrModal.svelte';
+	import OptimisePortfolioModal from './components/OptimisePortfolioModal.svelte';
 
 	export let data: PageData;
 
@@ -59,7 +60,9 @@
 		logoUrl: ''
 	};
 	let holdings: Array<InvestmentEntity>;
+	let investmentSummary: InvestmentSummary;
 	let isFamilyPortfolio: boolean = appStore?.isFamilyPortfolioSelected($profileStore?.clientId);
+	let currentOptimised: InvestmentEntity;
 
 	$: isExternal = data?.isExternal;
 	$: isMobile = $page?.data?.deviceType?.isMobile;
@@ -85,7 +88,7 @@
 				};
 			})
 		});
-		isOptimisePortfolioOpen = true;
+		isOptimisePortfolioOpen = !isOptimisePortfolioOpen;
 	};
 
 	const switchToDirectFundsImpression = async () => {
@@ -225,7 +228,7 @@
 
 		setFamilyMembersData();
 
-		const investmentSummary = data?.investementSummary;
+		investmentSummary = data?.investementSummary;
 
 		investmentDashboardImpressionAnalyticsFunc(investmentSummary);
 		switchToDirectFundsImpression();
@@ -239,6 +242,9 @@
 		) {
 			fundForYouImpressionAnalyticsFunc(investmentSummary);
 		}
+		let holdingsData = await data?.api?.investment;
+		holdings = holdingsData?.data?.holdings;
+		currentOptimised = holdings?.find((x) => x.sipEnabled) || ({} as InvestmentEntity);
 
 		return () => {
 			if (impressionEventInterval !== undefined) {
@@ -414,5 +420,14 @@
 		class="fixed bottom-18 -ml-2 flex w-full items-center align-middle sm:hidden"
 		data={$ctNudgeStore}
 		on:onCTAClicked={navigateToTef}
+	/>
+{/if}
+
+{#if isOptimisePortfolioOpen}
+	<OptimisePortfolioModal
+		currentScheme={currentOptimised}
+		{investmentSummary}
+		{toggleOptimisePorfolioCard}
+		{optimisePorfolioData}
 	/>
 {/if}
