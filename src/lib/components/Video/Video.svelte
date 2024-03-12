@@ -48,6 +48,10 @@
 				videoElement.currentTime = 0;
 				videoElement.play();
 			}
+		} else {
+			if (props?.onVideoEnd) {
+				props.onVideoEnd();
+			}
 		}
 	};
 
@@ -178,25 +182,21 @@
 		});
 	};
 
-	const initiateVideoPlayback = () => {
-		if (!videoElement) return;
+	const loadFallbackVideo = () => {
+		try {
+			const source = document.createElement('source');
 
-		if (props.src.endsWith('.mp4')) {
-			videoElement.src = props.src;
-			return;
-		}
+			source.src = props?.fallbackSrc;
+			source.type = 'video/mp4';
 
-		/* eslint-disable */
-		if (isHlsSupported()) {
-			hls?.loadSource(props.src);
-			hls?.attachMedia(videoElement);
-
-			/* eslint-enable */
-		} else {
+			videoElement?.appendChild(source);
+			videoElement?.play();
+		} catch (e) {
 			logger.error({
 				type: 'Video Error',
 				params: {
-					message: 'Unable to play video in fallback mode. HLS is not supported.'
+					message: 'Unable to play video in fallback mode. HLS is not supported.',
+					error: e?.toString()
 				}
 			});
 		}
@@ -210,6 +210,21 @@
 
 	const pauseVideoOnBlur = () => {
 		videoElement?.pause();
+	};
+
+	const initiateVideoPlayback = () => {
+		if (!videoElement) return;
+
+		if (props.src.endsWith('.m3u8')) {
+			if (isHlsSupported()) {
+				hls?.loadSource(props.src);
+				hls?.attachMedia(videoElement);
+			} else {
+				loadFallbackVideo();
+			}
+		} else {
+			videoElement.src = props.src;
+		}
 	};
 
 	onMount(() => {
@@ -279,21 +294,23 @@
 		</div>
 	{/if}
 	{#if !props?.controls}
-		<div
-			class="absolute top-{props?.type === VideoPlayerMode.Normal ? 0 : 4} right-0 mr-4 mt-4"
-			style="z-index: 2"
-			on:click={handleToggleMute}
-			role="button"
-			aria-label="mute"
-			tabindex="-1"
-			on:keypress={handleToggleMute}
-		>
-			{#if $isMuted}
-				<WMSIcon name="mute" width={16} height={16} />
-			{:else}
-				<WMSIcon name="unmute" width={16} height={16} />
-			{/if}
-		</div>
+		{#if !props?.hideMute}
+			<div
+				class="absolute top-{props?.type === VideoPlayerMode.Normal ? 0 : 4} right-0 mr-4 mt-4"
+				style="z-index: 2"
+				on:click={handleToggleMute}
+				role="button"
+				aria-label="mute"
+				tabindex="-1"
+				on:keypress={handleToggleMute}
+			>
+				{#if $isMuted}
+					<WMSIcon name="mute" width={16} height={16} />
+				{:else}
+					<WMSIcon name="unmute" width={16} height={16} />
+				{/if}
+			</div>
+		{/if}
 	{/if}
 	{#if props?.showBottomDrawer}
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -321,9 +338,8 @@
 		poster={props?.poster}
 		muted={props?.muted}
 		controls={props?.controls}
-		on:ended
-		on:click={props?.onClick}
 		on:ended={onVideoEnded}
+		on:click={props?.onClick}
 		on:timeupdate={onTimeUpdate}
 	/>
 	{#if props?.type === VideoPlayerMode.Normal}

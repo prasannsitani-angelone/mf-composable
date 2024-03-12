@@ -20,9 +20,7 @@
 		sHomepage
 	} from '$lib/analytics/DiscoverFunds';
 	import type { PageData } from './$types';
-	import type { StoriesData, videoCtaUrls } from '$lib/types/IStories';
-	import { userStore } from '$lib/stores/UserStore';
-	import { profileStore } from '$lib/stores/ProfileStore';
+	import type { StoriesData } from '$lib/types/IStories';
 	import { appStore } from '$lib/stores/SparkStore';
 	import { logoutAttemptStore } from '$lib/stores/LogoutAttemptStore';
 	import StoriesComponent from '$components/Stories/StoriesComponent.svelte';
@@ -33,11 +31,6 @@
 	import { PUBLIC_MF_CORE_BASE_URL, PUBLIC_MF_CORE_BASE_URL_V2 } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import LazyComponent from '$components/LazyComponent.svelte';
-	import {
-		setStoriesData,
-		storiesDataObjectWithoutUrls,
-		videoCtaList
-	} from '$components/Stories/utils';
 	import MostBought from '$components/MostBought/MostBought.svelte';
 	import QuickEntryPointsComponent from './QuickEntryPoints/QuickEntryPointsComponent.svelte';
 	import CategoriesComponent from './CategoriesComponent.svelte';
@@ -81,6 +74,7 @@
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { SIP_ORDER_CARD_TYPES } from '$lib/constants/actions';
 	import { getPendingActionsData } from '$lib/api/actions';
+	import { getStoriesData } from '$lib/api/media';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -351,25 +345,7 @@
 		});
 	};
 
-	let storiesData: StoriesData = storiesDataObjectWithoutUrls;
-
-	const setStoryCtaUrl = (vidId: number) => {
-		const selectedVid: videoCtaUrls | undefined = videoCtaList?.find(
-			(vid) => vid?.videoId === vidId
-		);
-
-		if (selectedVid) {
-			if (Object.keys(selectedVid?.ctaList)?.length > 1) {
-				return (
-					selectedVid?.ctaList[`${$userStore?.userType}_${profileStore?.accountType()}`] || '/'
-				);
-			} else if (Object.keys(selectedVid?.ctaList)?.length) {
-				return selectedVid?.ctaList.genericUrl || '/';
-			}
-		}
-
-		return '/';
-	};
+	let storiesData: StoriesData;
 
 	const resetSelectedLinkedFamilyMembers = () => {
 		appStore?.updateStore({ linkedmembers: { selected: [] } });
@@ -412,10 +388,17 @@
 		}
 	};
 
+	const fetchStoriesData = async () => {
+		const response = await getStoriesData();
+		storiesData = response.data;
+	};
+
 	onMount(async () => {
 		await tick();
 
-		storiesData = setStoriesData(setStoryCtaUrl);
+		if (placementMapping?.stories) {
+			fetchStoriesData();
+		}
 
 		resetSelectedLinkedFamilyMembers();
 

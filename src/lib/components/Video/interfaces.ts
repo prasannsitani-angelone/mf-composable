@@ -10,6 +10,7 @@ export interface VideoPlayerProps {
 	onPlay?: () => void;
 	onPause?: () => void;
 	onClick?: () => void;
+	onVideoEnd?: () => void;
 	type?: VideoPlayerMode;
 	showBottomDrawer?: boolean;
 	fullScreen?: boolean;
@@ -20,4 +21,6 @@ export interface VideoPlayerProps {
 	showInModal?: boolean;
 	autoplay?: boolean;
 	source?: VideoPlayerRenderView;
+	hideMute?: boolean;
+	fallbackSrc?: string;
 }

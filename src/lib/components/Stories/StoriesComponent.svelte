@@ -7,7 +7,7 @@
 	import { deviceStore } from '$lib/stores/DeviceStore';
 	import type { Story, Video, videoQuery } from '$lib/types/IStories';
 	import { getQueryParamsObj } from '$lib/utils/helpers/params';
-	import { afterUpdate, onDestroy, onMount } from 'svelte';
+	import { afterUpdate, onDestroy } from 'svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import {
 		startSipClickAnalytics,
@@ -16,11 +16,12 @@
 		storyImpressionAnalytics,
 		clickOnStoryAnalytics
 	} from '$lib/analytics/stories/stories';
-	import VideoPlayer from './VideoPlayer.svelte';
-	import logger from '$lib/utils/logger';
 	import { modifiedGoto } from '$lib/utils/goto';
 	import { goto } from '$app/navigation';
 	import { appStore } from '$lib/stores/SparkStore';
+	import type { VideoPlayerProps } from '$components/Video/interfaces';
+	import { VideoPlayerMode } from '$components/Video/enums';
+	import VideoPlayer from '$components/Video/Video.svelte';
 
 	export let stories: Array<Story>;
 	export let version: string;
@@ -37,17 +38,19 @@
 	let mutedPlayback = false;
 	let isSwipeNotEnough = false;
 	let queryParamsObj: videoQuery;
-	let playVideoInterval;
-	let hls;
+	let playVideoInterval: number;
+	let videoProps: VideoPlayerProps;
+	let touchStartX = 0;
+	let touchEndX = 0;
+	let touchStartY = 0;
+	let touchEndY = 0;
+	const swipeThresholdValue = 50;
+
 	// $: if (showVideoSection && queryParamsObj?.storyPlayer !== 'true') {
 	// 	setTimeout(() => {
 	// 		crossButtonClicked(false);
 	// 	});
 	// }
-
-	afterUpdate(() => {
-		queryParamsObj = getQueryParamsObj();
-	});
 
 	const setVideoPlayerQuery = () => {
 		const currentPath = window?.location?.pathname;
@@ -84,6 +87,7 @@
 
 				selectedStoryIndex = clickedIndex;
 				selectedVideoIndex = 0;
+				setVideoProps();
 			}
 
 			showVideoSection = true;
@@ -99,6 +103,8 @@
 	const setStoryVideo = (playNow = true) => {
 		selectedStory = stories[selectedStoryIndex];
 		selectedVideo = selectedStory?.videos[selectedVideoIndex];
+
+		setVideoProps();
 
 		storySliderAnalyticsFunc();
 
@@ -181,7 +187,7 @@
 	};
 
 	const toggleMute = () => {
-		mutedPlayback = !mutedPlayback;
+		videoProps.muted = !videoProps.muted;
 	};
 
 	// toggle pause gesture POC (working fine and can be implemented for "press and hold gesture" (mousedown and mouseup events) on video)
@@ -199,12 +205,6 @@
 	//     video.play();
 	//   }
 	// }
-
-	let touchStartX = 0;
-	let touchEndX = 0;
-	let touchStartY = 0;
-	let touchEndY = 0;
-	const swipeThresholdValue = 50;
 
 	const determineGesture = () => {
 		if (Math.abs(touchEndX - touchStartX) >= Math.abs(touchEndY - touchStartY)) {
@@ -264,13 +264,6 @@
 		clickOnStoryAnalytics(eventMetadata);
 	};
 
-	onDestroy(() => {
-		if (browser) {
-			document.removeEventListener('touchstart', setStartTouchPoints);
-			document.removeEventListener('touchend', setEndTouchPoints);
-		}
-	});
-
 	const ctaClickAnalyticsFunc = () => {
 		const eventMetadata = {
 			StoryIndex: stories[selectedStoryIndex]?.storyId,
@@ -307,41 +300,34 @@
 		storyImpressionAnalytics(eventMetadata);
 	};
 
-	onMount(() => {
-		/* eslint-disable */
-		if (window?.Hls?.isSupported()) {
-			hls = new Hls({
-				startFragPrefetch: true
-			});
+	const setVideoProps = () => {
+		videoProps = {
+			id: `video-${selectedStory?.storyId}`,
+			src: selectedVideo?.videoUrl || '',
+			controls: false,
+			poster: selectedStory?.imageThumbnailUrl || '',
+			onClick: setNextVideo,
+			onVideoEnd: setNextVideo,
+			playInLoop: false,
+			showBottomDrawer: false,
+			muted: mutedPlayback,
+			source: selectedStory?.storyId,
+			type: VideoPlayerMode.Normal,
+			autoplay: true,
+			hideMute: true,
+			fallbackSrc: selectedVideo?.videoFallbackUrl
+		};
+	};
 
-			hls.on(Hls.Events.ERROR, function (event, data) {
-				if (data.fatal) {
-					switch (data.type) {
-						case Hls.ErrorTypes.MEDIA_ERROR:
-							logger.error({
-								type: 'Fatal error running Video stream MEDIA_ERROR',
-								params: "'fatal media error encountered, try to recover'"
-							});
-							hls.recoverMediaError();
-							break;
-						case Hls.ErrorTypes.NETWORK_ERROR:
-							logger.error({
-								type: 'Fatal error running Video stream NETWORK_ERROR',
-								params: "'fatal media error encountered, try to recover'"
-							});
-							break;
-						default:
-							logger.error({
-								type: 'Fatal error running Video stream DEFAULT',
-								params: "'fatal media error encountered, try to recover'"
-							});
-							hls.destroy();
-							break;
-					}
-				}
-			});
+	afterUpdate(() => {
+		queryParamsObj = getQueryParamsObj();
+	});
+
+	onDestroy(() => {
+		if (browser) {
+			document.removeEventListener('touchstart', setStartTouchPoints);
+			document.removeEventListener('touchend', setEndTouchPoints);
 		}
-		/* eslint-enable */
 	});
 </script>
 
@@ -377,60 +363,57 @@
 				on:backdropclicked={() => crossButtonClicked()}
 			>
 				<div class="top-0 flex h-full w-screen flex-col bg-title shadow-csm md:h-5/6 md:w-[360px]">
-					<div class="relative h-5/6 w-full">
+					<div class="relative h-full w-full">
 						{#if showVideoPlayer}
 							<!-- svelte-ignore a11y-media-has-caption -->
-							<VideoPlayer
-								{hls}
-								muted={mutedPlayback}
-								on:ended={setNextVideo}
-								{selectedVideo}
-								{selectedStory}
-								on:click={setNextVideo}
-							/>
+							<VideoPlayer props={videoProps} on:click={setNextVideo}>
+								<div slot="header">
+									<img
+										src={selectedStory?.imageThumbnailUrl}
+										class="absolute left-4 top-4 h-12 w-12 rounded-full object-cover text-lg font-normal text-background-alt shadow-csm"
+										alt="video thumbnail"
+										width="48"
+										height="48"
+									/>
+									<button
+										class="absolute right-0 top-5 pb-2 pl-2 pr-4 pt-3 md:cursor-pointer"
+										style="z-index: 71"
+										on:click={() => crossButtonClicked()}
+									>
+										<WMSIcon width={14} height={14} name="cross-close" />
+									</button>
+								</div>
+
+								<div slot="footer">
+									<section
+										class="absolute bottom-0 flex h-1/6 w-full flex-col items-center justify-center bg-title"
+									>
+										<button
+											class="absolute right-0 top-[-50px] p-2 pr-3 md:cursor-pointer"
+											on:click={toggleMute}
+										>
+											{#if !videoProps.muted}
+												<WMSIcon width={24} height={24} name="audio-on" />
+											{:else}
+												<WMSIcon width={24} height={24} name="audio-off" />
+											{/if}
+										</button>
+										{#if isMobile}
+											<WMSIcon width={14} height={8} name="swipe-up" class="mb-3" />
+										{/if}
+
+										<Button
+											class="h-auto !w-48 cursor-default rounded border !border-background-alt !bg-transparent !text-background-alt md:cursor-pointer"
+											variant="outlined"
+											onClick={handleCtaClick}
+										>
+											START SIP NOW
+										</Button>
+									</section>
+								</div>
+							</VideoPlayer>
 						{/if}
-
-						<img
-							src={selectedStory?.imageThumbnailUrl}
-							class="absolute left-4 top-4 h-12 w-12 rounded-full object-cover text-lg font-normal text-background-alt shadow-csm"
-							alt="video thumbnail"
-							width="48"
-							height="48"
-						/>
-
-						<button
-							class="absolute right-0 top-5 pb-2 pl-2 pr-4 pt-3 md:cursor-pointer"
-							on:click={() => crossButtonClicked()}
-						>
-							<WMSIcon width={14} height={14} name="cross-close" />
-						</button>
-
-						<button
-							class="absolute bottom-[10px] right-0 p-2 pr-3 md:cursor-pointer"
-							on:click={toggleMute}
-						>
-							{#if !mutedPlayback}
-								<WMSIcon width={24} height={24} name="audio-on" />
-							{:else}
-								<WMSIcon width={24} height={24} name="audio-off" />
-							{/if}
-						</button>
 					</div>
-
-					<!-- Story footer section -->
-					<section class="flex h-1/6 flex-col items-center justify-center bg-title">
-						{#if isMobile}
-							<WMSIcon width={14} height={8} name="swipe-up" class="mb-3" />
-						{/if}
-
-						<Button
-							class="h-auto !w-48 cursor-default rounded border !border-background-alt !bg-transparent !text-background-alt md:cursor-pointer"
-							variant="outlined"
-							onClick={handleCtaClick}
-						>
-							START SIP NOW
-						</Button>
-					</section>
 				</div>
 			</Modal>
 		</section>
