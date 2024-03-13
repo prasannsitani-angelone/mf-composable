@@ -16,6 +16,7 @@ export const load = (async ({ data, url }) => {
 		tokenStore.updateStore({ ...tokenObj, state: authState });
 		userStore.updateStore({ ...userDetails });
 	}
+
 	return {
 		...data,
 		pathname: url.pathname

@@ -155,7 +155,8 @@ function Store() {
 			return query;
 		},
 		isTabview: () => sparkStore?.isTabView,
-		openViaTabView: () => sparkStore?.openViaTabView
+		openViaTabView: () => sparkStore?.openViaTabView,
+		isSparkGuestUser: () => sparkStore?.guest
 	};
 }
 
