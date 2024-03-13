@@ -40,6 +40,8 @@
 	let searchInputClass = '';
 	let searchDashboardDataFetchFailed = false;
 	let searchResultDataFetchFailed = false;
+	let autoFocus = false;
+	let id = '';
 
 	const getSearchResults = (val: string) =>
 		val?.length > queryLengthThreshold ? resultsData || [] : null;
@@ -170,7 +172,9 @@
 		filter,
 		searchMode,
 		parentResultClass,
-		searchInputClass
+		searchInputClass,
+		autoFocus,
+		id
 	};
 </script>
 
@@ -180,6 +184,7 @@
 	{:else}
 		<AutocompleteComponent
 			class="relative md:px-3"
+			{id}
 			getResults={getSearchResults}
 			placeholderText="Search by fund name, type or AMC"
 			{searchPageLoaded}
@@ -190,6 +195,7 @@
 			on:searchInput={handleSearchInput}
 			{resultItemClicked}
 			{initialSearchResult}
+			{autoFocus}
 		>
 			<svelte:fragment slot="defaultResult">
 				<slot name="defaultResult">

@@ -197,6 +197,7 @@
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 				<SearchComponent
+					id="fund-comparison"
 					class="rounded-t-md bg-background-alt"
 					searchPageLoaded={true}
 					shouldFetchSearchDashboard={false}
@@ -204,6 +205,7 @@
 					parentResultClass="lg:!w-full"
 					searchInputClass="lg:!w-full"
 					searchMode="switch"
+					autoFocus
 				>
 					<svelte:fragment slot="resultsData" let:resultsData>
 						<section

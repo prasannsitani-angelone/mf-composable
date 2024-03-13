@@ -12,9 +12,11 @@
 	<section>
 		<div class="w-full origin-top transition duration-100">
 			<SearchComponent
+				id="header-search"
 				class="rounded-t-md bg-background-alt"
 				searchPageLoaded={pageLoaded}
 				filter="divedendgrowthflag:GROWTH&recommendation=true"
+				autoFocus={false}
 			/>
 		</div>
 	</section>

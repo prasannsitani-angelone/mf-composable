@@ -6,7 +6,7 @@
 	import SearchDarkIcon from '$lib/images/icons/SearchDarkIcon.svelte';
 	import SearchIcon from '$lib/images/icons/SearchIcon.svelte';
 	import { debounce } from '$lib/utils/helpers/debounce';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import type { WeeklyTopSchemesEntity } from '$lib/types/IDiscoverFunds';
 
 	$: deviceType = $page?.data?.deviceType;
@@ -26,6 +26,8 @@
 	const resetResults = () => {
 		results = null;
 	};
+	let autoFocus = false;
+	let id = '';
 
 	const resetData = () => {
 		inputVal = '';
@@ -98,8 +100,16 @@
 		initialSearchResult,
 		parentResultClass,
 		searchInputClass,
-		searchMode
+		searchMode,
+		autoFocus,
+		id
 	};
+
+	onMount(() => {
+		if (autoFocus) {
+			document.getElementById(`${id}-searchInput`)?.focus();
+		}
+	});
 </script>
 
 <article>
@@ -119,7 +129,7 @@
 				</slot>
 
 				<TextInput
-					id="searchInput"
+					id={`${id}-searchInput`}
 					name="searchInput"
 					bind:ref={inputRef}
 					on:focus={() => handleShowResultSection(true)}
