@@ -7,8 +7,8 @@
 	import PortfolioAllocation from './PortfolioAllocation.svelte';
 	import PortfolioInput from './PortfolioInput.svelte';
 	import ProjectedReturns from './ProjectedReturns.svelte';
-	import { modifiedGoto } from '$lib/utils/goto';
 	import { base } from '$app/paths';
+	import { goto } from '$app/navigation';
 
 	export let portfolioPack: PortfolioPack;
 	export let amount: number;
@@ -22,7 +22,7 @@
 
 	const toggleInput = () => {
 		if (fromHomePage) {
-			modifiedGoto(`${base}/discoverfunds`);
+			goto(`${base}/discoverfunds`);
 		}
 		showInputPopup = !showInputPopup;
 		if (showInputPopup) {

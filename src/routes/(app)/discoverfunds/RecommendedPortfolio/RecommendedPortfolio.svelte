@@ -76,7 +76,7 @@
 									<span
 										class="text-sm font-medium {portfolio?.threeYrReturnAvgPer > 0
 											? 'text-buy'
-											: 'text-title'}">{portfolio?.threeYrReturnAvgPer?.toFixed(2)}%</span
+											: 'text-title'}">{portfolio?.threeYrReturnAvgPer?.toFixed(2)}% p.a</span
 									>
 								</p>
 							</div>
