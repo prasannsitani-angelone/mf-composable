@@ -747,7 +747,7 @@
 		/>
 	{/if}
 
-	{#if !deviceType?.isBrowser && placementMapping?.sipPaymentDue}
+	{#if !deviceType?.isBrowser && placementMapping?.sipPaymentDue && actionsData?.instalmentPending?.length}
 		<PaymentOrderCard
 			sipList={actionsData?.instalmentPending || []}
 			cardType={SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_DUE}
@@ -760,7 +760,7 @@
 		/>
 	{/if}
 
-	{#if !deviceType?.isBrowser && placementMapping?.sipPaymentMissed}
+	{#if !deviceType?.isBrowser && placementMapping?.sipPaymentMissed && actionsData?.instalmentFailedOrders?.length}
 		<PaymentOrderCard
 			sipList={actionsData?.instalmentFailedOrders || []}
 			cardType={SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_MISSED}
@@ -943,7 +943,7 @@
 						: ''}"
 				/>
 			{/if}
-			{#if placementMapping?.sipPaymentDue}
+			{#if placementMapping?.sipPaymentDue && actionsData?.instalmentPending?.length}
 				<PaymentOrderCard
 					sipList={actionsData?.instalmentPending || []}
 					cardType={SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_DUE}
@@ -958,7 +958,7 @@
 				/>
 			{/if}
 
-			{#if placementMapping?.sipPaymentMissed}
+			{#if placementMapping?.sipPaymentMissed && actionsData?.instalmentFailedOrders?.length}
 				<PaymentOrderCard
 					sipList={actionsData?.instalmentFailedOrders || []}
 					on:buttonClick={(e) => handleFailedSipPaymentClick(e?.detail)}
