@@ -57,25 +57,30 @@
 					}}
 				>
 					<div class="flex flex-col text-left normal-case">
-						<div class="flex">
+						<div class="flex text-disabled">
 							<div class="pr-4 {isDisabled ? 'grayscale' : ''}">
-								<WMSIcon name={option.logo} />
+								<WMSIcon
+									name={option.logo}
+									stroke="var(--DISABLED)"
+									strokeround="var(--BACKGROUND-ALT)"
+									strokecircle="var(--DISABLED)"
+								/>
 							</div>
 							<div>
 								{option.name}
+								{#if isSipInprocess}
+									<div class="flex text-xs text-disabled">
+										{option.shortName} SIP is not available. Your SIP order is already in progress.
+									</div>
+								{:else if option.key === 'skipSip' && (installmentSkip || isSipPaymentNudge)}
+									<div class="flex pt-2 text-xs">
+										Skip SIP is not available. {installmentSkip
+											? 'You have already skipped your next SIP instalment.'
+											: 'Please complete the payment for your current SIP instalment.'}
+									</div>
+								{/if}
 							</div>
 						</div>
-						{#if isSipInprocess}
-							<div class="flex pt-2 text-xs">
-								{option.shortName} SIP is not available. Your SIP order is already in progress.
-							</div>
-						{:else if option.key === 'skipSip' && (installmentSkip || isSipPaymentNudge)}
-							<div class="flex pt-2 text-xs">
-								Skip SIP is not available. {installmentSkip
-									? 'You have already skipped your next SIP instalment.'
-									: 'Please complete the payment for your current SIP instalment.'}
-							</div>
-						{/if}
 					</div>
 				</Button>
 			</div>
