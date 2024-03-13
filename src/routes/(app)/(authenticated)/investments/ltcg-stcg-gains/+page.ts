@@ -26,7 +26,7 @@ export const load = (async ({ url, fetch }) => {
 			return taxationDetails;
 		}
 	};
-	const title = taxType === 'STCG' ? 'Short term funds' : 'Long term funds';
+	const title = taxType === 'STCG' ? 'Short Term Investments' : 'Long Term Investments';
 	return {
 		api: {
 			getTaxationDetails: browser ? getTaxationDetails() : await getTaxationDetails()

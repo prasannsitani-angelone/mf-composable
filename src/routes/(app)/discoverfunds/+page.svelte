@@ -109,7 +109,10 @@
 	let actionsData:
 		| INotification
 		| { instalmentFailedOrders: []; paymentFailedOrders: []; instalmentPending: [] };
-	let user_cohort = 'Fallback';
+	let user_cohort =
+		$page?.data?.userDetails?.cohort?.length && $page?.data?.userDetails?.cohort[0]
+			? $page?.data?.userDetails?.cohort[0]
+			: 'Fallback';
 	let placementMapping = {};
 	let readyMadePortfolios;
 

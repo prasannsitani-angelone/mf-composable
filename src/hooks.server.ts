@@ -122,7 +122,7 @@ const handler = (async ({ event, resolve }) => {
 				searchDashboardData = userData[3]?.value;
 			}
 			let user_cohort = 'Fallback';
-			if (userDetails?.cohort && userDetails?.cohort?.length) {
+			if (userDetails?.cohort?.length && userDetails?.cohort?.[0]) {
 				user_cohort = userDetails?.cohort?.[0];
 			}
 			cohortConfig = await getCohortMappingforUser(user_cohort, token, fetch);
