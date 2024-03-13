@@ -90,3 +90,12 @@ export interface ChartAndTable {
 	EQUITY: ChartAndTableEntities[];
 	DEBT: ChartAndTableEntities[];
 }
+export interface BenchmarkSummaryData {
+	portfolioReturns: number;
+	benchmarkReturns: number;
+	portReturnsOverBm: number;
+}
+export interface BenchmarkDataType {
+	holdingChart: Array<ChartDataType>;
+	summary: BenchmarkSummaryData;
+}

@@ -141,3 +141,20 @@ export const roundUpAmountToNearestThousand = (amount: number) => {
 export const roundDownToNearestHundred = (num: number): number => {
 	return Math.floor(num / 100) * 100;
 };
+
+/**
+ * formatIntoK
+ *
+ * Amount                 |   Returned Value
+ * -----------------------|-----------------------
+ * from -999 to 999       |   returns as it is
+ * below -999 & above 999 |   1k, 234.1k, 1.2k, -1.2k, -63.5k
+ *
+ * @param {number} num
+ * @returns {string}
+ */
+export const formatIntoK = (num: number): string => {
+	return Math.abs(num) > 999
+		? Math.sign(num) * (Math.abs(num) / 1000).toFixed(1) + 'k'
+		: String(Math.sign(num) * Math.abs(num));
+};

@@ -3,7 +3,6 @@
 	import ErrorView from '$components/ErrorView.svelte';
 	import { goto } from '$app/navigation';
 	import PortfolioEmptyIcon from '$lib/images/icons/PortfolioEmptyIcon.svelte';
-	import HoldingsOverview from './HoldingsOverview.svelte';
 	import AssetAnalysis from './AssetAnalysis.svelte';
 	import PageTitle from '$components/PageTitle.svelte';
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
@@ -11,8 +10,12 @@
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import type { PageData } from './$types';
-	import type { Tag, ChartDataType, DistributionType } from '$lib/types/IPortfolioDetails';
-	import type { FolioSummaryTypes } from '$lib/types/IInvestments';
+	import type {
+		ChartDataType,
+		DistributionType,
+		BenchmarkDataType
+	} from '$lib/types/IPortfolioDetails';
+	import type { InternalInvestmentSummary } from '$lib/types/IInvestments';
 	import ErrorLoadingComponent from '$components/ErrorLoadingComponent.svelte';
 	import { portfolioAnalysisScreenOpenAnalytics, graphYearSelectAnalytics } from '../analytics';
 	import { SEO } from 'svelte-components';
@@ -21,35 +24,45 @@
 	import { base } from '$app/paths';
 	import { appStore } from '$lib/stores/SparkStore';
 	import { goBackToSpark } from '$lib/utils';
+	import PortfolioOverview from './components/PortfolioOverview.svelte';
+	import PortfolioGraph from './components/PortfolioGraph.svelte';
+	import { tags } from '$lib/constants/tags';
 
-	const graphYearSelectAnalyticsFunc = (selectedTag) => {
-		let formattedSelectedTag = '';
+	let fundChartData: Array<ChartDataType>;
+	let benchmarkData: BenchmarkDataType;
 
-		if (selectedTag?.months < 12) {
-			formattedSelectedTag = `${selectedTag?.months}M Returns`;
-		} else if (selectedTag?.months === 12) {
-			formattedSelectedTag = '1Y Returns';
-		} else if (selectedTag?.months === 36) {
-			formattedSelectedTag = '3Y Returns';
-		}
-
+	const graphYearSelectAnalyticsFunc = (tagIndex: number) => {
 		const eventMetaData = {
-			YOY: formattedSelectedTag
+			YOY: `${tags[tagIndex]?.label} Returns`
 		};
 
 		graphYearSelectAnalytics(eventMetaData);
 	};
 
-	const portfolioAnalysisScreenOpenAnalyticsFunc = (holdingDetails: FolioSummaryTypes) => {
+	const portfolioAnalysisScreenOpenAnalyticsFunc = (allResData: AllResponseSchema) => {
+		const folioSummary = allResData?.summaryData;
+		const benchmarkSummary = allResData?.benchmarkData?.summary;
+		const benchmarkChart = allResData?.benchmarkData?.holdingChart;
+		const benchmarkComparison =
+			benchmarkSummary?.portReturnsOverBm < 0
+				? `${benchmarkSummary?.portReturnsOverBm?.toFixed(2)}% less`
+				: benchmarkSummary?.portReturnsOverBm > 0
+				? `${benchmarkSummary?.portReturnsOverBm?.toFixed(2)}% better`
+				: 'Equal';
+
 		const eventMetaData = {
-			CurrentValue: parseFloat(holdingDetails?.currentValue?.toFixed(2)),
-			TotalInvestment: parseFloat(holdingDetails?.investedValue?.toFixed(2)),
-			OverallReturn: `${holdingDetails?.returnsValue?.toFixed(
+			CurrentValue: parseFloat(folioSummary?.currentValue?.toFixed(2)),
+			TotalInvested: parseFloat(folioSummary?.investedValue?.toFixed(2)),
+			OverallReturn: `${folioSummary?.returnsValue?.toFixed(
 				2
-			)} (${holdingDetails?.returnsAbsolutePer?.toFixed(2)}%)`,
-			TodaysReturn: `${holdingDetails?.previousDayReturns?.toFixed(
+			)} (${folioSummary?.returnsAbsolutePer?.toFixed(2)}%)`,
+			TodaysReturn: `${folioSummary?.previousDayReturns?.toFixed(
 				2
-			)} (${holdingDetails?.previousDayReturnPercentage?.toFixed(2)}%)`
+			)} (${folioSummary?.previousDayReturnPercentage?.toFixed(2)}%)`,
+			XIRR: Math.abs(folioSummary?.xirr)?.toFixed(2),
+			BenchMark: 'NIFTY50',
+			BenchMarkComparison: benchmarkComparison,
+			BenchMarkValue: benchmarkChart?.[0]?.value?.toFixed(2)
 		};
 
 		portfolioAnalysisScreenOpenAnalytics(eventMetaData);
@@ -77,8 +90,9 @@
 
 	type AllResponseSchema = {
 		chartData: ChartDataResponseObj;
-		summaryData: FolioSummaryTypes;
+		summaryData: InternalInvestmentSummary;
 		distributionData: DistributionDataResponseObj;
+		benchmarkData: BenchmarkDataType;
 	};
 
 	let allResponse: Promise<AllResponseSchema> | AllResponseSchema;
@@ -92,25 +106,30 @@
 		distributions: DistributionType[];
 	};
 
-	const updateLineChart = async (data: { detail: Tag }) => {
-		graphYearSelectAnalyticsFunc(data.detail);
+	const updateLineChart = async (tagIndex: number) => {
+		graphYearSelectAnalyticsFunc(tagIndex);
+
 		const allResData = await allResponse;
-		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings?chart=true&months=${data.detail.months}`;
-		const res = await useFetch(url, {}, fetch);
+		const fundChartUrl = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings?chart=true&months=${tags[tagIndex].months}`;
+		const benchmarkUrl = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings/simulate?index=${allResData?.summaryData?.benchMarkCoCode}&months=${tags[tagIndex].months}`;
+
+		const fundChartRes = await useFetch(fundChartUrl, {}, fetch);
+		const benchmarkRes = await useFetch(benchmarkUrl, {}, fetch);
+		const res = await Promise.all([fundChartRes, benchmarkRes]);
+
 		allResponse = allResData;
 
-		if (res?.ok && res?.data?.status === 'success') {
-			allResponse.chartData.chart = res.data.data?.chart || [];
-		} else {
-			allResponse.chartData.chart = [];
-		}
-		allResponse = allResponse;
+		(fundChartData =
+			res[0].ok && res[0].data?.status === 'success' ? res[0].data?.data?.chart || [] : []),
+			(benchmarkData = res[1].ok ? res[1]?.data || [] : []),
+			(allResponse = allResponse);
 	};
 
-	onMount(() => {
-		allResponse.then((res) => {
-			portfolioAnalysisScreenOpenAnalyticsFunc(res?.summaryData || {});
-		});
+	onMount(async () => {
+		const allResData = await allResponse;
+		fundChartData = allResData.chartData?.chart;
+		benchmarkData = allResData.benchmarkData;
+		portfolioAnalysisScreenOpenAnalyticsFunc(allResData || {});
 	});
 </script>
 
@@ -122,15 +141,18 @@
 {#await allResponse}
 	<InvestmentPortfolioLoader />
 {:then response}
-	{#if response.summaryData}
+	{@const summaryData = response?.summaryData}
+	{@const distributionData = response?.distributionData}
+	{#if summaryData}
 		<section>
 			<Breadcrumbs items={breadCrumbs} class="my-4 hidden items-center justify-start md:flex" />
 			<PageTitle title="Portfolio Analysis" class="mb-0 lg:mb-4" />
-			<HoldingsOverview
-				folioSummary={response.summaryData}
-				chartDataList={response.chartData.chart}
-				showGraphTags={true}
-				on:portfolioChartTagChange={updateLineChart}
+			<PortfolioOverview folioSummary={summaryData} />
+			<PortfolioGraph
+				bind:fundChartData
+				bind:benchmarkData
+				isEquityPortfolioFlag={summaryData?.isEquityPortfolioFlag}
+				on:portfolioChartTagChange={(e) => updateLineChart(e?.detail)}
 			/>
 		</section>
 		<SipHealthNudge class="mb-2 mt-2 w-full sm:mt-4" cardStyle="sm:px-3" />
@@ -140,11 +162,8 @@
 			<TaxAnalysis taxationData={res} />
 		{/await}
 		<section>
-			{#if response.distributionData.distributions?.length}
-				<AssetAnalysis
-					summary={response.summaryData}
-					distributions={response.distributionData.distributions}
-				/>
+			{#if distributionData.distributions?.length}
+				<AssetAnalysis summary={summaryData} distributions={distributionData.distributions} />
 			{/if}
 		</section>
 	{:else}

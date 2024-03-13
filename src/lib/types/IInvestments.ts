@@ -132,6 +132,17 @@ export interface OrdersResponse {
 	data: { data: OrdersEntity; status: string };
 }
 
+export interface InternalInvestmentSummary {
+	currentValue: number;
+	investedValue: number;
+	returnsValue: number;
+	returnsAbsolutePer: number;
+	xirr: number;
+	previousDayReturns: number;
+	previousDayReturnPercentage: number;
+	isEquityPortfolioFlag: boolean;
+	benchMarkCoCode: string;
+}
 export interface InvestmentSummary {
 	currentValue?: number;
 	investedValue?: number;

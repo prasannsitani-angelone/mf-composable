@@ -33,6 +33,7 @@
 	} from './analytics';
 	import { browser } from '$app/environment';
 	import { format, parse, set } from 'date-fns';
+	import { formatIntoK } from '$lib/utils/helpers/formatAmount';
 
 	export let data: PageData;
 
@@ -167,8 +168,8 @@
 					autoSkip: false,
 					callback: function (value: number) {
 						if (lineChartOptions.scales.y.max - lineChartOptions.scales.y.min >= 10)
-							return '₹' + value.toFixed(0).toString();
-						else return '₹' + value.toFixed(1).toString();
+							return '₹' + formatIntoK(value);
+						else return '₹' + formatIntoK(value);
 					}
 				}
 			},
@@ -197,7 +198,7 @@
 						tooltipEl = document.createElement('div');
 						tooltipEl.id = `${chartId}-tooltip`;
 						tooltipEl.style =
-							'display: flex; flex-direction: column; align-items: flex-start; width: fit-content; padding: 8px; font-size: 10px; font-weight: 400; font-family: Roboto; color: #fff; background: #181F29; box-shadow: 0px 1px 4px 0px rgba(24, 31, 41, 0.08); border-radius: 4px;';
+							'display: flex; flex-direction: column; align-items: flex-start; width: fit-content; padding: 8px; font-size: 10px; font-weight: 400; font-family: Roboto; color: var(--BODY); background: var(--BACKGROUND-ALT); box-shadow: 0px 1px 4px 0px rgba(24, 31, 41, 0.08); border-radius: 4px;';
 						tooltipEl.innerHTML = '';
 						chartParent.appendChild(tooltipEl);
 					}
@@ -246,10 +247,10 @@
 								const div = `<div style="${style}">
 									<div style="width: 8px; height: 8px; background: ${nav?.color}; border-radius: 100%;"></div>
 									<div style="margin-left: 4px">
-										${nav?.nav > 0 ? `₹${parseFloat(nav?.nav?.toFixed(2))}` : 'NA'}
+										${nav?.nav > 0 ? `₹${addCommasToAmountString(parseFloat(nav?.nav?.toFixed(2)))}` : 'NA'}
 									</div>
-									<div style="margin-left: 4px; color: #008F75;">
-										${nav?.nav > 0 ? `+${parseFloat(((nav?.nav - 1000) / 10)?.toFixed(2))}%` : 'NA'}
+									<div class="ml-1 text-buy">
+										(${nav?.nav > 0 ? `+${parseFloat(((nav?.nav - 1000) / 10)?.toFixed(2))}%` : 'NA'})
 									</div>
 								</div>`;
 								innerHtml += div;

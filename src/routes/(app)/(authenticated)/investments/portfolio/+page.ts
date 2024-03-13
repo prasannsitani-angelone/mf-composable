@@ -26,23 +26,40 @@ export const load = (async ({ fetch }) => {
 		return taxationData;
 	};
 
+	const getBenchmarkData = async (benchMarkCoCode = '') => {
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings/simulate?index=${benchMarkCoCode}&months=240`;
+		const res = await useFetch(url, {}, fetch);
+
+		if (res?.ok && res?.status === 200) {
+			return res?.data;
+		}
+		return {};
+	};
+
 	const getPortfolio = async () => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings`;
 
 		const summaryData = useFetch(url + '/summary?xirr=true', {}, fetch);
 
-		const chartData = useFetch(url + '?chart=true' + '&months=6', {}, fetch);
+		const chartData = useFetch(url + '?chart=true' + '&months=240', {}, fetch);
 
 		const distributionData = useFetch(url + '?distribution=true', {}, fetch);
 
 		const resData = await Promise.all([summaryData, chartData, distributionData]);
+
+		let benchmarkData = {};
+		if (resData[0].ok && resData[0].data?.data?.isEquityPortfolioFlag) {
+			const benchMarkCoCode = resData[0].data?.data?.benchMarkCoCode;
+			benchmarkData = await getBenchmarkData(benchMarkCoCode);
+		}
 
 		return {
 			summaryData: resData[0].ok ? resData[0].data?.data || {} : {},
 			chartData:
 				resData[1].ok && resData[1].data?.status === 'success' ? resData[1].data?.data || {} : {},
 			distributionData:
-				resData[2].ok && resData[2].data?.status === 'success' ? resData[2].data?.data || {} : {}
+				resData[2].ok && resData[2].data?.status === 'success' ? resData[2].data?.data || {} : {},
+			benchmarkData
 		};
 	};
 

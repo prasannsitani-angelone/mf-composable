@@ -653,3 +653,23 @@ export const longTermTabClickAnalytics = (eventMetaData) => {
 		event_metadata: eventMetaData
 	});
 };
+export const portfolioBenchmarkInfoIconClickAnalytics = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-Portfolio_Analysis',
+		event_type: 'click',
+		event_sub_type: 'icon',
+		event_name: 'info',
+		event_property: null,
+		event_id: '306.0.0.13.50'
+	});
+};
+export const portfolioBenchmarkPopupOpenAnalytics = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-Info',
+		event_type: 'impression',
+		event_sub_type: 'popup',
+		event_name: 'whycomparethisfundwithNifty50',
+		event_property: null,
+		event_id: '306.0.0.13.51'
+	});
+};
