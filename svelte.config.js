@@ -21,7 +21,7 @@ const config = {
 			base: '/mutual-funds'
 		},
 		alias: { 'lib/': './src/routes/lib/', $components: './src/lib/components' },
-		inlineStyleThreshold: 300000
+		inlineStyleThreshold: 1024
 	}
 };
 
