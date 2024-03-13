@@ -206,6 +206,7 @@
 					searchInputClass="lg:!w-full"
 					searchMode="switch"
 					autoFocus
+					filter={'nfoflag:N'}
 				>
 					<svelte:fragment slot="resultsData" let:resultsData>
 						<section

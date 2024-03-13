@@ -747,7 +747,7 @@
 		/>
 	{/if}
 
-	{#if placementMapping?.sipPaymentDue}
+	{#if !deviceType?.isBrowser && placementMapping?.sipPaymentDue}
 		<PaymentOrderCard
 			sipList={actionsData?.instalmentPending || []}
 			cardType={SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_DUE}
@@ -760,7 +760,7 @@
 		/>
 	{/if}
 
-	{#if placementMapping?.sipPaymentMissed}
+	{#if !deviceType?.isBrowser && placementMapping?.sipPaymentMissed}
 		<PaymentOrderCard
 			sipList={actionsData?.instalmentFailedOrders || []}
 			cardType={SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_MISSED}
@@ -937,8 +937,8 @@
 					sipTotalAmount={autopayNudge?.amount}
 					on:autopayCardMount={(e) => setupAutopayCardImpressionAnalyticsFunc(e?.detail)}
 					on:autopayCardClick={setupAutopayCardCtaClickAnalytics}
-					class="row-start-{placementMapping?.setupAutopay?.rowStart} col-start-{placementMapping
-						?.setupAutopay?.columnStart} {placementMapping?.setupAutopay?.rowStart > 1
+					class="row-start-{placementMapping?.setupAutopay?.rowStart} {placementMapping
+						?.setupAutopay?.rowStart > 1
 						? 'mt-2'
 						: ''}"
 				/>
@@ -951,8 +951,8 @@
 					on:paymentOrderCardMount={sipDueCardImpressionAnalyticsFunc}
 					on:paymentOrderCardSlide={sipDueCardSlideAnalytics}
 					on:paymentOrderCardItemClick={(e) => sipDueCardCtaClickAnalyticsFunc(e?.detail)}
-					class="row-start-{placementMapping?.sipPaymentDue?.rowStart} col-start-{placementMapping
-						?.sipPaymentDue?.columnStart} {placementMapping?.sipPaymentDue?.rowStart > 1
+					class="row-start-{placementMapping?.sipPaymentDue?.rowStart} {placementMapping
+						?.sipPaymentDue?.rowStart > 1
 						? 'mt-2'
 						: ''}"
 				/>
@@ -966,9 +966,10 @@
 					on:paymentOrderCardSlide={sipMissedCardSlideAnalytics}
 					on:paymentOrderCardItemClick={(e) => sipMissedCardCtaClickAnalyticsFunc(e?.detail)}
 					cardType={SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_MISSED}
-					class="row-start-{placementMapping?.sipPaymentMissed
-						?.rowStart} col-start-{placementMapping?.sipPaymentMissed
-						?.columnStart} {placementMapping?.sipPaymentMissed?.rowStart > 1 ? 'mt-2' : ''}"
+					class="row-start-{placementMapping?.sipPaymentMissed?.rowStart} {placementMapping
+						?.sipPaymentMissed?.rowStart > 1
+						? 'mt-2'
+						: ''}"
 				/>
 			{/if}
 			{#if data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN && placementMapping?.askAngel}

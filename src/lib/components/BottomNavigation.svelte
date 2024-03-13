@@ -74,9 +74,12 @@
 
 	const setActionCenterData = async () => {
 		setAllNudgesData();
-		autopayDataLoading = true;
-		await getPendingActionsData();
-		autopayDataLoading = false;
+
+		if (!$page.data.isGuest) {
+			autopayDataLoading = true;
+			await getPendingActionsData();
+			autopayDataLoading = false;
+		}
 	};
 
 	$: if (showPendingActionCenter) {

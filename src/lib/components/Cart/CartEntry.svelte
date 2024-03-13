@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
+	import { modifiedGoto } from '$lib/utils/goto';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { BtnVariant, WMSIcon } from 'svelte-components';
 	import { Button } from 'svelte-components';
@@ -11,7 +11,7 @@
 
 	const handleCartEntryClick = () => {
 		dispatch('cartEntryClick');
-		goto(`${base}/cart`);
+		modifiedGoto(`${base}/cart`);
 	};
 
 	onMount(() => {
