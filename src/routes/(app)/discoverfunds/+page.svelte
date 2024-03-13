@@ -86,6 +86,7 @@
 	import { getPendingActionsData } from '$lib/api/actions';
 	import { getDateTimeString } from '$lib/utils/helpers/date';
 	import { getStoriesData } from '$lib/api/media';
+	import StoriesSkeletonLoader from '$components/Stories/StoriesSkeletonLoader.svelte';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -115,6 +116,7 @@
 			: 'Fallback';
 	let placementMapping = {};
 	let readyMadePortfolios;
+	let storiesLoaded = false;
 
 	if ($page.data.deviceType?.isMobile || $page.data.deviceType?.isTablet) {
 		placementMapping = $page.data?.cohortConfig?.SF;
@@ -404,6 +406,7 @@
 
 	const fetchStoriesData = async () => {
 		const response = await getStoriesData();
+		storiesLoaded = true;
 		storiesData = response.data;
 	};
 
@@ -560,14 +563,19 @@
 />
 
 <article class="grid grid-cols-[100%]">
+	{#if !storiesLoaded && placementMapping?.stories}
+		<StoriesSkeletonLoader />
+	{/if}
 	<!-- 1. Stories section -->
-	{#if storiesData?.stories?.length}
-		<StoriesComponent
-			class="row-start-{placementMapping?.stories?.rowStart} col-start-{placementMapping?.stories
-				?.columnStart} !mb-0 {placementMapping?.stories?.rowStart > 1 ? 'mt-2' : ''}"
-			stories={storiesData?.stories}
-			version="A"
-		/>
+	{#if storiesData?.stories?.length && placementMapping?.stories}
+		{#if storiesLoaded}
+			<StoriesComponent
+				class="row-start-{placementMapping?.stories?.rowStart} col-start-{placementMapping?.stories
+					?.columnStart} !mb-0 {placementMapping?.stories?.rowStart > 1 ? 'mt-2' : ''}"
+				stories={storiesData?.stories}
+				version="A"
+			/>
+		{/if}
 	{/if}
 
 	<!-- 2. Search section -->

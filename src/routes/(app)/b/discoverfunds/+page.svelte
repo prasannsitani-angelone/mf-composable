@@ -90,6 +90,7 @@
 	import { getPendingActionsData } from '$lib/api/actions';
 	import { getDateTimeString } from '$lib/utils/helpers/date';
 	import { getStoriesData } from '$lib/api/media';
+	import StoriesSkeletonLoader from '$components/Stories/StoriesSkeletonLoader.svelte';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -125,6 +126,7 @@
 	}
 
 	let formattedRetryPaymentNudgeData: IRetryPaymentNudge;
+	let storiesLoaded = false;
 
 	const getNudgeData = async () => {
 		let nudgesData: NudgeDataType = {
@@ -604,13 +606,19 @@
 	{/if}
 
 	<!-- 3. Stories section -->
+	{#if !storiesLoaded && placementMapping?.stories && !placementMapping?.videoReel}
+		<StoriesSkeletonLoader />
+	{/if}
+	<!-- 1. Stories section -->
 	{#if storiesData?.stories?.length && placementMapping?.stories && !placementMapping?.videoReel}
-		<StoriesComponent
-			class="row-start-{placementMapping?.stories?.rowStart} col-start-{placementMapping?.stories
-				?.columnStart} !mb-0 {placementMapping?.stories?.rowStart > 1 ? 'mt-2' : ''}"
-			stories={storiesData?.stories}
-			version="B"
-		/>
+		{#if storiesLoaded}
+			<StoriesComponent
+				class="row-start-{placementMapping?.stories?.rowStart} col-start-{placementMapping?.stories
+					?.columnStart} !mb-0 {placementMapping?.stories?.rowStart > 1 ? 'mt-2' : ''}"
+				stories={storiesData?.stories}
+				version="A"
+			/>
+		{/if}
 	{/if}
 
 	{#if notifData?.totalCount > 0 && placementMapping?.actions}
