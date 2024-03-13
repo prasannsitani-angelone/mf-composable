@@ -91,6 +91,7 @@
 	import { getDateTimeString } from '$lib/utils/helpers/date';
 	import { getStoriesData } from '$lib/api/media';
 	import StoriesSkeletonLoader from '$components/Stories/StoriesSkeletonLoader.svelte';
+	import { cohorts, cohorts_LF } from '$lib/constants/cohorts';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -120,9 +121,13 @@
 	let showVideoReelModal = false;
 	let readyMadePortfolios;
 	if ($page.data.deviceType?.isMobile || $page.data.deviceType?.isTablet) {
-		placementMapping = $page.data?.cohortConfig?.SF;
+		placementMapping = $page.data?.cohortConfig
+			? $page.data?.cohortConfig?.SF
+			: cohorts.Fallback.placementMapping;
 	} else {
-		placementMapping = $page.data?.cohortConfig?.LF;
+		placementMapping = $page.data?.cohortConfig
+			? $page.data?.cohortConfig?.LF
+			: cohorts_LF.Fallback.placementMapping;
 	}
 
 	let formattedRetryPaymentNudgeData: IRetryPaymentNudge;
@@ -894,7 +899,7 @@
 	{/if}
 
 	<!-- 11. Logout -->
-	{#if !($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) && !isGuest}
+	{#if placementMapping?.logout && !($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) && !isGuest}
 		<article
 			class="row-start-{placementMapping?.logout?.rowStart} col-start-{placementMapping?.logout
 				?.columnStart} flex justify-center sm:hidden"

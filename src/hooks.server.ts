@@ -120,12 +120,12 @@ const handler = (async ({ event, resolve }) => {
 				userDetails = userData[1]?.value;
 				investementSummary = userData[2]?.value;
 				searchDashboardData = userData[3]?.value;
+				let user_cohort = 'Fallback';
+				if (userDetails?.cohort?.length && userDetails?.cohort?.[0]) {
+					user_cohort = userDetails?.cohort?.[0];
+				}
+				cohortConfig = await getCohortMappingforUser(user_cohort, token, fetch);
 			}
-			let user_cohort = 'Fallback';
-			if (userDetails?.cohort?.length && userDetails?.cohort?.[0]) {
-				user_cohort = userDetails?.cohort?.[0];
-			}
-			cohortConfig = await getCohortMappingforUser(user_cohort, token, fetch);
 			if (userDetails?.userType === 'B2B') {
 				searchDashboardData = await getsearchDashboardData(
 					token,

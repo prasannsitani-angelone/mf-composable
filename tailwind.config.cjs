@@ -27,6 +27,10 @@ module.exports = {
 		'row-start-14',
 		'row-start-15',
 		'row-start-16',
+		'row-start-17',
+		'row-start-18',
+		'row-start-19',
+		'row-start-20',
 		'col-start-1',
 		'col-start-2',
 		'col-start-3',
@@ -108,7 +112,11 @@ module.exports = {
 				13: '13',
 				14: '14',
 				15: '15',
-				16: '16'
+				16: '16',
+				17: '17',
+				18: '18',
+				19: '19',
+				20: '20'
 			},
 			gridColumnStart: {
 				...presetsConfig.theme.extend.gridColumnStart,
