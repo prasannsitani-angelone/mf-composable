@@ -397,26 +397,28 @@
 					class:bg-tint12-sell={benchmarkData?.summary?.portReturnsOverBm < 0}
 					class:bg-tint12-secondary={benchmarkData?.summary?.portReturnsOverBm === 0}
 				>
-					{#if benchmarkData?.summary?.portReturnsOverBm > 0}
-						<WMSIcon fill="var(--BUY)" name="graph-in-circle" height={16} width={16} />
-					{:else if benchmarkData?.summary?.portReturnsOverBm < 0}
-						<WMSIcon
-							fill="var(--SELL)"
-							name="graph-in-circle"
-							height={16}
-							width={16}
-							class="scale-y-[-1]"
-						/>
-					{:else}
-						<WMSIcon
-							fill="var(--SECONDARY)"
-							stroke="var(--TINT12-SECONDARY)"
-							name="equal-in-circle"
-							height={16}
-							width={16}
-						/>
-					{/if}
-					<p class="text-[11px] font-normal leading-4 text-title">
+					<div>
+						{#if benchmarkData?.summary?.portReturnsOverBm > 0}
+							<WMSIcon fill="var(--BUY)" name="graph-in-circle" height={16} width={16} />
+						{:else if benchmarkData?.summary?.portReturnsOverBm < 0}
+							<WMSIcon
+								fill="var(--SELL)"
+								name="graph-in-circle"
+								height={16}
+								width={16}
+								class="scale-y-[-1]"
+							/>
+						{:else}
+							<WMSIcon
+								fill="var(--SECONDARY)"
+								stroke="var(--TINT12-SECONDARY)"
+								name="equal-in-circle"
+								height={16}
+								width={16}
+							/>
+						{/if}
+					</div>
+					<p class="text-[11px] font-normal leading-3 text-title">
 						Your portfolio returns are
 						<span class="font-semibold">
 							{!Number.isNaN(Math.abs(benchmarkData?.summary?.portReturnsOverBm))
@@ -427,8 +429,10 @@
 						</span>since you started investing
 					</p>
 				</article>
-				<article class="-ml-1 flex items-center px-0 py-3 text-body">
-					<WMSIcon stroke="var(--CHART)" name="eclipse" height={8} width={8} class="px-0" />
+				<article class="flex flex-wrap items-center gap-1 px-0 py-3 text-body">
+					<div>
+						<WMSIcon stroke="var(--CHART)" name="eclipse" height={8} width={8} />
+					</div>
 					<div class="text-[10px] font-normal">
 						Your Portfolio
 						<span class="text-xs font-medium">
@@ -439,7 +443,9 @@
 								: ''}%
 						</span>
 					</div>
-					<WMSIcon stroke="var(--SECONDARY)" name="eclipse" height={8} width={8} />
+					<div class="ml-1">
+						<WMSIcon stroke="var(--SECONDARY)" name="eclipse" height={8} width={8} />
+					</div>
 					<div class="text-[10px] font-normal">
 						Nifty 50 (Index Benchmark)
 						<span class="text-xs font-medium">
@@ -450,15 +456,16 @@
 								: ''}%
 						</span>
 					</div>
-					<WMSIcon
-						width={12}
-						height={12}
-						name="info-in-circle"
-						fill="var(--BODY)"
-						stroke="var(--BODY)"
-						class="ml-1 cursor-default md:cursor-pointer"
-						on:click={toggleShowAboutBenchmarkModal}
-					/>
+					<div class="cursor-default md:cursor-pointer">
+						<WMSIcon
+							width={12}
+							height={12}
+							name="info-in-circle"
+							fill="var(--BODY)"
+							stroke="var(--BODY)"
+							on:click={toggleShowAboutBenchmarkModal}
+						/>
+					</div>
 				</article>
 			{/if}
 			<article>
@@ -476,7 +483,7 @@
 {#if showAboutBenchmarkModal}
 	<InfoModal
 		showModal={showAboutBenchmarkModal}
-		heading="Why compare this fund with Nifty 50?"
+		heading="Performance Comparison with Nifty 50"
 		on:crossClicked={toggleShowAboutBenchmarkModal}
 	>
 		<div slot="crossIconSlot" />

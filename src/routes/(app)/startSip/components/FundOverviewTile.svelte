@@ -34,22 +34,18 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <section on:click={gotoSchemeDetails} class={`flex cursor-pointer flex-col px-1 py-2 ${clazz}`}>
-	<div class="flex w-full items-start">
-		<div>
-			<SchemeLogo
-				src={schemes?.logoUrl}
-				alt={schemes?.schemeName}
-				size={schemeLogoSize}
-				class={schemeLogoClass}
-				lazy={index > 1 ? 'lazy' : 'eager'}
-			/>
-		</div>
-		<div
-			class="flex w-full flex-row justify-between {showBadge
-				? 'items-start'
-				: 'items-center self-center'}"
-		>
+	<div class="flex w-full items-start justify-between">
+		<div class="flex flex-row">
 			<div>
+				<SchemeLogo
+					src={schemes?.logoUrl}
+					alt={schemes?.schemeName}
+					size={schemeLogoSize}
+					class={schemeLogoClass}
+					lazy={index > 1 ? 'lazy' : 'eager'}
+				/>
+			</div>
+			<div class:self-center={!showBadge}>
 				<h3
 					class="line-clamp-2 whitespace-normal text-sm font-medium text-title md:text-sm {headingClass}"
 				>
@@ -62,15 +58,15 @@
 					>
 				{/if}
 			</div>
-			<div class="ml-1">
-				<WMSIcon
-					name="arrow-next-circle-filled"
-					circleFill="var(--BACKGROUND-ALT)"
-					arrowFill="var(--BODY)"
-					width={24}
-					height={24}
-				/>
-			</div>
+		</div>
+		<div class="ml-1">
+			<WMSIcon
+				name="arrow-next-circle-filled"
+				circleFill="var(--BACKGROUND-ALT)"
+				arrowFill="var(--BODY)"
+				width={24}
+				height={24}
+			/>
 		</div>
 	</div>
 
