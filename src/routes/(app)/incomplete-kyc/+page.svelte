@@ -1,8 +1,13 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
-	import Link from '$lib/components/Link.svelte';
+	import { base } from '$app/paths';
 	import KycPending from '$lib/images/kycPending.svelte';
 	import { WMSIcon } from 'svelte-components';
+
+	const navigateToHomePage = () => {
+		goto(`${base}/discoverfunds`);
+	};
 </script>
 
 <article>
@@ -18,11 +23,14 @@
 			VIEW KYC STATUS
 			<WMSIcon name="right-arrow" size="xs" class="ml-2" stroke="var(--BACKGROUND-ALT)" />
 		</Button>
-		<Link to="/discoverfunds">
-			<Button variant="transparent" class="{$$props.class} mt-2 w-full" ariaLabel="Go back">
-				GO BACK
-			</Button>
-		</Link>
+		<Button
+			variant="transparent"
+			class="{$$props.class} mt-2 w-full"
+			ariaLabel="Go back"
+			onClick={navigateToHomePage}
+		>
+			GO BACK
+		</Button>
 	</div>
 </article>
 
