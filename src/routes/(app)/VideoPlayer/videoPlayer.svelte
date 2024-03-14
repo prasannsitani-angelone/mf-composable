@@ -98,6 +98,7 @@
 			autoplay: source === VideoPlayerRenderView.Modal,
 			showBottomDrawer: source === VideoPlayerRenderView.Modal,
 			muted: true,
+			autoPlayOnFocus: true,
 			source
 		};
 	};

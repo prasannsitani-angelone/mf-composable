@@ -20,7 +20,7 @@
 	import { goto } from '$app/navigation';
 	import { appStore } from '$lib/stores/SparkStore';
 	import type { VideoPlayerProps } from '$components/Video/interfaces';
-	import { VideoPlayerMode } from '$components/Video/enums';
+	import { VideoPlayerMode, VideoPlayerRenderView } from '$components/Video/enums';
 	import VideoPlayer from '$components/Video/Video.svelte';
 
 	export let stories: Array<Story>;
@@ -311,10 +311,11 @@
 			playInLoop: false,
 			showBottomDrawer: false,
 			muted: mutedPlayback,
-			source: selectedStory?.storyId,
+			source: VideoPlayerRenderView.Normal,
 			type: VideoPlayerMode.Normal,
 			autoplay: true,
 			hideMute: true,
+			autoPlayOnFocus: false,
 			fallbackSrc: selectedVideo?.videoFallbackUrl
 		};
 	};

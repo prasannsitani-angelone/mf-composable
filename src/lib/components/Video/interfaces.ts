@@ -23,4 +23,5 @@ export interface VideoPlayerProps {
 	source?: VideoPlayerRenderView;
 	hideMute?: boolean;
 	fallbackSrc?: string;
+	autoPlayOnFocus?: boolean;
 }
