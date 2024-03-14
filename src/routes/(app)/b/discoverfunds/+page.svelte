@@ -39,7 +39,7 @@
 	import { SEO, WMSIcon } from 'svelte-components';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 	import { onMount, tick } from 'svelte';
-	import { PUBLIC_MF_CORE_BASE_URL, PUBLIC_MF_CORE_BASE_URL_V2 } from '$env/static/public';
+	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import MostBought from '$components/MostBought/MostBought.svelte';
 	import QuickEntryPointsComponent from '../../discoverfunds/QuickEntryPoints/QuickEntryPointsComponent.svelte';
@@ -61,17 +61,14 @@
 	import AskAngel from '../../discoverfunds/AskAngel.svelte';
 	import {
 		actionCentreEntryImpression,
-		actionCentreClick,
 		actNowClick
 	} from '$lib/analytics/pendingActionCenter/analytics';
 	import Link from '$components/Link.svelte';
 	import { modifiedGoto } from '$lib/utils/goto';
-	import { slide } from 'svelte/transition';
 	import SearchComponent from '../../discoverfunds/SearchComponent.svelte';
 	import HomePageVideoPlayer from '../../VideoPlayer/videoPlayer.svelte';
 	import Modal from '$components/Modal.svelte';
 	import TrendingFunds from '$components/TrendingFunds/TrendingFunds.svelte';
-	import type { TrendingFund } from '$lib/types/ITrendingFunds';
 	import StartSipEntry from '$components/StartSip/StartSipEntry.svelte';
 	import TopFunds from '$components/TopFunds/TopFunds.svelte';
 	import TrackExternalInvestment from '../../discoverfunds/TrackExternalInvestment/TrackExternalInvestment.svelte';
@@ -107,7 +104,6 @@
 	let ecasImportNudgeData: EcasImportNudgeType;
 	let userEducationNudge: UserEducationNudgeType;
 	let notifData: INotificationSummary;
-	let trendingFundsData: TrendingFund[];
 	let autopayNudge: INudge | null;
 	let actionsData:
 		| INotification
@@ -166,14 +162,6 @@
 		return notifData;
 	};
 
-	const getTrendingFundsData = async () => {
-		trendingFundsData = [];
-		const url = `${PUBLIC_MF_CORE_BASE_URL_V2}/schemes?mostViewed=true`;
-		const res = await useFetch(url, {}, fetch);
-		if (res.ok) {
-			trendingFundsData = res?.data?.data;
-		}
-	};
 	const setSipNudgesData = (nudgeData: NudgeDataType) => {
 		sipPaymentNudges = [];
 		nudgeData?.nudges?.forEach((nudge: INudge) => {
@@ -368,11 +356,6 @@
 		appStore?.updateStore({ linkedmembers: { selected: [] } });
 	};
 
-	const onActionCentreClick = (notifText: string) => {
-		actionCentreClick({ text: notifText });
-		modifiedGoto(`${base}/pendingActions`);
-	};
-
 	const getHomePageVideoData = async () => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/packs?packId=BEST_FUNDS_FOR_SIP`;
 		const res = await useFetch(url, {}, fetch);
@@ -448,10 +431,6 @@
 		}
 
 		setNotificationData();
-
-		if (placementMapping?.trendingFunds) {
-			getTrendingFundsData();
-		}
 
 		if (data?.layoutConfig?.showAskAngelEntry) {
 			askAngelEntryImpressionAnalytics();
@@ -626,46 +605,6 @@
 		{/if}
 	{/if}
 
-	{#if notifData?.totalCount > 0 && placementMapping?.actions}
-		{@const notifText =
-			notifData?.summary?.length > 1
-				? `${notifData?.totalCount} items require your attention`
-				: notifData?.summary[0].type === 'instalment_failed_sips'
-				? `${notifData?.summary[0].count} SIP payment${
-						notifData?.summary[0].count === 1 ? '' : 's'
-				  } missed`
-				: notifData?.summary[0].type === 'payment_failed_orders'
-				? `${notifData?.summary[0].count} failed order${
-						notifData?.summary[0].count === 1 ? '' : 's'
-				  } recently`
-				: `${notifData?.summary[0].count} SIP payment${
-						notifData?.summary[0].count === 1 ? ' is' : 's are'
-				  } due`}
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<!-- svelte-ignore a11y-no-static-element-interactions -->
-		<div
-			class="row-start-{placementMapping?.actions?.rowStart} col-start-{placementMapping?.actions
-				?.columnStart} slide-down mx-1 mt-2 rounded-md bg-tint12-secondary p-2 shadow-lg hover:cursor-pointer"
-			on:click={() => onActionCentreClick(notifText)}
-			in:slide={{ duration: 400 }}
-		>
-			<div class="flex items-center justify-between">
-				<div class="flex items-center">
-					<WMSIcon name="exclamation-circle-solid" height={31} width={31} />
-					<div class="pl-2 pr-4 text-title">
-						<p class="text-sm font-medium">Action Required</p>
-						<p class="pt-1 text-xs">
-							{notifText}
-						</p>
-					</div>
-				</div>
-				<div>
-					<Button size="sm">ACT NOW</Button>
-				</div>
-			</div>
-		</div>
-	{/if}
-
 	{#if userEducationNudge && deviceType?.isMobile && placementMapping?.tutorials}
 		<TutorialNudge
 			title={userEducationNudge.heading}
@@ -727,9 +666,9 @@
 	{/if}
 
 	<!-- Trending Funds -->
-	{#if placementMapping?.trendingFunds && trendingFundsData?.length}
+	{#if placementMapping?.trendingFunds && data?.trendingFundsData?.length}
 		<TrendingFunds
-			fundList={trendingFundsData}
+			fundList={data?.trendingFundsData}
 			class="row-start-{placementMapping?.trendingFunds?.rowStart} col-start-{placementMapping
 				?.trendingFunds?.columnStart} !my-0 {placementMapping?.trendingFunds?.rowStart > 1
 				? '!mt-2'

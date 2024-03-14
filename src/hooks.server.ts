@@ -18,6 +18,7 @@ import type { InvestmentSummary } from '$lib/types/IInvestments';
 import { getsearchDashboardData } from '$lib/api/getSearchDashboard';
 import cacheInmemory from '$lib/server/cache.inmemory';
 import { getCohortMappingforUser } from '$lib/api/cohorts';
+import { getTrendingFundsData } from '$lib/api/trendingFunds';
 
 // import { accountType } from '$lib/utils/getAccountType';
 // import { getHashKey } from '$lib/server/getHashKey';
@@ -94,6 +95,7 @@ const handler = (async ({ event, resolve }) => {
 		const isGuest = isAuthenticatedUser ? false : true;
 		let searchDashboardData;
 		let cohortConfig;
+		let trendingFundsData;
 
 		if (!event.request.url.includes('/api/')) {
 			const searchDashboardPromise = getsearchDashboardData(
@@ -101,9 +103,11 @@ const handler = (async ({ event, resolve }) => {
 				fetch,
 				PRIVATE_MF_CORE_BASE_URL_V2
 			);
+			const trendingFundsPromise = getTrendingFundsData(token, fetch, PRIVATE_MF_CORE_BASE_URL_V2);
 
 			if (isGuest) {
 				searchDashboardData = await searchDashboardPromise;
+				trendingFundsData = await trendingFundsPromise;
 			} else if (isAuthenticatedUser) {
 				const investementSummaryPromise = getHoldingSummary(token, fetch, PRIVATE_MF_CORE_BASE_URL);
 
@@ -113,13 +117,15 @@ const handler = (async ({ event, resolve }) => {
 					profilePromise,
 					userPromise,
 					investementSummaryPromise,
-					searchDashboardPromise
+					searchDashboardPromise,
+					trendingFundsPromise
 				]);
 
 				profileData = userData[0]?.value;
 				userDetails = userData[1]?.value;
 				investementSummary = userData[2]?.value;
 				searchDashboardData = userData[3]?.value;
+				trendingFundsData = userData[4]?.value;
 				let user_cohort = 'Fallback';
 				if (userDetails?.cohort?.length && userDetails?.cohort?.[0]) {
 					user_cohort = userDetails?.cohort?.[0];
@@ -128,6 +134,12 @@ const handler = (async ({ event, resolve }) => {
 			}
 			if (userDetails?.userType === 'B2B') {
 				searchDashboardData = await getsearchDashboardData(
+					token,
+					fetch,
+					PRIVATE_MF_CORE_BASE_URL_V2,
+					'B2B'
+				);
+				trendingFundsData = await getTrendingFundsData(
 					token,
 					fetch,
 					PRIVATE_MF_CORE_BASE_URL_V2,
@@ -157,7 +169,8 @@ const handler = (async ({ event, resolve }) => {
 			pageUrl: event.request.url,
 			investementSummary,
 			searchDashboardData,
-			cohortConfig
+			cohortConfig,
+			trendingFundsData
 		};
 
 		let response = await resolve(event);

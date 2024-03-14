@@ -152,7 +152,8 @@ module.exports = {
 			animation: {
 				...presetsConfig.theme.extend.animation,
 				slideUp: '0.5s slideInFromBottom',
-				slideDown: '0.5s slideOutFromTop'
+				slideDown: '0.5s slideOutFromTop',
+				'bounce-2': 'bounce 1s 2.5'
 			},
 			borderColor: {
 				DEFAULT: 'var(--BORDER)'

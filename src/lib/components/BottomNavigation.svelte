@@ -109,11 +109,11 @@
 						this={isActive ? nav.activeIcon : nav.icon}
 						width={nav.width}
 						height={nav.height}
-						class="m-auto {noOfPendingActions && 'animate-bounce'}"
+						class="m-auto {noOfPendingActions && 'animate-bounce-2'}"
 					/>
 					{#if noOfPendingActions}
 						<span
-							class="absolute -top-2 right-3 inline-flex animate-bounce items-center rounded-full bg-sell px-[6px] py-[2px] text-[10px] font-medium text-white"
+							class="absolute -top-2 right-3 inline-flex animate-bounce-2 items-center rounded-full bg-sell px-[6px] py-[2px] text-[10px] font-medium text-white"
 						>
 							{noOfPendingActions}
 						</span>
