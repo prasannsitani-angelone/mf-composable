@@ -25,7 +25,7 @@
 					<ButtonMedium
 						size={BtnSize.SM}
 						class="!bg-background-alt !p-0 !text-xs !font-medium !text-primary"
-						on:click>EXPLORE NOW<WMSIcon name="right-arrow" stroke="var(--PRIMARY)" /></ButtonMedium
+						>EXPLORE NOW<WMSIcon name="right-arrow" stroke="var(--PRIMARY)" /></ButtonMedium
 					>
 				</div>
 				<div class="flex items-center justify-center">

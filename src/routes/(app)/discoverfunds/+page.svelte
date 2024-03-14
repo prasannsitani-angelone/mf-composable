@@ -881,7 +881,7 @@
 	{/if}
 
 	<!-- 11. Logout -->
-	{#if !($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) && deviceType?.isMobile && !isGuest}
+	{#if placementMapping?.logout && !($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) && deviceType?.isMobile && !isGuest}
 		<article
 			class="row-start-{placementMapping?.logout?.rowStart} col-start-{placementMapping?.logout
 				?.columnStart} flex justify-center sm:hidden {deviceType.isMobile ? 'min-h-[56px]' : ''}"
