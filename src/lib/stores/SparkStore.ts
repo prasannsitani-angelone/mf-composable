@@ -1,18 +1,13 @@
 import { PLATFORM_TYPE } from '$lib/constants/platform';
 import { writable } from 'svelte/store';
 
-enum GuestUser {
-	YES = 'yes',
-	NO = 'no'
-}
-
 export interface SparkStore {
 	platform: string;
 	platformversion: string;
 	platformvariant: string;
 	theme: string;
 	clevertapclientid: string;
-	guest: GuestUser | null;
+	guest: string | null;
 	deviceid: string;
 	closecta: string;
 	deviceosversion: string;
@@ -160,8 +155,7 @@ function Store() {
 			return query;
 		},
 		isTabview: () => sparkStore?.isTabView,
-		openViaTabView: () => sparkStore?.openViaTabView,
-		isSparkGuestUser: () => sparkStore?.guest?.toLowerCase() === GuestUser.YES
+		openViaTabView: () => sparkStore?.openViaTabView
 	};
 }
 

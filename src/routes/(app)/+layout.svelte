@@ -73,7 +73,7 @@
 
 		showAngelBeeBanner = shouldDisplayAngelBeeBanner(data);
 
-		if (!isGuest && !appStore.isSparkGuestUser()) {
+		if (!isGuest) {
 			if ('requestIdleCallback' in window) {
 				requestIdleCallback(initClevertap, { timeout: 5000 });
 			} else {
@@ -151,7 +151,7 @@
 		<LoadingIndicator svgClass={'!w-16 !h-16'} />
 	</Overlay>
 {/if}
-{#if ($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_OUT && !appStore.isSparkGuestUser()}
+{#if ($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS) && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_OUT}
 	<ResultPopup
 		popupType="FAILURE"
 		title="You have been logged out"
@@ -162,7 +162,7 @@
 	>
 		<div slot="popupFooter" />
 	</ResultPopup>
-{:else if $tokenStore.state === AUTH_STATE_ENUM.LOGGED_OUT && !appStore.isSparkGuestUser()}
+{:else if $tokenStore.state === AUTH_STATE_ENUM.LOGGED_OUT}
 	<ResultPopup
 		popupType="FAILURE"
 		title="You have been logged out"
