@@ -82,19 +82,21 @@ export const cohorts: { [key: string]: { placementMapping: object } } = {
 			search: { rowStart: 1, columnStart: 1 },
 			stories: { rowStart: 2, columnStart: 1 },
 			investments: { rowStart: 3, columnStart: 1 },
-			actions: { rowStart: 4, columnStart: 1 },
-			startSip: { rowStart: 5, columnStart: 1 },
-			mostBought: { rowStart: 6, columnStart: 1 },
-			categories: { rowStart: 7, columnStart: 1 },
-			videoReel: { rowStart: 8, columnStart: 1 },
-			setupAutopay: { rowStart: 9, columnStart: 1 },
-			trendingFunds: { rowStart: 10, columnStart: 1 },
+			sipPaymentDue: { rowStart: 4, columnStart: 1 },
+			setupAutopay: { rowStart: 5, columnStart: 1 },
+			startSip: { rowStart: 6, columnStart: 1 },
+			mostBought: { rowStart: 7, columnStart: 1 },
+			categories: { rowStart: 8, columnStart: 1 },
+			videoReel: { rowStart: 9, columnStart: 1 },
+			sipPaymentMissed: { rowStart: 10, columnStart: 1 },
 			buyPortfolioCard: { rowStart: 11, columnStart: 1 },
-			topFundsList: { rowStart: 12, columnStart: 1 },
-			sipCalculator: { rowStart: 13, columnStart: 1 },
-			trackExtFunds: { rowStart: 14, columnStart: 1 },
-			screener: { rowStart: 15, columnStart: 1 },
-			logout: { rowStart: 16, columnStart: 1 }
+			trendingFunds: { rowStart: 12, columnStart: 1 },
+			topFundsList: { rowStart: 13, columnStart: 1 },
+			sipCalculator: { rowStart: 14, columnStart: 1 },
+			trackExtFunds: { rowStart: 15, columnStart: 1 },
+			nfoEntry: { rowStart: 16, columnStart: 1 },
+			screener: { rowStart: 17, columnStart: 1 },
+			logout: { rowStart: 18, columnStart: 1 }
 		}
 	}
 };
@@ -169,19 +171,21 @@ export const cohorts_LF: { [key: string]: { placementMapping: object } } = {
 	Fallback: {
 		placementMapping: {
 			stories: { rowStart: 1, columnStart: 1 },
-			actions: { rowStart: 2, columnStart: 1 },
-			startSip: { rowStart: 3, columnStart: 1 },
-			mostBought: { rowStart: 4, columnStart: 1 },
-			categories: { rowStart: 5, columnStart: 1 },
-			buyPortfolioCard: { rowStart: 6, columnStart: 1 },
-			trendingFunds: { rowStart: 7, columnStart: 1 },
+			startSip: { rowStart: 2, columnStart: 1 },
+			mostBought: { rowStart: 3, columnStart: 1 },
+			categories: { rowStart: 4, columnStart: 1 },
+			buyPortfolioCard: { rowStart: 5, columnStart: 1 },
+			trendingFunds: { rowStart: 6, columnStart: 1 },
+			topFundsList: { rowStart: 7, columnStart: 1 },
 			sipCalculator: { rowStart: 8, columnStart: 1 },
 			trackExtFunds: { rowStart: 9, columnStart: 1 },
-			quickEntryPoints: { rowStart: 10, columnStart: 1 },
+			nfoEntry: { rowStart: 10, columnStart: 1 },
 			screener: { rowStart: 11, columnStart: 1 },
 			investments: { rowStart: 1, columnStart: 2 },
 			setupAutopay: { rowStart: 2, columnStart: 2 },
-			videoReel: { rowStart: 3, columnStart: 2 }
+			sipPaymentDue: { rowStart: 3, columnStart: 2 },
+			sipPaymentMissed: { rowStart: 4, columnStart: 2 },
+			videoReel: { rowStart: 5, columnStart: 2 }
 		}
 	}
 };

@@ -19,9 +19,9 @@
 				{addCommasToAmountString(peopleInvested)} other investors started a 2nd SIP to maximise their
 				returns
 			</div>
-			<div class="mt-2 flex text-xs font-normal">
+			<div class="mt-1 flex text-xs font-normal">
 				<div class="flex flex-col items-start justify-center pr-2">
-					<p class="text-body">Explore 2nd SIP based on your 1st investment</p>
+					<p class="pb-1 text-body">Explore 2nd SIP based on your 1st investment</p>
 					<ButtonMedium
 						size={BtnSize.SM}
 						class="!bg-background-alt !p-0 !text-xs !font-medium !text-primary"
@@ -30,7 +30,7 @@
 				</div>
 				<div class="flex items-center justify-center">
 					<div
-						class="flex h-16 w-16 flex-col items-center rounded-sm border border-tint24-primary text-2xs text-title"
+						class="flex h-16 w-16 flex-col items-center rounded border border-tint24-primary text-2xs text-title"
 					>
 						<div class="flex h-2/3 items-center justify-center">
 							<SchemeLogo
@@ -48,7 +48,7 @@
 						<WMSIcon name="plus-no-bordericon" stroke="var(--DISABLED)" height={14} width={14} />
 					</div>
 					<div
-						class="flex h-16 w-16 flex-col items-center rounded-sm border border-tint24-primary text-2xs text-title"
+						class="flex h-16 w-16 flex-col items-center rounded border border-tint24-primary text-2xs text-title"
 					>
 						<div class="flex h-2/3 items-center justify-center text-2xl text-primary">?</div>
 						<div
