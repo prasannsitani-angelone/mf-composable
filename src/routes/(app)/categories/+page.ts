@@ -49,7 +49,7 @@ export const load = (async ({ fetch, url }) => {
 		},
 		filter,
 		layoutConfig: {
-			title: 'Explore Mutual Funds',
+			title: pageType === EXPLORE_FUND_PAGE_TYPE.CATEGORIES ? 'Explore Mutual Funds' : filter?.name,
 			showSearchIcon: true,
 			showBackIcon: true,
 			layoutType: 'DEFAULT',
