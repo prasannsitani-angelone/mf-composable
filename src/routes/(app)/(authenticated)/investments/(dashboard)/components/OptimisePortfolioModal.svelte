@@ -9,7 +9,7 @@
 		SkeletonWrapper
 	} from 'svelte-components';
 	import ButtonMedium from '$components/ButtonMedium.svelte';
-	import PortfolioPerformace from '$lib/images/PortfolioPerformace.svg';
+	import PortfolioPerformace from '$lib/images/PortfolioPerformace.svelte';
 	import type {
 		IOPtimsiePortfolioData,
 		InvestmentEntity,
@@ -136,7 +136,7 @@
 	<div class="w-full rounded-t-2xl bg-background-alt px-5 py-4 sm:w-120 sm:!rounded-lg">
 		<div class="mb-4">
 			<div class="flex items-center text-lg font-normal">
-				<div class="flex-1 font-medium">2nd SIP For Your Portfolio</div>
+				<div class="flex-1 font-medium text-title">2nd SIP For Your Portfolio</div>
 				<WMSIcon
 					name="cross-circle"
 					class="hidden cursor-pointer sm:block"
@@ -169,11 +169,11 @@
 					WHY THIS FUND?
 				</ButtonMedium>
 				<div class="flex flex-col items-center">
-					<p class="text-sm font-normal">Projected portfolio performance</p>
+					<p class="text-sm font-normal text-title">Projected portfolio performance</p>
 					{#if !isFetchingScheme}
-						<div class="my-4 flex flex-col text-xs font-normal">
+						<div class="my-4 flex flex-col text-xs font-normal text-title">
 							<div class="flex flex-row">
-								<img src={PortfolioPerformace} alt="Performace graph" />
+								<PortfolioPerformace />
 								<div class="ml-[-12px] mt-[5px] flex flex-col">
 									<div class="h-[59px]">
 										<p>₹{addCommasToAmountString(totalReturns?.toFixed(2) || 0)}</p>
@@ -211,7 +211,7 @@
 	<Modal {isMobile} isModalOpen on:backdropclicked={() => toggleFundModal(false)}>
 		<div class="w-full rounded-t-2xl bg-background-alt px-4 sm:w-120 sm:!rounded-lg">
 			<div class="flex items-center py-6 text-lg font-normal">
-				<div class="flex-1">Why this fund?</div>
+				<div class="flex-1 text-title">Why this fund?</div>
 				<WMSIcon
 					name="cross-circle"
 					class="hidden cursor-pointer sm:block"
