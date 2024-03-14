@@ -1,6 +1,6 @@
 <script lang="ts">
 	let index: number;
-	let id: string;
+	let id = '';
 	export { index, id };
 </script>
 

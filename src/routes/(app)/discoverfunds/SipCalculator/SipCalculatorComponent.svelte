@@ -80,6 +80,12 @@
 	};
 
 	const getExploreFundsPath = async () => {
+		sipCalculatorInvestButtonClickAnalytics({
+			InvType: 'SIP',
+			amount: selectedAmount,
+			returnabs: roiSlider[0]
+		});
+
 		const investmentType = 'SIP';
 		const returnRangeStart = Math.max(roiSlider[0] - 2, 0);
 		const returnRangeEnd = roiSlider[0] + 3;
@@ -87,12 +93,6 @@
 			`investmentType=${investmentType}&schemeType=Growth&threeYearReturn=${returnRangeStart}_${returnRangeEnd}`
 		);
 		await modifiedGoto(`${base}/filters/items`);
-
-		sipCalculatorInvestButtonClickAnalytics({
-			InvType: 'SIP',
-			amount: selectedAmount,
-			returnabs: roiSlider[0]
-		});
 	};
 
 	onMount(() => {
