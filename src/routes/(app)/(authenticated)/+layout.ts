@@ -5,13 +5,13 @@ import { goto } from '$app/navigation';
 import logger from '$lib/utils/logger';
 import { getLogoutUrl } from '$lib/utils/helpers/logout';
 import { base } from '$app/paths';
-import { appStore } from '$lib/stores/SparkStore';
 
 const allowedRoutes = ['search', 'discoverfunds', 'schemes', 'filter', 'nfo', 'sipbook'];
 
 export const load = (async ({ url, parent }) => {
 	const parentData = await parent();
 	const { pathname, search, searchParams } = url;
+	const { sparkHeaders } = parentData;
 	logger.debug({
 		type: 'Page Load Url',
 		params: {
@@ -24,7 +24,7 @@ export const load = (async ({ url, parent }) => {
 	});
 
 	if (
-		appStore.isSparkGuestUser() &&
+		sparkHeaders.guest === 'yes' &&
 		(allowedRoutes.filter((route) => pathname.indexOf(route) > -1)?.length === 0 ||
 			searchParams.get('orderpad') === 'INVEST')
 	) {
