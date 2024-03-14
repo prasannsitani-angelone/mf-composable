@@ -346,9 +346,6 @@
 											${nav?.nav > 0 ? `₹${addCommasToAmountString(parseFloat(nav?.nav?.toFixed(2)))}` : 'NA'}
                       </span>
 										</div>
-										<div class="ml-1 text-buy">
-											(${nav?.nav > 0 ? `+${parseFloat(((nav?.nav - 1000) / 10)?.toFixed(2))}%` : 'NA'})
-										</div>
 									</div>`;
 								innerHtml += div;
 							});
