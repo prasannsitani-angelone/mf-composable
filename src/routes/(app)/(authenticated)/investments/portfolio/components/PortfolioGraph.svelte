@@ -182,7 +182,7 @@
 		benchmarkData?.summary?.portReturnsOverBm < 0
 			? 'less than'
 			: benchmarkData?.summary?.portReturnsOverBm > 0
-			? 'better than'
+			? 'more than'
 			: 'equal to';
 
 	const formatDate = (navDate) => {

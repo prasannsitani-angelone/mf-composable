@@ -28,11 +28,11 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<ModalWithAnimation closeModal={backdropClick} isModalOpen class="">
+<ModalWithAnimation showIconOnTop={true} closeModal={backdropClick} isModalOpen>
 	<svelte:fragment slot="closingIcon">
 		<div on:click={backdropClick} class="flex items-center justify-center">
 			<div class="mb-4 w-fit rounded-full bg-background p-3">
-				<WMSIcon name="cross" stroke="var(--PRIMARY)" height={24} width={24} class="" />
+				<WMSIcon name="cross" stroke="var(--PRIMARY)" height={24} width={24} />
 			</div>
 		</div>
 	</svelte:fragment>
@@ -44,13 +44,7 @@
 			<PendingActionsLoader />
 		{:else if isNoPendingActions}
 			<div class="flex flex-col items-center gap-2 pb-8 pt-6 text-body">
-				<WMSIcon
-					name="tick-in-circle-outline"
-					stroke="var(--BODY)"
-					height={24}
-					width={24}
-					class=""
-				/>
+				<WMSIcon name="tick-in-circle-outline" stroke="var(--BODY)" height={24} width={24} />
 				<h2 class="text-sm font-normal text-body">No Pending Actions</h2>
 				<p class="m-auto w-[268px] text-center text-xs font-normal text-body">
 					Great job! You are keeping your investments in good shape

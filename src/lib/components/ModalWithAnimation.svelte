@@ -6,6 +6,7 @@
 
 	const dispatch = createEventDispatcher();
 	let isModalOpen = false;
+	let showIconOnTop = false;
 	let closeModal: (() => void) | null = null;
 	let animationDuration = 500;
 	let isModalClosed = false;
@@ -53,7 +54,15 @@
 	$: isModalOpen, showingModal(); // if component is not unmounting then need to toggle visibility
 	$: isModalClosed, closingModal(); // for indicating click outside modal
 
-	export { closeModal, isModalOpen, isModalClosed, preventBackDropClick, animationDuration, delay };
+	export {
+		closeModal,
+		isModalOpen,
+		isModalClosed,
+		preventBackDropClick,
+		animationDuration,
+		delay,
+		showIconOnTop
+	};
 </script>
 
 {#if isModalOpen}
@@ -66,10 +75,14 @@
 				on:keydown|self={backDropClicked}
 				on:click|self={backDropClicked}
 			>
-				<div class="flex flex-col">
-					<slot name="closingIcon" />
+				{#if showIconOnTop}
+					<div class="flex flex-col">
+						<slot name="closingIcon" />
+						<slot />
+					</div>
+				{:else}
 					<slot />
-				</div>
+				{/if}
 			</div>
 		{:else if visible}
 			<!-- svelte-ignore a11y-no-static-element-interactions -->

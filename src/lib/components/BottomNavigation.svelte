@@ -77,7 +77,7 @@
 
 		if (!$page.data.isGuest) {
 			autopayDataLoading = true;
-			await getPendingActionsData();
+			notifData = await getPendingActionsData();
 			autopayDataLoading = false;
 		}
 	};
