@@ -473,11 +473,11 @@
 
 	const getSipDueDateMetadata = (orderDate: number) => {
 		const today = new Date();
-		const inputDate = new Date(orderDate * 1000);
+		const inputDate = new Date(orderDate);
 		if (today?.toDateString() === inputDate?.toDateString()) {
 			return 'Due Today';
 		} else {
-			return `Due on ${getDateTimeString(orderDate * 1000)}`;
+			return `Due on ${getDateTimeString(orderDate)}`;
 		}
 	};
 
@@ -495,7 +495,7 @@
 				FundIndex: index,
 				FundName: item?.schemeName,
 				Amount: item?.amount,
-				DueStatus: getSipDueDateMetadata(item?.orderDate)
+				DueStatus: getSipDueDateMetadata(item?.sipAmountPayTillDate)
 			};
 		});
 
@@ -514,7 +514,7 @@
 			FundIndex: currentIndex,
 			FundName: currentIndexSip?.schemeName,
 			Amount: currentIndexSip?.amount,
-			DueStatus: getSipDueDateMetadata(currentIndexSip?.orderDate)
+			DueStatus: getSipDueDateMetadata(currentIndexSip?.sipAmountPayTillDate)
 		};
 
 		sipDueCardCtaClickAnalytics(eventMetaData);
@@ -763,7 +763,7 @@
 				liveNFO={openNfo}
 				onLinkClicked={() => homepageNfoClickAnalytics(openNfo)}
 				to="/nfo"
-				class="rounded-t-lg"
+				class="rounded-lg"
 				subtitleClass="text-xs font-normal text-body"
 				on:entryCardMounted={nfoEntryImpressionAnalyticsFunc}
 			>

@@ -49,11 +49,11 @@
 >
 	<header class="mb-2" data-testid="trending-funds">
 		<h2 class="text-base font-medium text-title">Most Viewed Funds</h2>
-		<div
-			class="mt-0.5 flex w-fit items-center rounded bg-tint12-secondary-alt p-1 text-xs font-normal text-secondary-alt"
-		>
-			<WMSIcon stroke="var(--SECONDARY-ALT)" name="graph-up" height={12} width={12} />
-			{addCommasToAmountString(viewCount)} people viewed in the last 24 hours
+		<div class="mt-0.5 flex w-fit items-center rounded text-xs font-normal">
+			<WMSIcon stroke="var(--BODY)" name="graph-up" height={12} width={12} />
+			<div class="ml-1 text-body">
+				{addCommasToAmountString(viewCount)} people viewed in the last 24 hours
+			</div>
 		</div>
 	</header>
 	<article class="mt-2 grid grid-cols-2 gap-3 md:grid-cols-4">

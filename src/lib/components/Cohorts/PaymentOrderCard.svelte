@@ -41,11 +41,11 @@
 	const setTag = () => {
 		if (cardType === SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_DUE) {
 			const today = new Date();
-			const inputDate = new Date(sipList[currentIndex]?.orderDate * 1000);
+			const inputDate = new Date(sipList[currentIndex]?.sipAmountPayTillDate);
 			if (today?.toDateString() === inputDate?.toDateString()) {
 				tag = 'Due Today';
 			} else {
-				tag = `Due on ${getDateTimeString(sipList[currentIndex]?.orderDate * 1000)}`;
+				tag = `Due on ${getDateTimeString(sipList[currentIndex]?.sipAmountPayTillDate)}`;
 			}
 		} else if (cardType === SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_MISSED) {
 			tag = 'Overdue';

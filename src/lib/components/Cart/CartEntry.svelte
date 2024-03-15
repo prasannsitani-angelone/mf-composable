@@ -23,7 +23,7 @@
 
 {#if cartItemCount}
 	<article
-		class="absolute inset-0 bottom-20 left-auto right-2 top-auto z-10 md:hidden lg:bottom-11 lg:right-11 {$$props?.class}"
+		class="absolute inset-0 bottom-18 left-auto right-2 top-auto z-10 mb-1 md:hidden lg:bottom-11 lg:right-11 {$$props?.class}"
 	>
 		<Button
 			variant={BtnVariant?.Contained}

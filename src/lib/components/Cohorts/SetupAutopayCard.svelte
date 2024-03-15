@@ -54,14 +54,15 @@
 		<section class="mt-3">
 			<div class="text-xs font-normal text-body">
 				You are at risk of missing SIP payments! Set up autopay today and protect your portfolio
-				from volatility
 			</div>
 		</section>
 
 		<section class="mt-3 flex items-center justify-between">
 			<PaymentAppsIcon />
 
-			<Button variant={BtnVariant?.Contained} class="rounded">SET UP AUTOPAY</Button>
+			<Button variant={BtnVariant?.Contained} size={'sm'} class="rounded px-4 text-xs font-medium"
+				>SET UP AUTOPAY</Button
+			>
 		</section>
 	</article>
 {/if}
