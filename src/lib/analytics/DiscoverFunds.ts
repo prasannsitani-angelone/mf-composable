@@ -269,3 +269,20 @@ export const cartEntryClickAnalytics = (eventMetaData: Record<string, string | n
 		event_metadata: eventMetaData
 	});
 };
+
+export const portfolioCardImpressionAnalytics = (eventMetaData: {
+	CurrentValue: number;
+	TotalInvestment: number;
+	OverallReturn: string;
+	TodaysReturn: string;
+}) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-Homepage',
+		event_type: 'impression',
+		event_sub_type: 'card',
+		event_name: 'PortfolioCard',
+		event_property: null,
+		event_id: '308.0.0.1.23',
+		event_metadata: eventMetaData
+	});
+};

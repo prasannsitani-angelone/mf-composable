@@ -8,9 +8,17 @@
 	import type { InvestmentSummary } from '$lib/types/IInvestments';
 	import { viewPortfolioAnalysisAnalytics } from '../../../routes/(app)/(authenticated)/investments/analytics';
 	import { modifiedGoto } from '$lib/utils/goto';
-	import { investmentCardClickAnalytics } from '$lib/analytics/DiscoverFunds';
+	import {
+		investmentCardClickAnalytics,
+		portfolioCardImpressionAnalytics
+	} from '$lib/analytics/DiscoverFunds';
+	import { onMount } from 'svelte';
 
 	let showInfo = true;
+
+	onMount(() => {
+		portfolioCardImpressionAnalyticsFunc();
+	});
 
 	const viewPortfolioAnalysisAnalyticsFunc = () => {
 		const eventMetaData = {
@@ -44,6 +52,20 @@
 			)} (${investmentSummary?.previousDayReturnPercentage?.toFixed(2)}%)`
 		};
 		investmentCardClickAnalytics(eventMetaData);
+	};
+
+	const portfolioCardImpressionAnalyticsFunc = () => {
+		const eventMetaData = {
+			CurrentValue: parseFloat(investmentSummary?.currentValue?.toFixed(0)),
+			TotalInvestment: parseFloat(investmentSummary?.investedValue?.toFixed(0)),
+			OverallReturn: `${investmentSummary?.returnsValue?.toFixed(
+				0
+			)} (${investmentSummary?.returnsAbsolutePer?.toFixed(2)}%)`,
+			TodaysReturn: `${investmentSummary?.previousDayReturns?.toFixed(
+				0
+			)} (${investmentSummary?.previousDayReturnPercentage?.toFixed(2)}%)`
+		};
+		portfolioCardImpressionAnalytics(eventMetaData);
 	};
 
 	const navigateToInvestments = () => {
