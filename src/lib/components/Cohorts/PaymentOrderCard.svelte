@@ -22,8 +22,9 @@
 
 	const dispatch = createEventDispatcher();
 
-	const handleButtonClick = (sip: Notif) => {
+	const handleButtonClick = (sip: Notif, index: number) => {
 		dispatch('buttonClick', sip);
+		handleCarouselItemClick(index);
 	};
 
 	const setTitle = () => {
@@ -76,8 +77,6 @@
 	export { sipList, cardType, tagClass };
 </script>
 
-<!-- getDateTimeString(order?.orderDate * 1000) -->
-
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 {#if sipList?.length}
@@ -107,12 +106,7 @@
 				id={cardType}
 			>
 				{#each sipList || [] as sip, index}
-					<CarouselItem
-						class="max-h-14 max-w-full"
-						{index}
-						id={cardType}
-						on:click={() => handleCarouselItemClick(index)}
-					>
+					<CarouselItem class="max-h-14 max-w-full" {index} id={cardType}>
 						<section class="mt-2">
 							<slot name="tag">
 								<div class={tagClass}>
@@ -133,7 +127,7 @@
 									<Button
 										variant={BtnVariant?.Contained}
 										size="sm"
-										onClick={() => handleButtonClick(sip)}
+										onClick={() => handleButtonClick(sip, index)}
 									>
 										<span class="text-xs font-medium">
 											PAY ₹{addCommasToAmountString(sip?.amount)}

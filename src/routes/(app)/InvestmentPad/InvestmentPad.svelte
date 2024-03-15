@@ -179,7 +179,8 @@
 		sipInstalmentId,
 		isAdditionalFlag,
 		hideAutopayMethod,
-		require2FA = true
+		require2FA = true,
+		homepageNudge
 	} = params || {};
 
 	const os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
@@ -1157,6 +1158,10 @@
 	const hidePaymentMethodScreen = () => {
 		if (skipOrderPad) {
 			history.back();
+
+			if ($appStore.openViaTabView && homepageNudge) {
+				goBackToSpark();
+			}
 		} else {
 			showChangePayment = false;
 		}

@@ -26,4 +26,5 @@ export interface decodedParamsTypes {
 	isAdditionalFlag?: boolean;
 	hideAutopayMethod?: boolean;
 	require2FA?: boolean;
+	homepageNudge?: boolean;
 }

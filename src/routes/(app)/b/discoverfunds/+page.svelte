@@ -312,7 +312,8 @@
 				redirectedFrom: 'SIP_PAYMENTS',
 				sipId: order?.sipId,
 				sipRegistrationNumber: order?.sipRegistrationNo,
-				sipDueDate: format(new Date(order?.sipPaymentDate), 'yyyy-MM-dd')
+				sipDueDate: format(new Date(order?.sipPaymentDate), 'yyyy-MM-dd'),
+				homepageNudge: true
 			});
 			modifiedGoto(`${base}/${path}?params=${params}&orderpad=INVEST`);
 		} else {
@@ -339,7 +340,8 @@
 				investmentAmount: order?.amount,
 				skipOrderPad: true,
 				sipInstalmentId: order?.orderID.toString(),
-				isAdditionalFlag: true
+				isAdditionalFlag: true,
+				homepageNudge: true
 			});
 			modifiedGoto(`${base}/${path}?params=${params}&orderpad=INVEST`);
 		} else {
@@ -407,6 +409,7 @@
 	};
 
 	$: openNfo = 0;
+	let sendNfoImpressionAnalytics = false;
 
 	const fetchStoriesData = async () => {
 		const response = await getStoriesData();
@@ -453,6 +456,10 @@
 
 		const nfoList = await getactiveNfo();
 		openNfo = nfoList?.length;
+
+		if (sendNfoImpressionAnalytics) {
+			nfoEntryImpressionAnalyticsFunc();
+		}
 	});
 
 	const initializeClevertapData = async () => {
@@ -479,6 +486,10 @@
 		} else {
 			return `Due on ${getDateTimeString(orderDate)}`;
 		}
+	};
+
+	const toggleSendNfoEntryImpressionAnalytics = () => {
+		sendNfoImpressionAnalytics = !sendNfoImpressionAnalytics;
 	};
 
 	const nfoEntryImpressionAnalyticsFunc = () => {
@@ -531,7 +542,7 @@
 		});
 
 		const eventMetaData = {
-			SIPcount: (actionsData?.instalmentPending || [])?.length,
+			SIPcount: (actionsData?.instalmentFailedOrders || [])?.length,
 			SIPs: sipListMetaData
 		};
 
@@ -765,7 +776,7 @@
 				to="/nfo"
 				class="rounded-lg"
 				subtitleClass="text-xs font-normal text-body"
-				on:entryCardMounted={nfoEntryImpressionAnalyticsFunc}
+				on:entryCardMounted={toggleSendNfoEntryImpressionAnalytics}
 			>
 				<div
 					slot="icon"

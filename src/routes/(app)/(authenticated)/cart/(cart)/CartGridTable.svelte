@@ -179,7 +179,7 @@
 
 <CartTableHeader {isSelectAllChecked} handleCheckboxChange={toggleSelectAll} />
 <section
-	class=" bg-background-alt max-sm:h-[calc(100vh-330px)] max-sm:overflow-auto max-sm:pb-20 sm:mb-4"
+	class=" bg-background-alt max-sm:h-[calc(100vh-256px)] max-sm:overflow-auto max-sm:pb-20 sm:mb-4"
 >
 	<div id="cartGridTable">
 		<div id="cartGridTableHeader" class="text-xs font-normal text-body">
