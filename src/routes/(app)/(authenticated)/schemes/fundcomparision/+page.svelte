@@ -289,7 +289,7 @@
 		}
 	};
 	let schemeDetailsList: SchemeDetails[] = [];
-	let selectedTag = 4;
+	let selectedTag = '3Y';
 
 	$: schemesSelected = schemeDetailsList?.reduce((accumulator, element) => {
 		if (element?.schemeCode) {
@@ -491,11 +491,11 @@
 			);
 		});
 	};
-	const onTagClick = async (index: number, tagsClicked = true) => {
+	const onTagClick = async (tagLabel: string, index: number, tagsClicked = true) => {
 		if (tagsClicked === false) {
 			chartDataLoading = true;
 		}
-		selectedTag = index;
+		selectedTag = tagLabel;
 
 		const promiseArray = data?.comparisionArr?.map(({ isin }) => {
 			return getChartData(isin, tags[index].months);
@@ -512,7 +512,7 @@
 	};
 
 	const initialiseData = () => {
-		selectedTag = 4;
+		selectedTag = '3Y';
 		pastReturns = [['1 Year'], ['3 Years'], ['5 Years'], ['All Time']];
 		fundBasics = [
 			['NAV'],
@@ -549,7 +549,7 @@
 
 		// initilaising everything
 		initialiseData();
-		onTagClick(4, false); // 4th index for 3Y nav
+		onTagClick('3Y', 4, false); // 4th index for 3Y nav
 
 		response.forEach((element) => {
 			schemeDetailsList.push(element.schemeData);
@@ -683,7 +683,7 @@
 		const data = {
 			comparefundcardfunds: [],
 			comparefundcardfundsISIN: [],
-			ChartTimeIntervalSelected: tags?.[selectedTag]?.label,
+			ChartTimeIntervalSelected: selectedTag,
 			CurrentValue: [],
 			Returns: []
 		};

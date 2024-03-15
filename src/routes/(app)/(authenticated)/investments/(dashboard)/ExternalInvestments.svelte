@@ -330,7 +330,7 @@
 					<InvestmentDashboardLoader />
 				</section>
 				<section
-					class="col-span-1 col-start-1 row-start-2 sm:col-start-2 sm:row-span-3 sm:row-start-1"
+					class="col-span-1 col-start-1 row-start-2 sm:col-start-2 sm:row-span-3 sm:row-start-1 md:hidden"
 				>
 					<PortfolioCardLoader />
 				</section>
@@ -348,7 +348,9 @@
 						/>
 					</section>
 					<!-- Render Right Side of Unhappy Scenario -->
-					<section class="col-span-1 row-start-1 sm:col-span-1 sm:col-start-2 sm:row-span-3">
+					<section
+						class="col-span-1 row-start-1 sm:col-span-1 sm:col-start-2 sm:row-span-3 md:hidden"
+					>
 						<svelte:component
 							this={UnhappyComponentsMap[getUnhappyScenario(response)].card}
 							scenario={getUnhappyScenario(response)}

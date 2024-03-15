@@ -11,6 +11,8 @@
 		portfolioBenchmarkInfoIconClickAnalytics,
 		portfolioBenchmarkPopupOpenAnalytics
 	} from '../../analytics';
+	import { differenceInMonths } from 'date-fns';
+	import type { Tags } from '$lib/types/ITags';
 
 	export let fundChartData: Array<ChartDataType>;
 	export let benchmarkData: BenchmarkDataType;
@@ -42,7 +44,7 @@
 	];
 
 	let chartDataLoading = false;
-	let selectedTag = 6;
+	let selectedTag = 'ALL';
 	let chartNavData: Array<Array<ChartDataType>> = [];
 	let lineData = {};
 	let chartId = 'portfolio-line-chart';
@@ -135,13 +137,14 @@
 		};
 	};
 
-	const onTagClick = async (tag: number, tagsClicked = true) => {
+	const onTagClick = async (tagLabel: string, index: number, tagsClicked = true) => {
 		if (tagsClicked === false) {
 			chartDataLoading = true;
 		} else {
-			dispatch('portfolioChartTagChange', tag);
+			let idx = tags.findIndex((item) => item.label === tagLabel);
+			dispatch('portfolioChartTagChange', idx);
 		}
-		selectedTag = tag;
+		selectedTag = tagLabel;
 
 		if (tagsClicked === false) {
 			chartDataLoading = false;
@@ -176,7 +179,36 @@
 		fillChartData(chartNavData);
 	};
 
-	$: fundChartData, benchmarkData, removeNonIntersectingTimestamps(), updateChartData();
+	let filteredTags: Tags[] = [];
+
+	const filterTags = () => {
+		// if 'ALL' timeline's data ^^IS NOT PRESENT^^
+		if (selectedTag !== 'ALL') {
+			return !filterTags?.length ? tags : filterTags;
+		}
+		// if 'ALL' timeline's data ^^IS PRESENT^^
+		let oldestDate;
+		const today = new Date();
+		if (isEquityPortfolioFlag) {
+			if (!benchmarkData?.holdingChart?.length) return tags;
+			const oldestTimestamp =
+				benchmarkData?.holdingChart?.[benchmarkData?.holdingChart?.length - 1]?.timestamp;
+			oldestDate = new Date(oldestTimestamp);
+		} else {
+			if (!fundChartData?.length) return tags;
+			const oldestTimestamp = fundChartData?.[fundChartData?.length - 1]?.timestamp;
+			oldestDate = new Date(oldestTimestamp);
+		}
+		const monthsOfData = differenceInMonths(today, oldestDate);
+		filteredTags = tags?.filter((tag) => {
+			return tag?.months < monthsOfData || tag?.label === 'ALL';
+		});
+	};
+	$: fundChartData,
+		benchmarkData,
+		removeNonIntersectingTimestamps(),
+		updateChartData(),
+		filterTags();
 
 	$: benchmarkText =
 		benchmarkData?.summary?.portReturnsOverBm < 0
@@ -470,7 +502,7 @@
 					<Chart
 						{lineData}
 						{lineChartOptions}
-						{tags}
+						tags={filteredTags}
 						{onTagClick}
 						{selectedTag}
 						{chartId}
