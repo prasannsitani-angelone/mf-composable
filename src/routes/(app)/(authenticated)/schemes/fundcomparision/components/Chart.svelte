@@ -8,18 +8,19 @@
 	export let tags = [];
 	export let selectedTag: number;
 	export let onTagClick: (param: number) => undefined;
+	export let tagsContainerClass = '';
 </script>
 
-<div class="bg-background-alt px-2 py-3 sm:p-6">
+<div class="bg-background-alt px-2 py-3 sm:p-6 {$$props?.class}">
 	<LineChart
 		data={lineData}
 		chartOptions={lineChartOptions}
-		chartClass="w-full h-64 relative"
+		chartClass="w-full h-64 relative px-0"
 		tooltipSymbol="₹"
 		{chartId}
 	/>
-	<article class="mt-6 flex justify-center">
-		<section class="flex w-auto flex-row gap-2 bg-background-alt sm:gap-4">
+	<article class="mt-6 flex justify-center {tagsContainerClass}">
+		<section class="flex w-auto flex-row gap-[10px] bg-background-alt sm:gap-4">
 			{#each tags as tag, index}
 				{#if tag.returnPeriod}
 					<Button

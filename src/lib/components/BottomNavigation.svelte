@@ -89,6 +89,11 @@
 	onMount(async () => {
 		setActionCenterData();
 	});
+
+	const handleBottomNavClick = (label: string) => {
+		bottomNavClickAnalytics(label);
+		setActionCenterData();
+	};
 </script>
 
 <section
@@ -122,7 +127,7 @@
 			{:else}
 				<Link
 					to={nav.path}
-					on:linkClicked={() => bottomNavClickAnalytics(nav.label)}
+					on:linkClicked={() => handleBottomNavClick(nav.label)}
 					class="inline-block w-full justify-center py-[9px] text-center"
 					pathConversion={false}
 					disableRedirect={isActive}

@@ -270,9 +270,7 @@
 			}
 		},
 		layout: {
-			padding: {
-				left: 5
-			}
+			padding: 0
 		},
 		plugins: {
 			tooltip: {
@@ -339,10 +337,10 @@
 								const div = `<div style="${style} class="mt-1 text-xs">
 										<div style="width: 8px; height: 8px; background: ${nav?.color}; border-radius: 100%;"></div>
 										<div class="ml-1 flex items-start gap-1">
-                      <span class="text-body whitespace-nowrap">${
+                      <span class="text-body whitespace-nowrap text-xs">${
 												index === 0 ? 'Your Portfolio' : 'Nifty 50'
 											}: </span>
-                      <span class="text-title font-medium">
+                      <span class="text-title font-medium text-xs">
 											${nav?.nav > 0 ? `₹${addCommasToAmountString(parseFloat(nav?.nav?.toFixed(2)))}` : 'NA'}
                       </span>
 										</div>
@@ -469,7 +467,16 @@
 				{#if chartDataLoading}
 					<SkeletonRectangle class="mb-2 !h-[50vh] w-full rounded-lg" />
 				{:else}
-					<Chart {lineData} {lineChartOptions} {tags} {onTagClick} {selectedTag} {chartId} />
+					<Chart
+						{lineData}
+						{lineChartOptions}
+						{tags}
+						{onTagClick}
+						{selectedTag}
+						{chartId}
+						class="!px-0 py-0 sm:p-0"
+						tagsContainerClass="mb-3"
+					/>
 				{/if}
 			</article>
 		</div>

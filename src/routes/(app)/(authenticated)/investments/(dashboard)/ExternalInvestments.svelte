@@ -325,32 +325,36 @@
 		</section>
 	{:else}
 		{#await externalInvestmentSummary}
-			<section class="col-span-1 row-start-3 sm:col-span-1 sm:col-start-1">
-				<InvestmentDashboardLoader />
-			</section>
-			<section
-				class="col-span-1 col-start-1 row-start-2 sm:col-start-2 sm:row-span-3 sm:row-start-1"
-			>
-				<PortfolioCardLoader />
-			</section>
+			<div class="grid">
+				<section class="col-span-1 row-start-3 sm:col-span-1 sm:col-start-1">
+					<InvestmentDashboardLoader />
+				</section>
+				<section
+					class="col-span-1 col-start-1 row-start-2 sm:col-start-2 sm:row-span-3 sm:row-start-1"
+				>
+					<PortfolioCardLoader />
+				</section>
+			</div>
 		{:then response}
 			<!-- Check for unhappy scenarios -->
 			{#if getUnhappyScenario(response)}
-				<!-- Render Left side for unhapy scenario -->
-				<section class="col-span-1 row-start-2 sm:col-span-1 sm:col-start-1">
-					<svelte:component
-						this={UnhappyComponentsMap[getUnhappyScenario(response)].info}
-						onConfirmation={onInitiateFundsFetch}
-						{data}
-					/>
-				</section>
-				<!-- Render Right Side of Unhappy Scenario -->
-				<section class="col-span-1 row-start-1 sm:col-span-1 sm:col-start-2 sm:row-span-3">
-					<svelte:component
-						this={UnhappyComponentsMap[getUnhappyScenario(response)].card}
-						scenario={getUnhappyScenario(response)}
-					/>
-				</section>
+				<div class="grid">
+					<!-- Render Left side for unhapy scenario -->
+					<section class="col-span-1 row-start-2 sm:col-span-1 sm:col-start-1">
+						<svelte:component
+							this={UnhappyComponentsMap[getUnhappyScenario(response)].info}
+							onConfirmation={onInitiateFundsFetch}
+							{data}
+						/>
+					</section>
+					<!-- Render Right Side of Unhappy Scenario -->
+					<section class="col-span-1 row-start-1 sm:col-span-1 sm:col-start-2 sm:row-span-3">
+						<svelte:component
+							this={UnhappyComponentsMap[getUnhappyScenario(response)].card}
+							scenario={getUnhappyScenario(response)}
+						/>
+					</section>
+				</div>
 			{:else}
 				<!-- Success scenarios -->
 				{#await externalInvestmentHoldings}
