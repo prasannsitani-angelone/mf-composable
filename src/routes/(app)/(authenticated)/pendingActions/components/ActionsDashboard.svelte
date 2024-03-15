@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import type { INotification, Notif } from '$lib/types/INotifications';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
@@ -13,19 +12,20 @@
 	import type { IActionItem } from '$lib/analytics/pendingActionCenter/analytics';
 	import PaymentOrderCard from '$components/Cohorts/PaymentOrderCard.svelte';
 	import { SIP_ORDER_CARD_TYPES } from '$lib/constants/actions';
+	import { modifiedGoto } from '$lib/utils/goto';
 
 	export let actionsData:
 		| INotification
 		| { instalmentFailedOrders: []; paymentFailedOrders: []; instalmentPending: [] };
 
 	const onOrderFailedButtonClick = (order: Notif) => {
-		goto(`${base}/orders/${order?.orderID}`);
 		actNowClick({
 			FundName: order?.schemeName,
 			Amount: order?.amount,
 			Heading: 'Recent Failed Orders',
 			cta: 'retry'
 		});
+		modifiedGoto(`${base}/orders/${order?.orderID}`);
 	};
 
 	const handleFailedSipPaymentClick = (order: Notif) => {
@@ -46,9 +46,9 @@
 				isAdditionalFlag: true
 			});
 
-			goto(`${base}/${path}?params=${params}&orderpad=INVEST`);
+			modifiedGoto(`${base}/${path}?params=${params}&orderpad=INVEST`);
 		} else {
-			goto(`${base}/sipbook/dashboard`);
+			modifiedGoto(`${base}/sipbook/dashboard`);
 		}
 		actNowClick({
 			FundName: order?.schemeName,
@@ -80,9 +80,9 @@
 				sipRegistrationNumber: order?.sipRegistrationNo,
 				sipDueDate: format(new Date(order?.sipPaymentDate), 'yyyy-MM-dd')
 			});
-			goto(`${base}/${path}?params=${params}&orderpad=INVEST`);
+			modifiedGoto(`${base}/${path}?params=${params}&orderpad=INVEST`);
 		} else {
-			goto(`${base}/sipbook/${order?.sipId}`);
+			modifiedGoto(`${base}/sipbook/${order?.sipId}`);
 		}
 		actNowClick({
 			FundName: order?.schemeName,
