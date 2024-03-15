@@ -1,0 +1,7 @@
+- [ ] Have you run the code in you local
+- [ ] Code is Type Safe
+- [ ] Code is not missing any null check
+- [ ] PR address the issue and working for all scenario's (guest/ non guest users)
+- [ ] Test id added for new components
+- [ ] Is there any performance issue which can come due to this change
+- [ ] Is there any short term fix in code (hacky solution )

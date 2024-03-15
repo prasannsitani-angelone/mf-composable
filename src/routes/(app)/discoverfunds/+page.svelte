@@ -50,7 +50,6 @@
 	import ClevertapNudgeComponent from '$components/clevertap/ClevertapNudgeComponent.svelte';
 	import Clevertap from '$lib/utils/Clevertap';
 	import { schemeScreenerStore } from '$lib/stores/SchemeScreenerStore';
-	import Screener from '$lib/components/Screener/ScreenerHome.svelte';
 	import TutorialNudge from '$components/Tutorial/nudge/TutorialNudge.svelte';
 	import type { INotification, INotificationSummary, Notif } from '$lib/types/INotifications';
 	import { base } from '$app/paths';
@@ -68,7 +67,6 @@
 	import StartSipEntry from '$components/StartSip/StartSipEntry.svelte';
 	import TopFunds from '$components/TopFunds/TopFunds.svelte';
 	import TrackExternalInvestment from './TrackExternalInvestment/TrackExternalInvestment.svelte';
-	import SipCalculatorComponent from './SipCalculator/SipCalculatorComponent.svelte';
 	import { registerNativeResumeCallback } from '$lib/utils/nativeCallbacks';
 	import { cartStore } from '$lib/stores/CartStore';
 	import SetupAutopayCard from '$components/Cohorts/SetupAutopayCard.svelte';
@@ -102,7 +100,11 @@
 	let userEducationNudge: UserEducationNudgeType;
 	let autopayNudge: INudge | null;
 	let elementOnce: HTMLElement;
+	let screenerElement: HTMLElement;
+	let sipCalculatorElement: HTMLElement;
 	let intersectOnce: boolean;
+	let screenerIntersect: boolean;
+	let sipCalculatorIntersect: boolean;
 	let notifData: INotificationSummary;
 	let actionsData:
 		| INotification
@@ -672,12 +674,24 @@
 	{/if}
 
 	{#if placementMapping?.sipCalculator}
-		<SipCalculatorComponent
-			class="row-start-{placementMapping?.sipCalculator?.rowStart} col-start-{placementMapping
-				?.sipCalculator?.columnStart} {placementMapping?.sipCalculator?.rowStart > 1
-				? '!mt-2'
-				: ''}"
-		/>
+		<IntersectionObserver
+			once
+			element={sipCalculatorElement}
+			bind:intersecting={sipCalculatorIntersect}
+		>
+			<div
+				bind:this={sipCalculatorElement}
+				class="row-start-{placementMapping?.sipCalculator?.rowStart} col-start-{placementMapping
+					?.sipCalculator?.columnStart} {placementMapping?.sipCalculator?.rowStart > 1
+					? '!mt-2'
+					: ''}"
+			>
+				<LazyComponent
+					when={sipCalculatorIntersect}
+					component={async () => await import('./SipCalculator/SipCalculatorComponent.svelte')}
+				/>
+			</div>
+		</IntersectionObserver>
 	{/if}
 
 	{#if !deviceType?.isBrowser && autopayNudge && placementMapping?.setupAutopay}
@@ -803,10 +817,19 @@
 	{/if}
 
 	{#if placementMapping?.screener}
-		<Screener
-			class="row-start-{placementMapping?.screener?.rowStart} col-start-{placementMapping?.screener
-				?.columnStart}"
-		/>
+		<IntersectionObserver once element={screenerElement} bind:intersecting={screenerIntersect}>
+			<div
+				bind:this={screenerElement}
+				class="row-start-{placementMapping?.screener?.rowStart} col-start-{placementMapping
+					?.screener?.columnStart}"
+			>
+				<LazyComponent
+					imageClass="h-32 md:h-42 lg:h-32 w-full object-cover"
+					when={screenerIntersect}
+					component={async () => await import('$lib/components/Screener/ScreenerHome.svelte')}
+				/>
+			</div>
+		</IntersectionObserver>
 	{/if}
 
 	{#if placementMapping?.buyPortfolioCard && readyMadePortfolios?.length && deviceType.isBrowser}

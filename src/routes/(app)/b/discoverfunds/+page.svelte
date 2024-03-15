@@ -11,6 +11,7 @@
 	} from '$lib/types/INudge';
 	import { format } from 'date-fns';
 	import type { IDueSips, ISip } from '$lib/types/ISipType';
+	import IntersectionObserver from 'svelte-intersection-observer';
 
 	import {
 		cartEntryClickAnalytics,
@@ -50,7 +51,6 @@
 	import { ctNudgeStore } from '$lib/stores/CtNudgeStore';
 	import ClevertapNudgeComponent from '$components/clevertap/ClevertapNudgeComponent.svelte';
 	import Clevertap from '$lib/utils/Clevertap';
-	import Screener from '$lib/components/Screener/ScreenerHome.svelte';
 	import { schemeScreenerStore } from '$lib/stores/SchemeScreenerStore';
 	import TutorialNudge from '$components/Tutorial/nudge/TutorialNudge.svelte';
 	import type { UserEducationNudgeType } from '$lib/types/INudge';
@@ -72,7 +72,6 @@
 	import StartSipEntry from '$components/StartSip/StartSipEntry.svelte';
 	import TopFunds from '$components/TopFunds/TopFunds.svelte';
 	import TrackExternalInvestment from '../../discoverfunds/TrackExternalInvestment/TrackExternalInvestment.svelte';
-	import SipCalculatorComponent from '../../discoverfunds/SipCalculator/SipCalculatorComponent.svelte';
 	import { registerNativeResumeCallback } from '$lib/utils/nativeCallbacks';
 	import { cartStore } from '$lib/stores/CartStore';
 	import SetupAutopayCard from '$components/Cohorts/SetupAutopayCard.svelte';
@@ -116,6 +115,10 @@
 	let videoData;
 	let showVideoReelModal = false;
 	let readyMadePortfolios;
+	let screenerElement: HTMLElement;
+	let sipCalculatorElement: HTMLElement;
+	let screenerIntersect: boolean;
+	let sipCalculatorIntersect: boolean;
 	if ($page.data.deviceType?.isMobile || $page.data.deviceType?.isTablet) {
 		placementMapping = $page.data?.cohortConfig
 			? $page.data?.cohortConfig?.SF
@@ -698,12 +701,25 @@
 	{/if}
 
 	{#if placementMapping?.sipCalculator}
-		<SipCalculatorComponent
-			class="row-start-{placementMapping?.sipCalculator?.rowStart} col-start-{placementMapping
-				?.sipCalculator?.columnStart} {placementMapping?.sipCalculator?.rowStart > 1
-				? '!mt-2'
-				: ''}"
-		/>
+		<IntersectionObserver
+			once
+			element={sipCalculatorElement}
+			bind:intersecting={sipCalculatorIntersect}
+		>
+			<div
+				bind:this={sipCalculatorElement}
+				class="row-start-{placementMapping?.sipCalculator?.rowStart} col-start-{placementMapping
+					?.sipCalculator?.columnStart} {placementMapping?.sipCalculator?.rowStart > 1
+					? '!mt-2'
+					: ''}"
+			>
+				<LazyComponent
+					when={sipCalculatorIntersect}
+					component={async () =>
+						await import('../../discoverfunds/SipCalculator/SipCalculatorComponent.svelte')}
+				/>
+			</div>
+		</IntersectionObserver>
 	{/if}
 
 	<!-- Video component -->
@@ -831,10 +847,19 @@
 	{/if}
 
 	{#if placementMapping?.screener}
-		<Screener
-			class="row-start-{placementMapping?.screener?.rowStart} col-start-{placementMapping?.screener
-				?.columnStart}"
-		/>
+		<IntersectionObserver once element={screenerElement} bind:intersecting={screenerIntersect}>
+			<div
+				bind:this={screenerElement}
+				class="row-start-{placementMapping?.screener?.rowStart} col-start-{placementMapping
+					?.screener?.columnStart}"
+			>
+				<LazyComponent
+					imageClass="h-32 md:h-42 lg:h-32 w-full object-cover"
+					when={screenerIntersect}
+					component={async () => await import('$lib/components/Screener/ScreenerHome.svelte')}
+				/>
+			</div>
+		</IntersectionObserver>
 	{/if}
 
 	<!-- 11. Logout -->
