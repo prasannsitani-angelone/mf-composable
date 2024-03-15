@@ -788,7 +788,7 @@
 		</section>
 	{/if}
 
-	{#if !deviceType?.isBrowser && autopayNudge && placementMapping?.setupAutopay}
+	{#if !deviceType?.isBrowser && autopayNudge && placementMapping?.setupAutopay && !actionsData?.instalmentPending?.length}
 		<SetupAutopayCard
 			sipPendingCount={autopayNudge?.data?.sipCount}
 			sipTotalAmount={autopayNudge?.amount}
@@ -940,7 +940,7 @@
 			imageClass="h-32 md:h-42 lg:h-32 w-full object-cover"
 		/>
 	{/if}
-	{#if autopayNudge && placementMapping?.setupAutopay}
+	{#if autopayNudge && placementMapping?.setupAutopay && !actionsData?.instalmentPending?.length}
 		<SetupAutopayCard
 			sipPendingCount={autopayNudge?.data?.sipCount}
 			sipTotalAmount={autopayNudge?.amount}

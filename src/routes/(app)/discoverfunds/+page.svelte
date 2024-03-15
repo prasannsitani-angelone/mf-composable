@@ -705,7 +705,7 @@
 		</IntersectionObserver>
 	{/if}
 
-	{#if !deviceType?.isBrowser && autopayNudge && placementMapping?.setupAutopay}
+	{#if !deviceType?.isBrowser && autopayNudge && placementMapping?.setupAutopay && !actionsData?.instalmentPending?.length}
 		<SetupAutopayCard
 			sipPendingCount={autopayNudge?.data?.sipCount}
 			sipTotalAmount={autopayNudge?.amount}
@@ -909,7 +909,7 @@
 					</div>
 				</IntersectionObserver>
 			{/if}
-			{#if autopayNudge && placementMapping?.setupAutopay}
+			{#if autopayNudge && placementMapping?.setupAutopay && !actionsData?.instalmentPending?.length}
 				<SetupAutopayCard
 					sipPendingCount={autopayNudge?.data?.sipCount}
 					sipTotalAmount={autopayNudge?.amount}
