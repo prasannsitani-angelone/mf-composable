@@ -2,6 +2,7 @@
 	import DoughnutChart from '$components/Charts/DoughnutChart.svelte';
 	import { getColorSchemeForScore } from '$components/SipHealth/utils.js';
 	import { customCanvasBackgroundColorPlugin } from '$components/Charts/utils.js';
+	import { getCssVar } from '$lib/utils/colors';
 
 	export let score: number;
 	export let scoreNumberClass = '';
@@ -9,18 +10,6 @@
 	export let chartHeight = 65;
 
 	$: selectedColor = getColorSchemeForScore(score);
-
-	let selectedColorClass = '';
-
-	$: {
-		if (selectedColor?.primary === '#D64D4D') {
-			selectedColorClass = 'red-errorDark';
-		} else if (selectedColor?.primary === '#F9BA4D') {
-			selectedColorClass = 'yellow-primary';
-		} else if (selectedColor?.primary === '#008F75') {
-			selectedColorClass = 'green-amount';
-		}
-	}
 
 	$: doughnutData = {
 		datasets: [
@@ -49,7 +38,7 @@
 				}
 			},
 			customCanvasBackgroundColor: {
-				fill: 'white'
+				fill: getCssVar('--BACKGROUND-ALT')
 			}
 		}
 	};
@@ -66,7 +55,8 @@
 		height={chartHeight}
 	/>
 	<div
-		class={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-2xl font-medium text-${selectedColorClass} ${
+		style="color: {selectedColor.primary}"
+		class={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-2xl font-medium ${
 			scoreNumberClass || ''
 		}`}
 	>
