@@ -48,7 +48,8 @@
 				investmentAmount: order?.amount,
 				skipOrderPad: true,
 				sipInstalmentId: order?.orderID.toString(),
-				isAdditionalFlag: true
+				isAdditionalFlag: true,
+				homepageNudge: true
 			});
 
 			modifiedGoto(`${base}/${path}?params=${params}&orderpad=INVEST`);
@@ -83,7 +84,8 @@
 				redirectedFrom: 'SIP_PAYMENTS',
 				sipId: order?.sipId,
 				sipRegistrationNumber: order?.sipRegistrationNo,
-				sipDueDate: format(new Date(order?.sipPaymentDate), 'yyyy-MM-dd')
+				sipDueDate: format(new Date(order?.sipPaymentDate), 'yyyy-MM-dd'),
+				homepageNudge: true
 			});
 			modifiedGoto(`${base}/${path}?params=${params}&orderpad=INVEST`);
 		} else {
