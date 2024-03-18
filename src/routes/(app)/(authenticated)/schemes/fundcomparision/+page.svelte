@@ -524,7 +524,7 @@
 			['Sub Asset Class'],
 			['Fund Type']
 		];
-		ratings = [['Angel One'], ['Morningstar'], ['Crisl'], ['Value Research']];
+		ratings = [['Angel One'], ['Morningstar'], ['Crisil'], ['Value Research']];
 		sectors = [['1'], ['2'], ['3'], ['4'], ['5']];
 		holdings = [['1'], ['2'], ['3'], ['4'], ['5']];
 		meta = [['3Y Returns'], ['Minimum  SIP Investment'], ['Investors']];

@@ -5,7 +5,7 @@
 
 <ErrorPage
 	heading="You have already logged in as different user, please logout and open the link again"
-	contentLine="Please explore other mutual funds on Angel one to continue investing"
+	contentLine="Please explore other mutual funds on Angel One to continue investing"
 	redirectUrl="/categories?id=101"
 	textForButton="EXPLORE MUTUAL FUNDS"
 >

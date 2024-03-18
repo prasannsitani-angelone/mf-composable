@@ -80,7 +80,7 @@
 				</slot>
 
 				{#if title === 'Mutual Funds'}
-					<img src={logoUrl} alt="Angel one Logo" width="32" height="32" class="mr-1 h-8 w-8" />
+					<img src={logoUrl} alt="Angel One Logo" width="32" height="32" class="mr-1 h-8 w-8" />
 				{/if}
 				<article class="flex items-center">
 					<slot name="title">

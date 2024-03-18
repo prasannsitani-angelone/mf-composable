@@ -89,13 +89,13 @@
 				<div class="rounded border p-[5px] shadow-fab">
 					<img
 						src={`${base}/images/morningstar_rating.png`}
-						alt="Morning Star"
+						alt="Morningstar"
 						loading="lazy"
 						width="38"
 						height="11"
 					/>
 				</div>
-				<h5 class="ml-4 text-sm font-normal text-title">Morning Star</h5>
+				<h5 class="ml-4 text-sm font-normal text-title">Morningstar</h5>
 				<h6 class="m-auto mr-1 flex w-11 items-center justify-end rounded-sm">
 					<ChipArqRating arqRating={schemeDetails?.morningstarRating} />
 				</h6>
