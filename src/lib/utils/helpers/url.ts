@@ -4,3 +4,8 @@ export const isAbsoluteUrl = (str: string) => {
 
 	return url && url.length > 0 ? true : false;
 };
+
+export const extractRedirectUrl = (str: string) => {
+	const url = str?.match(/https?:\/\/[^\s]+/)?.[0];
+	return url;
+};

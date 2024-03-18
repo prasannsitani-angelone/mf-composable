@@ -3,10 +3,11 @@ import type { LayoutData } from '../$types';
 import { browser } from '$app/environment';
 import { goto } from '$app/navigation';
 import { base } from '$app/paths';
+import { extractRedirectUrl } from '$lib/utils/helpers/url';
 
 export const load = (async ({ parent, url }) => {
-	const { searchParams } = url;
-	const redirectUrl = searchParams.get('redirect') || `${base}/discoverfunds`;
+	const { search } = url;
+	const redirectUrl = extractRedirectUrl(search || '') || `${base}/discoverfunds`;
 	const parentData = await parent();
 	if (parentData?.isGuest === false) {
 		if (browser) return await goto(redirectUrl);

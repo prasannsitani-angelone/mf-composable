@@ -18,6 +18,7 @@
 	import type { PageData } from './$types';
 	import { impressionWithoutHeaders, successLoginWithoutHeaders } from './analytics';
 	import { decodeToObject, getQueryParamsObj } from '$lib/utils/helpers/params';
+	import { extractRedirectUrl } from '$lib/utils/helpers/url';
 
 	export let data: PageData;
 
@@ -148,7 +149,7 @@
 				});
 			}
 			isLoading = true;
-			const redirectUrl = $page.url.searchParams.get('redirect') || `${base}/discoverfunds`;
+			const redirectUrl = extractRedirectUrl($page.url.search || '') || `${base}/discoverfunds`;
 			goto(redirectUrl, {
 				replaceState: true
 			});
@@ -161,7 +162,7 @@
 
 	onMount(async () => {
 		// for external url - solving login again problem by reloading
-		const redirectUrl = $page.url.searchParams.get('redirect') || '';
+		const redirectUrl = extractRedirectUrl($page.url.search) || '';
 		const reload = $page.url.searchParams.get('reload') || ''; // to avoid infinite reload if not already logged in
 		const queryParamsOfRedirectUrl = getQueryParamsObj(redirectUrl?.split('?')?.[1] || '');
 		const decodedParams = decodeToObject(queryParamsOfRedirectUrl?.params);
