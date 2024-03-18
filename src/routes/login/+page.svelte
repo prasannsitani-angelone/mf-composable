@@ -162,7 +162,7 @@
 
 	onMount(async () => {
 		// for external url - solving login again problem by reloading
-		const redirectUrl = extractRedirectUrl($page.url.search) || '';
+		const redirectUrl = $page.url.searchParams.get('redirect') || '';
 		const reload = $page.url.searchParams.get('reload') || ''; // to avoid infinite reload if not already logged in
 		const queryParamsOfRedirectUrl = getQueryParamsObj(redirectUrl?.split('?')?.[1] || '');
 		const decodedParams = decodeToObject(queryParamsOfRedirectUrl?.params);
