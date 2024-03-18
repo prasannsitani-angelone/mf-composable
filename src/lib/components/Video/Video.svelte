@@ -203,15 +203,13 @@
 	};
 
 	const playVideoOnFocus = () => {
-		if (props.autoPlayOnFocus && (props.fullScreen || isVisible)) {
+		if (props.fullScreen || isVisible) {
 			videoElement?.play();
 		}
 	};
 
 	const pauseVideoOnBlur = () => {
-		if (props.autoPlayOnFocus) {
-			videoElement?.pause();
-		}
+		videoElement?.pause();
 	};
 
 	const initiateVideoPlayback = () => {
