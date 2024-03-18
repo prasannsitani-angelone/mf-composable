@@ -221,18 +221,11 @@
 				/>
 			</div>
 			<div class="pb-6 text-sm text-body">
-				<p>
-					Based on your asset allocation, investing in {schemeDetails?.subcategoryName?.toLowerCase() ===
-					'small cap fund'
-						? 'a'
-						: 'an'}
-					<b
-						>{schemeDetails?.subcategoryName?.toLowerCase() === 'small cap fund'
-							? 'Small Cap Fund'
-							: 'Index Fund'}</b
-					> will enhance the performance of your portfolio.
-				</p>
 				{#if schemeDetails?.subcategoryName?.toLowerCase() === 'small cap fund'}
+					<p>
+						Based on your asset allocation, investing in a <b>small cap fund</b> will enhance the performance
+						of your portfolio.
+					</p>
 					<p class="mt-4">Small cap funds invest in companies with market cap less than 5000 Cr.</p>
 					<p class="mt-4">Benefits of small cap funds:</p>
 					<ul class="ml-4 mt-4 list-inside list-disc">
@@ -240,7 +233,22 @@
 						<li>Invest in small companies across sectors.</li>
 						<li>Potential of undervalued opportunities.</li>
 					</ul>
+				{:else if schemeDetails?.subcategoryName?.toLowerCase() === 'large cap fund'}
+					<p>
+						Based on your asset allocation, investing in a <b>large cap fund</b> will enhance the performance
+						of your portfolio.
+					</p>
+					<p class="mt-4">Large cap funds invest in India's top 100 companies by market cap.</p>
+					<p class="mt-4">Benefits of large cap funds:</p>
+					<ul class="ml-4 mt-4 list-inside list-disc">
+						<li>High returns with low risk.</li>
+						<li>Invest in India's largest companies across sectors.</li>
+					</ul>
 				{:else}
+					<p>
+						Based on your asset allocation, investing in an <b>index fund</b> will enhance the performance
+						of your portfolio.
+					</p>
 					<p class="mt-4">
 						Index funds invest in the top 50 stocks according to the Nifty 50 index.
 					</p>

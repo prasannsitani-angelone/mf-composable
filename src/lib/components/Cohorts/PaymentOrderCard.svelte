@@ -58,7 +58,9 @@
 
 	const handleCardVisible = (event: CustomEvent) => {
 		currentIndex = event?.detail?.index || 0;
-		setTag();
+		setTimeout(() => {
+			setTag();
+		}, 200);
 		dispatch('paymentOrderCardSlide', currentIndex);
 	};
 
@@ -112,7 +114,12 @@
 						{index}
 						id={`${pageSource}-${cardType}`}
 					>
-						<section class="mt-2">
+						<section
+							class="mt-2"
+							role="button"
+							tabindex={0}
+							on:click={() => handleButtonClick(sip, index)}
+						>
 							<slot name="tag">
 								{#if tag?.length}
 									<div class={tagClass}>
@@ -131,11 +138,7 @@
 								</slot>
 
 								<slot name="cta">
-									<Button
-										variant={BtnVariant?.Contained}
-										size="sm"
-										onClick={() => handleButtonClick(sip, index)}
-									>
+									<Button variant={BtnVariant?.Contained} size="sm">
 										<span class="text-xs font-medium">
 											PAY ₹{addCommasToAmountString(sip?.amount)}
 										</span>
