@@ -418,71 +418,15 @@
 	<Card class="border-0 px-0 pb-0 text-lg md:pt-5">
 		<div class="px-4 md:px-6">
 			{#if isEquityPortfolioFlag}
-				<article
-					class="flex items-center gap-1 rounded p-2"
-					class:bg-tint12-buy={benchmarkData?.summary?.portReturnsOverBm > 0}
-					class:bg-tint12-sell={benchmarkData?.summary?.portReturnsOverBm < 0}
-					class:bg-tint12-secondary={benchmarkData?.summary?.portReturnsOverBm === 0}
-				>
-					<div>
-						{#if benchmarkData?.summary?.portReturnsOverBm > 0}
-							<WMSIcon fill="var(--BUY)" name="graph-in-circle" height={16} width={16} />
-						{:else if benchmarkData?.summary?.portReturnsOverBm < 0}
-							<WMSIcon
-								fill="var(--SELL)"
-								name="graph-in-circle"
-								height={16}
-								width={16}
-								class="scale-y-[-1]"
-							/>
-						{:else}
-							<WMSIcon
-								fill="var(--SECONDARY)"
-								stroke="var(--TINT12-SECONDARY)"
-								name="equal-in-circle"
-								height={16}
-								width={16}
-							/>
-						{/if}
-					</div>
-					<p class="text-[11px] font-normal leading-3 text-title">
-						Your portfolio returns are
-						<span class="font-semibold">
-							{!Number.isNaN(Math.abs(benchmarkData?.summary?.portReturnsOverBm))
-								? addCommasToAmountString(
-										Math.abs(benchmarkData?.summary?.portReturnsOverBm)?.toFixed(2)
-								  )
-								: ''}% {benchmarkText} Nifty 50
-						</span>since you started investing
-					</p>
-				</article>
-				<article class="flex flex-wrap items-center gap-1 px-0 py-3 text-body">
+				<article class="flex flex-wrap items-center gap-1 px-0 pb-3 text-body">
 					<div>
 						<WMSIcon stroke="var(--CHART)" name="eclipse" height={8} width={8} />
 					</div>
-					<div class="text-[10px] font-normal">
-						Your Portfolio
-						<span class="text-xs font-medium">
-							{!Number.isNaN(Math.abs(benchmarkData?.summary?.portfolioReturns))
-								? addCommasToAmountString(
-										Math.abs(benchmarkData?.summary?.portfolioReturns)?.toFixed(2)
-								  )
-								: ''}%
-						</span>
-					</div>
+					<div class="text-[10px] font-normal">Your Portfolio</div>
 					<div class="ml-1">
 						<WMSIcon stroke="var(--SECONDARY)" name="eclipse" height={8} width={8} />
 					</div>
-					<div class="text-[10px] font-normal">
-						Nifty 50 (Index Benchmark)
-						<span class="text-xs font-medium">
-							{!Number.isNaN(Math.abs(benchmarkData?.summary?.benchmarkReturns))
-								? addCommasToAmountString(
-										Math.abs(benchmarkData?.summary?.benchmarkReturns)?.toFixed(2)
-								  )
-								: ''}%
-						</span>
-					</div>
+					<div class="text-[10px] font-normal">Nifty 50 (Index Benchmark)</div>
 					<div class="cursor-default md:cursor-pointer">
 						<WMSIcon
 							width={12}
