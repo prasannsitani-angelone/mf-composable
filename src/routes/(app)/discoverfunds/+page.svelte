@@ -75,7 +75,6 @@
 	import CartEntry from '$components/Cart/CartEntry.svelte';
 	import PaymentOrderCard from '$components/Cohorts/PaymentOrderCard.svelte';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
-	import DateFns from '$lib/utils/asyncDateFns';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { SIP_ORDER_CARD_TYPES } from '$lib/constants/actions';
 	import { getPendingActionsData } from '$lib/api/actions';
@@ -300,7 +299,6 @@
 				order?.isin,
 				order?.schemeCode
 			)}`;
-			const { format } = DateFns.DateFns;
 
 			let params = null;
 			params = encodeObject({
@@ -488,7 +486,7 @@
 				FundIndex: index,
 				FundName: item?.schemeName,
 				Amount: item?.amount,
-				DueStatus: getSipDueDateMetadata(item?.sipAmountPayTillDate)
+				DueStatus: getSipDueDateMetadata(item?.sipPaymentDate)
 			};
 		});
 
@@ -507,7 +505,7 @@
 			FundIndex: currentIndex,
 			FundName: currentIndexSip?.schemeName,
 			Amount: currentIndexSip?.amount,
-			DueStatus: getSipDueDateMetadata(currentIndexSip?.sipAmountPayTillDate)
+			DueStatus: getSipDueDateMetadata(currentIndexSip?.sipPaymentDate)
 		};
 
 		sipDueCardCtaClickAnalytics(eventMetaData);

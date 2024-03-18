@@ -13,6 +13,7 @@
 	import PaymentOrderCard from '$components/Cohorts/PaymentOrderCard.svelte';
 	import { SIP_ORDER_CARD_TYPES } from '$lib/constants/actions';
 	import { modifiedGoto } from '$lib/utils/goto';
+	import { format } from 'date-fns';
 
 	export let actionsData:
 		| INotification
@@ -71,7 +72,6 @@
 				order?.isin,
 				order?.schemeCode
 			)}`;
-			const { format } = DateFns.DateFns;
 
 			let params = null;
 			params = encodeObject({

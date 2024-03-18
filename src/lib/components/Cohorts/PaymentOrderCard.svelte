@@ -43,11 +43,11 @@
 	const setTag = () => {
 		if (cardType === SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_DUE) {
 			const today = new Date();
-			const inputDate = new Date(sipList[currentIndex]?.sipAmountPayTillDate);
+			const inputDate = new Date(sipList[currentIndex]?.sipPaymentDate);
 			if (today?.toDateString() === inputDate?.toDateString()) {
 				tag = 'Due Today';
 			} else {
-				tag = `Due on ${getDateTimeString(sipList[currentIndex]?.sipAmountPayTillDate)}`;
+				tag = `Due on ${getDateTimeString(sipList[currentIndex]?.sipPaymentDate)}`;
 			}
 		} else if (cardType === SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_MISSED) {
 			tag = 'Overdue';
@@ -107,7 +107,11 @@
 				id={`${pageSource}-${cardType}`}
 			>
 				{#each sipList || [] as sip, index}
-					<CarouselItem class="max-h-14 max-w-full" {index} id={`${pageSource}-${cardType}`}>
+					<CarouselItem
+						class="relative max-h-14 max-w-full"
+						{index}
+						id={`${pageSource}-${cardType}`}
+					>
 						<section class="mt-2">
 							<slot name="tag">
 								{#if tag?.length}
