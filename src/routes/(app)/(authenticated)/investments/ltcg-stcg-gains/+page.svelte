@@ -170,7 +170,7 @@
 						Hold <span class="lowercase">{activeTab === 'Equity' ? 'equity' : 'non equity'}</span>
 						investments for
 						<span class="font-medium text-black-key"
-							>more than {activeTab === 'equity' ? '3 years' : '1 year'}</span
+							>more than {activeTab === 'equity' ? '1 year' : '3 years'}</span
 						> to track them as long term investments
 					{/if}
 				</div>
