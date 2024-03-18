@@ -58,8 +58,9 @@
 				<SetupAutopayCard
 					sipPendingCount={autopayNudge?.data?.sipCount}
 					sipTotalAmount={autopayNudge?.amount}
+					on:autopayCardClick={backdropClick}
 				/>
-				<ActionsDashboard actionsData={pendingActionsData} />
+				<ActionsDashboard actionsData={pendingActionsData} on:actionClick={backdropClick} />
 			</section>
 		{/if}
 	</div>

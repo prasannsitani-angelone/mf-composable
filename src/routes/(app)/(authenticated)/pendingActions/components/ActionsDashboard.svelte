@@ -4,7 +4,7 @@
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import DateFns from '$lib/utils/asyncDateFns';
-	import { onMount } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import {
 		actNowClick,
 		actionCentreImpression
@@ -18,6 +18,8 @@
 		| INotification
 		| { instalmentFailedOrders: []; paymentFailedOrders: []; instalmentPending: [] };
 
+	const dispatch = createEventDispatcher();
+
 	const onOrderFailedButtonClick = (order: Notif) => {
 		actNowClick({
 			FundName: order?.schemeName,
@@ -25,10 +27,12 @@
 			Heading: 'Recent Failed Orders',
 			cta: 'retry'
 		});
+		dispatch('actionClick');
 		modifiedGoto(`${base}/orders/${order?.orderID}`);
 	};
 
 	const handleFailedSipPaymentClick = (order: Notif) => {
+		dispatch('actionClick');
 		if (order?.orderID) {
 			const reRouteUrl = 'schemes';
 			const path = `${reRouteUrl}/${normalizeFundName(
@@ -59,6 +63,7 @@
 	};
 
 	const handlePendingSipPaymentClick = (order: Notif) => {
+		dispatch('actionClick');
 		if (order?.sipId) {
 			const reRouteUrl = 'schemes';
 			const path = `${reRouteUrl}/${normalizeFundName(
@@ -135,6 +140,7 @@
 				sipList={actionsData?.instalmentPending || []}
 				on:buttonClick={(e) => handlePendingSipPaymentClick(e?.detail)}
 				cardType={SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_DUE}
+				pageSource={'actions-dashboard'}
 			/>
 		</section>
 	{/if}
@@ -144,6 +150,7 @@
 				sipList={actionsData?.instalmentFailedOrders || []}
 				on:buttonClick={(e) => handleFailedSipPaymentClick(e?.detail)}
 				cardType={SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_MISSED}
+				pageSource={'actions-dashboard'}
 			/>
 		</section>
 	{/if}
@@ -153,6 +160,7 @@
 				sipList={actionsData?.paymentFailedOrders || []}
 				on:buttonClick={(e) => onOrderFailedButtonClick(e?.detail)}
 				cardType={SIP_ORDER_CARD_TYPES?.FAILED_ORDER}
+				pageSource={'actions-dashboard'}
 			/>
 		</section>
 	{/if}

@@ -803,6 +803,7 @@
 		<PaymentOrderCard
 			sipList={actionsData?.instalmentPending || []}
 			cardType={SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_DUE}
+			pageSource={'discoverfunds-B'}
 			on:buttonClick={(e) => handlePendingSipPaymentClick(e?.detail)}
 			on:paymentOrderCardMount={sipDueCardImpressionAnalyticsFunc}
 			on:paymentOrderCardSlide={sipDueCardSlideAnalytics}
@@ -816,6 +817,7 @@
 		<PaymentOrderCard
 			sipList={actionsData?.instalmentFailedOrders || []}
 			cardType={SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_MISSED}
+			pageSource={'discoverfunds-B'}
 			on:buttonClick={(e) => handleFailedSipPaymentClick(e?.detail)}
 			on:paymentOrderCardMount={sipMissedCardImpressionAnalyticsFunc}
 			on:paymentOrderCardSlide={sipMissedCardSlideAnalytics}
@@ -956,6 +958,7 @@
 		<PaymentOrderCard
 			sipList={actionsData?.instalmentPending || []}
 			cardType={SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_DUE}
+			pageSource={'discoverfunds-B'}
 			on:buttonClick={(e) => handlePendingSipPaymentClick(e?.detail)}
 			on:paymentOrderCardMount={sipDueCardImpressionAnalyticsFunc}
 			on:paymentOrderCardSlide={sipDueCardSlideAnalytics}
@@ -971,6 +974,7 @@
 		<PaymentOrderCard
 			sipList={actionsData?.instalmentFailedOrders || []}
 			cardType={SIP_ORDER_CARD_TYPES?.SIP_PAYMENT_MISSED}
+			pageSource={'discoverfunds-B'}
 			on:buttonClick={(e) => handleFailedSipPaymentClick(e?.detail)}
 			on:paymentOrderCardMount={sipMissedCardImpressionAnalyticsFunc}
 			on:paymentOrderCardSlide={sipMissedCardSlideAnalytics}

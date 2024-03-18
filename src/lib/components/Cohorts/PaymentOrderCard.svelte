@@ -17,6 +17,7 @@
 	let tagClass =
 		'absolute right-0 mr-1 font-normal px-1 py-0.5 text-[10px] text-title bg-tint12-sell rounded-sm z-10 -mt-2';
 	let tag = '';
+	let pageSource = '';
 
 	$: isMobile = $page.data.deviceType.isMobile || false;
 
@@ -74,7 +75,7 @@
 	$: setTitle(), sipList;
 	$: setTag(), sipList;
 
-	export { sipList, cardType, tagClass };
+	export { sipList, cardType, tagClass, pageSource };
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -103,15 +104,17 @@
 				on:onIndexChange={handleCardVisible}
 				fixedWidth={true}
 				slidesPerView={1}
-				id={cardType}
+				id={`${pageSource}-${cardType}`}
 			>
 				{#each sipList || [] as sip, index}
-					<CarouselItem class="max-h-14 max-w-full" {index} id={cardType}>
+					<CarouselItem class="max-h-14 max-w-full" {index} id={`${pageSource}-${cardType}`}>
 						<section class="mt-2">
 							<slot name="tag">
-								<div class={tagClass}>
-									{tag}
-								</div>
+								{#if tag?.length}
+									<div class={tagClass}>
+										{tag}
+									</div>
+								{/if}
 							</slot>
 							<section class="flex items-center justify-between rounded border px-3 py-2">
 								<slot name="schemeDetails">
