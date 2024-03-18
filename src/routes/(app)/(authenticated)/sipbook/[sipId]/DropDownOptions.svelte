@@ -57,13 +57,13 @@
 					}}
 				>
 					<div class="flex flex-col text-left normal-case">
-						<div class="flex text-disabled">
+						<div class="flex {isSipInprocess ? 'text-disabled' : ''}">
 							<div class="pr-4 {isDisabled ? 'grayscale' : ''}">
 								<WMSIcon
 									name={option.logo}
-									stroke="var(--DISABLED)"
-									strokeround="var(--BACKGROUND-ALT)"
-									strokecircle="var(--DISABLED)"
+									stroke={isSipInprocess ? 'var(--DISABLED)' : 'var(--PRIMARY)'}
+									strokeround={isSipInprocess ? 'var(--BACKGROUND-ALT)' : 'var(--PRIMARY)'}
+									strokecircle={isSipInprocess ? 'var(--DISABLED)' : 'var(--TINT24-PRIMARY)'}
 								/>
 							</div>
 							<div>
