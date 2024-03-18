@@ -81,7 +81,10 @@
 		let optimizedData = await data?.api?.getOptimisePortfolioData;
 		optimisePorfolioData = optimizedData?.recommendedScheme?.[0];
 		let investmentData = await data?.api?.investment;
-		logoUrl = investmentData?.data?.holdings?.[0]?.logoUrl;
+		logoUrl =
+			investmentData?.data?.holdings?.find((x: { sipEnabled: boolean }) => {
+				return x.sipEnabled === true;
+			})?.logoUrl || '';
 		if (isFamilyPortfolio) {
 			getFamilyPortfolioSummary();
 		}
