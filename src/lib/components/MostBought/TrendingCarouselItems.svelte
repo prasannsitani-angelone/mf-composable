@@ -32,7 +32,8 @@
 			schemes?.isin,
 			schemes?.schemeCode
 		)}?orderpad=INVEST&params=${encodeObject({
-			paymentMandatory: true
+			paymentMandatory: true,
+			investmentType: 'SIP'
 		})}`;
 		modifiedGoto(schemeDetailsPath);
 		dispatch('onCardClick');

@@ -1393,24 +1393,6 @@
 			paymentHandler.selectedAccount = index;
 			const paymentMode = data?.paymentMode;
 			if (
-				mandateData?.length &&
-				activeTab === 'SIP' &&
-				redirectedFrom !== 'SIP_PAYMENTS' &&
-				redirectedFrom !== 'NXT'
-			) {
-				mandateData.every((mandate) => {
-					if (mandate.availableAmount > parseInt(amount)) {
-						paymentHandler.paymentMode = 'AUTOPAY';
-						subIdentifier = mandate.mandateId;
-						selectedAutopay = mandate;
-						return false;
-					}
-				});
-			} else if (activeTab === 'ONETIME') {
-				paymentHandler.paymentMode = '';
-			}
-			if (
-				paymentHandler.paymentMode !== 'AUTOPAY' &&
 				(paymentMode === 'GOOGLEPAY' || paymentMode === 'PHONEPE' || paymentMode === 'PAYTM') &&
 				os !== 'Android' &&
 				os !== 'iOS'
@@ -1420,7 +1402,7 @@
 				paymentHandler.paymentMode = 'GOOGLEPAY';
 			} else if (redirectedFrom === 'SIP_PAYMENTS') {
 				paymentHandler.paymentMode = 'UPI';
-			} else if (paymentHandler.paymentMode !== 'AUTOPAY') {
+			} else {
 				paymentHandler.paymentMode = paymentMode;
 			}
 
