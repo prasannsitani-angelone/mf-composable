@@ -13,26 +13,26 @@
 	import Modal from '$components/Modal.svelte';
 	import PortfolioInput from '../(authenticated)/buyPortfolio/[portfolioId]/components/PortfolioInput.svelte';
 	import type { PortfolioPack, Scheme } from '$lib/types/IBuyPortfolio';
-	import { appStore } from '$lib/stores/SparkStore';
-	import { modifiedGoto } from '$lib/utils/goto';
 	import { base } from '$app/paths';
 	import { encodeObject } from '$lib/utils/helpers/params';
+	import { goto } from '$app/navigation';
 
 	export let portfolios: PortfolioPack[];
 	let carouselInActive = false;
 	let showInputPopup = false;
 	let selectedPortfolio: PortfolioPack;
 
+	$: deviceType = $page.data.deviceType;
 	$: isMobile = $page.data.deviceType.isMobile || false;
 
 	const goToBuyPortfolio = (portfolio: PortfolioPack) => {
 		buildPortfolioCardClicked();
-		if (!appStore.isTabview()) {
-			selectedPortfolio = portfolio;
+		selectedPortfolio = portfolio;
+		if (deviceType.isBrowser) {
 			showInputPopup = true;
 		} else {
 			const params = { showInputPopup: true, fromHomePage: true, amount: portfolio?.minSipAmount };
-			modifiedGoto(`${base}/buyPortfolio/${portfolio?.packId}?params=${encodeObject(params)}`);
+			goto(`${base}/buyPortfolio/${portfolio?.packId}?params=${encodeObject(params)}`);
 		}
 	};
 
@@ -42,7 +42,7 @@
 		const eventMetaData = {
 			portfolio_name: packName,
 			min_sip_amount: minSipAmount.toString(),
-			'3_yr_returns': threeYrReturnAvgPer.toString(),
+			'3_yr_returns': threeYrReturnAvgPer.toFixed(2).toString(),
 			people_invested_in_portfolio: totalUsersInvested.toString(),
 			cardrank: (index + 1).toString(),
 			tag1: tags?.[0],
@@ -104,6 +104,7 @@
 			amount={selectedPortfolio.minSipAmount}
 			portfolioPack={selectedPortfolio}
 			on:backButtonClicked={() => (showInputPopup = !showInputPopup)}
+			on:portfolioClick={() => (showInputPopup = !showInputPopup)}
 		/>
 	</Modal>
 </section>

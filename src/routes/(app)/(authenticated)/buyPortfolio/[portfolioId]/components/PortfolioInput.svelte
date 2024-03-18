@@ -28,6 +28,7 @@
 	export let amount = 500;
 	export let sipStartDate = 4;
 	export let requestId = '';
+	export let fromHomePage = false;
 
 	const dispatch = createEventDispatcher();
 	const quickInputs = [1500, 2000, 5000];
@@ -93,8 +94,12 @@
 		showTncModal = !showTncModal;
 	};
 	function gotoPortfolioPackDetails() {
-		goto(`${base}/buyPortfolio/${portfolioPack?.packId}`);
+		if (fromHomePage) {
+			dispatch('portfolioClick');
+			return;
+		}
 		const portfolio = portfolioPack;
+		goto(`${base}/buyPortfolio/${portfolioPack?.packId}`);
 		const eventMetaData = {
 			Portfolio: portfolio?.packName,
 			MinSipAmount: portfolio?.minSipAmount,

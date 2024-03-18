@@ -20,10 +20,7 @@
 	let showChevron = false;
 	let showWeightage = true;
 
-	const toggleInput = () => {
-		if (fromHomePage) {
-			goto(`${base}/discoverfunds`);
-		}
+	const toggleInputPopup = () => {
 		showInputPopup = !showInputPopup;
 		if (showInputPopup) {
 			let funds = '';
@@ -32,6 +29,14 @@
 			});
 			proceedToInvest({ SelectedFunds: funds });
 		}
+	};
+
+	const toggleInput = () => {
+		if (fromHomePage) {
+			goto(`${base}/discoverfunds`);
+			return;
+		}
+		toggleInputPopup();
 	};
 </script>
 
@@ -58,7 +63,9 @@
 			{amount}
 			sipStartDate={date}
 			{requestId}
+			{fromHomePage}
 			on:backButtonClicked={toggleInput}
+			on:portfolioClick={toggleInputPopup}
 		/>
 	</Modal>
 </section>
