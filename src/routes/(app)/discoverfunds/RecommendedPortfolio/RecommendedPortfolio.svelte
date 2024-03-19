@@ -86,7 +86,7 @@
 			</div>
 		</slot>
 		<slot name="detailsFooter">
-			{#if portfolio?.totalUsersInvested === 0}
+			{#if portfolio?.totalUsersInvested}
 				<div class="flex flex-row items-center rounded-b px-3 pb-2">
 					<slot name="detailsFooterIcon">
 						<WMSIcon
