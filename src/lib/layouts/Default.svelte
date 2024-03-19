@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import Overlay from '$components/Overlay.svelte';
-	import { afterNavigate } from '$app/navigation';
+	import { afterNavigate, beforeNavigate } from '$app/navigation';
 
 	$: pageMetaData = $page?.data?.layoutConfig;
 	let layoutType = 'DEFAULT';
@@ -48,7 +48,12 @@
 
 	export { layoutType };
 
+	beforeNavigate(() => {
+		document.getElementById('main-container').style.overflow = 'hidden';
+	});
+
 	afterNavigate(() => {
+		document.getElementById('main-container').style.overflow = 'auto';
 		// workaround for an open bug https://github.com/sveltejs/kit/issues/2733
 		document.getElementById('main-container').scrollTop = 0;
 	});
