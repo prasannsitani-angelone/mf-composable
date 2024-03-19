@@ -10,7 +10,6 @@
 	import { getDisplayAmount } from '../../sipCalculator/utils.js';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount.js';
 	import type { SipCalcBarType } from '../../sipCalculator/components/types.js';
-	import { schemeScreenerStore } from '$lib/stores/SchemeScreenerStore';
 	import { base } from '$app/paths';
 	import { onMount } from 'svelte';
 	import {
@@ -89,10 +88,8 @@
 		const investmentType = 'SIP';
 		const returnRangeStart = Math.max(roiSlider[0] - 2, 0);
 		const returnRangeEnd = roiSlider[0] + 3;
-		await schemeScreenerStore?.getFiltersResponse(
-			`investmentType=${investmentType}&schemeType=Growth&threeYearReturn=${returnRangeStart}_${returnRangeEnd}`
-		);
-		await modifiedGoto(`${base}/filters/items`);
+		const query = `investmentType=${investmentType}&schemeType=Growth&threeYearReturn=${returnRangeStart}_${returnRangeEnd}`;
+		await modifiedGoto(`${base}/filters/items?${query}`);
 	};
 
 	onMount(() => {
