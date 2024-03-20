@@ -4,10 +4,15 @@ import { browser } from '$app/environment';
 import { goto } from '$app/navigation';
 import logger from '$lib/utils/logger';
 import { getLogoutUrl } from '$lib/utils/helpers/logout';
+import { base } from '$app/paths';
+
+const allowedRoutes = ['search', 'discoverfunds', 'schemes', 'filter', 'nfo', 'sipbook'];
 
 export const load = (async ({ url, parent }) => {
 	const parentData = await parent();
-	const { pathname, search } = url;
+	const { pathname, search, searchParams } = url;
+	const { sparkHeaders } = parentData;
+
 	logger.debug({
 		type: 'Page Load Url',
 		params: {
@@ -18,6 +23,18 @@ export const load = (async ({ url, parent }) => {
 			}
 		}
 	});
+
+	if (
+		sparkHeaders.guest === 'yes' &&
+		(allowedRoutes.filter((route) => pathname.indexOf(route) > -1)?.length === 0 ||
+			searchParams.get('orderpad') === 'INVEST')
+	) {
+		setTimeout(async () => {
+			const url = `${base}/incomplete-kyc`;
+			if (browser) return await goto(url);
+			else return redirect(302, url);
+		}, 100);
+	}
 
 	if (!parentData?.tokenObj?.userToken?.NTAccessToken) {
 		const origin = `${parentData.scheme}//${parentData.host}`;
