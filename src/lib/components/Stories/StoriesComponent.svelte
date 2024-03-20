@@ -10,11 +10,11 @@
 	import { afterUpdate, onDestroy } from 'svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import {
-		startSipClickAnalytics,
+		clickOnStoryAnalytics,
 		closeStoryAnalytics,
-		storySliderAnalytics,
+		startSipClickAnalytics,
 		storyImpressionAnalytics,
-		clickOnStoryAnalytics
+		storySliderAnalytics
 	} from '$lib/analytics/stories/stories';
 	import { modifiedGoto } from '$lib/utils/goto';
 	import { goto } from '$app/navigation';
@@ -22,6 +22,8 @@
 	import type { VideoPlayerProps } from '$components/Video/interfaces';
 	import { VideoPlayerMode } from '$components/Video/enums';
 	import VideoPlayer from '$components/Video/Video.svelte';
+	import { registerNativeClosePopUpWindowCallback } from '$lib/utils/nativeCallbacks';
+	import { notifyPopupWindowChange } from '$lib/utils/callNativeMethod';
 
 	export let stories: Array<Story>;
 	export let version: string;
@@ -65,6 +67,7 @@
 		clickedIndex = 0,
 		userClicked = false
 	) => {
+		notifyPopupWindowChange(true);
 		if (browser && isMobile) {
 			document?.addEventListener('touchstart', setStartTouchPoints);
 			document?.addEventListener('touchend', setEndTouchPoints);
@@ -114,6 +117,7 @@
 	};
 
 	const crossButtonClicked = (routerBack = true) => {
+		notifyPopupWindowChange(false);
 		if (browser) {
 			document?.removeEventListener('touchstart', setStartTouchPoints);
 			document?.removeEventListener('touchend', setEndTouchPoints);
@@ -329,6 +333,14 @@
 			document.removeEventListener('touchend', setEndTouchPoints);
 		}
 	});
+
+	const handleDeviceBackClick = () => {
+		registerNativeClosePopUpWindowCallback(() => {
+			if (showVideoPlayer) {
+				crossButtonClicked();
+			}
+		});
+	};
 </script>
 
 <section
@@ -366,7 +378,11 @@
 					<div class="relative h-full w-full">
 						{#if showVideoPlayer}
 							<!-- svelte-ignore a11y-media-has-caption -->
-							<VideoPlayer props={videoProps} on:click={setNextVideo}>
+							<VideoPlayer
+								on:mounted={handleDeviceBackClick}
+								props={videoProps}
+								on:click={setNextVideo}
+							>
 								<div slot="header">
 									<img
 										src={selectedStory?.imageThumbnailUrl}

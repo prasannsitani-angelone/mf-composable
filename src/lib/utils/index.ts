@@ -11,6 +11,7 @@ import type { LayoutData } from '../../../.svelte-kit/types/src/routes/(app)/$ty
 import type { AutopayTypes } from '$lib/types/IEmandate';
 import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 import { base } from '$app/paths';
+import { callNativeMethod, checkNativeMethodExist } from '$lib/utils/callNativeMethod';
 
 export interface TableColumnToggle {
 	label: string;
@@ -225,7 +226,9 @@ export function calculateYearDiffrence(date: Date) {
 }
 
 export function goBackToSpark() {
-	if (appStore.platform().toLowerCase() === PLATFORM_TYPE.SPARK_IOS) {
+	if (appStore.openViaTabView() && checkNativeMethodExist('navigateToHome')) {
+		callNativeMethod('navigateToHome', JSON.stringify({ product: 'mf' }));
+	} else if (appStore.platform().toLowerCase() === PLATFORM_TYPE.SPARK_IOS) {
 		window.location.href = `${window.location.origin}${base}/exit`;
 	} else {
 		window.open(appStore.closecta(), '_self');

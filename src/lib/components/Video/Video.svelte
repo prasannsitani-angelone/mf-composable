@@ -252,6 +252,8 @@
 
 		window.addEventListener('blur', pauseVideoOnBlur);
 		window.addEventListener('focus', playVideoOnFocus);
+
+		dispatch('mounted');
 	});
 
 	onDestroy(() => {

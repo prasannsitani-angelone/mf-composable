@@ -35,3 +35,9 @@ export const registerNativeResumeCallback = (callback: () => void) => {
 		}
 	};
 };
+
+export const registerNativeClosePopUpWindowCallback = (callback: () => void) => {
+	window.closePopUpWindow = () => {
+		callback();
+	};
+};

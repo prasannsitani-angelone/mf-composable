@@ -16,3 +16,15 @@ export const checkNativeMethodExist = (methodName: string) => {
 	}
 	return false;
 };
+
+export const notifyPopupWindowChange = (isOpen: boolean) => {
+	if (checkNativeMethodExist('onPopUpWindow')) {
+		callNativeMethod(
+			'onPopUpWindow',
+			JSON.stringify({
+				isOpen: isOpen,
+				product: 'MF'
+			})
+		);
+	}
+};

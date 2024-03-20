@@ -17,6 +17,8 @@
 		type VideoAnalyticsCallbacks
 	} from '$lib/analytics/video';
 	import { slide } from 'svelte/transition';
+	import { notifyPopupWindowChange } from '$lib/utils/callNativeMethod';
+	import { registerNativeClosePopUpWindowCallback } from '$lib/utils/nativeCallbacks';
 
 	export let videoData;
 	export let source: VideoPlayerRenderView;
@@ -42,6 +44,7 @@
 				props.autoplay = true;
 			}
 		} else {
+			notifyPopupWindowChange(true);
 			props.fullScreen = true;
 			props.showBottomDrawer = true;
 			props.type = VideoPlayerMode.ProgressBarOverlay;
@@ -57,6 +60,7 @@
 	};
 
 	const handleVideoClose = () => {
+		notifyPopupWindowChange(false);
 		if (deviceType.isBrowser) {
 			dispatch('reel-click', false);
 			playAllVideos();
@@ -111,6 +115,14 @@
 	});
 
 	let videoContainerHeight = source === VideoPlayerRenderView.Modal ? 760 : 440;
+
+	const handleDeviceBackClick = () => {
+		registerNativeClosePopUpWindowCallback(() => {
+			if (props?.type === VideoPlayerMode.ProgressBarOverlay) {
+				handleVideoClose();
+			}
+		});
+	};
 </script>
 
 {#if props}
@@ -120,6 +132,7 @@
 		in:slide={{ duration: 300 }}
 	>
 		<Video
+			on:mounted={handleDeviceBackClick}
 			{props}
 			{analyticsCallbacks}
 			on:drawer-max-height={handleDrawerMaxHeight}
