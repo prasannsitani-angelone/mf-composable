@@ -172,8 +172,7 @@
 		if (!fundChartData?.length) return;
 		chartNavData = [];
 		chartNavData.push(fundChartData);
-		if (isEquityPortfolioFlag) {
-			if (!benchmarkData?.holdingChart?.length) return;
+		if (isEquityPortfolioFlag && benchmarkData?.holdingChart?.length) {
 			chartNavData.push(benchmarkData?.holdingChart);
 		}
 		fillChartData(chartNavData);
@@ -417,7 +416,7 @@
 <article>
 	<Card class="border-0 px-0 pb-0 text-lg md:pt-5">
 		<div class="px-4 md:px-6">
-			{#if isEquityPortfolioFlag}
+			{#if isEquityPortfolioFlag && benchmarkData?.holdingChart?.length}
 				<article class="flex flex-wrap items-center gap-1 px-0 pb-3 text-body">
 					<div>
 						<WMSIcon stroke="var(--CHART)" name="eclipse" height={8} width={8} />

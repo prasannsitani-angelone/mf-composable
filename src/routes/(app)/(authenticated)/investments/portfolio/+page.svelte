@@ -108,20 +108,25 @@
 
 	const updateLineChart = async (tagIndex: number) => {
 		graphYearSelectAnalyticsFunc(tagIndex);
+		let res;
 
 		const allResData = await allResponse;
 		const fundChartUrl = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings?chart=true&months=${tags[tagIndex].months}`;
 		const benchmarkUrl = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings/simulate?index=${allResData?.summaryData?.benchMarkCoCode}&months=${tags[tagIndex].months}`;
 
 		const fundChartRes = await useFetch(fundChartUrl, {}, fetch);
-		const benchmarkRes = await useFetch(benchmarkUrl, {}, fetch);
-		const res = await Promise.all([fundChartRes, benchmarkRes]);
+		if (allResData?.summaryData?.isEquityPortfolioFlag) {
+			const benchmarkRes = await useFetch(benchmarkUrl, {}, fetch);
+			res = [fundChartRes, benchmarkRes];
+		} else {
+			res = [fundChartRes];
+		}
 
 		allResponse = allResData;
 
 		(fundChartData =
 			res[0].ok && res[0].data?.status === 'success' ? res[0].data?.data?.chart || [] : []),
-			(benchmarkData = res[1].ok ? res[1]?.data || [] : []),
+			(benchmarkData = res?.[1]?.ok ? res?.[1]?.data || [] : []),
 			(allResponse = allResponse);
 	};
 
