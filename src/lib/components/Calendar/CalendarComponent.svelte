@@ -46,7 +46,7 @@
 		class={`flex w-full flex-col rounded-b-none rounded-t-2xl bg-background-alt shadow-clg sm:rounded-lg ${$$props?.class}`}
 	>
 		<div
-			class={`flex flex-row justify-center px-8 py-6 pb-0 md:pb-6 ${classes?.header} ${
+			class={`flex flex-row px-4 py-6 pb-0 md:pb-6 ${classes?.header} ${
 				showClose ? 'justify-between' : ''
 			}`}
 		>
@@ -55,24 +55,18 @@
 			>
 				{title}
 			</span>
-			{#if showClose}
-				<div
-					class="md:cursor-pointer"
-					on:click={onClose}
-					on:keydown={() => {
-						// add logic
-					}}
-				>
-					<CrossInCircleIcon />
-				</div>
-			{/if}
+			<slot name="crossButton">
+				{#if showClose}
+					<div class="md:cursor-pointer" role="button" tabindex="0" on:click={onClose} on:keypress>
+						<CrossInCircleIcon />
+					</div>
+				{/if}
+			</slot>
 		</div>
 
 		<div class={`hidden border-t sm:block ${classes?.midBorder}`} />
-		<div
-			class={`grid grid-cols-7 justify-items-center px-2 py-4 sm:px-6 sm:py-8 ${classes?.content}`}
-		>
-			{#each dateArray as date, index}
+		<div class={`grid grid-cols-7 justify-items-center px-2 py-4 md:py-2 ${classes?.content}`}>
+			{#each dateArray as date}
 				<DateTag
 					value={date?.value}
 					disabled={date?.disabled}

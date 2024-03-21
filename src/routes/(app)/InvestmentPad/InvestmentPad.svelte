@@ -24,7 +24,7 @@
 	import CalendarComponent from '$components/Calendar/CalendarComponent.svelte';
 	import NextSipDate from '$components/Calendar/NextSipDate.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
-	import type { dateArrayTypes } from '$lib/types/Calendar/ICalendar';
+	import type { dateArrayTypes, instalmentDate } from '$lib/types/Calendar/ICalendar';
 	import type { decodedParamsTypes } from '$lib/types/IOrderPad';
 	import TncModal from '$components/TnC/TncModal.svelte';
 	import NotAllowed from './OrderPadComponents/NotAllowed.svelte';
@@ -148,6 +148,7 @@
 		initializeGPayState,
 		type WalletPaymentStateType
 	} from '$components/Payment/CommonHandling/wallet';
+	import InstalmentDates from '$components/Calendar/InstalmentDates.svelte';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -187,10 +188,11 @@
 
 	const sipPrefillAmount = 100;
 	const lumpsumPrefillAmount = 100;
-	const maximumAmountLimit = 999999999;
-	const upiPaymentAmountLimit = 100000;
+	const maximumAmountLimit = 99_99_99_999;
+	const upiPaymentAmountLimit = 1_00_000;
 	const minimumNetBankingAmountLimit = 50;
 	const lumpsumThreshold = 10_000;
+	const calendarDaysInMonth = 31;
 
 	let isSipInvestmentAllowed = schemeData?.isSipAllowed === 'Y' && schemeData?.sipMaxAmount > 0;
 	let isLumpsumInvestmentAllowed =
@@ -209,6 +211,8 @@
 	let tempCalendarDate = calendarDate;
 	let tempCalendarMonth = calendarMonth;
 	let tempCalendarYear = calendarYear;
+	let instalmentDatesDetails: instalmentDate[];
+	let showInstalmentDateBufferRemark = false;
 	let errorMessage = '';
 	let firstSipPayment = true;
 	let showTncModal = false;
@@ -302,7 +306,7 @@
 	$: {
 		dateArray.pop();
 
-		for (let i = 1; i <= 28; i++) {
+		for (let i = 1; i <= calendarDaysInMonth; i++) {
 			dateArray.push({
 				value: i,
 				disabled: (sipAllowedDaysArray || []).findIndex((d: string) => parseInt(d) === i) === -1
@@ -1006,6 +1010,55 @@
 		oneLinkExpired = await checkRequestIdExpired(source, requestId);
 	}
 
+	const setShowInstalmentDateBufferRemark = (currentDate: Date, todayMonthNumber: number) => {
+		const nextSipMonthNumber = getSIPMonthBasedOnDate(
+			tempCalendarDate,
+			currentDate,
+			firstSipPayment ? nextSipDateBufferDaysWithFtp : nextSipDateBufferDaysWithoutFtp
+		);
+
+		if (nextSipMonthNumber - todayMonthNumber > 1) {
+			showInstalmentDateBufferRemark = true;
+		} else {
+			showInstalmentDateBufferRemark = false;
+		}
+	};
+
+	const setInstalmentDates = () => {
+		instalmentDatesDetails = [];
+
+		if (firstSipPayment) {
+			const currentDate = new Date();
+			const todayDate = currentDate?.getDate();
+			const todayYear = currentDate?.getFullYear();
+			const todayMonthNumber: string | number = currentDate?.getMonth() + 1;
+			const todayMonth = new Date(todayYear, todayMonthNumber, 0)?.toLocaleString('default', {
+				month: 'short'
+			});
+
+			let firstInstalment = {
+				title: 'First Instalment',
+				date: `Today, ${todayDate} ${todayMonth} ${todayYear}`
+			};
+			instalmentDatesDetails?.push(firstInstalment);
+
+			let nextInstalment = {
+				title: 'Next Instalment',
+				date: `Today, ${tempCalendarDate} ${tempCalendarMonth} ${tempCalendarYear}`
+			};
+			instalmentDatesDetails?.push(nextInstalment);
+
+			setShowInstalmentDateBufferRemark(currentDate, todayMonthNumber);
+		} else {
+			instalmentDatesDetails?.push({
+				title: 'First Instalment',
+				date: `${tempCalendarDate} ${tempCalendarMonth} ${tempCalendarYear}`
+			});
+
+			showInstalmentDateBufferRemark = false;
+		}
+	};
+
 	const toggleCalendar = () => {
 		if (!showCalendar && !isSelectedInvestmentTypeAllowed()) {
 			return;
@@ -1017,6 +1070,8 @@
 		tempCalendarMonth = calendarMonth;
 		tempCalendarYear = calendarYear;
 		dateSuperscript = getDateSuperscript(tempCalendarDate);
+
+		setInstalmentDates();
 
 		if (!showCalendar) {
 			handleAmountInputFocus();
@@ -1043,6 +1098,8 @@
 			now,
 			firstSipPayment ? nextSipDateBufferDaysWithFtp : nextSipDateBufferDaysWithoutFtp
 		);
+
+		setInstalmentDates();
 	};
 
 	const handleDateChange = (value: unknown) => {
@@ -2140,7 +2197,7 @@
 					visible={showCalendar}
 					title={'Select SIP Instalment Date'}
 					heading={'CONFIRM'}
-					showClose={true}
+					showClose={!isMobile && !isTablet}
 					showSubmit={true}
 					{dateArray}
 					defaultValue={calendarDate}
@@ -2150,22 +2207,10 @@
 					class="z-60 sm:w-120"
 				>
 					<svelte:fragment slot="dateSlot">
-						<NextSipDate
-							calendarDate={tempCalendarDate}
-							calendarMonth={tempCalendarMonth}
-							calendarYear={tempCalendarYear}
+						<InstalmentDates
+							instalmentDateList={instalmentDatesDetails}
+							showRemark={showInstalmentDateBufferRemark}
 						/>
-					</svelte:fragment>
-
-					<svelte:fragment slot="footer">
-						<section
-							class="hidden flex-row justify-center rounded-b-lg bg-gray-50 px-8 py-4 md:flex"
-						>
-							<p class="text-center text-sm font-light text-body">
-								It is the day on which the amount payable towards your SIP order becomes due. The
-								day on which SIP instalments are paid is called SIP day.
-							</p>
-						</section>
 					</svelte:fragment>
 				</CalendarComponent>
 			</ModalWithAnimation>

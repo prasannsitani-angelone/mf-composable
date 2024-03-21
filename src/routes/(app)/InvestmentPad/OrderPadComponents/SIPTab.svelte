@@ -68,7 +68,7 @@
 			}}
 		>
 			<div class="text-xs font-normal text-title">
-				{`${calendarDate}${dateSuperscript}`}
+				{`${calendarDate}${dateSuperscript}`} of every month
 			</div>
 			<section class="pl-1">
 				<CalendarSmallIcon height={16} width={16} />

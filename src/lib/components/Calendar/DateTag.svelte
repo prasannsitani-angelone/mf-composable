@@ -9,9 +9,9 @@
 	export let selected: boolean;
 	export let classes: DateTagClasses | undefined;
 
-	$: selectedClass = selected ? `rounded bg-tint24-primary ${classes?.selected}` : '';
+	$: selectedClass = selected ? `rounded bg-tint12-primary !text-primary ${classes?.selected}` : '';
 	$: disabledClass = disabled
-		? `text-disabled sm:text-disabled cursor-not-allowed ${classes?.disabled}`
+		? `!text-disabled !sm:text-disabled !cursor-not-allowed ${classes?.disabled}`
 		: '';
 
 	const DateTagClass =
@@ -23,11 +23,11 @@
 </script>
 
 <div
-	class={`${DateTagClass} ${classes?.default} ${selectedClass} ${disabledClass}`}
+	class="{DateTagClass} {classes?.default} {selectedClass} {disabledClass}"
+	role="button"
+	tabindex="0"
 	on:click={onClick}
-	on:keydown={() => {
-		// add logic
-	}}
+	on:keypress
 >
 	{value}
 </div>

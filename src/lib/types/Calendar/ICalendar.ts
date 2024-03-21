@@ -33,3 +33,8 @@ export interface dateArrayTypes {
 	value: number;
 	disabled: boolean;
 }
+
+export interface instalmentDate {
+	title: string;
+	date: string;
+}

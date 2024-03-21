@@ -84,7 +84,7 @@ export const getDateSuperscript = (val: number) => {
 	let dateSuperscript = '';
 
 	if (val) {
-		if (val === 1 || val === 21) {
+		if (val === 1 || val === 21 || val === 31) {
 			dateSuperscript = 'st';
 		} else if (val === 2 || val === 22) {
 			dateSuperscript = 'nd';
@@ -203,12 +203,31 @@ export const getSIPMonthIncrementBasedOnDate = (
 	return monthIncrementFactor;
 };
 
+const dateNotInMonth = (calendarDate: number, date: Date = new Date(), finalMonth: number) => {
+	let isDateNotInMonth = false;
+
+	const daysInFinalSelectedMonth = new Date(date?.getFullYear(), finalMonth, 0)?.getDate(); // Total number of days in the selected month
+
+	if (calendarDate > daysInFinalSelectedMonth) {
+		isDateNotInMonth = true;
+	}
+
+	return isDateNotInMonth;
+};
+
 export const getSIPMonthBasedOnDate = (
 	calendarDate: number,
 	date: Date = new Date(),
 	bufferDays = 30
 ) => {
-	return date?.getMonth() + getSIPMonthIncrementBasedOnDate(calendarDate, date, bufferDays);
+	let finalMonth =
+		date?.getMonth() + getSIPMonthIncrementBasedOnDate(calendarDate, date, bufferDays);
+
+	if (dateNotInMonth(calendarDate, date, finalMonth)) {
+		finalMonth++;
+	}
+
+	return finalMonth;
 };
 
 export const getSIPYearBasedOnDate = (
