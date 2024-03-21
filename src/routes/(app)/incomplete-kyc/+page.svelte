@@ -12,7 +12,7 @@
 	};
 
 	const navigateToKycPage = () => {
-		window.open(`${PUBLIC_KYC_DEEPLINK_URL}?gt="${$page.data.token}`, '_blank');
+		window.open(`${PUBLIC_KYC_DEEPLINK_URL}?gt=${$page.data.token}`, '_blank');
 	};
 </script>
 
