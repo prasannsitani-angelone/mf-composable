@@ -217,6 +217,10 @@
 
 		if (props.src.endsWith('.m3u8')) {
 			if (isHlsSupported()) {
+				const source = document.createElement('source');
+				source.src = props?.src || '';
+				source.type = 'application/x-mpegURL';
+				videoElement.appendChild(source);
 				hls?.loadSource(props.src);
 				hls?.attachMedia(videoElement);
 			} else {
