@@ -43,7 +43,7 @@
 </script>
 
 <section
-	class="my-2 max-w-4xl rounded-lg bg-background-alt px-4 py-3 shadow-csm {$$props.class}"
+	class="max-w-4xl rounded-lg bg-background-alt px-4 py-3 shadow-csm {$$props.class}"
 	use:viewport
 	on:enterViewport={handleImpressionEvent}
 >

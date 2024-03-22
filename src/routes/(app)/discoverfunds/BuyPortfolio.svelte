@@ -67,7 +67,7 @@
 	}
 </script>
 
-<section class="my-2 max-w-4xl rounded-lg bg-background-alt px-4 py-3 shadow-csm {$$props.class}">
+<section class="max-w-4xl rounded-lg bg-background-alt px-4 py-3 shadow-csm {$$props.class}">
 	<header class="mb-2 justify-between" data-testid="portfolios">
 		<h2 class="text-base font-medium text-title">Ready Made Portfolios</h2>
 		<p class="mb-5 mt-1 text-[12px] font-normal text-body">

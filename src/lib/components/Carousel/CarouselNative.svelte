@@ -6,7 +6,7 @@
 
 	let translateX = 0;
 	let currentIndex = 0;
-	let loop = false;
+	let loop = true;
 	let slidesPerView = 1;
 	let spaceBetween = 0;
 	let navigation = false;

@@ -557,7 +557,7 @@
 	seoDescription="Set your Goals and find the right Mutual Funds to achieve your goal. Explore mutual funds by performance and start your investment journey with Angel One."
 />
 
-<article class="grid grid-cols-[100%]">
+<article class="-mt-2 grid grid-cols-[100%] md:mt-0">
 	{#if !storiesLoaded && placementMapping?.stories}
 		<StoriesSkeletonLoader />
 	{/if}
