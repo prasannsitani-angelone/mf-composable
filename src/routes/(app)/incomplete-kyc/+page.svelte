@@ -4,11 +4,27 @@
 	import { WMSIcon } from 'svelte-components';
 	import { PUBLIC_KYC_DEEPLINK_URL } from '$env/static/public';
 	import { page } from '$app/stores';
-	import Link from '$lib/components/Link.svelte';
+	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
+	import { onMount } from 'svelte';
+
+	let shouldLoadButtons = false;
 
 	const navigateToKycPage = () => {
+		if (!shouldLoadButtons) return;
 		window.open(`${PUBLIC_KYC_DEEPLINK_URL}?gt=${$page.data.token}`, '_blank');
 	};
+
+	const navigateToHomePage = async () => {
+		if (!shouldLoadButtons) return;
+		await goto(`${base}/discoverfunds`);
+	};
+
+	onMount(() => {
+		setTimeout(() => {
+			shouldLoadButtons = true;
+		}, 100);
+	});
 </script>
 
 <article data-testid="incomplete-kyc">
@@ -19,22 +35,26 @@
 			Complete your KYC process to invest in mutual funds
 		</p>
 	</div>
-	<div class="container absolute bottom-0 mb-3 flex flex-col items-center justify-center">
-		<Button
-			variant="contained"
-			class="{$$props.class} w-full"
-			ariaLabel="View KYC status"
-			onClick={navigateToKycPage}
-		>
-			VIEW KYC STATUS
-			<WMSIcon name="right-arrow" size="xs" class="ml-2" stroke="var(--BACKGROUND-ALT)" />
-		</Button>
-		<Link to="/discoverfunds">
-			<Button variant="transparent" class="{$$props.class} mt-2 w-full" ariaLabel="Go back">
+	{#if shouldLoadButtons}
+		<div class="container absolute bottom-0 mb-3 flex flex-col items-center justify-center">
+			<Button
+				variant="contained"
+				class="{$$props.class} w-full"
+				ariaLabel="View KYC status"
+				onClick={navigateToKycPage}
+			>
+				VIEW KYC STATUS
+				<WMSIcon name="right-arrow" size="xs" class="ml-2" stroke="var(--BACKGROUND-ALT)" />
+			</Button>
+			<Button
+				variant="transparent"
+				class="{$$props.class} mt-2 w-full"
+				onClick={navigateToHomePage}
+			>
 				GO BACK
 			</Button>
-		</Link>
-	</div>
+		</div>
+	{/if}
 </article>
 
 <style>
