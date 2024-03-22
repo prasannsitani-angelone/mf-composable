@@ -1,18 +1,13 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
-	import { base } from '$app/paths';
 	import KycPending from '$lib/images/kycPending.svelte';
 	import { WMSIcon } from 'svelte-components';
 	import { PUBLIC_KYC_DEEPLINK_URL } from '$env/static/public';
 	import { page } from '$app/stores';
-
-	const navigateToHomePage = () => {
-		goto(`${base}/discoverfunds`);
-	};
+	import Link from '$lib/components/Link.svelte';
 
 	const navigateToKycPage = () => {
-		window.open(`${PUBLIC_KYC_DEEPLINK_URL}?gt="${$page.data.token}`, '_blank');
+		window.open(`${PUBLIC_KYC_DEEPLINK_URL}?gt=${$page.data.token}`, '_blank');
 	};
 </script>
 
@@ -34,14 +29,11 @@
 			VIEW KYC STATUS
 			<WMSIcon name="right-arrow" size="xs" class="ml-2" stroke="var(--BACKGROUND-ALT)" />
 		</Button>
-		<Button
-			variant="transparent"
-			class="{$$props.class} mt-2 w-full"
-			ariaLabel="Go back"
-			onClick={navigateToHomePage}
-		>
-			GO BACK
-		</Button>
+		<Link to="/discoverfunds">
+			<Button variant="transparent" class="{$$props.class} mt-2 w-full" ariaLabel="Go back">
+				GO BACK
+			</Button>
+		</Link>
 	</div>
 </article>
 
