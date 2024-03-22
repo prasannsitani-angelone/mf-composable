@@ -5,6 +5,7 @@ import { goto } from '$app/navigation';
 import logger from '$lib/utils/logger';
 import { getLogoutUrl } from '$lib/utils/helpers/logout';
 import { base } from '$app/paths';
+import { modifiedGoto } from '$lib/utils/goto';
 
 const allowedRoutes = ['search', 'discoverfunds', 'schemes', 'filter', 'nfo', 'sipbook'];
 
@@ -30,7 +31,7 @@ export const load = (async ({ url, parent }) => {
 			searchParams.get('orderpad') === 'INVEST')
 	) {
 		const url = `${base}/incomplete-kyc`;
-		if (browser) return await goto(url);
+		if (browser) return await modifiedGoto(url);
 		else redirect(302, url);
 	} else if (!parentData?.tokenObj?.userToken?.NTAccessToken) {
 		const origin = `${parentData.scheme}//${parentData.host}`;

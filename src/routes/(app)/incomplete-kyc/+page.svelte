@@ -7,6 +7,8 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { onMount } from 'svelte';
+	import { appStore } from '$lib/stores/SparkStore';
+	import { goBackToSpark } from '$lib/utils';
 
 	let shouldLoadButtons = false;
 
@@ -17,7 +19,11 @@
 
 	const navigateToHomePage = async () => {
 		if (!shouldLoadButtons) return;
-		await goto(`${base}/discoverfunds`);
+		if ($appStore.openViaTabView) {
+			goBackToSpark();
+		} else {
+			await goto(`${base}/discoverfunds`, { replaceState: true });
+		}
 	};
 
 	onMount(() => {
