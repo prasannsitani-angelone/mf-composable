@@ -9,16 +9,23 @@
 	import { onMount } from 'svelte';
 	import { appStore } from '$lib/stores/SparkStore';
 	import { goBackToSpark } from '$lib/utils';
+	import {
+		handleClickViewKycAnalytics,
+		handleGoBackButtonAnalytics,
+		handleIncompleteKycImpression
+	} from './analytics';
 
 	let shouldLoadButtons = false;
 
 	const navigateToKycPage = () => {
 		if (!shouldLoadButtons) return;
+		handleClickViewKycAnalytics();
 		window.open(`${PUBLIC_KYC_DEEPLINK_URL}?gt=${$page.data.token}`, '_blank');
 	};
 
 	const navigateToHomePage = async () => {
 		if (!shouldLoadButtons) return;
+		handleGoBackButtonAnalytics();
 		if ($appStore.openViaTabView) {
 			goBackToSpark();
 		} else {
@@ -29,6 +36,7 @@
 	onMount(() => {
 		setTimeout(() => {
 			shouldLoadButtons = true;
+			handleIncompleteKycImpression();
 		}, 100);
 	});
 </script>
