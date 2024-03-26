@@ -53,7 +53,7 @@
 				lazy={index > 1 ? 'lazy' : 'eager'}
 			/>
 			<h3
-				class="line-clamp-2 self-center whitespace-normal text-sm font-normal text-title md:text-sm {headingClass}"
+				class="line-clamp-2 self-center whitespace-normal text-sm font-medium text-title md:text-sm {headingClass}"
 			>
 				{schemes?.schemeName}
 			</h3>

@@ -46,7 +46,7 @@
 		<AoCard>
 			<p slot="heading">Explore Mutual Funds</p>
 			<div slot="right" class="ml-auto">
-				<Button variant="transparent" class="!pr-0" onClick={navigateToFilters}>
+				<Button variant="transparent" class="!h-0 !min-h-0 !pr-0" onClick={navigateToFilters}>
 					<WMSIcon name="filter-square" fill="var(--PRIMARY)" />
 				</Button>
 			</div>

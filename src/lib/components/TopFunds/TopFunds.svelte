@@ -93,7 +93,7 @@
 								src={fund?.logoUrl}
 								alt={fund?.schemeName}
 							/>
-							<span class="line-clamp-1 text-sm font-normal text-title">{fund?.schemeName}</span>
+							<span class="line-clamp-1 text-sm font-medium text-title">{fund?.schemeName}</span>
 							<div class="flex-1" />
 							<span class="ml-3 text-sm font-medium text-buy">{fund?.returns3yr?.toFixed(2)}%</span>
 						</article>

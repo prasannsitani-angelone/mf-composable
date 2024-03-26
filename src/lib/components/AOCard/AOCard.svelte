@@ -1,8 +1,8 @@
 <article class="mt-2 max-w-4xl rounded-lg bg-background-alt text-sm shadow-csm sm:pb-4">
 	<header>
-		<section class="flex cursor-pointer justify-between p-4 !pb-0 pt-3 text-lg md:px-6 md:py-5">
+		<section class="flex cursor-pointer justify-between p-4 !pb-0 pt-3 text-lg">
 			<section class=" w-full items-center">
-				<h2 class="flex items-center text-left text-lg font-medium text-title">
+				<h2 class="flex items-start text-left text-base font-medium text-title">
 					<slot name="left" />
 					<slot name="heading" />
 					<slot name="right" />

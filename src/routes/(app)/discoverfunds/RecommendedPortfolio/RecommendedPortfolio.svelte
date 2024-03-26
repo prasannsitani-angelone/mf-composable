@@ -27,7 +27,7 @@
 			<div
 				class="line-clamp-2 w-1/2 flex-0.7 self-center whitespace-normal text-base text-sm font-normal text-title md:text-sm"
 			>
-				<h2 class="font-semibold">{portfolio?.packName}</h2>
+				<h2 class="font-medium">{portfolio?.packName}</h2>
 				<div class="mt-1">
 					{#each portfolio?.tags || [] as tag, index}
 						<span
