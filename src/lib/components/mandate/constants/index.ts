@@ -1,12 +1,13 @@
 import CardIcon from '../icons/CardIcon.svelte';
 import { PAYMENT_MODE } from '$components/Payment/constants';
+import { isLowerEnvironment } from '$lib/utils';
 
 export const EMANDATE_MODE = {
 	PHONEPE: {
 		...PAYMENT_MODE['PHONEPE'],
 		analytics: () => undefined,
 		enabled: (os: string) => {
-			if (os === 'Android') {
+			if (os === 'Android' || (isLowerEnvironment() && os === 'iOS')) {
 				return true;
 			}
 			return false;

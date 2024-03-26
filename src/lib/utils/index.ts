@@ -12,6 +12,7 @@ import type { AutopayTypes } from '$lib/types/IEmandate';
 import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 import { base } from '$app/paths';
 import { callNativeMethod, checkNativeMethodExist } from '$lib/utils/callNativeMethod';
+import { PUBLIC_ENV_NAME } from '$env/static/public';
 
 export interface TableColumnToggle {
 	label: string;
@@ -233,4 +234,11 @@ export function goBackToSpark() {
 	} else {
 		window.open(appStore.closecta(), '_self');
 	}
+}
+
+export function isLowerEnvironment() {
+	if (PUBLIC_ENV_NAME === 'cug' || PUBLIC_ENV_NAME === 'uat') {
+		return true;
+	}
+	return false;
 }

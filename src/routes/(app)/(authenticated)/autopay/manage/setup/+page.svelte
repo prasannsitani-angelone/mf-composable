@@ -25,7 +25,7 @@
 	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
 	import { appStore } from '$lib/stores/SparkStore';
-	import { goBackToSpark } from '$lib/utils';
+	import { goBackToSpark, isLowerEnvironment } from '$lib/utils';
 
 	export let data;
 	let selectedAccount: number;
@@ -54,7 +54,10 @@
 		const os = deviceType?.osName || deviceType?.os;
 		if (paramMode && allowedPaymentMethods?.includes(paramMode)) {
 			mode = paramMode;
-		} else if (os === 'Android' && allowedPaymentMethods?.includes('PHONEPE')) {
+		} else if (
+			(os === 'Android' || (isLowerEnvironment() && os === 'iOS')) &&
+			allowedPaymentMethods?.includes('PHONEPE')
+		) {
 			mode = 'PHONEPE';
 		} else if ((os === 'Android' || os === 'iOS') && allowedPaymentMethods?.includes('GOOGLEPAY')) {
 			mode = 'GOOGLEPAY';

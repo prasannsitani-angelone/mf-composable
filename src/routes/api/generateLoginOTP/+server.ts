@@ -1,12 +1,15 @@
 import type { RequestHandler } from './$types';
 import { AUTH_URL } from '$env/static/private';
 import logger from '$lib/utils/logger';
+import { isDevMode } from '$lib/utils/helpers/dev';
 
 const TEST_ACC_CONTACT = '4444444444';
 
 export const POST = (async ({ request }) => {
-	// const url = `${AUTH_URL}/generateLoginOTP`;
-	const url = `${AUTH_URL}/generateOTPPostCaptcha`;
+	let url = `${AUTH_URL}/generateOTPPostCaptcha`;
+	if (isDevMode()) {
+		url = `${AUTH_URL}/generateLoginOTP`;
+	}
 	try {
 		const source = request.headers.get('x-source') || '';
 		const captcha = request.headers.get('x-captcha') || '';
