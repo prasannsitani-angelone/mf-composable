@@ -9,6 +9,8 @@
 	import ProjectedReturns from './ProjectedReturns.svelte';
 	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
+	import { appStore } from '$lib/stores/SparkStore';
+	import { goBackToSpark } from '$lib/utils';
 
 	export let portfolioPack: PortfolioPack;
 	export let amount: number;
@@ -33,7 +35,11 @@
 
 	const toggleInput = () => {
 		if (fromHomePage) {
-			goto(`${base}/discoverfunds`);
+			if ($appStore.openViaTabView) {
+				goBackToSpark();
+			} else {
+				goto(`${base}/discoverfunds`);
+			}
 			return;
 		}
 		toggleInputPopup();
