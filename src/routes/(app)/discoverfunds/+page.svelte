@@ -82,6 +82,9 @@
 	import { getStoriesData } from '$lib/api/media';
 	import StoriesSkeletonLoader from '$components/Stories/StoriesSkeletonLoader.svelte';
 	import { cohorts, cohorts_LF } from '$lib/constants/cohorts';
+	import { getPromotionData } from '$lib/api/promotions';
+	import PromotionWidget, { type IPromotion } from './PromotionWidget/PromotionWidget.svelte';
+	import PromotionSkeleton from './PromotionWidget/PromotionSkeleton.svelte';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -115,6 +118,8 @@
 	let placementMapping = {};
 	let readyMadePortfolios;
 	let storiesLoaded = false;
+	let promotionData: IPromotion;
+	let shouldLoadPromotionWidget = false;
 
 	if ($page.data.deviceType?.isMobile || $page.data.deviceType?.isTablet) {
 		placementMapping = $page.data?.cohortConfig
@@ -395,6 +400,15 @@
 		}
 	};
 
+	const fetchPromotions = async () => {
+		shouldLoadPromotionWidget = false;
+		const res = await getPromotionData();
+		shouldLoadPromotionWidget = true;
+		if (res.ok) {
+			promotionData = res.data;
+		}
+	};
+
 	const fetchStoriesData = async () => {
 		const response = await getStoriesData();
 		storiesLoaded = true;
@@ -413,6 +427,8 @@
 		setAllNudgesData();
 
 		setNotificationData();
+
+		fetchPromotions();
 
 		if (placementMapping?.buyPortfolioCard) {
 			getReadyMadePortfolios();
@@ -626,6 +642,12 @@
 			class="row-start-{placementMapping?.startSip?.rowStart} col-start-{placementMapping?.startSip
 				?.columnStart} !my-0 {placementMapping?.startSip?.rowStart > 1 ? '!mt-2' : ''}"
 		/>
+	{/if}
+
+	{#if !shouldLoadPromotionWidget}
+		<PromotionSkeleton />
+	{:else if promotionData}
+		<PromotionWidget data={promotionData} id="ipl-orange-cap" />
 	{/if}
 
 	<!-- 3. Most Bought Section -->

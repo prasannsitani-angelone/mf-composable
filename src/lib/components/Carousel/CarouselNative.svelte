@@ -20,6 +20,7 @@
 	let touchPosition: number | null = null;
 	let indicatorClass = '';
 	let id = '';
+	let chevronClass = '';
 	let dispatch = createEventDispatcher();
 	$: childrens = totalElements;
 	$: nextButtonDisabled = false;
@@ -180,14 +181,15 @@
 		autoPlayTime,
 		fixedWidth,
 		indicatorClass,
-		id
+		id,
+		chevronClass
 	};
 </script>
 
 <div {id} class="flex w-full flex-row items-center {$$props?.class || ''}">
 	{#if navigation}
 		<slot name="prev-arrow">
-			<div class="carousel-prev-{id}">
+			<div class="carousel-prev-{id} {chevronClass}">
 				<WMSIcon
 					width={16}
 					name="arrow-expand"
@@ -247,7 +249,7 @@
 	</div>
 	{#if navigation}
 		<slot name="next-arrow">
-			<div class="carousel-next-{id}">
+			<div class="carousel-next-{id} {chevronClass}">
 				<WMSIcon
 					width={16}
 					name="arrow-collapse"

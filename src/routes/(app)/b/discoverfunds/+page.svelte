@@ -87,6 +87,10 @@
 	import { getStoriesData } from '$lib/api/media';
 	import StoriesSkeletonLoader from '$components/Stories/StoriesSkeletonLoader.svelte';
 	import { cohorts, cohorts_LF } from '$lib/constants/cohorts';
+	import PromotionSkeleton from '../../discoverfunds/PromotionWidget/PromotionSkeleton.svelte';
+	import PromotionWidget from '../../discoverfunds/PromotionWidget/PromotionWidget.svelte';
+	import type { IPromotion } from '../../discoverfunds/PromotionWidget/interfaces/promotion';
+	import { getPromotionData } from '$lib/api/promotions';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -130,6 +134,8 @@
 
 	let formattedRetryPaymentNudgeData: IRetryPaymentNudge;
 	let storiesLoaded = false;
+	let promotionData: IPromotion;
+	let shouldLoadPromotionWidget = false;
 
 	const getNudgeData = async () => {
 		let nudgesData: NudgeDataType = {
@@ -435,6 +441,8 @@
 			getReadyMadePortfolios();
 		}
 
+		fetchPromotions();
+
 		setNotificationData();
 
 		if (data?.layoutConfig?.showAskAngelEntry) {
@@ -569,6 +577,15 @@
 
 		setupAutopayCardImpressionAnalytics(eventMetaData);
 	};
+
+	const fetchPromotions = async () => {
+		shouldLoadPromotionWidget = false;
+		const res = await getPromotionData();
+		shouldLoadPromotionWidget = true;
+		if (res.ok) {
+			promotionData = res.data;
+		}
+	};
 </script>
 
 <SEO
@@ -654,6 +671,12 @@
 			class="row-start-{placementMapping?.startSip?.rowStart} col-start-{placementMapping?.startSip
 				?.columnStart} !my-0 {placementMapping?.startSip?.rowStart > 1 ? '!mt-2' : ''}"
 		/>
+	{/if}
+
+	{#if !shouldLoadPromotionWidget}
+		<PromotionSkeleton />
+	{:else if promotionData}
+		<PromotionWidget data={promotionData} id="ipl-orange-cap" />
 	{/if}
 
 	<!-- 4. Most Bought Section -->
