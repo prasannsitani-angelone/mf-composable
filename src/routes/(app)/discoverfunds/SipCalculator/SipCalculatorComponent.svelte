@@ -121,6 +121,19 @@
 		</div>
 	</div>
 
+	<div class="-mb-10 flex w-full flex-col items-start justify-start">
+		<div class="flex items-center justify-start pb-2">
+			<div class="h-2 w-[14px] rounded bg-tint24-buy" />
+			<div class="pl-2 text-xs text-body">
+				Investment - ₹{getDisplayAmount(maxData?.investedAmount)}
+			</div>
+		</div>
+		<div class="flex items-center justify-start">
+			<div class="h-2 w-[14px] rounded bg-buy pr-2" />
+			<div class="pl-2 text-xs text-body">Gain - ₹{getDisplayAmount(maxData?.gains)}</div>
+		</div>
+	</div>
+
 	<BarChartGraphComponent
 		class="!mx-0 mb-3 w-full !justify-between gap-10 sm:w-fit sm:gap-20"
 		bind:dataSet
