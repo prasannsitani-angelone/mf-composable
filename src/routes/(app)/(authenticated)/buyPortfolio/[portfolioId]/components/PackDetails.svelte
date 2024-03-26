@@ -38,7 +38,7 @@
 			if ($appStore.openViaTabView) {
 				goBackToSpark();
 			} else {
-				goto(`${base}/discoverfunds`);
+				goto(`${base}/discoverfunds`, { replaceState: true });
 			}
 			return;
 		}
