@@ -4,6 +4,9 @@
 	import CarouselItem from '$components/Carousel/CarouselItem.svelte';
 	import PromotionCarouselItem from './PromotionCarouselItem.svelte';
 	import type { IPromotion } from './interfaces/promotion';
+	import { handleBannerImpressionAnalytics, handleCarouselSliderAnalytics } from './analytics';
+	import { onMount } from 'svelte';
+	import { getEventMetaData } from './utils';
 
 	let carouselInActive = false;
 
@@ -16,6 +19,17 @@
 	const carouselItemClass = isMobile
 		? 'max-full'
 		: 'sm:!w-[calc(100vw/2.3)] lg:!w-[calc(100vw/3.6)]  xl:!w-[calc(100vw)] 2xl:!w-[calc(100vw/5.7)]';
+
+	const handleCardVisible = (event: CustomEvent) => {
+		const index = event.detail.index;
+		const currentScheme = data.schemes?.[index];
+		const metaData = getEventMetaData(index, data.header.title, currentScheme);
+		handleCarouselSliderAnalytics(metaData);
+	};
+
+	onMount(() => {
+		handleBannerImpressionAnalytics();
+	});
 </script>
 
 <section
@@ -36,6 +50,7 @@
 				slidesPerView={isMobile ? 1 : 2}
 				indicatorClass="!m-0"
 				chevronClass="mt-4"
+				on:onIndexChange={handleCardVisible}
 			>
 				{#each data?.schemes || [] as scheme, index}
 					<CarouselItem id="promotion" class="!my-3 {carouselItemClass}" {index}>

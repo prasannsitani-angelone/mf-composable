@@ -10,4 +10,5 @@ export interface ScreenedSchemes {
 	arqRating: number;
 	sipFlag: string;
 	minSipAmount: number;
+	noOfClientInvested?: number;
 }

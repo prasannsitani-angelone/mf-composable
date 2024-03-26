@@ -5,14 +5,20 @@
 	import { modifiedGoto } from '$lib/utils/goto';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { WMSIcon, addCommasToAmountString } from 'svelte-components';
+	import { handleCarouselItemClickAnalytics } from './analytics';
+	import { getEventMetaData } from './utils';
 
 	export let scheme: ScreenedSchemes;
 	export let index: number;
+	export let title: string;
 
 	$: isMobile = $page.data.deviceType.isMobile || false;
 
 	const handleSchemeClick = async () => {
 		const { schemeName, isin, schemeCode } = scheme;
+		const metaData = getEventMetaData(index, title, scheme);
+		handleCarouselItemClickAnalytics(metaData);
+
 		await modifiedGoto(
 			`${base}/${normalizeFundName(schemeName, isin, schemeCode, 'schemes')}?orderpad=INVEST`
 		);
