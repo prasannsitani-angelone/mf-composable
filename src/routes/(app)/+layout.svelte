@@ -4,7 +4,7 @@
 	import type { LayoutData } from './$types';
 	import { AUTH_STATE_ENUM, tokenStore } from '$lib/stores/TokenStore';
 	import { profileStore } from '$lib/stores/ProfileStore';
-	import { onMount, tick } from 'svelte';
+	import { onDestroy, onMount, tick } from 'svelte';
 	import Logger from '$lib/utils/logger';
 	import Default from '$lib/layouts/Default.svelte';
 	import LoadingIndicator from '$components/LoadingIndicator.svelte';
@@ -29,14 +29,20 @@
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { ctNudgeStore } from '$lib/stores/CtNudgeStore';
 	import { browserHistoryStore } from '$lib/stores/BrowserHistoryStore';
+	import type { AnimationArguments } from 'svelte-components';
+	import { cubicOut } from 'svelte/easing';
+	import { fly } from 'svelte/transition';
+	import { browser } from '$app/environment';
 
 	$: pageMetaData = $page?.data?.layoutConfig;
+	$: isMobile = $page?.data?.deviceType?.isMobile;
 	const versionViaQuery = $page.url.searchParams.get('version');
 	let searchFocused = false;
 	const handleSearchFocus = (e: { detail: boolean }) => {
 		searchFocused = e.detail;
 	};
 	let version = '';
+	let isBack = false;
 
 	$: isModalOpen = $externalNavigation.active;
 	// Update store with Spark headers
@@ -56,6 +62,11 @@
 		});
 		await Clevertap.init();
 		Clevertap.setProfile(profile);
+	};
+
+	const popStateListener = () => {
+		// The popstate event is fired each time when the current history entry changes.
+		isBack = true;
 	};
 	onMount(async () => {
 		if (versionViaQuery) {
@@ -94,6 +105,13 @@
 			initialUrl: `${$page.url.origin}${$page.url.pathname}`,
 			historyLength: window.history.length
 		});
+
+		window.addEventListener('popstate', popStateListener, false);
+	});
+	onDestroy(() => {
+		if (browser) {
+			window.removeEventListener('popstate', popStateListener, false);
+		}
 	});
 	// initialising logging again with all new headers for routes of (app)
 
@@ -112,6 +130,21 @@
 			historyLength: window.history.length
 		});
 	});
+
+	const animate = (node: Element, args: AnimationArguments) => (args.cond ? fly(node, args) : {});
+	const getDirection = () => {
+		if (isBack) {
+			isBack = false;
+			return '-100%';
+		}
+		return '100%';
+	};
+
+	const restrictPathFromAnimations = [
+		'/mutual-funds/investments',
+		'/mutual-funds/sipbook/dashboard',
+		'/mutual-funds/orders/orderspage'
+	];
 </script>
 
 <noscript>
@@ -124,28 +157,34 @@
 		style="visibility: hidden;"
 	/>
 </noscript>
-<div class="flex-no-wrap fixed flex h-full w-full flex-col bg-background">
-	<header class="z-[70] flex-shrink-0 bg-background-alt">
-		<Header on:handleSearchFocus={handleSearchFocus} />
-	</header>
-	<!-- <TwoColumnRightLarge {searchFocused}>
+{#key data.pathname}
+	<div
+		class="flex-no-wrap fixed flex h-full w-full flex-col bg-background"
+		in:animate={{
+			x: getDirection(),
+			easing: cubicOut,
+			duration: 300,
+			cond: isMobile && !restrictPathFromAnimations.includes(data.pathname)
+		}}
+	>
+		<header class="z-[70] flex-shrink-0 bg-background-alt">
+			<Header on:handleSearchFocus={handleSearchFocus} />
+		</header>
+		<!-- <TwoColumnRightLarge {searchFocused}>
 		<slot />
 	</TwoColumnRightLarge> -->
 
-	<Default
-		{searchFocused}
-		layoutType={$appPage.data?.layoutConfig?.layoutType}
-		pathname={data.pathname}
-	>
-		<slot />
-	</Default>
+		<Default {searchFocused} layoutType={$appPage.data?.layoutConfig?.layoutType}>
+			<slot />
+		</Default>
 
-	{#if pageMetaData?.showBottomNavigation}
-		<footer>
-			<BottomNavigation navs={BOTTOM_NAVBARS(version)} />
-		</footer>
-	{/if}
-</div>
+		{#if pageMetaData?.showBottomNavigation}
+			<footer>
+				<BottomNavigation navs={BOTTOM_NAVBARS(version)} />
+			</footer>
+		{/if}
+	</div>
+{/key}
 {#if isModalOpen}
 	<Overlay containerClass="!justify-center sm:!justify-center">
 		<LoadingIndicator svgClass={'!w-16 !h-16'} />
