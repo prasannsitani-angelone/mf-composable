@@ -62,6 +62,7 @@
 		"daisyui": "2.51.4",
 		"date-fns": "2.30.0",
 		"fflate": "0.7.4",
+		"hls.js": "^1.5.7",
 		"kolorist": "^1.8.0",
 		"lodash.merge": "4.6.2",
 		"ohash": "^1.1.3",

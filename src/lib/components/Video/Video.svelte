@@ -22,6 +22,7 @@
 	let maxHeight = 50;
 	let isMuted = writable(true);
 	let hls;
+	let hlsContext;
 
 	const dispatch = createEventDispatcher();
 
@@ -212,11 +213,11 @@
 		videoElement?.pause();
 	};
 
-	const initiateVideoPlayback = () => {
+	const initiateVideoPlayback = (hls, hlsContext) => {
 		if (!videoElement) return;
 
 		if (props.src.endsWith('.m3u8')) {
-			if (isHlsSupported()) {
+			if (isHlsSupported(hlsContext)) {
 				const source = document.createElement('source');
 				source.src = props?.src || '';
 				source.type = 'application/x-mpegURL';
@@ -231,27 +232,32 @@
 		}
 	};
 
-	onMount(() => {
+	onMount(async () => {
 		pauseInactiveVideos();
 		videoElement = document.getElementById(`video-${props?.source}`) as HTMLVideoElement | null;
-		hls = loadHlsPlayer();
-		initiateVideoPlayback();
+		const hlsResponse = await loadHlsPlayer();
 
-		if (!props?.autoplay) {
-			if (props?.type === VideoPlayerMode.Normal && props?.threshold) {
-				try {
-					const options = { threshold: props?.threshold };
-					intersectionObserver = new IntersectionObserver(handleIntersection, options);
-					if (videoElement) {
-						intersectionObserver.observe(videoElement);
+		if (hlsResponse) {
+			hls = hlsResponse.hls;
+			hlsContext = hlsResponse.hlsContext;
+			initiateVideoPlayback(hls, hlsContext);
+
+			if (!props?.autoplay) {
+				if (props?.type === VideoPlayerMode.Normal && props?.threshold) {
+					try {
+						const options = { threshold: props?.threshold };
+						intersectionObserver = new IntersectionObserver(handleIntersection, options);
+						if (videoElement) {
+							intersectionObserver.observe(videoElement);
+						}
+					} catch (error) {
+						handleIntersectionError(error);
 					}
-				} catch (error) {
-					handleIntersectionError(error);
 				}
+			} else {
+				videoElement?.play();
+				handleToggleMute();
 			}
-		} else {
-			videoElement?.play();
-			handleToggleMute();
 		}
 
 		window.addEventListener('blur', pauseVideoOnBlur);
@@ -264,9 +270,12 @@
 		if (intersectionObserver) {
 			intersectionObserver.disconnect();
 		}
+
 		hls?.detachMedia();
 
 		videoElement = null;
+		hls = null;
+		hlsContext = null;
 
 		window.removeEventListener('blur', pauseVideoOnBlur);
 		window.removeEventListener('focus', playVideoOnFocus);

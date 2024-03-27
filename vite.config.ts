@@ -78,7 +78,14 @@ const config: UserConfig = {
 		strictPort: false
 	},
 	optimizeDeps: {
-		include: ['lodash.get', 'lodash.isequal', 'lodash.clonedeep', 'just-throttle', 'dayjs']
+		include: [
+			'lodash.get',
+			'lodash.isequal',
+			'lodash.clonedeep',
+			'just-throttle',
+			'dayjs',
+			'hls.js'
+		]
 	},
 	define: {
 		'process.env.NODE_ENV': process.env.NODE_ENV === 'production' ? '"production"' : '"development"'
