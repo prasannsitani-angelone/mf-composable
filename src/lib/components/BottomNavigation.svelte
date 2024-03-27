@@ -141,13 +141,15 @@
 	onMount(async () => {
 		addActionCenterSwipeEvents();
 		setActionCenterData();
+	});
 
+	const handleDeviceBackClick = () => {
 		registerNativeClosePopUpWindowCallback(() => {
 			if (showPendingActionCenter) {
 				toggleShowPendingActionCenter();
 			}
 		});
-	});
+	};
 
 	const handleBottomNavClick = (label: string) => {
 		bottomNavClickAnalytics(label);
@@ -213,6 +215,7 @@
 
 {#if showPendingActionCenter}
 	<PendingActionCenterModal
+		on:modalMounted={handleDeviceBackClick}
 		on:backdropClick={toggleShowPendingActionCenter}
 		pendingActionsData={notifData}
 		{autopayNudge}

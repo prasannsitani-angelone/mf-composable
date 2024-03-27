@@ -45,6 +45,7 @@
 			}
 		} else {
 			notifyPopupWindowChange({ isOpen: true, showAsFullScreen: true });
+			handleDeviceBackClick();
 			props.fullScreen = true;
 			props.showBottomDrawer = true;
 			props.type = VideoPlayerMode.ProgressBarOverlay;

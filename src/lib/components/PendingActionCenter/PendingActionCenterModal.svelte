@@ -81,7 +81,7 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<ModalWithAnimation showIconOnTop={true} closeModal={backdropClick} isModalOpen>
+<ModalWithAnimation showIconOnTop={true} closeModal={backdropClick} isModalOpen on:modalMounted>
 	<svelte:fragment slot="closingIcon">
 		<div on:click={backdropClick} class="flex items-center justify-center">
 			<div class="mb-4 w-fit rounded-full bg-background p-3">
