@@ -110,7 +110,9 @@
 	}
 </script>
 
-<section class="h-screen w-full bg-background max-sm:overflow-auto md:h-[860px] md:w-[500px]">
+<section
+	class="h-screen w-full overflow-y-auto bg-background max-sm:overflow-auto md:max-h-[860px] md:w-[500px]"
+>
 	<div
 		class="mb-2 flex items-center bg-background-alt px-4 pb-3 pt-4 text-lg font-medium text-title"
 	>
