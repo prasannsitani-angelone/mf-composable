@@ -29,7 +29,7 @@ export const load = (async ({ fetch }) => {
 
 	return {
 		layoutConfig: {
-			title: 'Start Your First Investment',
+			title: 'Select Fund',
 			showBackIcon: true,
 			layoutType: 'DEFAULT'
 		},

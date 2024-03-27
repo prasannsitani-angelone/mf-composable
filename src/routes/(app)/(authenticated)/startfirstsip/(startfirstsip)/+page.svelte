@@ -7,7 +7,6 @@
 		startFirstSipScreenImpressionAnalytics
 	} from '$lib/analytics/startFirstSip/startFirstSip';
 	import StartFirstSipSkeleton from './StartFirstSipSkeleton.svelte';
-	import StartFirstSipStatic from './StartFirstSipStatic.svelte';
 	import { onMount } from 'svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 	import OldTrendingCarouselItems from '$components/MostBought/Old/OldTrendingCarouselItems.svelte';
@@ -40,8 +39,6 @@
 
 	<article class="-m-2" data-testid="startFirstSipPage">
 		<section class=" h-full p-3">
-			<StartFirstSipStatic class="mb-6" />
-
 			<p class="mb-2 text-sm font-medium text-title">
 				Select a fund based on your goals and start an SIP
 			</p>
@@ -57,13 +54,6 @@
 					on:onCardClick={() => schemeCardClicked(scheme, index + 1)}
 				>
 					<div slot="topRightSection" />
-					<div slot="cardFooter">
-						{#if scheme.riskoMeterValue}
-							<div class="mt-2 text-xs font-medium text-body">
-								{scheme.riskoMeterValue}
-							</div>
-						{/if}
-					</div>
 				</OldTrendingCarouselItems>
 			{/each}
 		</section>
