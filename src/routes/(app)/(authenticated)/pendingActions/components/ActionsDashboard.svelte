@@ -28,12 +28,12 @@
 			Heading: 'Recent Failed Orders',
 			cta: 'retry'
 		});
-		dispatch('actionClick');
+		dispatch('actionClick', 'Recent Failed Orders');
 		modifiedGoto(`${base}/orders/${order?.orderID}`);
 	};
 
 	const handleFailedSipPaymentClick = (order: Notif) => {
-		dispatch('actionClick');
+		dispatch('actionClick', 'Missed SIP Payment');
 		if (order?.orderID) {
 			const reRouteUrl = 'schemes';
 			const path = `${reRouteUrl}/${normalizeFundName(
@@ -65,7 +65,7 @@
 	};
 
 	const handlePendingSipPaymentClick = (order: Notif) => {
-		dispatch('actionClick');
+		dispatch('actionClick', 'SIP Payment Due');
 		if (order?.sipId) {
 			const reRouteUrl = 'schemes';
 			const path = `${reRouteUrl}/${normalizeFundName(

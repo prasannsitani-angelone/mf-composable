@@ -16,7 +16,7 @@
 	$: bankDetails = $profileStore?.bankDetails;
 
 	const redirectToSetupAutopay = () => {
-		dispatch('autopayCardClick');
+		dispatch('autopayCardClick', 'SetupAutoPay');
 
 		const params = encodeObject({
 			acc: bankDetails?.[0]?.accNO

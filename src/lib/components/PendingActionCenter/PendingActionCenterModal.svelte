@@ -3,10 +3,14 @@
 	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 	import type { INotification } from '$lib/types/INotifications';
 	import type { INudge } from '$lib/types/INudge';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import { WMSIcon } from 'svelte-components';
 	import ActionsDashboard from '../../../routes/(app)/(authenticated)/pendingActions/components/ActionsDashboard.svelte';
 	import PendingActionsLoader from './PendingActionsLoader.svelte';
+	import {
+		pendingActionsCtaClickedAnalytics,
+		pendingActionsExpandImpressionAnalytics
+	} from './analytics';
 
 	const dispatch = createEventDispatcher();
 	export let pendingActionsData: INotification;
@@ -21,9 +25,58 @@
 			0 + autopayNudge?.data?.sipCount ||
 			0) === 0;
 
+	$: noOfPendingActions =
+		(pendingActionsData?.instalmentFailedOrders?.length ? 1 : 0) +
+		(pendingActionsData?.instalmentPending?.length ? 1 : 0) +
+		(pendingActionsData?.paymentFailedOrders?.length ? 1 : 0) +
+		(autopayNudge?.data?.sipCount || false ? 1 : 0);
+
 	const backdropClick = () => {
 		dispatch('backdropClick');
 	};
+
+	const handleActionItemCtaClick = (title: string) => {
+		const eventMetaData = {
+			CardName: title
+		};
+		pendingActionsCtaClickedAnalytics(eventMetaData);
+		backdropClick();
+	};
+
+	const logToggleCardExpandedEvent = () => {
+		let eventMetaData = {};
+		if (noOfPendingActions) {
+			let items = [];
+			if (pendingActionsData?.instalmentFailedOrders?.length)
+				items.push({ CardName: 'Missed SIP Payment' });
+			if (pendingActionsData?.instalmentPending?.length)
+				items.push({ CardName: 'SIP Payment Due' });
+			if (pendingActionsData?.paymentFailedOrders?.length)
+				items.push({ CardName: 'Recent Failed Orders' });
+			if (autopayNudge?.data?.sipCount) items.push({ CardName: 'SetupAutoPay' });
+			eventMetaData = {
+				CardCount: noOfPendingActions,
+				text: 'NULL',
+				item: items
+			};
+		} else {
+			eventMetaData = {
+				CardCount: 0,
+				text: 'You are all caught up you are in top 1% of angelone investors',
+				item: [
+					{
+						Index: 0,
+						CardName: 'NULL'
+					}
+				]
+			};
+		}
+		pendingActionsExpandImpressionAnalytics(eventMetaData);
+	};
+
+	onMount(() => {
+		logToggleCardExpandedEvent();
+	});
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -58,9 +111,12 @@
 				<SetupAutopayCard
 					sipPendingCount={autopayNudge?.data?.sipCount}
 					sipTotalAmount={autopayNudge?.amount}
-					on:autopayCardClick={backdropClick}
+					on:autopayCardClick={(e) => handleActionItemCtaClick(e?.detail)}
 				/>
-				<ActionsDashboard actionsData={pendingActionsData} on:actionClick={backdropClick} />
+				<ActionsDashboard
+					actionsData={pendingActionsData}
+					on:actionClick={(e) => handleActionItemCtaClick(e?.detail)}
+				/>
 			</section>
 		{/if}
 	</div>

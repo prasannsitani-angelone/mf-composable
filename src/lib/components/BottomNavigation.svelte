@@ -11,6 +11,10 @@
 	import Link from './Link.svelte';
 	import PendingActionCenterModal from './PendingActionCenter/PendingActionCenterModal.svelte';
 	import { getPendingActionsData } from '$lib/api/actions';
+	import {
+		pendingActionsCloseAnalytics,
+		pendingActionsExpandClickAnalytics
+	} from './PendingActionCenter/analytics';
 
 	export let navs: IBottomNavItem[];
 
@@ -29,7 +33,15 @@
 	let touchPosition: number | null = null;
 
 	const toggleShowPendingActionCenter = () => {
-		bottomNavClickAnalytics('Action Center');
+		if (showPendingActionCenter) {
+			pendingActionsCloseAnalytics();
+		} else {
+			const eventMetaData = {
+				Actions: noOfPendingActions
+			};
+			pendingActionsExpandClickAnalytics(eventMetaData);
+			bottomNavClickAnalytics('Action Center');
+		}
 		showPendingActionCenter = !showPendingActionCenter;
 	};
 
