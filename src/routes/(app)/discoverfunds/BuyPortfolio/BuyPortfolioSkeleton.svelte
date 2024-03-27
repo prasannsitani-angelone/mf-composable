@@ -6,7 +6,7 @@
 	$: deviceType = $page.data.deviceType;
 </script>
 
-<SkeletonWrapper class="mt-2 w-full rounded-lg bg-background-alt shadow-csm">
+<SkeletonWrapper class="w-full rounded-lg bg-background-alt p-3 pb-1 shadow-csm">
 	<div class="my-3 ml-4">
 		<SkeletonRectangle class="mt-2 !h-4 w-72" />
 		<SkeletonRectangle class="mt-2 !h-2 w-48" />
