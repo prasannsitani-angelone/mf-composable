@@ -26,6 +26,7 @@
 	let notifData: INotification;
 	let autopayNudge: INudge | null;
 	let showPendingActionCenter = false;
+	let touchPosition: number | null = null;
 
 	const toggleShowPendingActionCenter = () => {
 		bottomNavClickAnalytics('Action Center');
@@ -86,7 +87,44 @@
 		setActionCenterData();
 	}
 
+	const handleTouchStart = (e: Event, isMouseEvent = false) => {
+		const touchDown = isMouseEvent ? e?.clientY : e?.touches[0]?.clientY;
+		touchPosition = touchDown;
+	};
+
+	const handleTouchMove = (e: Event, isMouseEvent = false) => {
+		const touchDown = touchPosition;
+
+		if (touchDown === null) {
+			return;
+		}
+
+		const currentTouch = isMouseEvent ? e?.clientY : e?.touches[0]?.clientY;
+		const diff = touchDown - currentTouch;
+
+		if (diff > 5) {
+			toggleShowPendingActionCenter();
+		}
+
+		touchPosition = null;
+	};
+
+	const addActionCenterSwipeEvents = () => {
+		let pendingActionCenter = document.getElementById(`pending-action-center-entry`);
+		if (pendingActionCenter) {
+			pendingActionCenter.addEventListener('touchstart', handleTouchStart, { passive: true });
+			pendingActionCenter.addEventListener('touchmove', handleTouchMove, { passive: true });
+			pendingActionCenter.addEventListener('mousedown', (e) => handleTouchStart(e, true), {
+				passive: true
+			});
+			pendingActionCenter.addEventListener('mouseup', (e) => handleTouchMove(e, true), {
+				passive: true
+			});
+		}
+	};
+
 	onMount(async () => {
+		addActionCenterSwipeEvents();
 		setActionCenterData();
 	});
 
@@ -107,6 +145,7 @@
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<!-- svelte-ignore a11y-no-static-element-interactions -->
 				<div
+					id="pending-action-center-entry"
 					class="relative flex h-full w-full items-start justify-center"
 					on:click={toggleShowPendingActionCenter}
 				>
