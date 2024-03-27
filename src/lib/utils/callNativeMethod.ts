@@ -17,12 +17,13 @@ export const checkNativeMethodExist = (methodName: string) => {
 	return false;
 };
 
-export const notifyPopupWindowChange = (isOpen: boolean) => {
+export const notifyPopupWindowChange = ({ isOpen = false, showAsFullScreen = false }) => {
 	if (checkNativeMethodExist('onPopUpWindow')) {
 		callNativeMethod(
 			'onPopUpWindow',
 			JSON.stringify({
 				isOpen: isOpen,
+				showAsFullScreen: showAsFullScreen,
 				product: 'MF'
 			})
 		);

@@ -44,7 +44,7 @@
 				props.autoplay = true;
 			}
 		} else {
-			notifyPopupWindowChange(true);
+			notifyPopupWindowChange({ isOpen: true, showAsFullScreen: true });
 			props.fullScreen = true;
 			props.showBottomDrawer = true;
 			props.type = VideoPlayerMode.ProgressBarOverlay;
@@ -60,7 +60,7 @@
 	};
 
 	const handleVideoClose = () => {
-		notifyPopupWindowChange(false);
+		notifyPopupWindowChange({ isOpen: false });
 		if (deviceType.isBrowser) {
 			dispatch('reel-click', false);
 			playAllVideos();

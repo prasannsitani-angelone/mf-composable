@@ -15,6 +15,8 @@
 		pendingActionsCloseAnalytics,
 		pendingActionsExpandClickAnalytics
 	} from './PendingActionCenter/analytics';
+	import { registerNativeClosePopUpWindowCallback } from '$lib/utils/nativeCallbacks';
+	import { notifyPopupWindowChange } from '$lib/utils/callNativeMethod';
 
 	export let navs: IBottomNavItem[];
 
@@ -43,6 +45,7 @@
 			bottomNavClickAnalytics('Action Center');
 		}
 		showPendingActionCenter = !showPendingActionCenter;
+		notifyPopupWindowChange({ isOpen: showPendingActionCenter });
 	};
 
 	$: noOfPendingActions =
@@ -138,6 +141,12 @@
 	onMount(async () => {
 		addActionCenterSwipeEvents();
 		setActionCenterData();
+
+		registerNativeClosePopUpWindowCallback(() => {
+			if (showPendingActionCenter) {
+				toggleShowPendingActionCenter();
+			}
+		});
 	});
 
 	const handleBottomNavClick = (label: string) => {

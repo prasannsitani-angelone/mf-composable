@@ -67,7 +67,7 @@
 		clickedIndex = 0,
 		userClicked = false
 	) => {
-		notifyPopupWindowChange(true);
+		notifyPopupWindowChange({ isOpen: true, showAsFullScreen: true });
 		if (browser && isMobile) {
 			document?.addEventListener('touchstart', setStartTouchPoints);
 			document?.addEventListener('touchend', setEndTouchPoints);
@@ -117,7 +117,7 @@
 	};
 
 	const crossButtonClicked = (routerBack = true) => {
-		notifyPopupWindowChange(false);
+		notifyPopupWindowChange({ isOpen: false });
 		if (browser) {
 			document?.removeEventListener('touchstart', setStartTouchPoints);
 			document?.removeEventListener('touchend', setEndTouchPoints);
