@@ -133,7 +133,7 @@
 </script>
 
 <Modal isModalOpen {isMobile} on:backdropclicked={() => toggleOptimisePorfolioCard(false)}>
-	<div class="w-full rounded-t-2xl bg-background-alt px-5 py-4 sm:w-120 sm:!rounded-lg">
+	<div class="w-full rounded-t-2xl bg-background-alt px-5 py-6 sm:w-120 sm:!rounded-lg">
 		<div class="mb-4">
 			<div class="flex items-center text-lg font-normal">
 				<div class="flex-1 font-medium text-title">2nd SIP For Your Portfolio</div>
@@ -201,8 +201,8 @@
 				</div>
 			</div>
 		</section>
-		<section class="mt-2 flex flex-col">
-			<ButtonMedium class="mt-4" on:click={gotoSchemeDetails}>INVEST NOW</ButtonMedium>
+		<section class="mt-1 flex flex-col">
+			<ButtonMedium class="mt-4" on:click={gotoSchemeDetails}>START SIP NOW</ButtonMedium>
 		</section>
 	</div>
 </Modal>
