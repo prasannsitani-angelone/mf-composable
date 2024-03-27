@@ -673,10 +673,17 @@
 		/>
 	{/if}
 
-	{#if !shouldLoadPromotionWidget}
-		<PromotionSkeleton />
-	{:else if promotionData}
-		<PromotionWidget data={promotionData} id="ipl-orange-cap" />
+	{#if placementMapping?.iplBanner}
+		<article
+			class="row-start-{placementMapping?.iplBanner?.rowStart} col-start-{placementMapping
+				?.iplBanner?.columnStart}"
+		>
+			{#if !shouldLoadPromotionWidget}
+				<PromotionSkeleton />
+			{:else if promotionData}
+				<PromotionWidget data={promotionData} id="ipl-orange-cap" />
+			{/if}
+		</article>
 	{/if}
 
 	<!-- 4. Most Bought Section -->
