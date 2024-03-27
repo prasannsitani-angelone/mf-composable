@@ -54,7 +54,7 @@
 			>
 				{#each data?.schemes || [] as scheme, index}
 					<CarouselItem id="promotion" class="!my-3 {carouselItemClass}" {index}>
-						<PromotionCarouselItem {scheme} {index} />
+						<PromotionCarouselItem title={data?.header?.title} {scheme} {index} />
 					</CarouselItem>
 				{/each}
 			</CarouselNative>
