@@ -9,9 +9,9 @@
 	import CarouselNative from '$components/Carousel/CarouselNative.svelte';
 	import CarouselItem from '$components/Carousel/CarouselItem.svelte';
 
-	import RecommendedPortfolio from './RecommendedPortfolio/RecommendedPortfolio.svelte';
+	import RecommendedPortfolio from '../RecommendedPortfolio/RecommendedPortfolio.svelte';
 	import Modal from '$components/Modal.svelte';
-	import PortfolioInput from '../(authenticated)/buyPortfolio/[portfolioId]/components/PortfolioInput.svelte';
+	import PortfolioInput from '../../(authenticated)/buyPortfolio/[portfolioId]/components/PortfolioInput.svelte';
 	import type { PortfolioPack, Scheme } from '$lib/types/IBuyPortfolio';
 	import { base } from '$app/paths';
 	import { encodeObject } from '$lib/utils/helpers/params';

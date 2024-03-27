@@ -53,7 +53,8 @@
 	import TutorialNudge from '$components/Tutorial/nudge/TutorialNudge.svelte';
 	import type { INotification, INotificationSummary, Notif } from '$lib/types/INotifications';
 	import { base } from '$app/paths';
-	import BuyPortfolio from './BuyPortfolio.svelte';
+	import BuyPortfolio from './BuyPortfolio/BuyPortfolio.svelte';
+	import BuyPortfolioSkeleton from './BuyPortfolio/BuyPortfolioSkeleton.svelte';
 	import AskAngel from './AskAngel.svelte';
 	import { AUTH_STATE_ENUM, tokenStore } from '$lib/stores/TokenStore';
 	import {
@@ -82,8 +83,7 @@
 	import { getStoriesData } from '$lib/api/media';
 	import StoriesSkeletonLoader from '$components/Stories/StoriesSkeletonLoader.svelte';
 	import { cohorts, cohorts_LF } from '$lib/constants/cohorts';
-	import { getPromotionData } from '$lib/api/promotions';
-	import PromotionWidget, { type IPromotion } from './PromotionWidget/PromotionWidget.svelte';
+	import PromotionWidget from './PromotionWidget/PromotionWidget.svelte';
 	import PromotionSkeleton from './PromotionWidget/PromotionSkeleton.svelte';
 
 	$: isLoggedInUser = !data?.isGuest;
@@ -118,8 +118,7 @@
 	let placementMapping = {};
 	let readyMadePortfolios;
 	let storiesLoaded = false;
-	let promotionData: IPromotion;
-	let shouldLoadPromotionWidget = false;
+	let shouldLoadPortfolios = false;
 
 	if ($page.data.deviceType?.isMobile || $page.data.deviceType?.isTablet) {
 		placementMapping = $page.data?.cohortConfig
@@ -393,19 +392,12 @@
 	let sendNfoImpressionAnalytics = false;
 
 	const getReadyMadePortfolios = async () => {
+		shouldLoadPortfolios = false;
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/packs?packGroupId=READY_MADE_PORTFOLIO`;
 		const res = await useFetch(url, {}, fetch);
+		shouldLoadPortfolios = true;
 		if (res.ok) {
 			readyMadePortfolios = res.data?.packs || [];
-		}
-	};
-
-	const fetchPromotions = async () => {
-		shouldLoadPromotionWidget = false;
-		const res = await getPromotionData();
-		shouldLoadPromotionWidget = true;
-		if (res.ok) {
-			promotionData = res.data;
 		}
 	};
 
@@ -427,8 +419,6 @@
 		setAllNudgesData();
 
 		setNotificationData();
-
-		fetchPromotions();
 
 		if (placementMapping?.buyPortfolioCard) {
 			getReadyMadePortfolios();
@@ -575,7 +565,12 @@
 
 <article class="-mt-2 grid grid-cols-[100%] md:mt-0">
 	{#if !storiesLoaded && placementMapping?.stories}
-		<StoriesSkeletonLoader />
+		<div
+			class="row-start-{placementMapping?.stories?.rowStart} col-start-{placementMapping?.stories
+				?.columnStart} !mb-0 {placementMapping?.stories?.rowStart > 1 ? 'mt-2' : ''}"
+		>
+			<StoriesSkeletonLoader />
+		</div>
 	{/if}
 	<!-- 1. Stories section -->
 	{#if storiesData?.stories?.length && placementMapping?.stories}
@@ -649,10 +644,10 @@
 			class="row-start-{placementMapping?.iplBanner?.rowStart} col-start-{placementMapping
 				?.iplBanner?.columnStart}"
 		>
-			{#if !shouldLoadPromotionWidget}
+			{#if !data?.api?.shouldLoadPromotionWidget}
 				<PromotionSkeleton />
-			{:else if promotionData}
-				<PromotionWidget data={promotionData} id="ipl-orange-cap" />
+			{:else if data?.api?.promotion}
+				<PromotionWidget data={data?.api?.promotion} id="ipl-orange-cap" />
 			{/if}
 		</article>
 	{/if}
@@ -774,13 +769,17 @@
 	{/if}
 
 	{#if !deviceType?.isBrowser && placementMapping?.buyPortfolioCard && readyMadePortfolios?.length}
-		<BuyPortfolio
-			class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
-				?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
-				? 'mt-2'
-				: ''}"
-			portfolios={readyMadePortfolios}
-		/>
+		{#if shouldLoadPortfolios}
+			<BuyPortfolio
+				class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
+					?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
+					? 'mt-2'
+					: ''}"
+				portfolios={readyMadePortfolios}
+			/>
+		{:else}
+			<BuyPortfolioSkeleton />
+		{/if}
 	{/if}
 
 	{#if !deviceType?.isBrowser && data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN && placementMapping?.askAngel}
@@ -873,13 +872,17 @@
 	{/if}
 
 	{#if placementMapping?.buyPortfolioCard && readyMadePortfolios?.length && deviceType.isBrowser}
-		<BuyPortfolio
-			class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
-				?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
-				? 'mt-2'
-				: ''}"
-			portfolios={readyMadePortfolios}
-		/>
+		{#if shouldLoadPortfolios}
+			<BuyPortfolio
+				class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
+					?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
+					? 'mt-2'
+					: ''}"
+				portfolios={readyMadePortfolios}
+			/>
+		{:else}
+			<BuyPortfolioSkeleton />
+		{/if}
 	{/if}
 
 	<!-- 11. Logout -->

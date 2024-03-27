@@ -13,10 +13,9 @@
 	export let data: IPromotion;
 	export let id = '';
 
-	$: isMobile = $page.data.deviceType.isMobile || false;
+	$: deviceType = $page.data.deviceType;
 
-	const backgroundUrl = !isMobile ? data?.header?.webBgBannerUrl : data?.header?.mobileBgBannerUrl;
-	const carouselItemClass = isMobile
+	const carouselItemClass = deviceType?.isMobile
 		? 'max-full'
 		: 'sm:!w-[calc(100vw/2.3)] lg:!w-[calc(100vw/3.6)]  xl:!w-[calc(100vw)] 2xl:!w-[calc(100vw/5.7)]';
 
@@ -34,7 +33,9 @@
 
 <section
 	class="my-2 max-w-4xl rounded-lg bg-background-alt bg-cover bg-center px-2 py-3 shadow-csm {$$props.class}"
-	style="background-image: url({backgroundUrl})"
+	style="background-image: url({!deviceType?.isMobile
+		? data?.header?.webBgBannerUrl
+		: data?.header?.mobileBgBannerUrl})"
 	data-testid="promotion-banner-{id}"
 >
 	<div class="mx-3 flex flex-col items-center">
@@ -44,10 +45,10 @@
 		<section class="{carouselInActive ? 'carousel-inactive' : 'carousel-active'} w-full">
 			<CarouselNative
 				id="promotion"
-				navigation={!isMobile && data?.schemes?.length > 0}
+				navigation={!deviceType?.isMobile && data?.schemes?.length > 0}
 				totalElements={data?.schemes?.length}
 				fixedWidth={true}
-				slidesPerView={isMobile ? 1 : 2}
+				slidesPerView={deviceType?.isMobile ? 1 : 2}
 				indicatorClass="!m-0"
 				chevronClass="mt-4"
 				on:onIndexChange={handleCardVisible}

@@ -56,7 +56,7 @@
 	import type { UserEducationNudgeType } from '$lib/types/INudge';
 	import type { INotification, INotificationSummary, Notif } from '$lib/types/INotifications';
 	import { base } from '$app/paths';
-	import BuyPortfolio from '../../discoverfunds/BuyPortfolio.svelte';
+	import BuyPortfolio from '../../discoverfunds/BuyPortfolio/BuyPortfolio.svelte';
 	import { AUTH_STATE_ENUM, tokenStore } from '$lib/stores/TokenStore';
 	import AskAngel from '../../discoverfunds/AskAngel.svelte';
 	import {
@@ -89,8 +89,7 @@
 	import { cohorts, cohorts_LF } from '$lib/constants/cohorts';
 	import PromotionSkeleton from '../../discoverfunds/PromotionWidget/PromotionSkeleton.svelte';
 	import PromotionWidget from '../../discoverfunds/PromotionWidget/PromotionWidget.svelte';
-	import type { IPromotion } from '../../discoverfunds/PromotionWidget/interfaces/promotion';
-	import { getPromotionData } from '$lib/api/promotions';
+	import BuyPortfolioSkeleton from '../../discoverfunds/BuyPortfolio/BuyPortfolioSkeleton.svelte';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -134,8 +133,7 @@
 
 	let formattedRetryPaymentNudgeData: IRetryPaymentNudge;
 	let storiesLoaded = false;
-	let promotionData: IPromotion;
-	let shouldLoadPromotionWidget = false;
+	let shouldLoadPortfolios = false;
 
 	const getNudgeData = async () => {
 		let nudgesData: NudgeDataType = {
@@ -375,8 +373,10 @@
 	};
 
 	const getReadyMadePortfolios = async () => {
+		shouldLoadPortfolios = false;
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/packs?packGroupId=READY_MADE_PORTFOLIO`;
 		const res = await useFetch(url, {}, fetch);
+		shouldLoadPortfolios = true;
 		if (res.ok) {
 			readyMadePortfolios = res.data?.packs || [];
 		}
@@ -440,8 +440,6 @@
 		if (placementMapping?.buyPortfolioCard) {
 			getReadyMadePortfolios();
 		}
-
-		fetchPromotions();
 
 		setNotificationData();
 
@@ -577,15 +575,6 @@
 
 		setupAutopayCardImpressionAnalytics(eventMetaData);
 	};
-
-	const fetchPromotions = async () => {
-		shouldLoadPromotionWidget = false;
-		const res = await getPromotionData();
-		shouldLoadPromotionWidget = true;
-		if (res.ok) {
-			promotionData = res.data;
-		}
-	};
 </script>
 
 <SEO
@@ -621,7 +610,12 @@
 
 	<!-- 3. Stories section -->
 	{#if !storiesLoaded && placementMapping?.stories && !placementMapping?.videoReel}
-		<StoriesSkeletonLoader />
+		<div
+			class="row-start-{placementMapping?.stories?.rowStart} col-start-{placementMapping?.stories
+				?.columnStart} !mb-0 {placementMapping?.stories?.rowStart > 1 ? 'mt-2' : ''}"
+		>
+			<StoriesSkeletonLoader />
+		</div>
 	{/if}
 	<!-- 1. Stories section -->
 	{#if storiesData?.stories?.length && placementMapping?.stories && !placementMapping?.videoReel}
@@ -656,13 +650,17 @@
 	{/if}
 
 	{#if placementMapping?.buyPortfolioCard && readyMadePortfolios?.length && deviceType.isBrowser}
-		<BuyPortfolio
-			class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
-				?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
-				? 'mt-2'
-				: ''}"
-			portfolios={readyMadePortfolios}
-		/>
+		{#if shouldLoadPortfolios}
+			<BuyPortfolio
+				class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
+					?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
+					? 'mt-2'
+					: ''}"
+				portfolios={readyMadePortfolios}
+			/>
+		{:else}
+			<BuyPortfolioSkeleton />
+		{/if}
 	{/if}
 
 	<!-- Start SIP -->
@@ -678,10 +676,10 @@
 			class="row-start-{placementMapping?.iplBanner?.rowStart} col-start-{placementMapping
 				?.iplBanner?.columnStart}"
 		>
-			{#if !shouldLoadPromotionWidget}
+			{#if !data?.api?.shouldLoadPromotionWidget}
 				<PromotionSkeleton />
-			{:else if promotionData}
-				<PromotionWidget data={promotionData} id="ipl-orange-cap" />
+			{:else if data?.api?.promotion}
+				<PromotionWidget data={data?.api?.promotion} id="ipl-orange-cap" />
 			{/if}
 		</article>
 	{/if}
@@ -859,13 +857,17 @@
 	{/if}
 
 	{#if !deviceType?.isBrowser && placementMapping?.buyPortfolioCard && readyMadePortfolios?.length}
-		<BuyPortfolio
-			class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
-				?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
-				? 'mt-2'
-				: ''}"
-			portfolios={readyMadePortfolios}
-		/>
+		{#if shouldLoadPortfolios}
+			<BuyPortfolio
+				class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
+					?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
+					? 'mt-2'
+					: ''}"
+				portfolios={readyMadePortfolios}
+			/>
+		{:else}
+			<BuyPortfolioSkeleton />
+		{/if}
 	{/if}
 
 	{#if !deviceType?.isBrowser && data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN && placementMapping?.askAngel}
