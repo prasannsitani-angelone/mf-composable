@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { createEventDispatcher, onMount } from 'svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
-	import RectangleIcon from '$lib/images/RectangleIcon.svg';
 	import EclipseIcon from '$lib/images/EclipseIcon.svg';
+	import Rectangle from '$lib/images/icons/Rectangle.svelte';
 
 	let translateX = 0;
 	let currentIndex = 0;
@@ -21,6 +21,7 @@
 	let indicatorClass = '';
 	let id = '';
 	let chevronClass = '';
+	let activeIndicatorColor = '#3F5BD9';
 	let dispatch = createEventDispatcher();
 	$: childrens = totalElements;
 	$: nextButtonDisabled = false;
@@ -182,7 +183,8 @@
 		fixedWidth,
 		indicatorClass,
 		id,
-		chevronClass
+		chevronClass,
+		activeIndicatorColor
 	};
 </script>
 
@@ -192,6 +194,7 @@
 			<div class="carousel-prev-{id} {chevronClass}">
 				<WMSIcon
 					width={16}
+					stroke={activeIndicatorColor}
 					name="arrow-expand"
 					class="mb-10 ml-4 mr-1 rotate-90 cursor-pointer {prevButtonDisabled &&
 						'pointer-events-none  opacity-50'}"
@@ -213,13 +216,7 @@
 					{#each Array(totalNoOfElements) as page, index (index)}
 						{#if currentIndex === index}
 							<slot name="activeIndicator">
-								<img
-									src={RectangleIcon}
-									decoding="async"
-									alt="Carousel Swipe button active"
-									width="16"
-									height="4"
-								/>
+								<Rectangle width={16} height={4} fill={activeIndicatorColor} />
 							</slot>
 						{:else}
 							<div
@@ -252,6 +249,7 @@
 			<div class="carousel-next-{id} {chevronClass}">
 				<WMSIcon
 					width={16}
+					stroke={activeIndicatorColor}
 					name="arrow-collapse"
 					class="mb-10 ml-1 mr-4 rotate-90 cursor-pointer {nextButtonDisabled &&
 						'pointer-events-none  opacity-50'}"

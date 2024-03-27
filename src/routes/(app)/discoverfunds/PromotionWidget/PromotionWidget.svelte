@@ -32,7 +32,7 @@
 </script>
 
 <section
-	class="my-2 max-w-4xl rounded-lg bg-background-alt bg-cover bg-center px-2 py-3 shadow-csm {$$props.class}"
+	class="mt-2 max-w-4xl rounded-lg bg-background-alt bg-cover bg-center px-2 py-3 shadow-csm {$$props.class}"
 	style="background-image: url({!deviceType?.isMobile
 		? data?.header?.webBgBannerUrl
 		: data?.header?.mobileBgBannerUrl})"
@@ -51,6 +51,7 @@
 				slidesPerView={deviceType?.isMobile ? 1 : 2}
 				indicatorClass="!m-0"
 				chevronClass="mt-4"
+				activeIndicatorColor="#fff"
 				on:onIndexChange={handleCardVisible}
 			>
 				{#each data?.schemes || [] as scheme, index}
