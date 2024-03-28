@@ -45,11 +45,28 @@ cacheInmemory.init({
 // };
 
 const addPreloadLinkHeaders = (linkHeader = '', url: string) => {
-	linkHeader = `</mutual-funds/fonts/Roboto-Regular.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin,</mutual-funds/fonts/Roboto-Medium.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin,${linkHeader}`;
+	const preloadLinks = [
+		`</mutual-funds/fonts/Roboto-Regular.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin`,
+		`</mutual-funds/fonts/Roboto-Medium.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin`
+	];
+
 	if (url.includes('/discoverfunds')) {
-		linkHeader = `<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail1c3.jpg>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail2c3.png>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail4c2.webp>;rel="preload";as="image";nopush,<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail5c1.png>;rel="preload";as="image";nopush,${linkHeader}`;
+		preloadLinks.push(
+			`<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail1c3.jpg>;rel="preload";as="image";nopush`,
+			`<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail2c3.png>;rel="preload";as="image";nopush`,
+			`<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail4c2.webp>;rel="preload";as="image";nopush`,
+			`<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail5c1.png>;rel="preload";as="image";nopush`,
+			// IPL banner image links (reduce LCP)
+			// TODO: add logic for dynamic entry
+			`<https://dcfygd1ruu106.cloudfront.net/promotion/orange_cap.svg>;rel="preload";as="image";nopush`,
+			`<https://dcfygd1ruu106.cloudfront.net/promotion/card_bg_banner.webp>;rel="preload";as="image";nopush`,
+			`<https://dcfygd1ruu106.cloudfront.net/promotion/ipl_banner.webp>;rel="preload";as="image";nopush`
+		);
 	}
-	return linkHeader;
+
+	let updatedLinkHeader = preloadLinks.join(',');
+	updatedLinkHeader = linkHeader ? `${updatedLinkHeader},${linkHeader}` : updatedLinkHeader;
+	return updatedLinkHeader;
 };
 const addSecurityHeaders = (response: Response) => {
 	response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
