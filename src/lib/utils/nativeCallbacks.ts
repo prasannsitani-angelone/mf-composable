@@ -28,9 +28,9 @@ export const registerRefreshTokenCallback = () => {
 	};
 };
 
-export const registerNativeResumeCallback = (callback: () => void) => {
+export const registerNativeLifeCycleCallback = (event: string, callback: () => void) => {
 	window.onWebViewCallback = (payload: string) => {
-		if (payload?.['type']?.toUpperCase() === 'RESUME') {
+		if (payload?.['type']?.toUpperCase() === event.toUpperCase()) {
 			callback();
 		}
 	};

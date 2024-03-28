@@ -68,7 +68,7 @@
 	import StartSipEntry from '$components/StartSip/StartSipEntry.svelte';
 	import TopFunds from '$components/TopFunds/TopFunds.svelte';
 	import TrackExternalInvestment from './TrackExternalInvestment/TrackExternalInvestment.svelte';
-	import { registerNativeResumeCallback } from '$lib/utils/nativeCallbacks';
+	import { registerNativeLifeCycleCallback } from '$lib/utils/nativeCallbacks';
 	import { cartStore } from '$lib/stores/CartStore';
 	import SetupAutopayCard from '$components/Cohorts/SetupAutopayCard.svelte';
 	import QuickEntryPointsCard from './QuickEntryPoints/QuickEntryPointsCard.svelte';
@@ -438,7 +438,7 @@
 		await initializeClevertapData();
 		actionCentreEntryImpression();
 
-		registerNativeResumeCallback(onVisibilityChange);
+		registerNativeLifeCycleCallback('RESUME', onVisibilityChange);
 
 		const nfoList = await getactiveNfo();
 		openNfo = nfoList?.length;
