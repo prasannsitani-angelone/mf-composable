@@ -35,7 +35,7 @@
 
 	const toggleInput = () => {
 		if (fromHomePage) {
-			if ($appStore.openViaTabView) {
+			if ($appStore.openViaTabView || appStore.isMFTabAvailable()) {
 				goBackToSpark();
 			} else {
 				goto(`${base}/discoverfunds`, { replaceState: true });

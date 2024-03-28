@@ -6,6 +6,10 @@ enum GuestUser {
 	NO = 'no'
 }
 
+export const HOME_TABS_MAP = {
+	mf: 'mf'
+};
+
 export interface SparkStore {
 	platform: string;
 	platformversion: string;
@@ -27,6 +31,7 @@ export interface SparkStore {
 	linkedmembers: LinkedMembersHeaderTypes;
 	isTabView: boolean;
 	openViaTabView: boolean;
+	homeTabs: string[];
 }
 
 export interface LinkedMembersHeaderTypes {
@@ -55,7 +60,8 @@ const initalStore: SparkStore = {
 		selected: []
 	},
 	isTabView: false,
-	openViaTabView: false
+	openViaTabView: false,
+	homeTabs: []
 };
 
 const parseLinkedMember = (linkedmembers: string) => {
@@ -65,6 +71,19 @@ const parseLinkedMember = (linkedmembers: string) => {
 		return {
 			selected: []
 		};
+	}
+};
+
+const parseHomeTabs = (tabs: string) => {
+	if (!tabs) {
+		return [];
+	}
+	try {
+		const parsedTabs: string[] = JSON.parse(tabs);
+		const homeTabs: string[] = parsedTabs.flatMap((tab) => HOME_TABS_MAP[tab] || []);
+		return homeTabs;
+	} catch (err) {
+		return [];
 	}
 };
 
@@ -102,6 +121,10 @@ function Store() {
 					typeof consolidated?.openViaTabView === 'boolean'
 						? consolidated?.openViaTabView
 						: consolidated?.openViaTabView === 'true';
+				const homeTabs =
+					typeof consolidated?.homeTabs === 'string'
+						? parseHomeTabs(consolidated.homeTabs)
+						: consolidated.homeTabs;
 				return {
 					...consolidated,
 					platform,
@@ -114,7 +137,8 @@ function Store() {
 					isWebView,
 					linkedmembers,
 					isTabView,
-					openViaTabView
+					openViaTabView,
+					homeTabs
 				};
 			});
 		},
@@ -161,7 +185,10 @@ function Store() {
 		},
 		isTabview: () => sparkStore?.isTabView,
 		openViaTabView: () => sparkStore?.openViaTabView,
-		isSparkGuestUser: () => sparkStore?.guest?.toLowerCase() === GuestUser.YES
+		isSparkGuestUser: () => sparkStore?.guest?.toLowerCase() === GuestUser.YES,
+		homeTabs: () => sparkStore?.homeTabs,
+		isTabAvailable: (tabName: string) => sparkStore?.homeTabs?.includes(tabName),
+		isMFTabAvailable: () => sparkStore?.homeTabs?.includes(HOME_TABS_MAP.mf)
 	};
 }
 

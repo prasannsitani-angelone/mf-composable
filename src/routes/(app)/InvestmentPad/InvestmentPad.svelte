@@ -1216,7 +1216,7 @@
 		if (skipOrderPad) {
 			history.back();
 
-			if ($appStore.openViaTabView && homepageNudge) {
+			if (($appStore.openViaTabView || appStore.isMFTabAvailable()) && homepageNudge) {
 				goBackToSpark();
 			}
 		} else {
@@ -2442,7 +2442,7 @@
 		class="w-full rounded-b-none rounded-t-2xl p-6 px-10 pb-9 sm:px-12 sm:py-20 md:rounded-lg"
 		isModalOpen={true}
 		handleButtonClick={() => {
-			if ($appStore.openViaTabView) {
+			if ($appStore.openViaTabView || appStore.isMFTabAvailable()) {
 				goBackToSpark();
 			} else {
 				goto(`${base}/discoverfunds`, { replaceState: true });

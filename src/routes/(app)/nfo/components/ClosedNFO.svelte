@@ -12,7 +12,7 @@
 
 	const handleBackNavigation = async () => {
 		if (window.history.length === 1) {
-			if ($appStore.openViaTabView) {
+			if ($appStore.openViaTabView || appStore.isMFTabAvailable()) {
 				goBackToSpark();
 			} else {
 				await goto(`${base}/discoverfunds`);

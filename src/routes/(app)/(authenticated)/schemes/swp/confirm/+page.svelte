@@ -18,7 +18,7 @@
 	$: isTablet = $page?.data?.deviceType?.isTablet;
 
 	const handleBackNavigation = () => {
-		if ($appStore.openViaTabView) {
+		if ($appStore.openViaTabView || appStore.isMFTabAvailable()) {
 			goBackToSpark();
 		} else {
 			goto(`${base}/discoverfunds`);

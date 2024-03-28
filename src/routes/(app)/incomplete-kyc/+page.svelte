@@ -26,7 +26,7 @@
 	const navigateToHomePage = async () => {
 		if (!shouldLoadButtons) return;
 		handleGoBackButtonAnalytics();
-		if ($appStore.openViaTabView) {
+		if ($appStore.openViaTabView || appStore.isMFTabAvailable()) {
 			goBackToSpark();
 		} else {
 			await goto(`${base}/discoverfunds`, { replaceState: true });

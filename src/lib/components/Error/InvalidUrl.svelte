@@ -6,7 +6,7 @@
 	import { appStore } from '$lib/stores/SparkStore';
 	import { goBackToSpark } from '$lib/utils';
 	const navigateToDiscoverFunds = () => {
-		if ($appStore.openViaTabView) {
+		if ($appStore.openViaTabView || appStore.isMFTabAvailable()) {
 			goBackToSpark();
 		} else {
 			goto(`${base}/discoverfunds`);

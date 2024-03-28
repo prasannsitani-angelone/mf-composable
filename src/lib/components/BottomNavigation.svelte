@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { tabClickNavigationAnalytics } from '$lib/analytics/DiscoverFunds';
-	import { appStore } from '$lib/stores/SparkStore';
+	import { appStore, HOME_TABS_MAP } from '$lib/stores/SparkStore';
 	import type { IBottomNavItem } from '$lib/types/IBottomNavItem';
 	import type { INotification } from '$lib/types/INotifications';
 	import type { INudge, NudgeDataType } from '$lib/types/INudge';
@@ -193,7 +193,9 @@
 					class="inline-block w-full justify-center py-[9px] text-center"
 					pathConversion={false}
 					disableRedirect={isActive}
-					callMethod={$appStore.openViaTabView && nav.callMethod}
+					callMethod={($appStore.openViaTabView ||
+						$appStore.homeTabs?.includes(HOME_TABS_MAP.mf)) &&
+						nav.callMethod}
 					method={nav.method}
 				>
 					<svelte:component

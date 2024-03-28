@@ -227,7 +227,10 @@ export function calculateYearDiffrence(date: Date) {
 }
 
 export function goBackToSpark() {
-	if (appStore.openViaTabView() && checkNativeMethodExist('navigateToHome')) {
+	if (
+		(appStore.openViaTabView() || appStore.isMFTabAvailable()) &&
+		checkNativeMethodExist('navigateToHome')
+	) {
 		callNativeMethod('navigateToHome', JSON.stringify({ product: 'mf' }));
 	} else if (appStore.platform().toLowerCase() === PLATFORM_TYPE.SPARK_IOS) {
 		window.location.href = `${window.location.origin}${base}/exit`;

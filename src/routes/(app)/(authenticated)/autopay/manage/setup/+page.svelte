@@ -171,7 +171,7 @@
 
 	const onSuccessPopupClick = async () => {
 		doneClickAfterAutopayRegisteredAnalytics();
-		if ($appStore.openViaTabView) {
+		if ($appStore.openViaTabView || appStore.isMFTabAvailable()) {
 			goBackToSpark();
 		} else {
 			await goto(`${base}/discoverfunds`, { replaceState: true });
