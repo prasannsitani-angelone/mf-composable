@@ -54,7 +54,6 @@
 	import type { INotification, INotificationSummary, Notif } from '$lib/types/INotifications';
 	import { base } from '$app/paths';
 	import BuyPortfolio from './BuyPortfolio/BuyPortfolio.svelte';
-	import BuyPortfolioSkeleton from './BuyPortfolio/BuyPortfolioSkeleton.svelte';
 	import AskAngel from './AskAngel.svelte';
 	import { AUTH_STATE_ENUM, tokenStore } from '$lib/stores/TokenStore';
 	import {
@@ -793,7 +792,10 @@
 					? 'mt-2'
 					: ''}"
 			>
-				<BuyPortfolioSkeleton />
+				<LazyComponent
+					when={true}
+					component={async () => await import('./BuyPortfolio/BuyPortfolioSkeleton.svelte')}
+				/>
 			</div>
 		{/if}
 	{/if}
@@ -903,7 +905,10 @@
 					? 'mt-2'
 					: ''}"
 			>
-				<BuyPortfolioSkeleton />
+				<LazyComponent
+					when={true}
+					component={async () => await import('./BuyPortfolio/BuyPortfolioSkeleton.svelte')}
+				/>
 			</div>
 		{/if}
 	{/if}

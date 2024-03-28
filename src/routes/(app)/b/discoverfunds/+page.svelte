@@ -89,7 +89,6 @@
 	import { cohorts, cohorts_LF } from '$lib/constants/cohorts';
 	import PromotionSkeleton from '../../discoverfunds/PromotionWidget/PromotionSkeleton.svelte';
 	import PromotionWidget from '../../discoverfunds/PromotionWidget/PromotionWidget.svelte';
-	import BuyPortfolioSkeleton from '../../discoverfunds/BuyPortfolio/BuyPortfolioSkeleton.svelte';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -665,7 +664,11 @@
 					? 'mt-2'
 					: ''}"
 			>
-				<BuyPortfolioSkeleton />
+				<LazyComponent
+					when={true}
+					component={async () =>
+						await import('../../discoverfunds/BuyPortfolio/BuyPortfolioSkeleton.svelte')}
+				/>
 			</div>
 		{/if}
 	{/if}
@@ -879,7 +882,11 @@
 					? 'mt-2'
 					: ''}"
 			>
-				<BuyPortfolioSkeleton />
+				<LazyComponent
+					when={true}
+					component={async () =>
+						await import('../../discoverfunds/BuyPortfolio/BuyPortfolioSkeleton.svelte')}
+				/>
 			</div>
 		{/if}
 	{/if}
