@@ -768,6 +768,15 @@
 		/>
 	{/if}
 
+	{#if !storiesLoaded && placementMapping?.stories}
+		<div
+			class="row-start-{placementMapping?.stories?.rowStart} col-start-{placementMapping?.stories
+				?.columnStart} !mb-0 {placementMapping?.stories?.rowStart > 1 ? 'mt-2' : ''}"
+		>
+			<StoriesSkeletonLoader />
+		</div>
+	{/if}
+
 	{#if !deviceType?.isBrowser && placementMapping?.buyPortfolioCard}
 		{#if shouldLoadPortfolios && readyMadePortfolios?.length}
 			<BuyPortfolio
@@ -777,7 +786,7 @@
 					: ''}"
 				portfolios={readyMadePortfolios}
 			/>
-		{:else}
+		{:else if !shouldLoadPortfolios}
 			<div
 				class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
 					?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
@@ -878,8 +887,8 @@
 		</IntersectionObserver>
 	{/if}
 
-	{#if placementMapping?.buyPortfolioCard && readyMadePortfolios?.length && deviceType.isBrowser}
-		{#if shouldLoadPortfolios}
+	{#if placementMapping?.buyPortfolioCard && deviceType.isBrowser}
+		{#if shouldLoadPortfolios && readyMadePortfolios?.length}
 			<BuyPortfolio
 				class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
 					?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
@@ -887,8 +896,15 @@
 					: ''}"
 				portfolios={readyMadePortfolios}
 			/>
-		{:else}
-			<BuyPortfolioSkeleton />
+		{:else if !shouldLoadPortfolios}
+			<div
+				class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
+					?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
+					? 'mt-2'
+					: ''}"
+			>
+				<BuyPortfolioSkeleton />
+			</div>
 		{/if}
 	{/if}
 

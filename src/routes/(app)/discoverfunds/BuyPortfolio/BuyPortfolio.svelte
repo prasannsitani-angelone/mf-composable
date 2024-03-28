@@ -10,12 +10,11 @@
 	import CarouselItem from '$components/Carousel/CarouselItem.svelte';
 
 	import RecommendedPortfolio from '../RecommendedPortfolio/RecommendedPortfolio.svelte';
-	import Modal from '$components/Modal.svelte';
-	import PortfolioInput from '../../(authenticated)/buyPortfolio/[portfolioId]/components/PortfolioInput.svelte';
 	import type { PortfolioPack, Scheme } from '$lib/types/IBuyPortfolio';
 	import { base } from '$app/paths';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { modifiedGoto } from '$lib/utils/goto';
+	import LazyComponent from '$components/LazyComponent.svelte';
 
 	export let portfolios: PortfolioPack[];
 	let carouselInActive = false;
@@ -69,7 +68,7 @@
 
 <section class="max-w-4xl rounded-lg bg-background-alt px-4 py-3 shadow-csm {$$props.class}">
 	<header class="mb-2 justify-between" data-testid="portfolios">
-		<h2 class="text-base font-medium text-title">Ready Made Portfolios</h2>
+		<h2 class="text-base font-medium text-title">Ready made SIP Baskets</h2>
 		<p class="mb-5 mt-1 text-[12px] font-normal text-body">
 			Select a basket of SIPs based on your expected returns
 		</p>
@@ -99,12 +98,11 @@
 			{/each}
 		</CarouselNative>
 	</section>
-	<Modal isModalOpen={showInputPopup} on:backdropclicked={() => (showInputPopup = !showInputPopup)}>
-		<PortfolioInput
-			amount={selectedPortfolio.minSipAmount}
-			portfolioPack={selectedPortfolio}
-			on:backButtonClicked={() => (showInputPopup = !showInputPopup)}
-			on:portfolioClick={() => (showInputPopup = !showInputPopup)}
-		/>
-	</Modal>
 </section>
+
+<LazyComponent
+	when={showInputPopup}
+	component={async () => await import('./PortfolioInputModal.svelte')}
+	{selectedPortfolio}
+	{showInputPopup}
+/>

@@ -649,8 +649,8 @@
 		{/if}
 	{/if}
 
-	{#if placementMapping?.buyPortfolioCard && readyMadePortfolios?.length && deviceType.isBrowser}
-		{#if shouldLoadPortfolios}
+	{#if placementMapping?.buyPortfolioCard && deviceType.isBrowser}
+		{#if shouldLoadPortfolios && readyMadePortfolios?.length}
 			<BuyPortfolio
 				class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
 					?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
@@ -658,8 +658,15 @@
 					: ''}"
 				portfolios={readyMadePortfolios}
 			/>
-		{:else}
-			<BuyPortfolioSkeleton />
+		{:else if !shouldLoadPortfolios}
+			<div
+				class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
+					?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
+					? 'mt-2'
+					: ''}"
+			>
+				<BuyPortfolioSkeleton />
+			</div>
 		{/if}
 	{/if}
 
@@ -856,8 +863,8 @@
 		/>
 	{/if}
 
-	{#if !deviceType?.isBrowser && placementMapping?.buyPortfolioCard && readyMadePortfolios?.length}
-		{#if shouldLoadPortfolios}
+	{#if !deviceType?.isBrowser && placementMapping?.buyPortfolioCard}
+		{#if shouldLoadPortfolios && readyMadePortfolios?.length}
 			<BuyPortfolio
 				class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
 					?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
@@ -865,8 +872,15 @@
 					: ''}"
 				portfolios={readyMadePortfolios}
 			/>
-		{:else}
-			<BuyPortfolioSkeleton />
+		{:else if !shouldLoadPortfolios}
+			<div
+				class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
+					?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
+					? 'mt-2'
+					: ''}"
+			>
+				<BuyPortfolioSkeleton />
+			</div>
 		{/if}
 	{/if}
 
