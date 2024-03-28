@@ -27,7 +27,7 @@ const deviceDetector = handleDeviecDetector({});
 
 cacheInmemory.init({
 	max: 500,
-	ttl: 1000 * 60 * 10 // 10 minutes
+	ttl: 1000 * 60 * 20 // 20 minutes
 });
 // const swCacheHeader = 'X-Sw-Cache';
 
