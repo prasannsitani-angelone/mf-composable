@@ -32,7 +32,9 @@
 </script>
 
 <section
-	class="mt-2 max-w-4xl rounded-lg bg-background-alt bg-cover bg-center px-2 py-3 shadow-csm {$$props.class}"
+	class="mt-2 max-w-4xl rounded-lg bg-background-alt bg-cover px-2 py-3 shadow-csm {$$props.class} {!deviceType?.isMobile
+		? 'bg-center'
+		: ''}"
 	style="background-image: url({!deviceType?.isMobile
 		? data?.header?.webBgBannerUrl
 		: data?.header?.mobileBgBannerUrl})"
