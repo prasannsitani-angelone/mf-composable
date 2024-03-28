@@ -264,6 +264,7 @@
 
 		if (appStore.isTabview()) {
 			registerNativeLifeCycleCallback('PAUSE', pauseVideoOnBlur);
+			registerNativeLifeCycleCallback('RESUME', playVideoOnFocus);
 		} else {
 			window.addEventListener('blur', pauseVideoOnBlur);
 			window.addEventListener('focus', playVideoOnFocus);
