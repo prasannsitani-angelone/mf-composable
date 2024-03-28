@@ -153,6 +153,8 @@ export interface InvestmentSummary {
 	previousDayReturnPercentage?: number;
 	lastImportStatus: string;
 	lastSuccessfullImportTs: number;
+	isEquityPortfolioFlag: boolean;
+	benchMarkCoCode: string;
 }
 
 export interface FolioObject {

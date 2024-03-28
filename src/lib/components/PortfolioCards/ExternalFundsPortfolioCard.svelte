@@ -6,11 +6,19 @@
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import type { InvestmentSummary } from '$lib/types/IInvestments';
+	import RightIcon from '$lib/images/icons/RightIcon.svelte';
+	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 
 	export let investmentSummary: InvestmentSummary;
 	export let partialImportedFundCount = 0;
 	export let totalImportedFundCount = 0;
 	export let isPartialImport = false;
+
+	const onGoToPortfolioClick = (e: MouseEvent) => {
+		e.stopPropagation();
+		goto(`${base}/investments/portfolio/external`);
+	};
 </script>
 
 <PortfolioCard variant="secondary" wrapperClass="sm:sticky sm:top-0">
@@ -87,6 +95,22 @@
 			</div>
 		</article>
 	</section>
+	{#if investmentSummary?.lastImportStatus === 'COMPLETED' || investmentSummary?.lastImportStatus === 'STARTED'}
+		<section class="border-t border-neutral-100 border-opacity-10 px-4 lg:px-0">
+			<article data-testid="viewPortfolioAnalysis">
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
+				<!-- svelte-ignore a11y-no-static-element-interactions -->
+				<div on:click={onGoToPortfolioClick}>
+					<div
+						class="px-17 flex cursor-pointer items-center justify-center pt-3 text-center text-sm font-medium"
+					>
+						<span> VIEW PORTFOLIO ANALYSIS </span>
+						<RightIcon class="ml-2" stroke="white" />
+					</div>
+				</div>
+			</article>
+		</section>
+	{/if}
 	{#if isPartialImport}
 		<section
 			class={`light my-4 flex items-start justify-around rounded-lg bg-white bg-opacity-10 px-3 py-4 md:my-6 md:py-3.5 lg:mx-0`}

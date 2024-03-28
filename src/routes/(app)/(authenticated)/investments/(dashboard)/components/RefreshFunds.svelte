@@ -44,7 +44,9 @@
 		: '--';
 </script>
 
-<section class="flex justify-between py-2 text-title sm:border-b sm:bg-background sm:px-6">
+<section
+	class="flex justify-between py-2 text-title sm:border-b sm:bg-background sm:px-6 {$$props?.class}"
+>
 	<div class="pt-1 text-xs sm:pt-[2px] sm:text-sm">
 		Last Refreshed On {lastSuccessfulImportDate}
 	</div>

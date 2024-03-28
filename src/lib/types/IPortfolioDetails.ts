@@ -99,3 +99,11 @@ export interface BenchmarkDataType {
 	holdingChart: Array<ChartDataType>;
 	summary: BenchmarkSummaryData;
 }
+
+export type DistributionDataResponseObj = {
+	distributions: DistributionType[];
+};
+
+export type ChartDataResponseObj = {
+	chart: ChartDataType[];
+};

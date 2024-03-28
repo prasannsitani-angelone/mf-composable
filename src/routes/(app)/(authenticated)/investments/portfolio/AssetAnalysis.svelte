@@ -14,6 +14,8 @@
 	import AssetAnalysisIcon from '$lib/images/icons/AssetAnalysisIcon.svelte';
 	export let distributions: Array<DistributionType>;
 	export let summary: FolioSummaryTypes;
+	export let heading = 'Asset Class Analysis';
+	export let subheading = 'Category wise fund analysis';
 	$: deviceType = $page.data.deviceType;
 
 	import {
@@ -505,12 +507,8 @@
 						<AssetAnalysisIcon />
 					</div>
 					<div class="ml-4 flex flex-col">
-						<span class="text-left text-base font-normal text-title md:text-lg"
-							>Asset Class Analysis</span
-						>
-						<span class="text-left text-xs font-normal text-body md:text-sm"
-							>Category wise fund analysis</span
-						>
+						<span class="text-left text-base font-normal text-title md:text-lg">{heading}</span>
+						<span class="text-left text-xs font-normal text-body md:text-sm">{subheading}</span>
 					</div>
 				</section>
 			</section>

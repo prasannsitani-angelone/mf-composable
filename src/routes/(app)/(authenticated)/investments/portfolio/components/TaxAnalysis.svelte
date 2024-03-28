@@ -133,7 +133,7 @@
 	export { taxationData };
 </script>
 
-<article class="rounded bg-background-alt">
+<article class="rounded bg-background-alt {$$props.class}">
 	<header class="flex border-b p-4">
 		<div class="mr-2 flex h-9 w-9 items-center justify-center rounded-full bg-background">
 			<TaxationIcon />
