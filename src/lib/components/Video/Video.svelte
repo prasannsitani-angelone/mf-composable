@@ -11,8 +11,11 @@
 	import { VIDEO_AUTOPLAY_THRESHOLD } from './constants';
 	import type { VideoAnalyticsCallbacks } from '$lib/analytics/video';
 	import { writable } from 'svelte/store';
-	import { registerNativeLifeCycleCallback } from '$lib/utils/nativeCallbacks';
 	import { appStore } from '$lib/stores/SparkStore';
+	import {
+		addNativeLifeCycleCallback,
+		removeNativeLifeCycleCallback
+	} from '$lib/utils/nativeLifeCycleCallbacks';
 
 	let isVisible = false;
 	let intersectionObserver: IntersectionObserver | null = null;
@@ -263,8 +266,8 @@
 		}
 
 		if (appStore.isTabview()) {
-			registerNativeLifeCycleCallback('PAUSE', pauseVideoOnBlur);
-			registerNativeLifeCycleCallback('RESUME', playVideoOnFocus);
+			addNativeLifeCycleCallback('PAUSE', pauseVideoOnBlur);
+			addNativeLifeCycleCallback('RESUME', playVideoOnFocus);
 		} else {
 			window.addEventListener('blur', pauseVideoOnBlur);
 			window.addEventListener('focus', playVideoOnFocus);
@@ -286,6 +289,9 @@
 
 		window.removeEventListener('blur', pauseVideoOnBlur);
 		window.removeEventListener('focus', playVideoOnFocus);
+
+		removeNativeLifeCycleCallback('PAUSE', pauseVideoOnBlur);
+		removeNativeLifeCycleCallback('RESUME', playVideoOnFocus);
 	});
 </script>
 

@@ -28,14 +28,6 @@ export const registerRefreshTokenCallback = () => {
 	};
 };
 
-export const registerNativeLifeCycleCallback = (event: string, callback: () => void) => {
-	window.onWebViewCallback = (payload: string) => {
-		if (payload?.['type']?.toUpperCase() === event.toUpperCase()) {
-			callback();
-		}
-	};
-};
-
 export const registerNativeClosePopUpWindowCallback = (callback: () => void) => {
 	window.closePopUpWindow = () => {
 		callback();

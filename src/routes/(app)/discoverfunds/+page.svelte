@@ -38,7 +38,7 @@
 	import Button from '$components/Button.svelte';
 	import { SEO, WMSIcon } from 'svelte-components';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
-	import { onMount, tick } from 'svelte';
+	import { onDestroy, onMount, tick } from 'svelte';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import LazyComponent from '$components/LazyComponent.svelte';
@@ -67,7 +67,6 @@
 	import StartSipEntry from '$components/StartSip/StartSipEntry.svelte';
 	import TopFunds from '$components/TopFunds/TopFunds.svelte';
 	import TrackExternalInvestment from './TrackExternalInvestment/TrackExternalInvestment.svelte';
-	import { registerNativeLifeCycleCallback } from '$lib/utils/nativeCallbacks';
 	import { cartStore } from '$lib/stores/CartStore';
 	import SetupAutopayCard from '$components/Cohorts/SetupAutopayCard.svelte';
 	import QuickEntryPointsCard from './QuickEntryPoints/QuickEntryPointsCard.svelte';
@@ -84,6 +83,10 @@
 	import { cohorts, cohorts_LF } from '$lib/constants/cohorts';
 	import PromotionWidget from './PromotionWidget/PromotionWidget.svelte';
 	import PromotionSkeleton from './PromotionWidget/PromotionSkeleton.svelte';
+	import {
+		addNativeLifeCycleCallback,
+		removeNativeLifeCycleCallback
+	} from '$lib/utils/nativeLifeCycleCallbacks';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -437,7 +440,7 @@
 		await initializeClevertapData();
 		actionCentreEntryImpression();
 
-		registerNativeLifeCycleCallback('RESUME', onVisibilityChange);
+		addNativeLifeCycleCallback('RESUME', onVisibilityChange);
 
 		const nfoList = await getactiveNfo();
 		openNfo = nfoList?.length;
@@ -445,6 +448,10 @@
 		if (sendNfoImpressionAnalytics) {
 			nfoEntryImpressionAnalyticsFunc();
 		}
+	});
+
+	onDestroy(() => {
+		removeNativeLifeCycleCallback('RESUME', onVisibilityChange);
 	});
 
 	const initializeClevertapData = async () => {
