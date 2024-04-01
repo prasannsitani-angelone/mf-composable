@@ -51,6 +51,7 @@
 				size={schemeLogoSize}
 				class={schemeLogoClass}
 				lazy={index > 1 ? 'lazy' : 'eager'}
+				priority={index > 1 ? 'low' : 'high'}
 			/>
 			<h3
 				class="line-clamp-2 self-center whitespace-normal text-sm font-medium text-title md:text-sm {headingClass}"

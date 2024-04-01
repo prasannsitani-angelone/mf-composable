@@ -54,15 +54,14 @@ const addPreloadLinkHeaders = (linkHeader = '', url: string) => {
 
 	if (url.includes('/discoverfunds')) {
 		preloadLinks.push(
-			`<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail1c3.jpg>;rel="preload";as="image";nopush`,
-			`<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail2c3.png>;rel="preload";as="image";nopush`,
-			`<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail4c2.webp>;rel="preload";as="image";nopush`,
-			`<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail5c1.png>;rel="preload";as="image";nopush`,
+			// `<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail1c3.jpg>;rel="preload";as="image";nopush`,
+			// `<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail2c3.png>;rel="preload";as="image";nopush`,
+			// `<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail4c2.webp>;rel="preload";as="image";nopush`,
+			// `<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail5c1.png>;rel="preload";as="image";nopush`,
 			// IPL banner image links (reduce LCP)
 			// TODO: add logic for dynamic entry
-			`<https://dcfygd1ruu106.cloudfront.net/promotion/orange_cap.svg>;rel="preload";as="image";nopush`,
-			`<https://dcfygd1ruu106.cloudfront.net/promotion/card_bg_banner.webp>;rel="preload";as="image";nopush`,
-			`<https://dcfygd1ruu106.cloudfront.net/promotion/ipl_banner.webp>;rel="preload";as="image";nopush`
+			`<https://dm11ybwptwy0u.cloudfront.net/promotion/orange_cap.svg>;rel="preload";as="image";nopush`,
+			`<https://dm11ybwptwy0u.cloudfront.net/promotion/card_bg_banner.webp>;rel="preload";as="image";nopush`
 		);
 	}
 
@@ -126,10 +125,20 @@ const handler = (async ({ event, resolve }) => {
 				PRIVATE_MF_CORE_BASE_URL_V2
 			);
 			const trendingFundsPromise = getTrendingFundsData(token, fetch, PRIVATE_MF_CORE_BASE_URL_V2);
+			const promotionPromise = getPromotionData(token, fetch);
+			const portfoliosPromise = getReadyMadePortfolios(token, fetch);
 
 			if (isGuest) {
-				searchDashboardData = await searchDashboardPromise;
-				trendingFundsData = await trendingFundsPromise;
+				const guestUserData = await Promise.allSettled([
+					searchDashboardPromise,
+					trendingFundsPromise,
+					promotionPromise,
+					portfoliosPromise
+				]);
+				searchDashboardData = guestUserData[0]?.value;
+				trendingFundsData = guestUserData[1]?.value;
+				promotionData = guestUserData[2]?.value;
+				portfolios = guestUserData[3]?.value;
 			} else if (isAuthenticatedUser) {
 				const investementSummaryPromise = getHoldingSummary(token, fetch, PRIVATE_MF_CORE_BASE_URL);
 

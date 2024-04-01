@@ -10,7 +10,8 @@
 	let imageClass = '';
 	let size: string = IconSize.sm;
 	let style;
-	export { src, alt, lazy, imageClass, size, style };
+	let priority = 'high';
+	export { src, alt, lazy, imageClass, size, style, priority };
 	let iconSize: string;
 	$: {
 		iconSize = IconSize[size] || IconSize.sm;
@@ -21,5 +22,13 @@
 	class="light mr-3 flex bg-background-alt {iconSize} shrink-0 items-center justify-center rounded-full border object-cover group-hover:bg-background-alt {$$props.class}"
 	{style}
 >
-	<img {src} loading={lazy} {alt} class=" aspect-square {imageClass}" width="100%" height="100%" />
+	<img
+		{src}
+		loading={lazy}
+		{alt}
+		class=" aspect-square {imageClass}"
+		width="100%"
+		height="100%"
+		fetchpriority={priority}
+	/>
 </div>

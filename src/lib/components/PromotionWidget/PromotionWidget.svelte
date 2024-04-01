@@ -38,7 +38,8 @@
 	<img
 		src={!deviceType?.isMobile ? data?.header?.webBgBannerUrl : data?.header?.mobileBgBannerUrl}
 		class="absolute left-0 top-0 h-full w-full rounded-lg"
-		alt=""
+		alt={data?.header?.title || 'Promotion Banner'}
+		fetchpriority="high"
 	/>
 	<div class="relative mx-3 flex flex-col items-center">
 		<img class="h-16 w-16" src={data?.header?.logoUrl} alt="" />

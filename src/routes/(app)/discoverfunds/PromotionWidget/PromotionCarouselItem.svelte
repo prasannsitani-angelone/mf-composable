@@ -44,7 +44,12 @@
 				<div class="flex flex-row items-center justify-between rounded-t-lg opacity-[.99]">
 					<slot name="detailsLeft">
 						<div class="flex flex-0.7 flex-row items-center">
-							<img src={scheme.logoUrl} alt="" />
+							<img
+								src={scheme.logoUrl}
+								alt={`${scheme?.schemeName} logo`}
+								loading={index > 0 ? 'lazy' : 'eager'}
+								fetchpriority={index > 0 ? 'low' : 'high'}
+							/>
 							<h3 class="ml-3 line-clamp-2 text-sm text-sm font-medium text-title">
 								{scheme.schemeName}
 							</h3>
