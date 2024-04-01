@@ -49,8 +49,8 @@ export const load = (async ({ fetch }) => {
 		const resData = await Promise.all([summaryData, chartData, distributionData]);
 
 		let benchmarkData = {};
-		if (resData[0].ok && resData[0].data?.data?.isEquityPortfolioFlag) {
-			const benchMarkCoCode = resData[0].data?.data?.benchMarkCoCode;
+		if (resData[0].ok && resData[0].data?.data?.summary?.isEquityPortfolioFlag) {
+			const benchMarkCoCode = resData[0].data?.data?.summary?.benchmarkCoCode;
 			benchmarkData = await getBenchmarkData(benchMarkCoCode);
 		}
 

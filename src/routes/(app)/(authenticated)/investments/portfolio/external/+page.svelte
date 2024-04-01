@@ -69,7 +69,7 @@
 
 		const allResData = await allResponse;
 		const fundChartUrl = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings?external=true&chart=true&months=${tags[tagIndex].months}`;
-		const benchmarkUrl = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings/simulate?isExternal=true&index=${allResData?.summaryData?.benchMarkCoCode}&months=${tags[tagIndex].months}`;
+		const benchmarkUrl = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings/simulate?isExternal=true&index=${allResData?.summaryData?.benchmarkCoCode}&months=${tags[tagIndex].months}`;
 
 		const fundChartRes = await useFetch(fundChartUrl, {}, fetch);
 		if (allResData?.summaryData?.isEquityPortfolioFlag) {
@@ -98,8 +98,8 @@
 
 		const resData = await Promise.all([summaryRes, chartRes, distributionRes, taxationRes]);
 
-		if (resData[0].ok && resData[0].data?.data?.isEquityPortfolioFlag) {
-			const benchMarkCoCode = resData[0].data?.data?.benchMarkCoCode;
+		if (resData[0].ok && resData[0].data?.data?.summary?.isEquityPortfolioFlag) {
+			const benchMarkCoCode = resData[0].data?.data?.summary?.benchmarkCoCode;
 			const benchMarkUrl = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings/simulate?index=${benchMarkCoCode}&months=240&isExternal=true`;
 			const benchmarkRes = await useFetch(benchMarkUrl, {}, fetch);
 			benchmarkData = benchmarkRes.ok ? benchmarkRes?.data || {} : {};
