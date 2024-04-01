@@ -28,7 +28,7 @@ export const handleCarouselSliderAnalytics = (eventMetaData?: object) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-Homepage',
 		event_type: 'click',
-		event_sub_type: 'card',
+		event_sub_type: 'slider',
 		event_name: 'IPLbanner_slider',
 		event_property: null,
 		event_id: '308.0.0.11.2',
