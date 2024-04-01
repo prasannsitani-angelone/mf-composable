@@ -19,6 +19,8 @@ import { getsearchDashboardData } from '$lib/api/getSearchDashboard';
 import cacheInmemory from '$lib/server/cache.inmemory';
 import { getCohortMappingforUser } from '$lib/api/cohorts';
 import { getTrendingFundsData } from '$lib/api/trendingFunds';
+import { getPromotionData } from '$lib/api/promotions';
+import { getReadyMadePortfolios } from '$lib/api/portfolio';
 
 // import { accountType } from '$lib/utils/getAccountType';
 // import { getHashKey } from '$lib/server/getHashKey';
@@ -78,6 +80,7 @@ const addSecurityHeaders = (response: Response) => {
 
 	return response;
 };
+
 const handler = (async ({ event, resolve }) => {
 	try {
 		const cookieString = event.request.headers.get('cookie') || '';
@@ -113,6 +116,8 @@ const handler = (async ({ event, resolve }) => {
 		let searchDashboardData;
 		let cohortConfig;
 		let trendingFundsData;
+		let promotionData;
+		let portfolios;
 
 		if (!event.request.url.includes('/api/')) {
 			const searchDashboardPromise = getsearchDashboardData(
@@ -130,12 +135,16 @@ const handler = (async ({ event, resolve }) => {
 
 				const profilePromise = useProfileFetch(token, fetch);
 				const userPromise = useUserDetailsFetch(token, fetch, PRIVATE_MF_CORE_BASE_URL);
+				const promotionPromise = getPromotionData(token, fetch);
+				const portfoliosPromise = getReadyMadePortfolios(token, fetch);
 				const userData = await Promise.allSettled([
 					profilePromise,
 					userPromise,
 					investementSummaryPromise,
 					searchDashboardPromise,
-					trendingFundsPromise
+					trendingFundsPromise,
+					promotionPromise,
+					portfoliosPromise
 				]);
 
 				profileData = userData[0]?.value;
@@ -143,6 +152,8 @@ const handler = (async ({ event, resolve }) => {
 				investementSummary = userData[2]?.value;
 				searchDashboardData = userData[3]?.value;
 				trendingFundsData = userData[4]?.value;
+				promotionData = userData[5]?.value;
+				portfolios = userData[6]?.value;
 				let user_cohort = 'Fallback';
 				if (userDetails?.cohort?.length && userDetails?.cohort?.[0]) {
 					user_cohort = userDetails?.cohort?.[0];
@@ -162,6 +173,8 @@ const handler = (async ({ event, resolve }) => {
 					PRIVATE_MF_CORE_BASE_URL_V2,
 					'B2B'
 				);
+				promotionData = await getPromotionData(token, fetch, 'B2B');
+				portfolios = await getReadyMadePortfolios(token, fetch, 'B2B');
 			}
 		}
 
@@ -187,7 +200,9 @@ const handler = (async ({ event, resolve }) => {
 			investementSummary,
 			searchDashboardData,
 			cohortConfig,
-			trendingFundsData
+			trendingFundsData,
+			promotionData,
+			portfolios
 		};
 
 		let response = await resolve(event);

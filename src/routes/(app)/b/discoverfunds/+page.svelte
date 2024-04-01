@@ -86,11 +86,11 @@
 	import { getStoriesData } from '$lib/api/media';
 	import StoriesSkeletonLoader from '$components/Stories/StoriesSkeletonLoader.svelte';
 	import { cohorts, cohorts_LF } from '$lib/constants/cohorts';
-	import PromotionSkeleton from '../../discoverfunds/PromotionWidget/PromotionSkeleton.svelte';
 	import {
 		addNativeLifeCycleCallback,
 		removeNativeLifeCycleCallback
 	} from '$lib/utils/nativeLifeCycleCallbacks';
+	import PromotionWidget from '$lib/components/PromotionWidget/PromotionWidget.svelte';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -117,7 +117,6 @@
 	let placementMapping = {};
 	let videoData;
 	let showVideoReelModal = false;
-	let readyMadePortfolios;
 	let screenerElement: HTMLElement;
 	let sipCalculatorElement: HTMLElement;
 	let screenerIntersect: boolean;
@@ -134,7 +133,6 @@
 
 	let formattedRetryPaymentNudgeData: IRetryPaymentNudge;
 	let storiesLoaded = false;
-	let shouldLoadPortfolios = false;
 
 	const getNudgeData = async () => {
 		let nudgesData: NudgeDataType = {
@@ -373,16 +371,6 @@
 		}
 	};
 
-	const getReadyMadePortfolios = async () => {
-		shouldLoadPortfolios = false;
-		const url = `${PUBLIC_MF_CORE_BASE_URL}/schemes/packs?packGroupId=READY_MADE_PORTFOLIO`;
-		const res = await useFetch(url, {}, fetch);
-		shouldLoadPortfolios = true;
-		if (res.ok) {
-			readyMadePortfolios = res.data?.packs || [];
-		}
-	};
-
 	const handleVideoClickForDesktop = (e) => {
 		const showModal = e.detail;
 		showVideoReelModal = showModal;
@@ -436,10 +424,6 @@
 
 		if (placementMapping?.videoReel) {
 			getHomePageVideoData();
-		}
-
-		if (placementMapping?.buyPortfolioCard) {
-			getReadyMadePortfolios();
 		}
 
 		setNotificationData();
@@ -654,29 +638,14 @@
 		{/if}
 	{/if}
 
-	{#if placementMapping?.buyPortfolioCard && deviceType.isBrowser}
-		{#if shouldLoadPortfolios && readyMadePortfolios?.length}
-			<BuyPortfolio
-				class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
-					?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
-					? 'mt-2'
-					: ''}"
-				portfolios={readyMadePortfolios}
-			/>
-		{:else if !shouldLoadPortfolios}
-			<div
-				class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
-					?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
-					? 'mt-2'
-					: ''}"
-			>
-				<LazyComponent
-					when={true}
-					component={async () =>
-						await import('../../discoverfunds/BuyPortfolio/BuyPortfolioSkeleton.svelte')}
-				/>
-			</div>
-		{/if}
+	{#if placementMapping?.buyPortfolioCard && deviceType.isBrowser && data?.portfolios?.length}
+		<BuyPortfolio
+			class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
+				?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
+				? 'mt-2'
+				: ''}"
+			portfolios={data?.portfolios}
+		/>
 	{/if}
 
 	<!-- Start SIP -->
@@ -687,21 +656,12 @@
 		/>
 	{/if}
 
-	{#if placementMapping?.iplBanner}
+	{#if placementMapping?.iplBanner && data?.promotionData}
 		<article
 			class="row-start-{placementMapping?.iplBanner?.rowStart} col-start-{placementMapping
 				?.iplBanner?.columnStart}"
 		>
-			{#if !data?.api?.shouldLoadPromotionWidget}
-				<PromotionSkeleton />
-			{:else if data?.api?.promotion}
-				<LazyComponent
-					when={data?.api?.promotion}
-					component={async () =>
-						await import('../../discoverfunds/PromotionWidget/PromotionWidget.svelte')}
-					data={data?.api?.promotion}
-				/>
-			{/if}
+			<PromotionWidget data={data?.promotionData} />
 		</article>
 	{/if}
 
@@ -877,29 +837,14 @@
 		/>
 	{/if}
 
-	{#if !deviceType?.isBrowser && placementMapping?.buyPortfolioCard}
-		{#if shouldLoadPortfolios && readyMadePortfolios?.length}
-			<BuyPortfolio
-				class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
-					?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
-					? 'mt-2'
-					: ''}"
-				portfolios={readyMadePortfolios}
-			/>
-		{:else if !shouldLoadPortfolios}
-			<div
-				class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
-					?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
-					? 'mt-2'
-					: ''}"
-			>
-				<LazyComponent
-					when={true}
-					component={async () =>
-						await import('../../discoverfunds/BuyPortfolio/BuyPortfolioSkeleton.svelte')}
-				/>
-			</div>
-		{/if}
+	{#if !deviceType?.isBrowser && placementMapping?.buyPortfolioCard && data?.portfolios?.length}
+		<BuyPortfolio
+			class="row-start-{placementMapping?.buyPortfolioCard?.rowStart} col-start-{placementMapping
+				?.buyPortfolioCard?.columnStart} {placementMapping?.buyPortfolioCard?.rowStart > 1
+				? 'mt-2'
+				: ''}"
+			portfolios={data?.portfolios}
+		/>
 	{/if}
 
 	{#if !deviceType?.isBrowser && data?.layoutConfig?.showAskAngelEntry && $tokenStore.state === AUTH_STATE_ENUM.LOGGED_IN && placementMapping?.askAngel}

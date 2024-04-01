@@ -1,26 +1,10 @@
-import { getPromotionData } from '$lib/api/promotions';
 import type { PageLoad } from './$types';
 
-let shouldLoadPromotionWidget = false;
-
-const fetchPromotions = async () => {
-	shouldLoadPromotionWidget = false;
-	const res = await getPromotionData();
-	shouldLoadPromotionWidget = true;
-	if (res.ok) {
-		return res.data;
-	}
-	return null;
-};
-
 export const load = (async ({ parent }) => {
-	const { sparkHeaders } = await parent();
-	const promotion = await fetchPromotions();
+	const { sparkHeaders, promotionData, portfolios } = await parent();
 	return {
-		api: {
-			promotion,
-			shouldLoadPromotionWidget
-		},
+		promotionData,
+		portfolios,
 		layoutConfig: {
 			title: 'Mutual Funds',
 			showCloseIcon: true,

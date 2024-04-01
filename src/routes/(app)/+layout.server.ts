@@ -22,7 +22,9 @@ export const load = (async ({ request, locals, cookies }) => {
 		investementSummary,
 		searchDashboardData,
 		cohortConfig,
-		trendingFundsData
+		trendingFundsData,
+		promotionData,
+		portfolios
 	} = locals;
 
 	const tokenObj: TokenStore = {
@@ -74,6 +76,8 @@ export const load = (async ({ request, locals, cookies }) => {
 		userDetails: localUserDetails,
 		investementSummary,
 		cohortConfig,
-		trendingFundsData
+		trendingFundsData,
+		promotionData,
+		portfolios
 	};
 }) satisfies LayoutServerLoad;
