@@ -428,8 +428,6 @@
 		if (data?.layoutConfig?.showAskAngelEntry) {
 			askAngelEntryImpressionAnalytics();
 		}
-		schemeScreenerStore?.reinitializeStore();
-		schemeScreenerStore.getFiltersResponse();
 		sHomepage({
 			version: 'A',
 			userType: $page?.data?.userDetails?.userType || 'B2C',

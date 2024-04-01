@@ -11,6 +11,7 @@
 	import TableSkeleton from '$components/Table/TableSkeleton.svelte';
 	import SomethingWentWrongSmall from '$components/Error/SomethingWentWrongSmall.svelte';
 	import { modifiedGoto } from '$lib/utils/goto';
+	import { schemeScreenerStore } from '$lib/stores/SchemeScreenerStore';
 
 	let screenedSchemes: ScreenedSchemes[];
 	let loading = true;
@@ -31,6 +32,9 @@
 
 	onMount(async () => {
 		await tick();
+		schemeScreenerStore.getFiltersResponse();
+		schemeScreenerStore?.reinitializeStore();
+
 		const queryPath = `limit=5&schemeType=Growth`;
 		screenedSchemes = await getScreenerSearch(null, queryPath);
 

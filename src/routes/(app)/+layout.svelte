@@ -60,8 +60,10 @@
 				type: 'CLEVERTAP'
 			})
 		});
-		await Clevertap.init();
-		Clevertap.setProfile(profile);
+		requestAnimationFrame(async () => {
+			await Clevertap.init();
+			Clevertap.setProfile(profile);
+		});
 	};
 
 	const popStateListener = () => {
