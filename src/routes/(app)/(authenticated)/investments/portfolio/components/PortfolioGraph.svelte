@@ -183,7 +183,7 @@
 	const filterTags = () => {
 		// if 'ALL' timeline's data ^^IS NOT PRESENT^^
 		if (selectedTag !== 'ALL') {
-			return !filterTags?.length ? tags : filterTags;
+			return !filteredTags?.length ? tags : filteredTags;
 		}
 		// if 'ALL' timeline's data ^^IS PRESENT^^
 		let oldestDate;
@@ -215,6 +215,13 @@
 			: benchmarkData?.summary?.portReturnsOverBm > 0
 			? 'more than'
 			: 'equal to';
+
+	$: benchmarkTimelineText =
+		selectedTag !== 'ALL'
+			? tags.find((tag) => tag?.label === selectedTag)?.text?.toLowerCase()
+			: 'you started investing';
+
+	$: console.log('benchmarkTimelineText', { benchmarkTimelineText });
 
 	const formatDate = (navDate) => {
 		navDate = navDate.split(',');
@@ -417,7 +424,39 @@
 	<Card class="border-0 px-0 pb-0 text-lg md:pt-5">
 		<div class="px-4 md:px-6">
 			{#if isEquityPortfolioFlag && benchmarkData?.holdingChart?.length}
-				<article class="flex flex-wrap items-center gap-1 px-0 pb-3 text-body">
+				<article
+					class="flex items-center gap-1 rounded p-2"
+					class:bg-tint12-buy={benchmarkData?.summary?.portReturnsOverBm > 0}
+					class:bg-tint12-sell={benchmarkData?.summary?.portReturnsOverBm < 0}
+					class:bg-tint12-secondary={benchmarkData?.summary?.portReturnsOverBm === 0}
+				>
+					<div>
+						{#if benchmarkData?.summary?.portReturnsOverBm > 0}
+							<WMSIcon fill="var(--BUY)" name="graph-in-circle" height={16} width={16} />
+						{:else if benchmarkData?.summary?.portReturnsOverBm < 0}
+							<WMSIcon
+								fill="var(--SELL)"
+								name="graph-in-circle"
+								height={16}
+								width={16}
+								class="scale-y-[-1]"
+							/>
+						{:else}
+							<WMSIcon
+								fill="var(--SECONDARY)"
+								stroke="var(--TINT12-SECONDARY)"
+								name="equal-in-circle"
+								height={16}
+								width={16}
+							/>
+						{/if}
+					</div>
+					<p class="text-[11px] font-normal leading-3 text-title">
+						Your portfolio returns are
+						<span class="font-semibold"> {benchmarkText} Nifty 50 </span>since {benchmarkTimelineText}
+					</p>
+				</article>
+				<article class="flex flex-wrap items-center gap-1 px-0 py-3 text-body">
 					<div>
 						<WMSIcon stroke="var(--CHART)" name="eclipse" height={8} width={8} />
 					</div>

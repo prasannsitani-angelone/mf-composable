@@ -15,7 +15,7 @@ export const tags: Tags[] = [
 		timeScale: 'month',
 		returnPeriod: 'returns3Month',
 		bmReturnPeriod: 'bmReturns3Month',
-		text: '3 Month'
+		text: '3 Months'
 	},
 	{
 		label: '6M',
@@ -23,7 +23,7 @@ export const tags: Tags[] = [
 		timeScale: 'month',
 		returnPeriod: 'returns6Month',
 		bmReturnPeriod: 'bmReturns6Month',
-		text: '6 Month'
+		text: '6 Months'
 	},
 	{
 		label: '1Y',
@@ -39,7 +39,7 @@ export const tags: Tags[] = [
 		timeScale: 'year',
 		returnPeriod: 'returns3yr',
 		bmReturnPeriod: 'bmReturns3yr',
-		text: '3 Year'
+		text: '3 Years'
 	},
 	{
 		label: '5Y',
@@ -47,7 +47,7 @@ export const tags: Tags[] = [
 		timeScale: 'year',
 		returnPeriod: 'returns5yr',
 		bmReturnPeriod: 'bmReturns5yr',
-		text: '5 Year'
+		text: '5 Years'
 	},
 	{
 		label: 'ALL',

@@ -68,8 +68,8 @@
 		let res;
 
 		const allResData = await allResponse;
-		const fundChartUrl = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings?chart=true&months=${tags[tagIndex].months}`;
-		const benchmarkUrl = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings/simulate?index=${allResData?.summaryData?.benchMarkCoCode}&months=${tags[tagIndex].months}`;
+		const fundChartUrl = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings?external=true&chart=true&months=${tags[tagIndex].months}`;
+		const benchmarkUrl = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings/simulate?isExternal=true&index=${allResData?.summaryData?.benchMarkCoCode}&months=${tags[tagIndex].months}`;
 
 		const fundChartRes = await useFetch(fundChartUrl, {}, fetch);
 		if (allResData?.summaryData?.isEquityPortfolioFlag) {
