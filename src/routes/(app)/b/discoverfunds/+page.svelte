@@ -87,7 +87,6 @@
 	import StoriesSkeletonLoader from '$components/Stories/StoriesSkeletonLoader.svelte';
 	import { cohorts, cohorts_LF } from '$lib/constants/cohorts';
 	import PromotionSkeleton from '../../discoverfunds/PromotionWidget/PromotionSkeleton.svelte';
-	import PromotionWidget from '../../discoverfunds/PromotionWidget/PromotionWidget.svelte';
 	import {
 		addNativeLifeCycleCallback,
 		removeNativeLifeCycleCallback
@@ -696,7 +695,12 @@
 			{#if !data?.api?.shouldLoadPromotionWidget}
 				<PromotionSkeleton />
 			{:else if data?.api?.promotion}
-				<PromotionWidget data={data?.api?.promotion} id="ipl-orange-cap" />
+				<LazyComponent
+					when={data?.api?.promotion}
+					component={async () =>
+						await import('../../discoverfunds/PromotionWidget/PromotionWidget.svelte')}
+					data={data?.api?.promotion}
+				/>
 			{/if}
 		</article>
 	{/if}
