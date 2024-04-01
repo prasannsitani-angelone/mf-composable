@@ -154,8 +154,16 @@ class BaseLogger {
 		} else if (!browser && this._state.consoleOnServer) {
 			this.sendConsoleLog(logs);
 		} else {
-			this.sendApiLog(logs);
-			this.sendNBUApiLog(logs);
+			if (typeof requestAnimationFrame !== 'function') {
+				this.sendApiLog(logs);
+				this.sendNBUApiLog(logs);
+				return;
+			}
+
+			requestAnimationFrame(() => {
+				this.sendApiLog(logs);
+				this.sendNBUApiLog(logs);
+			});
 		}
 	}
 

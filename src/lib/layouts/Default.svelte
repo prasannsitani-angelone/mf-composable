@@ -49,13 +49,17 @@
 	export { layoutType };
 
 	beforeNavigate(() => {
-		document.getElementById('main-container').style.overflow = 'hidden';
+		requestAnimationFrame(() => {
+			document.getElementById('main-container').style.overflow = 'hidden';
+		});
 	});
 
 	afterNavigate(() => {
-		document.getElementById('main-container').style.overflow = 'auto';
-		// workaround for an open bug https://github.com/sveltejs/kit/issues/2733
-		document.getElementById('main-container').scrollTop = 0;
+		requestAnimationFrame(() => {
+			document.getElementById('main-container').style.overflow = 'auto';
+			// workaround for an open bug https://github.com/sveltejs/kit/issues/2733
+			document.getElementById('main-container').scrollTop = 0;
+		});
 	});
 </script>
 
