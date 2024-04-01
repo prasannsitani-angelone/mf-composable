@@ -22,10 +22,10 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <section
-	class={`wrapper no-scrollbar relative my-2 max-w-4xl overflow-auto rounded-lg bg-background-alt px-4 py-3 shadow-csm md:cursor-pointer ${$$props.class}`}
+	class={`wrapper no-scrollbar relative my-2 max-w-4xl overflow-hidden rounded-lg bg-background-alt px-4 py-3 shadow-csm md:cursor-pointer ${$$props.class}`}
 	on:click={navigate}
 >
-	<div class="sliding-bg z-2 absolute h-5 bg-red-200 opacity-20" />
+	<div class="sliding-bg z-2 absolute h-8 bg-red-200 opacity-10" />
 	<article class="flex items-center justify-between" data-testid="start-sip">
 		<div class="z-0">
 			<h2 class="mb-1 text-base font-medium text-title">Start SIP</h2>

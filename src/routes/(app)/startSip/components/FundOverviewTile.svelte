@@ -85,7 +85,7 @@
 				<div class="flex flex-row items-center">
 					<p class="text-xs font-normal text-title">
 						<span class="text-sm font-medium {schemes?.returns3yr > 0 ? 'text-buy' : 'text-title'}"
-							>{schemes?.returns3yr?.toFixed(2)}%</span
+							>{schemes?.returns3yr?.toFixed(2)}% p.a.</span
 						>
 					</p>
 				</div>

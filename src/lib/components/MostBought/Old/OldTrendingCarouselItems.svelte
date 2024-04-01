@@ -40,7 +40,7 @@
 <div on:click={gotoSchemeDetails} class={`flex cursor-pointer flex-col ${clazz}`}>
 	<div class="flex flex-row items-start">
 		<SchemeLogo
-			size="sm"
+			size="xs"
 			src={schemes?.logoUrl}
 			alt={schemes?.schemeName}
 			lazy={index > 1 ? 'lazy' : 'eager'}
