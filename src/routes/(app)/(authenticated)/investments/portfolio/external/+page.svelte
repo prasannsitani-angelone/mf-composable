@@ -154,7 +154,7 @@
 			<div />
 		{:then}
 			{#if taxationData?.stcgCurAmount !== 0 && taxationData?.ltcgCurAmount !== 0}
-				<TaxAnalysis {taxationData} class="mt-2 sm:mt-4" />
+				<TaxAnalysis isExternal={true} {taxationData} class="mt-2 sm:mt-4" />
 			{/if}
 		{/await}
 		<section>

@@ -7,6 +7,7 @@ import type { PageLoad } from './$types';
 export const load = (async ({ url, fetch }) => {
 	const taxType = <'STCG' | 'LTCG'>url?.searchParams?.get('taxType');
 	const holdingType = <'EQUITY' | 'NON_EQUITY'>url.searchParams.get('holdingType');
+	const isExternal = url.searchParams.get('external') || false;
 	const queryParam = url?.search;
 
 	let taxationDetails: ITaxationDetails[] = [
@@ -33,6 +34,7 @@ export const load = (async ({ url, fetch }) => {
 		},
 		taxType,
 		holdingType,
+		isExternal,
 		title,
 		layoutConfig: {
 			title,

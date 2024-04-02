@@ -31,7 +31,7 @@
 
 	const navigateToEquite = async () => {
 		await goto(
-			`${base}/investments/ltcg-stcg-gains?taxType=${data?.taxType}&holdingType=EQUITY&params=${encodedParams}`,
+			`${base}/investments/ltcg-stcg-gains?taxType=${data?.taxType}&holdingType=EQUITY&external=${data?.isExternal}&params=${encodedParams}`,
 			{ replaceState: true }
 		);
 		if (data?.taxType === 'STCG') {
@@ -43,7 +43,7 @@
 	$: activeTab = data?.holdingType === 'NON_EQUITY' ? 'Non-Equity' : 'Equity';
 	const navigateToNonEquity = async () => {
 		await goto(
-			`${base}/investments/ltcg-stcg-gains?taxType=${data?.taxType}&holdingType=NON_EQUITY&params=${encodedParams}`,
+			`${base}/investments/ltcg-stcg-gains?taxType=${data?.taxType}&holdingType=NON_EQUITY&external=${data?.isExternal}&params=${encodedParams}`,
 			{ replaceState: true }
 		);
 		if (data?.taxType === 'STCG') {

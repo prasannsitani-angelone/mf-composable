@@ -1,7 +1,5 @@
 <script lang="ts">
 	import { PortfolioCard } from 'svelte-components';
-	import GainArrowIcon from '$lib/images/icons/GainArrowIcon.svelte';
-	import LossArrowIcon from '$lib/images/icons/LossArrowIcon.svelte';
 	import VerticalLineSeparatorIcon from '$lib/images/icons/VerticalLineSeparatorIcon.svelte';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
@@ -24,42 +22,42 @@
 <PortfolioCard variant="secondary" wrapperClass="sm:sticky sm:top-0">
 	<section class="flex items-center justify-between lg:mx-0">
 		<article class="flex flex-col items-start">
-			<div class="text-xs md:text-sm">Total Invested</div>
-			<div class="text-[18px] font-normal md:text-xl">
-				₹{investmentSummary?.investedValue
-					? addCommasToAmountString(investmentSummary?.investedValue?.toFixed(0))
-					: '0'}
-			</div>
-		</article>
-
-		<article class="flex flex-col items-end">
 			<div class="text-xs md:text-sm">Current Value</div>
-			<div class="text-[18px] font-normal md:text-xl">
+			<div class="text-[18px] font-medium md:text-xl">
 				₹{investmentSummary?.currentValue
 					? addCommasToAmountString(investmentSummary?.currentValue?.toFixed(0))
 					: '0'}
 			</div>
 		</article>
+
+		<article class="flex flex-col items-end">
+			<div class="text-xs md:text-sm">Total Invested</div>
+			<div class="text-[18px] font-medium md:text-xl">
+				₹{investmentSummary?.investedValue
+					? addCommasToAmountString(investmentSummary?.investedValue?.toFixed(0))
+					: '0'}
+			</div>
+		</article>
 	</section>
 	<section
-		class={`light dark my-4 flex items-center justify-around rounded-lg bg-white bg-opacity-10 px-3 py-4 md:my-6 md:py-3.5 lg:mx-0`}
+		class={`light dark my-2 flex items-center justify-around rounded-lg bg-white bg-opacity-10 px-3 py-4 md:my-6 md:py-3.5 lg:mx-0`}
 	>
-		<article class="flex flex-1 flex-col items-center">
+		<article class="flex flex-1 flex-col items-start">
 			<div class="flex items-center justify-around text-xs">
-				<span class="text-[11px] md:text-xs"> Total Funds </span>
+				<span class="text-xs"> Total Funds </span>
 			</div>
 
 			{#if isPartialImport}
-				<div class="mx-1 mt-2 flex items-center text-center text-xs md:text-sm">
+				<div class="flex items-center text-center text-base">
 					<WMSIcon name="polygon-red-warning" width={10} height={10} class="mr-1" />
-					<span class="mr-1 font-normal"
+					<span class="mr-1 font-medium"
 						>{Number(totalImportedFundCount - partialImportedFundCount)}/{totalImportedFundCount ||
 							'-'}
 					</span>
 				</div>
 			{:else}
-				<div class="mx-1 mt-2 text-center text-xs md:text-sm">
-					<span class="mr-1 font-normal"> {totalImportedFundCount} </span>
+				<div class="text-center text-base">
+					<span class="mr-1 font-medium"> {totalImportedFundCount} </span>
 				</div>
 			{/if}
 		</article>
@@ -68,24 +66,23 @@
 				<VerticalLineSeparatorIcon opacity={1} />
 			</div>
 		</article>
-		<article class="flex flex-1 flex-col items-center">
+		<article class="flex flex-1 flex-col items-end">
 			<div class="flex items-center justify-around text-xs">
-				{#if investmentSummary?.returnsValue && investmentSummary.returnsValue >= 0}
-					<GainArrowIcon class="mr-1.5" />
-				{:else}
-					<LossArrowIcon class="mr-1.5" />
-				{/if}
-				<span class="text-[11px] md:text-xs"> Total Returns </span>
+				<span class="text-xs"> Total Returns </span>
 			</div>
-			<div class="mx-1 mt-2 text-center text-xs md:text-sm">
-				<span class="mr-1 font-normal">
+			<div class="text-center text-base">
+				<span class="font-medium">
 					{investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
 						? '-'
 						: ''}₹{investmentSummary?.returnsValue
 						? addCommasToAmountString(Math.abs(investmentSummary?.returnsValue)?.toFixed(0))
 						: '0'}
 				</span>
-				<span>
+				<span
+					class="text-xs {investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
+						? 'text-sell'
+						: 'text-buy'}"
+				>
 					({investmentSummary?.returnsValue && investmentSummary.returnsValue < 0
 						? '-'
 						: '+'}{investmentSummary?.returnsAbsolutePer

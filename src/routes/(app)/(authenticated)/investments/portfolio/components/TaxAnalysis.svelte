@@ -59,6 +59,7 @@
 		return fiscalYr;
 	}
 
+	let isExternal = false;
 	let taxationData: ITaxation = {
 		stcgCurPercentage: 0,
 		stcgCurAmount: 0,
@@ -121,16 +122,22 @@
 			investmentPercent,
 			investedAmt
 		});
-		await goto(
-			`${base}/investments/ltcg-stcg-gains?taxType=${taxType}&holdingType=EQUITY&params=${params}`
-		);
+		if (isExternal) {
+			await goto(
+				`${base}/investments/ltcg-stcg-gains?taxType=${taxType}&holdingType=EQUITY&external=${isExternal}&params=${params}`
+			);
+		} else {
+			await goto(
+				`${base}/investments/ltcg-stcg-gains?taxType=${taxType}&holdingType=EQUITY&params=${params}`
+			);
+		}
 	};
 	const gotoExploreMore = async () => {
 		schemeScreenerStore?.getFiltersResponse('subCategory=ELSS');
 		await goto(`${base}/filters/items`);
 	};
 
-	export { taxationData };
+	export { taxationData, isExternal };
 </script>
 
 <article class="rounded bg-background-alt {$$props.class}">
