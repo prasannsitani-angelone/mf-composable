@@ -18,6 +18,8 @@
 	export let nudgeDataLoading = false;
 	export let autopayDataLoading = false;
 
+	const noPendingItemsText = 'Great job! You are keeping your investments in good shape';
+
 	$: isNoPendingActions =
 		(pendingActionsData?.instalmentFailedOrders?.length ||
 			0 + pendingActionsData?.instalmentPending?.length ||
@@ -62,7 +64,7 @@
 		} else {
 			eventMetaData = {
 				CardCount: 0,
-				text: 'You are all caught up you are in top 1% of angelone investors',
+				text: noPendingItemsText,
 				item: [
 					{
 						Index: 0,
@@ -100,7 +102,7 @@
 				<WMSIcon name="tick-in-circle-outline" stroke="var(--BODY)" height={24} width={24} />
 				<h2 class="text-sm font-normal text-body">No Pending Actions</h2>
 				<p class="m-auto w-[268px] text-center text-xs font-normal text-body">
-					Great job! You are keeping your investments in good shape
+					{noPendingItemsText}
 				</p>
 			</div>
 		{:else}
