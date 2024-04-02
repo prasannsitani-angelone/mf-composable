@@ -6,6 +6,7 @@ import logger from '$lib/utils/logger';
 import { getLogoutUrl } from '$lib/utils/helpers/logout';
 import { base } from '$app/paths';
 import { modifiedGoto } from '$lib/utils/goto';
+import { getWorkflowFromNavigationUrl } from './utils';
 
 const allowedRoutes = ['search', 'discoverfunds', 'schemes', 'filter', 'nfo', 'sipbook'];
 
@@ -30,7 +31,8 @@ export const load = (async ({ url, parent }) => {
 		(allowedRoutes.filter((route) => pathname.indexOf(route) > -1)?.length === 0 ||
 			searchParams.get('orderpad') === 'INVEST')
 	) {
-		const url = `${base}/incomplete-kyc`;
+		const source = getWorkflowFromNavigationUrl(pathname, searchParams);
+		const url = `${base}/incomplete-kyc?source=${source}`;
 		if (browser) return await modifiedGoto(url);
 		else redirect(302, url);
 	} else if (!parentData?.tokenObj?.userToken?.NTAccessToken) {

@@ -15,6 +15,7 @@
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { modifiedGoto } from '$lib/utils/goto';
 	import LazyComponent from '$components/LazyComponent.svelte';
+	import viewport from '$lib/utils/useViewPortAction';
 
 	export let portfolios: PortfolioPack[];
 	let carouselInActive = false;
@@ -54,7 +55,7 @@
 	};
 
 	const handleCardVisible = (event: CustomEvent) => {
-		let index = event.detail.index;
+		let index = event.detail?.index || 0;
 		let portfolio = portfolios[index];
 
 		handleCarouselImpressionAnalytics(getEventMetaData(portfolio, index));
@@ -66,7 +67,11 @@
 	}
 </script>
 
-<section class="max-w-4xl rounded-lg bg-background-alt px-4 py-3 shadow-csm {$$props.class}">
+<section
+	class="max-w-4xl rounded-lg bg-background-alt px-4 py-3 shadow-csm {$$props.class}"
+	use:viewport
+	on:enterViewport={handleCardVisible}
+>
 	<header class="mb-2 justify-between" data-testid="portfolios">
 		<h2 class="text-base font-medium text-title">Ready made SIP Baskets</h2>
 		<p class="mb-5 mt-1 text-[12px] font-normal text-body">

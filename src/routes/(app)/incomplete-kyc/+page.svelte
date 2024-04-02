@@ -16,16 +16,21 @@
 	} from './analytics';
 
 	let shouldLoadButtons = false;
+	const source = $page.url.searchParams.get('source');
 
 	const navigateToKycPage = () => {
 		if (!shouldLoadButtons) return;
-		handleClickViewKycAnalytics();
+		handleClickViewKycAnalytics({
+			source
+		});
 		window.open(`${PUBLIC_KYC_DEEPLINK_URL}?gt=${$page.data.token}`, '_blank');
 	};
 
 	const navigateToHomePage = async () => {
 		if (!shouldLoadButtons) return;
-		handleGoBackButtonAnalytics();
+		handleGoBackButtonAnalytics({
+			source
+		});
 		if ($appStore.openViaTabView || appStore.isMFTabAvailable()) {
 			goBackToSpark();
 		} else {
@@ -36,7 +41,9 @@
 	onMount(() => {
 		setTimeout(() => {
 			shouldLoadButtons = true;
-			handleIncompleteKycImpression();
+			handleIncompleteKycImpression({
+				source
+			});
 		}, 100);
 	});
 </script>
