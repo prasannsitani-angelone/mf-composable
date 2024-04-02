@@ -40,9 +40,9 @@
 		</article>
 	</section>
 	<section
-		class={`light dark my-2 flex items-center justify-around rounded-lg bg-white bg-opacity-10 px-3 py-4 md:my-6 md:py-3.5 lg:mx-0`}
+		class={`light dark my-2 flex items-center justify-between rounded-lg bg-white bg-opacity-10 px-3 py-4 md:my-6 md:py-3.5 lg:mx-0`}
 	>
-		<article class="flex flex-1 flex-col items-start">
+		<article class="flex flex-col items-start">
 			<div class="flex items-center justify-around text-xs">
 				<span class="text-xs"> Total Funds </span>
 			</div>
@@ -66,7 +66,7 @@
 				<VerticalLineSeparatorIcon opacity={1} />
 			</div>
 		</article>
-		<article class="flex flex-1 flex-col items-end">
+		<article class="flex flex-col items-end">
 			<div class="flex items-center justify-around text-xs">
 				<span class="text-xs"> Total Returns </span>
 			</div>
