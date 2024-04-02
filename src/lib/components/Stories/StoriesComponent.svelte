@@ -319,6 +319,7 @@
 			type: VideoPlayerMode.Normal,
 			autoplay: true,
 			hideMute: true,
+			fullScreen: true,
 			fallbackSrc: selectedVideo?.videoFallbackUrl
 		};
 	};
