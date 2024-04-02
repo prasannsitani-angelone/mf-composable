@@ -6,6 +6,7 @@
 	import { debounce } from '$lib/utils/helpers/debounce';
 	import Graph from '$components/Tutorial/icons/Graph.svelte';
 	import { HEIGHT_OFFSET } from '$components/Tutorial/pages/const';
+	import { browser } from '$app/environment';
 
 	let options = [
 		'A Systematic Investment Plan (SIP) is an approach for long term investing',
@@ -41,9 +42,11 @@
 	const dispatch = createEventDispatcher();
 
 	const onAmountChange = () => {
-		setTimeout(() => {
-			dispatch('amountSelectionChange');
-		});
+		if (browser) {
+			setTimeout(() => {
+				dispatch('amountSelectionChange');
+			});
+		}
 	};
 
 	const handleAmountSliderInput = () => {

@@ -10,6 +10,7 @@
 	import { allDurationTags } from '$lib/constants/tags';
 	import { BtnVariant } from 'svelte-components';
 	import type { Tags } from '$lib/types/ITags';
+	import { browser } from '$app/environment';
 
 	const dispatch = createEventDispatcher();
 
@@ -90,9 +91,11 @@
 	};
 
 	const onAmountChange = () => {
-		setTimeout(() => {
-			dispatch('amountSelectionChange');
-		});
+		if (browser) {
+			setTimeout(() => {
+				dispatch('amountSelectionChange');
+			});
+		}
 	};
 
 	const getReturnsPercentage = () => {

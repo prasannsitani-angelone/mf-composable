@@ -8,6 +8,7 @@
 	import { debounce } from '$lib/utils/helpers/debounce';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import type { WeeklyTopSchemesEntity } from '$lib/types/IDiscoverFunds';
+	import { browser } from '$app/environment';
 
 	$: deviceType = $page?.data?.deviceType;
 	const dispatch = createEventDispatcher();
@@ -87,9 +88,11 @@
 	};
 
 	$: if (searchPageLoaded && deviceType?.isMobile) {
-		setTimeout(() => {
-			inputRef?.focus();
-		}, 300);
+		if (browser) {
+			setTimeout(() => {
+				inputRef?.focus();
+			}, 300);
+		}
 	}
 	let initialSearchResult: WeeklyTopSchemesEntity[];
 	export {

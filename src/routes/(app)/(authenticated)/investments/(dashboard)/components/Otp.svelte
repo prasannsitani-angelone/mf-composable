@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import Button from '$components/Button.svelte';
 	import { tefResendOtpClickAnalytics } from '../../analytics';
+	import { browser } from '$app/environment';
 
 	export let value = '';
 	export let errorMsg = '';
@@ -12,12 +13,14 @@
 	let countDisplayNum = 0;
 
 	$: {
-		setTimeout(() => {
-			if (countDisplayNum <= 0) {
-				return;
-			}
-			countDisplayNum = countDisplayNum - 1;
-		}, 1000);
+		if (browser) {
+			setTimeout(() => {
+				if (countDisplayNum <= 0) {
+					return;
+				}
+				countDisplayNum = countDisplayNum - 1;
+			}, 1000);
+		}
 	}
 
 	type Item = {
