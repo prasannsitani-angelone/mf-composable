@@ -44,16 +44,21 @@
 				<div class="flex flex-row items-center justify-between rounded-t-lg opacity-[.99]">
 					<slot name="detailsLeft">
 						<div class="flex flex-0.7 flex-row items-center">
-							<img
-								src={scheme.logoUrl}
-								alt={`${scheme?.schemeName} logo`}
-								class="rounded-full bg-white"
-								loading={index > 0 ? 'lazy' : 'eager'}
-								fetchpriority={index > 0 ? 'low' : 'high'}
-							/>
-							<h3 class="ml-3 line-clamp-2 text-sm text-sm font-medium text-title">
-								{scheme.schemeName}
-							</h3>
+							<div class="flex-0.2">
+								<img
+									src={scheme.logoUrl}
+									alt={`${scheme?.schemeName} logo`}
+									class="rounded-full bg-white"
+									style="width: 48px; height: 48px;"
+									loading={index > 0 ? 'lazy' : 'eager'}
+									fetchpriority={index > 0 ? 'low' : 'high'}
+								/>
+							</div>
+							<div class="flex-0.8">
+								<h3 class="ml-3 line-clamp-2 text-sm text-sm font-medium text-title">
+									{scheme.schemeName}
+								</h3>
+							</div>
 						</div>
 					</slot>
 					<slot name="detailsRight">
