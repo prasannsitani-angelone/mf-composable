@@ -47,6 +47,7 @@
 							<img
 								src={scheme.logoUrl}
 								alt={`${scheme?.schemeName} logo`}
+								class="rounded-full bg-white"
 								loading={index > 0 ? 'lazy' : 'eager'}
 								fetchpriority={index > 0 ? 'low' : 'high'}
 							/>
