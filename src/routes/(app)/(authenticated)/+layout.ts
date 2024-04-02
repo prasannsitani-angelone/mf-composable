@@ -8,7 +8,7 @@ import { base } from '$app/paths';
 import { modifiedGoto } from '$lib/utils/goto';
 import { getWorkflowFromNavigationUrl } from './utils';
 
-const allowedRoutes = ['search', 'discoverfunds', 'schemes', 'filter', 'nfo', 'sipbook'];
+const allowedRoutes = ['search', 'discoverfunds', 'filter', 'nfo', 'sipbook'];
 
 export const load = (async ({ url, parent }) => {
 	const parentData = await parent();
