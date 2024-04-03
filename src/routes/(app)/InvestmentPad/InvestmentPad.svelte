@@ -1044,7 +1044,7 @@
 
 			let nextInstalment = {
 				title: 'Next Instalment',
-				date: `Today, ${tempCalendarDate} ${tempCalendarMonth} ${tempCalendarYear}`
+				date: `${tempCalendarDate} ${tempCalendarMonth} ${tempCalendarYear}`
 			};
 			instalmentDatesDetails?.push(nextInstalment);
 
