@@ -453,7 +453,13 @@
 					</div>
 					<p class="text-[11px] font-normal leading-3 text-title">
 						Your portfolio returns are
-						<span class="font-semibold"> {benchmarkText} Nifty 50 </span>since {benchmarkTimelineText}
+						<span class="font-semibold">
+							{!Number.isNaN(Math.abs(benchmarkData?.summary?.portReturnsOverBm))
+								? addCommasToAmountString(
+										Math.abs(benchmarkData?.summary?.portReturnsOverBm)?.toFixed(2)
+								  )
+								: ''}% {benchmarkText} Nifty 50
+						</span>since {benchmarkTimelineText}
 					</p>
 				</article>
 				<article class="flex flex-wrap items-center gap-1 px-0 py-3 text-body">
