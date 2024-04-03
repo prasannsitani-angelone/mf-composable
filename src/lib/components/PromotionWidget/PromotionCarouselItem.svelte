@@ -44,7 +44,7 @@
 				<div class="flex flex-row items-center justify-between rounded-t-lg opacity-[.99]">
 					<slot name="detailsLeft">
 						<div class="flex flex-0.7 flex-row items-center">
-							<div class="flex-0.2">
+							<div class="flex-0.3">
 								<img
 									src={scheme.logoUrl}
 									alt={`${scheme?.schemeName} logo`}
@@ -54,7 +54,7 @@
 									fetchpriority={index > 0 ? 'low' : 'high'}
 								/>
 							</div>
-							<div class="flex-0.8">
+							<div class="flex-0.7">
 								<h3 class="ml-3 line-clamp-2 text-sm text-sm font-medium text-title">
 									{scheme.schemeName}
 								</h3>
