@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { PageData } from './$types';
 	import FundHoldings from './FundHoldings/FundHoldings.svelte';
@@ -81,10 +81,8 @@
 
 		mobileSchemeDetailsPageInvestButtonClickAnalytics(eventMetaData);
 
-		const currentPath = window?.location?.pathname;
-		const redirectPath = `${currentPath}?orderpad=INVEST`;
-
-		goto(redirectPath);
+		const redirectPath = '?orderpad=INVEST';
+		pushState(redirectPath, {});
 	};
 
 	orderpadParams = data?.layoutConfig?.decodedParams || {};
