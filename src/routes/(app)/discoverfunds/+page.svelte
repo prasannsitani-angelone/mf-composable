@@ -554,7 +554,7 @@
 	{#if !storiesLoaded && placementMapping?.stories}
 		<div
 			class="row-start-{placementMapping?.stories?.rowStart} col-start-{placementMapping?.stories
-				?.columnStart} !mb-0 {placementMapping?.stories?.rowStart > 1 ? 'mt-2' : ''}"
+				?.columnStart} !mb-0 {placementMapping?.stories?.rowStart > 1 ? 'mt-2' : ''} pb-1"
 		>
 			<StoriesSkeletonLoader />
 		</div>
