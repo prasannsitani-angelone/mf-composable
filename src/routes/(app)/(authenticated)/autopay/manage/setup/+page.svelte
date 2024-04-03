@@ -19,13 +19,13 @@
 	import BankTile from '../(autopay)/components/BankTile.svelte';
 	import BankSelectionPopup from '$components/BankSelectionPopup.svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
-	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+	import { PUBLIC_MANDATE_PHONEPE_ENABLE, PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { useFetch } from '$lib/utils/useFetch';
 	import { WMSIcon } from 'svelte-components';
 	import ButtonMedium from '$components/ButtonMedium.svelte';
 	import { paymentAppStore } from '$lib/stores/IntentPaymentAppsStore';
 	import { appStore } from '$lib/stores/SparkStore';
-	import { goBackToSpark, isLowerEnvironment } from '$lib/utils';
+	import { checkVersionCompatibility, goBackToSpark } from '$lib/utils';
 
 	export let data;
 	let selectedAccount: number;
@@ -55,7 +55,8 @@
 		if (paramMode && allowedPaymentMethods?.includes(paramMode)) {
 			mode = paramMode;
 		} else if (
-			(os === 'Android' || (isLowerEnvironment() && os === 'iOS')) &&
+			(os === 'Android' ||
+				(checkVersionCompatibility(PUBLIC_MANDATE_PHONEPE_ENABLE) && os === 'iOS')) &&
 			allowedPaymentMethods?.includes('PHONEPE')
 		) {
 			mode = 'PHONEPE';

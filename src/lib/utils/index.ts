@@ -245,3 +245,34 @@ export function isLowerEnvironment() {
 	}
 	return false;
 }
+
+export function checkVersionCompatibility(version: string) {
+	try {
+		let [majorCurrentVersion, minorCurrentVersion, patchCurrentVersion]: string[] | number[] =
+			appStore.platformversion().split('.');
+		let [majorVersion, minorVersion, patchVersion]: string[] | number[] = version.split('.');
+
+		majorCurrentVersion = parseInt(majorCurrentVersion);
+		minorCurrentVersion = parseInt(minorCurrentVersion);
+		patchCurrentVersion = parseInt(patchCurrentVersion);
+
+		majorVersion = parseInt(majorVersion);
+		minorVersion = parseInt(minorVersion);
+		patchVersion = parseInt(patchVersion);
+
+		if (majorVersion < majorCurrentVersion) {
+			return true;
+		} else if (majorVersion == majorCurrentVersion && minorVersion < minorCurrentVersion) {
+			return true;
+		} else if (
+			majorVersion == majorCurrentVersion &&
+			minorVersion == minorCurrentVersion &&
+			patchVersion <= patchCurrentVersion
+		) {
+			return true;
+		}
+		return false;
+	} catch (e) {
+		return false;
+	}
+}
