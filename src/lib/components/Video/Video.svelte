@@ -209,12 +209,18 @@
 	};
 
 	const playVideoOnFocus = () => {
+		if (intersectionObserver && videoElement) {
+			intersectionObserver.observe(videoElement);
+		}
 		if (props.fullScreen || isVisible) {
 			videoElement?.play();
 		}
 	};
 
 	const pauseVideoOnBlur = () => {
+		if (intersectionObserver && videoElement) {
+			intersectionObserver.unobserve(videoElement);
+		}
 		videoElement?.pause();
 	};
 
