@@ -205,8 +205,8 @@ class BaseLogger {
 		this.log(msgObj, LOG_LEVELS_ENUM.error, true);
 	}
 
-	logAnalyticEvent(msgObj: AnalyticMsgObj) {
-		this.log(msgObj);
+	logAnalyticEvent(msgObj: AnalyticMsgObj, immediate = false) {
+		this.log(msgObj, '', immediate);
 	}
 }
 

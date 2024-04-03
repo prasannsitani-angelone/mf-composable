@@ -33,6 +33,7 @@
 	import { cubicOut } from 'svelte/easing';
 	import { fly } from 'svelte/transition';
 	import { browser } from '$app/environment';
+	import { bottomTabStore } from '$lib/stores/BottomTabStore';
 
 	$: pageMetaData = $page?.data?.layoutConfig;
 	$: isMobile = $page?.data?.deviceType?.isMobile;
@@ -142,11 +143,13 @@
 		return '100%';
 	};
 
-	const restrictPathFromAnimations = [
-		'/mutual-funds/investments',
-		'/mutual-funds/sipbook/dashboard',
-		'/mutual-funds/orders/orderspage'
-	];
+	const isAnimationEnabled = () => {
+		if ($bottomTabStore.clicked) {
+			bottomTabStore.resetStore();
+			return false;
+		}
+		return true;
+	};
 </script>
 
 <noscript>
@@ -166,7 +169,7 @@
 			x: getDirection(),
 			easing: cubicOut,
 			duration: 300,
-			cond: isMobile && !restrictPathFromAnimations.includes(data.pathname)
+			cond: isMobile && isAnimationEnabled()
 		}}
 	>
 		<header class="z-[70] flex-shrink-0 bg-background-alt">

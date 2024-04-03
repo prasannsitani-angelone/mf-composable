@@ -5,6 +5,12 @@ import { browser } from '$app/environment';
 import sessionStorage from '$lib/utils/sessionStorage';
 import { decodeToObject } from '$lib/utils/helpers/params';
 import { tokenStore } from '$lib/stores/TokenStore';
+import Analytics from '$lib/utils/analytics';
+import {
+	PUBLIC_ANALYTICS_ENABLED,
+	PUBLIC_ANALYTICS_URL,
+	PUBLIC_NBU_LOGGER_URL
+} from '$env/static/public';
 
 const isObjectWithNonEmptyKeys = (obj: Record<string, string | null>) => {
 	try {
@@ -89,6 +95,18 @@ export const load = (async ({ data, url }) => {
 
 	const decodedParams = decodeToObject(urlParams);
 	const urlSource = decodedParams || {};
+
+	if (browser) {
+		Analytics.init({
+			batchSize: 10,
+			baseUrl: '',
+			url: PUBLIC_ANALYTICS_URL,
+			enabled: PUBLIC_ANALYTICS_ENABLED,
+			initialised: true,
+			NBULoggerUrl: PUBLIC_NBU_LOGGER_URL,
+			NBULoggeraccessToken: data.token
+		});
+	}
 
 	const hydrated = browser
 		? hydrateAppVariables(data.sparkHeaders, data.sparkQuery)

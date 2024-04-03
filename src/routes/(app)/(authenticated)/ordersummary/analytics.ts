@@ -3,15 +3,18 @@ import Analytics from '$lib/utils/analytics';
 export const orderScreenOpenAnalytics = (
 	eventMetaData: Record<string, string | number | boolean | null | undefined> | null | undefined
 ) => {
-	Analytics.logAnalyticEvent({
-		screen_name: 's-orderSummary',
-		event_type: 'impression',
-		event_sub_type: 'card',
-		event_name: 's-investordersummary',
-		event_property: null,
-		event_id: '310.0.0.1.21',
-		event_metadata: eventMetaData
-	});
+	Analytics.logAnalyticEvent(
+		{
+			screen_name: 's-orderSummary',
+			event_type: 'impression',
+			event_sub_type: 'card',
+			event_name: 's-investordersummary',
+			event_property: null,
+			event_id: '310.0.0.1.21',
+			event_metadata: eventMetaData
+		},
+		true
+	);
 };
 
 export const goToDashboardButtonAnalytics = (

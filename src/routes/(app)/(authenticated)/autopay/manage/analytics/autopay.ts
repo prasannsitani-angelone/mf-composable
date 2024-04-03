@@ -85,15 +85,18 @@ export const proceedToAutoPayCreationAnalytics = (eventMetaData) => {
 };
 
 export const autopayRegisteredImpressionAnalytics = (eventMetaData) => {
-	Analytics.logAnalyticEvent({
-		screen_name: 'bs-AutopayRegistered',
-		event_type: 'impression',
-		event_sub_type: 'screen',
-		event_name: 'AutopayRegistered',
-		event_property: null,
-		event_id: '309.0.0.1.47',
-		event_metadata: eventMetaData
-	});
+	Analytics.logAnalyticEvent(
+		{
+			screen_name: 'bs-AutopayRegistered',
+			event_type: 'impression',
+			event_sub_type: 'screen',
+			event_name: 'AutopayRegistered',
+			event_property: null,
+			event_id: '309.0.0.1.47',
+			event_metadata: eventMetaData
+		},
+		true
+	);
 };
 
 export const doneClickAfterAutopayRegisteredAnalytics = () => {

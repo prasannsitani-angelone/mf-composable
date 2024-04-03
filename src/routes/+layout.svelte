@@ -1,10 +1,5 @@
 <script lang="ts">
-	import {
-		PUBLIC_LOG_LEVEL,
-		PUBLIC_LOG_ENABLED,
-		PUBLIC_ENV_NAME,
-		PUBLIC_NBU_LOGGER_URL
-	} from '$env/static/public';
+	import { PUBLIC_LOG_LEVEL, PUBLIC_LOG_ENABLED, PUBLIC_ENV_NAME } from '$env/static/public';
 	import { pwaInfo } from 'virtual:pwa-info';
 	import Logger from '$lib/utils/logger';
 	import { onMount } from 'svelte';
@@ -18,7 +13,6 @@
 	import { appStore } from '$lib/stores/SparkStore';
 	import { appBackground, appForeground, appMount } from '$lib/analytics/AppMounted';
 	import { deviceStore } from '$lib/stores/DeviceStore';
-	import { PUBLIC_ANALYTICS_ENABLED, PUBLIC_ANALYTICS_URL } from '$env/static/public';
 	import { BrowserSupportDefault, isBrowserSupported } from '$lib/utils/helpers/browserSupport';
 	import LazyComponent from '$components/LazyComponent.svelte';
 	import { hydratedStore } from '$lib/stores/AppHydratedStore';
@@ -125,15 +119,6 @@
 		appStore.updateStore({ ...sparkHeaders });
 		deviceStore.updateStore({ ...deviceType });
 		urlStore.updateStore({ urlSource });
-		Analytics.init({
-			batchSize: 10,
-			baseUrl: '',
-			url: PUBLIC_ANALYTICS_URL,
-			enabled: PUBLIC_ANALYTICS_ENABLED,
-			initialised: true,
-			NBULoggerUrl: PUBLIC_NBU_LOGGER_URL,
-			NBULoggeraccessToken: token
-		});
 
 		// connection details
 		const connectionDetails = {

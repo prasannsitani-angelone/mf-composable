@@ -17,6 +17,7 @@
 	} from './PendingActionCenter/analytics';
 	import { registerNativeClosePopUpWindowCallback } from '$lib/utils/nativeCallbacks';
 	import { notifyPopupWindowChange } from '$lib/utils/callNativeMethod';
+	import { bottomTabStore } from '$lib/stores/BottomTabStore';
 
 	export let navs: IBottomNavItem[];
 
@@ -152,6 +153,7 @@
 	};
 
 	const handleBottomNavClick = (label: string) => {
+		bottomTabStore.bottomTabClicked();
 		bottomNavClickAnalytics(label);
 		setActionCenterData();
 	};
