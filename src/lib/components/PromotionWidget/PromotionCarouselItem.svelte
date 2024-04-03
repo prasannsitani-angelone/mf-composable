@@ -55,7 +55,7 @@
 								/>
 							</div>
 							<div class="flex-0.7">
-								<h3 class="ml-3 line-clamp-2 text-sm text-sm font-medium text-title">
+								<h3 class="line-clamp-2 text-sm text-sm font-medium text-title">
 									{scheme.schemeName}
 								</h3>
 							</div>
