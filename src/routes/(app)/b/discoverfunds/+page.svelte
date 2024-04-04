@@ -54,7 +54,7 @@
 	import { schemeScreenerStore } from '$lib/stores/SchemeScreenerStore';
 	import TutorialNudge from '$components/Tutorial/nudge/TutorialNudge.svelte';
 	import type { UserEducationNudgeType } from '$lib/types/INudge';
-	import type { INotification, INotificationSummary, Notif } from '$lib/types/INotifications';
+	import type { INotification, Notif } from '$lib/types/INotifications';
 	import { base } from '$app/paths';
 	import BuyPortfolio from '../../discoverfunds/BuyPortfolio/BuyPortfolio.svelte';
 	import { AUTH_STATE_ENUM, tokenStore } from '$lib/stores/TokenStore';
@@ -105,7 +105,6 @@
 	let start4SipsNudgeData: Start4SipsNudgeType;
 	let ecasImportNudgeData: EcasImportNudgeType;
 	let userEducationNudge: UserEducationNudgeType;
-	let notifData: INotificationSummary;
 	let autopayNudge: INudge | null;
 	let actionsData:
 		| INotification
@@ -149,22 +148,6 @@
 			return nudgesData;
 		}
 		return nudgesData;
-	};
-	const getAllNotificationsData = async () => {
-		notifData = {
-			summary: [],
-			totalCount: 0
-		};
-		if (!$page.data.isGuest) {
-			const url = `${PUBLIC_MF_CORE_BASE_URL}/notifications?summary=true`;
-			const res = await useFetch(url, {}, fetch);
-			if (res.ok) {
-				notifData = res?.data?.data;
-				return notifData;
-			}
-			return notifData;
-		}
-		return notifData;
 	};
 
 	const setSipNudgesData = (nudgeData: NudgeDataType) => {
@@ -391,10 +374,6 @@
 	};
 
 	const setNotificationData = () => {
-		getAllNotificationsData().then((data) => {
-			notifData = data;
-		});
-
 		if (!$page.data.isGuest) {
 			getPendingActionsData().then((data) => {
 				actionsData = data;

@@ -7,6 +7,7 @@
 	import { handleBannerImpressionAnalytics, handleCarouselSliderAnalytics } from './analytics';
 	import { onMount } from 'svelte';
 	import { getEventMetaData } from './utils';
+	import viewport from '$lib/utils/useViewPortAction';
 
 	let carouselInActive = false;
 
@@ -20,7 +21,7 @@
 		: 'sm:!w-[calc(100vw/2.3)] lg:!w-[calc(100vw/3.6)]  xl:!w-[calc(100vw)] 2xl:!w-[calc(100vw/5.7)]';
 
 	const handleCardVisible = (event: CustomEvent) => {
-		const index = event.detail.index;
+		const index = event.detail?.index || 0;
 		const currentScheme = data.schemes?.[index];
 		const metaData = getEventMetaData(index, data.header.title, currentScheme);
 		handleCarouselSliderAnalytics(metaData);
@@ -34,6 +35,8 @@
 <section
 	class="relative mt-2 max-w-4xl rounded-lg bg-background-alt px-2 py-3 shadow-csm {$$props.class}"
 	data-testid="promotion-banner-{id}"
+	use:viewport
+	on:enterViewport={handleCardVisible}
 >
 	<img
 		src={!deviceType?.isMobile ? data?.header?.webBgBannerUrl : data?.header?.mobileBgBannerUrl}

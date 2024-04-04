@@ -51,7 +51,7 @@
 	import Clevertap from '$lib/utils/Clevertap';
 	import { schemeScreenerStore } from '$lib/stores/SchemeScreenerStore';
 	import TutorialNudge from '$components/Tutorial/nudge/TutorialNudge.svelte';
-	import type { INotification, INotificationSummary, Notif } from '$lib/types/INotifications';
+	import type { INotification, Notif } from '$lib/types/INotifications';
 	import { base } from '$app/paths';
 	import BuyPortfolio from './BuyPortfolio/BuyPortfolio.svelte';
 	import AskAngel from './AskAngel.svelte';
@@ -108,7 +108,6 @@
 	let intersectOnce: boolean;
 	let screenerIntersect: boolean;
 	let sipCalculatorIntersect: boolean;
-	let notifData: INotificationSummary;
 	let actionsData:
 		| INotification
 		| { instalmentFailedOrders: []; paymentFailedOrders: []; instalmentPending: [] };
@@ -144,24 +143,6 @@
 			return nudgesData;
 		}
 		return nudgesData;
-	};
-
-	const getAllNotificationsData = async () => {
-		notifData = {
-			summary: [],
-			totalCount: 0
-		};
-
-		if (!$page.data.isGuest) {
-			const url = `${PUBLIC_MF_CORE_BASE_URL}/notifications?summary=true`;
-			const res = await useFetch(url, {}, fetch);
-			if (res.ok) {
-				notifData = res?.data?.data;
-				return notifData;
-			}
-			return notifData;
-		}
-		return notifData;
 	};
 
 	const setSipNudgesData = (nudgeData: NudgeDataType) => {
@@ -376,10 +357,6 @@
 	};
 
 	const setNotificationData = () => {
-		getAllNotificationsData().then((data) => {
-			notifData = data;
-		});
-
 		if (!$page.data.isGuest) {
 			getPendingActionsData().then((data) => {
 				actionsData = data;
