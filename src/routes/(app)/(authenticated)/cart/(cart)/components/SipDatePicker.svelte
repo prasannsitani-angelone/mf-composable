@@ -1,16 +1,18 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import Button from '$components/Button.svelte';
 	import CalendarComponent from '$components/Calendar/CalendarComponent.svelte';
 	import Modal from '$components/Modal.svelte';
-	import NextSipDate from '$components/Calendar/NextSipDate.svelte';
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
-	import type { dateArrayTypes } from '$lib/types/Calendar/ICalendar';
+	import type { dateArrayTypes, instalmentDate } from '$lib/types/Calendar/ICalendar';
 	import {
 		getDateSuperscript,
+		getInstalmentDateDetailsFtp,
 		getSIPMonthBasedOnDate,
 		getSIPYearBasedOnDate
 	} from '$lib/utils/helpers/date';
 	import type { CartEntity } from '$lib/types/ICartStore';
+	import InstalmentDates from '$components/Calendar/InstalmentDates.svelte';
 
 	export let cartItem: CartEntity;
 	export let hasInputUpdated = false;
@@ -26,6 +28,8 @@
 	let firstSipPayment = true;
 	let dateSuperscript = 'th';
 	let calanderDisplayDate = getDisplayDate(calendarDate);
+	let instalmentDatesDetails: instalmentDate[];
+	let showInstalmentDateBufferRemark = false;
 
 	let sipAllowedDaysArray = cartItem?.sipAllowedDays?.length
 		? cartItem?.sipAllowedDays?.trim()?.split(',') || []
@@ -35,11 +39,15 @@
 
 	const nextSipDateBufferDaysWithFtp = 30;
 	const nextSipDateBufferDaysWithoutFtp = 10;
+	const calendarDaysInMonth = 31;
+
+	$: isMobile = $page?.data?.deviceType?.isMobile;
+	$: isTablet = $page?.data?.deviceType?.isTablet;
 
 	$: {
 		dateArray.pop();
 
-		for (let i = 1; i <= 28; i++) {
+		for (let i = 1; i <= calendarDaysInMonth; i++) {
 			dateArray.push({
 				value: i,
 				disabled:
@@ -50,8 +58,48 @@
 		}
 	}
 
+	const setShowInstalmentDateBufferRemark = (currentDate: Date, todayMonthNumber: number) => {
+		const nextSipMonthNumber = getSIPMonthBasedOnDate(
+			tempCalendarDate,
+			currentDate,
+			firstSipPayment ? nextSipDateBufferDaysWithFtp : nextSipDateBufferDaysWithoutFtp
+		);
+
+		if (nextSipMonthNumber - todayMonthNumber > 1) {
+			showInstalmentDateBufferRemark = true;
+		} else {
+			showInstalmentDateBufferRemark = false;
+		}
+	};
+
+	const setInstalmentDates = () => {
+		instalmentDatesDetails = [];
+
+		if (firstSipPayment) {
+			instalmentDatesDetails = getInstalmentDateDetailsFtp(
+				tempCalendarDate,
+				tempCalendarMonth,
+				tempCalendarYear
+			);
+
+			const currentDate = new Date();
+			const todayMonthNumber: string | number = currentDate?.getMonth() + 1;
+			setShowInstalmentDateBufferRemark(currentDate, todayMonthNumber);
+		} else {
+			instalmentDatesDetails?.push({
+				title: 'First Instalment',
+				date: `${tempCalendarDate} ${tempCalendarMonth} ${tempCalendarYear}`
+			});
+
+			showInstalmentDateBufferRemark = false;
+		}
+	};
+
 	function toggleCalendar() {
 		showCalendar = !showCalendar;
+
+		handleDateSelect({ detail: cartItem.sipDay });
+		setInstalmentDates();
 	}
 
 	const handleDateSelect = (value: unknown) => {
@@ -72,6 +120,8 @@
 			now,
 			firstSipPayment ? nextSipDateBufferDaysWithFtp : nextSipDateBufferDaysWithoutFtp
 		);
+
+		setInstalmentDates();
 	};
 
 	const handleDateChange = (value: unknown) => {
@@ -107,7 +157,7 @@
 				visible={showCalendar}
 				title={'Select SIP Instalment Date'}
 				heading={'CONFIRM'}
-				showClose={true}
+				showClose={!isMobile && !isTablet}
 				showSubmit={true}
 				{dateArray}
 				defaultValue={calendarDate}
@@ -117,20 +167,10 @@
 				class="z-60 sm:w-120"
 			>
 				<svelte:fragment slot="dateSlot">
-					<NextSipDate
-						calendarDate={tempCalendarDate}
-						calendarMonth={tempCalendarMonth}
-						calendarYear={tempCalendarYear}
+					<InstalmentDates
+						instalmentDateList={instalmentDatesDetails}
+						showRemark={showInstalmentDateBufferRemark}
 					/>
-				</svelte:fragment>
-
-				<svelte:fragment slot="footer">
-					<section class="hidden flex-row justify-center rounded-b-lg bg-gray-50 px-8 py-4 md:flex">
-						<p class="text-center text-sm font-light text-body">
-							It is the day on which the amount payable towards your SIP order becomes due. The day
-							on which SIP instalments are paid is called SIP day.
-						</p>
-					</section>
 				</svelte:fragment>
 			</CalendarComponent>
 		</Modal>

@@ -2,7 +2,7 @@
 	import type { instalmentDate } from '$lib/types/Calendar/ICalendar';
 
 	let instalmentDateList: instalmentDate[];
-	let showRemark: boolean;
+	let showRemark = false;
 
 	export { instalmentDateList, showRemark };
 </script>
@@ -26,7 +26,7 @@
 			{/each}
 		</article>
 		<slot name="instalmentDetailsRemarks">
-			{#if instalmentDateList?.length > 1 && showRemark}
+			{#if instalmentDateList?.length >= 1 && showRemark}
 				<article class="border-t p-3 text-[10px] font-normal text-body">
 					Future instalments start at least 30 days after your first instalment, as per BSE
 					guidelines

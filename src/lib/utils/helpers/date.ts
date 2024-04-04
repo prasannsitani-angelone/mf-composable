@@ -359,3 +359,33 @@ export const getRandomDate = (minDate = 1, maxDate = 5) => {
 	maxDate = Math.floor(maxDate);
 	return Math.floor(Math.random() * (maxDate - minDate + 1) + minDate);
 };
+
+export const getInstalmentDateDetailsFtp = (
+	tempCalendarDate: number,
+	tempCalendarMonth: string,
+	tempCalendarYear: number
+) => {
+	const instalmentDatesDetails = [];
+
+	const currentDate = new Date();
+	const todayDate = currentDate?.getDate();
+	const todayYear = currentDate?.getFullYear();
+	const todayMonthNumber: string | number = currentDate?.getMonth() + 1;
+	const todayMonth = new Date(todayYear, todayMonthNumber, 0)?.toLocaleString('default', {
+		month: 'short'
+	});
+
+	const firstInstalment = {
+		title: 'First Instalment',
+		date: `Today, ${todayDate} ${todayMonth} ${todayYear}`
+	};
+	instalmentDatesDetails?.push(firstInstalment);
+
+	const nextInstalment = {
+		title: 'Next Instalment',
+		date: `${tempCalendarDate} ${tempCalendarMonth} ${tempCalendarYear}`
+	};
+	instalmentDatesDetails?.push(nextInstalment);
+
+	return instalmentDatesDetails;
+};

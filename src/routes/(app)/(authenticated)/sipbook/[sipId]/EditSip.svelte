@@ -19,8 +19,7 @@
 	import Button from '$components/Button.svelte';
 	import Modal from '$components/Modal.svelte';
 	import CalendarComponent from '$components/Calendar/CalendarComponent.svelte';
-	import type { dateArrayTypes } from '$lib/types/Calendar/ICalendar';
-	import NextSipDate from '$components/Calendar/NextSipDate.svelte';
+	import type { dateArrayTypes, instalmentDate } from '$lib/types/Calendar/ICalendar';
 	import ResultPopup from '$components/Popup/ResultPopup.svelte';
 	import STATUS_ARR from '$lib/constants/orderFlowStatuses';
 	import { format } from 'date-fns';
@@ -39,6 +38,7 @@
 	import { page } from '$app/stores';
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import Physical2FAOtpVerificationComponent from '$components/Payment/Physical2FAOtpVerificationComponent.svelte';
+	import InstalmentDates from '$components/Calendar/InstalmentDates.svelte';
 
 	let editSipShowModal: () => void = () => undefined;
 	let nextSipDueDate: number;
@@ -71,6 +71,7 @@
 	let tempCalendarMonth = calendarMonth;
 	let tempCalendarYear = calendarYear;
 	let dateSuperscript = getDateSuperscript(calendarDate);
+	let instalmentDatesDetails: instalmentDate[];
 	let amount = installmentAmount.toFixed(0);
 	let schemeData: SchemeDetails;
 	let errorMessage = '';
@@ -87,6 +88,9 @@
 
 	let showOtpVerificationModal = false;
 	let isOtpVerificationDone = false;
+
+	const calendarDaysInMonth = 31;
+	const nextSipDateBufferDaysWithoutFtp = 10;
 
 	const {
 		isExternal = false,
@@ -134,7 +138,7 @@
 			: [];
 		dateArray.pop();
 
-		for (let i = 1; i <= 28; i++) {
+		for (let i = 1; i <= calendarDaysInMonth; i++) {
 			dateArray.push({
 				value: i,
 				disabled: (sipAllowedDaysArray || []).findIndex((d: string) => parseInt(d) === i) === -1
@@ -217,30 +221,49 @@
 	};
 	const setNextSipDate = () => {
 		const now = new Date();
-		const month = getSIPMonthBasedOnDate(calendarDate, now, 10);
+		const month = getSIPMonthBasedOnDate(calendarDate, now, nextSipDateBufferDaysWithoutFtp);
 		calendarMonth = new Date(now?.getFullYear(), month, 0)?.toLocaleString('default', {
 			month: 'short'
 		});
-		calendarYear = getSIPYearBasedOnDate(calendarDate, now, 10);
+		calendarYear = getSIPYearBasedOnDate(calendarDate, now, nextSipDateBufferDaysWithoutFtp);
 	};
+
+	const setInstalmentDates = () => {
+		instalmentDatesDetails = [];
+
+		const nextInstalment = {
+			title: 'Next Instalment',
+			date: `${tempCalendarDate} ${tempCalendarMonth} ${tempCalendarYear}`
+		};
+		instalmentDatesDetails?.push(nextInstalment);
+	};
+
 	const handleDateSelect = (value: unknown) => {
 		tempCalendarDate = value?.detail;
 
 		const now = new Date();
-		const month = getSIPMonthBasedOnDate(tempCalendarDate, now, 10);
+		const month = getSIPMonthBasedOnDate(tempCalendarDate, now, nextSipDateBufferDaysWithoutFtp);
 		tempCalendarMonth = new Date(now?.getFullYear(), month, 0)?.toLocaleString('default', {
 			month: 'short'
 		});
 
-		tempCalendarYear = getSIPYearBasedOnDate(tempCalendarDate, now, 10);
+		tempCalendarYear = getSIPYearBasedOnDate(
+			tempCalendarDate,
+			now,
+			nextSipDateBufferDaysWithoutFtp
+		);
+
+		setInstalmentDates();
 	};
+
 	const getSIPDate = () => {
-		return getCompleteSIPDateBasedonDD(calendarDate, new Date(), 10);
+		return getCompleteSIPDateBasedonDD(calendarDate, new Date(), nextSipDateBufferDaysWithoutFtp);
 	};
 
 	const getFormattedSIPDate = () => {
 		return format(getSIPDate(), 'yyyy-MM-dd');
 	};
+
 	const toggleCalendar = () => {
 		showCalendar = !showCalendar;
 
@@ -248,6 +271,8 @@
 		tempCalendarMonth = calendarMonth;
 		tempCalendarYear = calendarYear;
 		dateSuperscript = getDateSuperscript(tempCalendarDate);
+
+		setInstalmentDates();
 
 		if (!showCalendar) {
 			handleAmountInputFocus();
@@ -438,7 +463,7 @@
 						visible={showCalendar}
 						title={'Select SIP Instalment Date'}
 						heading={'CONFIRM'}
-						showClose={true}
+						showClose={!isMobile && !isTablet}
 						showSubmit={true}
 						{dateArray}
 						defaultValue={calendarDate}
@@ -448,26 +473,7 @@
 						class="z-60 sm:w-120"
 					>
 						<svelte:fragment slot="dateSlot">
-							<NextSipDate
-								calendarDate={tempCalendarDate}
-								calendarMonth={tempCalendarMonth}
-								calendarYear={tempCalendarYear}
-							>
-								<svelte:fragment slot="content">
-									<span class="font-normal text-body">Next SIP payment will be on</span>
-								</svelte:fragment>
-							</NextSipDate>
-						</svelte:fragment>
-
-						<svelte:fragment slot="footer">
-							<section
-								class="hidden flex-row justify-center rounded-b-lg bg-gray-50 px-8 py-4 md:flex"
-							>
-								<p class="text-center text-sm font-light text-body">
-									It is the day on which the amount payable towards your SIP order becomes due. The
-									day on which SIP instalments are paid is called SIP day.
-								</p>
-							</section>
+							<InstalmentDates instalmentDateList={instalmentDatesDetails} />
 						</svelte:fragment>
 					</CalendarComponent>
 				</Modal>

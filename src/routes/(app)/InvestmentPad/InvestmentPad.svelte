@@ -17,6 +17,7 @@
 		getCompleteSIPDateBasedonDD,
 		getDateSuperscript,
 		getDateTimeProperties,
+		getInstalmentDateDetailsFtp,
 		getRandomDate,
 		getSIPMonthBasedOnDate,
 		getSIPYearBasedOnDate
@@ -1028,26 +1029,14 @@
 		instalmentDatesDetails = [];
 
 		if (firstSipPayment) {
+			instalmentDatesDetails = getInstalmentDateDetailsFtp(
+				tempCalendarDate,
+				tempCalendarMonth,
+				tempCalendarYear
+			);
+
 			const currentDate = new Date();
-			const todayDate = currentDate?.getDate();
-			const todayYear = currentDate?.getFullYear();
 			const todayMonthNumber: string | number = currentDate?.getMonth() + 1;
-			const todayMonth = new Date(todayYear, todayMonthNumber, 0)?.toLocaleString('default', {
-				month: 'short'
-			});
-
-			let firstInstalment = {
-				title: 'First Instalment',
-				date: `Today, ${todayDate} ${todayMonth} ${todayYear}`
-			};
-			instalmentDatesDetails?.push(firstInstalment);
-
-			let nextInstalment = {
-				title: 'Next Instalment',
-				date: `${tempCalendarDate} ${tempCalendarMonth} ${tempCalendarYear}`
-			};
-			instalmentDatesDetails?.push(nextInstalment);
-
 			setShowInstalmentDateBufferRemark(currentDate, todayMonthNumber);
 		} else {
 			instalmentDatesDetails?.push({

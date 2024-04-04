@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import PortfolioAllocation from './PortfolioAllocation.svelte';
 	import type { PortfolioPack } from '$lib/types/IBuyPortfolio';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
@@ -7,8 +8,14 @@
 	import AmountSection from '$components/AmountInputOrderpad/AmountSection.svelte';
 	import CalendarSmallIcon from '$lib/images/icons/CalendarSmallIcon.svelte';
 	import CalendarComponent from '$components/Calendar/CalendarComponent.svelte';
-	import type { dateArrayTypes } from '$lib/types/Calendar/ICalendar';
-	import { getDateSuperscript } from '$lib/utils/helpers/date';
+	import InstalmentDates from '$components/Calendar/InstalmentDates.svelte';
+	import type { dateArrayTypes, instalmentDate } from '$lib/types/Calendar/ICalendar';
+	import {
+		getDateSuperscript,
+		getInstalmentDateDetailsFtp,
+		getSIPMonthBasedOnDate,
+		getSIPYearBasedOnDate
+	} from '$lib/utils/helpers/date';
 	import PaymentFlow from './PaymentFlow.svelte';
 	import OrderpadReturns from '../../../../InvestmentPad/OrderPadComponents/OrderpadReturns.svelte';
 	import TncModal from '$components/TnC/TncModal.svelte';
@@ -32,6 +39,9 @@
 
 	const dispatch = createEventDispatcher();
 	const quickInputs = [1500, 2000, 5000];
+	const calendarDaysInMonth = 31;
+	const nextSipDateBufferDaysWithFtp = 30;
+
 	let showAmount = true;
 	let maxAmounts: number[] = [];
 	let sipMaxAmount = 0;
@@ -39,9 +49,21 @@
 
 	let showTncModal = false;
 	let dateArray: Array<dateArrayTypes> = [{ value: 1, disabled: false }];
+	let calendarDate = sipStartDate;
+	let calendarMonth = new Date()?.toLocaleString('default', { month: 'short' });
+	let calendarYear = new Date()?.getFullYear();
+	let tempCalendarDate = calendarDate;
+	let tempCalendarMonth = calendarMonth;
+	let tempCalendarYear = calendarYear;
+	let instalmentDatesDetails: instalmentDate[];
+	let showInstalmentDateBufferRemark = false;
+
+	$: isMobile = $page?.data?.deviceType?.isMobile;
+	$: isTablet = $page?.data?.deviceType?.isTablet;
+
 	$: {
 		dateArray.pop();
-		for (let i = 1; i <= 28; i++) {
+		for (let i = 1; i <= calendarDaysInMonth; i++) {
 			dateArray.push({
 				value: i,
 				disabled: false
@@ -82,14 +104,60 @@
 		amount = pillAmount;
 		popularAmountClick({ amount: pillAmount });
 	};
+
+	const setShowInstalmentDateBufferRemark = (currentDate: Date, todayMonthNumber: number) => {
+		const nextSipMonthNumber = getSIPMonthBasedOnDate(
+			tempCalendarDate,
+			currentDate,
+			nextSipDateBufferDaysWithFtp
+		);
+
+		if (nextSipMonthNumber - todayMonthNumber > 1) {
+			showInstalmentDateBufferRemark = true;
+		} else {
+			showInstalmentDateBufferRemark = false;
+		}
+	};
+
+	const setInstalmentDates = () => {
+		instalmentDatesDetails = getInstalmentDateDetailsFtp(
+			tempCalendarDate,
+			tempCalendarMonth,
+			tempCalendarYear
+		);
+
+		const currentDate = new Date();
+		const todayMonthNumber: string | number = currentDate?.getMonth() + 1;
+		setShowInstalmentDateBufferRemark(currentDate, todayMonthNumber);
+	};
+
 	const toggleCalendar = () => {
 		showCalendar = !showCalendar;
+
+		handleDateSelect({ detail: sipStartDate });
+		setInstalmentDates();
 	};
+
 	const handleDateChange = (value: unknown) => {
 		sipStartDate = value?.detail;
 		toggleCalendar();
 		sipDateClick({ DayOfMonth: sipStartDate });
 	};
+
+	const handleDateSelect = (value: unknown) => {
+		tempCalendarDate = value?.detail;
+
+		const now = new Date();
+		const month = getSIPMonthBasedOnDate(tempCalendarDate, now, nextSipDateBufferDaysWithFtp);
+		tempCalendarMonth = new Date(now?.getFullYear(), month, 0)?.toLocaleString('default', {
+			month: 'short'
+		});
+
+		tempCalendarYear = getSIPYearBasedOnDate(tempCalendarDate, now, nextSipDateBufferDaysWithFtp);
+
+		setInstalmentDates();
+	};
+
 	const toggleTncModal = () => {
 		showTncModal = !showTncModal;
 	};
@@ -108,6 +176,8 @@
 		};
 		portfolioClicked(eventMetaData);
 	}
+
+	handleDateSelect({ detail: sipStartDate });
 </script>
 
 <section
@@ -205,20 +275,25 @@
 {#if showCalendar}
 	<ModalWithAnimation isModalOpen={showCalendar} on:backdropclicked={toggleCalendar}>
 		<CalendarComponent
-			classes={{
-				title: 'uppercase mr-auto'
-			}}
 			visible={showCalendar}
 			title={'Select SIP Instalment Date'}
 			heading={'CONFIRM'}
-			showClose={false}
+			showClose={!isMobile && !isTablet}
 			showSubmit={true}
 			{dateArray}
 			defaultValue={sipStartDate}
 			on:submit={handleDateChange}
+			on:dateSelect={handleDateSelect}
 			on:close={toggleCalendar}
 			class="z-60 sm:w-120"
-		/>
+		>
+			<svelte:fragment slot="dateSlot">
+				<InstalmentDates
+					instalmentDateList={instalmentDatesDetails}
+					showRemark={showInstalmentDateBufferRemark}
+				/>
+			</svelte:fragment>
+		</CalendarComponent>
 	</ModalWithAnimation>
 {/if}
 
