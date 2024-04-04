@@ -43,7 +43,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div on:click={gotoSchemeDetails} class={`flex cursor-pointer flex-col ${clazz}`}>
-	<div class="mb-1 flex flex-row items-start px-2 {topSectionClass}">
+	<div class="mb-2 flex flex-row items-start px-2 {topSectionClass}">
 		<slot name="topLeftSection">
 			<SchemeLogo
 				src={schemes?.logoUrl}
@@ -72,12 +72,12 @@
 	<div class="flex flex-col border-t">
 		<slot name="details">
 			<div
-				class="relative mt-2 w-full overflow-hidden px-1 {schemes?.noOfClientInvested
+				class="relative w-full overflow-hidden px-1 py-3 {schemes?.noOfClientInvested
 					? ''
 					: 'rounded-b'}"
 			>
 				<div
-					class="grid grid-cols-2 flex-row justify-between rounded-t-lg px-2 opacity-[.99] {detailsClass}"
+					class="grid grid-cols-2 flex-row justify-between divide-x rounded-t-lg px-2 opacity-[.99] {detailsClass}"
 				>
 					<slot name="detailsLeft">
 						<div class="flex flex-col items-start">
@@ -96,7 +96,7 @@
 									<span
 										class="text-sm font-medium {schemes?.returns3yr > 0
 											? 'text-buy'
-											: 'text-title'}">{schemes?.returns3yr?.toFixed(2)}%</span
+											: 'text-title'}">{schemes?.returns3yr?.toFixed(2)}% p.a</span
 									>
 								</p>
 							</div>
@@ -107,7 +107,7 @@
 		</slot>
 		<slot name="detailsFooter">
 			{#if schemes?.noOfClientInvested}
-				<div class="flex flex-row items-center rounded-b px-3 py-2 {footerClass}">
+				<div class="flex flex-row items-center rounded-b bg-tint12-primary px-3 py-2 {footerClass}">
 					<slot name="detailsFooterIcon">
 						<WMSIcon
 							fill="var(--BODY)"
@@ -121,10 +121,8 @@
 					</slot>
 
 					<slot name="detailsFooterDescription">
-						<p class="text-xs text-body">
-							<span class=" font-medium">
-								{addCommasToAmountString(schemes?.noOfClientInvested)}
-							</span>
+						<p class="text-xs font-normal text-body">
+							{addCommasToAmountString(schemes?.noOfClientInvested)}
 							people invested in this fund
 						</p>
 					</slot>
