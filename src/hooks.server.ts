@@ -11,7 +11,7 @@ import { sequence } from '@sveltejs/kit/hooks';
 import { handleDeviecDetector } from 'sveltekit-device-detector';
 
 import { PRIVATE_MF_CORE_BASE_URL, PRIVATE_MF_CORE_BASE_URL_V2 } from '$env/static/private';
-import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
+import { PUBLIC_MF_CORE_BASE_URL, PUBLIC_PROMOTION_BANNER_ASSETS_URL } from '$env/static/public';
 import { dev } from '$app/environment';
 import { getHoldingSummary } from '$lib/api/holdings';
 import type { InvestmentSummary } from '$lib/types/IInvestments';
@@ -60,8 +60,8 @@ const addPreloadLinkHeaders = (linkHeader = '', url: string) => {
 			// `<https://cdn.angelone.in/mutualfunds/smallThumbnails/thumbnail5c1.png>;rel="preload";as="image";nopush`,
 			// IPL banner image links (reduce LCP)
 			// TODO: add logic for dynamic entry
-			`<https://dm11ybwptwy0u.cloudfront.net/promotion/orange_cap.svg>;rel="preload";as="image";nopush`,
-			`<https://dm11ybwptwy0u.cloudfront.net/promotion/card_bg_banner.webp>;rel="preload";as="image";nopush`
+			`<${PUBLIC_PROMOTION_BANNER_ASSETS_URL}/promotion/orange_cap.svg>;rel="preload";as="image";nopush`,
+			`<${PUBLIC_PROMOTION_BANNER_ASSETS_URL}/promotion/card_bg_banner.webp>;rel="preload";as="image";nopush`
 		);
 	}
 
