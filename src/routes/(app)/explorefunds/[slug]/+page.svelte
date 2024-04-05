@@ -1,5 +1,6 @@
 <script>
 	import { base } from '$app/paths';
+	import { modifiedGoto } from '$lib/utils/goto';
 	import { getQueryParamsObj } from '$lib/utils/helpers/params';
 	import { onMount } from 'svelte';
 
@@ -8,7 +9,7 @@
 	onMount(() => {
 		const queryParamsObj = getQueryParamsObj();
 		const { id = defaultFundId } = queryParamsObj;
-		const redirectUrl = `${window.location.origin}${base}/categories?id=${id}`;
-		window.location.replace(redirectUrl);
+		const replaceState = true;
+		modifiedGoto(`${base}/categories?id=${id}`, { replaceState });
 	});
 </script>
