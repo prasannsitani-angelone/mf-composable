@@ -35,6 +35,7 @@
 	import type { INudge, UserEducationNudgeType } from '$lib/types/INudge';
 	import MostBought from '$components/MostBought/MostBought.svelte';
 	import { SIP_TYPE } from '$lib/constants/sip';
+	import NudgeStore from '$lib/stores/NudgeStore';
 
 	const sipUrl = `${PUBLIC_MF_CORE_BASE_URL_V2}/sips`;
 	let showInactiveSipsCta = false;
@@ -49,6 +50,7 @@
 	let automatedSipsCount = 0;
 	let userEducationNudge: UserEducationNudgeType;
 	let sipHealthScore = 0;
+	let nudgeSubscription;
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 
@@ -96,13 +98,12 @@
 	};
 
 	const getNudges = async () => {
-		return await useFetch(`${PUBLIC_MF_CORE_BASE_URL}/nudges`)
-			.then((res) => res.data)
-			.then(({ nudges }) => {
-				nudgeData = nudges;
-				setSipCardNudges();
-				setOtherNudgeDataTypes(nudgeData);
-			});
+		await NudgeStore.fetchNewNudges($page.data?.isGuest);
+		nudgeSubscription = NudgeStore.subscribe((nudgeDataResponse) => {
+			nudgeData = nudgeDataResponse.nudges;
+			setSipCardNudges();
+			setOtherNudgeDataTypes(nudgeData);
+		});
 	};
 
 	const setSipCardNudges = () => {

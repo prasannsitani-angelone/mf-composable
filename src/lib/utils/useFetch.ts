@@ -11,6 +11,7 @@ import { removeAuthHeaders } from './helpers/logging';
 import { callNativeMethod, checkNativeMethodExist } from './callNativeMethod';
 import { isTokenUpdated, setUserTokenInCookie } from './helpers/token';
 import { base } from '$app/paths';
+import NotificationsStore from '$lib/stores/NotificationStore';
 
 let refreshingToken = false;
 
@@ -204,6 +205,11 @@ export const useFetch = async (
 				type: 'Network Response Error',
 				params
 			});
+		}
+
+		// fetch new notifications in case of transaction (skip events call) and update in store
+		if (opts.method !== 'GET' && url.indexOf('/events') === -1) {
+			NotificationsStore.fetchNewNotifications();
 		}
 		return !isNonJsonFetch ? { ok: res.ok, status: res.status, data } : res;
 	} catch (e) {

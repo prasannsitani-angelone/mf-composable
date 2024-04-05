@@ -107,6 +107,7 @@
 				fixedWidth={true}
 				slidesPerView={1}
 				id={`${pageSource}-${cardType}`}
+				chevronClass={!isMobile ? 'mt-4' : ''}
 			>
 				{#each sipList || [] as sip, index}
 					<CarouselItem
@@ -131,7 +132,11 @@
 								<slot name="schemeDetails">
 									<article class="mr-2 flex items-center">
 										<SchemeLogo size="xs" src={sip?.logoUrl} alt="logo" />
-										<div class="max-h-10 overflow-y-clip text-sm font-normal text-title">
+										<div
+											class="max-h-10 overflow-y-clip text-sm font-normal text-title {!isMobile
+												? 'text-left'
+												: ''}"
+										>
 											{sip?.schemeName}
 										</div>
 									</article>

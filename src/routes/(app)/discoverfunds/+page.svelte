@@ -39,8 +39,6 @@
 	import { SEO, WMSIcon } from 'svelte-components';
 	import { PLATFORM_TYPE } from '$lib/constants/platform';
 	import { onDestroy, onMount, tick } from 'svelte';
-	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
-	import { useFetch } from '$lib/utils/useFetch';
 	import LazyComponent from '$components/LazyComponent.svelte';
 	import MostBought from '$components/MostBought/MostBought.svelte';
 	import QuickEntryPointsComponent from './QuickEntryPoints/QuickEntryPointsComponent.svelte';
@@ -76,7 +74,6 @@
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { SIP_ORDER_CARD_TYPES } from '$lib/constants/actions';
-	import { getPendingActionsData } from '$lib/api/actions';
 	import { getDateTimeString } from '$lib/utils/helpers/date';
 	import { getStoriesData } from '$lib/api/media';
 	import StoriesSkeletonLoader from '$components/Stories/StoriesSkeletonLoader.svelte';
@@ -86,6 +83,8 @@
 		removeNativeLifeCycleCallback
 	} from '$lib/utils/nativeLifeCycleCallbacks';
 	import PromotionWidget from '$lib/components/PromotionWidget/PromotionWidget.svelte';
+	import NotificationsStore from '$lib/stores/NotificationStore';
+	import NudgeStore from '$lib/stores/NudgeStore';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -127,23 +126,6 @@
 			? $page.data?.cohortConfig?.LF
 			: cohorts_LF.Fallback.placementMapping;
 	}
-
-	const getNudgeData = async () => {
-		let nudgesData: NudgeDataType = {
-			nudges: []
-		};
-
-		if (!$page.data.isGuest) {
-			const url = `${PUBLIC_MF_CORE_BASE_URL}/nudges`;
-			const res = await useFetch(url, {}, fetch);
-			if (res.ok) {
-				nudgesData = res?.data;
-				return nudgesData;
-			}
-			return nudgesData;
-		}
-		return nudgesData;
-	};
 
 	const setSipNudgesData = (nudgeData: NudgeDataType) => {
 		sipPaymentNudges = [];
@@ -347,7 +329,7 @@
 	};
 
 	const setAllNudgesData = () => {
-		getNudgeData().then((nudgeData) => {
+		NudgeStore.subscribe((nudgeData) => {
 			setNudgeData(nudgeData);
 			setSipNudgesData(nudgeData);
 			setSipPaymentMonthNudgeData(nudgeData);
@@ -358,8 +340,8 @@
 
 	const setNotificationData = () => {
 		if (!$page.data.isGuest) {
-			getPendingActionsData().then((data) => {
-				actionsData = data;
+			NotificationsStore.subscribe((notif) => {
+				actionsData = notif;
 			});
 		}
 	};
@@ -422,7 +404,9 @@
 	export let data: PageData;
 
 	const onVisibilityChange = () => {
+		NudgeStore.fetchNewNudges(isGuest);
 		setAllNudgesData();
+		NotificationsStore.fetchNewNotifications();
 		setNotificationData();
 		schemeScreenerStore?.reinitializeStore();
 		cartStore.updateCartData(isGuest);

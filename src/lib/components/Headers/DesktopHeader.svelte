@@ -14,6 +14,7 @@
 	import { cartStore } from '$lib/stores/CartStore';
 	import { encodeObject } from '$lib/utils/helpers/params';
 	import { allFaqsProfileCtaClick } from '$lib/analytics/faqs/faqs';
+	import PendingActionCenter from '$components/PendingActionCenter/PendingActionCenter.svelte';
 
 	const onReportsButtonClick = () => {
 		userActionStore.hideUserActionDropDown();
@@ -152,6 +153,9 @@
 				on:searchFocus={handleSearchFocusEvent}
 			/>
 			<!-- <SearchComponent  /> -->
+		</div>
+		<div class="cursor-pointer">
+			<PendingActionCenter />
 		</div>
 		<Link
 			to="/cart"

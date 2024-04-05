@@ -33,6 +33,8 @@
 	import { cubicOut } from 'svelte/easing';
 	import { fly } from 'svelte/transition';
 	import { browser } from '$app/environment';
+	import NotificationsStore from '$lib/stores/NotificationStore';
+	import NudgeStore from '$lib/stores/NudgeStore';
 	import { bottomTabStore } from '$lib/stores/BottomTabStore';
 
 	$: pageMetaData = $page?.data?.layoutConfig;
@@ -71,6 +73,7 @@
 		// The popstate event is fired each time when the current history entry changes.
 		isBack = true;
 	};
+
 	onMount(async () => {
 		if (versionViaQuery) {
 			versionStore.setVersion(versionViaQuery);
@@ -80,6 +83,9 @@
 		});
 		profileStore.updateStore({ ...profile });
 		bannerStore.storeAlertSleeveData(searchDashboardData?.banner?.[0] || {});
+
+		NotificationsStore.fetchNewNotifications();
+		NudgeStore.fetchNewNudges(isGuest);
 
 		await tick();
 

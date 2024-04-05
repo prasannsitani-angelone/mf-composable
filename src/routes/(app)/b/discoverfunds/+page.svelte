@@ -91,6 +91,8 @@
 		removeNativeLifeCycleCallback
 	} from '$lib/utils/nativeLifeCycleCallbacks';
 	import PromotionWidget from '$lib/components/PromotionWidget/PromotionWidget.svelte';
+	import NudgeStore from '$lib/stores/NudgeStore';
+	import NotificationStore from '$lib/stores/NotificationStore';
 
 	$: isLoggedInUser = !data?.isGuest;
 	$: deviceType = $page.data.deviceType;
@@ -132,23 +134,6 @@
 
 	let formattedRetryPaymentNudgeData: IRetryPaymentNudge;
 	let storiesLoaded = false;
-
-	const getNudgeData = async () => {
-		let nudgesData: NudgeDataType = {
-			nudges: []
-		};
-
-		if (!$page.data.isGuest) {
-			const url = `${PUBLIC_MF_CORE_BASE_URL}/nudges`;
-			const res = await useFetch(url, {}, fetch);
-			if (res.ok) {
-				nudgesData = res?.data;
-				return nudgesData;
-			}
-			return nudgesData;
-		}
-		return nudgesData;
-	};
 
 	const setSipNudgesData = (nudgeData: NudgeDataType) => {
 		sipPaymentNudges = [];
@@ -364,7 +349,7 @@
 	};
 
 	const setAllNudgesData = () => {
-		getNudgeData().then((nudgeData) => {
+		NudgeStore.subscribe((nudgeData) => {
 			setNudgeData(nudgeData);
 			setSipNudgesData(nudgeData);
 			setSipPaymentMonthNudgeData(nudgeData);
@@ -445,7 +430,9 @@
 	export let data: PageData;
 
 	const onVisibilityChange = () => {
+		NudgeStore.fetchNewNudges(isGuest);
 		setAllNudgesData();
+		NotificationStore.fetchNewNotifications();
 		setNotificationData();
 		schemeScreenerStore?.reinitializeStore();
 		cartStore.updateCartData(isGuest);

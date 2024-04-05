@@ -11,14 +11,15 @@
 		pendingActionsCtaClickedAnalytics,
 		pendingActionsExpandImpressionAnalytics
 	} from './analytics';
+	import { page } from '$app/stores';
 
 	const dispatch = createEventDispatcher();
+	const noPendingItemsText = 'Great job! You are keeping your investments in good shape';
+
 	export let pendingActionsData: INotification;
 	export let autopayNudge: INudge | null;
 	export let nudgeDataLoading = false;
 	export let autopayDataLoading = false;
-
-	const noPendingItemsText = 'Great job! You are keeping your investments in good shape';
 
 	$: isNoPendingActions =
 		(pendingActionsData?.instalmentFailedOrders?.length ||
@@ -32,6 +33,8 @@
 		(pendingActionsData?.instalmentPending?.length ? 1 : 0) +
 		(pendingActionsData?.paymentFailedOrders?.length ? 1 : 0) +
 		(autopayNudge?.data?.sipCount || false ? 1 : 0);
+
+	$: deviceType = $page.data.deviceType;
 
 	const backdropClick = () => {
 		dispatch('backdropClick');
@@ -92,7 +95,7 @@
 		</div>
 	</svelte:fragment>
 	<div
-		class="sm:flex-column !static w-screen items-stretch rounded-b-none rounded-t-2xl bg-background sm:min-h-[460px] sm:w-120 sm:justify-center sm:rounded-lg sm:px-14 sm:py-[72px]"
+		class="sm:flex-column relative w-screen items-stretch rounded-b-none rounded-t-2xl bg-background sm:w-120 sm:justify-center sm:rounded-lg"
 	>
 		{#if autopayDataLoading || nudgeDataLoading}
 			<h2 class="mb-2 pb-2 pt-6 text-center text-base font-medium text-title">Pending Actions</h2>
@@ -106,7 +109,23 @@
 				</p>
 			</div>
 		{:else}
-			<h2 class="mb-2 pb-2 pt-6 text-center text-base font-medium text-title">Pending Actions</h2>
+			<h2
+				class="mb-2 pb-2 pt-6 text-base font-medium text-title {deviceType?.isMobile
+					? 'text-center'
+					: 'pl-8 text-left'}"
+			>
+				Pending Actions
+			</h2>
+			{#if !deviceType?.isMobile}
+				<div class="absolute right-8 top-3 mb-4 cursor-pointer p-3" on:click={backdropClick}>
+					<WMSIcon
+						name="cross"
+						stroke={deviceType?.isMobile ? 'var(--PRIMARY)' : 'var(--TITLE)'}
+						height={24}
+						width={24}
+					/>
+				</div>
+			{/if}
 			<section
 				class="flex max-h-[calc(100vh-190px)] flex-col gap-2 overflow-auto px-4 pb-8 md:px-8"
 			>
