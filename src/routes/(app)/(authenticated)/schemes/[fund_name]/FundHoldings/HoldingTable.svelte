@@ -7,11 +7,21 @@
 	import Table from '$components/Table/Table.svelte';
 	import type { TopHolding } from '$components/Scheme/types';
 	import type { SectorHoldings } from '$lib/types/ISchemeDetails';
+	import { getStockInfo } from '$lib/api/scheme';
+	import { callNativeMethod } from '$lib/utils/callNativeMethod';
 
 	let holdings: TopHolding[];
 	let sectorHoldings: SectorHoldings[];
 	let activeTab: string;
 	let topHolding = false;
+
+	const gotoStockInfo = async (holding: TopHolding) => {
+		const stockInfo = await getStockInfo(holding.scripIsin);
+		callNativeMethod(
+			'openNativeScreen',
+			JSON.stringify({ screenName: 'StockOverView', data: stockInfo })
+		);
+	};
 
 	export { holdings, topHolding, sectorHoldings, activeTab };
 </script>
@@ -28,7 +38,7 @@
 	<TBody slot="tbody">
 		{#if activeTab === 'holdingCompany' && holdings?.length}
 			{#each holdings as holding}
-				<Tr class="!last:border-none !border-b">
+				<Tr class="!last:border-none !border-b" on:click={() => gotoStockInfo(holding)}>
 					<Td class="border-none !pl-0">
 						{#if topHolding}
 							<div class="flex flex-col whitespace-normal text-sm font-medium text-title">

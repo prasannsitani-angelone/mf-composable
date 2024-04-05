@@ -91,6 +91,7 @@ export interface SchemeHoldings {
 	companyName: string;
 	percentageHold: number;
 	sector: string;
+	scripIsin: string;
 }
 
 export interface SectorHoldings {
@@ -101,4 +102,21 @@ export interface SectorHoldings {
 export interface SchemeDetailsContext {
 	getSchemeDetails: () => Promise<SchemeDetails>;
 	getHoldingData: () => Promise<SchemeHoldings>;
+}
+
+export interface StockData {
+	symbol?: string;
+	group?: string;
+	exchSeg?: string;
+	symbolName?: string;
+	trdSymbol?: string;
+	scriptRefKey?: string;
+	ISIN?: string;
+	desc?: string;
+	tickSize?: number;
+	lotSize?: number;
+	expiryDateUnix?: number;
+	multiplier?: number;
+	precision?: number;
+	strikePrice?: number;
 }
