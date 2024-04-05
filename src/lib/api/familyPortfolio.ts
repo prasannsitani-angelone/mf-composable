@@ -3,7 +3,7 @@ import type { FetchType } from '$lib/types/Fetch';
 import { useFetch } from '$lib/utils/useFetch';
 
 const getFamilyMembers = async (token: string, clientId: string, fetch?: FetchType) => {
-	const url = `${PUBLIC_PORTFOLIO_BASE_URL}/family/v1/managemembers`;
+	const url = `${PUBLIC_PORTFOLIO_BASE_URL}/family/v2/managemembers`;
 	const response = await useFetch(
 		url,
 		{
