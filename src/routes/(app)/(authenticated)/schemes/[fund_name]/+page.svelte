@@ -38,6 +38,7 @@
 	import SomethingWentWrong from '$components/Error/SomethingWentWrong.svelte';
 	import SomethingWentWrongSmall from '$components/Error/SomethingWentWrongSmall.svelte';
 	import type { FundComparisons } from '$components/Scheme/types';
+	import { getDataforInvestment } from '../../../InvestmentPad/api';
 
 	export let data: PageData;
 
@@ -250,7 +251,7 @@
 				{/if}
 			{/if}
 		{:else}
-			{#await data?.api?.dataForInvestment}
+			{#await getDataforInvestment()}
 				<div />
 			{:then dataForInvestment}
 				{#if dataForInvestment instanceof Error}
@@ -271,7 +272,7 @@
 
 		<!-- Right Side -->
 		{#if !isMobile && !isTablet}
-			{#await data?.api?.dataForInvestment}
+			{#await getDataforInvestment()}
 				<div />
 			{:then dataForInvestment}
 				<InvestmentPad

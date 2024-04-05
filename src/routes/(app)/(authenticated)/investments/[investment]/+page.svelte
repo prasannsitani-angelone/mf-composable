@@ -45,12 +45,12 @@
 	import { hydrate } from '$lib/utils/helpers/hydrated';
 	import { investMoreClickEvent } from '$lib/analytics/investments/investments';
 	import SwpDetails from './components/SwpDetails.svelte';
-	import type { MandateWithBankDetails } from '$lib/types/IEmandate';
 	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 	import WithdrawStcgLtcg from '$components/Withdraw/WithdrawTaxFlow/WithdrawStcgLtcg.svelte';
 	import { base } from '$app/paths';
 	import { appStore } from '$lib/stores/SparkStore';
 	import { goBackToSpark } from '$lib/utils';
+	import { getDataforInvestment } from '../../../InvestmentPad/api';
 
 	export let data: PageData;
 
@@ -87,7 +87,6 @@
 			chartData: ChartData;
 			ordersData: OrdersData;
 			schemeData: SchemeDetails;
-			mandateData: MandateWithBankDetails[];
 		}>
 	) {
 		const result = await data;
@@ -466,15 +465,15 @@
 			{:else}
 				<!-- Invest/Redeem Pages (Mobile Layout) -->
 				{#if showInvestmentPad}
-					{#await data?.api?.previousPaymentDetails}
+					{#await getDataforInvestment()}
 						<div />
-					{:then previousPaymentDetails}
+					{:then dataForInvestment}
 						<InvestmentPad
 							class="block md:hidden"
 							schemeData={res?.schemeData}
-							mandateData={res?.mandateData}
+							previousPaymentDetails={dataForInvestment?.previousPaymentDetails}
+							mandateData={dataForInvestment?.mandateData}
 							fromInvestmentDetailsPage
-							{previousPaymentDetails}
 						/>
 					{/await}
 				{:else if showRedemptionPad}
@@ -497,16 +496,16 @@
 		{#if !isMobile && !isTablet}
 			{#if orderPadActiveTab === investmentDetailsFooterEvents?.INVEST}
 				<!-- Investment Pad -->
-				{#await data?.api?.previousPaymentDetails}
+				{#await getDataforInvestment()}
 					<div />
-				{:then previousPaymentDetails}
+				{:then dataForInvestment}
 					<InvestmentPad
 						class="sticky -top-2 mt-[52px] hidden md:block"
 						schemeData={res?.schemeData}
 						fromInvestmentDetailsPage
-						mandateData={res?.mandateData}
+						previousPaymentDetails={dataForInvestment?.previousPaymentDetails}
+						mandateData={dataForInvestment?.mandateData}
 						investmentNotAllowedText={investDisableText}
-						{previousPaymentDetails}
 					>
 						<svelte:fragment slot="header">
 							{#if res?.holdingsData}

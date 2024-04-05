@@ -15,9 +15,6 @@ import { shareFundDetailClickAnalytics } from '$components/Scheme/analytics';
 
 import { hydrate } from '$lib/utils/helpers/hydrated';
 import { getDeeplinkForUrl } from '$lib/utils/helpers/deeplinks';
-import { getCompleteSIPDateBasedonDD, getDateTimeString } from '$lib/utils/helpers/date';
-import { getEmandateDataFunc } from '$components/Payment/api';
-import type { MandateWithBankDetails } from '$lib/types/IEmandate';
 
 export const load = (async ({ fetch, params, url, parent }) => {
 	const queryParam = url?.searchParams?.get('params') || '';
@@ -140,43 +137,6 @@ export const load = (async ({ fetch, params, url, parent }) => {
 		}
 	};
 
-	const getPreviousPaymentDetails = async () => {
-		try {
-			const url = `${PUBLIC_MF_CORE_BASE_URL}/user/paymentHandlers`;
-			return await useFetch(url, {}, fetch);
-		} catch (e) {
-			return new Error('Something went wrong');
-		}
-	};
-
-	const getAllMandates = (madateMap: { [propKey: string]: MandateWithBankDetails }) => {
-		const all = (Object.values(madateMap) || []).flat();
-		return all;
-	};
-
-	const getMandateData = async () => {
-		const mandateResponse = await getEmandateDataFunc({
-			amount: 0,
-			sipDate: getCompleteSIPDateBasedonDD(4, new Date(), 30),
-			mandateType: 'UPI,YES',
-			mandateFor: 'LUMPSUM'
-		});
-		const mandateData = getAllMandates(mandateResponse?.data);
-		return mandateData;
-	};
-
-	const getDataforInvestment = async () => {
-		try {
-			const res = await Promise.all([getPreviousPaymentDetails(), getMandateData()]);
-			return {
-				previousPaymentDetails: res[0],
-				mandateData: res[1]
-			};
-		} catch (e) {
-			return new Error('Something went wrong');
-		}
-	};
-
 	const getDataforHoldings = async () => {
 		try {
 			const res = await Promise.all([getFundHoldings(), getFundHoldingsBySector()]);
@@ -202,8 +162,7 @@ export const load = (async ({ fetch, params, url, parent }) => {
 		api: {
 			schemeData: hydrate ? getSchemeData() : await getSchemeData(),
 			holdingData: hydrate ? getDataforHoldings() : await getDataforHoldings(),
-			comparisons: hydrate ? getFundComparisonsData() : await getFundComparisonsData(),
-			dataForInvestment: hydrate ? getDataforInvestment() : await getDataforInvestment()
+			comparisons: hydrate ? getFundComparisonsData() : await getFundComparisonsData()
 		},
 		showInvestmentPad: orderpadParam === 'INVEST'
 	};
