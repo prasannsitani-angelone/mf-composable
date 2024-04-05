@@ -246,7 +246,7 @@
 
 		<BarChartGraphComponent
 			on:handleChartClick={(e) => handleChartClick(e.detail)}
-			class="sm:mx-6 {browser ? 'visible' : 'invisible'}"
+			class="mb-6 sm:mx-6 {browser ? 'visible' : 'invisible'}"
 			bind:dataSet
 			bind:selectedDataSet
 		/>

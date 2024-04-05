@@ -15,7 +15,7 @@
 	}
 </script>
 
-<div class="mx-3 mb-6 flex flex-row justify-evenly {$$props.class}">
+<div class="mx-3 flex flex-row justify-evenly {$$props.class}">
 	{#each dataSet as item, index (index)}
 		{@const total = item.investedAmount + item.gains}
 		{@const investPercent = (item.investedAmount * 100) / total}

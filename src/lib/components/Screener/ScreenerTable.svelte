@@ -37,7 +37,7 @@
 
 <Table class={$$props.class}>
 	<THead slot="thead">
-		<Th class="h-3 w-9/12  !border-none  !pl-0 text-start !normal-case sm:w-2/3">Funds</Th>
+		<Th class="h-3 w-9/12 !border-none !pl-0 text-start !normal-case sm:w-2/3">Fund Name</Th>
 
 		<Th
 			class="flex  h-3 cursor-pointer justify-end border-b !border-none bg-background-alt py-0 !pl-0 !pr-0 text-left font-normal text-body sm:!pl-5 sm:text-center"
@@ -53,7 +53,12 @@
 					onTableRowSelect(funds, index);
 				}}
 			>
-				<Td class="border-none !px-0 {pageSource === SCREENER_SOURCE.HOMEPAGE ? '!py-3' : ''} "
+				<Td
+					class="flex border-none !px-0 {pageSource === SCREENER_SOURCE.HOMEPAGE
+						? index !== screenedSchemes.length - 1
+							? '!py-3'
+							: '!pb-1 !pt-3'
+						: ''} "
 					><a
 						class="flex w-full items-start overflow-hidden text-ellipsis whitespace-pre-wrap align-middle"
 						href={normalizeFundName(funds?.schemeName, funds?.isin, funds?.schemeCode)}
@@ -63,7 +68,7 @@
 						{:else}
 							<SchemeLogo src={funds?.logoUrl} class="h-12 w-12" />
 						{/if}
-						<div class="flex flex-col">
+						<div class="flex flex-col self-center">
 							<span class="line-clamp-2 text-sm font-normal text-title">{funds?.schemeName}</span>
 							{#if pageSource !== SCREENER_SOURCE.HOMEPAGE}
 								<span class="pt-2 text-xs text-body"

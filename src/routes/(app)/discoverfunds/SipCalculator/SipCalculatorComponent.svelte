@@ -107,7 +107,7 @@
 	<div class="mb-3 flex w-full items-start justify-between">
 		<div class="text-base font-medium text-title">SIP Calculator</div>
 		<Link to="/sipCalculator" on:linkClicked={sipCalculatorEditClickAnalytics}>
-			<WMSIcon name="edit-icon" stroke="var(--PRIMARY)" />
+			<WMSIcon name="edit-thick" stroke="var(--PRIMARY)" />
 		</Link>
 	</div>
 
