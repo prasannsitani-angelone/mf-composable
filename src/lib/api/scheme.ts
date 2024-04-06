@@ -17,11 +17,26 @@ export const getStockInfo = async (scripId: string, fetch?: FetchType) => {
 		stockInfo = {
 			symbolName: stockData?.symbolName,
 			instrumentName: '',
-			segmentId: 1,
+			segmentId: '1',
 			tokenId: stockData?.symbol,
 			tradeSymbol: stockData?.trdSymbol,
 			expiryDate: format(date, 'ddMMMyyyy'),
-			isin: stockData?.ISIN
+			isin: stockData?.ISIN,
+			securityDesc: stockData?.desc,
+			strikePrice: '-1',
+			regularLot: stockData?.lotSize?.toString(),
+			priceTick: '0.05',
+			isCashWithFnO: true,
+			nseCashToken: stockData?.symbol,
+			futToken: '',
+			companyName: stockData?.desc,
+			isCommodityWithOption: false,
+			series: 'EQ',
+			minimumLot: stockData?.lotSize?.toString(),
+			productType: '',
+			instrumentType: 'CASH',
+			maxSingleTransactionQty: 1,
+			ltp: ''
 		};
 	}
 	return stockInfo;
