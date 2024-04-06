@@ -16,7 +16,7 @@ interface LayoutConfig {
 	headerClass: string;
 	showBottomNavigation: boolean;
 	showSearchIcon: boolean;
-	showCloseIcon: boolean;
+	closeAppOnBackPress: boolean;
 	showShareIcon: boolean;
 	showCartIcon: boolean;
 	showFaqIcon: boolean;

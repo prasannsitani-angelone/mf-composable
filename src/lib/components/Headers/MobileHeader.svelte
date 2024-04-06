@@ -16,7 +16,7 @@
 	export let title = '';
 	export let showSearchIcon = false;
 	export let showBackIcon = false;
-	export let showCloseIcon = false;
+	export let closeAppOnBackPress = false;
 	export let showShareIcon = false;
 	export let showCartIcon = false;
 	export let showFaqIcon = false;
@@ -36,12 +36,22 @@
 	};
 
 	const handleBackNavigation = async () => {
+		dispatch('backButtonClick');
 		history.back();
 	};
 
 	const handleBackButtonClick = () => {
-		handleBackNavigation();
-		dispatch('backButtonClick');
+		if (
+			(closeAppOnBackPress ||
+				$browserHistoryStore.historyLength === 1 ||
+				$browserHistoryStore.initialUrl === `${$page.url.origin}${$page.url.pathname}`) &&
+			(($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID && $appStore.closecta) ||
+				$appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS)
+		) {
+			handleCloseButtonClick();
+		} else {
+			handleBackNavigation();
+		}
 	};
 
 	const logoUrl = `${base}/images/mutual-fund-logo.webp`;
@@ -54,28 +64,8 @@
 		<article class="flex w-full items-center justify-between">
 			<article class="flex items-center justify-start">
 				<slot name="icon">
-					{#if showCloseIcon && (($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID && $appStore.closecta) || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS)}
-						<WMSIcon
-							height={24}
-							width={24}
-							name="cross"
-							stroke="var(--TITLE)"
-							class="mr-4 cursor-pointer"
-							on:click={handleCloseButtonClick}
-						/>
-					{:else if showBackIcon && $browserHistoryStore.isLoaded}
-						{#if ($browserHistoryStore.historyLength === 1 || $browserHistoryStore.initialUrl === `${$page.url.origin}${$page.url.pathname}`) && (($appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_ANDROID && $appStore.closecta) || $appStore.platform.toLowerCase() === PLATFORM_TYPE.SPARK_IOS)}
-							<WMSIcon
-								height={24}
-								width={24}
-								name="cross"
-								stroke="var(--TITLE)"
-								class="mr-4 cursor-pointer"
-								on:click={handleCloseButtonClick}
-							/>
-						{:else}
-							<LeftArrowIcon class="mr-4 cursor-pointer" onClick={handleBackButtonClick} />
-						{/if}
+					{#if showBackIcon}
+						<LeftArrowIcon class="mr-4 cursor-pointer" onClick={handleBackButtonClick} />
 					{/if}
 				</slot>
 

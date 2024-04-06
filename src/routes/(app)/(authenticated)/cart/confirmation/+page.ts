@@ -73,7 +73,8 @@ export const load = async ({ fetch, depends, url }) => {
 		layoutConfig: {
 			layoutType: 'FULL_HEIGHT_WITHOUT_PADDING',
 			title: 'Complete Your Payment',
-			showBackIcon: true
+			showBackIcon: true,
+			layoutBodyClass: 'h-full'
 		}
 	};
 };

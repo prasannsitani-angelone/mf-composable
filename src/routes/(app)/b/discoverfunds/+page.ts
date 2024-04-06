@@ -1,3 +1,4 @@
+import { PLATFORM_TYPE } from '$lib/constants/platform';
 import type { PageLoad } from './$types';
 
 export const load = (async ({ parent }) => {
@@ -7,7 +8,10 @@ export const load = (async ({ parent }) => {
 		portfolios,
 		layoutConfig: {
 			title: 'Mutual Funds',
-			showCloseIcon: true,
+			showBackIcon:
+				sparkHeaders.platform === PLATFORM_TYPE.SPARK_ANDROID ||
+				sparkHeaders.platform === PLATFORM_TYPE.SPARK_IOS,
+			closeAppOnBackPress: true,
 			showSearchIcon: true,
 			showBottomNavigation: true,
 			layoutType: 'TWO_COLUMN',

@@ -223,6 +223,7 @@
 		buttonTitle="DONE"
 		buttonClass="mt-8 w-48 rounded cursor-default md:cursor-pointer"
 		buttonVariant="contained"
+		preventBackDropClick
 	/>
 {/if}
 <LazyComponent

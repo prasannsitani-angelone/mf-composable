@@ -31,7 +31,7 @@
 				titleClass={pageMetaData?.titleClass}
 				showSearchIcon={pageMetaData?.showSearchIcon}
 				showBackIcon={pageMetaData?.showBackIcon}
-				showCloseIcon={pageMetaData?.showCloseIcon}
+				closeAppOnBackPress={pageMetaData?.closeAppOnBackPress}
 				showShareIcon={pageMetaData?.showShareIcon}
 				showCartIcon={pageMetaData?.showCartIcon}
 				showFaqIcon={pageMetaData?.showFaqIcon}

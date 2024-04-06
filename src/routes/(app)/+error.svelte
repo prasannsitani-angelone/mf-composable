@@ -1,6 +1,7 @@
 <script lang="ts">
 	import SomethingWentWrong from '$components/Error/SomethingWentWrong.svelte';
 	import MobileHeader from '$components/Headers/MobileHeader.svelte';
+	import { appStore } from '$lib/stores/SparkStore';
 
 	const reloadPageOnRetry = () => {
 		if (navigator?.onLine) {
@@ -14,8 +15,8 @@
 		<MobileHeader
 			title={'Mutual Funds'}
 			showSearchIcon={true}
-			showBackIcon={false}
-			showCloseIcon={true}
+			showBackIcon={$appStore.isSparkAndroidUser || $appStore.isSparkIOSUser}
+			closeAppOnBackPress={true}
 			class="fixed left-0 right-0 top-0 z-100 bg-background-alt"
 		/>
 	</section>

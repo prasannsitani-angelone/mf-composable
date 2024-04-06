@@ -1941,7 +1941,6 @@
 					title={activeTab === 'SIP' ? 'Start SIP' : 'One Time Investment'}
 					showSearchIcon={false}
 					showBackIcon={true}
-					showCloseIcon={false}
 					class="fixed left-0 right-0 top-0 bg-background-alt"
 				/>
 			</slot>

@@ -462,7 +462,6 @@
 				title={!showWithdrawConfirmation ? 'Withdraw' : 'Confirm Your Withdrawal'}
 				showSearchIcon={false}
 				showBackIcon={true}
-				showCloseIcon={false}
 				class="-mx-2 -mt-2 mb-2 bg-background-alt"
 			/>
 		</slot>
