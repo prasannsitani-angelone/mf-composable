@@ -42,6 +42,8 @@
 	import type { IMandateDetails } from '$lib/types/IEmandate';
 	import ModalWithAnimation from '$components/ModalWithAnimation.svelte';
 	import { encodeObject } from '$lib/utils/helpers/params';
+	import { onMount } from 'svelte';
+	import { getEdisPoaStatus } from '$lib/api/getTpinStatusMf';
 
 	let showTpinVerificationModal = false;
 	let showOtpVerificationModal = false;
@@ -51,6 +53,7 @@
 		isLoading: false
 	};
 	let showInterAmcPopup = false;
+	let isPoaActive = false;
 
 	const error = {
 		visible: false,
@@ -187,7 +190,7 @@
 					dpFlag: selectedFolio?.dpFlag,
 					emailId: orderPostData?.emailId,
 					mobileNo: orderPostData?.mobileNo?.slice(3),
-					poaStatus: $profileStore.poaStatus
+					poaStatus: isPoaActive
 				})
 			});
 
@@ -225,10 +228,10 @@
 				toggleInterAMCPopup();
 			}
 			if (selectedFolio?.dpFlag?.toUpperCase() === 'Y') {
-				if ($profileStore?.poaStatus?.toUpperCase() === 'I') {
-					toggleTpinVerificationModal();
-				} else if ($profileStore?.poaStatus?.toUpperCase() === 'A') {
+				if (isPoaActive) {
 					postSwitchOrder();
+				} else {
+					toggleTpinVerificationModal();
 				}
 			} else if (selectedFolio?.dpFlag?.toUpperCase() === 'N') {
 				toggleOtpVerificationModal();
@@ -272,7 +275,7 @@
 				bankAccountNo: bankAccountNo,
 				edisExecuteDate: orderPostData?.edisExecDate,
 				bankName: bankName,
-				poaStatus: $profileStore?.poaStatus,
+				poaStatus: isPoaActive,
 				dpFlag: selectedFolio?.dpFlag,
 				isin: selectedFolio?.isin,
 				switchRefNumber: switchRefNo
@@ -302,7 +305,7 @@
 				dpNumber: $profileStore?.dpNumber,
 				emailId: $profileStore?.clientDetails?.email,
 				mobileNo: $profileStore?.mobile,
-				poaStatus: $profileStore?.poaStatus,
+				poaStatus: isPoaActive,
 				schemeCode: switchInFund?.schemeCode,
 				subBrokerCode: $profileStore?.clientDetails?.subBroker,
 				transactionType: 'PURCHASE',
@@ -312,6 +315,18 @@
 		});
 		return res;
 	};
+
+	const setEdisPoaStatus = async () => {
+		const url = `${window?.location?.origin}${base}/api/GetTPINStatusMF`;
+		const body = JSON.stringify({
+			ClientCode: $profileStore?.clientId
+		});
+		isPoaActive = await getEdisPoaStatus(url, body, uuid);
+	};
+
+	onMount(() => {
+		setEdisPoaStatus();
+	});
 
 	export let folioHolding: FolioHoldingType;
 	export let switchInFund: SchemeDetails;

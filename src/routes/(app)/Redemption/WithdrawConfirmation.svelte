@@ -2,7 +2,7 @@
 	import { v4 as uuidv4 } from 'uuid';
 	import type { FolioHoldingType, FolioObject } from '$lib/types/IInvestments';
 	import type { BankDetailsEntity } from '$lib/types/IUserProfile';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import { useFetch } from '$lib/utils/useFetch';
 	import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 	import { profileStore } from '$lib/stores/ProfileStore';
@@ -45,6 +45,7 @@
 	} from '$lib/analytics/redemption/redemption';
 	import { page } from '$app/stores';
 	import { encodeObject } from '$lib/utils/helpers/params';
+	import { getEdisPoaStatus } from '$lib/api/getTpinStatusMf';
 
 	export let holdingDetails: FolioHoldingType;
 	export let bankAccounts: Array<BankDetailsEntity>;
@@ -69,6 +70,7 @@
 	let expectedNavDateTooltip = false;
 	let showTpinVerificationModal = false;
 	let showOtpVerificationModal = false;
+	let isPoaActive = false;
 
 	let uuid = uuidv4();
 
@@ -167,7 +169,7 @@
 				bankAccountNo: selectedBankAccount?.accNO,
 				edisExecuteDate: orderPostData?.edisExecDate,
 				bankName: selectedBankAccount?.bankName,
-				poaStatus: $profileStore?.poaStatus,
+				poaStatus: isPoaActive,
 				dpFlag: folioData?.dpFlag,
 				isin: folioData?.isin
 			})
@@ -198,15 +200,29 @@
 		confirmWithdrawCtaAnalyticsFunc();
 
 		if (folioData?.dpFlag?.toUpperCase() === 'Y') {
-			if ($profileStore?.poaStatus?.toUpperCase() === 'I') {
-				toggleTpinVerificationModal();
-			} else if ($profileStore?.poaStatus?.toUpperCase() === 'A') {
+			if (isPoaActive) {
 				postRedemptionOrder();
+			} else {
+				toggleTpinVerificationModal();
 			}
 		} else if (folioData?.dpFlag?.toUpperCase() === 'N') {
 			toggleOtpVerificationModal();
 		}
 	};
+
+	const setEdisPoaStatus = async () => {
+		const url = `${window?.location?.origin}${base}/api/GetTPINStatusMF`;
+
+		const body = JSON.stringify({
+			ClientCode: $profileStore?.clientId
+		});
+
+		isPoaActive = await getEdisPoaStatus(url, body, uuid);
+	};
+
+	onMount(() => {
+		setEdisPoaStatus();
+	});
 
 	const confirmWithdrawCtaAnalyticsFunc = () => {
 		const eventMetadata = {

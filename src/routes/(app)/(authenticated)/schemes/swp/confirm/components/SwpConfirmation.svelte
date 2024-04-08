@@ -43,6 +43,8 @@
 	import TncModal from '$components/TnC/TncModal.svelte';
 	import { format } from 'date-fns';
 	import { encodeObject } from '$lib/utils/helpers/params';
+	import { getEdisPoaStatus } from '$lib/api/getTpinStatusMf';
+	import { onMount } from 'svelte';
 
 	let schemeData: SchemeDetails;
 	let holdingDetails: FolioHoldingType;
@@ -69,12 +71,13 @@
 	let showSWPUnitTooltip = false;
 	let showTpinVerificationModal = false;
 	let showOtpVerificationModal = false;
+	let isPoaActive = false;
 
 	let uuid = uuidv4();
 
 	let is2FAClient = false;
 	$: if (folioData?.dpFlag?.toUpperCase() === 'Y') {
-		if ($profileStore?.poaStatus?.toUpperCase() === 'I') {
+		if ($profileStore?.poaStatus?.toUpperCase() === 'I' && !isPoaActive) {
 			is2FAClient = false;
 		}
 	} else if (folioData?.dpFlag?.toUpperCase() === 'N') {
@@ -194,7 +197,7 @@
 				dpFlag: params?.folioDetails?.dpFlag,
 				mobileNo: orderPostData?.mobileNo?.slice(3),
 				emailId: orderPostData?.emailId,
-				poaStatus: $profileStore?.poaStatus,
+				poaStatus: isPoaActive,
 				edisExecuteDate: orderPostData?.edisExecDate,
 				startDate: format(new Date(params?.orderDetails?.nextSwpDate), 'yyyy-MM-dd'),
 				firstOrderToday: 'Y'
@@ -224,15 +227,30 @@
 
 	const handleConfirmAndPlaceSwp = () => {
 		if (folioData?.dpFlag?.toUpperCase() === 'Y') {
-			if ($profileStore?.poaStatus?.toUpperCase() === 'I') {
-				toggleTpinVerificationModal();
-			} else if ($profileStore?.poaStatus?.toUpperCase() === 'A') {
+			if (isPoaActive) {
 				postSwpOrder();
+			} else {
+				toggleTpinVerificationModal();
 			}
 		} else if (folioData?.dpFlag?.toUpperCase() === 'N') {
 			toggleOtpVerificationModal();
 		}
 	};
+
+	const setEdisPoaStatus = async () => {
+		const url = `${window?.location?.origin}${base}/api/GetTPINStatusMF`;
+
+		const body = JSON.stringify({
+			ClientCode: $profileStore?.clientId
+		});
+
+		isPoaActive = await getEdisPoaStatus(url, body, uuid);
+	};
+
+	onMount(() => {
+		setEdisPoaStatus();
+	});
+
 	const getUtilsMetaData = async () => {
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/utils/meta`;
 		if (holdingDetails) {
