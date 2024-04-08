@@ -46,6 +46,7 @@ export interface SchemeDetails {
 	aum: number;
 	exitLoadFlag: string;
 	exitLoadValue: string;
+	exitLoadPercentage: number;
 	expenseRatio: number;
 	taxBefore3Yrs: string;
 	taxAfter3Yrs: string;

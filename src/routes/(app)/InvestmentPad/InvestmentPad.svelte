@@ -150,6 +150,7 @@
 		type WalletPaymentStateType
 	} from '$components/Payment/CommonHandling/wallet';
 	import InstalmentDates from '$components/Calendar/InstalmentDates.svelte';
+	import ExitLoadInfoModal from '$components/ExitLoadInfoModal.svelte';
 
 	export let schemeData: SchemeDetails;
 	export let previousPaymentDetails: IPreviousPaymentDetails;
@@ -896,7 +897,10 @@
 			component: SchemeInformationCueCard,
 			props: {
 				schemeDetails: schemeData,
-				isNFO: isNFO
+				isNFO: isNFO,
+				exitLoadInfoIconClicked: () => {
+					showExitLoadModal();
+				}
 			},
 			analyticsFunction: () => {
 				const isLast = currentVisibleCueCardIndex === fundDetailsCarouselItems.length - 1;
@@ -1392,6 +1396,7 @@
 	};
 
 	let showFundDetailCarousel = false;
+	let showFundDetailExitLoadModal = false;
 	let fundDetailsCarouselItems = [];
 
 	const defaultValueToPaymentHandler = () => {
@@ -1920,6 +1925,16 @@
 	};
 
 	// -------- **** ----------
+
+	const showExitLoadModal = () => {
+		showFundDetailExitLoadModal = true;
+		showFundDetailCarousel = false;
+	};
+
+	const hideExitLoadModal = () => {
+		showFundDetailExitLoadModal = false;
+		showFundDetailCarousel = true;
+	};
 </script>
 
 {#if !showChangePayment}
@@ -2530,6 +2545,12 @@
 		}}
 	/>
 {/if}
+
+<ExitLoadInfoModal
+	exitLoadValue={schemeData.exitLoadValue}
+	bind:showFundDetailExitLoadModal
+	on:backdropclicked={hideExitLoadModal}
+/>
 
 <style>
 	.trucateTo2Line {

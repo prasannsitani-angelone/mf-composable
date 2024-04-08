@@ -39,6 +39,7 @@
 	import SomethingWentWrongSmall from '$components/Error/SomethingWentWrongSmall.svelte';
 	import type { FundComparisons } from '$components/Scheme/types';
 	import { getDataforInvestment } from '../../../InvestmentPad/api';
+	import ExitLoadInfoModal from '$components/ExitLoadInfoModal.svelte';
 
 	export let data: PageData;
 
@@ -48,6 +49,7 @@
 	$: queryParamsObj = <OrderPadTypes>{};
 	let orderpadParams = <decodedParamsTypes>{};
 	let comparisons: FundComparisons;
+	let showFundDetailExitLoadModal = false;
 
 	function getSchemeDetailsBreadCrumbs(scheme: SchemeDetails) {
 		const { schemeName, isin, schemeCode } = scheme;
@@ -143,6 +145,10 @@
 	onMount(async () => {
 		comparisons = await data?.api?.comparisons;
 	});
+
+	const toggleExitLoadModal = () => {
+		showFundDetailExitLoadModal = !showFundDetailExitLoadModal;
+	};
 </script>
 
 <svelte:head>
@@ -186,7 +192,11 @@
 					/>
 				{/if}
 				{#if !isNFO}
-					<SchemeInformation schemeDetails={schemedata} {isNFO} />
+					<SchemeInformation
+						on:exitLoadInfoIconClicked={toggleExitLoadModal}
+						schemeDetails={schemedata}
+						{isNFO}
+					/>
 					{#await data?.api?.comparisons then comparisons}
 						{#if comparisons instanceof Error}
 							<SomethingWentWrongSmall />
@@ -287,4 +297,10 @@
 			{/await}
 		{/if}
 	{/if}
+
+	<ExitLoadInfoModal
+		exitLoadValue={schemedata.exitLoadValue}
+		bind:showFundDetailExitLoadModal
+		on:backdropclicked={toggleExitLoadModal}
+	/>
 {/await}

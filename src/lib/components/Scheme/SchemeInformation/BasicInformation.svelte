@@ -2,7 +2,7 @@
 	import ExitLoadIcon from '$lib/images/icons/ExitLoadIcon.svelte';
 
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
-	import { Button } from 'svelte-components';
+	import { Button, WMSIcon } from 'svelte-components';
 	import BasicInfoChip from './BasicInfoChip.svelte';
 	import CakeIcon from '$lib/images/icons/CakeIcon.svelte';
 	import LockInIcon from '$lib/images/icons/LockInIcon.svelte';
@@ -13,6 +13,7 @@
 	import { calculateYearDiffrence } from '$lib/utils';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { learnSchemeTerms } from '../analytics';
+	import { createEventDispatcher } from 'svelte';
 
 	let schemeDetails: SchemeDetails;
 	let isNFO = false;
@@ -22,6 +23,7 @@
 
 	let showFooter = true;
 	let innerStyle = '';
+	const dispatch = createEventDispatcher();
 
 	const toggleSchemeIformationModal = () => {
 		isModalOpen = isModalOpen ? false : true;
@@ -32,6 +34,11 @@
 			});
 		}
 	};
+
+	const exitLoadInfoIconClicked = () => {
+		dispatch('exitLoadInfoIconClicked');
+	};
+
 	let sipLockinPeriod =
 		schemeDetails?.sipLockinPeriodFlag === 'Y' ? `${schemeDetails?.sipLockinPeriod} years` : 'Nil';
 	export { schemeDetails, isNFO, showFooter, innerStyle };
@@ -41,13 +48,10 @@
 	<section class="flex flex-col {innerStyle}">
 		{#if !isNFO}
 			<section class="flex flex-row border-b pb-4 text-xs sm:gap-16">
-				<BasicInfoChip title="Fund Age" value="{fundAge} year{fundAge > 1 ? 's' : ''}">
+				<BasicInfoChip title="Age" value="{fundAge} year{fundAge > 1 ? 's' : ''}">
 					<CakeIcon slot="icon" />
 				</BasicInfoChip>
-				<BasicInfoChip
-					title="Fund Size (AUM)"
-					value="₹{addCommasToAmountString(schemeDetails?.aum)} Cr."
-				>
+				<BasicInfoChip title="AUM" value="₹{addCommasToAmountString(schemeDetails?.aum)} Cr.">
 					<FundSizeIcon slot="icon" />
 				</BasicInfoChip>
 			</section>
@@ -56,24 +60,37 @@
 			<BasicInfoChip title="Lock-in Period" value={sipLockinPeriod}>
 				<LockInIcon slot="icon" />
 			</BasicInfoChip>
-			<BasicInfoChip
-				title="Expense Ratio"
-				value="{schemeDetails?.expenseRatio}% (inclusive of GST)"
-			>
-				<ExpenseRationIcon slot="icon" />
-			</BasicInfoChip>
+
+			<div class="flex flex-grow basis-0 flex-row">
+				<BasicInfoChip
+					title="Exit Load"
+					value={schemeDetails?.exitLoadFlag === 'Y'
+						? schemeDetails?.exitLoadPercentage + '%'
+						: 'Nil'}
+				>
+					<ExitLoadIcon slot="icon" />
+					<WMSIcon
+						on:click={exitLoadInfoIconClicked}
+						class="mx-3"
+						height={12}
+						width={12}
+						name="info-in-circle-dark"
+						stroke="var(--PRIMARY)"
+						slot="right"
+					/>
+				</BasicInfoChip>
+			</div>
 		</section>
 		<section
 			class="flex flex-col pt-4 text-xs sm:flex-row sm:gap-16 sm:border-b sm:pb-4 {innerStyle}"
 		>
 			<div class="flex flex-grow basis-0 items-start border-b pb-3 sm:border-none sm:pb-0">
-				<ExitLoadIcon />
-				<div class="ml-1 flex w-full flex-col sm:flex-col">
-					<span class="mb-2 text-body">Exit Load</span>
-					<span class="text-title"
-						>{schemeDetails?.exitLoadFlag === 'Y' ? schemeDetails?.exitLoadValue : 'Nil'}</span
-					>
-				</div>
+				<BasicInfoChip
+					title="Expense Ratio"
+					value="{schemeDetails?.expenseRatio}% (inclusive of GST)"
+				>
+					<ExpenseRationIcon slot="icon" />
+				</BasicInfoChip>
 			</div>
 			<div class="flex flex-grow basis-0 items-start py-3 sm:border-none sm:py-0">
 				<TaxImplecationIcon />

@@ -3,7 +3,7 @@
 >
 	<div class="flex items-center">
 		<h2 class="flex items-center text-left text-base font-medium text-title">
-			<span class="">Basic Information</span>
+			<span class="">Other Information</span>
 		</h2>
 	</div>
 </header>

@@ -4,9 +4,11 @@
 
 	export let schemeDetails: SchemeDetails;
 	export let isNFO = false;
+	export let exitLoadInfoIconClicked: () => void;
 </script>
 
 <SchemeInformation
+	on:exitLoadInfoIconClicked={exitLoadInfoIconClicked}
 	{isNFO}
 	{schemeDetails}
 	class="mx-2 h-[500px] max-w-full {$$props.class}"

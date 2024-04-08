@@ -17,6 +17,12 @@
 	<SchemeInformationHeader />
 
 	<section class="origin-top transition duration-100">
-		<BasicInformation {schemeDetails} {isNFO} {showFooter} {innerStyle} />
+		<BasicInformation
+			on:exitLoadInfoIconClicked
+			{schemeDetails}
+			{isNFO}
+			{showFooter}
+			{innerStyle}
+		/>
 	</section>
 </article>
