@@ -63,16 +63,6 @@
 			durationInYears: 10,
 			investedAmount: 0,
 			gains: 0
-		},
-		{
-			durationInYears: 15,
-			investedAmount: 0,
-			gains: 0
-		},
-		{
-			durationInYears: 20,
-			investedAmount: 0,
-			gains: 0
 		}
 	];
 
@@ -245,6 +235,7 @@
 		</div>
 
 		<BarChartGraphComponent
+			bind:currentInvestmentMode
 			on:handleChartClick={(e) => handleChartClick(e.detail)}
 			class="mb-6 sm:mx-6 {browser ? 'visible' : 'invisible'}"
 			bind:dataSet
