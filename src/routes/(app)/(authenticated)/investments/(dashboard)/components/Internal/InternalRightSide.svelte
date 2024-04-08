@@ -72,7 +72,7 @@
 			fetch
 		);
 		if (res?.ok) {
-			familyPortfolioSummary = res?.data?.data;
+			familyPortfolioSummary = res?.data?.data?.summary;
 		}
 		isFamilyPortfolioDataFetched = true;
 	};
