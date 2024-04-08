@@ -27,8 +27,8 @@ dependencies:
     specifier: 3.0.0
     version: 3.0.0(chart.js@4.4.0)(date-fns@2.30.0)
   clevertap-web-sdk:
-    specifier: 1.6.6
-    version: 1.6.6
+    specifier: 1.6.10
+    version: 1.6.10
   daisyui:
     specifier: 2.51.4
     version: 2.51.4(autoprefixer@10.4.14)(postcss@8.4.35)
@@ -2586,8 +2586,8 @@ packages:
     optionalDependencies:
       fsevents: 2.3.3
 
-  /clevertap-web-sdk@1.6.6:
-    resolution: {integrity: sha512-xZ0Ln12K7Fo0Y/oohecd0c0X/YIvWI0YCbgdogJmARSJ2SolUUVhRiM6siL/KFoMHOrlbIcfpxe5b0qn+M4iPw==}
+  /clevertap-web-sdk@1.6.10:
+    resolution: {integrity: sha512-d4kLX3kBNP7OUngt2SpDCv3qZsrIWSCWg725E8AtfYWhpgb8NN9FLJq5pmrVeRsagE0G5BRDfutmPIJ6vsleMg==}
     dev: false
 
   /cliui@8.0.1:
@@ -5762,6 +5762,7 @@ packages:
 
   /workbox-google-analytics@7.0.0:
     resolution: {integrity: sha512-MEYM1JTn/qiC3DbpvP2BVhyIH+dV/5BjHk756u9VbwuAhu0QHyKscTnisQuz21lfRpOwiS9z4XdqeVAKol0bzg==}
+    deprecated: It is not compatible with newer versions of GA starting with v4, as long as you are using GAv3 it should be ok, but the package is not longer being maintained
     dependencies:
       workbox-background-sync: 7.0.0
       workbox-core: 7.0.0

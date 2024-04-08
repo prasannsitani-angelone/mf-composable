@@ -30,16 +30,17 @@ class Clevertap {
 	}
 
 	setProfile(profile: UserProfile) {
-		this.clevertap.profile.push({
+		this.clevertap.onUserLogin.push({
 			Site: {
 				Name: profile?.clientDetails?.fullName,
 				Identity: profile?.clientId,
-				Email: profile?.clientDetails?.email,
+				Email: profile?.clientDetails?.email?.toLowerCase(),
 				Phone: `${profile?.countryCode}${profile?.mobile}`,
 				Gender: profile?.clientDetails?.gender,
 				'MSG-push': true,
 				'MSG-sms': true,
-				'MSG-whatsapp': true
+				'MSG-whatsapp': true,
+				'MSG-email': true
 			}
 		});
 
