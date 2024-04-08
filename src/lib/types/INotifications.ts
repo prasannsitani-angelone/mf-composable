@@ -12,6 +12,12 @@ export type INotification = {
 	instalmentFailedOrders: Notif[];
 	paymentFailedOrders: Notif[];
 	instalmentPending: Notif[];
+	sipWithoutMandate: ISipWithoutMandate[];
+};
+
+export type ISipWithoutMandate = {
+	Amount: number;
+	SipId: number;
 };
 
 export type Notif = {

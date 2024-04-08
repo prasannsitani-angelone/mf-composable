@@ -6,8 +6,6 @@
 	import { onMount } from 'svelte';
 	import PendingActionCenterModal from './PendingActionCenterModal.svelte';
 	import { pendingActionsCloseAnalytics, pendingActionsExpandClickAnalytics } from './analytics';
-	import NudgeStore from '$lib/stores/NudgeStore';
-	import type { INudge, NudgeDataType } from '$lib/types/INudge';
 	import NotificationsStore from '$lib/stores/NotificationStore';
 	import { page } from '$app/stores';
 	import NotificationIcon from '$lib/images/icons/Notification.svelte';
@@ -16,7 +14,6 @@
 	let showPendingActionCenter = false;
 	let touchPosition: number | null = null;
 	let notifData: INotification;
-	let autopayNudge: INudge | null;
 
 	export let isActive = false;
 	export let nav: IBottomNavItem;
@@ -27,7 +24,7 @@
 		(notifData?.instalmentFailedOrders?.length ? 1 : 0) +
 		(notifData?.instalmentPending?.length ? 1 : 0) +
 		(notifData?.paymentFailedOrders?.length ? 1 : 0) +
-		(autopayNudge?.data?.sipCount || false ? 1 : 0);
+		(notifData?.sipWithoutMandate?.length || 0);
 
 	$: if (showPendingActionCenter) {
 		setActionCenterData();
@@ -100,27 +97,7 @@
 		touchPosition = null;
 	};
 
-	const setAutopayNudge = (nudgeData: NudgeDataType) => {
-		autopayNudge = null;
-		(nudgeData?.nudges || [])?.forEach((item) => {
-			if (item?.nudgesType === 'mandate') {
-				autopayNudge = item;
-				return;
-			}
-		});
-	};
-
-	const setAllNudgesData = () => {
-		nudgeDataLoading = true;
-		NudgeStore.subscribe((nudge) => {
-			setAutopayNudge(nudge);
-			nudgeDataLoading = false;
-		});
-	};
-
 	const setActionCenterData = async () => {
-		setAllNudgesData();
-
 		if (!$page.data.isGuest) {
 			autopayDataLoading = true;
 			NotificationsStore.subscribe((notif) => {
@@ -160,7 +137,7 @@
 	/>
 	{#if noOfPendingActions}
 		<span
-			class="absolute -top-2 right-0 inline-flex items-center rounded-full bg-sell px-[6px] py-[2px] text-[10px] font-medium text-white ${$page
+			class="absolute -top-2 right-0 inline-flex items-center rounded-full bg-sell px-[6px] py-[2px] text-[10px] font-medium text-white {$page
 				.data?.deviceType?.isDesktop
 				? ''
 				: 'animate-bounce-2'}"
@@ -175,7 +152,6 @@
 		on:modalMounted={handleDeviceBackClick}
 		on:backdropClick={toggleShowPendingActionCenter}
 		pendingActionsData={notifData}
-		{autopayNudge}
 		bind:nudgeDataLoading
 		bind:autopayDataLoading
 	/>
