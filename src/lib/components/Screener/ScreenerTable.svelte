@@ -72,7 +72,7 @@
 							<span class="line-clamp-2 text-sm font-normal text-title">{funds?.schemeName}</span>
 							{#if pageSource !== SCREENER_SOURCE.HOMEPAGE}
 								<span class="pt-2 text-xs text-body"
-									>Minimum SIP Investment ₹{funds?.minSipAmount || '-'}</span
+									>Min. SIP Amount ₹{funds?.minSipAmount || '-'}</span
 								>
 							{/if}
 						</div>
