@@ -18,7 +18,7 @@
 
 	const carouselItemClass = deviceType?.isMobile
 		? 'max-full'
-		: 'sm:!w-[calc(100vw/2.3)] lg:!w-[calc(100vw/3.6)]  xl:!w-[calc(100vw)] 2xl:!w-[calc(100vw/5.7)]';
+		: 'sm:!w-[calc(100vw/2.3)] lg:!w-[calc(100vw/3.6)]  xl:!w-[calc(100vw/3.8)] 2xl:!w-[calc(100vw/5.7)] ';
 
 	const handleCardVisible = (event: CustomEvent) => {
 		const index = event.detail?.index || 0;
@@ -54,7 +54,7 @@
 				navigation={!deviceType?.isMobile && data?.schemes?.length > 0}
 				totalElements={data?.schemes?.length}
 				fixedWidth={true}
-				slidesPerView={deviceType?.isMobile ? 1 : 2}
+				slidesPerView={deviceType?.isMobile ? 1 : 1.3}
 				indicatorClass="!m-0"
 				chevronClass="mt-4"
 				activeIndicatorColor="#fff"
