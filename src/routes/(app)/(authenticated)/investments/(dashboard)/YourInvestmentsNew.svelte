@@ -114,8 +114,16 @@
 </script>
 
 <section class="overflow-hidden rounded-b-xl sm:shadow-csm">
+	{#if optimisePorfolioData?.schemeCode && optimisePorfolioData?.schemeName && optimisePorfolioData?.isin}
+		<OptimisePortfolioCard
+			on:click={() => toggleOptimisePorfolioCard(true)}
+			currentSchemeLogo={optimisedScheme?.logoUrl || ''}
+			peopleInvested={optimisePorfolioData?.clientWithMultipleSips}
+			class="block sm:hidden"
+		/>
+	{/if}
 	{#if !isExternal && !isFamilyPortfolio}
-		<section data-testid="investmentFilterContainer">
+		<section data-testid="investmentFilterContainer" class={optimisePorfolioData ? 'mt-2' : ''}>
 			<PageFilter
 				{onXirrClick}
 				onFilterButtonClick={onFilterButtonToggle}
@@ -285,14 +293,6 @@
 			</Link>
 		{/each}
 	</section>
-	{#if optimisePorfolioData?.schemeCode && optimisePorfolioData?.schemeName && optimisePorfolioData?.isin}
-		<OptimisePortfolioCard
-			on:click={() => toggleOptimisePorfolioCard(true)}
-			currentSchemeLogo={optimisedScheme?.logoUrl || ''}
-			peopleInvested={optimisePorfolioData?.clientWithMultipleSips}
-			class="block sm:hidden"
-		/>
-	{/if}
 </section>
 {#if isXIRRModalOpen}
 	<!-- XIRR Modal -->
