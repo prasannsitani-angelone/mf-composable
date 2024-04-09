@@ -17,10 +17,12 @@
 
 	const gotoStockInfo = async (holding: TopHolding) => {
 		const stockInfo = await getStockInfo(holding.scripIsin);
-		callNativeMethod(
-			'openNativeScreen',
-			JSON.stringify({ screenName: 'StockOverView', data: stockInfo })
-		);
+		if (stockInfo?.isin) {
+			callNativeMethod(
+				'openNativeScreen',
+				JSON.stringify({ screenName: 'StockOverView', data: stockInfo })
+			);
+		}
 	};
 
 	export { holdings, topHolding, sectorHoldings, activeTab };
