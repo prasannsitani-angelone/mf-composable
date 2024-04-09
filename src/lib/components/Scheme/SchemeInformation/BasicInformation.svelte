@@ -14,6 +14,17 @@
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { learnSchemeTerms } from '../analytics';
 	import { createEventDispatcher } from 'svelte';
+	import StoriesComponent from '$components/Stories/StoriesComponent.svelte';
+	import { getStoriesData } from '$lib/api/media';
+	import { onMount } from 'svelte';
+	import type { Story } from '$lib/types/IStories';
+	import StoriesSkeletonLoader from '$components/Stories/StoriesSkeletonLoader.svelte';
+	import SkeletonRectangle from '$components/Skeleton/SkeletonRectangle.svelte';
+	import {
+		fundDetailsVideoClickAnalytics,
+		fundDetailsVideoCloseAnalytics,
+		fundDetailsVideoImpressionAnalytics
+	} from '$lib/analytics/stories/stories';
 
 	let schemeDetails: SchemeDetails;
 	let isNFO = false;
@@ -24,6 +35,20 @@
 	let showFooter = true;
 	let innerStyle = '';
 	const dispatch = createEventDispatcher();
+	let stories: Story[];
+	let shouldLoadStories: boolean;
+	let storyAnalytics = {
+		onStoryClick: fundDetailsVideoClickAnalytics,
+		onStoryClose: fundDetailsVideoCloseAnalytics,
+		storyImpression: fundDetailsVideoImpressionAnalytics
+	};
+
+	const fetchStories = async () => {
+		shouldLoadStories = false;
+		const response = await getStoriesData('?fundpageconfig=true');
+		stories = response.data?.stories;
+		shouldLoadStories = true;
+	};
 
 	const toggleSchemeIformationModal = () => {
 		isModalOpen = isModalOpen ? false : true;
@@ -39,6 +64,9 @@
 		dispatch('exitLoadInfoIconClicked');
 	};
 
+	onMount(async () => {
+		await fetchStories();
+	});
 	let sipLockinPeriod =
 		schemeDetails?.sipLockinPeriodFlag === 'Y' ? `${schemeDetails?.sipLockinPeriod} years` : 'Nil';
 	export { schemeDetails, isNFO, showFooter, innerStyle };
@@ -92,7 +120,7 @@
 					<ExpenseRationIcon slot="icon" />
 				</BasicInfoChip>
 			</div>
-			<div class="flex flex-grow basis-0 items-start py-3 sm:border-none sm:py-0">
+			<div class="flex flex-grow basis-0 items-start border-b py-3 sm:py-0 md:border-none">
 				<TaxImplecationIcon />
 				<div class="ml-1 flex w-full flex-col sm:flex-col">
 					<span class="mb-2 text-body">Tax Implications</span>
@@ -112,6 +140,22 @@
 				</div>
 			</div>
 		</section>
+		{#if !shouldLoadStories}
+			<SkeletonRectangle class="!ml-8 !mt-4 !h-2 !w-24" />
+			<StoriesSkeletonLoader />
+		{:else if stories?.length}
+			<div class="mt-4">
+				<p class="text-xs text-body">Watch these short videos to learn more</p>
+				<StoriesComponent
+					{stories}
+					version="A"
+					hideFooter={true}
+					isDiscoverPage={false}
+					scheme={schemeDetails}
+					analytics={storyAnalytics}
+				/>
+			</div>
+		{/if}
 		{#if showFooter}
 			<section class="flex justify-center border-t align-middle sm:border-none">
 				<Button variant="transparent" on:click={toggleSchemeIformationModal}>

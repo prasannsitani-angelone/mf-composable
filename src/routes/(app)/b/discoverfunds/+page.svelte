@@ -370,7 +370,7 @@
 	let sendNfoImpressionAnalytics = false;
 
 	const fetchStoriesData = async () => {
-		const response = await getStoriesData();
+		const response = await getStoriesData('?discoverpageconfig=true');
 		storiesData = response.data;
 	};
 

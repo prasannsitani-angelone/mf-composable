@@ -1,13 +1,32 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import { BtnVariant, Button, WMSIcon, addCommasToAmountString } from 'svelte-components';
 	import TaxOption from './TaxOption.svelte';
 	import type { IHoldingTaxationDetails } from '$lib/types/IInvestments';
+	import type { Story } from '$lib/types/IStories';
+	import { getStoriesData } from '$lib/api/media';
+	import StoriesComponent from '$components/Stories/StoriesComponent.svelte';
+	import StoriesSkeletonLoader from '$components/Stories/StoriesSkeletonLoader.svelte';
+	import {
+		exitLoadVideoClickAnalytics,
+		exitLoadVideoCloseAnalytics,
+		exitLoadVideoImpressionAnalytics
+	} from '$lib/analytics/stories/stories';
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 
 	const dispatch = createEventDispatcher();
 
 	let taxationDetails: IHoldingTaxationDetails;
 	let categoryName = '';
+	let stories: Story[];
+	let shouldLoadStories: boolean;
+	let scheme: SchemeDetails;
+
+	let storyAnalytics = {
+		onStoryClick: exitLoadVideoClickAnalytics,
+		onStoryClose: exitLoadVideoCloseAnalytics,
+		storyImpression: exitLoadVideoImpressionAnalytics
+	};
 
 	const taxOptionsData = [
 		{
@@ -36,7 +55,18 @@
 		dispatch('continueCtaClick');
 	};
 
-	export { taxationDetails, categoryName };
+	const fetchStories = async () => {
+		shouldLoadStories = false;
+		const response = await getStoriesData('?taxconfig=true');
+		stories = response.data?.stories;
+		shouldLoadStories = true;
+	};
+
+	onMount(() => {
+		fetchStories();
+	});
+
+	export { taxationDetails, categoryName, scheme };
 </script>
 
 <article
@@ -76,6 +106,21 @@
 		Note: Taxes are applicable if your realised gain exceeds ₹1 Lakh across brokers. Calculations
 		are based on transactions done with Angel One only. Your actual capital gains tax may differ
 	</div>
+
+	{#if !shouldLoadStories}
+		<StoriesSkeletonLoader numberOfSkeletons={1} />
+	{:else if stories?.length}
+		<StoriesComponent
+			{stories}
+			version="A"
+			hideFooter={true}
+			isDiscoverPage={false}
+			showDescription={true}
+			header="Tax"
+			{scheme}
+			analytics={storyAnalytics}
+		/>
+	{/if}
 
 	<Button variant={BtnVariant?.Contained} class="mb-2" onClick={primaryCtaClick}>CONTINUE</Button>
 </article>

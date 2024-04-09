@@ -137,10 +137,9 @@
 	/>
 	{#if noOfPendingActions}
 		<span
-			class="absolute -top-2 right-0 inline-flex items-center rounded-full bg-sell px-[6px] py-[2px] text-[10px] font-medium text-white {$page
-				.data?.deviceType?.isDesktop
-				? ''
-				: 'animate-bounce-2'}"
+			class="absolute -top-2 right-0 inline-flex items-center rounded-full bg-sell px-[6px] py-[2px] text-[10px] font-medium {!deviceType?.isMobile
+				? 'text-xs text-background-alt'
+				: 'text-white'} {$page.data?.deviceType?.isDesktop ? '' : 'animate-bounce-2'}"
 		>
 			{noOfPendingActions}
 		</span>

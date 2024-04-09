@@ -592,6 +592,7 @@
 				categoryName={res?.schemeData?.categoryName}
 				subCategoryName={res?.schemeData?.subCategoryName}
 				exitLoadDetails={res?.schemeData?.exitLoadValue || ''}
+				scheme={res?.schemeData}
 			/>
 		</ModalWithAnimation>
 	{/if}
@@ -606,6 +607,7 @@
 				categoryName={res?.schemeData?.categoryName || ''}
 				{taxationDetails}
 				on:continueCtaClick={handleContinueStcgLtcg}
+				scheme={res?.schemeData}
 			/>
 		</ModalWithAnimation>
 	{/if}

@@ -59,3 +59,111 @@ export const startSipClickAnalytics = (eventMetaData) => {
 		event_metadata: eventMetaData
 	});
 };
+
+export const fundDetailsVideoClickAnalytics = (eventMetaData: object) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-FundDetails',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'videos',
+		event_property: null,
+		event_id: '301.0.1.4.1',
+		event_metadata: eventMetaData
+	});
+};
+
+export const fundDetailsVideoImpressionAnalytics = (eventMetaData: object) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-Videos',
+		event_type: 'impression',
+		event_sub_type: 'screen',
+		event_name: 'videos',
+		event_property: null,
+		event_id: '301.0.1.4.2',
+		event_metadata: eventMetaData
+	});
+};
+
+export const fundDetailsVideoCloseAnalytics = (eventMetaData: object) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-Videos',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'close',
+		event_property: null,
+		event_id: '301.0.1.4.3',
+		event_metadata: eventMetaData
+	});
+};
+
+export const exitLoadVideoClickAnalytics = (eventMetaData: object) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 'bs-potentialreturns',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'videos',
+		event_property: null,
+		event_id: '307.0.0.1.50',
+		event_metadata: eventMetaData
+	});
+};
+
+export const exitLoadVideoImpressionAnalytics = (eventMetaData: object) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-Videos',
+		event_type: 'impression',
+		event_sub_type: 'screen',
+		event_name: 'videos',
+		event_property: null,
+		event_id: '307.0.0.1.51',
+		event_metadata: eventMetaData
+	});
+};
+
+export const exitLoadVideoCloseAnalytics = (eventMetaData: object) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-Videos',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'close',
+		event_property: null,
+		event_id: '307.0.0.1.52',
+		event_metadata: eventMetaData
+	});
+};
+
+export const taxWithdrawalVideoClickAnalytics = (eventMetaData: object) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 'bs-potentialreturns',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'videos',
+		event_property: null,
+		event_id: '307.0.0.1.53',
+		event_metadata: eventMetaData
+	});
+};
+
+export const taxWithdrawalVideoImpressionAnalytics = (eventMetaData: object) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-Videos',
+		event_type: 'impression',
+		event_sub_type: 'screen',
+		event_name: 'videos',
+		event_property: null,
+		event_id: '307.0.0.1.54',
+		event_metadata: eventMetaData
+	});
+};
+
+export const taxWithdrawalVideoCloseAnalytics = (eventMetaData: object) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-Videos',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'close',
+		event_property: null,
+		event_id: '307.0.0.1.55',
+		event_metadata: eventMetaData
+	});
+};

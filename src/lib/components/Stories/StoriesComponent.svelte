@@ -24,9 +24,17 @@
 	import VideoPlayer from '$components/Video/Video.svelte';
 	import { registerNativeClosePopUpWindowCallback } from '$lib/utils/nativeCallbacks';
 	import { notifyPopupWindowChange } from '$lib/utils/callNativeMethod';
+	import type { IStoryAnalytics } from './interfaces';
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 
 	export let stories: Array<Story>;
 	export let version: string;
+	export let hideFooter = false;
+	export let isDiscoverPage = true;
+	export let showDescription = false;
+	export let header = '';
+	export let scheme: SchemeDetails;
+	export let analytics: IStoryAnalytics;
 
 	let os: string = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os || '';
 	let isMobile = $page?.data?.deviceType?.isMobile;
@@ -47,6 +55,7 @@
 	let touchStartY = 0;
 	let touchEndY = 0;
 	const swipeThresholdValue = 50;
+	const videoDescription = 'Watch this video to learn more';
 
 	// $: if (showVideoSection && queryParamsObj?.storyPlayer !== 'true') {
 	// 	setTimeout(() => {
@@ -73,15 +82,26 @@
 			document?.addEventListener('touchend', setEndTouchPoints);
 		}
 
-		if (userClicked) {
+		if (userClicked && !analytics?.onStoryClick) {
 			clickOnStoryAnalyticsFunc();
 		}
 
-		storyImpressionAnalyticsFunc();
+		if (!analytics?.storyImpression) {
+			storyImpressionAnalyticsFunc();
+		} else {
+			analytics?.storyImpression({
+				VideoIndex: clickedIndex,
+				VideoTitle: selectedStory?.title || header,
+				isin: scheme?.isin,
+				FundName: scheme?.schemeName
+			});
+		}
 
 		showVideoPlayer = false;
 
-		setVideoPlayerQuery();
+		if (isDiscoverPage) {
+			setVideoPlayerQuery();
+		}
 
 		setTimeout(() => {
 			if (playClicked) {
@@ -91,6 +111,13 @@
 				selectedStoryIndex = clickedIndex;
 				selectedVideoIndex = 0;
 				setVideoProps();
+
+				analytics?.onStoryClick({
+					VideoIndex: clickedIndex,
+					VideoTitle: selectedStory?.title || header,
+					isin: scheme?.isin,
+					FundName: scheme?.schemeName
+				});
 			}
 
 			showVideoSection = true;
@@ -109,7 +136,9 @@
 
 		setVideoProps();
 
-		storySliderAnalyticsFunc();
+		if (!analytics?.onStorySlide) {
+			storySliderAnalyticsFunc();
+		}
 
 		if (playNow) {
 			playStoryVideo();
@@ -123,7 +152,16 @@
 			document?.removeEventListener('touchend', setEndTouchPoints);
 		}
 
-		closeStoryAnalyticsFunc();
+		if (!analytics?.onStoryClose) {
+			closeStoryAnalyticsFunc();
+		} else {
+			analytics?.onStoryClose({
+				VideoIndex: selectedStoryIndex,
+				VideoTitle: selectedStory?.title || header,
+				isin: scheme?.isin,
+				FundName: scheme?.schemeName
+			});
+		}
 
 		setTimeout(() => {
 			mutedPlayback = false;
@@ -135,7 +173,7 @@
 			}
 		});
 
-		if (routerBack) {
+		if (routerBack && isDiscoverPage) {
 			history?.back();
 		}
 	};
@@ -316,11 +354,13 @@
 			showBottomDrawer: false,
 			muted: mutedPlayback,
 			source: selectedStory?.storyId,
-			type: VideoPlayerMode.Normal,
+			type: isDiscoverPage ? VideoPlayerMode.Normal : VideoPlayerMode.ProgressBarOverlay,
 			autoplay: true,
-			hideMute: true,
+			hideMute: isDiscoverPage,
 			fullScreen: true,
-			fallbackSrc: selectedVideo?.videoFallbackUrl
+			fallbackSrc: selectedVideo?.videoFallbackUrl,
+			header: isDiscoverPage ? '' : selectedStory?.title || header,
+			onClose: crossButtonClicked
 		};
 	};
 
@@ -345,26 +385,49 @@
 </script>
 
 <section
-	class="scrollbar-hide mb-2 flex justify-start overflow-auto rounded-lg bg-background-alt px-4 py-3 shadow-csm md:mb-4 md:justify-center {$$props.class}"
+	class="scrollbar-hide flex justify-start overflow-auto rounded-lg py-3 {isDiscoverPage
+		? 'mb-2 bg-background-alt shadow-csm md:mb-4 md:justify-center'
+		: 'bg-transparent'} {$$props.class}"
 >
 	{#each stories as story, index (story?.storyId)}
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 		<article
-			class="{index === stories.length - 1
-				? ''
-				: 'mr-8'} w-16 text-[10px] font-normal md:cursor-pointer"
+			class="{index === stories.length - 1 ? '' : 'mr-8'} {stories.length > 1
+				? 'w-16'
+				: 'w-full'} text-[10px] font-normal md:cursor-pointer"
 			on:click={() => playStoryVideo(story, true, index, true)}
 		>
-			<img
-				src={story?.smallThumbnailUrl}
-				class="h-14 w-14 rounded-full border-[1.5px] border-primary object-cover p-[3.5px]"
-				alt="story thumbnail"
-				width="56"
-				height="56"
-			/>
-			<p class="mt-1 w-14 truncate text-center text-body">
-				{story?.title}
-			</p>
+			<div class={isDiscoverPage || !showDescription ? '' : 'flex items-center gap-2'}>
+				<div>
+					<div
+						class="relative h-14 w-14 rounded-full border-[1.5px] border-primary object-cover p-[3.5px]"
+					>
+						<img
+							src={story?.smallThumbnailUrl}
+							class="h-full w-full rounded-full"
+							alt="story thumbnail"
+							width="56"
+							height="56"
+						/>
+						{#if !isDiscoverPage}
+							<span class="absolute bottom-0 right-0">
+								<WMSIcon name="play-filled" width={16} height={16} />
+							</span>
+						{/if}
+					</div>
+				</div>
+				{#if story?.title}
+					<p class="mt-1 w-14 truncate text-center text-body">
+						{story?.title}
+					</p>
+				{/if}
+				{#if showDescription}
+					<div>
+						<span class="text-xs font-normal text-body">{videoDescription}</span>
+					</div>
+				{/if}
+			</div>
 		</article>
 	{/each}
 
@@ -385,49 +448,53 @@
 								on:click={setNextVideo}
 							>
 								<div slot="header">
-									<img
-										src={selectedStory?.imageThumbnailUrl}
-										class="absolute left-4 top-4 h-12 w-12 rounded-full object-cover text-lg font-normal text-background-alt shadow-csm"
-										alt="video thumbnail"
-										width="48"
-										height="48"
-									/>
-									<button
-										class="absolute right-0 top-5 pb-2 pl-2 pr-4 pt-3 md:cursor-pointer"
-										style="z-index: 72"
-										on:click={() => crossButtonClicked()}
-									>
-										<WMSIcon width={14} height={14} name="cross-close" />
-									</button>
+									{#if !hideFooter}
+										<img
+											src={selectedStory?.imageThumbnailUrl}
+											class="absolute left-4 top-4 h-12 w-12 rounded-full object-cover text-lg font-normal text-background-alt shadow-csm"
+											alt="video thumbnail"
+											width="48"
+											height="48"
+										/>
+										<button
+											class="absolute right-0 top-5 pb-2 pl-2 pr-4 pt-3 md:cursor-pointer"
+											style="z-index: 72"
+											on:click={() => crossButtonClicked()}
+										>
+											<WMSIcon width={14} height={14} name="cross-close" />
+										</button>
+									{/if}
 								</div>
 
 								<div slot="footer">
-									<section
-										class="absolute bottom-0 flex h-1/6 w-full flex-col items-center justify-center bg-title"
-										style="z-index: 72"
-									>
-										<button
-											class="absolute right-0 top-[-50px] p-2 pr-3 md:cursor-pointer"
-											on:click={toggleMute}
+									{#if !hideFooter}
+										<section
+											class="absolute bottom-0 flex h-1/6 w-full flex-col items-center justify-center bg-title"
+											style="z-index: 72"
 										>
-											{#if !videoProps.muted}
-												<WMSIcon width={24} height={24} name="audio-on" />
-											{:else}
-												<WMSIcon width={24} height={24} name="audio-off" />
+											<button
+												class="absolute right-0 top-[-50px] p-2 pr-3 md:cursor-pointer"
+												on:click={toggleMute}
+											>
+												{#if !videoProps.muted}
+													<WMSIcon width={24} height={24} name="audio-on" />
+												{:else}
+													<WMSIcon width={24} height={24} name="audio-off" />
+												{/if}
+											</button>
+											{#if isMobile}
+												<WMSIcon width={14} height={8} name="swipe-up" class="mb-3" />
 											{/if}
-										</button>
-										{#if isMobile}
-											<WMSIcon width={14} height={8} name="swipe-up" class="mb-3" />
-										{/if}
 
-										<Button
-											class="h-auto !w-48 cursor-default rounded border !border-background-alt !bg-transparent !text-background-alt md:cursor-pointer"
-											variant="outlined"
-											onClick={handleCtaClick}
-										>
-											START SIP NOW
-										</Button>
-									</section>
+											<Button
+												class="h-auto !w-48 cursor-default rounded border !border-background-alt !bg-transparent !text-background-alt md:cursor-pointer"
+												variant="outlined"
+												onClick={handleCtaClick}
+											>
+												START SIP NOW
+											</Button>
+										</section>
+									{/if}
 								</div>
 							</VideoPlayer>
 						{/if}

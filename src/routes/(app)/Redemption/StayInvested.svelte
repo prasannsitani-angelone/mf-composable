@@ -6,11 +6,22 @@
 	import WMSIcon from '$lib/components/WMSIcon.svelte';
 	import { stayInvestedImpressionAnalytics } from '$lib/analytics/redemption/redemption';
 	import { calculateLumpsumReturns } from '$lib/utils/helpers/returns';
+	import StoriesComponent from '$components/Stories/StoriesComponent.svelte';
+	import type { Story } from '$lib/types/IStories';
+	import { getStoriesData } from '$lib/api/media';
+	import StoriesSkeletonLoader from '$components/Stories/StoriesSkeletonLoader.svelte';
+	import {
+		taxWithdrawalVideoClickAnalytics,
+		taxWithdrawalVideoCloseAnalytics,
+		taxWithdrawalVideoImpressionAnalytics
+	} from '$lib/analytics/stories/stories';
+	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 
 	export let currentValue: number;
 	export let categoryName: string;
 	export let subCategoryName: string;
 	export let exitLoadDetails: string;
+	export let scheme: SchemeDetails;
 
 	const dispatch = createEventDispatcher();
 
@@ -26,6 +37,14 @@
 	let fiveYearMaturityAmount = 0;
 	let threeYearGainLossPercentage = 0;
 	let fiveYearGainLossPercentage = 0;
+	let stories: Story[];
+	let shouldLoadStories: boolean;
+
+	let storyAnalytics = {
+		onStoryClick: taxWithdrawalVideoClickAnalytics,
+		onStoryClose: taxWithdrawalVideoCloseAnalytics,
+		storyImpression: taxWithdrawalVideoImpressionAnalytics
+	};
 
 	const getDefaultCagr = () => {
 		const category = {
@@ -61,11 +80,19 @@
 		fiveYearGainLossPercentage = fiveYearReturns?.gainLossPercentage;
 	};
 
+	const fetchStories = async () => {
+		shouldLoadStories = false;
+		const response = await getStoriesData('?exitloadconfig=true');
+		stories = response.data?.stories;
+		shouldLoadStories = true;
+	};
+
 	get3YearReturns();
 	get5YearReturns();
 
 	onMount(() => {
 		stayInvestedImpressionAnalytics();
+		fetchStories();
 	});
 
 	const graphData = [
@@ -184,6 +211,20 @@
 						<div class="ml-2 mt-1">{point?.detail}</div>
 					</article>
 				{/each}
+				{#if !shouldLoadStories}
+					<StoriesSkeletonLoader numberOfSkeletons={1} />
+				{:else if stories?.length}
+					<StoriesComponent
+						{stories}
+						version="A"
+						hideFooter={true}
+						isDiscoverPage={false}
+						showDescription={true}
+						header="Exit"
+						{scheme}
+						analytics={storyAnalytics}
+					/>
+				{/if}
 			</section>
 		{/if}
 	</section>
