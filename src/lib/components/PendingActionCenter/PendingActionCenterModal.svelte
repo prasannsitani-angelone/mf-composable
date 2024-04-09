@@ -32,7 +32,7 @@
 		(pendingActionsData?.instalmentFailedOrders?.length ? 1 : 0) +
 		(pendingActionsData?.instalmentPending?.length ? 1 : 0) +
 		(pendingActionsData?.paymentFailedOrders?.length ? 1 : 0) +
-		(pendingActionsData?.sipWithoutMandate?.length || 0);
+		(pendingActionsData?.sipWithoutMandate?.length ? 1 : 0);
 
 	const backdropClick = () => {
 		dispatch('backdropClick');

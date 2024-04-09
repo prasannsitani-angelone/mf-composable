@@ -24,7 +24,7 @@
 		(notifData?.instalmentFailedOrders?.length ? 1 : 0) +
 		(notifData?.instalmentPending?.length ? 1 : 0) +
 		(notifData?.paymentFailedOrders?.length ? 1 : 0) +
-		(notifData?.sipWithoutMandate?.length || 0);
+		(notifData?.sipWithoutMandate?.length ? 1 : 0);
 
 	$: if (showPendingActionCenter) {
 		setActionCenterData();
