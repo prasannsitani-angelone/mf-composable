@@ -3,6 +3,7 @@ import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import type { ITaxation } from '$lib/types/IInvestments';
 import { useFetch } from '$lib/utils/useFetch';
 import type { PageLoad } from './$types';
+import { getInvestmentData, getSipRecommendationData } from '$lib/api/secondSip';
 
 export const load = (async ({ fetch }) => {
 	const getTaxation = async () => {
@@ -66,7 +67,9 @@ export const load = (async ({ fetch }) => {
 	return {
 		api: {
 			allResponse: browser ? getPortfolio() : await getPortfolio(),
-			taxation: browser ? getTaxation() : await getTaxation()
+			taxation: browser ? getTaxation() : await getTaxation(),
+			investmentData: browser ? getInvestmentData() : await getInvestmentData(),
+			recommendedSipsData: browser ? getSipRecommendationData() : await getSipRecommendationData()
 		},
 		layoutConfig: {
 			title: 'Portfolio Analysis',

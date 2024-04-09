@@ -7,6 +7,7 @@ import { encodeObject } from '$lib/utils/helpers/params';
 import { faqsIconClick } from '$lib/analytics/faqs/faqs';
 import { getEmandateDataFunc } from '$components/Payment/api';
 import type { MandateWithBankDetails } from '$lib/types/IEmandate';
+import { getInvestmentData, getSipRecommendationData } from '$lib/api/secondSip';
 
 export const load = (async ({ fetch, depends }) => {
 	let sipBookData: ISipBookData | null = null;
@@ -62,7 +63,9 @@ export const load = (async ({ fetch, depends }) => {
 		api: {
 			getSipBookData: browser ? getSipBookData() : await getSipBookData(),
 			getMandates: async (params) =>
-				browser ? getMandateData(params) : await getMandateData(params)
+				browser ? getMandateData(params) : await getMandateData(params),
+			investmentData: browser ? getInvestmentData() : await getInvestmentData(),
+			recommendedSipsData: browser ? getSipRecommendationData() : await getSipRecommendationData()
 		}
 	};
 }) satisfies PageLoad;

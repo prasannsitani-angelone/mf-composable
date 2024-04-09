@@ -10,16 +10,16 @@
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div on:click on:keydown class={$$props.class}>
+<div on:click on:keydown class={$$props.class + ' shadow-lg'}>
 	<section
-		class="flex items-center justify-between rounded-lg bg-background-alt shadow-lg hover:cursor-pointer lg:mx-0"
+		class="flex items-center justify-between rounded-lg bg-background-alt hover:cursor-pointer lg:mx-0"
 	>
-		<article class="flex flex-col items-start px-4 py-3">
+		<article class="flex w-full flex-col items-start px-4 py-3">
 			<div class="text-sm font-medium text-title">
 				{addCommasToAmountString(peopleInvested)} other investors started a 2nd SIP to maximise their
 				returns
 			</div>
-			<div class="mt-1 flex text-xs font-normal">
+			<div class="mt-1 flex w-full justify-between text-xs font-normal">
 				<div class="flex flex-col items-start justify-center pr-2">
 					<p class="pb-1 text-body">Explore 2nd SIP based on your 1st investment</p>
 					<ButtonMedium

@@ -15,7 +15,11 @@
 		DistributionType,
 		BenchmarkDataType
 	} from '$lib/types/IPortfolioDetails';
-	import type { InternalInvestmentSummary } from '$lib/types/IInvestments';
+	import type {
+		IOPtimsiePortfolioData,
+		InternalInvestmentSummary,
+		InvestmentSummary
+	} from '$lib/types/IInvestments';
 	import ErrorLoadingComponent from '$components/ErrorLoadingComponent.svelte';
 	import { portfolioAnalysisScreenOpenAnalytics, graphYearSelectAnalytics } from '../analytics';
 	import { SEO } from 'svelte-components';
@@ -27,9 +31,21 @@
 	import PortfolioOverview from './components/PortfolioOverview.svelte';
 	import PortfolioGraph from './components/PortfolioGraph.svelte';
 	import { tags } from '$lib/constants/tags';
+	import OptimisePortfolioCard from '../(dashboard)/components/OptimisePortfolioCard.svelte';
+	import type { InvestmentEntity } from '$lib/types/IInvestments';
+	import LazyComponent from '$components/LazyComponent.svelte';
 
 	let fundChartData: Array<ChartDataType>;
 	let benchmarkData: BenchmarkDataType;
+	let isOptimisePortfolioOpen = false;
+	let recommendedSipsData: IOPtimsiePortfolioData = {
+		isin: '',
+		schemeCode: '',
+		schemeName: '',
+		logoUrl: ''
+	};
+	let investmentSummary: InvestmentSummary;
+	let optimisedScheme: InvestmentEntity;
 
 	const graphYearSelectAnalyticsFunc = (tagIndex: number) => {
 		const eventMetaData = {
@@ -106,6 +122,10 @@
 		distributions: DistributionType[];
 	};
 
+	const toggleOptimisePorfolioCard = (flag: boolean) => {
+		isOptimisePortfolioOpen = flag;
+	};
+
 	const updateLineChart = async (tagIndex: number) => {
 		graphYearSelectAnalyticsFunc(tagIndex);
 		let res;
@@ -135,6 +155,11 @@
 		fundChartData = allResData.chartData?.chart;
 		benchmarkData = allResData.benchmarkData;
 		portfolioAnalysisScreenOpenAnalyticsFunc(allResData || {});
+		let response = await data?.api?.recommendedSipsData;
+		recommendedSipsData = response?.recommendedScheme?.[0];
+		investmentSummary = data?.investementSummary;
+		const investmentData = await data?.api?.investmentData;
+		optimisedScheme = investmentData?.find((x) => x.sipEnabled) || ({} as InvestmentEntity);
 	});
 </script>
 
@@ -161,10 +186,20 @@
 			/>
 		</section>
 		<SipHealthNudge class="mb-2 mt-2 w-full sm:mt-4" cardStyle="sm:px-3" />
+		<section class="mt-2 sm:mt-4">
+			{#if recommendedSipsData?.schemeCode && recommendedSipsData?.schemeName && recommendedSipsData?.isin}
+				<OptimisePortfolioCard
+					on:click={() => toggleOptimisePorfolioCard(true)}
+					currentSchemeLogo={optimisedScheme?.logoUrl || ''}
+					peopleInvested={recommendedSipsData?.clientWithMultipleSips}
+					class={'!shadow'}
+				/>
+			{/if}
+		</section>
 		{#await data?.api?.taxation}
 			<div />
 		{:then res}
-			<TaxAnalysis taxationData={res} />
+			<TaxAnalysis taxationData={res} class="mt-2 sm:mt-4" />
 		{/await}
 		<section>
 			{#if distributionData.distributions?.length}
@@ -190,3 +225,12 @@
 		/>
 	</div>
 {/await}
+
+<LazyComponent
+	when={isOptimisePortfolioOpen}
+	component={async () => await import('../(dashboard)/components/OptimisePortfolioModal.svelte')}
+	{toggleOptimisePorfolioCard}
+	{investmentSummary}
+	currentScheme={optimisedScheme}
+	optimisePorfolioData={recommendedSipsData}
+/>

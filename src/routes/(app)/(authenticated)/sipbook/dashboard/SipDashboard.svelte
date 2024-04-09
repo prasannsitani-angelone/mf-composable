@@ -35,7 +35,14 @@
 	import type { INudge, UserEducationNudgeType } from '$lib/types/INudge';
 	import MostBought from '$components/MostBought/MostBought.svelte';
 	import { SIP_TYPE } from '$lib/constants/sip';
+	import OptimisePortfolioCard from '../../investments/(dashboard)/components/OptimisePortfolioCard.svelte';
+	import type {
+		IOPtimsiePortfolioData,
+		InvestmentEntity,
+		InvestmentSummary
+	} from '$lib/types/IInvestments';
 	import NudgeStore from '$lib/stores/NudgeStore';
+	import LazyComponent from '$components/LazyComponent.svelte';
 
 	const sipUrl = `${PUBLIC_MF_CORE_BASE_URL_V2}/sips`;
 	let showInactiveSipsCta = false;
@@ -50,9 +57,22 @@
 	let automatedSipsCount = 0;
 	let userEducationNudge: UserEducationNudgeType;
 	let sipHealthScore = 0;
+	let isOptimisePortfolioOpen = false;
+	let recommendedSipsData: IOPtimsiePortfolioData = {
+		isin: '',
+		schemeCode: '',
+		schemeName: '',
+		logoUrl: ''
+	};
+	let investmentSummary: InvestmentSummary;
+	let optimisedScheme: InvestmentEntity;
 	let nudgeSubscription;
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
+
+	const toggleOptimisePorfolioCard = (flag: boolean) => {
+		isOptimisePortfolioOpen = flag;
+	};
 
 	const resetSipData = () => {
 		normalSipsArray = [];
@@ -283,6 +303,14 @@
 			showAutopaySelectionLoader = false;
 		}
 	};
+
+	onMount(async () => {
+		const response = await data?.api?.recommendedSipsData;
+		recommendedSipsData = response?.recommendedScheme?.[0];
+		investmentSummary = data?.investementSummary;
+		const investmentData = await data?.api?.investmentData;
+		optimisedScheme = investmentData?.find((x) => x.sipEnabled) || ({} as InvestmentEntity);
+	});
 </script>
 
 <section>
@@ -355,6 +383,16 @@
 									/>
 								{/if}
 							{/each}
+						</section>
+						<section class="mb-2">
+							{#if recommendedSipsData?.schemeCode && recommendedSipsData?.schemeName && recommendedSipsData?.isin}
+								<OptimisePortfolioCard
+									on:click={() => toggleOptimisePorfolioCard(true)}
+									currentSchemeLogo={optimisedScheme?.logoUrl || ''}
+									peopleInvested={recommendedSipsData?.clientWithMultipleSips}
+									class={'!shadow'}
+								/>
+							{/if}
 						</section>
 					{/if}
 				{/each}
@@ -453,3 +491,12 @@
 		</svelte:fragment>
 	</AutopaySelectionPopup>
 {/if}
+<LazyComponent
+	when={isOptimisePortfolioOpen}
+	component={async () =>
+		await import('../../investments/(dashboard)/components/OptimisePortfolioModal.svelte')}
+	{toggleOptimisePorfolioCard}
+	{investmentSummary}
+	currentScheme={optimisedScheme}
+	optimisePorfolioData={recommendedSipsData}
+/>
