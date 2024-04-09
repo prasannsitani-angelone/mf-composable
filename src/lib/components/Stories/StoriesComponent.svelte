@@ -386,7 +386,7 @@
 
 <section
 	class="scrollbar-hide flex justify-start overflow-auto rounded-lg py-3 {isDiscoverPage
-		? 'mb-2 bg-background-alt shadow-csm md:mb-4 md:justify-center'
+		? 'mb-2 bg-background-alt px-4 shadow-csm md:mb-4 md:justify-center'
 		: 'bg-transparent'} {$$props.class}"
 >
 	{#each stories as story, index (story?.storyId)}

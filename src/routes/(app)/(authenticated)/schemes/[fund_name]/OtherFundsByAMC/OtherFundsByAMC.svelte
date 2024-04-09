@@ -22,6 +22,7 @@
 	} from '$components/Scheme/analytics';
 
 	import type { SameAmcScheme } from '$components/Scheme/types';
+	import Tag from '$components/Tag/Tag.svelte';
 
 	let sameAmcScheme: SameAmcScheme;
 	let currentYearFilter: TableColumnToggle = {
@@ -31,6 +32,8 @@
 	let isin: string;
 	let schemeName: string;
 	let returns3yr: number;
+	let schemePlan: string;
+	let schemeReInvestmentPlan: string;
 	const sortTable = () => {
 		currentYearFilter = returnYearTableChangeColumn(currentYearFilter.field, yearlyReturnMap);
 		const eventMetadata: ISortbyReturnYear = {
@@ -60,7 +63,7 @@
 			)}`
 		);
 	};
-	export { sameAmcScheme, isin, schemeName, returns3yr };
+	export { sameAmcScheme, isin, schemeName, returns3yr, schemePlan, schemeReInvestmentPlan };
 </script>
 
 <article class="mt-2 max-w-4xl rounded-lg bg-background-alt text-sm shadow-csm sm:pb-4 md:mt-4">
@@ -123,6 +126,10 @@
 										</h3>
 									</div>
 								</Link>
+								<div class="ml-11 mt-2 flex flex-wrap items-center gap-2 whitespace-nowrap">
+									<Tag name={schemePlan} />
+									<Tag name={schemeReInvestmentPlan} />
+								</div>
 							</Td>
 							<Td class="border-none !p-0"
 								><div class="flex items-end justify-end">

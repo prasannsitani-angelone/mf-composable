@@ -2,6 +2,7 @@
 	import AddToCart from '$components/AddToCart.svelte';
 	import ChipOverview from '$components/ChipOverview.svelte';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
+	import Tag from '$components/Tag/Tag.svelte';
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails';
 
 	let isNFO = false;
@@ -21,7 +22,13 @@
 			/>
 			<div class="ml-1 flex items-center text-base text-title sm:ml-0">
 				<SchemeLogo src={schemeDetails?.logoUrl} />
-				<div>{schemeDetails?.schemeName}</div>
+				<div>
+					{schemeDetails?.schemeName}
+					<div class="mt-1 flex flex-wrap items-center gap-2 whitespace-nowrap">
+						<Tag name={schemeDetails.schemePlan} />
+						<Tag name={schemeDetails.reInvestmentPlan} />
+					</div>
+				</div>
 				{#if !isNFO}
 					<AddToCart
 						scheme={schemeDetails}

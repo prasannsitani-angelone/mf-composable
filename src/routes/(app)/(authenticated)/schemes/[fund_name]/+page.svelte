@@ -242,6 +242,8 @@
 							isin={schemedata?.isin}
 							schemeName={schemedata?.schemeName}
 							returns3yr={schemedata?.returns3yr}
+							schemePlan={schemedata?.schemePlan}
+							schemeReInvestmentPlan={schemedata?.reInvestmentPlan}
 						/>
 					{/if}
 				{/await}
