@@ -43,19 +43,21 @@
 				Select a fund based on your goals and start an SIP
 			</p>
 
-			{#each schemePack as scheme, index}
-				<OldTrendingCarouselItems
-					clazz="rounded-lg border p-3 bg-background-alt mb-2"
-					footerClass="bg-tint24-primary"
-					topSectionClass="mb-3"
-					detailsClass="divide-x p-2"
-					schemes={scheme}
-					index="1"
-					on:onCardClick={() => schemeCardClicked(scheme, index + 1)}
-				>
-					<div slot="topRightSection" />
-				</OldTrendingCarouselItems>
-			{/each}
+			<div class="grid h-full grid-cols-1 gap-1 md:grid-cols-3">
+				{#each schemePack as scheme, index}
+					<OldTrendingCarouselItems
+						clazz="rounded-lg border p-3 bg-background-alt mb-2 md:mr-3"
+						footerClass="bg-tint24-primary"
+						topSectionClass="mb-3"
+						detailsClass="divide-x p-2"
+						schemes={scheme}
+						index="1"
+						on:onCardClick={() => schemeCardClicked(scheme, index + 1)}
+					>
+						<div slot="topRightSection" />
+					</OldTrendingCarouselItems>
+				{/each}
+			</div>
 		</section>
 	</article>
 {/await}
