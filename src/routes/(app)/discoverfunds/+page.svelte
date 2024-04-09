@@ -533,7 +533,7 @@
 	{/if}
 
 	<!-- 2. Search section -->
-	{#if $appStore.isTabView}
+	{#if data?.sparkHeaders?.isTabView === 'true'}
 		<Link
 			to={`/search`}
 			ariaLabel="search"
