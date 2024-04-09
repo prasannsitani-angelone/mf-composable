@@ -1,5 +1,6 @@
 import { PUBLIC_MF_CORE_BASE_URL } from '$env/static/public';
 import { useFetch } from '$lib/utils/useFetch';
+import cacheInmemory from '$lib/server/cache.inmemory';
 import type { FetchType } from '$lib/types/Fetch';
 import { Cohortplacement } from '$lib/types/ICohort';
 import { cohorts, cohorts_LF } from '$lib/constants/cohorts';
@@ -18,18 +19,26 @@ export const getCohortMappingforUser = async (
 		LF: {},
 		SF: {}
 	};
+	let res = {};
 	const cohortUrl = `${PUBLIC_MF_CORE_BASE_URL}/cohorts/configs?cohort=${userCohort}`;
-	const res = await useFetch(
-		cohortUrl,
-		{
-			headers: {
-				authorization: `Bearer ${token}`
-			}
-		},
-		fetch
-	);
-	if (res.ok) {
-		cohortData = res?.data?.data || {};
+	const cachedResponse = await cacheInmemory.get({ cohortUrl });
+
+	if (cachedResponse) {
+		cohortData = cachedResponse?.data?.data || {};
+	} else {
+		res = await useFetch(
+			cohortUrl,
+			{
+				headers: {
+					authorization: `Bearer ${token}`
+				}
+			},
+			fetch
+		);
+		cohortData = res?.data?.data;
+		await cacheInmemory.set({ cohortUrl }, res);
+	}
+	if (cachedResponse || res.ok) {
 		let map: Record<string, object> = {};
 		if (cohortData) {
 			cohortData?.LF?.forEach((x) => {
