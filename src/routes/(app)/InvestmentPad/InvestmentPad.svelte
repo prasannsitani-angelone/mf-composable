@@ -1604,7 +1604,8 @@
 				showLoading,
 				onSuccess: navigateToSipCompletePage,
 				emailId: profileData?.clientDetails?.email,
-				mobileNo: profileData?.mobile
+				mobileNo: profileData?.mobile,
+				sipType: investmentType
 			});
 		} else if (
 			paymentHandler?.paymentMode === 'NET_BANKING' &&
