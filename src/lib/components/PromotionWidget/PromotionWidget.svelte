@@ -16,10 +16,6 @@
 
 	$: deviceType = $page.data.deviceType;
 
-	const carouselItemClass = deviceType?.isMobile
-		? 'max-full'
-		: 'sm:!w-[calc(100vw/2.3)] lg:!w-[calc(100vw/3.6)]  xl:!w-[calc(100vw/3.8)] 2xl:!w-[calc(100vw/5.7)] ';
-
 	const handleCardVisible = (event: CustomEvent) => {
 		const index = event.detail?.index || 0;
 		const currentScheme = data.schemes?.[index];
@@ -44,7 +40,7 @@
 		alt={data?.header?.title || 'Promotion Banner'}
 		fetchpriority="high"
 	/>
-	<div class="relative mx-3 flex flex-col items-center">
+	<div class="relative mx-2 flex flex-col items-center">
 		<img class="h-16 w-16" src={data?.header?.logoUrl} alt="" />
 		<h3 class="text-white">{data?.header?.title}</h3>
 
@@ -61,7 +57,13 @@
 				on:onIndexChange={handleCardVisible}
 			>
 				{#each data?.schemes || [] as scheme, index}
-					<CarouselItem id="promotion" class="!my-3 {carouselItemClass}" {index}>
+					<CarouselItem
+						id="promotion"
+						class="!my-3 {deviceType?.isMobile
+							? 'max-full px-1'
+							: 'sm:!w-[calc(100vw/2.3)] lg:!w-[calc(100vw/3.6)]  xl:!w-[calc(100vw/3.8)] 2xl:!w-[calc(100vw/5.7)]'}"
+						{index}
+					>
 						<PromotionCarouselItem title={data?.header?.title} {scheme} {index} />
 					</CarouselItem>
 				{/each}
