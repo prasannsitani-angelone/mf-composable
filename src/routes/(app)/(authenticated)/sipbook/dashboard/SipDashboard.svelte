@@ -12,6 +12,7 @@
 	import type { IDueSips, ISip, ISipBookData, ISipBookSummary } from '$lib/types/ISipType';
 	import {
 		inactiveSipsButtonClickAnalytics,
+		sipBookSetupAutopayClickEvent,
 		sipPaymentDueNudgeImpressionAnalytics,
 		sipbookDashboardEmptyStateScreenOpenAnalytics,
 		sipbookDashboardScreenOpenAnalytics
@@ -350,6 +351,7 @@
 									<SetupAutopayCard
 										sipPendingCount={nudge?.data?.sipCount}
 										sipTotalAmount={nudge?.amount}
+										on:autopayCardClick={sipBookSetupAutopayClickEvent}
 									/>
 								{:else if nudge?.nudgesType === 'link_mandate'}
 									<DiscoverFundsNudge
@@ -374,6 +376,7 @@
 									<SetupAutopayCard
 										sipPendingCount={nudge?.data?.sipCount}
 										sipTotalAmount={nudge?.amount}
+										on:autopayCardClick={sipBookSetupAutopayClickEvent}
 									/>
 								{:else if nudge?.nudgesType === 'link_mandate'}
 									<DiscoverFundsNudge

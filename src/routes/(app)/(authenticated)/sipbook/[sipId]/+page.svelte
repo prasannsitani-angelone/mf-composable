@@ -49,7 +49,8 @@
 		sipDetailsCancelSipOptionClickAnalytics,
 		skipSipSuccessModalClickDone,
 		clickOnEditSipAnalytics,
-		clickOnThreeDots
+		clickOnThreeDots,
+		sipDetailsSetupAutopayClickEvent
 	} from '$lib/analytics/sipbook/sipbook';
 	import AutopaySelectionPopup from '$components/AutopaySelectionPopup.svelte';
 	import type { ISip } from '$lib/types/ISipType';
@@ -406,6 +407,7 @@
 	});
 
 	const handleLinkAutopayCtaClick = () => {
+		sipDetailsSetupAutopayClickEvent();
 		goto(`${base}/autopay/manage/setup?params=${autopayRedirectParams()}`);
 	};
 	const onOptionSelect = (event: { detail: { key: any } }) => {

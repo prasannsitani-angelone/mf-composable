@@ -632,3 +632,23 @@ export const sipBookMutualfundsSIPsexplainedEvent = () => {
 		event_id: '309.0.0.1.86'
 	});
 };
+export const sipBookSetupAutopayClickEvent = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipbook',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'SetupAutopay',
+		event_property: null,
+		event_id: '309.0.0.1.90'
+	});
+};
+export const sipDetailsSetupAutopayClickEvent = () => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipdetails',
+		event_type: 'click',
+		event_sub_type: 'button',
+		event_name: 'SetupAutopay',
+		event_property: null,
+		event_id: '309.0.0.1.56'
+	});
+};
