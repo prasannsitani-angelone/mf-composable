@@ -117,7 +117,7 @@
 	{#if optimisePorfolioData?.schemeCode && optimisePorfolioData?.schemeName && optimisePorfolioData?.isin}
 		<OptimisePortfolioCard
 			on:click={() => toggleOptimisePorfolioCard(true)}
-			currentSchemeLogo={optimisedScheme?.logoUrl || ''}
+			currentSchemeLogo={optimisePorfolioData?.firstSchemeLogoUrl || ''}
 			peopleInvested={optimisePorfolioData?.clientWithMultipleSips}
 			class="block sm:hidden"
 		/>

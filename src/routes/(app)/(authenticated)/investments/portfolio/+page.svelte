@@ -190,7 +190,7 @@
 			{#if recommendedSipsData?.schemeCode && recommendedSipsData?.schemeName && recommendedSipsData?.isin}
 				<OptimisePortfolioCard
 					on:click={() => toggleOptimisePorfolioCard(true)}
-					currentSchemeLogo={optimisedScheme?.logoUrl || ''}
+					currentSchemeLogo={recommendedSipsData?.firstSchemeLogoUrl || ''}
 					peopleInvested={recommendedSipsData?.clientWithMultipleSips}
 					class={'!shadow'}
 				/>

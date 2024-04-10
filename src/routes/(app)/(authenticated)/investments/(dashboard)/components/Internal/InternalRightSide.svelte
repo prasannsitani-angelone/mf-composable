@@ -117,7 +117,7 @@
 		{#if optimisePorfolioData?.schemeCode && optimisePorfolioData?.schemeName && optimisePorfolioData?.isin}
 			<article class="mt-2 hidden sm:block">
 				<OptimisePortfolioCard
-					currentSchemeLogo={logoUrl || ''}
+					currentSchemeLogo={optimisePorfolioData?.firstSchemeLogoUrl || ''}
 					peopleInvested={optimisePorfolioData?.clientWithMultipleSips}
 					on:click={toggleOptimisePorfolioCard}
 				/>

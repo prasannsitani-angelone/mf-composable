@@ -304,6 +304,7 @@ export interface IOPtimsiePortfolioData {
 	schemeName: string;
 	logoUrl: string;
 	clientWithMultipleSips?: number;
+	firstSchemeLogoUrl?: string;
 }
 
 export interface ITaxation {
