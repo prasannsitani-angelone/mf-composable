@@ -181,7 +181,7 @@
 </script>
 
 <section
-	class="h-screen w-full overflow-y-auto bg-background max-sm:overflow-auto md:max-h-[860px] md:w-[500px]"
+	class="z-60 flex h-full w-full flex-col overflow-y-auto bg-background md:max-h-[860px] md:w-[500px]"
 >
 	<div
 		class="mb-2 flex items-center bg-background-alt px-4 pb-3 pt-4 text-lg font-medium text-title"
