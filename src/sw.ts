@@ -7,7 +7,7 @@
 
 import { cleanupOutdatedCaches, precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { CacheFirst } from 'workbox-strategies';
+import { CacheFirst, NetworkFirst } from 'workbox-strategies';
 import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 import { ExpirationPlugin } from 'workbox-expiration';
 // import { BroadcastUpdatePlugin } from 'workbox-broadcast-update';
@@ -77,6 +77,27 @@ registerRoute(
 			new CacheableResponsePlugin({ statuses: [0, 200] }),
 			// 50 entries max, 30 days max
 			new ExpirationPlugin({ maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 * 30 })
+		]
+	})
+);
+
+registerRoute(
+	({ request }) => {
+		return (
+			request.mode === 'navigate' &&
+			request.url.includes('/mutual-funds/discoverfunds') &&
+			request.url.includes('/mutual-funds/b/discoverfunds') &&
+			request.headers.get('User-Agent')?.includes('wv')
+		); // enable cache only for Webview
+	},
+	new NetworkFirst({
+		cacheName: 'pages',
+		plugins: [
+			new CacheableResponsePlugin({ statuses: [200] }),
+			new ExpirationPlugin({
+				maxEntries: 500,
+				maxAgeSeconds: 60 * 60 * 24 * 30 // 30 days cache
+			})
 		]
 	})
 );
