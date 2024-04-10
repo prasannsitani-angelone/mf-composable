@@ -152,7 +152,19 @@
 		}
 
 		browserDetails = isBrowserSupported();
+
+		applyThemeClassToBody();
 	});
+
+	// adding the theme class name to body tag so that theme variables can be applied.
+	const applyThemeClassToBody = () => {
+		if (browser) {
+			requestAnimationFrame(() => {
+				document?.body?.classList?.add(theme.name);
+			});
+		}
+	};
+
 	const onVisibilityChange = (e: Event) => {
 		if (e?.target?.visibilityState === 'hidden') {
 			appBackground();
