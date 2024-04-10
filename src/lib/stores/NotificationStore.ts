@@ -20,8 +20,8 @@ function CreateStore() {
 		subscribe,
 		getNotifications: () => notifications,
 		set: (store: INotification) => set(store),
-		fetchNewNotifications: async () => {
-			const notifications = await getPendingActionsData();
+		fetchNewNotifications: async (isGuest = false) => {
+			const notifications = await getPendingActionsData(isGuest);
 			if (notifications) {
 				set(notifications);
 			}

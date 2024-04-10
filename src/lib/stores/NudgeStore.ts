@@ -16,7 +16,7 @@ function CreateStore() {
 		subscribe,
 		getNudges: () => nudgeData,
 		set: (store: NudgeDataType) => set(store),
-		fetchNewNudges: async (isGuest: boolean) => {
+		fetchNewNudges: async (isGuest = false) => {
 			const newNudgeData = await getNudgeData(isGuest);
 			if (newNudgeData) {
 				set(newNudgeData);

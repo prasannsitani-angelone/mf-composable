@@ -406,7 +406,7 @@
 	const onVisibilityChange = () => {
 		NudgeStore.fetchNewNudges(isGuest);
 		setAllNudgesData();
-		NotificationsStore.fetchNewNotifications();
+		NotificationsStore.fetchNewNotifications(isGuest);
 		setNotificationData();
 		schemeScreenerStore?.reinitializeStore();
 		cartStore.updateCartData(isGuest);

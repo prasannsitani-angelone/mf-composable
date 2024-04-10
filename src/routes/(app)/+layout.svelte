@@ -84,7 +84,7 @@
 		profileStore.updateStore({ ...profile });
 		bannerStore.storeAlertSleeveData(searchDashboardData?.banner?.[0] || {});
 
-		NotificationsStore.fetchNewNotifications();
+		NotificationsStore.fetchNewNotifications(isGuest);
 		NudgeStore.fetchNewNudges(isGuest);
 
 		await tick();
