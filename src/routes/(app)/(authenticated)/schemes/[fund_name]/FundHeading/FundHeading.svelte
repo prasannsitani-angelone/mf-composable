@@ -17,16 +17,16 @@
 	<header class="">
 		<section class="flex cursor-pointer flex-col p-4 !pb-0 pl-3 text-lg md:px-6 md:py-5">
 			<ChipOverview
-				headingPrimary={schemeDetails?.categoryName}
-				headingSecondary={schemeDetails?.subcategoryName}
+				headingPrimary={schemeDetails?.schemePlan}
+				headingSecondary={schemeDetails?.reInvestmentPlan}
 			/>
 			<div class="ml-1 flex items-center text-base text-title sm:ml-0">
 				<SchemeLogo src={schemeDetails?.logoUrl} />
 				<div>
 					{schemeDetails?.schemeName}
 					<div class="mt-1 flex flex-wrap items-center gap-2 whitespace-nowrap">
-						<Tag name={schemeDetails.schemePlan} />
-						<Tag name={schemeDetails.reInvestmentPlan} />
+						<Tag name={schemeDetails?.categoryName} />
+						<Tag name={schemeDetails?.subcategoryName} />
 					</div>
 				</div>
 				{#if !isNFO}

@@ -106,8 +106,8 @@
 						<Tr on:click={() => onTableRowSelect(schemes)} class="!last:border-none !border-b">
 							<Td class="border-none !px-0">
 								<ChipOverview
-									headingPrimary={schemes?.categoryName}
-									headingSecondary={schemes?.subcategoryName}
+									headingPrimary={schemePlan}
+									headingSecondary={schemeReInvestmentPlan}
 								/>
 								<Link
 									to={`/schemes/${normalizeFundName(
@@ -126,9 +126,9 @@
 										</h3>
 									</div>
 								</Link>
-								<div class="ml-11 mt-2 flex flex-wrap items-center gap-2 whitespace-nowrap">
-									<Tag name={schemePlan} />
-									<Tag name={schemeReInvestmentPlan} />
+								<div class="ml-11 flex flex-wrap items-center gap-2 whitespace-nowrap">
+									<Tag name={schemes?.categoryName} />
+									<Tag name={schemes?.subcategoryName} />
 								</div>
 							</Td>
 							<Td class="border-none !p-0"

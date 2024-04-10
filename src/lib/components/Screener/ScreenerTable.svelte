@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { base } from '$app/paths';
+	import ChipOverview from '$components/ChipOverview.svelte';
 	import SchemeLogo from '$components/SchemeLogo.svelte';
 	import TBody from '$components/Table/TBody.svelte';
 	import Td from '$components/Table/TD.svelte';
@@ -60,7 +61,8 @@
 							? '!py-3'
 							: '!pb-1 !pt-3'
 						: ''} "
-					><a
+				>
+					<a
 						class="flex w-full items-start overflow-hidden text-ellipsis whitespace-pre-wrap align-middle"
 						href={normalizeFundName(funds?.schemeName, funds?.isin, funds?.schemeCode)}
 					>
@@ -70,6 +72,12 @@
 							<SchemeLogo src={funds?.logoUrl} class="h-12 w-12" />
 						{/if}
 						<div class="flex flex-col self-center">
+							{#if pageSource === SCREENER_SOURCE.EXPLORE_MF}
+								<ChipOverview
+									headingPrimary={funds?.schemePlan}
+									headingSecondary={funds?.schemeOption}
+								/>
+							{/if}
 							<span class="line-clamp-2 text-sm font-normal text-title">{funds?.schemeName}</span>
 							{#if pageSource === SCREENER_SOURCE.EXPLORE_MF}
 								<div class="mt-1 flex flex-wrap items-center gap-2 whitespace-nowrap">
