@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
@@ -21,13 +21,20 @@
 		investmentDetailsScreenOpenAnalytics,
 		investmentDetailsExternalScreenOpenAnalytics
 	} from '../analytics';
+	import PortfolioOverview from '../portfolio/components/PortfolioOverview.svelte';
+	import PortfolioGraph from '../portfolio/components/PortfolioGraph.svelte';
+	import type { BenchmarkDataType, ChartDataType } from '$lib/types/IPortfolioDetails';
 
 	export let holdings: FolioHoldingType;
 	export let chartData: ChartData;
+	export let fundChartData: Array<ChartDataType>;
 	export let ordersData: Transaction[];
 	export let schemeDetails: SchemeDetails;
+	export let benchmarkData: BenchmarkDataType;
 	export let mappingScheme: SchemeDetails;
 	export let isRedemptionNotAllowed = false;
+
+	const dispatch = createEventDispatcher();
 
 	const userType = $page.data?.profile?.userType || '';
 	$: isExternal = $page?.data?.isExternal;
@@ -43,6 +50,10 @@
 		BlockedAmount: number;
 		BlockedUnits: number;
 	}[] = [];
+
+	const handlePortfolioChartTagChange = (tagIndex: number) => {
+		dispatch('portfolioChartTagChange', tagIndex);
+	};
 
 	const setFolioArrayAnalytics = () => {
 		holdings?.folioHoldings?.forEach((folio) => {
@@ -155,6 +166,7 @@
 			data={schemeDetails}
 			schemeName={holdings?.schemeName}
 			logoUrl={holdings?.logoUrl}
+			logoSize="xs"
 			categoryName={holdings?.schemePlan}
 			subcategoryName={holdings?.sipEnabled ? 'SIP' : 'ONE-TIME'}
 			titleStyle="ml-1 text-sm lg:text-lg font-normal text-title"
@@ -162,6 +174,9 @@
 			subCategoryStyle="ml-1 font-normal"
 			on:click={handleSchemeCardClick}
 		>
+			<svelte.fragment slot="schemeInfo">
+				<span />
+			</svelte.fragment>
 			<svelte.fragment slot="ratingSection">
 				<span />
 			</svelte.fragment>
@@ -174,11 +189,12 @@
 			</svelte.fragment>
 		</ResultItem>
 	</article>
-	<HoldingsOverview
-		folioSummary={holdings}
-		chartDataList={chartData.chart}
-		showGraphTags={false}
-		{isPartialImport}
+	<PortfolioOverview folioSummary={holdings} xirr={holdings?.xirrPer} {isExternal} />
+	<PortfolioGraph
+		bind:fundChartData
+		bind:benchmarkData
+		isEquityPortfolioFlag={true}
+		on:portfolioChartTagChange={(e) => handlePortfolioChartTagChange(e?.detail)}
 	/>
 
 	{#if isExternal}

@@ -7,7 +7,7 @@
 	export let lineChartOptions;
 	export let chartId = 'line-chart';
 	export let tags: Tags = [];
-	export let selectedTag: number;
+	export let selectedTag: number | string;
 	export let onTagClick: (param1: string, param2: number) => undefined;
 	export let tagsContainerClass = '';
 </script>

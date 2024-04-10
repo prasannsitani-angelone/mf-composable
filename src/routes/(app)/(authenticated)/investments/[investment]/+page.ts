@@ -30,6 +30,16 @@ export const load = (async ({ fetch, params }) => {
 		return useFetch(url, {}, fetch);
 	};
 
+	const getBenchmarkData = async (benchMarkCoCode = '') => {
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings/simulate?index=${benchMarkCoCode}&months=240&isin=${isin}`;
+		const res = await useFetch(url, {}, fetch);
+
+		if (res?.ok && res?.status === 200) {
+			return res?.data;
+		}
+		return {};
+	};
+
 	const getPageData = async () => {
 		try {
 			const res = await Promise.all([
@@ -38,12 +48,20 @@ export const load = (async ({ fetch, params }) => {
 				getOrdersData(),
 				getSchemeData()
 			]);
+
+			let benchmarkData = {};
+			if (res[0].ok && res[0].data?.benchMarkCoCode) {
+				const benchMarkCoCode = res[0].data?.benchMarkCoCode;
+				benchmarkData = await getBenchmarkData(benchMarkCoCode);
+			}
+
 			return {
 				holdingsData: res[0].ok ? res[0].data || {} : {},
 				chartData: res[1].ok && res[1].data?.status === 'success' ? res[1].data?.data || {} : {},
 				ordersData:
 					res[2].ok && res[2].data?.status === 'success' ? res[2].data?.transactions || [] : [],
-				schemeData: res[3].ok ? res[3].data || {} : {}
+				schemeData: res[3].ok ? res[3].data || {} : {},
+				benchmarkData
 			};
 		} catch (e) {
 			console.log('the errorrrrrr -- ', e);

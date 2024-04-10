@@ -82,16 +82,17 @@
 	</svelte:fragment>
 	{#if folioDetails?.folioHoldings?.length}
 		<section>
-			{#if showFolioList}
-				<FolioTable data={table} />
-			{/if}
+			<FolioTable data={table} showAllFolios={showFolioList} />
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
-			<div
-				class="flex cursor-pointer items-end justify-center border-t py-5 text-sm font-medium text-primary"
-				on:click={toggleShowFolioList}
-			>
-				{showFolioList ? 'Hide' : 'Show All Folios'}
-			</div>
+			<!-- svelte-ignore a11y-no-static-element-interactions -->
+			{#if folioDetails?.folioHoldings?.length > 2}
+				<div
+					class="flex cursor-pointer items-end justify-center border-t py-5 text-sm font-medium text-primary"
+					on:click={toggleShowFolioList}
+				>
+					{showFolioList ? 'Hide' : 'Show All Folios'}
+				</div>
+			{/if}
 		</section>
 	{/if}
 </Card>

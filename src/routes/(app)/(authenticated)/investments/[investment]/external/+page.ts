@@ -44,6 +44,16 @@ export const load = (async ({ fetch, params }) => {
 		return useFetch(url, {}, fetch);
 	};
 
+	const getBenchmarkData = async (benchMarkCoCode = '') => {
+		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings/simulate?index=${benchMarkCoCode}&months=240&isin=${isin}&isExternal=true`;
+		const res = await useFetch(url, {}, fetch);
+
+		if (res?.ok && res?.status === 200) {
+			return res?.data;
+		}
+		return {};
+	};
+
 	const getPageData = async () => {
 		const res = await Promise.all([
 			getHoldingsData(),
@@ -52,6 +62,13 @@ export const load = (async ({ fetch, params }) => {
 			getSchemeData(),
 			getMappingScheme()
 		]);
+
+		let benchmarkData = {};
+		if (res[0].ok && res[0].data?.benchMarkCoCode) {
+			const benchMarkCoCode = res[0].data?.benchMarkCoCode;
+			benchmarkData = await getBenchmarkData(benchMarkCoCode);
+		}
+
 		return {
 			holdingsData: res[0].ok ? res[0].data || {} : {},
 			chartData: res[1].ok && res[1].data?.status === 'success' ? res[1].data?.data || {} : {},
@@ -59,7 +76,8 @@ export const load = (async ({ fetch, params }) => {
 				res[2].ok && res[2].data?.status === 'success' ? res[2].data?.transactions || [] : [],
 			schemeData: res[3].ok ? res[3].data || {} : {},
 			mappingScheme:
-				res[4].ok && res[4].data?.status === 'success' ? res[4].data.regularDirectScheme[0] : {}
+				res[4].ok && res[4].data?.status === 'success' ? res[4].data.regularDirectScheme[0] : {},
+			benchmarkData
 		};
 	};
 

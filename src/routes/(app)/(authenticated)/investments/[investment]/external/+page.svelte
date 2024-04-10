@@ -19,6 +19,8 @@
 	import ExternalInvestmentDetailsFooter from './components/ExternalInvestmentDetailsFooter.svelte';
 	import { browser } from '$app/environment';
 	import { externalInvestmentInvestMoreClickEvent } from './analytics';
+	import type { BenchmarkDataType, ChartDataType } from '$lib/types/IPortfolioDetails';
+	import { updateLineChart } from '../utils';
 
 	export let data: PageData;
 
@@ -27,22 +29,24 @@
 		href: string;
 	}
 
+	type AllResponseSchema = {
+		holdingsData: FolioHoldingType;
+		chartData: ChartData;
+		ordersData: OrdersData;
+		schemeData: SchemeDetails;
+		mappingScheme: SchemeDetails;
+		benchmarkData: BenchmarkDataType;
+	};
+
 	let breadCrumbs: BreadcrumbType[];
 	$: breadCrumbs = [];
 	$: holdingsData = <FolioHoldingType>{};
 	let mappingScheme = <SchemeDetails>{};
-
+	let fundChartData: Array<ChartDataType>;
+	let benchmarkData: BenchmarkDataType;
 	let isInvestmentNotAllowed = false;
 
-	async function setPageData(
-		data: Promise<{
-			holdingsData: FolioHoldingType;
-			chartData: ChartData;
-			ordersData: OrdersData;
-			schemeData: SchemeDetails;
-			mappingScheme: SchemeDetails;
-		}>
-	) {
+	async function setPageData(data: Promise<AllResponseSchema>) {
 		const result = await data;
 
 		breadCrumbs = [
@@ -66,6 +70,8 @@
 
 		holdingsData = result?.holdingsData;
 		mappingScheme = result?.mappingScheme;
+		fundChartData = result?.chartData?.chart;
+		benchmarkData = result?.benchmarkData;
 
 		const userType = userStore?.userType();
 		const externalSchemePlan = holdingsData?.schemePlan?.toUpperCase();
@@ -85,6 +91,9 @@
 	$: {
 		setPageData(data.api?.allResponse);
 	}
+
+	let allResponse: Promise<AllResponseSchema> | AllResponseSchema;
+	$: allResponse = data.api?.allResponse;
 
 	const handleErrorNavigation = () => goto('/');
 
@@ -121,6 +130,18 @@
 			CTAvalue: 'InvestMore'
 		});
 	};
+
+	const handleUpdateLineChart = async (tagIndex: number) => {
+		const fundName = $page?.params['investment'];
+		const allResData = await allResponse;
+		const benchMarkCoCode = allResData?.holdingsData?.benchMarkCoCode;
+		const isExternal = true;
+
+		let res = await updateLineChart(tagIndex, fundName, benchMarkCoCode, isExternal);
+
+		fundChartData = res?.[0] || [];
+		benchmarkData = res?.[1] || {};
+	};
 </script>
 
 <SEO
@@ -137,11 +158,14 @@
 
 			<!-- Investment Details Page (Mobile and Desktop Layout) -->
 			<LeftSideView
+				{fundChartData}
+				{benchmarkData}
 				{mappingScheme}
 				holdings={res.holdingsData}
 				chartData={res.chartData}
 				ordersData={res.ordersData}
 				schemeDetails={res.schemeData}
+				on:portfolioChartTagChange={(e) => handleUpdateLineChart(e?.detail)}
 			/>
 
 			{#if isMobile || isTablet}

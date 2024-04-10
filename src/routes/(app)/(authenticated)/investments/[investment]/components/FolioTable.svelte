@@ -7,6 +7,7 @@
 	import type { FolioTableData } from '$lib/types/IInvestments';
 
 	export let data: FolioTableData;
+	export let showAllFolios = false;
 </script>
 
 <Table class={$$props.class}>
@@ -18,16 +19,18 @@
 		{/each}
 	</THead>
 	<TBody slot="tbody">
-		{#each data.rows as rowData}
-			<tr class="[&>td]:border-b-0">
-				{#each data.columns as eachCol}
-					<Td class={`border-b py-4 pl-5 pr-6 text-center text-body ${eachCol.tdClass}`}>
-						<div class={`text-title`}>
-							{eachCol.tdRender ? eachCol.tdRender(rowData) : rowData[eachCol.field]}
-						</div>
-					</Td>
-				{/each}
-			</tr>
+		{#each data.rows as rowData, index (index)}
+			{#if showAllFolios || index < 2}
+				<tr class="[&>td]:border-b-0">
+					{#each data.columns as eachCol}
+						<Td class={`border-b py-4 pl-5 pr-6 text-center text-body ${eachCol.tdClass}`}>
+							<div class={`text-title`}>
+								{eachCol.tdRender ? eachCol.tdRender(rowData) : rowData[eachCol.field]}
+							</div>
+						</Td>
+					{/each}
+				</tr>
+			{/if}
 		{/each}
 	</TBody>
 </Table>

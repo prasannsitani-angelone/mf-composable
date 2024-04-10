@@ -51,6 +51,8 @@
 	import { appStore } from '$lib/stores/SparkStore';
 	import { goBackToSpark } from '$lib/utils';
 	import { getDataforInvestment } from '../../../InvestmentPad/api';
+	import type { BenchmarkDataType, ChartDataType } from '$lib/types/IPortfolioDetails';
+	import { updateLineChart } from './utils';
 
 	export let data: PageData;
 
@@ -68,6 +70,8 @@
 	$: queryParamsObj = <OrderPadTypes>{};
 	$: isSwitchModalOpen = false;
 
+	let fundChartData: Array<ChartDataType>;
+	let benchmarkData: BenchmarkDataType;
 	let orderPadActiveTab = investmentDetailsFooterEvents?.INVEST;
 	let isInvestmentNotAllowed = false;
 	let investDisableText = '';
@@ -81,14 +85,15 @@
 	let categoryName = '';
 	let subCategoryName = '';
 
-	async function setPageData(
-		data: Promise<{
-			holdingsData: FolioHoldingType;
-			chartData: ChartData;
-			ordersData: OrdersData;
-			schemeData: SchemeDetails;
-		}>
-	) {
+	type AllResponseSchema = {
+		holdingsData: FolioHoldingType;
+		chartData: ChartData;
+		ordersData: OrdersData;
+		schemeData: SchemeDetails;
+		benchmarkData: BenchmarkDataType;
+	};
+
+	async function setPageData(data: Promise<AllResponseSchema>) {
 		const result = await data;
 
 		breadCrumbs = [
@@ -111,6 +116,8 @@
 		];
 
 		holdingsData = result?.holdingsData;
+		fundChartData = result?.chartData?.chart;
+		benchmarkData = result?.benchmarkData;
 
 		isInvestmentNotAllowed = !isInvestmentAllowed(userStore?.userType(), holdingsData?.schemePlan);
 
@@ -125,6 +132,20 @@
 	$: {
 		setPageData(data.api?.allResponse);
 	}
+
+	let allResponse: Promise<AllResponseSchema> | AllResponseSchema;
+	$: allResponse = data.api.allResponse;
+
+	const handleUpdateLineChart = async (tagIndex: number) => {
+		const fundName = $page?.params['investment'];
+		const allResData = await allResponse;
+		const benchMarkCoCode = allResData?.holdingsData?.benchMarkCoCode;
+
+		let res = await updateLineChart(tagIndex, fundName, benchMarkCoCode);
+
+		fundChartData = res?.[0] || [];
+		benchmarkData = res?.[1] || {};
+	};
 
 	const setIsWithdrawalStcgLtcgEligible = () => {
 		const { ltcgInvAmount, ltcgCurAmount } = taxationDetails || {};
@@ -433,11 +454,14 @@
 			{#if (!isMobile && !isTablet) || !(showInvestmentPad || showRedemptionPad)}
 				<!-- Investment Details Page (Mobile and Desktop Layout) -->
 				<LeftSideView
+					{fundChartData}
+					{benchmarkData}
 					holdings={res.holdingsData}
 					chartData={res.chartData}
 					ordersData={res.ordersData}
 					schemeDetails={res.schemeData}
 					isRedemptionNotAllowed={Boolean(withdrawDisableText?.length)}
+					on:portfolioChartTagChange={(e) => handleUpdateLineChart(e?.detail)}
 				/>
 
 				{#if res.holdingsData}

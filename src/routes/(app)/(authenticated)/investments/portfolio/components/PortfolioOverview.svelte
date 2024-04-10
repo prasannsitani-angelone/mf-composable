@@ -1,6 +1,10 @@
 <script lang="ts">
 	import Card from '$components/Card.svelte';
-	import type { InternalInvestmentSummary, InvestmentSummary } from '$lib/types/IInvestments';
+	import type {
+		FolioHoldingType,
+		InternalInvestmentSummary,
+		InvestmentSummary
+	} from '$lib/types/IInvestments';
 	import { getTimestampHoursDifference } from '$lib/utils/helpers/date';
 	import { addCommasToAmountString } from '$lib/utils/helpers/formatAmount';
 	import { createEventDispatcher } from 'svelte';
@@ -10,7 +14,8 @@
 	import RefreshFunds from '../../(dashboard)/components/RefreshFunds.svelte';
 	import { refreshWaitHours } from '../../constants';
 
-	export let folioSummary: InternalInvestmentSummary | InvestmentSummary;
+	export let folioSummary: InternalInvestmentSummary | InvestmentSummary | FolioHoldingType;
+	export let xirr = 0;
 	export let isExternal = false;
 	export let data: PageData;
 
@@ -107,10 +112,8 @@
 				<div class="text-right">
 					<h3 class="text-xs font-normal text-body">XIRR</h3>
 					<p class="text-xs font-medium text-title">
-						{folioSummary?.xirr < 0 ? '-' : ''}
-						{!Number.isNaN(Math.abs(folioSummary?.xirr))
-							? addCommasToAmountString(Math.abs(folioSummary?.xirr)?.toFixed(2))
-							: ''}%
+						{xirr < 0 ? '-' : ''}
+						{xirr ? addCommasToAmountString(Math.abs(xirr)?.toFixed(2)) + '%' : '- -'}
 					</p>
 				</div>
 			{/if}

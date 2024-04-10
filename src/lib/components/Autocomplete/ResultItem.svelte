@@ -15,6 +15,7 @@
 	export let data: dataObj;
 	export let schemeName = '';
 	export let logoUrl = '';
+	export let logoSize = 'sm';
 	export let categoryName = '';
 	export const subcategoryName = '';
 	export let itemStyle = '';
@@ -27,6 +28,7 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <article
 	class="flex p-3 lg:p-4 {itemStyle
 		? itemStyle
@@ -35,7 +37,7 @@
 >
 	<section class="flex pr-4 {containerStyle} {itemStyle ? itemStyle : 'items-center'}">
 		<slot name="schemeLogo">
-			<SchemeLogo src={data?.logoUrl || logoUrl} alt="logo" class={logoStyle} />
+			<SchemeLogo size={logoSize} src={data?.logoUrl || logoUrl} alt="logo" class={logoStyle} />
 		</slot>
 		<div class={categoryContainerStyle}>
 			<slot name="schemeInfo">

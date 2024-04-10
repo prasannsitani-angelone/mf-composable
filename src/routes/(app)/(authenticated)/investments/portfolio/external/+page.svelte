@@ -138,6 +138,7 @@
 			<PortfolioOverview
 				{data}
 				folioSummary={summaryData}
+				xirr={summaryData?.xirr}
 				isExternal={true}
 				on:fetchFundsSuccess={updatePageData}
 			/>

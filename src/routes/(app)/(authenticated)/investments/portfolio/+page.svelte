@@ -177,7 +177,7 @@
 		<section>
 			<Breadcrumbs items={breadCrumbs} class="my-4 hidden items-center justify-start md:flex" />
 			<PageTitle title="Portfolio Analysis" class="mb-0 lg:mb-4" />
-			<PortfolioOverview folioSummary={summaryData} />
+			<PortfolioOverview folioSummary={summaryData} xirr={summaryData?.xirr} />
 			<PortfolioGraph
 				bind:fundChartData
 				bind:benchmarkData

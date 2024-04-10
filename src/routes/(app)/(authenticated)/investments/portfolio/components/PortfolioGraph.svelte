@@ -183,18 +183,21 @@
 	const filterTags = () => {
 		// if 'ALL' timeline's data ^^IS NOT PRESENT^^
 		if (selectedTag !== 'ALL') {
-			return !filteredTags?.length ? tags : filteredTags;
+			if (!filteredTags?.length) filteredTags = tags;
+			return;
 		}
 		// if 'ALL' timeline's data ^^IS PRESENT^^
 		let oldestDate;
 		const today = new Date();
-		if (isEquityPortfolioFlag) {
-			if (!benchmarkData?.holdingChart?.length) return tags;
+		if (isEquityPortfolioFlag && benchmarkData?.holdingChart?.length) {
 			const oldestTimestamp =
 				benchmarkData?.holdingChart?.[benchmarkData?.holdingChart?.length - 1]?.timestamp;
 			oldestDate = new Date(oldestTimestamp);
 		} else {
-			if (!fundChartData?.length) return tags;
+			if (!fundChartData?.length) {
+				filteredTags = tags;
+				return;
+			}
 			const oldestTimestamp = fundChartData?.[fundChartData?.length - 1]?.timestamp;
 			oldestDate = new Date(oldestTimestamp);
 		}
@@ -220,8 +223,6 @@
 		selectedTag !== 'ALL'
 			? tags.find((tag) => tag?.label === selectedTag)?.text?.toLowerCase()
 			: 'you started investing';
-
-	$: console.log('benchmarkTimelineText', { benchmarkTimelineText });
 
 	const formatDate = (navDate) => {
 		navDate = navDate.split(',');
