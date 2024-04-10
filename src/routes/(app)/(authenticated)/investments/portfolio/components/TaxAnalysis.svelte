@@ -46,7 +46,8 @@
 		const currentYear = today.getFullYear().toString();
 		const fiscalYr = { start: '', end: '' };
 
-		if (curMonth > 3) {
+		if (curMonth > 2) {
+			// getMonth() returns month starting 0
 			const nextYr1 = (today.getFullYear() + 1).toString();
 			fiscalYr.start = currentYear;
 			fiscalYr.end = nextYr1;

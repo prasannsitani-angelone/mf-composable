@@ -146,7 +146,9 @@
 	<section class="flex h-fit max-h-96 flex-col overflow-auto">
 		<div class="my-4 rounded text-center text-sm font-normal">
 			Earn <span class="font-normal"
-				>up to ₹{addCommasToAmountString(fiveYearMaturityAmount?.toString())} more</span
+				>up to ₹{addCommasToAmountString(
+					(fiveYearMaturityAmount - Math.round(currentValue))?.toString()
+				)} more</span
 			> in returns over 5 years
 		</div>
 

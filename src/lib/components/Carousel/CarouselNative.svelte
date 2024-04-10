@@ -186,10 +186,12 @@
 		chevronClass,
 		activeIndicatorColor
 	};
+
+	$: totalNoOfElements = childrens - (Math.round(slidesPerView) - 1);
 </script>
 
 <div {id} class="flex w-full flex-row items-center {$$props?.class || ''}">
-	{#if navigation}
+	{#if navigation && totalNoOfElements > 1}
 		<slot name="prev-arrow">
 			<div class="carousel-prev-{id} {chevronClass}">
 				<WMSIcon
@@ -210,9 +212,8 @@
 			<slot />
 		</div>
 		{#if pagination}
-			{@const totalNoOfElements = childrens - (Math.round(slidesPerView) - 1)}
 			<div class="my-4 flex items-center justify-center gap-2 {indicatorClass}">
-				{#if totalNoOfElements > 0}
+				{#if totalNoOfElements > 1}
 					{#each Array(totalNoOfElements) as page, index (index)}
 						{#if currentIndex === index}
 							<slot name="activeIndicator">
@@ -244,7 +245,7 @@
 			</div>
 		{/if}
 	</div>
-	{#if navigation}
+	{#if navigation && totalNoOfElements > 1}
 		<slot name="next-arrow">
 			<div class="carousel-next-{id} {chevronClass}">
 				<WMSIcon
