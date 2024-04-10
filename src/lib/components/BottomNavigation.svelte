@@ -40,6 +40,7 @@
 			{:else}
 				<Link
 					to={nav.path}
+					preloadData={$appStore.isTabView ? 'off' : 'hover'}
 					on:linkClicked={() => handleBottomNavClick(nav.label)}
 					class="inline-block w-full justify-center py-[9px] text-center"
 					pathConversion={false}
