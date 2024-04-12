@@ -13,6 +13,7 @@
 	export let fundChartData: Array<ChartDataType>;
 	export let benchmarkData: BenchmarkDataType;
 	export let isEquityPortfolioFlag: boolean;
+	export let benchmarkName: string;
 
 	const dispatch = createEventDispatcher();
 
@@ -34,7 +35,7 @@
 	];
 
 	const benchmarkInfoPoints = [
-		`Benchmarks help you compare your portfolio's performance with the average returns of markets. Nifty 50 is the standard benchmark for portfolios in the Indian market.`,
+		`Benchmarks help you compare your portfolio's performance with the average returns of markets. ${benchmarkName} is the standard benchmark for portfolios in the Indian market.`,
 		`If your portfolio returns beat the benchmark over time, it means your portfolio is doing well. This is a positive indicator of your mutual fund selection and investment timing.`,
 		`Losing to the benchmark may indicate that the mutual funds you selected are not performing well or you invested at the wrong time, or both.`
 	];
@@ -372,7 +373,7 @@
 										<div style="width: 8px; height: 8px; background: ${nav?.color}; border-radius: 100%;"></div>
 										<div class="ml-1 flex items-start gap-1">
                       <span class="text-body whitespace-nowrap text-xs">${
-												index === 0 ? 'Your Portfolio' : 'Nifty 50'
+												index === 0 ? 'Your Portfolio' : benchmarkName
 											}: </span>
                       <span class="text-title font-medium text-xs">
 											${nav?.nav > 0 ? `₹${addCommasToAmountString(parseFloat(nav?.nav?.toFixed(2)))}` : 'NA'}
@@ -454,7 +455,8 @@
 								? addCommasToAmountString(
 										Math.abs(benchmarkData?.summary?.portReturnsOverBm)?.toFixed(2)
 								  )
-								: ''}% {benchmarkText} Nifty 50
+								: ''}% {benchmarkText}
+							{benchmarkName}
 						</span>since {benchmarkTimelineText}
 					</p>
 				</article>
@@ -466,7 +468,7 @@
 					<div class="ml-1">
 						<WMSIcon stroke="var(--SECONDARY)" name="eclipse" height={8} width={8} />
 					</div>
-					<div class="text-[10px] font-normal">Nifty 50 (Index Benchmark)</div>
+					<div class="text-[10px] font-normal">{benchmarkName} (Index Benchmark)</div>
 					<div class="cursor-default md:cursor-pointer">
 						<WMSIcon
 							width={12}
@@ -503,7 +505,7 @@
 {#if showAboutBenchmarkModal}
 	<InfoModal
 		showModal={showAboutBenchmarkModal}
-		heading="Performance Comparison with Nifty 50"
+		heading={`Performance Comparison with ${benchmarkName}`}
 		on:crossClicked={toggleShowAboutBenchmarkModal}
 	>
 		<div slot="crossIconSlot" />

@@ -193,6 +193,7 @@
 					bind:fundChartData
 					bind:benchmarkData
 					isEquityPortfolioFlag={summaryData?.isEquityPortfolioFlag}
+					benchmarkName={summaryData?.benchmarkName}
 					on:portfolioChartTagChange={(e) => updateLineChart(e?.detail)}
 					on:benchmarkInfoClick={() => benchmarkInfoIconClickAnalytics(summaryData)}
 				/>

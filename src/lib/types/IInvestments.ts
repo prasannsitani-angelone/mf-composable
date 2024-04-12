@@ -217,6 +217,7 @@ export interface FolioHoldingType {
 	safeKeepUnits: number;
 	unitBlockedReason: Array<string>;
 	benchMarkCoCode: string;
+	benchMarkName: string;
 }
 
 export interface SwitchInSchemeType {

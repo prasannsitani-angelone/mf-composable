@@ -194,6 +194,7 @@
 		bind:fundChartData
 		bind:benchmarkData
 		isEquityPortfolioFlag={true}
+		benchmarkName={holdings?.benchMarkName}
 		on:portfolioChartTagChange={(e) => handlePortfolioChartTagChange(e?.detail)}
 	/>
 
