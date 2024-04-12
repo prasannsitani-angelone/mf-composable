@@ -81,8 +81,8 @@
 							<span class="line-clamp-2 text-sm font-normal text-title">{funds?.schemeName}</span>
 							{#if pageSource === SCREENER_SOURCE.EXPLORE_MF}
 								<div class="mt-1 flex flex-wrap items-center gap-2 whitespace-nowrap">
-									<Tag name={funds?.schemePlan} />
-									<Tag name={funds?.schemeOption} />
+									<Tag name={funds?.categoryName} />
+									<Tag name={funds?.subcategoryName} />
 								</div>
 							{/if}
 							{#if pageSource !== SCREENER_SOURCE.HOMEPAGE}
