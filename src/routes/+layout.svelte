@@ -23,7 +23,16 @@
 	import { getThemeObject } from '$lib/stores/ThemeStore';
 
 	function logDelta(metric) {
-		logWebVitals(metric?.name, metric, parent?.location?.pathname);
+		// connectionDetails
+		const connectionDetails = {
+			downlink: navigator?.connection?.downlink,
+			effectiveType: navigator?.connection?.effectiveType,
+			rtt: navigator?.connection?.rtt,
+			saveData: navigator?.connection?.saveData,
+			url: window?.location?.href
+		};
+
+		logWebVitals(metric?.name, metric, parent?.location?.pathname, connectionDetails);
 	}
 	if (browser) {
 		onCLS(logDelta);
