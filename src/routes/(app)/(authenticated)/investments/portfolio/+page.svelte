@@ -21,7 +21,12 @@
 		InvestmentSummary
 	} from '$lib/types/IInvestments';
 	import ErrorLoadingComponent from '$components/ErrorLoadingComponent.svelte';
-	import { portfolioAnalysisScreenOpenAnalytics, graphYearSelectAnalytics } from '../analytics';
+	import {
+		portfolioAnalysisScreenOpenAnalytics,
+		graphYearSelectAnalytics,
+		portfolioBenchmarkInfoIconClickAnalytics,
+		portfolioBenchmarkPopupOpenAnalytics
+	} from '../analytics';
 	import { SEO } from 'svelte-components';
 	import SipHealthNudge from '$components/SipHealth/Nudge/SipHealthNudge.svelte';
 	import TaxAnalysis from './components/TaxAnalysis.svelte';
@@ -47,6 +52,14 @@
 	let investmentSummary: InvestmentSummary;
 	let optimisedScheme: InvestmentEntity;
 
+	$: benchmarkSummary = benchmarkData?.summary;
+	$: benchmarkComparison =
+		benchmarkSummary?.portReturnsOverBm < 0
+			? `${benchmarkSummary?.portReturnsOverBm?.toFixed(2)}% less`
+			: benchmarkSummary?.portReturnsOverBm > 0
+			? `${benchmarkSummary?.portReturnsOverBm?.toFixed(2)}% better`
+			: 'Equal';
+
 	const graphYearSelectAnalyticsFunc = (tagIndex: number) => {
 		const eventMetaData = {
 			YOY: `${tags[tagIndex]?.label} Returns`
@@ -57,14 +70,7 @@
 
 	const portfolioAnalysisScreenOpenAnalyticsFunc = (allResData: AllResponseSchema) => {
 		const folioSummary = allResData?.summaryData;
-		const benchmarkSummary = allResData?.benchmarkData?.summary;
 		const benchmarkChart = allResData?.benchmarkData?.holdingChart;
-		const benchmarkComparison =
-			benchmarkSummary?.portReturnsOverBm < 0
-				? `${benchmarkSummary?.portReturnsOverBm?.toFixed(2)}% less`
-				: benchmarkSummary?.portReturnsOverBm > 0
-				? `${benchmarkSummary?.portReturnsOverBm?.toFixed(2)}% better`
-				: 'Equal';
 
 		const eventMetaData = {
 			CurrentValue: parseFloat(folioSummary?.currentValue?.toFixed(2)),
@@ -76,7 +82,7 @@
 				2
 			)} (${folioSummary?.previousDayReturnPercentage?.toFixed(2)}%)`,
 			XIRR: Math.abs(folioSummary?.xirr)?.toFixed(2),
-			BenchMark: 'NIFTY50',
+			BenchMark: folioSummary?.benchmarkName || '',
 			BenchMarkComparison: benchmarkComparison,
 			BenchMarkValue: benchmarkChart?.[0]?.value?.toFixed(2)
 		};
@@ -150,11 +156,24 @@
 			(allResponse = allResponse);
 	};
 
+	const benchmarkInfoIconClickAnalytics = (summaryData: InternalInvestmentSummary) => {
+		const eventMetaData = {
+			BenchMark: summaryData?.benchmarkName || '',
+			BenchMarkComparision: benchmarkComparison,
+			BenchMarkValue: benchmarkData?.holdingChart?.[0]?.value?.toFixed(2) || '',
+			InvestedValue: Math.abs(summaryData?.investedValue)?.toFixed(2) || '',
+			InvestmentType: 'AngelOne'
+		};
+		portfolioBenchmarkInfoIconClickAnalytics(eventMetaData);
+		portfolioBenchmarkPopupOpenAnalytics(eventMetaData);
+	};
+
 	onMount(async () => {
 		const allResData = await allResponse;
 		fundChartData = allResData.chartData?.chart;
 		benchmarkData = allResData.benchmarkData;
 		portfolioAnalysisScreenOpenAnalyticsFunc(allResData || {});
+
 		let response = await data?.api?.recommendedSipsData;
 		recommendedSipsData = response?.recommendedScheme?.[0];
 		investmentSummary = data?.investementSummary;
@@ -183,6 +202,7 @@
 				bind:benchmarkData
 				isEquityPortfolioFlag={summaryData?.isEquityPortfolioFlag}
 				on:portfolioChartTagChange={(e) => updateLineChart(e?.detail)}
+				on:benchmarkInfoClick={() => benchmarkInfoIconClickAnalytics(summaryData)}
 			/>
 		</section>
 		<SipHealthNudge class="mb-2 mt-2 w-full sm:mt-4" cardStyle="sm:px-3" />

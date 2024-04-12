@@ -39,7 +39,7 @@
 
 <Table class={$$props.class}>
 	<THead slot="thead">
-		<Th class="h-3 w-9/12 !border-none !pl-0 text-start !normal-case sm:w-2/3">Fund Name</Th>
+		<Th class="h-3 w-9/12 !border-none !pl-0 text-start !normal-case sm:w-2/3">Funds</Th>
 
 		<Th
 			class="flex  h-3 cursor-pointer justify-end border-b !border-none bg-background-alt py-0 !pl-0 !pr-0 text-left font-normal text-body sm:!pl-5 sm:text-center"

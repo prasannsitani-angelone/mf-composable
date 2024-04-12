@@ -7,10 +7,6 @@
 	import { createEventDispatcher } from 'svelte';
 	import { SkeletonRectangle, WMSIcon } from 'svelte-components';
 	import Chart from '../../../schemes/fundcomparision/components/Chart.svelte';
-	import {
-		portfolioBenchmarkInfoIconClickAnalytics,
-		portfolioBenchmarkPopupOpenAnalytics
-	} from '../../analytics';
 	import { differenceInMonths } from 'date-fns';
 	import type { Tags } from '$lib/types/ITags';
 
@@ -54,8 +50,7 @@
 	const toggleShowAboutBenchmarkModal = () => {
 		showAboutBenchmarkModal = !showAboutBenchmarkModal;
 		if (showAboutBenchmarkModal) {
-			portfolioBenchmarkInfoIconClickAnalytics();
-			portfolioBenchmarkPopupOpenAnalytics();
+			dispatch('benchmarkInfoClick');
 		}
 	};
 

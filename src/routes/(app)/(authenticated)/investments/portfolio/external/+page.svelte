@@ -26,6 +26,11 @@
 	import PortfolioOverview from '../components/PortfolioOverview.svelte';
 	import TaxAnalysis from '../components/TaxAnalysis.svelte';
 	import type { PageData } from './$types';
+	import {
+		externalPortfolioBenchmarkInfoIconClickAnalytics,
+		externalPortfolioBenchmarkPopupOpenAnalytics,
+		externalPortfolioScreenOpenAnalytics
+	} from '$lib/analytics/externalPortfolio/externalPortfolio';
 
 	export let data: PageData;
 
@@ -63,6 +68,14 @@
 
 	let allResponse: Promise<AllResponseSchema> | AllResponseSchema;
 	$: allResponse = data.api.allResponse;
+
+	$: benchmarkSummary = benchmarkData?.summary;
+	$: benchmarkComparison =
+		benchmarkSummary?.portReturnsOverBm < 0
+			? `${benchmarkSummary?.portReturnsOverBm?.toFixed(2)}% less`
+			: benchmarkSummary?.portReturnsOverBm > 0
+			? `${benchmarkSummary?.portReturnsOverBm?.toFixed(2)}% better`
+			: 'Equal';
 
 	const updateLineChart = async (tagIndex: number) => {
 		let res;
@@ -113,6 +126,37 @@
 			(taxationData = resData[3].ok ? resData[3]?.data || {} : {});
 	};
 
+	const benchmarkInfoIconClickAnalytics = (summaryData: InvestmentSummary) => {
+		const eventMetaData = {
+			BenchMark: summaryData?.benchmarkName || '',
+			BenchMarkComparision: benchmarkComparison,
+			BenchMarkValue: benchmarkData?.holdingChart?.[0]?.value?.toFixed(2) || '',
+			InvestedValue: Math.abs(summaryData?.investedValue || 0)?.toFixed(2) || '',
+			InvestmentType: 'External'
+		};
+		externalPortfolioBenchmarkInfoIconClickAnalytics(eventMetaData);
+		externalPortfolioBenchmarkPopupOpenAnalytics(eventMetaData);
+	};
+
+	const screenImpressionAnalytics = (summaryData: InvestmentSummary) => {
+		const eventMetaData = {
+			CurrentValue: parseFloat(summaryData?.currentValue?.toFixed(2) || '0'),
+			TotalInvested: parseFloat(summaryData?.investedValue?.toFixed(2) || '0'),
+			OverallReturn: `${summaryData?.returnsValue?.toFixed(
+				2
+			)} (${summaryData?.returnsAbsolutePer?.toFixed(2)}%)`,
+			TodaysReturn: `${summaryData?.previousDayReturns?.toFixed(
+				2
+			)} (${summaryData?.previousDayReturnPercentage?.toFixed(2)}%)`,
+			BenchMark: summaryData?.benchmarkName || '',
+			BenchMarkComparision: benchmarkComparison,
+			BenchMarkValue: benchmarkData?.holdingChart?.[0]?.value?.toFixed(2) || '',
+			InvestedValue: parseFloat(summaryData?.investedValue?.toFixed(2) || '0'),
+			FundType: 'External'
+		};
+		externalPortfolioScreenOpenAnalytics(eventMetaData);
+	};
+
 	onMount(async () => {
 		const allResData = await allResponse;
 		summaryData = allResData.summaryData;
@@ -120,6 +164,8 @@
 		distributionData = allResData.distributionData;
 		benchmarkData = allResData.benchmarkData;
 		taxationData = await data?.api?.taxation;
+
+		screenImpressionAnalytics(summaryData);
 	});
 </script>
 
@@ -148,6 +194,7 @@
 					bind:benchmarkData
 					isEquityPortfolioFlag={summaryData?.isEquityPortfolioFlag}
 					on:portfolioChartTagChange={(e) => updateLineChart(e?.detail)}
+					on:benchmarkInfoClick={() => benchmarkInfoIconClickAnalytics(summaryData)}
 				/>
 			{/if}
 		</section>

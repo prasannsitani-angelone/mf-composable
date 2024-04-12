@@ -7,6 +7,7 @@
 	import RightIcon from '$lib/images/icons/RightIcon.svelte';
 	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
+	import { externalPortfolioViewAnalysisClickAnalytics } from '$lib/analytics/externalPortfolio/externalPortfolio';
 
 	export let investmentSummary: InvestmentSummary;
 	export let partialImportedFundCount = 0;
@@ -14,6 +15,19 @@
 	export let isPartialImport = false;
 
 	const onGoToPortfolioClick = (e: MouseEvent) => {
+		const eventMetaData = {
+			CurrentValue: parseFloat(investmentSummary?.currentValue?.toFixed(2) || '0'),
+			TotalInvestment: parseFloat(investmentSummary?.investedValue?.toFixed(2) || '0'),
+			OverallReturn: `${investmentSummary?.returnsValue?.toFixed(
+				2
+			)} (${investmentSummary?.returnsAbsolutePer?.toFixed(2)}%)`,
+			TodaysReturn: `${investmentSummary?.previousDayReturns?.toFixed(
+				2
+			)} (${investmentSummary?.previousDayReturnPercentage?.toFixed(2)}%)`,
+			TotalFunds: totalImportedFundCount,
+			FundType: 'External'
+		};
+		externalPortfolioViewAnalysisClickAnalytics(eventMetaData);
 		e.stopPropagation();
 		goto(`${base}/investments/portfolio/external`);
 	};
@@ -93,22 +107,20 @@
 		</article>
 	</section>
 
-	{#if investmentSummary?.lastImportStatus === 'COMPLETED' || investmentSummary?.lastImportStatus === 'STARTED'}
-		<section class="border-t border-neutral-100 border-opacity-10 px-4 lg:px-0">
-			<article data-testid="viewPortfolioAnalysis">
-				<!-- svelte-ignore a11y-click-events-have-key-events -->
-				<!-- svelte-ignore a11y-no-static-element-interactions -->
-				<div on:click={onGoToPortfolioClick}>
-					<div
-						class="px-17 flex cursor-pointer items-center justify-center pt-3 text-center text-sm font-medium"
-					>
-						<span> VIEW PORTFOLIO ANALYSIS </span>
-						<RightIcon class="ml-2" stroke="white" />
-					</div>
+	<section class="border-t border-neutral-100 border-opacity-10 px-4 lg:px-0">
+		<article data-testid="viewPortfolioAnalysis">
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<!-- svelte-ignore a11y-no-static-element-interactions -->
+			<div on:click={onGoToPortfolioClick}>
+				<div
+					class="px-17 flex cursor-pointer items-center justify-center pt-3 text-center text-sm font-medium"
+				>
+					<span> VIEW PORTFOLIO ANALYSIS </span>
+					<RightIcon class="ml-2" stroke="white" />
 				</div>
-			</article>
-		</section>
-	{/if}
+			</div>
+		</article>
+	</section>
 	{#if isPartialImport}
 		<section
 			class={`light my-4 flex items-start justify-around rounded-lg bg-white bg-opacity-10 px-3 py-4 md:my-6 md:py-3.5 lg:mx-0`}

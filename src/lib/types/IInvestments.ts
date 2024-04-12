@@ -142,6 +142,7 @@ export interface InternalInvestmentSummary {
 	previousDayReturnPercentage: number;
 	isEquityPortfolioFlag: boolean;
 	benchMarkCoCode: string;
+	benchmarkName: string;
 }
 export interface InvestmentSummary {
 	currentValue?: number;
@@ -155,6 +156,7 @@ export interface InvestmentSummary {
 	lastSuccessfullImportTs: number;
 	isEquityPortfolioFlag: boolean;
 	benchMarkCoCode: string;
+	benchmarkName: string;
 }
 
 export interface FolioObject {
