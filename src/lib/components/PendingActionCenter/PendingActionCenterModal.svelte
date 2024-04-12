@@ -142,7 +142,7 @@
 			>
 				<SetupAutopayCard
 					sipPendingCount={pendingActionsData?.sipWithoutMandate?.length}
-					sipTotalAmount={pendingActionsData?.sipWithoutMandate?.[0].Amount}
+					sipTotalAmount={pendingActionsData?.sipWithoutMandate?.[0]?.Amount}
 					on:autopayCardClick={(e) => handleActionItemCtaClick(e?.detail)}
 				/>
 				<ActionsDashboard
