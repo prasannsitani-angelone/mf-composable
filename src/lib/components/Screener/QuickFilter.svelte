@@ -3,17 +3,18 @@
 
 	import { schemeScreenerStore } from '$lib/stores/SchemeScreenerStore';
 	import {
-		tryQuickFilterClick,
 		type ITryQuickFilter,
-		type ScreenerSource
+		type ScreenerSource,
+		tryQuickFilterClick
 	} from '$lib/analytics/filters/filters';
 
 	$: quickFilter = $schemeScreenerStore?.data?.quickFilters;
 
 	let pageSource: ScreenerSource;
-	let onQuickFilterSelect = () => {
+	let onQuickFilterSelect: (filterLabel: string) => void = () => {
 		return;
 	};
+
 	const selectQuickFilter = (name: string, index: number) => {
 		schemeScreenerStore.selectQuickFilter(name);
 		const quickFilterClickMetaData: ITryQuickFilter = {
@@ -23,7 +24,7 @@
 		};
 		tryQuickFilterClick(quickFilterClickMetaData);
 		if (typeof onQuickFilterSelect === 'function') {
-			onQuickFilterSelect();
+			onQuickFilterSelect(name);
 		}
 	};
 
@@ -42,8 +43,10 @@
 				id={`${getQuickFilterId(filter.id)}`}
 				on:click={() => {
 					selectQuickFilter(filter.label, index);
-				}}>{filter.label}</QuickFilterChip
+				}}
 			>
+				{filter.label}
+			</QuickFilterChip>
 		{/each}
 	</div>
 </div>

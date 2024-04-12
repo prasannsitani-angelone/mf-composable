@@ -298,6 +298,17 @@ function updateFiltersFromQuery(query: string, data) {
 	data.filtersCount = totalCount;
 }
 
+const getQuickFilterFromQuery = (queryPath: string) => {
+	if (!queryPath) {
+		return;
+	}
+	const queryMap = getQueryMap(queryPath);
+	const find = queryMap.find((item) => {
+		return item.key === 'quickFilterLabel';
+	});
+	return find?.value;
+};
+
 function getCountOfTopLevelNodesPartiallySelected(filters): number {
 	let count = 0;
 	filters.forEach((filter) => {
@@ -378,6 +389,10 @@ function CreateStore() {
 				initialise: true,
 				data
 			});
+			const quickFilterLabel = getQuickFilterFromQuery(queryPath);
+			if (quickFilterLabel) {
+				this.selectQuickFilter(quickFilterLabel);
+			}
 		},
 		getFiltersResponse: async function (queryPath = '') {
 			// if data present then don't fetch it

@@ -12,6 +12,7 @@
 	import InfiniteScroll from '$components/InfiniteScroll.svelte';
 	import NoFilterResult from '$lib/images/NoFilterResult.svg';
 	import { bottomFilterClick } from '$lib/analytics/filters/filters';
+	import { debounce } from '$lib/utils/helpers/debounce';
 
 	let loading = true;
 	let page = 0;
@@ -37,14 +38,14 @@
 		loading = false;
 	};
 
-	const initializeData = async () => {
+	const initializeData = debounce(async () => {
 		if ($schemeScreenerStore?.initialise) {
 			loading = true;
 			screenedSchemes = [];
 			page = 0;
 			await fetchScreenedData();
 		}
-	};
+	}, 300);
 
 	$: if ($schemeScreenerStore?.data?.queryPath || $schemeScreenerStore?.data?.queryPath === '') {
 		initializeData();

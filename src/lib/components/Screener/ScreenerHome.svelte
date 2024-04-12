@@ -4,7 +4,7 @@
 	import { getScreenerSearch } from '$lib/api/screenerSearch';
 	import type { ScreenedSchemes } from '$lib/types/Screener';
 	import ScreenerTable from './ScreenerTable.svelte';
-	import { WMSIcon, Button } from 'svelte-components';
+	import { Button, WMSIcon } from 'svelte-components';
 	import { base } from '$app/paths';
 	import QuickFilter from './QuickFilter.svelte';
 	import { topfilterClick, viewallfundsClick } from '$lib/analytics/filters/filters';
@@ -12,6 +12,7 @@
 	import SomethingWentWrongSmall from '$components/Error/SomethingWentWrongSmall.svelte';
 	import { modifiedGoto } from '$lib/utils/goto';
 	import { schemeScreenerStore } from '$lib/stores/SchemeScreenerStore';
+	import { SCREENER_SOURCE } from '$lib/constants/screener';
 
 	let screenedSchemes: ScreenedSchemes[];
 	let loading = true;
@@ -21,12 +22,14 @@
 		await modifiedGoto(`${base}/filters`);
 	};
 
-	const navigateToFilteredItems = async (source?: 'Homepage' | 's_Eexploremutualfunds') => {
-		if (source) {
-			viewallfundsClick({
-				source
-			});
-		}
+	const navigateToFilteredItems = async (filterLabel: string) => {
+		viewallfundsClick({ source: SCREENER_SOURCE.HOMEPAGE });
+		let appendQueryPath = `?quickFilterLabel=${filterLabel}`;
+		await modifiedGoto(`${base}/filters/items${appendQueryPath}`);
+	};
+
+	const navigateToViewAllFunds = async () => {
+		viewallfundsClick({ source: SCREENER_SOURCE.HOMEPAGE });
 		await modifiedGoto(`${base}/filters/items`);
 	};
 
@@ -57,7 +60,10 @@
 			<div slot="content" class="overflow-hidden">
 				<section class="flex flex-col">
 					<p class="mb-2 text-xs text-body">Select Quick Filters</p>
-					<QuickFilter onQuickFilterSelect={navigateToFilteredItems} pageSource="Homepage" />
+					<QuickFilter
+						onQuickFilterSelect={(filterLabel) => navigateToFilteredItems(filterLabel)}
+						pageSource={SCREENER_SOURCE.HOMEPAGE}
+					/>
 				</section>
 				<section>
 					{#if loading}
@@ -71,10 +77,10 @@
 						variant="transparent"
 						class="!text-sm !uppercase"
 						size="xs"
-						on:click={() => {
-							navigateToFilteredItems('Homepage');
-						}}>View All Funds</Button
+						on:click={() => navigateToViewAllFunds()}
 					>
+						View All Funds
+					</Button>
 				</section>
 			</div>
 		</AoCard>
