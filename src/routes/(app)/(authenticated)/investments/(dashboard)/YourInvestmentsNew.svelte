@@ -29,7 +29,14 @@
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import XirrModal from './components/Internal/XirrModal.svelte';
 
-	const isFamilyPortfolio = familyStore?.isFamilyPortfolio($profileStore?.clientId);
+	let isFamilyPortfolio = familyStore?.isFamilyPortfolio($profileStore?.clientId);
+
+	const setIsFamilyPortfolio = () => {
+		isFamilyPortfolio = familyStore?.isFamilyPortfolio($profileStore?.clientId);
+	};
+
+	$: setIsFamilyPortfolio(), $familyStore;
+
 	$: isExternal = $page?.data?.isExternal;
 
 	export let isXIRRModalOpen = false;

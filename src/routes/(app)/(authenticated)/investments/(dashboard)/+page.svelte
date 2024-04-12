@@ -118,13 +118,17 @@
 	const getFormattedFetchedFamilyMembers = (familyMembersList: FamilyMemberTypes[]) => {
 		const selectedLinkedMembersFromStore = appStore?.getLinkedMembers()?.selected || [];
 
-		return (familyMembersList || [])?.map((member) => {
-			member.selected =
-				selectedLinkedMembersFromStore?.findIndex(
-					(linkedMember) => linkedMember?.toLowerCase() === member?.party_code?.toLowerCase()
-				) > -1;
-			return member;
-		});
+		if (selectedLinkedMembersFromStore?.length) {
+			return (familyMembersList || [])?.map((member) => {
+				member.selected =
+					selectedLinkedMembersFromStore?.findIndex(
+						(linkedMember) => linkedMember?.toLowerCase() === member?.party_code?.toLowerCase()
+					) > -1;
+				return member;
+			});
+		}
+
+		return familyMembersList;
 	};
 
 	const filterAcceptedFamilyMembers = (list: FamilyMemberTypes[]) => {
@@ -142,7 +146,7 @@
 			nickname: $page.data?.profile?.clientDetails?.fullName,
 			relation: 'Self',
 			status: 'Accepted',
-			selected: false
+			selected: true
 		};
 
 		let familyMembersList: FamilyMemberTypes[] = familyMembersData?.data?.child_list || [];

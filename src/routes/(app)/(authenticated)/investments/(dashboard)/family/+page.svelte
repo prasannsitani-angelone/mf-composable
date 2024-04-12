@@ -215,6 +215,9 @@
 			</article>
 		</section>
 
-		<FamilyPageFooter on:viewHoldingsClick={handleViewHoldingsClick} />
+		<FamilyPageFooter
+			familyList={familyListReactive}
+			on:viewHoldingsClick={handleViewHoldingsClick}
+		/>
 	{/if}
 </section>

@@ -17,7 +17,14 @@
 	import { familyStore } from '$lib/stores/FamilyStore';
 	import { profileStore } from '$lib/stores/ProfileStore';
 
-	const isFamilyPortfolio = familyStore?.isFamilyPortfolio($profileStore?.clientId);
+	let isFamilyPortfolio = familyStore?.isFamilyPortfolio($profileStore?.clientId);
+
+	const setIsFamilyPortfolio = () => {
+		isFamilyPortfolio = familyStore?.isFamilyPortfolio($profileStore?.clientId);
+	};
+
+	$: setIsFamilyPortfolio(), $familyStore;
+
 	let cardCollapsed = true;
 
 	const viewPortfolioAnalysisAnalyticsFunc = () => {

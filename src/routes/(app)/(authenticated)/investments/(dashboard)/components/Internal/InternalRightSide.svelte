@@ -18,8 +18,14 @@
 	import PortfolioCardLoader from '$components/PortfolioCards/PortfolioCardLoader.svelte';
 
 	export let data: PageData;
-	let familyPortfolioSummary;
 	let isFamilyPortfolio = false;
+
+	const setIsFamilyPortfolio = () => {
+		isFamilyPortfolio = appStore?.isFamilyPortfolioSelected($profileStore?.clientId);
+	};
+
+	$: setIsFamilyPortfolio(), $appStore;
+
 	let logoUrl = '';
 
 	let optimisePorfolioData: IOPtimsiePortfolioData = {
@@ -54,12 +60,7 @@
 		dispatch('openOptimisePortfolio');
 	};
 
-	isFamilyPortfolio = appStore?.isFamilyPortfolioSelected($profileStore?.clientId);
-
-	let isFamilyPortfolioDataFetched = false;
-
 	const getFamilyPortfolioSummary = async () => {
-		isFamilyPortfolioDataFetched = false;
 		const query = appStore?.getSelectedLinkedMembersQuery();
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings/summary?xirr=true`;
 		const res = await useFetch(
@@ -72,9 +73,9 @@
 			fetch
 		);
 		if (res?.ok) {
-			familyPortfolioSummary = res?.data?.data?.summary;
+			return res?.data?.data?.summary || {};
 		}
-		isFamilyPortfolioDataFetched = true;
+		return {};
 	};
 
 	onMount(async () => {
@@ -85,9 +86,6 @@
 			investmentData?.data?.holdings?.find((x: { sipEnabled: boolean }) => {
 				return x.sipEnabled === true;
 			})?.logoUrl || '';
-		if (isFamilyPortfolio) {
-			getFamilyPortfolioSummary();
-		}
 	});
 </script>
 
@@ -96,14 +94,16 @@
 	<section class="sm:sticky sm:top-0">
 		<!-- Portfolio cards: All scenarios -->
 		<article class="mb-2 overflow-hidden sm:mb-0">
-			{#if isFamilyPortfolio && !isFamilyPortfolioDataFetched}
-				<PortfolioCardLoader hideBottomLoader={isFamilyPortfolio} />
+			{#if isFamilyPortfolio}
+				{#await getFamilyPortfolioSummary()}
+					<PortfolioCardLoader hideBottomLoader={isFamilyPortfolio} />
+				{:then res}
+					<PortfolioCardInvestment investmentSummary={res} />
+				{/await}
 			{:else}
 				<PortfolioCardInvestment
 					onInfoClick={toggleXirrModal}
-					investmentSummary={isFamilyPortfolio
-						? familyPortfolioSummary || {}
-						: data.investementSummary}
+					investmentSummary={data.investementSummary}
 				/>
 			{/if}
 			{#if $ctNudgeStore?.kv?.topic === 'mf_invdash_inpage1_type_d' || (['mf_invdash_bottomsticky_type_b', 'mf_invdash_bottomsticky_type_c', 'mf_invdash_bottomsticky_type_d'].includes($ctNudgeStore?.kv?.topic) && !isMobile)}

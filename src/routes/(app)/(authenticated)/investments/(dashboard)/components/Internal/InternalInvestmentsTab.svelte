@@ -30,9 +30,13 @@
 	export let data: PageData;
 	let isFamilyPortfolio = false;
 
-	let selfClientId = profileStore?.clientId();
+	const setIsFamilyPortfolio = () => {
+		isFamilyPortfolio = appStore?.isFamilyPortfolioSelected($profileStore?.clientId);
+	};
+
+	$: setIsFamilyPortfolio(), $appStore;
+
 	let selfClientIdInterval: ReturnType<typeof setInterval>;
-	let familyPortfolioHoldings;
 
 	let isXIRRModalOpen = false;
 	let isOptimisePortfolioOpen = false;
@@ -81,10 +85,7 @@
 		});
 	});
 
-	let isFamilyPortfolioDataFetched = false;
-
 	const getFamilyPortfolioHoldings = async () => {
-		isFamilyPortfolioDataFetched = false;
 		const query = appStore?.getSelectedLinkedMembersQuery();
 		const url = `${PUBLIC_MF_CORE_BASE_URL}/portfolio/holdings`;
 		const res = await useFetch(
@@ -96,35 +97,14 @@
 			},
 			fetch
 		);
+
 		if (res?.ok) {
-			familyPortfolioHoldings = res?.data?.data?.holdings;
+			return res?.data?.data?.holdings || [];
 		}
-		isFamilyPortfolioDataFetched = true;
-	};
-
-	const setFamilyPortfolioData = () => {
-		selfClientIdInterval = setInterval(() => {
-			selfClientId = profileStore?.clientId();
-
-			if (selfClientId?.length) {
-				isFamilyPortfolio = appStore?.isFamilyPortfolioSelected(selfClientId);
-				getFamilyPortfolioHoldings();
-				clearInterval(selfClientIdInterval);
-			}
-		}, 100);
-	};
-
-	const handleFamilyPortfolioData = () => {
-		if (selfClientId?.length) {
-			isFamilyPortfolio = appStore?.isFamilyPortfolioSelected(selfClientId);
-			getFamilyPortfolioHoldings();
-		} else {
-			setFamilyPortfolioData();
-		}
+		return [];
 	};
 
 	onMount(async () => {
-		handleFamilyPortfolioData();
 		initializeClevertapData();
 		let optimizedData = await data?.api?.getOptimisePortfolioData;
 		optimisePorfolioData = optimizedData?.recommendedScheme?.[0];
@@ -156,15 +136,21 @@
 						on:openOptimisePortfolio={toggleOptimisePorfolioCard}
 					/>
 				{/if}
-				{#if isFamilyPortfolio && !isFamilyPortfolioDataFetched}
-					<InvestmentDashboardLoader />
+				{#if isFamilyPortfolio}
+					{#await getFamilyPortfolioHoldings()}
+						<InvestmentDashboardLoader hideTopLoader={false} />
+					{:then res}
+						<YourInvestmentsNew
+							investmentSummary={{}}
+							{optimisePorfolioData}
+							tableData={res || []}
+						/>
+					{/await}
 				{:else}
 					<YourInvestmentsNew
-						investmentSummary={isFamilyPortfolio ? {} : data.investementSummary}
+						investmentSummary={data.investementSummary}
 						{optimisePorfolioData}
-						tableData={isFamilyPortfolio
-							? familyPortfolioHoldings || []
-							: response.data?.holdings || []}
+						tableData={response.data?.holdings || []}
 						bind:holdings
 						bind:isXIRRModalOpen
 						bind:isOptimisePortfolioOpen

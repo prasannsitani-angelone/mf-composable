@@ -1,12 +1,29 @@
 <script lang="ts">
+	import type { FamilyMemberTypes } from '$lib/types/IFamilyPortfolio';
 	import { createEventDispatcher } from 'svelte';
 	import { Button, WMSIcon } from 'svelte-components';
 
 	const dispatch = createEventDispatcher();
 
-	const handleViewHoldingsClick = () => {
-		dispatch('viewHoldingsClick');
+	export let familyList: FamilyMemberTypes[];
+	let allMembersUnselected = true;
+
+	const checkAllMembersUnselected = () => {
+		allMembersUnselected = true;
+		familyList?.forEach((member) => {
+			if (member?.selected) {
+				allMembersUnselected = false;
+			}
+		});
 	};
+
+	const handleViewHoldingsClick = () => {
+		if (!allMembersUnselected) {
+			dispatch('viewHoldingsClick');
+		}
+	};
+
+	$: familyList, checkAllMembersUnselected();
 </script>
 
 <article
@@ -20,6 +37,8 @@
 	</section>
 	<div class="hidden px-2 md:block" />
 	<section class="mt-4 flex items-center md:mt-0 md:flex-1">
-		<Button class="w-full" onClick={handleViewHoldingsClick}>View Holdings</Button>
+		<Button class="w-full" onClick={handleViewHoldingsClick} disabled={allMembersUnselected}
+			>View Holdings</Button
+		>
 	</section>
 </article>
