@@ -48,8 +48,8 @@ cacheInmemory.init({
 
 const addPreloadLinkHeaders = (linkHeader = '', url: string) => {
 	const preloadLinks = [
-		`</mutual-funds/fonts/Roboto-Regular.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin`,
-		`</mutual-funds/fonts/Roboto-Medium.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin`
+		`</mutual-funds/fonts/Roboto-Regular-tiny.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin`,
+		`</mutual-funds/fonts/Roboto-Medium-tiny.woff2>;rel="preload";as="font";type="font/woff";nopush;crossorigin`
 	];
 
 	if (url.includes('/discoverfunds')) {
