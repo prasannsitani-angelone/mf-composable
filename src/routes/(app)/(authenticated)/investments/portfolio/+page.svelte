@@ -25,7 +25,9 @@
 		portfolioAnalysisScreenOpenAnalytics,
 		graphYearSelectAnalytics,
 		portfolioBenchmarkInfoIconClickAnalytics,
-		portfolioBenchmarkPopupOpenAnalytics
+		portfolioBenchmarkPopupOpenAnalytics,
+		fundForYouImpressionInternalPortfolioAnalytics,
+		fundForYouClickInternalPortfolioAnalytics
 	} from '../analytics';
 	import { SEO } from 'svelte-components';
 	import SipHealthNudge from '$components/SipHealth/Nudge/SipHealthNudge.svelte';
@@ -129,7 +131,18 @@
 	};
 
 	const toggleOptimisePorfolioCard = (flag: boolean) => {
+		if (flag) fundForYouClickInternalPortfolioAnalytics(fundForYouSipBookAnalyticsFunc());
 		isOptimisePortfolioOpen = flag;
+	};
+
+	const fundForYouSipBookAnalyticsFunc = () => {
+		return {
+			'Current Value': investmentSummary?.currentValue,
+			'Total Investment': investmentSummary?.investedValue,
+			'Overall Gain': `${investmentSummary?.returnsValue}(${investmentSummary?.returnsAbsolutePer}%)`,
+			'Todays Loss': `${investmentSummary?.previousDayReturns}(${investmentSummary?.previousDayReturnPercentage}%)`,
+			XIRR: `${investmentSummary?.xirr}%`
+		};
 	};
 
 	const updateLineChart = async (tagIndex: number) => {
@@ -179,6 +192,7 @@
 		investmentSummary = data?.investementSummary;
 		const investmentData = await data?.api?.investmentData;
 		optimisedScheme = investmentData?.find((x) => x.sipEnabled) || ({} as InvestmentEntity);
+		fundForYouImpressionInternalPortfolioAnalytics(fundForYouSipBookAnalyticsFunc());
 	});
 </script>
 

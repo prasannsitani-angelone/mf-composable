@@ -464,6 +464,54 @@ export const holdingClickAnalytics = (eventMetaData) => {
 	});
 };
 
+export const fundForYouSipBookAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipbook',
+		event_type: 'click',
+		event_sub_type: 'card',
+		event_name: 'Fundforyou',
+		event_property: null,
+		event_metadata: eventMetaData,
+		event_id: '309.0.0.2.2'
+	});
+};
+
+export const fundForYouSipBookImpressionAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-sipbook',
+		event_type: 'impression',
+		event_sub_type: 'Card',
+		event_name: 'Fundforyou',
+		event_property: null,
+		event_metadata: eventMetaData,
+		event_id: '309.0.0.2.1'
+	});
+};
+
+export const fundForYouImpressionInternalPortfolioAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-Portfolio_Analysis',
+		event_type: 'impression',
+		event_sub_type: 'Card',
+		event_name: 'Fundforyou',
+		event_property: null,
+		event_metadata: eventMetaData,
+		event_id: '306.0.0.13.70'
+	});
+};
+
+export const fundForYouClickInternalPortfolioAnalytics = (eventMetaData) => {
+	Analytics.logAnalyticEvent({
+		screen_name: 's-Portfolio_Analysis',
+		event_type: 'click',
+		event_sub_type: 'Card',
+		event_name: 'Fundforyou',
+		event_property: null,
+		event_metadata: eventMetaData,
+		event_id: '306.0.0.13.71'
+	});
+};
+
 export const fundForYouImpressionAnalytics = (eventMetaData) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-investments',

@@ -44,6 +44,10 @@
 	} from '$lib/types/IInvestments';
 	import NudgeStore from '$lib/stores/NudgeStore';
 	import LazyComponent from '$components/LazyComponent.svelte';
+	import {
+		fundForYouSipBookAnalytics,
+		fundForYouSipBookImpressionAnalytics
+	} from '../../investments/analytics';
 
 	const sipUrl = `${PUBLIC_MF_CORE_BASE_URL_V2}/sips`;
 	let showInactiveSipsCta = false;
@@ -68,10 +72,14 @@
 	let investmentSummary: InvestmentSummary;
 	let optimisedScheme: InvestmentEntity;
 	let nudgeSubscription;
+	let investmentData: InvestmentEntity[];
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 
 	const toggleOptimisePorfolioCard = (flag: boolean) => {
+		if (flag) {
+			fundForYouSipBookAnalytics(fundForYouSipBookAnalyticsFunc());
+		}
 		isOptimisePortfolioOpen = flag;
 	};
 
@@ -183,11 +191,29 @@
 		}
 	};
 
+	const fundForYouSipBookAnalyticsFunc = () => {
+		return {
+			'Active SIP': investmentData?.reduce((acc: number, currItem: InvestmentEntity) => {
+				if (currItem?.sipEnabled) acc += 1;
+				return acc;
+			}, 0),
+			'Fund Name': recommendedSipsData?.schemeName,
+			'Monthly SIP total': investmentData?.length,
+			ISIN: recommendedSipsData?.isin
+		};
+	};
+
 	onMount(async () => {
 		await Promise.allSettled([getNudges(), getSipbookSummary()]);
 
 		await initializeClevertapData();
 		sipbookDashboardEmptyScreenOpenAnalyticsFunc();
+		const response = await data?.api?.recommendedSipsData;
+		recommendedSipsData = response?.recommendedScheme?.[0];
+		investmentSummary = data?.investementSummary;
+		investmentData = await data?.api?.investmentData;
+		optimisedScheme = investmentData?.find((x) => x.sipEnabled) || ({} as InvestmentEntity);
+		fundForYouSipBookImpressionAnalytics(fundForYouSipBookAnalyticsFunc());
 	});
 
 	const sipPaymentDueNudgeImpressionAnalyticsFunc = () => {
@@ -304,14 +330,6 @@
 			showAutopaySelectionLoader = false;
 		}
 	};
-
-	onMount(async () => {
-		const response = await data?.api?.recommendedSipsData;
-		recommendedSipsData = response?.recommendedScheme?.[0];
-		investmentSummary = data?.investementSummary;
-		const investmentData = await data?.api?.investmentData;
-		optimisedScheme = investmentData?.find((x) => x.sipEnabled) || ({} as InvestmentEntity);
-	});
 </script>
 
 <section>
