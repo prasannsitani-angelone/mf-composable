@@ -14,16 +14,16 @@
 		portfolioCardExpandClickEvent,
 		portfolioCardExpandImpressionEvent
 	} from '$components/PortfolioCards/analytics';
-	import { familyStore } from '$lib/stores/FamilyStore';
+	import { appStore } from '$lib/stores/SparkStore';
 	import { profileStore } from '$lib/stores/ProfileStore';
 
-	let isFamilyPortfolio = familyStore?.isFamilyPortfolio($profileStore?.clientId);
+	let isFamilyPortfolio = false;
 
 	const setIsFamilyPortfolio = () => {
-		isFamilyPortfolio = familyStore?.isFamilyPortfolio($profileStore?.clientId);
+		isFamilyPortfolio = appStore?.isFamilyPortfolioSelected($profileStore?.clientId);
 	};
 
-	$: setIsFamilyPortfolio(), $familyStore;
+	$: setIsFamilyPortfolio(), $appStore;
 
 	let cardCollapsed = true;
 

@@ -155,7 +155,7 @@
 		familyMembersList = filterAcceptedFamilyMembers(familyMembersList);
 
 		familyStore?.set(familyMembersList);
-		isFamilyPortfolio = familyStore?.isFamilyPortfolio($profileStore?.clientId);
+		isFamilyPortfolio = appStore?.isFamilyPortfolioSelected($profileStore?.clientId);
 	};
 
 	let impressionEventInterval: ReturnType<typeof setInterval>;

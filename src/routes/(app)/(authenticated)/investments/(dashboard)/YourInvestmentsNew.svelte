@@ -25,17 +25,17 @@
 	import OptimisePortfolioCard from './components/OptimisePortfolioCard.svelte';
 	import { WMSIcon } from 'svelte-components';
 	import OptimisePortfolioModal from './components/OptimisePortfolioModal.svelte';
-	import { familyStore } from '$lib/stores/FamilyStore';
+	import { appStore } from '$lib/stores/SparkStore';
 	import { profileStore } from '$lib/stores/ProfileStore';
 	import XirrModal from './components/Internal/XirrModal.svelte';
 
-	let isFamilyPortfolio = familyStore?.isFamilyPortfolio($profileStore?.clientId);
+	let isFamilyPortfolio = false;
 
 	const setIsFamilyPortfolio = () => {
-		isFamilyPortfolio = familyStore?.isFamilyPortfolio($profileStore?.clientId);
+		isFamilyPortfolio = appStore?.isFamilyPortfolioSelected($profileStore?.clientId);
 	};
 
-	$: setIsFamilyPortfolio(), $familyStore;
+	$: setIsFamilyPortfolio(), $appStore;
 
 	$: isExternal = $page?.data?.isExternal;
 
