@@ -59,7 +59,7 @@
 	{#if !showInputPopup}
 		<div class="mx-2 rounded-lg">
 			<section class="fixed inset-0 top-auto rounded-lg bg-background-alt px-4 py-5 md:relative">
-				<Button onClick={toggleInput} class="w-full">PROCEED TO INVEST</Button>
+				<Button onClick={toggleInputPopup} class="w-full">PROCEED TO INVEST</Button>
 			</section>
 		</div>
 	{/if}
