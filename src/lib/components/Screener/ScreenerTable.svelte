@@ -8,7 +8,6 @@
 	import THead from '$components/Table/THead.svelte';
 	import Tr from '$components/Table/TR.svelte';
 	import Table from '$components/Table/Table.svelte';
-	import Tag from '$components/Tag/Tag.svelte';
 	import {
 		fundSelectClick,
 		type IFundSelect,
@@ -79,12 +78,6 @@
 								/>
 							{/if}
 							<span class="line-clamp-2 text-sm font-normal text-title">{funds?.schemeName}</span>
-							{#if pageSource === SCREENER_SOURCE.EXPLORE_MF}
-								<div class="mt-1 flex flex-wrap items-center gap-2 whitespace-nowrap">
-									<Tag name={funds?.categoryName} />
-									<Tag name={funds?.subcategoryName} />
-								</div>
-							{/if}
 							{#if pageSource !== SCREENER_SOURCE.HOMEPAGE}
 								<span class="pt-2 text-xs text-body"
 									>Min. SIP Amount ₹{funds?.minSipAmount || '-'}</span

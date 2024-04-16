@@ -42,6 +42,7 @@
 		onStoryClose: fundDetailsVideoCloseAnalytics,
 		storyImpression: fundDetailsVideoImpressionAnalytics
 	};
+	let fromCueCard = false;
 
 	const fetchStories = async () => {
 		shouldLoadStories = false;
@@ -69,7 +70,7 @@
 	});
 	let sipLockinPeriod =
 		schemeDetails?.sipLockinPeriodFlag === 'Y' ? `${schemeDetails?.sipLockinPeriod} years` : 'Nil';
-	export { schemeDetails, isNFO, showFooter, innerStyle };
+	export { schemeDetails, isNFO, showFooter, innerStyle, fromCueCard };
 </script>
 
 <section class="px-4 md:px-6">
@@ -140,21 +141,23 @@
 				</div>
 			</div>
 		</section>
-		{#if !shouldLoadStories}
-			<SkeletonRectangle class="!ml-8 !mt-4 !h-2 !w-24" />
-			<StoriesSkeletonLoader />
-		{:else if stories?.length}
-			<div class="mt-4">
-				<p class="text-xs text-body">Watch these short videos to learn more</p>
-				<StoriesComponent
-					{stories}
-					version="A"
-					hideFooter={true}
-					isDiscoverPage={false}
-					scheme={schemeDetails}
-					analytics={storyAnalytics}
-				/>
-			</div>
+		{#if !fromCueCard}
+			{#if !shouldLoadStories}
+				<SkeletonRectangle class="!ml-8 !mt-4 !h-2 !w-24" />
+				<StoriesSkeletonLoader />
+			{:else if stories?.length}
+				<div class="mt-4">
+					<p class="text-xs text-body">Watch these short videos to learn more</p>
+					<StoriesComponent
+						{stories}
+						version="A"
+						hideFooter={true}
+						isDiscoverPage={false}
+						scheme={schemeDetails}
+						analytics={storyAnalytics}
+					/>
+				</div>
+			{/if}
 		{/if}
 		{#if showFooter}
 			<section class="flex justify-center border-t align-middle sm:border-none">

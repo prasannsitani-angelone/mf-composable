@@ -17,7 +17,7 @@
 		storySliderAnalytics
 	} from '$lib/analytics/stories/stories';
 	import { modifiedGoto } from '$lib/utils/goto';
-	import { goto } from '$app/navigation';
+	import { pushState } from '$app/navigation';
 	import { appStore } from '$lib/stores/SparkStore';
 	import type { VideoPlayerProps } from '$components/Video/interfaces';
 	import { VideoPlayerMode } from '$components/Video/enums';
@@ -67,7 +67,7 @@
 		const currentPath = window?.location?.pathname;
 		const redirectPath = `${currentPath}?storyPlayer=true`;
 
-		goto(redirectPath);
+		pushState(redirectPath, {});
 	};
 
 	const playStoryVideo = (
@@ -99,9 +99,7 @@
 
 		showVideoPlayer = false;
 
-		if (isDiscoverPage) {
-			setVideoPlayerQuery();
-		}
+		setVideoPlayerQuery();
 
 		setTimeout(() => {
 			if (playClicked) {
@@ -173,7 +171,7 @@
 			}
 		});
 
-		if (routerBack && isDiscoverPage) {
+		if (routerBack) {
 			history?.back();
 		}
 	};

@@ -8,7 +8,8 @@
 	let isNFO = false;
 	let innerStyle = '';
 	let showFooter = true;
-	export { schemeDetails, isNFO, innerStyle, showFooter };
+	let fromCueCard = false;
+	export { schemeDetails, isNFO, innerStyle, showFooter, fromCueCard };
 </script>
 
 <article
@@ -23,6 +24,7 @@
 			{isNFO}
 			{showFooter}
 			{innerStyle}
+			{fromCueCard}
 		/>
 	</section>
 </article>

@@ -271,7 +271,7 @@
 			}
 		}
 
-		if (appStore.isTabview()) {
+		if (appStore.isSparkAndroidUser() || appStore.isSparkIOSUser()) {
 			addNativeLifeCycleCallback('PAUSE', pauseVideoOnBlur);
 			addNativeLifeCycleCallback('RESUME', playVideoOnFocus);
 		} else {

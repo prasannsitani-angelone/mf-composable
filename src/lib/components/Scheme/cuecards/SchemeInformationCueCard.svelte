@@ -14,4 +14,5 @@
 	class="mx-2 h-[500px] max-w-full {$$props.class}"
 	showFooter={false}
 	innerStyle="flex flex-col gap-1"
+	fromCueCard={true}
 />
