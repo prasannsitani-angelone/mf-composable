@@ -3,7 +3,7 @@
 	import type { SchemeDetails } from '$lib/types/ISchemeDetails.js';
 	import { base } from '$app/paths';
 	import { normalizeFundName } from '$lib/utils/helpers/normalizeFundName';
-	import { goto, invalidateAll } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import ButtonMedium from '$components/ButtonMedium.svelte';
 
 	export let schemeDetails: SchemeDetails;
@@ -18,8 +18,7 @@
 			schemeDetails?.isin,
 			schemeDetails?.schemeCode
 		)}`;
-		await invalidateAll();
-		await goto(schemeDetailsPath, { replaceState: true });
+		await goto(schemeDetailsPath, { replaceState: true, invalidateAll: true });
 	};
 </script>
 
