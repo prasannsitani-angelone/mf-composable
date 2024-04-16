@@ -1,9 +1,9 @@
-export const callNativeMethod = (methodName: string, param: string) => {
+export const callNativeMethod = (methodName: string, ...args: string[]) => {
 	// ios implementation
 	if (typeof window?.webkit?.messageHandlers?.[methodName]?.postMessage === 'function') {
-		window?.webkit?.messageHandlers?.[methodName]?.postMessage(param);
+		window?.webkit?.messageHandlers?.[methodName]?.postMessage(...args);
 	} else if (typeof window?.ShareDataHandler?.[methodName] === 'function') {
-		window?.ShareDataHandler?.[methodName](param);
+		window?.ShareDataHandler?.[methodName](...args);
 	}
 };
 

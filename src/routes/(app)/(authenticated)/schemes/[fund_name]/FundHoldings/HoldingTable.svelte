@@ -8,20 +8,26 @@
 	import type { TopHolding } from '$components/Scheme/types';
 	import type { SectorHoldings } from '$lib/types/ISchemeDetails';
 	import { getStockInfo } from '$lib/api/scheme';
-	import { callNativeMethod } from '$lib/utils/callNativeMethod';
+	import { callNativeMethod, checkNativeMethodExist } from '$lib/utils/callNativeMethod';
+	import { page } from '$app/stores';
 
 	let holdings: TopHolding[];
 	let sectorHoldings: SectorHoldings[];
 	let activeTab: string;
 	let topHolding = false;
+	const os = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os;
 
 	const gotoStockInfo = async (holding: TopHolding) => {
 		const stockInfo = await getStockInfo(holding.scripIsin);
-		if (stockInfo?.isin) {
-			callNativeMethod(
-				'openNativeScreen',
-				JSON.stringify({ screenName: 'StockOverView', data: stockInfo })
-			);
+		if (stockInfo?.isin && checkNativeMethodExist('openNativeScreen')) {
+			if (os === 'iOS') {
+				callNativeMethod(
+					'openNativeScreen',
+					JSON.stringify({ screenName: 'StockOverView', data: stockInfo })
+				);
+			} else if (os === 'Android') {
+				callNativeMethod('openNativeScreen', 'StockOverView', JSON.stringify({ ...stockInfo }));
+			}
 		}
 	};
 
