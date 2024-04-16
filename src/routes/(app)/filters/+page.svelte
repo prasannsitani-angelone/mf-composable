@@ -13,6 +13,7 @@
 		screenersFiltersPageImpression
 	} from '$lib/analytics/filters/filters';
 	import { getSelectedFilterData } from '$lib/utils/helpers/screenersFilters';
+	import { modifiedGoto } from '$lib/utils/goto';
 
 	$: isMobile = $page?.data?.deviceType?.isMobile;
 	$: isTablet = $page?.data?.deviceType?.isTablet;
@@ -32,7 +33,7 @@
 	$: appliedFilterCount = filterData?.partiallySelectedTopLevelNodes;
 
 	const redirectToSchemeResults = () => {
-		goto(`${base}/filters/items`, { replaceState: true });
+		modifiedGoto(`${base}/filters/items`, { replaceState: true });
 	};
 
 	const handleApplyFiltersClick = () => {

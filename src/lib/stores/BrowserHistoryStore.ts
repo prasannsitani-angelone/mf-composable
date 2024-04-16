@@ -27,7 +27,8 @@ function CreateStore() {
 			return update((s) => {
 				return { ...s, ...newStore };
 			});
-		}
+		},
+		get: () => store
 	};
 }
 
