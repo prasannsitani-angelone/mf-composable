@@ -3,15 +3,18 @@ import Analytics from '$lib/utils/analytics';
 export const investmentPadScreenOpenAnalytics = (
 	eventMetaData: Record<string, string | boolean> | null
 ) => {
-	Analytics.logAnalyticEvent({
-		screen_name: 's-orderpad',
-		event_type: 'impression',
-		event_sub_type: 'screen',
-		event_name: 's-orderpad',
-		event_property: null,
-		event_id: '310.0.0.1.0',
-		event_metadata: eventMetaData
-	});
+	Analytics.logAnalyticEvent(
+		{
+			screen_name: 's-orderpad',
+			event_type: 'impression',
+			event_sub_type: 'screen',
+			event_name: 's-orderpad',
+			event_property: null,
+			event_id: '310.0.0.1.0',
+			event_metadata: eventMetaData
+		},
+		true
+	);
 };
 
 export const investmentPadTabSwitchAnalytics = (

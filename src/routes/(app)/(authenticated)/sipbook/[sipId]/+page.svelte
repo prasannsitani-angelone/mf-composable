@@ -406,8 +406,17 @@
 		sipBookStore.updateStore({ showdropdown: false });
 	});
 
-	const handleLinkAutopayCtaClick = () => {
-		sipDetailsSetupAutopayClickEvent();
+	const handleLinkAutopayCtaClick = (sipData: IInvestmentTypeSIP) => {
+		const eventMetaData = {
+			fundName: sipData?.schemeName,
+			installmentAmount: sipData?.installmentAmount,
+			nextSipPayment: sipData?.nextSipDueDate
+				? getDateTimeString(sipData.nextSipDueDate, 'DATE', true)
+				: '',
+			isin: sipData?.isin,
+			bankName: bankDetails?.[0]?.bankName || ''
+		};
+		sipDetailsSetupAutopayClickEvent(eventMetaData);
 		goto(`${base}/autopay/manage/setup?params=${autopayRedirectParams()}`);
 	};
 	const onOptionSelect = (event: { detail: { key: any } }) => {
@@ -504,7 +513,7 @@
 							{:else}
 								<SipBookAutoPayNudge
 									amount={sipData.installmentAmount}
-									on:autoPayClick={handleLinkAutopayCtaClick}
+									on:autoPayClick={() => handleLinkAutopayCtaClick(sipData)}
 								/>
 							{/if}
 						{/await}

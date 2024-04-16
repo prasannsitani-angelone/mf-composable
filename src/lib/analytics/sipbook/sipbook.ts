@@ -642,13 +642,16 @@ export const sipBookSetupAutopayClickEvent = () => {
 		event_id: '309.0.0.1.90'
 	});
 };
-export const sipDetailsSetupAutopayClickEvent = () => {
+export const sipDetailsSetupAutopayClickEvent = (
+	eventMetaData: Record<string, string | number>
+) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-sipdetails',
 		event_type: 'click',
 		event_sub_type: 'button',
 		event_name: 'SetupAutopay',
 		event_property: null,
-		event_id: '309.0.0.1.56'
+		event_id: '309.0.0.1.56',
+		event_metadata: eventMetaData
 	});
 };
