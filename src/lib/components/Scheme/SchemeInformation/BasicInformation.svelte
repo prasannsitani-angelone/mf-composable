@@ -155,6 +155,7 @@
 						isDiscoverPage={false}
 						scheme={schemeDetails}
 						analytics={storyAnalytics}
+						thumbnailClass="!mr-4"
 					/>
 				</div>
 			{/if}

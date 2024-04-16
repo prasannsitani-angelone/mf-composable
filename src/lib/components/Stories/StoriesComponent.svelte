@@ -35,6 +35,7 @@
 	export let header = '';
 	export let scheme: SchemeDetails;
 	export let analytics: IStoryAnalytics;
+	export let thumbnailClass = '';
 
 	let os: string = $page?.data?.deviceType?.osName || $page?.data?.deviceType?.os || '';
 	let isMobile = $page?.data?.deviceType?.isMobile;
@@ -57,11 +58,9 @@
 	const swipeThresholdValue = 50;
 	const videoDescription = 'Watch this video to learn more';
 
-	// $: if (showVideoSection && queryParamsObj?.storyPlayer !== 'true') {
-	// 	setTimeout(() => {
-	// 		crossButtonClicked(false);
-	// 	});
-	// }
+	$: if (!isDiscoverPage && showVideoSection && queryParamsObj?.storyPlayer !== 'true') {
+		crossButtonClicked(false);
+	}
 
 	const setVideoPlayerQuery = () => {
 		const currentPath = window?.location?.pathname;
@@ -391,7 +390,7 @@
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 		<article
-			class="{index === stories.length - 1 ? '' : 'mr-8'} {stories.length > 1
+			class="{index === stories.length - 1 ? '' : `mr-8 ${thumbnailClass}`} {stories.length > 1
 				? 'w-16'
 				: 'w-full'} text-[10px] font-normal md:cursor-pointer"
 			on:click={() => playStoryVideo(story, true, index, true)}
