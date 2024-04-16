@@ -169,7 +169,7 @@
 				bankAccountNo: selectedBankAccount?.accNO,
 				edisExecuteDate: orderPostData?.edisExecDate,
 				bankName: selectedBankAccount?.bankName,
-				poaStatus: isPoaActive,
+				poaStatus: isPoaActive ? 'A' : 'I',
 				dpFlag: folioData?.dpFlag,
 				isin: folioData?.isin
 			})

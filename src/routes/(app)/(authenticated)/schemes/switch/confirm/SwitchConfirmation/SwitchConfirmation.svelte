@@ -190,7 +190,7 @@
 					dpFlag: selectedFolio?.dpFlag,
 					emailId: orderPostData?.emailId,
 					mobileNo: orderPostData?.mobileNo?.slice(3),
-					poaStatus: isPoaActive
+					poaStatus: isPoaActive ? 'A' : 'I'
 				})
 			});
 
@@ -275,7 +275,7 @@
 				bankAccountNo: bankAccountNo,
 				edisExecuteDate: orderPostData?.edisExecDate,
 				bankName: bankName,
-				poaStatus: isPoaActive,
+				poaStatus: isPoaActive ? 'A' : 'I',
 				dpFlag: selectedFolio?.dpFlag,
 				isin: selectedFolio?.isin,
 				switchRefNumber: switchRefNo
@@ -305,7 +305,7 @@
 				dpNumber: $profileStore?.dpNumber,
 				emailId: $profileStore?.clientDetails?.email,
 				mobileNo: $profileStore?.mobile,
-				poaStatus: isPoaActive,
+				poaStatus: isPoaActive ? 'A' : 'I',
 				schemeCode: switchInFund?.schemeCode,
 				subBrokerCode: $profileStore?.clientDetails?.subBroker,
 				transactionType: 'PURCHASE',

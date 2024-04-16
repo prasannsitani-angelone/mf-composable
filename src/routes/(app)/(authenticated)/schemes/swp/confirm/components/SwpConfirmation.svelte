@@ -197,7 +197,7 @@
 				dpFlag: params?.folioDetails?.dpFlag,
 				mobileNo: orderPostData?.mobileNo?.slice(3),
 				emailId: orderPostData?.emailId,
-				poaStatus: isPoaActive,
+				poaStatus: isPoaActive ? 'A' : 'I',
 				edisExecuteDate: orderPostData?.edisExecDate,
 				startDate: format(new Date(params?.orderDetails?.nextSwpDate), 'yyyy-MM-dd'),
 				firstOrderToday: 'Y'
