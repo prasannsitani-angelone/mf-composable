@@ -108,7 +108,7 @@
 				slidesPerView={1}
 				id={`${pageSource}-${cardType}`}
 				chevronClass={!isMobile ? 'mt-4' : ''}
-				smoothCarousalLoop={true}
+				smoothCarousalLoop={sipList?.length > 1 ? true : false}
 			>
 				{#each sipList || [] as sip, index}
 					<CarouselItem

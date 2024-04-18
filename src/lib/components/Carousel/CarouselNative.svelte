@@ -111,19 +111,23 @@
 	const getClonesAtTheEnd = () => {
 		const clonesToAppend = [];
 		for (let i = 0; i < noOfExtraCarousalItem; i++) {
-			const clonedNode = particlesContainer.children[i].cloneNode(true);
-			dispatch('loadDynamicContent', { clonedNode });
-			clonesToAppend.push(clonedNode);
+			if (particlesContainer?.children[i]) {
+				const clonedNode = particlesContainer.children[i].cloneNode(true);
+				dispatch('loadDynamicContent', { clonedNode });
+				clonesToAppend.push(clonedNode);
+			}
 		}
 		return clonesToAppend;
 	};
 	const getClonesAtTheStart = () => {
 		const clonesToPrepend = [];
-		const len = particlesContainer.children.length;
+		const len = particlesContainer?.children?.length || 0;
 		for (let i = len - 1; i > len - noOfExtraCarousalItem; i--) {
-			const clonedNode = particlesContainer.children[i].cloneNode(true);
-			dispatch('loadDynamicContent', { clonedNode });
-			clonesToPrepend.push(clonedNode);
+			if (particlesContainer?.children[i]) {
+				const clonedNode = particlesContainer.children[i].cloneNode(true);
+				dispatch('loadDynamicContent', { clonedNode });
+				clonesToPrepend.push(clonedNode);
+			}
 		}
 		return clonesToPrepend;
 	};

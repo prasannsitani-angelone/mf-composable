@@ -90,7 +90,7 @@
 		on:onIndexChange={handleCardVisible}
 		fixedWidth={true}
 		slidesPerView={isMobile ? 1.3 : 2}
-		smoothCarousalLoop={true}
+		smoothCarousalLoop={tableData?.length > 1 ? true : false}
 		on:loadDynamicContent={loadDynamicContent}
 	>
 		{#each tableData || [] as schemes, index}

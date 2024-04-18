@@ -74,7 +74,7 @@
 					? '!mt-2 !my-0'
 					: ''}"
 				on:onIndexChange={handleOnIndexChange}
-				smoothCarousalLoop={true}
+				smoothCarousalLoop={carouselItems?.length > 1 ? true : false}
 			>
 				<div slot="activeIndicator" class="light h-2 w-8 rounded bg-background-alt" />
 				<div slot="inActiveIndicator" class="light h-2 w-2 rounded bg-disabled sm:cursor-pointer" />

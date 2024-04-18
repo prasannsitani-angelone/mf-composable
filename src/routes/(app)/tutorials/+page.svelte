@@ -77,7 +77,7 @@
 		class="absolute top-0"
 		indicatorClass="hidden h-0 w-0"
 		on:onIndexChange={handlePageChange}
-		smoothCarousalLoop={true}
+		smoothCarousalLoop={carouselItems?.length > 1 ? true : false}
 	>
 		<div slot="activeIndicator" class="hidden h-0 w-0" />
 		<div slot="inActiveIndicator" class="hidden h-0 w-0" />
