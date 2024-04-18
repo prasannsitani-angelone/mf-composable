@@ -14,6 +14,7 @@
 		sipBookTrendingCardImpressionEvent,
 		sipBookTrendingCartClickEvent
 	} from '$lib/analytics/sipbook/sipbook';
+	import { WMSIcon } from 'svelte-components';
 
 	let tableData: Array<WeeklyTopSchemesEntity>;
 
@@ -58,6 +59,27 @@
 		const analyticsFunc = isSipBookPage ? sipBookTrendingCartClickEvent : trendingCartClickEvent;
 		analyticsFunc(eventMetaData);
 	}
+	function loadDynamicContent(event: CustomEvent) {
+		const clonedNode = event?.detail?.clonedNode;
+		if (clonedNode) {
+			const iconElement = clonedNode?.querySelector('.people-icon');
+			const props = {
+				name: 'people-icon',
+				class: 'mr-2 p-1',
+				fill: 'var(--BODY)',
+				width: 24,
+				height: 24,
+				decoding: 'async',
+				alt: 'Number of people invested'
+			};
+
+			iconElement.innerHTML = '';
+			new WMSIcon({
+				target: iconElement,
+				props: props
+			});
+		}
+	}
 </script>
 
 <section class={carouselInActive ? 'carousel-inactive' : 'carousel-active'}>
@@ -68,6 +90,8 @@
 		on:onIndexChange={handleCardVisible}
 		fixedWidth={true}
 		slidesPerView={isMobile ? 1.3 : 2}
+		smoothCarousalLoop={true}
+		on:loadDynamicContent={loadDynamicContent}
 	>
 		{#each tableData || [] as schemes, index}
 			<CarouselItem

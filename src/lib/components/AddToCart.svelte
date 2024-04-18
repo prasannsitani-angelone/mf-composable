@@ -14,7 +14,6 @@
 	import { cartStore } from '$lib/stores/CartStore';
 	import { toastStore } from '$lib/stores/ToastStore';
 	import { createEventDispatcher } from 'svelte';
-	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
 	import { getLogoutUrl } from '$lib/utils/helpers/logout';
 	import WMSIcon from '$components/WMSIcon.svelte';

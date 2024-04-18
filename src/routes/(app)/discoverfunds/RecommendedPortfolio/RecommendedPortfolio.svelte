@@ -6,7 +6,6 @@
 	import type { PortfolioPack } from '$lib/types/IBuyPortfolio';
 
 	export let portfolio: PortfolioPack;
-	export let index: number;
 
 	const dispatch = createEventDispatcher();
 
@@ -16,7 +15,7 @@
 </script>
 
 <div
-	class={`flex cursor-pointer flex-col rounded-lg border ${index > 0 ? 'ml-3' : ''}`}
+	class={`mr-3 flex cursor-pointer flex-col rounded-lg border`}
 	on:click={handleCardClick}
 	on:keypress={handleCardClick}
 	role="button"

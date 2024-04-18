@@ -55,6 +55,7 @@
 				chevronClass="mt-4"
 				activeIndicatorColor="#fff"
 				on:onIndexChange={handleCardVisible}
+				smoothCarousalLoop={true}
 			>
 				{#each data?.schemes || [] as scheme, index}
 					<CarouselItem

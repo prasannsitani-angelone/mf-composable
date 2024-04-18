@@ -27,7 +27,7 @@
 
 <div
 	class={`flex cursor-pointer flex-col rounded-lg border bg-background-alt ${
-		index > 0 && !isMobile ? 'ml-3' : ''
+		!isMobile ? 'ml-3' : ''
 	}`}
 	role="button"
 	tabindex="0"

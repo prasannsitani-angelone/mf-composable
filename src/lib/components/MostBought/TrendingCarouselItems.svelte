@@ -109,15 +109,17 @@
 			{#if schemes?.noOfClientInvested}
 				<div class="flex flex-row items-center rounded-b bg-tint12-primary px-3 py-2 {footerClass}">
 					<slot name="detailsFooterIcon">
-						<WMSIcon
-							fill="var(--BODY)"
-							name="people-icon"
-							class="mr-2 p-1"
-							decoding="async"
-							alt="Number of people invested"
-							width={24}
-							height={24}
-						/>
+						<div class="people-icon">
+							<WMSIcon
+								fill="var(--BODY)"
+								name="people-icon"
+								class="mr-2 p-1"
+								decoding="async"
+								alt="Number of people invested"
+								width={24}
+								height={24}
+							/>
+						</div>
 					</slot>
 
 					<slot name="detailsFooterDescription">

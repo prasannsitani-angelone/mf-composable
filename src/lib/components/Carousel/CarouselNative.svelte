@@ -22,16 +22,25 @@
 	let id = '';
 	let chevronClass = '';
 	let activeIndicatorColor = '#3F5BD9';
+	let smoothCarousalLoop = false;
+	let noOfExtraCarousalItem = 2;
+	let countExtraItems = 0;
+	let timeDuration = 500;
+	let particlesContainer: any;
 	let dispatch = createEventDispatcher();
 	$: childrens = totalElements;
 	$: nextButtonDisabled = false;
 	$: prevButtonDisabled = !loop;
 	const nextSlide = () => {
 		if (currentIndex >= childrens - Math.round(slidesPerView) && loop) {
-			currentIndex = 0;
-			translateX = 0;
+			if (smoothCarousalLoop) handleSwipeOnLastSlide();
+			else {
+				currentIndex = 0;
+				translateX = 0;
+			}
 		} else {
 			if (currentIndex < childrens - Math.round(slidesPerView)) {
+				timeDuration = 500;
 				translateX -=
 					document.querySelector(`.carousel-active-${currentIndex}-${id}`)?.offsetWidth +
 						spaceBetween || 0;
@@ -45,11 +54,14 @@
 
 	const prevSlide = () => {
 		if (currentIndex === 0 && loop) {
-			currentIndex = childrens - Math.round(slidesPerView);
-			translateX -=
-				(document.querySelector(`.carousel-active-${currentIndex}-${id}`)?.offsetWidth +
-					spaceBetween) *
-					currentIndex || 0;
+			if (smoothCarousalLoop) handleSwipeOnFirstSlide();
+			else {
+				currentIndex = childrens - Math.round(slidesPerView);
+				translateX -=
+					(document.querySelector(`.carousel-active-${currentIndex}-${id}`)?.offsetWidth +
+						spaceBetween) *
+						currentIndex || 0;
+			}
 		} else {
 			if (currentIndex > 0) {
 				currentIndex--;
@@ -57,13 +69,82 @@
 					document.querySelector(`.carousel-active-${currentIndex}-${id}`)?.offsetWidth +
 						spaceBetween || 0;
 			}
+			timeDuration = 500;
 		}
 		checkNextButton(currentIndex);
 		checkPrevButton(currentIndex);
 		dispatch('onIndexChange', { index: currentIndex });
 	};
 
+	function handleSwipeOnFirstSlide() {
+		currentIndex = childrens - Math.round(slidesPerView);
+		timeDuration = 500;
+		translateX +=
+			document.querySelector(`.carousel-active-${currentIndex}-${id}`)?.offsetWidth +
+				spaceBetween || 0;
+		setTimeout(() => {
+			translateX -=
+				document.querySelector(`.carousel-active-${currentIndex}-${id}`)?.offsetWidth +
+					spaceBetween || 0;
+			translateX -=
+				(document.querySelector(`.carousel-active-${currentIndex}-${id}`)?.offsetWidth +
+					spaceBetween) *
+					currentIndex || 0;
+			timeDuration = 0;
+		}, 500);
+	}
+
+	function handleSwipeOnLastSlide() {
+		timeDuration = 500;
+		currentIndex = 0;
+		translateX -=
+			document.querySelector(`.carousel-active-${currentIndex}-${id}`)?.offsetWidth +
+				spaceBetween || 0;
+		setTimeout(() => {
+			translateX =
+				-document.querySelector(`.carousel-active-${currentIndex}-${id}`)?.offsetWidth +
+					spaceBetween || 0;
+			timeDuration = 0;
+		}, 500);
+	}
+
+	const getClonesAtTheEnd = () => {
+		const clonesToAppend = [];
+		for (let i = 0; i < noOfExtraCarousalItem; i++) {
+			const clonedNode = particlesContainer.children[i].cloneNode(true);
+			dispatch('loadDynamicContent', { clonedNode });
+			clonesToAppend.push(clonedNode);
+		}
+		return clonesToAppend;
+	};
+	const getClonesAtTheStart = () => {
+		const clonesToPrepend = [];
+		const len = particlesContainer.children.length;
+		for (let i = len - 1; i > len - noOfExtraCarousalItem; i--) {
+			const clonedNode = particlesContainer.children[i].cloneNode(true);
+			dispatch('loadDynamicContent', { clonedNode });
+			clonesToPrepend.push(clonedNode);
+		}
+		return clonesToPrepend;
+	};
+
+	const addClones = () => {
+		const clonesAtTheEnd = getClonesAtTheEnd();
+		const clonesAtTheStart = getClonesAtTheStart();
+		countExtraItems = clonesAtTheEnd.length + clonesAtTheStart.length;
+		for (let i = 0; i < clonesAtTheEnd.length; i++) {
+			particlesContainer.append(clonesAtTheEnd[i]);
+		}
+		for (let i = 0; i < clonesAtTheStart.length; i++) {
+			particlesContainer.prepend(clonesAtTheStart[i]);
+		}
+	};
 	onMount(() => {
+		if (smoothCarousalLoop) {
+			translateX = -document.querySelector(`.carousel-active-0-${id}`)?.offsetWidth;
+			timeDuration = 0;
+			addClones();
+		}
 		let carouselContainer = document.querySelector(`.carousel-container-${id}`);
 		let carouselItem = carouselContainer?.querySelectorAll(`.carousel-item-${id}`);
 		let carouselNext = document?.querySelector(`.carousel-next-${id}`);
@@ -72,7 +153,7 @@
 			carouselContainer?.querySelector(`.carousel-container-${id}`)?.clientWidth || 0;
 		let nodes: Array<Element> = [];
 		childrens = carouselItem?.length || 0;
-
+		childrens -= countExtraItems;
 		carouselItem?.forEach((node) => {
 			node.addEventListener('touchstart', handleTouchStart, { passive: true });
 			node.addEventListener('touchmove', handleTouchMove, { passive: true });
@@ -184,7 +265,8 @@
 		indicatorClass,
 		id,
 		chevronClass,
-		activeIndicatorColor
+		activeIndicatorColor,
+		smoothCarousalLoop
 	};
 
 	$: totalNoOfElements = childrens - (Math.round(slidesPerView) - 1);
@@ -207,7 +289,8 @@
 	<div class="carousel-container-{id} {containerClass} relative overflow-hidden">
 		<div
 			class="relative box-content flex h-full w-full transition-transform ease-in-out"
-			style="transform: translateX({translateX}px); transition-duration: 500ms;"
+			style="transform: translateX({translateX}px); transition-duration: {timeDuration}ms; transition-timing-function: ease-in-out;"
+			bind:this={particlesContainer}
 		>
 			<slot />
 		</div>

@@ -87,6 +87,7 @@
 			fixedWidth={true}
 			slidesPerView={isMobile ? 1 : 2}
 			on:onIndexChange={handleCardVisible}
+			smoothCarousalLoop={true}
 		>
 			{#each portfolios || [] as portfolio, index}
 				<CarouselItem
