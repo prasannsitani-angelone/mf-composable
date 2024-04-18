@@ -974,6 +974,7 @@
 	};
 
 	const handleCueCardClose = () => {
+		history.back();
 		const isLast = currentVisibleCueCardIndex === fundDetailsCarouselItems.length - 1;
 		closeCueCardClickEvent({
 			ISIN: schemeData.isin,
@@ -985,7 +986,7 @@
 	};
 
 	const carouselBottomStickyButtonClick = () => {
-		showFundDetailCarousel = false;
+		history.back();
 		const cardrank = currentVisibleCueCardIndex + 1;
 		const islastcard = currentVisibleCueCardIndex === fundDetailsCarouselItems.length - 1;
 		const cardName = fundDetailsCarouselItems[currentVisibleCueCardIndex]?.name;
@@ -1115,7 +1116,7 @@
 		orderpadFundCardClickAnalytics(eventMetaData);
 
 		if (version === 'B') {
-			showFundDetailCarousel = true;
+			showFundDetailCarouselModal();
 		} else {
 			const schemeDetailsPath = `${base}/schemes/${normalizeFundName(
 				schemeData?.schemeName,
@@ -1397,8 +1398,8 @@
 		});
 	};
 
-	let showFundDetailCarousel = false;
-	let showFundDetailExitLoadModal = false;
+	$: showFundDetailCarousel = $page.state.showFundDetailCarousel;
+	$: showFundDetailExitLoadModal = $page.state.showFundDetailExitLoadModal;
 	let fundDetailsCarouselItems = [];
 
 	const defaultValueToPaymentHandler = () => {
@@ -1930,13 +1931,21 @@
 	// -------- **** ----------
 
 	const showExitLoadModal = () => {
-		showFundDetailExitLoadModal = true;
-		showFundDetailCarousel = false;
+		pushState('', {
+			showFundDetailExitLoadModal: true,
+			showFundDetailCarousel: false
+		});
 	};
 
 	const hideExitLoadModal = () => {
-		showFundDetailExitLoadModal = false;
-		showFundDetailCarousel = true;
+		history.back();
+	};
+
+	const showFundDetailCarouselModal = () => {
+		pushState('', {
+			showFundDetailCarousel: true,
+			showExitLoadModal: false
+		});
 	};
 </script>
 
@@ -2482,7 +2491,7 @@
 >
 	<Button
 		slot="bottomsticky"
-		onClick={carouselBottomStickyButtonClick}
+		on:click={carouselBottomStickyButtonClick}
 		class="fixed bottom-0 left-0 right-0 mx-4 my-2"
 	>
 		PROCEED TO INVEST

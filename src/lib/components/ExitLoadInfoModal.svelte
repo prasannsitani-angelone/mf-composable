@@ -9,7 +9,7 @@
 
 <ModalWithAnimation bind:isModalOpen={showFundDetailExitLoadModal} on:backdropclicked>
 	<section
-		class="rounded-t-2xl bg-background-alt px-4 py-6 shadow-clg sm:w-120 sm:rounded-lg sm:p-6 {$$props.class}"
+		class="w-full rounded-t-2xl bg-background-alt px-4 py-6 shadow-clg sm:w-120 sm:rounded-lg sm:p-6 {$$props.class}"
 	>
 		<div class="mb-2 text-lg font-medium text-title">{title}</div>
 
