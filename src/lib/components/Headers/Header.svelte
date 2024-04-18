@@ -9,6 +9,7 @@
 	import FamilyPortfolioInfo from '$components/FamilyPortfolio/FamilyPortfolioInfo.svelte';
 	$: pageMetaData = $page?.data?.layoutConfig;
 	$: userType = $page?.data?.userDetails?.userType || 'B2C';
+	$: pageState = $page?.state;
 	const dispatch = createEventDispatcher();
 	const handleSearchFocusEvent = (e: { detail: boolean }) => {
 		dispatch('handleSearchFocus', e.detail);
@@ -24,7 +25,7 @@
 {#if pageMetaData?.showNxtHeader}
 	<NxtHeader />
 {:else if $page?.data?.deviceType?.isMobile || $page?.data?.deviceType?.isTablet}
-	{#if !pageMetaData?.hideMobileHeader}
+	{#if typeof pageState?.hideMobileHeader === 'boolean' ? !pageState?.hideMobileHeader : !pageMetaData?.hideMobileHeader}
 		{#if $headerStore?.showMobileHeader}
 			<MobileHeader
 				title={pageMetaData?.title}

@@ -85,7 +85,9 @@
 		mobileSchemeDetailsPageInvestButtonClickAnalytics(eventMetaData);
 
 		const redirectPath = '?orderpad=INVEST';
-		pushState(redirectPath, {});
+		pushState(redirectPath, {
+			hideMobileHeader: true
+		});
 	};
 
 	orderpadParams = data?.layoutConfig?.decodedParams || {};

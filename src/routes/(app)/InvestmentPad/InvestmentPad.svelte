@@ -2,7 +2,7 @@
 	import { onDestroy, onMount, tick } from 'svelte';
 	import { v4 as uuidv4 } from 'uuid';
 	import { page } from '$app/stores';
-	import { goto } from '$app/navigation';
+	import { goto, pushState } from '$app/navigation';
 	import { headerStore } from '$lib/stores/HeaderStore';
 	import { userStore } from '$lib/stores/UserStore';
 	import MobileHeader from '$components/Headers/MobileHeader.svelte';
@@ -1122,7 +1122,9 @@
 				schemeData?.isin,
 				schemeData?.schemeCode
 			)}`;
-			await goto(schemeDetailsPath);
+			pushState(schemeDetailsPath, {
+				hideMobileHeader: false
+			});
 		}
 	};
 
