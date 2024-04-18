@@ -451,11 +451,14 @@
 					<p class="text-[11px] font-normal leading-3 text-title">
 						Your portfolio returns are
 						<span class="font-semibold">
-							{!Number.isNaN(Math.abs(benchmarkData?.summary?.portReturnsOverBm))
-								? addCommasToAmountString(
-										Math.abs(benchmarkData?.summary?.portReturnsOverBm)?.toFixed(2)
-								  )
-								: ''}% {benchmarkText}
+							{#if benchmarkData?.summary?.portReturnsOverBm !== 0}
+								{!Number.isNaN(Math.abs(benchmarkData?.summary?.portReturnsOverBm))
+									? addCommasToAmountString(
+											Math.abs(benchmarkData?.summary?.portReturnsOverBm)?.toFixed(2)
+									  )
+									: ''}%
+							{/if}
+							{benchmarkText}
 							{benchmarkName}
 						</span>since {benchmarkTimelineText}
 					</p>
