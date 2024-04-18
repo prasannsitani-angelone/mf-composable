@@ -10,6 +10,7 @@
 	import { getStockInfo } from '$lib/api/scheme';
 	import { callNativeMethod, checkNativeMethodExist } from '$lib/utils/callNativeMethod';
 	import { page } from '$app/stores';
+	import { WMSIcon } from 'svelte-components';
 
 	let holdings: TopHolding[];
 	let sectorHoldings: SectorHoldings[];
@@ -70,8 +71,13 @@
 							</div>
 						{/if}
 					</Td>
-					<Td class="mr-4 border-none !pr-0 text-right text-sm font-medium !text-title"
-						>{holding.percentageHold}%</Td
+					<Td
+						class="flex items-center justify-end border-none !pr-0 text-right text-sm font-medium !text-title"
+						>{holding.percentageHold}%{#if os === 'iOS' || os === 'Android'}<WMSIcon
+								class="pl-1"
+								name="right-arrow"
+								stroke="var(--PRIMARY)"
+							/>{/if}</Td
 					>
 				</Tr>
 			{/each}
