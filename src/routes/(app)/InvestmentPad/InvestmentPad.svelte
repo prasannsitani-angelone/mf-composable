@@ -2275,7 +2275,7 @@
 		<div slot="autopayMethods" class="my-2 w-full">
 			{#if mandateData?.length && activeTab === 'SIP' && !hideAutopayMethod}
 				<AutopayMethod
-					selectedMode={'AUTOPAY'}
+					selectedMode={paymentHandler?.paymentMode}
 					onSelect={onPaymentModeSelect}
 					onSubmit={handleInvestClick}
 					{amount}
