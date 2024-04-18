@@ -137,11 +137,15 @@
 
 	const fundForYouSipBookAnalyticsFunc = () => {
 		return {
-			'Current Value': investmentSummary?.currentValue,
-			'Total Investment': investmentSummary?.investedValue,
-			'Overall Gain': `${investmentSummary?.returnsValue}(${investmentSummary?.returnsAbsolutePer}%)`,
-			'Todays Loss': `${investmentSummary?.previousDayReturns}(${investmentSummary?.previousDayReturnPercentage}%)`,
-			XIRR: `${investmentSummary?.xirr}%`
+			'Current Value': investmentSummary?.currentValue?.toFixed(2),
+			'Total Investment': investmentSummary?.investedValue?.toFixed(2),
+			'Overall Gain': `${investmentSummary?.returnsValue?.toFixed(
+				2
+			)}(${investmentSummary?.returnsAbsolutePer?.toFixed(2)}%)`,
+			'Todays Loss': `${investmentSummary?.previousDayReturns?.toFixed(
+				2
+			)}(${investmentSummary?.previousDayReturnPercentage?.toFixed(2)}%)`,
+			XIRR: `${investmentSummary?.xirr?.toFixed(2)}%`
 		};
 	};
 

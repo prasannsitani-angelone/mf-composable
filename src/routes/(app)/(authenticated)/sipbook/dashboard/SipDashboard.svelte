@@ -198,7 +198,7 @@
 				return acc;
 			}, 0),
 			'Fund Name': recommendedSipsData?.schemeName,
-			'Monthly SIP total': investmentData?.length,
+			'Monthly SIP total': sipBookData?.bookOverView?.totalSipInstallmentAmount,
 			ISIN: recommendedSipsData?.isin
 		};
 	};
