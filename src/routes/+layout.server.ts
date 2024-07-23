@@ -48,6 +48,8 @@ const getSparkHeaders = (headers: Headers) => {
 };
 
 export const load = (async ({ request, locals }) => {
+	console.log({ locals });
+
 	// Device type will be available in PageData across the app
 	const sparkHeaders = getSparkHeaders(request.headers);
 

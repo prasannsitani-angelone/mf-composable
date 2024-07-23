@@ -4,7 +4,8 @@ module.exports = {
 	presets: [presetsConfig],
 	content: [
 		'./src/**/*.{html,js,svelte,ts}',
-		'./node_modules/svelte-components/**/*.{html,js,svelte,ts}'
+		'./node_modules/svelte-components/**/*.{html,js,svelte,ts}',
+		'./node_modules/composable-sdk/**/*.{html,js,svelte,ts}'
 	],
 	safelist: [
 		'w-2',

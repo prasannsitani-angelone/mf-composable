@@ -35,7 +35,7 @@ export const ordersDropdownClickAnalytics = (eventMetaData) => {
 	});
 };
 
-export const orderCardClickAnalytics = (eventMetaData: any) => {
+export const orderCardClickAnalytics = (eventMetaData) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-Orders',
 		event_type: 'click',
@@ -47,7 +47,7 @@ export const orderCardClickAnalytics = (eventMetaData: any) => {
 	});
 };
 
-export const orderDetailsPageScreenOpenAnalytics = (eventMetaData: any) => {
+export const orderDetailsPageScreenOpenAnalytics = (eventMetaData) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-Orderdetails',
 		event_type: 'impression',
@@ -81,7 +81,7 @@ export const expectedNavDateInfoTagClickAnalytics = () => {
 	});
 };
 
-export const expectedNavDateModalOpenAnalytics = (eventMetaData: any) => {
+export const expectedNavDateModalOpenAnalytics = (eventMetaData) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 'p-ExpectedNAVDate',
 		event_type: 'impression',

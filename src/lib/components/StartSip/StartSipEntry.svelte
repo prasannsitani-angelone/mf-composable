@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { startSipEntryClickAnalytics } from '$lib/analytics/startSip/startSip';
 	import { versionStore } from '$lib/stores/VersionStore';
@@ -11,11 +12,14 @@
 		};
 		startSipEntryClickAnalytics(eventMetaData);
 
-		if (versionStore.getVersion() === 'B') {
-			modifiedGoto(`${base}/startSip`);
-		} else {
-			modifiedGoto(`${base}/startfirstsip`);
-		}
+		// if (versionStore.getVersion() === 'B') {
+		// 	modifiedGoto(`${base}/startSip`);
+		// } else {
+		// 	modifiedGoto(`${base}/startfirstsip`);
+		// }
+
+		// modifiedGoto(`${base}/startfirstsip`);
+		goto(`${base}/startfirstsip`);
 	};
 </script>
 

@@ -11,7 +11,7 @@ export const screenOpenAnalytics = () => {
 	});
 };
 
-export const searchFundSelectionAnalytics = (eventMetaData: any, eventProperty: any) => {
+export const searchFundSelectionAnalytics = (eventMetaData, eventProperty) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-search',
 		event_type: 'click',
@@ -23,7 +23,7 @@ export const searchFundSelectionAnalytics = (eventMetaData: any, eventProperty: 
 	});
 };
 
-export const keywordSearchAnalytics = (eventMetaData: any) => {
+export const keywordSearchAnalytics = (eventMetaData) => {
 	Analytics.logAnalyticEvent({
 		screen_name: 's-search',
 		event_type: 'click',

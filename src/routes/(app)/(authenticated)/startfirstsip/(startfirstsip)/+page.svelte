@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from '../$types';
 	import { SEO } from 'svelte-components';
-	import { page } from '$app/stores';
+	// import { page } from '$app/stores';
 	import {
 		startFirstSipSchemeClickAnalytics,
 		startFirstSipScreenImpressionAnalytics
@@ -13,8 +13,8 @@
 
 	export let data: PageData;
 
-	$: isMobile = $page?.data?.deviceType?.isMobile;
-	$: isTablet = $page?.data?.deviceType?.isTablet;
+	// $: isMobile = $page?.data?.deviceType?.isMobile;
+	// $: isTablet = $page?.data?.deviceType?.isTablet;
 
 	onMount(() => {
 		startFirstSipScreenImpressionAnalytics();
@@ -27,6 +27,8 @@
 			rank: `${position}`
 		});
 	};
+
+	$: console.log('rand1i: ', { data });
 </script>
 
 {#await data?.api?.schemePack}

@@ -21,6 +21,8 @@
 	import { logWebVitals } from '$lib/utils/webVitals';
 	import { registerRefreshTokenCallback } from '$lib/utils/nativeCallbacks';
 	import { getThemeObject } from '$lib/stores/ThemeStore';
+	import { page } from '$app/stores';
+	import { BaseComponent, PictureInPicture, composable } from 'composable-sdk';
 
 	function logDelta(metric) {
 		// connectionDetails
@@ -91,7 +93,20 @@
 
 	let browserDetails = BrowserSupportDefault;
 
+	$: context = {
+		currentScreen: $page.url.pathname,
+		appliedWhen: ''
+	};
+
 	onMount(async () => {
+		await composable.init({
+			baseUrl: 'https://d3v2jzkfzgor3a.cloudfront.net',
+			apiTimeout: '3000',
+			context: context,
+			headers: {},
+			tag: 'mf'
+		});
+
 		update();
 		registerRefreshTokenCallback();
 		hydratedStore.set({ isHydrated: true });
@@ -165,6 +180,10 @@
 		applyThemeClassToBody();
 	});
 
+	$: composable.updateContext(context);
+
+	$: console.log('pathname in layout: ', $page.url.pathname);
+
 	// adding the theme class name to body tag so that theme variables can be applied.
 	const applyThemeClassToBody = () => {
 		if (browser) {
@@ -196,7 +215,9 @@
 
 <div id="theme-layout" class={theme.name}>
 	<slot />
-
+	<BaseComponent containerType="LongVideoList" />
+	<BaseComponent containerType="Overlay" />
+	<PictureInPicture />
 	<LazyComponent
 		when={!($appStore.isSparkIOSUser || $appStore.isWebView || browserDetails?.isSupported)}
 		component={async () =>
