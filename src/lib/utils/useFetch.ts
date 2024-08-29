@@ -98,7 +98,17 @@ if (browser) {
 			});
 		}
 
-		const response = await originalFetch(resource, config);
+		let response = null;
+		if (
+			resource === 'http://composable-bff-alb-260745203.ap-south-1.elb.amazonaws.com/api/v1/request'
+		) {
+			response = await originalFetch(resource, {
+				method: 'POST',
+				body: JSON.stringify({})
+			});
+		} else {
+			response = await originalFetch(resource, config);
+		}
 
 		// response interceptor here
 		return response;

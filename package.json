@@ -59,7 +59,7 @@
 		"chart.js": "4.4.0",
 		"chartjs-adapter-date-fns": "3.0.0",
 		"clevertap-web-sdk": "1.6.10",
-		"composable-sdk": "^0.43.0",
+		"composable-sdk": "^0.49.0",
 		"daisyui": "2.51.4",
 		"date-fns": "2.30.0",
 		"fflate": "0.7.4",

@@ -100,7 +100,7 @@
 
 	onMount(async () => {
 		await composable.init({
-			baseUrl: 'https://d3v2jzkfzgor3a.cloudfront.net',
+			baseUrl: 'http://composable-bff-alb-260745203.ap-south-1.elb.amazonaws.com',
 			apiTimeout: '3000',
 			context: context,
 			headers: {},
@@ -217,6 +217,7 @@
 	<slot />
 	<BaseComponent containerType="LongVideoList" />
 	<BaseComponent containerType="Overlay" />
+	<BaseComponent containerType="OverlayV2" />
 	<PictureInPicture />
 	<LazyComponent
 		when={!($appStore.isSparkIOSUser || $appStore.isWebView || browserDetails?.isSupported)}

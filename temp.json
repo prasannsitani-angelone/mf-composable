@@ -1,0 +1,220 @@
+{
+	"response": [
+		{
+			"id": "1",
+			"name": "activation_campaign_1",
+			"applicable_screen": ["/mutual-funds/startfirstsip"],
+			"active": true,
+			"start_date": "",
+			"end_date": "",
+			"show_default": true,
+			"applied_when": "back_button_pressed",
+			"data": {
+				"id": "2",
+				"campaign_id": "campaign-1",
+				"is_default": true,
+				"lang": "hindi",
+				"type": "OVERLAY",
+				"data": {
+					"header": {
+						"title": "SAVE 1.5 lakhs of your income!",
+						"description": "Invest in these funds"
+					},
+					"body": {
+						"video": {
+							"id": "aasdads-asdad",
+							"url": "https://d7mpmdaeiv73g.cloudfront.net/videos/Tax_Saving_MF.mp4",
+							"thumbnailUrl": "https://d7mpmdaeiv73g.cloudfront.net/thumbnails/tax-saving-thumbnail.jpg"
+						}
+					},
+					"footer": {
+						"cta": {
+							"displayText": "Close"
+						}
+					}
+				}
+			}
+		},
+		{
+			"id": "3",
+			"name": "mftypes_campaign_1",
+			"applicable_screen": ["/mutual-funds/investments"],
+			"active": true,
+			"start_date": "",
+			"end_date": "",
+			"show_default": true,
+			"applied_when": "back_button_pressed",
+			"data": {
+				"id": "3",
+				"campaign_id": "campaign-1",
+				"is_default": true,
+				"lang": "hindi",
+				"type": "LONG_VIDEO",
+				"data": {
+					"id": "dstreet-video-section",
+					"videos": [
+						{
+							"id": "dstreetvideo-1",
+							"duration": 10000,
+							"url": "https://d7mpmdaeiv73g.cloudfront.net/videos/dstreetvideo_1.mp4",
+							"thumbnailUrl": "https://d7mpmdaeiv73g.cloudfront.net/thumbnails/dstreetvideo_1_thumbnail.png",
+							"views": {
+								"variant": "PILL",
+								"value": 230,
+								"displayText": "230 views"
+							},
+							"iconUrl": "https://d7mpmdaeiv73g.cloudfront.net/images/angel-one-dark-logo.png",
+							"displayText": "Angel One",
+							"description": "Bulls came back with a vengeance on May 1 as the Nifty50 clocked nearly a one-percent gain after a day small correction and the FOMC delivered 25 bps hike in fed funds rate with giving signals about potential pause in rate hike cycle",
+							"interactions": [
+								{
+									"type": "LIKE",
+									"activeIconUrl": "https://d7mpmdaeiv73g.cloudfront.net/icons/heart-filled-icon.svg",
+									"iconUrl": "https://d7mpmdaeiv73g.cloudfront.net/icons/heart-icon.svg",
+									"count": 234,
+									"displayText": "like"
+								},
+								{
+									"type": "SHARE",
+									"activeIconUrl": "",
+									"iconUrl": "https://d7mpmdaeiv73g.cloudfront.net/icons/share-icon.svg",
+									"count": 234,
+									"displayText": "share"
+								}
+							]
+						},
+						{
+							"id": "dstreetvideo-2",
+							"duration": 10000,
+							"url": "https://d7mpmdaeiv73g.cloudfront.net/videos/dstreetvideo_2.mp4",
+							"thumbnailUrl": "https://d7mpmdaeiv73g.cloudfront.net/thumbnails/dstreetvideo_2_thumbnail.png",
+							"views": {
+								"variant": "PILL",
+								"value": 231,
+								"displayText": "231 views"
+							},
+							"iconUrl": "https://d7mpmdaeiv73g.cloudfront.net/images/angel-one-dark-logo.png",
+							"displayText": "Angel One",
+							"description": "Bulls came back with a vengeance on May 1 as the Nifty50 clocked nearly a one-percent gain after a day small correction and the FOMC delivered 25 bps hike in fed funds rate with giving signals about potential pause in rate hike cycle",
+							"interactions": [
+								{
+									"type": "LIKE",
+									"activeIconUrl": "https://d7mpmdaeiv73g.cloudfront.net/icons/heart-filled-icon.svg",
+									"iconUrl": "https://d7mpmdaeiv73g.cloudfront.net/icons/heart-icon.svg",
+									"count": 234,
+									"displayText": "like"
+								},
+								{
+									"type": "SHARE",
+									"activeIconUrl": "",
+									"iconUrl": "https://d7mpmdaeiv73g.cloudfront.net/icons/share-icon.svg",
+									"count": 234,
+									"displayText": "share"
+								}
+							]
+						},
+						{
+							"id": "dstreetvideo-3",
+							"duration": 10000,
+							"url": "https://d7mpmdaeiv73g.cloudfront.net/videos/dstreetvideo_3.mp4",
+							"thumbnailUrl": "https://d7mpmdaeiv73g.cloudfront.net/thumbnails/dstreetvideo_2_thumbnail.png",
+							"views": {
+								"variant": "PILL",
+								"value": 232,
+								"displayText": "232 views"
+							},
+							"iconUrl": "https://d7mpmdaeiv73g.cloudfront.net/images/angel-one-dark-logo.png",
+							"displayText": "Angel One",
+							"description": "Bulls came back with a vengeance on May 1 as the Nifty50 clocked nearly a one-percent gain after a day small correction and the FOMC delivered 25 bps hike in fed funds rate with giving signals about potential pause in rate hike cycle",
+							"interactions": [
+								{
+									"type": "LIKE",
+									"activeIconUrl": "https://d7mpmdaeiv73g.cloudfront.net/icons/heart-filled-icon.svg",
+									"iconUrl": "https://d7mpmdaeiv73g.cloudfront.net/icons/heart-icon.svg",
+									"count": 234,
+									"displayText": "like"
+								},
+								{
+									"type": "SHARE",
+									"activeIconUrl": "",
+									"iconUrl": "https://d7mpmdaeiv73g.cloudfront.net/icons/share-icon.svg",
+									"count": 234,
+									"displayText": "share"
+								}
+							]
+						},
+						{
+							"id": "dstreetvideo-4",
+							"duration": 10000,
+							"url": "https://d7mpmdaeiv73g.cloudfront.net/videos/dstreetvideo_4.mp4",
+							"thumbnailUrl": "https://d7mpmdaeiv73g.cloudfront.net/thumbnails/dstreetvideo_3_thumbnail.png",
+							"views": {
+								"variant": "PILL",
+								"value": 233,
+								"displayText": "233 views"
+							},
+							"iconUrl": "https://d7mpmdaeiv73g.cloudfront.net/images/angel-one-dark-logo.png",
+							"displayText": "Angel One",
+							"description": "Bulls came back with a vengeance on May 1 as the Nifty50 clocked nearly a one-percent gain after a day small correction and the FOMC delivered 25 bps hike in fed funds rate with giving signals about potential pause in rate hike cycle",
+							"interactions": [
+								{
+									"type": "LIKE",
+									"activeIconUrl": "https://d7mpmdaeiv73g.cloudfront.net/icons/heart-filled-icon.svg",
+									"iconUrl": "https://d7mpmdaeiv73g.cloudfront.net/icons/heart-icon.svg",
+									"count": 234,
+									"displayText": "like"
+								},
+								{
+									"type": "SHARE",
+									"activeIconUrl": "",
+									"iconUrl": "https://d7mpmdaeiv73g.cloudfront.net/icons/share-icon.svg",
+									"count": 234,
+									"displayText": "share"
+								}
+							]
+						}
+					],
+					"paginationOverlayData": {
+						"title": "How to Check Mutual Fund Performance?",
+						"description": "When it comes to investing in mutual funds, you need to know how to analyzie a that are best suited for you.",
+						"imageUrls": [
+							{
+								"url": "https://d7mpmdaeiv73g.cloudfront.net/thumbnails/dstreetvideo_1_thumbnail.png"
+							},
+							{
+								"url": "https://d7mpmdaeiv73g.cloudfront.net/thumbnails/dstreetvideo_2_thumbnail.png"
+							},
+							{
+								"url": "https://d7mpmdaeiv73g.cloudfront.net/thumbnails/dstreetvideo_3_thumbnail.png"
+							},
+							{
+								"url": "https://d7mpmdaeiv73g.cloudfront.net/thumbnails/dstreetvideo_4_thumbnail.png"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"id": "3",
+			"name": "mftypes_campaign_1",
+			"applicable_screen": ["/mutual-funds/categories"],
+			"active": true,
+			"start_date": "",
+			"end_date": "",
+			"show_default": true,
+			"applied_when": "back_button_pressed",
+			"data": {
+				"id": "2",
+				"campaign_id": "campaign-1",
+				"is_default": true,
+				"lang": "hindi",
+				"type": "PIP",
+				"data": {
+					"url": "https://d7mpmdaeiv73g.cloudfront.net/videos/Tax_Saving_MF.mp4"
+				}
+			}
+		}
+	],
+	"status": 200
+}
